@@ -3,9 +3,11 @@ import aspose.words as aw
 import os
 import platform
 
-root_dir =  "X:/" if platform.system() == "Windows" else "/X/"
+# root_dir =  "X:/" if platform.system() == "Windows" else "/X/"
+root_dir = os.path.abspath(os.curdir) + "/"
+root_dir = root_dir[:root_dir.find("Aspose.Words-for-Python-via-.NET")]
 api_examples_root = root_dir + "Aspose.Words-for-Python-via-.NET/Examples/"
-license_path = root_dir + "awnet/TestData/Licenses/Aspose.Words.NET.lic"
+license_path = root_dir + "Aspose.Words-for-Python-via-.NET/Temp/Aspose.Words.NET.lic"
 MyDir = api_examples_root + "Data/"
 ArtifactsDir = MyDir + "Artifacts/"
 GoldsDir = MyDir + "Golds/"
