@@ -14,6 +14,8 @@ GoldsDir = MyDir + "Golds/"
 TempDir = MyDir + "Temp/"
 ImageDir = MyDir + "Images/"
 FontsDir = MyDir + "MyFonts/"
+AsposeLogoUrl = "https://www.aspose.cloud/templates/aspose/App_Themes/V3/images/words/header/aspose_words-for-net.png"
+
 
 class ApiExampleBase(unittest.TestCase):
 
