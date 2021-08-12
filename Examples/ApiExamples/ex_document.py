@@ -5,19 +5,7 @@ from datetime import date, datetime
 import api_example_base as aeb
 from document_helper import DocumentHelper
 
-
 import aspose.words as aw
-# import aspose.words.loading as awl
-# import aspose.words.saving as aws
-# import aspose.words.drawing as awd
-# import aspose.words.digitalsignatures as awds
-# import aspose.words.comparing as awc
-# import aspose.words.lists as awlst
-# import aspose.words.replacing as awr
-# import aspose.words.fields as awfld
-# import aspose.words.fonts as awf
-# import aspose.words.webextensions as awwex
-
 
 class ExDocument(aeb.ApiExampleBase):
 
