@@ -21,12 +21,12 @@ class ExDocument(aeb.ApiExampleBase):
         # required to begin adding content such as text and shapes: a Section, a Body, and a Paragraph.
         doc.first_section.body.first_paragraph.append_child(aw.Run(doc, "Hello world!"))
         # 2 -  Load a document that exists in the local file system:
-        doc = aw.Document(aeb.MyDir + "Document.docx")
+        doc = aw.Document(aeb.my_dir + "Document.docx")
         # Loaded documents will have contents that we can access and edit.
         self.assertEqual("Hello World!", doc.first_section.body.first_paragraph.get_text().strip())
         # Some operations that need to occur during loading, such as using a password to decrypt a document,
         # can be done by passing a LoadOptions object when loading the document.
-        doc = aw.Document(aeb.MyDir + "Encrypted.docx", aw.loading.LoadOptions("docPassword"))
+        doc = aw.Document(aeb.my_dir + "Encrypted.docx", aw.loading.LoadOptions("docPassword"))
         self.assertEqual("Test encrypted document.", doc.first_section.body.first_paragraph.get_text().strip())
         # ExEnd
 
@@ -35,33 +35,33 @@ class ExDocument(aeb.ApiExampleBase):
         # ExFor:Document.#ctor(String)
         # ExFor:Document.Save(String)
         # ExSummary:Shows how to open a document and convert it to .PDF.
-        doc = aw.Document(aeb.MyDir + "Document.docx")
-        doc.save(aeb.ArtifactsDir + "Document.ConvertToPdf.pdf")
+        doc = aw.Document(aeb.my_dir + "Document.docx")
+        doc.save(aeb.artifacts_dir + "Document.ConvertToPdf.pdf")
         # ExEnd
 
     def test_detect_pdf_document_format(self):
-        info = aw.FileFormatUtil.detect_file_format(aeb.MyDir + "Pdf Document.pdf")
+        info = aw.FileFormatUtil.detect_file_format(aeb.my_dir + "Pdf Document.pdf")
         self.assertEqual(info.load_format, aw.LoadFormat.PDF)
 
     def test_open_pdf_document(self):
-        doc = aw.Document(aeb.MyDir + "Pdf Document.pdf")
+        doc = aw.Document(aeb.my_dir + "Pdf Document.pdf")
         self.assertEqual(
             "Heading 1\rHeading 1.1.1.1 Heading 1.1.1.2\rHeading 1.1.1.1.1.1.1.1.1 Heading 1.1.1.1.1.1.1.1.2\u000c",
             doc.range.text)
 
     def test_open_protected_pdf_document(self):
-        doc = aw.Document(aeb.MyDir + "Pdf Document.pdf")
+        doc = aw.Document(aeb.my_dir + "Pdf Document.pdf")
 
         saveOptions = aw.saving.PdfSaveOptions()
         saveOptions.encryption_details = aw.saving.PdfEncryptionDetails("Aspose", None, aw.saving.PdfEncryptionAlgorithm.RC4_40)
 
-        doc.save(aeb.ArtifactsDir + "Document.PdfDocumentEncrypted.pdf", saveOptions)
+        doc.save(aeb.artifacts_dir + "Document.PdfDocumentEncrypted.pdf", saveOptions)
 
         loadOptions = aw.loading.PdfLoadOptions()
         loadOptions.password = "Aspose"
         loadOptions.load_format = aw.LoadFormat.PDF
 
-        doc = aw.Document(aeb.ArtifactsDir + "Document.PdfDocumentEncrypted.pdf", loadOptions)
+        doc = aw.Document(aeb.artifacts_dir + "Document.PdfDocumentEncrypted.pdf", loadOptions)
 
     def test_load_encrypted(self):
         # ExStart
@@ -74,7 +74,7 @@ class ExDocument(aeb.ApiExampleBase):
 
         # Aspose.Words throw an exception if we try to open an encrypted document without its password.
         with self.assertRaises(RuntimeError) as ex:
-            doc = aw.Document(aeb.MyDir + "Encrypted.docx")
+            doc = aw.Document(aeb.my_dir + "Encrypted.docx")
 
         self.assertEqual(str(ex.exception), "Proxy error: The document password is incorrect.")
 
@@ -83,7 +83,7 @@ class ExDocument(aeb.ApiExampleBase):
 
         # There are two ways of loading an encrypted document with a LoadOptions object.
         # 1 -  Load the document from the local file system by filename:
-        doc = aw.Document(aeb.MyDir + "Encrypted.docx", options)
+        doc = aw.Document(aeb.my_dir + "Encrypted.docx", options)
         self.assertEqual("Test encrypted document.", doc.get_text().strip())
 
         # ExEnd
@@ -94,13 +94,13 @@ class ExDocument(aeb.ApiExampleBase):
         # ExSummary:Shows how to load a document using temporary files.
         # Note that such an approach can reduce memory usage but degrades speed
         loadOptions = aw.loading.LoadOptions()
-        loadOptions.temp_folder = aeb.TempDir
+        loadOptions.temp_folder = aeb.temp_dir
 
         # Ensure that the directory exists and load
         if not os.path.exists(loadOptions.temp_folder):
             os.makedirs(loadOptions.temp_folder)
 
-        doc = aw.Document(aeb.MyDir + "Document.docx", loadOptions)
+        doc = aw.Document(aeb.my_dir + "Document.docx", loadOptions)
         # ExEnd
 
     def test_convert_to_html(self):
@@ -108,22 +108,22 @@ class ExDocument(aeb.ApiExampleBase):
         # ExFor:Document.Save(String,SaveFormat)
         # ExFor:SaveFormat
         # ExSummary:Shows how to convert from DOCX to HTML format.
-        doc = aw.Document(aeb.MyDir + "Document.docx")
+        doc = aw.Document(aeb.my_dir + "Document.docx")
 
-        doc.save(aeb.ArtifactsDir + "Document.ConvertToHtml.html", aw.SaveFormat.HTML)
+        doc.save(aeb.artifacts_dir + "Document.ConvertToHtml.html", aw.SaveFormat.HTML)
         # ExEnd
 
     def test_ConvertToMhtml(self):
-        doc = aw.Document(aeb.MyDir + "Document.docx")
-        doc.save(aeb.ArtifactsDir + "Document.ConvertToMhtml.mht")
+        doc = aw.Document(aeb.my_dir + "Document.docx")
+        doc.save(aeb.artifacts_dir + "Document.ConvertToMhtml.mht")
 
     def test_ConvertToTxt(self):
-        doc = aw.Document(aeb.MyDir + "Document.docx")
-        doc.save(aeb.ArtifactsDir + "Document.ConvertToTxt.txt")
+        doc = aw.Document(aeb.my_dir + "Document.docx")
+        doc.save(aeb.artifacts_dir + "Document.ConvertToTxt.txt")
 
     def test_ConvertToEpub(self):
-        doc = aw.Document(aeb.MyDir + "Rendering.docx")
-        doc.save(aeb.ArtifactsDir + "Document.ConvertToEpub.epub")
+        doc = aw.Document(aeb.my_dir + "Rendering.docx")
+        doc.save(aeb.artifacts_dir + "Document.ConvertToEpub.epub")
 
     def test_append_document(self):
         # ExStart
@@ -140,10 +140,10 @@ class ExDocument(aeb.ApiExampleBase):
         dstDoc.append_document(srcDoc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
         self.assertEqual(2, dstDoc.sections.count)  # ExSkip
 
-        dstDoc.save(aeb.ArtifactsDir + "Document.AppendDocument.docx")
+        dstDoc.save(aeb.artifacts_dir + "Document.AppendDocument.docx")
         # ExEnd
 
-        outDocText = aw.Document(aeb.ArtifactsDir + "Document.AppendDocument.docx").get_text()
+        outDocText = aw.Document(aeb.artifacts_dir + "Document.AppendDocument.docx").get_text()
 
         self.assertTrue(outDocText.startswith(dstDoc.get_text()))
         self.assertTrue(outDocText.endswith(srcDoc.get_text()))
@@ -154,8 +154,8 @@ class ExDocument(aeb.ApiExampleBase):
                 # ExStart
                 # ExFor:ImportFormatOptions.KeepSourceNumbering
                 # ExSummary:Shows how to import a document with numbered lists.
-                srcDoc = aw.Document(aeb.MyDir + "List source.docx")
-                dstDoc = aw.Document(aeb.MyDir + "List destination.docx")
+                srcDoc = aw.Document(aeb.my_dir + "List source.docx")
+                dstDoc = aw.Document(aeb.my_dir + "List destination.docx")
 
                 self.assertEqual(2, dstDoc.lists.count)
 
@@ -181,8 +181,8 @@ class ExDocument(aeb.ApiExampleBase):
         # ExFor:ImportFormatOptions.KeepSourceNumbering
         # ExFor:NodeImporter.#ctor(DocumentBase, DocumentBase, ImportFormatMode, ImportFormatOptions)
         # ExSummary:Shows how resolve a clash when importing documents that have lists with the same list definition identifier.
-        srcDoc = aw.Document(aeb.MyDir + "List with the same definition identifier - source.docx")
-        dstDoc = aw.Document(aeb.MyDir + "List with the same definition identifier - destination.docx")
+        srcDoc = aw.Document(aeb.my_dir + "List with the same definition identifier - source.docx")
+        dstDoc = aw.Document(aeb.my_dir + "List with the same definition identifier - destination.docx")
 
         importFormatOptions = aw.ImportFormatOptions()
 
@@ -210,7 +210,7 @@ class ExDocument(aeb.ApiExampleBase):
         # ExFor:DigitalSignature.SignTime
         # ExFor:DigitalSignature.SignatureType
         # ExSummary:Shows how to validate and display information about each signature in a document.
-        doc = aw.Document(aeb.MyDir + "Digitally signed.docx")
+        doc = aw.Document(aeb.my_dir + "Digitally signed.docx")
 
         for signature in doc.digital_signatures:
             print(f"\n{'Valid' if signature.is_valid else 'Invalid'} signature: ")
@@ -248,23 +248,23 @@ class ExDocument(aeb.ApiExampleBase):
         # ExFor:Document.DigitalSignatures
         # ExSummary:Shows how to sign documents with X.509 certificates.
         # Verify that a document is not signed.
-        self.assertFalse(aw.FileFormatUtil.detect_file_format(aeb.MyDir + "Document.docx").has_digital_signature)
+        self.assertFalse(aw.FileFormatUtil.detect_file_format(aeb.my_dir + "Document.docx").has_digital_signature)
 
         # Create a CertificateHolder object from a PKCS12 file, which we will use to sign the document.
-        certificateHolder = aw.digitalsignatures.CertificateHolder.create(aeb.MyDir + "morzal.pfx", "aw", None)
+        certificateHolder = aw.digitalsignatures.CertificateHolder.create(aeb.my_dir + "morzal.pfx", "aw", None)
 
         # There are two ways of saving a signed copy of a document to the local file system:
         # 1 - Designate a document by a local system filename and save a signed copy at a location specified by another filename.
         sigOptions = aw.digitalsignatures.SignOptions()
         sigOptions.sign_time = date.today()
-        aw.digitalsignatures.DigitalSignatureUtil.sign(aeb.MyDir + "Document.docx", aeb.ArtifactsDir + "Document.DigitalSignature.docx",
-                                       certificateHolder, sigOptions)
+        aw.digitalsignatures.DigitalSignatureUtil.sign(aeb.my_dir + "Document.docx", aeb.artifacts_dir + "Document.DigitalSignature.docx",
+                                                       certificateHolder, sigOptions)
 
         self.assertTrue(aw.FileFormatUtil.detect_file_format(
-            aeb.ArtifactsDir + "Document.DigitalSignature.docx").has_digital_signature)
+            aeb.artifacts_dir + "Document.DigitalSignature.docx").has_digital_signature)
 
         # Please verify that all of the document's digital signatures are valid and check their details.
-        signedDoc = aw.Document(aeb.ArtifactsDir + "Document.DigitalSignature.docx")
+        signedDoc = aw.Document(aeb.artifacts_dir + "Document.DigitalSignature.docx")
         digitalSignatureCollection = signedDoc.digital_signatures
 
         self.assertTrue(digitalSignatureCollection.is_valid)
@@ -290,9 +290,9 @@ class ExDocument(aeb.ApiExampleBase):
 
         # Append all unencrypted documents with the .doc extension
         # from our local file system directory to the base document.
-        for file in os.listdir(aeb.MyDir):
+        for file in os.listdir(aeb.my_dir):
             if file.endswith(".doc"):
-                fileName = aeb.MyDir + file
+                fileName = aeb.my_dir + file
                 info = aw.FileFormatUtil.detect_file_format(fileName)
                 if (info.is_encrypted):
                     continue
@@ -300,7 +300,7 @@ class ExDocument(aeb.ApiExampleBase):
                 srcDoc = aw.Document(fileName)
                 dstDoc.append_document(srcDoc, aw.ImportFormatMode.USE_DESTINATION_STYLES)
 
-        dstDoc.save(aeb.ArtifactsDir + "Document.AppendAllDocumentsInFolder.doc")
+        dstDoc.save(aeb.artifacts_dir + "Document.AppendAllDocumentsInFolder.doc")
         # ExEnd
 
         self.assertEqual(7, dstDoc.styles.count)
@@ -312,7 +312,7 @@ class ExDocument(aeb.ApiExampleBase):
         # ExSummary:Shows how to join runs in a document to reduce unneeded runs.
         # Open a document that contains adjacent runs of text with identical formatting,
         # which commonly occurs if we edit the same paragraph multiple times in Microsoft Word.
-        doc = aw.Document(aeb.MyDir + "Rendering.docx")
+        doc = aw.Document(aeb.my_dir + "Rendering.docx")
 
         # If any number of these runs are adjacent with identical formatting,
         # then the document may be simplified.
@@ -396,11 +396,11 @@ class ExDocument(aeb.ApiExampleBase):
 
         # If we open this document with Microsoft Word intending to edit it,
         # we will need to apply the password to get through the protection.
-        doc.save(aeb.ArtifactsDir + "Document.Protect.docx")
+        doc.save(aeb.artifacts_dir + "Document.Protect.docx")
 
         # Note that the protection only applies to Microsoft Word users opening our document.
         # We have not encrypted the document in any way, and we do not need the password to open and edit it programmatically.
-        protectedDoc = aw.Document(aeb.ArtifactsDir + "Document.Protect.docx")
+        protectedDoc = aw.Document(aeb.artifacts_dir + "Document.Protect.docx")
 
         self.assertEqual(aw.ProtectionType.READ_ONLY, protectedDoc.protection_type)
 
@@ -469,7 +469,7 @@ class ExDocument(aeb.ApiExampleBase):
         # ExStart
         # ExFor:Document.RemoveMacros
         # ExSummary:Shows how to remove all macros from a document.
-        doc = aw.Document(aeb.MyDir + "Macro.docm")
+        doc = aw.Document(aeb.my_dir + "Macro.docm")
 
         self.assertTrue(doc.has_macros)
         self.assertEqual("Project", doc.vba_project.name)
@@ -500,7 +500,7 @@ class ExDocument(aeb.ApiExampleBase):
         # Getting the PageCount property invoked the document's page layout to calculate the value.
         # This operation will not need to be re-done when rendering the document to a fixed page save format,
         # such as .pdf. So you can save some time, especially with more complex documents.
-        doc.save(aeb.ArtifactsDir + "Document.GetPageCount.pdf")
+        doc.save(aeb.artifacts_dir + "Document.GetPageCount.pdf")
         # ExEnd
 
     def test_get_updated_page_properties(self):
@@ -567,7 +567,7 @@ class ExDocument(aeb.ApiExampleBase):
         # This method concerns table style properties such as the ones we set above.
         doc.expand_table_styles_to_direct_formatting()
 
-        doc.save(aeb.ArtifactsDir + "Document.TableStyleToDirectFormatting.docx")
+        doc.save(aeb.artifacts_dir + "Document.TableStyleToDirectFormatting.docx")
         # ExEnd
 
     #           TestUtil.DocPackageFileContainsString("<w:tblStyleRowBandSize w:val=\"3\" />",
@@ -613,9 +613,9 @@ class ExDocument(aeb.ApiExampleBase):
         # ExFor:Document.OriginalFileName
         # ExFor:Document.OriginalLoadFormat
         # ExSummary:Shows how to retrieve details of a document's load operation.
-        doc = aw.Document(aeb.MyDir + "Document.docx")
+        doc = aw.Document(aeb.my_dir + "Document.docx")
 
-        self.assertEqual(aeb.MyDir + "Document.docx", doc.original_file_name)
+        self.assertEqual(aeb.my_dir + "Document.docx", doc.original_file_name)
         self.assertEqual(aw.LoadFormat.DOCX, doc.original_load_format)
         # ExEnd
 
@@ -624,14 +624,14 @@ class ExDocument(aeb.ApiExampleBase):
         # ExFor:FootnoteOptions
         # ExFor:FootnoteOptions.Columns
         # ExSummary:Shows how to split the footnote section into a given number of columns.
-        doc = aw.Document(aeb.MyDir + "Footnotes and endnotes.docx")
+        doc = aw.Document(aeb.my_dir + "Footnotes and endnotes.docx")
         self.assertEqual(0, doc.footnote_options.columns)  # ExSkip
 
         doc.footnote_options.columns = 2
-        doc.save(aeb.ArtifactsDir + "Document.FootnoteColumns.docx")
+        doc.save(aeb.artifacts_dir + "Document.FootnoteColumns.docx")
         # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "Document.FootnoteColumns.docx")
+        doc = aw.Document(aeb.artifacts_dir + "Document.FootnoteColumns.docx")
 
         self.assertEqual(2, doc.first_section.page_setup.footnote_options.columns)
 
@@ -763,10 +763,10 @@ class ExDocument(aeb.ApiExampleBase):
         compareOptions.Target = aw.comparing.ComparisonTargetType.NEW
 
         docOriginal.compare(docEdited, "John Doe", date.today(), compareOptions)
-        docOriginal.save(aeb.ArtifactsDir + "Document.CompareOptions.docx")
+        docOriginal.save(aeb.artifacts_dir + "Document.CompareOptions.docx")
         # ExEnd
 
-        docOriginal = aw.Document(aeb.ArtifactsDir + "Document.CompareOptions.docx")
+        docOriginal = aw.Document(aeb.artifacts_dir + "Document.CompareOptions.docx")
 
     #            TestUtil.VerifyFootnote(FootnoteType.Endnote, True, string.Empty,
     #                "OriginalEdited endnote text.", (Footnote)docOriginal.get_child(NodeType.Footnote, 0, True))
@@ -801,8 +801,8 @@ class ExDocument(aeb.ApiExampleBase):
                 # ExStart
                 # ExFor:CompareOptions.IgnoreDmlUniqueId
                 # ExSummary:Shows how to compare documents ignoring DML unique ID.
-                docA = aw.Document(aeb.MyDir + "DML unique ID original.docx")
-                docB = aw.Document(aeb.MyDir + "DML unique ID compare.docx")
+                docA = aw.Document(aeb.my_dir + "DML unique ID original.docx")
+                docB = aw.Document(aeb.my_dir + "DML unique ID compare.docx")
 
                 # By default, Aspose.Words do not ignore DML's unique ID, and the revisions count was 2.
                 # If we are ignoring DML's unique ID, and revisions count were 0.
@@ -821,7 +821,7 @@ class ExDocument(aeb.ApiExampleBase):
         # ExStart
         # ExFor:Document.RemoveExternalSchemaReferences
         # ExSummary:Shows how to remove all external XML schema references from a document.
-        doc = aw.Document(aeb.MyDir + "External XML schema.docx")
+        doc = aw.Document(aeb.my_dir + "External XML schema.docx")
         doc.remove_external_schema_references()
         # ExEnd
 
@@ -868,7 +868,7 @@ class ExDocument(aeb.ApiExampleBase):
         # We can accept/reject these revisions programmatically
         # by calling methods such as Document.AcceptAllRevisions, or each revision's Accept method.
         # In Microsoft Word, we can process them manually via "Review" -> "Changes".
-        doc.save(aeb.ArtifactsDir + "Document.StartTrackRevisions.docx")
+        doc.save(aeb.artifacts_dir + "Document.StartTrackRevisions.docx")
         # ExEnd
 
     def test_accept_all_revisions(self):
@@ -900,7 +900,7 @@ class ExDocument(aeb.ApiExampleBase):
         # ExFor:RevisionsView
         # ExFor:Document.RevisionsView
         # ExSummary:Shows how to switch between the revised and the original view of a document.
-        doc = aw.Document(aeb.MyDir + "Revisions at list levels.docx")
+        doc = aw.Document(aeb.my_dir + "Revisions at list levels.docx")
         doc.update_list_labels()
 
         paragraphs = doc.first_section.body.paragraphs
@@ -935,12 +935,12 @@ class ExDocument(aeb.ApiExampleBase):
         builder = aw.DocumentBuilder(doc)
 
         builder.writeln("Hello world!")
-        builder.insert_image(aeb.ImageDir + "Logo.jpg")
+        builder.insert_image(aeb.image_dir + "Logo.jpg")
 
         # There are two ways of setting a thumbnail image when saving a document to .epub.
         # 1 -  Use the document's first page:
         doc.update_thumbnail()
-        doc.save(aeb.ArtifactsDir + "Document.UpdateThumbnail.FirstPage.epub")
+        doc.save(aeb.artifacts_dir + "Document.UpdateThumbnail.FirstPage.epub")
 
         # 2 -  Use the first image found in the document:
         options = aw.rendering.ThumbnailGeneratingOptions()
@@ -950,7 +950,7 @@ class ExDocument(aeb.ApiExampleBase):
         options.generate_from_first_page = False
 
         doc.update_thumbnail(options)
-        doc.save(aeb.ArtifactsDir + "Document.UpdateThumbnail.FirstImage.epub")
+        doc.save(aeb.artifacts_dir + "Document.UpdateThumbnail.FirstImage.epub")
         # ExEnd
 
     def test_hyphenation_options(self):
@@ -974,7 +974,7 @@ class ExDocument(aeb.ApiExampleBase):
         doc.hyphenation_options.hyphenation_zone = 720
         doc.hyphenation_options.hyphenate_caps = True
 
-        doc.save(aeb.ArtifactsDir + "Document.HyphenationOptions.docx")
+        doc.save(aeb.artifacts_dir + "Document.HyphenationOptions.docx")
         # ExEnd
 
         self.assertEqual(True, doc.hyphenation_options.auto_hyphenation)
@@ -982,7 +982,7 @@ class ExDocument(aeb.ApiExampleBase):
         self.assertEqual(720, doc.hyphenation_options.hyphenation_zone)
         self.assertEqual(True, doc.hyphenation_options.hyphenate_caps)
 
-        self.assertTrue(DocumentHelper.compare_docs(aeb.GoldsDir + "Document.HyphenationOptions Gold.docx", aeb.ArtifactsDir + "Document.HyphenationOptions.docx"))
+        self.assertTrue(DocumentHelper.compare_docs(aeb.golds_dir + "Document.HyphenationOptions Gold.docx", aeb.artifacts_dir + "Document.HyphenationOptions.docx"))
 
     def test_hyphenation_options_default_values(self):
         doc = aw.Document()
@@ -1006,11 +1006,11 @@ class ExDocument(aeb.ApiExampleBase):
         # ExFor:Document.Compliance
         # ExSummary:Shows how to read a loaded document's Open Office XML compliance version.
         # The compliance version varies between documents created by different versions of Microsoft Word.
-        doc = aw.Document(aeb.MyDir + "Document.doc")
+        doc = aw.Document(aeb.my_dir + "Document.doc")
 
         self.assertEqual(doc.compliance, aw.saving.OoxmlCompliance.ECMA376_2006)
 
-        doc = aw.Document(aeb.MyDir + "Document.docx")
+        doc = aw.Document(aeb.my_dir + "Document.docx")
 
         self.assertEqual(doc.compliance, aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL)
         # ExEnd
@@ -1021,7 +1021,7 @@ class ExDocument(aeb.ApiExampleBase):
         # ExFor:SaveOptions.UseAntiAliasing
         # ExFor:SaveOptions.UseHighQualityRendering
         # ExSummary:Shows how to improve the quality of a rendered document with SaveOptions.
-        doc = aw.Document(aeb.MyDir + "Rendering.docx")
+        doc = aw.Document(aeb.my_dir + "Rendering.docx")
         builder = aw.DocumentBuilder(doc)
 
         builder.font.size = 60
@@ -1031,12 +1031,12 @@ class ExDocument(aeb.ApiExampleBase):
         self.assertFalse(options.use_anti_aliasing)  # ExSkip
         self.assertFalse(options.use_high_quality_rendering)  # ExSkip
 
-        doc.save(aeb.ArtifactsDir + "Document.ImageSaveOptions.Default.jpg", options)
+        doc.save(aeb.artifacts_dir + "Document.ImageSaveOptions.Default.jpg", options)
 
         options.use_anti_aliasing = True
         options.use_high_quality_rendering = True
 
-        doc.save(aeb.ArtifactsDir + "Document.ImageSaveOptions.HighQuality.jpg", options)
+        doc.save(aeb.artifacts_dir + "Document.ImageSaveOptions.HighQuality.jpg", options)
         # ExEnd
 
     #            TestUtil.VerifyImage(794, 1122, ArtifactsDir + "Document.ImageSaveOptions.Default.jpg")
@@ -1092,16 +1092,16 @@ class ExDocument(aeb.ApiExampleBase):
 
         # Attach a template, then set the flag to apply style changes
         # within the template to styles in our document.
-        doc.attached_template = aeb.MyDir + "Business brochure.dotx"
+        doc.attached_template = aeb.my_dir + "Business brochure.dotx"
         doc.automatically_update_styles = True
 
-        doc.save(aeb.ArtifactsDir + "Document.AutomaticallyUpdateStyles.docx")
+        doc.save(aeb.artifacts_dir + "Document.AutomaticallyUpdateStyles.docx")
         # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "Document.AutomaticallyUpdateStyles.docx")
+        doc = aw.Document(aeb.artifacts_dir + "Document.AutomaticallyUpdateStyles.docx")
 
         self.assertTrue(doc.automatically_update_styles)
-        self.assertEqual(aeb.MyDir + "Business brochure.dotx", doc.attached_template)
+        self.assertEqual(aeb.my_dir + "Business brochure.dotx", doc.attached_template)
         self.assertTrue(os.path.exists(doc.attached_template))
 
     def test_default_template(self):
@@ -1122,9 +1122,9 @@ class ExDocument(aeb.ApiExampleBase):
         # Use a SaveOptions object to automatically set a template
         # if a document that we are saving does not have one.
         options = aw.saving.SaveOptions.create_save_options("Document.DefaultTemplate.docx")
-        options.default_template = aeb.MyDir + "Business brochure.dotx"
+        options.default_template = aeb.my_dir + "Business brochure.dotx"
 
-        doc.save(aeb.ArtifactsDir + "Document.DefaultTemplate.docx", options)
+        doc.save(aeb.artifacts_dir + "Document.DefaultTemplate.docx", options)
         # ExEnd
 
         self.assertTrue(os.path.exists(options.default_template))
@@ -1214,7 +1214,7 @@ class ExDocument(aeb.ApiExampleBase):
         doc.layout_options.revision_options.inserted_text_color = aw.layout.RevisionColor.BRIGHT_GREEN
         doc.layout_options.revision_options.show_revision_bars = False
 
-        doc.save(aeb.ArtifactsDir + "Document.LayoutOptionsRevisions.pdf")
+        doc.save(aeb.artifacts_dir + "Document.LayoutOptionsRevisions.pdf")
         # ExEnd
 
     def test_layout_options_hidden_text(self):
@@ -1236,7 +1236,7 @@ class ExDocument(aeb.ApiExampleBase):
 
                 doc.layout_options.show_hidden_text = showHiddenText
 
-                doc.save(aeb.ArtifactsDir + "Document.LayoutOptionsHiddenText.pdf")
+                doc.save(aeb.artifacts_dir + "Document.LayoutOptionsHiddenText.pdf")
                 # ExEnd
 
     #        #if NET462 || NETCOREAPP2_1 || JAVA
@@ -1268,7 +1268,7 @@ class ExDocument(aeb.ApiExampleBase):
 
                 doc.layout_options.show_paragraph_marks = showParagraphMarks
 
-                doc.save(aeb.ArtifactsDir + "Document.LayoutOptionsParagraphMarks.pdf")
+                doc.save(aeb.artifacts_dir + "Document.LayoutOptionsParagraphMarks.pdf")
                 # ExEnd
 
     #        #if NET462 || NETCOREAPP2_1 || JAVA
@@ -1287,11 +1287,11 @@ class ExDocument(aeb.ApiExampleBase):
         # ExFor:SectionCollection.Item(Int32)
         # ExFor:Document.UpdatePageLayout
         # ExSummary:Shows when to recalculate the page layout of the document.
-        doc = aw.Document(aeb.MyDir + "Rendering.docx")
+        doc = aw.Document(aeb.my_dir + "Rendering.docx")
 
         # Saving a document to PDF, to an image, or printing for the first time will automatically
         # cache the layout of the document within its pages.
-        doc.save(aeb.ArtifactsDir + "Document.UpdatePageLayout.1.pdf")
+        doc.save(aeb.artifacts_dir + "Document.UpdatePageLayout.1.pdf")
 
         # Modify the document in some way.
         DocumentHelper.get_style_by_name(doc, "Normal").font.size = 6
@@ -1302,7 +1302,7 @@ class ExDocument(aeb.ApiExampleBase):
         # to stay up to date, we will need to update it manually.
         doc.update_page_layout()
 
-        doc.save(aeb.ArtifactsDir + "Document.UpdatePageLayout.2.pdf")
+        doc.save(aeb.artifacts_dir + "Document.UpdatePageLayout.2.pdf")
         # ExEnd
 
     def test_doc_package_custom_parts(self):
@@ -1324,7 +1324,7 @@ class ExDocument(aeb.ApiExampleBase):
         # ExFor:CustomPartCollection.RemoveAt(Int32)
         # ExFor:Document.PackageCustomParts
         # ExSummary:Shows how to access a document's arbitrary custom parts collection.
-        doc = aw.Document(aeb.MyDir + "Custom parts OOXML package.docx")
+        doc = aw.Document(aeb.my_dir + "Custom parts OOXML package.docx")
 
         self.assertEqual(2, doc.package_custom_parts.count)
 
@@ -1395,20 +1395,20 @@ class ExDocument(aeb.ApiExampleBase):
 
                 # We can turn the grey shading off, so the bookmarked text will blend in with the other text.
                 doc.shade_form_data = useGreyShading
-                doc.save(aeb.ArtifactsDir + "Document.ShadeFormData.docx")
+                doc.save(aeb.artifacts_dir + "Document.ShadeFormData.docx")
                 # ExEnd
 
     def test_versions_count(self):
         # ExStart
         # ExFor:Document.VersionsCount
         # ExSummary:Shows how to work with the versions count feature of older Microsoft Word documents.
-        doc = aw.Document(aeb.MyDir + "Versions.doc")
+        doc = aw.Document(aeb.my_dir + "Versions.doc")
 
         # We can read this property of a document, but we cannot preserve it while saving.
         self.assertEqual(4, doc.versions_count)
 
-        doc.save(aeb.ArtifactsDir + "Document.VersionsCount.doc")
-        doc = aw.Document(aeb.ArtifactsDir + "Document.VersionsCount.doc")
+        doc.save(aeb.artifacts_dir + "Document.VersionsCount.doc")
+        doc = aw.Document(aeb.artifacts_dir + "Document.VersionsCount.doc")
 
         self.assertEqual(0, doc.versions_count)
         # ExEnd
@@ -1436,8 +1436,8 @@ class ExDocument(aeb.ApiExampleBase):
         self.assertTrue(doc.write_protection.validate_password("MyPassword"))
 
         # Protection does not prevent the document from being edited programmatically, nor does it encrypt the contents.
-        doc.save(aeb.ArtifactsDir + "Document.WriteProtection.docx")
-        doc = aw.Document(aeb.ArtifactsDir + "Document.WriteProtection.docx")
+        doc.save(aeb.artifacts_dir + "Document.WriteProtection.docx")
+        doc = aw.Document(aeb.artifacts_dir + "Document.WriteProtection.docx")
 
         self.assertTrue(doc.write_protection.is_write_protected)
 
@@ -1475,8 +1475,8 @@ class ExDocument(aeb.ApiExampleBase):
 
                 # This option will not take effect during a save operation made using Aspose.Words.
                 # Personal data will be removed from our document with the flag set when we save it manually using Microsoft Word.
-                doc.save(aeb.ArtifactsDir + "Document.RemovePersonalInformation.docx")
-                doc = aw.Document(aeb.ArtifactsDir + "Document.RemovePersonalInformation.docx")
+                doc.save(aeb.artifacts_dir + "Document.RemovePersonalInformation.docx")
+                doc = aw.Document(aeb.artifacts_dir + "Document.RemovePersonalInformation.docx")
 
                 self.assertEqual(saveWithoutPersonalInfo, doc.remove_personal_information)
                 self.assertEqual("John Doe", doc.built_in_document_properties.author)
@@ -1500,7 +1500,7 @@ class ExDocument(aeb.ApiExampleBase):
 
                 doc.layout_options.show_comments = showComments
 
-                doc.save(aeb.ArtifactsDir + "Document.ShowComments.pdf")
+                doc.save(aeb.artifacts_dir + "Document.ShowComments.pdf")
                 # ExEnd
 
     # if NET462 || NETCOREAPP2_1 || JAVA
@@ -1519,8 +1519,8 @@ class ExDocument(aeb.ApiExampleBase):
         # ExStart
         # ExFor:Document.CopyStylesFromTemplate(Document)
         # ExSummary:Shows how to copies styles from the template to a document via Document.
-        template = aw.Document(aeb.MyDir + "Rendering.docx")
-        target = aw.Document(aeb.MyDir + "Document.docx")
+        template = aw.Document(aeb.my_dir + "Rendering.docx")
+        target = aw.Document(aeb.my_dir + "Document.docx")
 
         self.assertEqual(18, template.styles.count)  # ExSkip
         self.assertEqual(8, target.styles.count)  # ExSkip
@@ -1573,7 +1573,7 @@ class ExDocument(aeb.ApiExampleBase):
         #        self.assertEqual(Color.RoyalBlue.ToArgb(), target.Styles["TemplateStyle3"].Font.Color.ToArgb())
 
         # 2 -  Passing the local system filename of a template document:
-        target.copy_styles_from_template(aeb.MyDir + "Rendering.docx")
+        target.copy_styles_from_template(aeb.my_dir + "Rendering.docx")
 
         self.assertEqual(21, target.styles.count)
         # ExEnd
@@ -1595,7 +1595,7 @@ class ExDocument(aeb.ApiExampleBase):
         # ExFor:VbaProject.CodePage
         # ExFor:VbaProject.IsSigned
         # ExSummary:Shows how to access a document's VBA project information.
-        doc = aw.Document(aeb.MyDir + "VBA project.docm")
+        doc = aw.Document(aeb.my_dir + "VBA project.docm")
 
         # A VBA project contains a collection of VBA modules.
         vbaProject = doc.vba_project
@@ -1643,12 +1643,12 @@ class ExDocument(aeb.ApiExampleBase):
         builder.writeln("Hello world!")
 
         # After we save a document, we can access the Internet Media Type (MIME type) of the newly created output document.
-        parameters = doc.save(aeb.ArtifactsDir + "Document.SaveOutputParameters.doc")
+        parameters = doc.save(aeb.artifacts_dir + "Document.SaveOutputParameters.doc")
 
         self.assertEqual("application/msword", parameters.content_type)
 
         # This property changes depending on the save format.
-        parameters = doc.save(aeb.ArtifactsDir + "Document.SaveOutputParameters.pdf")
+        parameters = doc.save(aeb.artifacts_dir + "Document.SaveOutputParameters.pdf")
 
         self.assertEqual("application/pdf", parameters.content_type)
         # ExEnd
@@ -1658,7 +1658,7 @@ class ExDocument(aeb.ApiExampleBase):
         # ExFor:SubDocument
         # ExFor:SubDocument.NodeType
         # ExSummary:Shows how to access a master document's subdocument.
-        doc = aw.Document(aeb.MyDir + "Master document.docx")
+        doc = aw.Document(aeb.my_dir + "Master document.docx")
 
         subDocuments = doc.get_child_nodes(aw.NodeType.SUB_DOCUMENT, True)
         self.assertEqual(1, subDocuments.count)  # ExSkip
@@ -1728,7 +1728,7 @@ class ExDocument(aeb.ApiExampleBase):
         webExtension.is_frozen = False
 
         # We can access the web extension in Microsoft Word via Developer -> Add-ins.
-        doc.save(aeb.ArtifactsDir + "Document.WebExtension.docx")
+        doc.save(aeb.artifacts_dir + "Document.WebExtension.docx")
 
         # Remove all web extension task panes at once like this.
         doc.web_extension_task_panes.clear()
@@ -1736,7 +1736,7 @@ class ExDocument(aeb.ApiExampleBase):
         #self.assertEqual(0, doc.web_extension_task_panes.count) # Conunt was not wrapped.
         # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "Document.WebExtension.docx")
+        doc = aw.Document(aeb.artifacts_dir + "Document.WebExtension.docx")
         myScriptTaskPane = doc.web_extension_task_panes[0]
 
         self.assertEqual(aw.webextensions.TaskPaneDockState.RIGHT, myScriptTaskPane.dock_state)
@@ -1768,7 +1768,7 @@ class ExDocument(aeb.ApiExampleBase):
         # ExFor:BaseWebExtensionCollection`1.Count
         # ExFor:BaseWebExtensionCollection`1.Item(Int32)
         # ExSummary:Shows how to work with a document's collection of web extensions.
-        doc = aw.Document(aeb.MyDir + "Web extension.docx")
+        doc = aw.Document(aeb.my_dir + "Web extension.docx")
 
         #self.assertEqual(1, doc.web_extension_task_panes.count) # Count was not wrapped
 
@@ -1793,11 +1793,11 @@ class ExDocument(aeb.ApiExampleBase):
         doc.built_in_document_properties.title = "My Book Title"
 
         # The thumbnail we specify here can become the cover image.
-        with open(aeb.ImageDir + "Transparent background logo.png", "rb") as f:
+        with open(aeb.image_dir + "Transparent background logo.png", "rb") as f:
             image = f.read()
         doc.built_in_document_properties.thumbnail = image
 
-        doc.save(aeb.ArtifactsDir + "Document.EpubCover.epub")
+        doc.save(aeb.artifacts_dir + "Document.EpubCover.epub")
 
     def test_text_watermark(self):
         # ExStart
@@ -1828,14 +1828,14 @@ class ExDocument(aeb.ApiExampleBase):
 
         doc.watermark.set_text("Aspose Watermark", textWatermarkOptions)
 
-        doc.save(aeb.ArtifactsDir + "Document.TextWatermark.docx")
+        doc.save(aeb.artifacts_dir + "Document.TextWatermark.docx")
 
         # We can remove a watermark from a document like this.
         if doc.watermark.type == aw.WatermarkType.TEXT:
             doc.watermark.remove()
         # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "Document.TextWatermark.docx")
+        doc = aw.Document(aeb.artifacts_dir + "Document.TextWatermark.docx")
 
         self.assertEqual(aw.WatermarkType.TEXT, doc.watermark.type)
 
@@ -1853,12 +1853,12 @@ class ExDocument(aeb.ApiExampleBase):
         imageWatermarkOptions.scale = 5
         imageWatermarkOptions.is_washout = False
 
-        doc.watermark.set_image(aeb.ImageDir + "Logo.jpg", imageWatermarkOptions)
+        doc.watermark.set_image(aeb.image_dir + "Logo.jpg", imageWatermarkOptions)
 
-        doc.save(aeb.ArtifactsDir + "Document.ImageWatermark.docx")
+        doc.save(aeb.artifacts_dir + "Document.ImageWatermark.docx")
         # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "Document.ImageWatermark.docx")
+        doc = aw.Document(aeb.artifacts_dir + "Document.ImageWatermark.docx")
 
         self.assertEqual(aw.WatermarkType.IMAGE, doc.watermark.type)
 
@@ -1882,10 +1882,10 @@ class ExDocument(aeb.ApiExampleBase):
                 doc.show_grammatical_errors = showErrors
                 doc.show_spelling_errors = showErrors
 
-                doc.save(aeb.ArtifactsDir + "Document.SpellingAndGrammarErrors.docx")
+                doc.save(aeb.artifacts_dir + "Document.SpellingAndGrammarErrors.docx")
                 # ExEnd
 
-                doc = aw.Document(aeb.ArtifactsDir + "Document.SpellingAndGrammarErrors.docx")
+                doc = aw.Document(aeb.artifacts_dir + "Document.SpellingAndGrammarErrors.docx")
 
                 self.assertEqual(showErrors, doc.show_grammatical_errors)
                 self.assertEqual(showErrors, doc.show_spelling_errors)
@@ -1952,25 +1952,25 @@ class ExDocument(aeb.ApiExampleBase):
         # ExStart
         # ExFor:LayoutOptions.IgnorePrinterMetrics
         # ExSummary:Shows how to ignore 'Use printer metrics to lay out document' option.
-        doc = aw.Document(aeb.MyDir + "Rendering.docx")
+        doc = aw.Document(aeb.my_dir + "Rendering.docx")
 
         doc.layout_options.ignore_printer_metrics = False
 
-        doc.save(aeb.ArtifactsDir + "Document.IgnorePrinterMetrics.docx")
+        doc.save(aeb.artifacts_dir + "Document.IgnorePrinterMetrics.docx")
         # ExEnd
 
     def test_extract_pages(self):
         # ExStart
         # ExFor:Document.ExtractPages
         # ExSummary:Shows how to get specified range of pages from the document.
-        doc = aw.Document(aeb.MyDir + "Layout entities.docx")
+        doc = aw.Document(aeb.my_dir + "Layout entities.docx")
 
         doc = doc.extract_pages(0, 2)
 
-        doc.save(aeb.ArtifactsDir + "Document.ExtractPages.docx")
+        doc.save(aeb.artifacts_dir + "Document.ExtractPages.docx")
         # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "Document.ExtractPages.docx")
+        doc = aw.Document(aeb.artifacts_dir + "Document.ExtractPages.docx")
         self.assertEqual(doc.page_count, 2)
 
     def test_spelling_or_grammar(self):
@@ -1992,7 +1992,7 @@ class ExDocument(aeb.ApiExampleBase):
                 doc.spelling_checked = checkSpellingGrammar
                 doc.grammar_checked = checkSpellingGrammar
 
-                doc.save(aeb.ArtifactsDir + "Document.SpellingOrGrammar.docx")
+                doc.save(aeb.artifacts_dir + "Document.SpellingOrGrammar.docx")
                 # ExEnd
 
     def test_allow_embedding_post_script_fonts(self):
@@ -2006,7 +2006,7 @@ class ExDocument(aeb.ApiExampleBase):
         builder.writeln("Some text with PostScript font.")
 
         # Load the font with PostScript to use in the document.
-        with open(aeb.FontsDir + "AllegroOpen.otf", "rb") as f:
+        with open(aeb.fonts_dir + "AllegroOpen.otf", "rb") as f:
             fontBytes = f.read()
         otf = aw.fonts.MemoryFontSource(fontBytes)
         doc.font_settings = aw.fonts.FontSettings()
@@ -2020,7 +2020,7 @@ class ExDocument(aeb.ApiExampleBase):
         saveOptions = aw.saving.SaveOptions.create_save_options(aw.SaveFormat.DOCX)
         saveOptions.allow_embedding_post_script_fonts = True
 
-        doc.save(aeb.ArtifactsDir + "Document.AllowEmbeddingPostScriptFonts.docx", saveOptions)
+        doc.save(aeb.artifacts_dir + "Document.AllowEmbeddingPostScriptFonts.docx", saveOptions)
         # ExEnd
 
 

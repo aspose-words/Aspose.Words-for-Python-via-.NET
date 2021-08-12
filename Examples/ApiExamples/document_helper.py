@@ -229,7 +229,7 @@ class DocumentHelper(aeb.ApiExampleBase):
 
     @staticmethod
     def save_open(doc):
-        tmp_file_name = aeb.TempDir + "tmp.docx"
+        tmp_file_name = aeb.temp_dir + "tmp.docx"
         doc.save(tmp_file_name, aw.SaveFormat.DOCX)
         return aw.Document(tmp_file_name)
 

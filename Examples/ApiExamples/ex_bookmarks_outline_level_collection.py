@@ -66,7 +66,7 @@ class ExBookmarksOutlineLevelCollection(aeb.ApiExampleBase):
         outlineLevels.add("Bookmark 2", 5)
         outlineLevels.add("Bookmark 3", 9)
 
-        doc.save(aeb.ArtifactsDir + "BookmarksOutlineLevelCollection.bookmark_levels.pdf", pdfSaveOptions)
+        doc.save(aeb.artifacts_dir + "BookmarksOutlineLevelCollection.bookmark_levels.pdf", pdfSaveOptions)
 
         # Emptying this collection will preserve the bookmarks and put them all on the same outline level.
         outlineLevels.clear()

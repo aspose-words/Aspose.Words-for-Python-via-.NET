@@ -28,10 +28,10 @@ class ExBorderCollection(aeb.ApiExampleBase):
         # Insert a paragraph. Our border settings will determine the appearance of its border.
         builder.writeln("Hello world!")
 
-        doc.save(aeb.ArtifactsDir + "BorderCollection.get_borders_enumerator.docx")
+        doc.save(aeb.artifacts_dir + "BorderCollection.get_borders_enumerator.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "BorderCollection.get_borders_enumerator.docx")
+        doc = aw.Document(aeb.artifacts_dir + "BorderCollection.get_borders_enumerator.docx")
 
         for border in doc.first_section.body.first_paragraph.paragraph_format.borders :
             #self.assertEqual(Color.green.to_argb(), border.color.to_argb())
@@ -45,7 +45,7 @@ class ExBorderCollection(aeb.ApiExampleBase):
         #ExStart
         #ExFor:BorderCollection.clear_formatting
         #ExSummary:Shows how to remove all borders from all paragraphs in a document.
-        doc = aw.Document(aeb.MyDir + "Borders.docx")
+        doc = aw.Document(aeb.my_dir + "Borders.docx")
 
         # The first paragraph of this document has visible borders with these settings.
         firstParagraphBorders = doc.first_section.body.first_paragraph.paragraph_format.borders
@@ -69,10 +69,10 @@ class ExBorderCollection(aeb.ApiExampleBase):
                 
             
             
-        doc.save(aeb.ArtifactsDir + "BorderCollection.remove_all_borders.docx")
+        doc.save(aeb.artifacts_dir + "BorderCollection.remove_all_borders.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "BorderCollection.remove_all_borders.docx")
+        doc = aw.Document(aeb.artifacts_dir + "BorderCollection.remove_all_borders.docx")
 
         for border in doc.first_section.body.first_paragraph.paragraph_format.borders :
             

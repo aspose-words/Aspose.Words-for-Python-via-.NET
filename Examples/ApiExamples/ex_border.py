@@ -29,10 +29,10 @@ class ExBorder(aeb.ApiExampleBase):
 
         builder.write("Text surrounded by green border.")
 
-        doc.save(aeb.ArtifactsDir + "Border.font_border.docx")
+        doc.save(aeb.artifacts_dir + "Border.font_border.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "Border.font_border.docx")
+        doc = aw.Document(aeb.artifacts_dir + "Border.font_border.docx")
         border = doc.first_section.body.first_paragraph.runs[0].font.border
 
         #self.assertEqual(Color.green.to_argb(), border.color.to_argb())
@@ -58,10 +58,10 @@ class ExBorder(aeb.ApiExampleBase):
 
         builder.writeln("Text with a red top border.")
 
-        doc.save(aeb.ArtifactsDir + "Border.paragraph_top_border.docx")
+        doc.save(aeb.artifacts_dir + "Border.paragraph_top_border.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "Border.paragraph_top_border.docx")
+        doc = aw.Document(aeb.artifacts_dir + "Border.paragraph_top_border.docx")
         border = doc.first_section.body.first_paragraph.paragraph_format.borders.top
 
         #self.assertEqual(Color.red.to_argb(), border.color.to_argb())
@@ -75,7 +75,7 @@ class ExBorder(aeb.ApiExampleBase):
         #ExFor:Border.clear_formatting
         #ExFor:Border.is_visible
         #ExSummary:Shows how to remove borders from a paragraph.
-        doc = aw.Document(aeb.MyDir + "Borders.docx")
+        doc = aw.Document(aeb.my_dir + "Borders.docx")
 
         # Each paragraph has an individual set of borders.
         # We can access the settings for the appearance of these borders via the paragraph format object.
@@ -96,10 +96,10 @@ class ExBorder(aeb.ApiExampleBase):
         self.assertEqual(aw.LineStyle.NONE, borders[0].line_style)
         self.assertFalse(borders[0].is_visible)
 
-        doc.save(aeb.ArtifactsDir + "Border.clear_formatting.docx")
+        doc.save(aeb.artifacts_dir + "Border.clear_formatting.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "Border.clear_formatting.docx")
+        doc = aw.Document(aeb.artifacts_dir + "Border.clear_formatting.docx")
 
         for testBorder in doc.first_section.body.first_paragraph.paragraph_format.borders :
             
@@ -152,10 +152,10 @@ class ExBorder(aeb.ApiExampleBase):
             self.assertTrue(secondParagraphBorders[i].is_visible)
             
 
-        doc.save(aeb.ArtifactsDir + "Border.shared_elements.docx")
+        doc.save(aeb.artifacts_dir + "Border.shared_elements.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "Border.shared_elements.docx")
+        doc = aw.Document(aeb.artifacts_dir + "Border.shared_elements.docx")
         paragraphs = doc.first_section.body.paragraphs
 
         for testBorder in paragraphs[0].paragraph_format.borders :
@@ -187,10 +187,10 @@ class ExBorder(aeb.ApiExampleBase):
         builder.insert_paragraph()
         builder.write("Paragraph below horizontal border.")
 
-        doc.save(aeb.ArtifactsDir + "Border.horizontal_borders.docx")
+        doc.save(aeb.artifacts_dir + "Border.horizontal_borders.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "Border.horizontal_borders.docx")
+        doc = aw.Document(aeb.artifacts_dir + "Border.horizontal_borders.docx")
         paragraphs = doc.first_section.body.paragraphs
 
         self.assertEqual(aw.LineStyle.DASH_SMALL_GAP, paragraphs[0].paragraph_format.borders.horizontal.line_style)
@@ -238,7 +238,7 @@ class ExBorder(aeb.ApiExampleBase):
         self.assertEqual(0.0, border.line_width)
         self.assertEqual(aw.LineStyle.NONE, border.line_style)
 
-        doc.save(aeb.ArtifactsDir + "Border.vertical_borders.docx")
+        doc.save(aeb.artifacts_dir + "Border.vertical_borders.docx")
         #ExEnd
 
 #        doc = aw.Document(aeb.ArtifactsDir + "Border.vertical_borders.docx")

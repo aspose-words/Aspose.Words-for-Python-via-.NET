@@ -26,10 +26,10 @@ class ExBookmarks(aeb.ApiExampleBase):
         # Bookmarks are stored in this collection.
         self.assertEqual("My Bookmark", doc.range.bookmarks[0].name)
 
-        doc.save(aeb.ArtifactsDir + "Bookmarks.insert.docx")
+        doc.save(aeb.artifacts_dir + "Bookmarks.insert.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "Bookmarks.insert.docx")
+        doc = aw.Document(aeb.artifacts_dir + "Bookmarks.insert.docx")
 
         self.assertEqual("My Bookmark", doc.range.bookmarks[0].name)
         
@@ -116,7 +116,7 @@ class ExBookmarks(aeb.ApiExampleBase):
         #ExFor:Bookmark.first_column
         #ExFor:Bookmark.last_column
         #ExSummary:Shows how to get information about table column bookmarks.
-        doc =aw.Document(aeb.MyDir + "Table column bookmarks.doc")
+        doc =aw.Document(aeb.my_dir + "Table column bookmarks.doc")
 
         for bookmark in doc.range.bookmarks :
             

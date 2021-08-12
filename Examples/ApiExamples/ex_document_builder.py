@@ -76,11 +76,11 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.insert_break(aw.BreakType.PAGE_BREAK)
         builder.writeln("Page3")
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.headers_and_footers.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.headers_and_footers.docx")
         # ExEnd
 
         headers_footers = aw.Document(
-            aeb.ArtifactsDir + "DocumentBuilder.headers_and_footers.docx").first_section.headers_footers
+            aeb.artifacts_dir + "DocumentBuilder.headers_and_footers.docx").first_section.headers_footers
 
         # print(headers_footers[2].get_text().strip()) # Header for the first page
         # print(headers_footers[0].get_text().strip()) # Header for even pages
@@ -118,10 +118,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # and pass the field's start or separator node as an argument.
         builder.write(" Text between our merge fields. ")
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.merge_fields.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.merge_fields.docx")
         # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.merge_fields.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.merge_fields.docx")
 
         self.assertEqual("\u0013MERGEFIELD MyMergeField1 \\* MERGEFORMAT\u0014«MyMergeField1»\u0015" +
                          " Text between our merge fields. " +
@@ -206,7 +206,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.writeln(".")
 
         # Ctrl + left clicking the link in the text in Microsoft Word will take us to the URL via a new web browser window.
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_hyperlink.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_hyperlink.docx")
         # ExEnd
 
     #        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_hyperlink.docx")
@@ -252,10 +252,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         builder.write(". We hope you enjoyed the example.")
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.push_pop_font.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.push_pop_font.docx")
         # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.push_pop_font.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.push_pop_font.docx")
         runs = doc.first_section.body.first_paragraph.runs
 
         self.assertEqual(4, runs.count)
@@ -290,7 +290,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         # Insert the image into the header so that it will be visible on every page.
         builder.move_to_header_footer(aw.HeaderFooterType.HEADER_PRIMARY)
-        shape = builder.insert_image(aeb.ImageDir + "Transparent background logo.png")
+        shape = builder.insert_image(aeb.image_dir + "Transparent background logo.png")
         shape.wrap_type = aw.drawing.WrapType.NONE
         shape.behind_text = True
 
@@ -300,7 +300,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         shape.left = (builder.page_setup.page_width - shape.width) / 2
         shape.top = (builder.page_setup.page_height - shape.height) / 2
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_watermark.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_watermark.docx")
         # ExEnd
 
     #        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_watermark.docx")
@@ -443,7 +443,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual("Heading 1 left.", paragraphs[3].get_text().strip())
         self.assertEqual("Heading 1", paragraphs[3].paragraph_format.style.name)
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_html.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_html.docx")
         # ExEnd
 
     def test_insert_html_with_formatting(self):
@@ -474,7 +474,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
                     aw.ParagraphAlignment.DISTRIBUTED if use_builder_formatting else aw.ParagraphAlignment.LEFT,
                     paragraphs[1].paragraph_format.alignment)
 
-                doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_html_with_formatting_" + str(
+                doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_html_with_formatting_" + str(
                     use_builder_formatting) + ".docx")
         # ExEnd
 
@@ -486,12 +486,12 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         builder.insert_html(math_ml)
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.MathML.docx")
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.MathML.pdf")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.MathML.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.MathML.pdf")
 
         self.assertTrue(DocumentHelper.compare_docs(
-            aeb.GoldsDir + "DocumentBuilder.MathML Gold.docx",
-            aeb.ArtifactsDir + "DocumentBuilder.MathML.docx"))
+            aeb.golds_dir + "DocumentBuilder.MathML Gold.docx",
+            aeb.artifacts_dir + "DocumentBuilder.MathML.docx"))
 
     def test_insert_text_and_bookmark(self):
         # ExStart
@@ -554,7 +554,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.end_row()
         builder.end_table()
 
-        doc.save(aeb.ArtifactsDir + "Bookmarks.create_column_bookmark.docx")
+        doc.save(aeb.artifacts_dir + "Bookmarks.create_column_bookmark.docx")
         # ExEnd
 
     @unittest.skip("It seems that 'insert_combo_box' method is missing (line 576)")
@@ -578,10 +578,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.insert_paragraph()
         builder.insert_combo_box("My combo box", items, 0)
 
-        builder.document.save(aeb.ArtifactsDir + "DocumentBuilder.create_form.docx")
+        builder.document.save(aeb.artifacts_dir + "DocumentBuilder.create_form.docx")
         # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.create_form.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.create_form.docx")
         form_field = doc.range.form_fields[0]
 
         self.assertEqual("My text input", form_field.name)
@@ -622,10 +622,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual("CheckBox_OnlyChecked", doc.range.form_fields[2].name)
 
         # We can interact with these check boxes in Microsoft Word by double clicking them.
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_check_box.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_check_box.docx")
         # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_check_box.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_check_box.docx")
 
         form_fields = doc.range.form_fields
 
@@ -739,10 +739,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.italic = True
         builder.writeln("John Bloggs")
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.fill_merge_fields.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.fill_merge_fields.docx")
         # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.fill_merge_fields.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.fill_merge_fields.docx")
         paragraphs = doc.first_section.body.paragraphs
 
         self.assertTrue(paragraphs[0].runs[0].font.bold)
@@ -806,10 +806,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         # A table of contents is a field of a type that needs to be updated to show an up-to-date result.
         doc.update_fields()
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_toc.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_toc.docx")
         # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_toc.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_toc.docx")
 
         # FieldToc tableOfContents = (FieldToc)doc.range.fields[0] # no typecasting
 
@@ -898,10 +898,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.end_row()
         builder.end_table()
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_table.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_table.docx")
         # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_table.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_table.docx")
         table = doc.first_section.body.tables[0]
 
         self.assertEqual("Row 1, Col 1\a", table.rows[0].cells[0].get_text().strip())
@@ -994,10 +994,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.writeln("50")
         builder.end_row()
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_table_with_style.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_table_with_style.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_table_with_style.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_table_with_style.docx")
 
         doc.expand_table_styles_to_direct_formatting()
 
@@ -1047,10 +1047,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
             builder.end_row()
             
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_table_set_heading_row.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_table_set_heading_row.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_table_set_heading_row.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_table_set_heading_row.docx")
         table = doc.first_section.body.tables[0]
 
         for i in range(0, table.rows.count):
@@ -1077,10 +1077,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         table.preferred_width = aw.tables.PreferredWidth.from_percent(50)
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_table_with_preferred_width.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_table_with_preferred_width.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_table_with_preferred_width.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_table_with_preferred_width.docx")
         table = doc.first_section.body.tables[0]
 
         self.assertEqual(aw.tables.PreferredWidthType.PERCENT, table.preferred_width.type)
@@ -1129,13 +1129,13 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # builder.cell_format.shading.background_pattern_color = Color.light_green # color is not supported
         builder.writeln("Automatically sized cell.")
             
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_cells_with_preferred_widths.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_cells_with_preferred_widths.docx")
         #ExEnd
 
         self.assertEqual(100.0, aw.tables.PreferredWidth.from_percent(100).value)
         self.assertEqual(100.0, aw.tables.PreferredWidth.from_points(100).value)
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_cells_with_preferred_widths.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_cells_with_preferred_widths.docx")
         table = doc.first_section.body.tables[0]
             
         self.assertEqual(aw.tables.PreferredWidthType.POINTS, table.first_row.cells[0].cell_format.preferred_width.type)
@@ -1161,9 +1161,9 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.insert_html("<table>" + "<tr>" + "<td>Row 1, Cell 1</td>" + "<td>Row 1, Cell 2</td>" + "</tr>" +
                             "<tr>" + "<td>Row 2, Cell 2</td>" + "<td>Row 2, Cell 2</td>" + "</tr>" + "</table>")
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_table_from_html.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_table_from_html.docx")
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_table_from_html.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_table_from_html.docx")
 
         self.assertEqual(1, doc.get_child_nodes(aw.NodeType.TABLE, True).count)
         self.assertEqual(2, doc.get_child_nodes(aw.NodeType.ROW, True).count)
@@ -1193,10 +1193,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.writeln("Inner Table Cell 2")
         builder.end_table()
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_nested_table.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_nested_table.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_nested_table.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_nested_table.docx")
 
         self.assertEqual(2, doc.get_child_nodes(aw.NodeType.TABLE, True).count)
         self.assertEqual(4, doc.get_child_nodes(aw.NodeType.CELL, True).count)
@@ -1229,10 +1229,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.write("Row 2, Cell 2.")
         builder.end_table()
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.create_table.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.create_table.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.create_table.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.create_table.docx")
         table = doc.first_section.body.tables[0]
 
         self.assertEqual(4, table.get_child_nodes(aw.NodeType.CELL, True).count)
@@ -1305,10 +1305,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.end_row()
         builder.end_table()
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.create_formatted_table.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.create_formatted_table.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.create_formatted_table.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.create_formatted_table.docx")
         table = doc.first_section.body.tables[0]
 
         self.assertEqual(20.0, table.left_indent)
@@ -1375,10 +1375,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.insert_cell()
         builder.writeln("Row 2, Cell 2.")
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.table_borders_and_shading.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.table_borders_and_shading.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.table_borders_and_shading.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.table_borders_and_shading.docx")
         table = doc.first_section.body.tables[0]
 
         for c in table.first_row:
@@ -1447,10 +1447,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.font.underline = aw.Underline.SINGLE
         builder.insert_hyperlink("Link to Bookmark1", "Bookmark1\" \o \"Hyperlink Tip", True)
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_hyperlink_to_local_bookmark.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_hyperlink_to_local_bookmark.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_hyperlink_to_local_bookmark.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_hyperlink_to_local_bookmark.docx")
         # FieldHyperlink hyperlink = (FieldHyperlink)doc.range.fields[0]
 
         TestUtil.verify_field(aw.FieldType.FIELD_HYPERLINK, " HYPERLINK \\l \"Bookmark1\" \\o \"Hyperlink Tip\" ", "Link to Bookmark1", aw.hyperlink)
@@ -1516,7 +1516,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         #ExStart
         #ExFor:DocumentBuilder.move_to_paragraph
         #ExSummary:Shows how to move a builder's cursor position to a specified paragraph.
-        doc = aw.Document(aeb.MyDir + "Paragraphs.docx")
+        doc = aw.Document(aeb.my_dir + "Paragraphs.docx")
         paragraphs = doc.first_section.body.paragraphs
 
         self.assertEqual(22, paragraphs.count)
@@ -1568,10 +1568,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.move_to_cell(0, 1, 1, 0)
         builder.write("Column 2, cell 2.")
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.move_to_cell.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.move_to_cell.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.move_to_cell.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.move_to_cell.docx")
 
         table = doc.first_section.body.tables[0]
 
@@ -1676,10 +1676,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(aw.TextOrientation.UPWARD, table.rows[1].cells[0].cell_format.orientation)
         self.assertEqual(aw.TextOrientation.DOWNWARD, table.rows[1].cells[1].cell_format.orientation)
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.build_table.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.build_table.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.build_table.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.build_table.docx")
         table = doc.first_section.body.tables[0]
 
         self.assertEqual(2, table.rows.count)
@@ -1704,7 +1704,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         
     def test_table_cell_vertical_rotated_far_east_text_orientation(self) :
         
-        doc = aw.Document(aeb.MyDir + "Rotated cell text.docx")
+        doc = aw.Document(aeb.my_dir + "Rotated cell text.docx")
 
         table = doc.first_section.body.tables[0]
         cell = table.first_row.first_cell
@@ -1729,17 +1729,17 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         # There are two ways of using a document builder to source an image and then insert it as a floating shape.
         # 1 -  From a file in the local file system:
-        builder.insert_image(aeb.ImageDir + "Transparent background logo.png", aw.drawing.RelativeHorizontalPosition.MARGIN, 100,
-            aw.drawing.RelativeVerticalPosition.MARGIN, 0, 200, 200, aw.drawing.WrapType.SQUARE)
+        builder.insert_image(aeb.image_dir + "Transparent background logo.png", aw.drawing.RelativeHorizontalPosition.MARGIN, 100,
+                             aw.drawing.RelativeVerticalPosition.MARGIN, 0, 200, 200, aw.drawing.WrapType.SQUARE)
 
         # 2 -  From a URL:
-        builder.insert_image(aeb.AsposeLogoUrl, aw.drawing.RelativeHorizontalPosition.MARGIN, 100,
-            aw.drawing.RelativeVerticalPosition.MARGIN, 250, 200, 200, aw.drawing.WrapType.SQUARE)
+        builder.insert_image(aeb.aspose_logo_url, aw.drawing.RelativeHorizontalPosition.MARGIN, 100,
+                             aw.drawing.RelativeVerticalPosition.MARGIN, 250, 200, 200, aw.drawing.WrapType.SQUARE)
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_floating_image.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_floating_image.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_floating_image.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_floating_image.docx")
         image = doc.get_child(aw.NodeType.SHAPE, 0, True)
 
         TestUtil.verify_image_in_shape(400, 400, ImageType.png, image)
@@ -1773,18 +1773,18 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         # The InsertImage method creates a floating shape with the passed image in its image data.
         # We can specify the dimensions of the shape can be passing them to this method.
-        image_shape = builder.insert_image(aeb.ImageDir + "Logo.jpg", aw.drawing.RelativeHorizontalPosition.margin, 0,
-            aw.drawing.RelativeVerticalPosition.margin, 0, -1, -1, aw.drawing.WrapType.square)
+        image_shape = builder.insert_image(aeb.image_dir + "Logo.jpg", aw.drawing.RelativeHorizontalPosition.margin, 0,
+                                           aw.drawing.RelativeVerticalPosition.margin, 0, -1, -1, aw.drawing.WrapType.square)
 
         # Passing negative values as the intended dimensions will automatically define
         # the shape's dimensions based on the dimensions of its image.
         self.assertEqual(300.0, image_shape.width)
         self.assertEqual(300.0, image_shape.height)
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_image_original_size.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_image_original_size.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_image_original_size.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_image_original_size.docx")
         imageShape = doc.get_child(aw.NodeType.SHAPE, 0, True)
 
         TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, imageShape)
@@ -1808,10 +1808,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # Insert a form that prompts the user to enter text.
         builder.insert_text_input("TextInput", aw.fields.TextFormFieldType.REGULAR, "", "Enter your text here", 0)
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_text_input.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_text_input.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_text_input.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_text_input.docx")
         form_field = doc.range.form_fields[0]
 
         self.assertTrue(form_field.enabled)
@@ -1836,10 +1836,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         items =  ["Apple", "Banana", "Cherry"]
         builder.insert_combo_box("DropDown", items, 0)
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_combo_box.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_combo_box.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_combo_box.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_combo_box.docx")
         form_field = doc.range.form_fields[0]
 
         self.assertTrue(form_field.enabled)
