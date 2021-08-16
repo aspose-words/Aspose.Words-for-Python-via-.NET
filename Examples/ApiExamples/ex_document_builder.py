@@ -563,7 +563,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         doc.save(aeb.artifacts_dir + "Bookmarks.create_column_bookmark.docx")
         # ExEnd
 
-    @unittest.skip("It seems that 'insert_combo_box' method is missing (line 590)")
+    @unittest.skip("It seems that 'insert_combo_box' method is missing (line 585)")
     def test_create_form(self):
         # ExStart
         # ExFor:TextFormFieldType
@@ -760,7 +760,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertTrue(paragraphs[2].runs[0].font.italic)
         self.assertEqual("John Bloggs", paragraphs[2].runs[0].get_text().strip())
 
-    @unittest.skip("No type casting (line 811)")
+    @unittest.skip("No type casting (line 820)")
     def test_insert_toc(self):
 
         # ExStart
@@ -825,7 +825,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertTrue(tableOfContents.use_paragraph_outline_level)
 
     @unittest.skip("Something wrong with cells.to_array() method (exit code -1073741819 (0xC0000005))" +
-                   " and without it type casting is needed (lines 928 and 940)")
+                   " and without it type casting is needed (lines 923 and 935)")
     def test_insert_table(self):
 
         # ExStart
@@ -1247,7 +1247,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual("Row 2, Cell 2.\a", table.rows[1].cells[1].get_text().strip())
 
     @unittest.skip("Something wrong with cells.to_array() method (exit code -1073741819 (0xC0000005))" +
-                   " and without it type casting is needed (lines 1331) and no type casting (line 1335)")
+                   " and without it type casting is needed (lines 1326) and no type casting (line 1330)")
     def test_build_formatted_table(self):
 
         # ExStart
@@ -1341,7 +1341,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
                     self.assertEqual(12, r.font.size)
                     self.assertFalse(r.font.bold)
 
-    @unittest.skip("No type casting (lines 1397 and 1413)")
+    @unittest.skip("No type casting (lines 1394 and 1408)")
     def test_table_borders_and_shading(self):
 
         # ExStart
@@ -1430,7 +1430,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(216.0, table.first_row.first_cell.cell_format.preferred_width.value)
         # ExEnd
 
-    @unittest.skip("No type casting (line 1451) and testUtil hasn't been done yet")
+    @unittest.skip("TestUtil hasn't been done yet")
     def test_insert_hyperlink_to_local_bookmark(self):
 
         # ExStart
@@ -1722,7 +1722,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         self.assertEqual(aw.TextOrientation.VERTICAL_ROTATED_FAR_EAST, cell.cell_format.orientation)
 
-    @unittest.skip("No type casting (line 1743 and 1754) and testUtil hasn't been done yet")
+    @unittest.skip("No type casting (line 1748 and 1759) and testUtil hasn't been done yet")
     def test_insert_floating_image(self):
 
         # ExStart
@@ -1767,7 +1767,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.margin, image.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.margin, image.relative_vertical_position)
 
-    @unittest.skip("No type casting (line 1788) and testUtil hasn't been done yet")
+    @unittest.skip("No type casting (line 1794) and testUtil hasn't been done yet")
     def test_insert_image_original_size(self):
 
         # ExStart
@@ -1827,7 +1827,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual("", form_field.text_input_format)
         self.assertEqual(aw.fields.TextFormFieldType.REGULAR, form_field.text_input_type)
 
-    @unittest.skip("It seems that 'insert_combo_box' method is missing (line 1837)")
+    @unittest.skip("It seems that 'insert_combo_box' method is missing (line 1842)")
     def test_insert_combo_box(self):
 
         # ExStart
@@ -1854,8 +1854,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(aw.fields.FieldType.FIELD_FORM_DROP_DOWN, form_field.type)
 
     # "WORDSNET-16868"
-    @unittest.skip(
-        "Need some imports (uuid, datetime), need type casting (1904), some problems with SignatureLineOptions constructor")
+    @unittest.skip("Need some imports (uuid, datetime), need type casting (1907), some problems with SignOptions properties")
     def test_signature_line_provider_id(self):
 
         # ExStart
@@ -1873,14 +1872,14 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        signature_line_options = aw.SignatureLineOptions(
-            Signer="vderyushev",
-            SignerTitle="QA",
-            Email="vderyushev@aspose.com",
-            ShowDate=True,
-            DefaultInstructions=False,
-            Instructions="Please sign here.",
-            AllowComments=True)
+        signature_line_options = aw.SignatureLineOptions()
+        signature_line_options.signer = "vderyushev"
+        signature_line_options.signer_title = "QA"
+        signature_line_options.email = "vderyushev@aspose.com"
+        signature_line_options.show_date = True
+        signature_line_options.default_instructions = False
+        signature_line_options.instructions = "Please sign here."
+        signature_line_options.allow_comments = True
 
         signature_line = builder.insert_signature_line(signature_line_options).signature_line
         # signature_line.provider_id = uuid.UUID("CF5A7BB4-8F3C-4756-9DF6-BEF7F13259A2") # import uuid ???
@@ -1890,12 +1889,11 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         doc.save(aeb.artifacts_dir + "DocumentBuilder.signature_line_provider_id.docx")
 
-        sign_options = aw.digitalsignatures.SignOptions(
-            SignatureLineId=signature_line.id,
-            ProviderId=signature_line.provider_id,
-            Comments="Document was signed by vderyushev",
-            #                                     SignTime = datetime.now() # import datetime ???
-        )
+        sign_options = aw.digitalsignatures.SignOptions
+        sign_options.signature_line_id = signature_line.id
+        sign_options.provider_id = signature_line.provider_id
+        sign_options.comments = "Document was signed by vderyushev"
+        #                                     SignTime = datetime.now() # import datetime ???
 
         cert_holder = aw.digitalsignatures.CertificateHolder.create(aeb.my_dir + "morzal.pfx", "aw")
 
@@ -1933,7 +1931,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual("CN=Morzal.me", signatures[0].issuer_name)
         self.assertEqual(aw.digitalsignatures.DigitalSignatureType.xml_dsig, signatures[0].signature_type)
 
-    @unittest.skip("Need type casting (1959), some problems with SignatureLineOptions constructor")
+    @unittest.skip("Need type casting (1961)")
     def test_signature_line_inline(self):
 
         # ExStart
@@ -1942,18 +1940,17 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        options = aw.SignatureLineOptions(
-            Signer="John Doe",
-            SignerTitle="Manager",
-            Email="johndoe@aspose.com",
-            ShowDate=True,
-            DefaultInstructions=False,
-            Instructions="Please sign here.",
-            AllowComments=True
-        )
+        options = aw.SignatureLineOptions()
+        options.signer = "John Doe"
+        options.signer_title = "Manager"
+        options.email = "johndoe@aspose.com"
+        options.show_date = True
+        options.default_instructions = False
+        options.instructions = "Please sign here."
+        options.allow_comments = True
 
-        builder.insert_signature_line(options, aw.drawing.RelativeHorizontalPosition.right_margin, 2.0,
-                                      aw.drawing.RelativeVerticalPosition.page, 3.0, aw.drawing.WrapType.inline)
+        builder.insert_signature_line(options, aw.drawing.RelativeHorizontalPosition.RIGHT_MARGIN, 2.0,
+                                      aw.drawing.RelativeVerticalPosition.PAGE, 3.0, aw.drawing.WrapType.INLINE)
 
         # The signature line can be signed in Microsoft Word by double clicking it.
         doc.save(aeb.artifacts_dir + "DocumentBuilder.signature_line_inline.docx")
@@ -1974,7 +1971,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertFalse(signatureLine.is_signed)
         self.assertFalse(signatureLine.is_valid)
 
-    @unittest.skip("No type casting (lines 2011-2015)")
+    @unittest.skip("No type casting (lines 2003-2007)")
     def test_set_paragraph_formatting(self):
 
         # ExStart
@@ -2120,7 +2117,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(100.0, table.rows[1].row_format.height)
         self.assertEqual(aw.HeightRule.EXACTLY, table.rows[1].row_format.height_rule)
 
-    @unittest.skip("No type casting (line 2164 and 2166) and testUtil hasn't been done yet")
+    @unittest.skip("No type casting (line 2155 and 2158) and testUtil hasn't been done yet")
     def test_insert_footnote(self):
 
         # ExStart
@@ -2135,12 +2132,12 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # so the marker seen in the body text will be auto-numbered at "1",
         # and the footnote will appear at the bottom of the page.
         builder.write("This text will be referenced by a footnote.")
-        builder.insert_footnote(aw.FootnoteType.FOOTNOTE, "Footnote comment regarding referenced text.")
+        builder.insert_footnote(aw.notes.FootnoteType.FOOTNOTE, "Footnote comment regarding referenced text.")
 
         # Insert more text and mark it with an endnote with a custom reference mark,
         # which will be used in place of the number "2" and set "IsAuto" to False.
         builder.write("This text will be referenced by an endnote.")
-        builder.insert_footnote(aw.FootnoteType.ENDNOTE, "Endnote comment regarding referenced text.", "CustomMark")
+        builder.insert_footnote(aw.notes.FootnoteType.ENDNOTE, "Endnote comment regarding referenced text.", "CustomMark")
 
         # Footnotes always appear at the bottom of their referenced text,
         # so this page break will not affect the footnote.
@@ -2153,10 +2150,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_footnote.docx")
 
-        TestUtil.verify_footnote(aw.FootnoteType.FOOTNOTE, True, "",
+        TestUtil.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
                                  "Footnote comment regarding referenced text.",
                                  doc.get_child(aw.NodeType.FOOTNOTE, 0, True))
-        TestUtil.verify_footnote(aw.FootnoteType.ENDNOTE, False, "CustomMark",
+        TestUtil.verify_footnote(aw.notes.FootnoteType.ENDNOTE, False, "CustomMark",
                                  "CustomMark Endnote comment regarding referenced text.",
                                  doc.get_child(aw.NodeType.FOOTNOTE, 1, True))
 
@@ -2268,7 +2265,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
                 dst_doc.save(aeb.artifacts_dir + "DocumentBuilder.append_document_and_resolve_styles.docx")
                 # ExEnd
 
-    @unittest.skip("No type casting (line 2299)")
+    @unittest.skip("No type casting (line 2288)")
     def test_insert_document_and_resolve_styles(self):
 
         # ExStart
@@ -2328,7 +2325,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
                 dst_doc.update_list_labels()
                 # ExEnd
 
-    @unittest.skip("No typecasting (lines 2374-2378)")
+    @unittest.skip("No typecasting (lines 2365-2369)")
     def test_ignore_text_boxes(self):
 
         # ExStart
@@ -2421,7 +2418,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
     #     self.assertRaises(builder.insert_ole_object("", "checkbox", False, True, None),
     #                       Throws.type_of < ArgumentException > ())
 
-    @unittest.skip("No type casting (line 2452), something wrong with add() method (line 2444)")
+    @unittest.skip("No type casting (line 2442), something wrong with add() method (line 2434)")
     def test_insert_pie_chart(self):
 
         # ExStart
@@ -2448,7 +2445,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(225.0, chart_shape.width)
         self.assertEqual(225.0, chart_shape.height)
 
-    @unittest.skip("No type casting (line 2480)")
+    @unittest.skip("No type casting (line 2470)")
     def test_insert_chart_relative_position(self):
 
         # ExStart
@@ -2480,7 +2477,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.margin, chart_shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.margin, chart_shape.relative_vertical_position)
 
-    @unittest.skip("Need some import (datetime) (line 2510)")
+    @unittest.skip("Need some import (datetime) (line 2500)")
     def test_insert_field(self):
 
         # ExStart
@@ -2831,7 +2828,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # self.assertEqual("Unknown", shape.ole_format.icon_caption)
         # self.assertTrue(shape.ole_format.ole_icon)
 
-    @unittest.skip("No such enumerator StyleIdentifier.heading_1 (line 2853)")
+    @unittest.skip("No such enumerator StyleIdentifier.heading_1 (line 2842)")
     def test_insert_style_separator(self):
 
         # ExStart
@@ -3445,7 +3442,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
     #
     # #ExEnd
 
-    @unittest.skip("No type casting (line 3476), testUtil hadn't been done yet, no such property as HttpStatusCode")
+    @unittest.skip("No type casting (line 3467), testUtil hadn't been done yet, no such property as HttpStatusCode")
     def test_insert_online_video(self) :
         
         #ExStart
