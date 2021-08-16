@@ -17,6 +17,9 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExFor:Font.underline
         # ExFor:DocumentBuilder.#ctor
         # ExSummary:Shows how to insert formatted text using DocumentBuilder.
+
+        print("Color is not available (commented all lines with color)")
+
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -82,14 +85,9 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         headers_footers = aw.Document(
             aeb.artifacts_dir + "DocumentBuilder.headers_and_footers.docx").first_section.headers_footers
 
-        # print(headers_footers[2].get_text().strip()) # Header for the first page
-        # print(headers_footers[0].get_text().strip()) # Header for even pages
-        # print(headers_footers[1].get_text().strip()) # Header for all other pages
-        # print(headers_footers[aw.HeaderFooterType.FOOTER_EVEN].get_text().strip()) # Header for the first page
-        # print(aw.HeaderFooterType.HEADER_FIRST.value) # 4
-
-        self.assertEqual(3, headers_footers.count)  # True
-        # self.assertEqual("Header for the first page", headers_footers[aw.HeaderFooterType.HEADER_FIRST].get_text().strip()) # AttributeError: 'NoneType' object has no attribute 'get_text'
+        self.assertEqual(3, headers_footers.count)
+        self.assertEqual("Header for the first page",
+                         headers_footers[aw.HeaderFooterType.HEADER_FIRST].get_text().strip()) # AttributeError: 'NoneType' object has no attribute 'get_text'
         self.assertEqual("Header for even pages",
                          headers_footers[aw.HeaderFooterType.HEADER_EVEN].get_text().strip())  # True
         self.assertEqual("Header for all other pages",
@@ -144,6 +142,9 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExFor:HorizontalRuleFormat.color
         # ExFor:HorizontalRuleFormat.no_shade
         # ExSummary:Shows how to insert a horizontal rule shape, and customize its formatting.
+
+        print("Color is not available (commented all lines with color)")
+
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
         shape = builder.insert_horizontal_rule()
@@ -192,6 +193,9 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExFor:Font.underline
         # ExFor:Underline
         # ExSummary:Shows how to insert a hyperlink field.
+
+        print("Color is not available (commented all lines with color)")
+
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -209,7 +213,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_hyperlink.docx")
         # ExEnd
 
-    #        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_hyperlink.docx")
+    #        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_hyperlink.docx")
     #
     #        FieldHyperlink hyperlink = (FieldHyperlink)doc.range.fields[0]
     #        TestUtil.verify_web_response_status_code(HttpStatusCode.ok, hyperlink.address)
@@ -226,6 +230,9 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExFor:DocumentBuilder.pop_font
         # ExFor:DocumentBuilder.insert_hyperlink
         # ExSummary:Shows how to use a document builder's formatting stack.
+
+        print("Color is not available (commented all lines with color)")
+
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -274,7 +281,6 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
     #        TestUtil.verify_web_response_status_code(HttpStatusCode.ok, ((FieldHyperlink)doc.range.fields[0]).address)
     print("TestUtil hasn't been done yet")
 
-
     # if NET462 || JAVA
     def test_insert_watermark(self):
         # ExStart
@@ -303,7 +309,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_watermark.docx")
         # ExEnd
 
-    #        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_watermark.docx")
+    #        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_watermark.docx")
     #        shape = (Shape)doc.first_section.headers_footers[aw.HeaderFooterType.HEADER_PRIMARY].get_child(NodeType.shape, 0, True)
     #
     #        TestUtil.verify_image_in_shape(400, 400, ImageType.png, shape)
@@ -346,10 +352,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
     #        builder.insert_ole_object_as_icon(aeb.MyDir + "Presentation.pptx", False, aeb.ImageDir + "Logo icon.ico",
     #            "Double click to view presentation!")
     #
-    #        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_ole_object.docx")
+    #        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_ole_object.docx")
     #        #ExEnd
     #
-    #        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_ole_object.docx")
+    #        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_ole_object.docx")
     #        Shape shape = (Shape)doc.get_child(NodeType.shape,0, True)
     #
     #        self.assertEqual(ShapeType.ole_object, shape.shape_type)
@@ -397,10 +403,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
     #     shape.top = (builder.page_setup.page_height - shape.height) / 2
     #
     #
-    #     doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_watermark_net_standard_2.docx")
+    #     doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_watermark_net_standard_2.docx")
     # ExEnd
 
-    #        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_watermark_net_standard_2.docx")
+    #        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_watermark_net_standard_2.docx")
     #        Shape outShape = (Shape)doc.first_section.headers_footers[aw.HeaderFooterType.HEADER_PRIMARY].get_child(NodeType.shape, 0, True)
     #
     #        TestUtil.verify_image_in_shape(400, 400, ImageType.png, outShape)
@@ -557,7 +563,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         doc.save(aeb.artifacts_dir + "Bookmarks.create_column_bookmark.docx")
         # ExEnd
 
-    @unittest.skip("It seems that 'insert_combo_box' method is missing (line 576)")
+    @unittest.skip("It seems that 'insert_combo_box' method is missing (line 590)")
     def test_create_form(self):
         # ExStart
         # ExFor:TextFormFieldType
@@ -819,7 +825,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertTrue(tableOfContents.use_paragraph_outline_level)
 
     @unittest.skip("Something wrong with cells.to_array() method (exit code -1073741819 (0xC0000005))" +
-                   " and without it type casting is needed (lines 911 and 923)")
+                   " and without it type casting is needed (lines 928 and 940)")
     def test_insert_table(self):
 
         # ExStart
@@ -843,6 +849,9 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExFor:RowFormat.clear_formatting
         # ExFor:Shading.clear_formatting
         # ExSummary:Shows how to build a table with custom borders.
+
+        print("Color is not available (commented all lines with color)")
+
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -944,17 +953,15 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(aw.ParagraphAlignment.CENTER,
                          table.rows[2].cells[1].first_paragraph.paragraph_format.alignment)
 
+    def test_insert_table_with_style(self):
 
-
-    def test_insert_table_with_style(self) :
-        
-        #ExStart
-        #ExFor:Table.style_identifier
-        #ExFor:Table.style_options
-        #ExFor:TableStyleOptions
-        #ExFor:Table.auto_fit
-        #ExFor:AutoFitBehavior
-        #ExSummary:Shows how to build a new table while applying a style.
+        # ExStart
+        # ExFor:Table.style_identifier
+        # ExFor:Table.style_options
+        # ExFor:TableStyleOptions
+        # ExFor:Table.auto_fit
+        # ExFor:AutoFitBehavior
+        # ExSummary:Shows how to build a new table while applying a style.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
         table = builder.start_table()
@@ -995,27 +1002,27 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.end_row()
 
         doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_table_with_style.docx")
-        #ExEnd
+        # ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_table_with_style.docx")
 
         doc.expand_table_styles_to_direct_formatting()
 
         self.assertEqual("Medium Shading 1 Accent 1", table.style.name)
-        self.assertEqual(aw.tables.TableStyleOptions.FIRST_COLUMN | aw.tables.TableStyleOptions.ROW_BANDS | aw.tables.TableStyleOptions.FIRST_ROW,
+        self.assertEqual(
+            aw.tables.TableStyleOptions.FIRST_COLUMN | aw.tables.TableStyleOptions.ROW_BANDS | aw.tables.TableStyleOptions.FIRST_ROW,
             table.style_options)
         # self.assertEqual(189, table.first_row.first_cell.cell_format.shading.background_pattern_color.b)
         # self.assertEqual(Color.white.to_argb(), table.first_row.first_cell.first_paragraph.runs[0].font.color.to_argb()) # color is not supported
         # Assert.are_not_equal(Color.light_blue.to_argb(),
         #     table.last_row.first_cell.cell_format.shading.background_pattern_color.b)
         # self.assertEqual(Color.empty.to_argb(), table.last_row.first_cell.first_paragraph.runs[0].font.color.to_argb())
-        
 
-    def test_insert_table_set_heading_row(self) :
-        
-        #ExStart
-        #ExFor:RowFormat.heading_format
-        #ExSummary:Shows how to build a table with rows that repeat on every page. 
+    def test_insert_table_set_heading_row(self):
+
+        # ExStart
+        # ExFor:RowFormat.heading_format
+        # ExSummary:Shows how to build a table with rows that repeat on every page.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -1038,17 +1045,15 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.row_format.heading_format = False
 
         # Add enough rows for the table to span two pages.
-        for i in range (0, 50):
-            
+        for i in range(0, 50):
             builder.insert_cell()
             builder.write("Row " + str(table.rows.count) + ", column 1.")
             builder.insert_cell()
             builder.write("Row " + str(table.rows.count) + ", column 2.")
             builder.end_row()
-            
 
         doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_table_set_heading_row.docx")
-        #ExEnd
+        # ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_table_set_heading_row.docx")
         table = doc.first_section.body.tables[0]
@@ -1056,14 +1061,13 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         for i in range(0, table.rows.count):
             self.assertEqual(i < 2, table.rows[i].row_format.heading_format)
 
+    def test_insert_table_with_preferred_width(self):
 
-    def test_insert_table_with_preferred_width(self) :
-        
-        #ExStart
-        #ExFor:Table.preferred_width
-        #ExFor:aw.tables.PreferredWidth.from_percent
-        #ExFor:aw.tables.PreferredWidth
-        #ExSummary:Shows how to set a table to auto fit to 50% of the width of the page.
+        # ExStart
+        # ExFor:Table.preferred_width
+        # ExFor:aw.tables.PreferredWidth.from_percent
+        # ExFor:aw.tables.PreferredWidth
+        # ExSummary:Shows how to set a table to auto fit to 50% of the width of the page.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -1078,7 +1082,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         table.preferred_width = aw.tables.PreferredWidth.from_percent(50)
 
         doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_table_with_preferred_width.docx")
-        #ExEnd
+        # ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_table_with_preferred_width.docx")
         table = doc.first_section.body.tables[0]
@@ -1086,20 +1090,22 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(aw.tables.PreferredWidthType.PERCENT, table.preferred_width.type)
         self.assertEqual(50, table.preferred_width.value)
 
-    
-    def test_insert_cells_with_preferred_widths(self) :
-        
-        #ExStart
-        #ExFor:CellFormat.preferred_width
-        #ExFor:aw.tables.PreferredWidth
-        #ExFor:aw.tables.PreferredWidth.auto
-        #ExFor:aw.tables.PreferredWidth.equals(aw.tables.PreferredWidth)
-        #ExFor:aw.tables.PreferredWidth.equals(System.object)
-        #ExFor:aw.tables.PreferredWidth.from_points
-        #ExFor:aw.tables.PreferredWidth.from_percent
-        #ExFor:aw.tables.PreferredWidth.get_hash_code
-        #ExFor:aw.tables.PreferredWidth.to_string
-        #ExSummary:Shows how to set a preferred width for table cells.
+    def test_insert_cells_with_preferred_widths(self):
+
+        # ExStart
+        # ExFor:CellFormat.preferred_width
+        # ExFor:aw.tables.PreferredWidth
+        # ExFor:aw.tables.PreferredWidth.auto
+        # ExFor:aw.tables.PreferredWidth.equals(aw.tables.PreferredWidth)
+        # ExFor:aw.tables.PreferredWidth.equals(System.object)
+        # ExFor:aw.tables.PreferredWidth.from_points
+        # ExFor:aw.tables.PreferredWidth.from_percent
+        # ExFor:aw.tables.PreferredWidth.get_hash_code
+        # ExFor:aw.tables.PreferredWidth.to_string
+        # ExSummary:Shows how to set a preferred width for table cells.
+
+        print("Color is not available (commented all lines with color)")
+
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
         table = builder.start_table()
@@ -1124,25 +1130,26 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         # Each configuration of the "aw.tables.PreferredWidth" property creates a new object.
         self.assertNotEqual(table.first_row.cells[1].cell_format.preferred_width.get_hash_code(),
-            builder.cell_format.preferred_width.get_hash_code())
+                            builder.cell_format.preferred_width.get_hash_code())
 
         # builder.cell_format.shading.background_pattern_color = Color.light_green # color is not supported
         builder.writeln("Automatically sized cell.")
-            
+
         doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_cells_with_preferred_widths.docx")
-        #ExEnd
+        # ExEnd
 
         self.assertEqual(100.0, aw.tables.PreferredWidth.from_percent(100).value)
         self.assertEqual(100.0, aw.tables.PreferredWidth.from_points(100).value)
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_cells_with_preferred_widths.docx")
         table = doc.first_section.body.tables[0]
-            
+
         self.assertEqual(aw.tables.PreferredWidthType.POINTS, table.first_row.cells[0].cell_format.preferred_width.type)
         self.assertEqual(40.0, table.first_row.cells[0].cell_format.preferred_width.value)
         self.assertEqual("Cell with a width of 800.\r\a", table.first_row.cells[0].get_text().strip())
 
-        self.assertEqual(aw.tables.PreferredWidthType.PERCENT, table.first_row.cells[1].cell_format.preferred_width.type)
+        self.assertEqual(aw.tables.PreferredWidthType.PERCENT,
+                         table.first_row.cells[1].cell_format.preferred_width.type)
         self.assertEqual(20.0, table.first_row.cells[1].cell_format.preferred_width.value)
         self.assertEqual("Cell with a width of 20%.\r\a", table.first_row.cells[1].get_text().strip())
 
@@ -1150,9 +1157,8 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(0.0, table.first_row.cells[2].cell_format.preferred_width.value)
         self.assertEqual("Automatically sized cell.\r\a", table.first_row.cells[2].get_text().strip())
 
+    def test_insert_table_from_html(self):
 
-    def test_insert_table_from_html(self) :
-        
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -1169,12 +1175,11 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(2, doc.get_child_nodes(aw.NodeType.ROW, True).count)
         self.assertEqual(4, doc.get_child_nodes(aw.NodeType.CELL, True).count)
 
+    def test_insert_nested_table(self):
 
-    def test_insert_nested_table(self) :
-        
-        #ExStart
-        #ExFor:Cell.first_paragraph
-        #ExSummary:Shows how to create a nested table using a document builder.
+        # ExStart
+        # ExFor:Cell.first_paragraph
+        # ExSummary:Shows how to create a nested table using a document builder.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -1194,7 +1199,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.end_table()
 
         doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_nested_table.docx")
-        #ExEnd
+        # ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_nested_table.docx")
 
@@ -1203,14 +1208,13 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(1, cell.tables[0].count)
         self.assertEqual(2, cell.tables[0].first_row.cells.count)
 
+    def test_create_table(self):
 
-    def test_create_table(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder
-        #ExFor:DocumentBuilder.write
-        #ExFor:DocumentBuilder.insert_cell
-        #ExSummary:Shows how to use a document builder to create a table.
+        # ExStart
+        # ExFor:DocumentBuilder
+        # ExFor:DocumentBuilder.write
+        # ExFor:DocumentBuilder.insert_cell
+        # ExSummary:Shows how to use a document builder to create a table.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -1230,7 +1234,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.end_table()
 
         doc.save(aeb.artifacts_dir + "DocumentBuilder.create_table.docx")
-        #ExEnd
+        # ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.create_table.docx")
         table = doc.first_section.body.tables[0]
@@ -1243,16 +1247,19 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual("Row 2, Cell 2.\a", table.rows[1].cells[1].get_text().strip())
 
     @unittest.skip("Something wrong with cells.to_array() method (exit code -1073741819 (0xC0000005))" +
-                   " and without it type casting is needed (lines 1316) and no type casting (line 1320)")
-    def test_build_formatted_table(self) :
-        
-        #ExStart
-        #ExFor:RowFormat.height
-        #ExFor:RowFormat.height_rule
-        #ExFor:Table.left_indent
-        #ExFor:DocumentBuilder.paragraph_format
-        #ExFor:DocumentBuilder.font
-        #ExSummary:Shows how to create a formatted table using DocumentBuilder.
+                   " and without it type casting is needed (lines 1331) and no type casting (line 1335)")
+    def test_build_formatted_table(self):
+
+        # ExStart
+        # ExFor:RowFormat.height
+        # ExFor:RowFormat.height_rule
+        # ExFor:Table.left_indent
+        # ExFor:DocumentBuilder.paragraph_format
+        # ExFor:DocumentBuilder.font
+        # ExSummary:Shows how to create a formatted table using DocumentBuilder.
+
+        print("Color is not available (commented all lines with color)")
+
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -1306,7 +1313,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.end_table()
 
         doc.save(aeb.artifacts_dir + "DocumentBuilder.create_formatted_table.docx")
-        #ExEnd
+        # ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.create_formatted_table.docx")
         table = doc.first_section.body.tables[0]
@@ -1317,34 +1324,37 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(40.0, table.rows[0].row_format.height)
 
         for c in doc.get_child_nodes(aw.NodeType.CELL, True).to_array():
-            
+
             self.assertEqual(aw.ParagraphAlignment.CENTER, c.first_paragraph.paragraph_format.alignment)
 
             for r in c.first_paragraph.runs:
-                
+
                 self.assertEqual("Arial", r.font.name)
 
                 if c.parent_row == table.first_row:
-                    
+
                     self.assertEqual(16, r.font.size)
                     self.assertTrue(r.font.bold)
-                    
+
                 else:
-                    
+
                     self.assertEqual(12, r.font.size)
                     self.assertFalse(r.font.bold)
 
-    @unittest.skip("No type casting (lines 1382 and 1398)")
-    def test_table_borders_and_shading(self) :
-        
-        #ExStart
-        #ExFor:Shading
-        #ExFor:Table.set_borders
-        #ExFor:BorderCollection.left
-        #ExFor:BorderCollection.right
-        #ExFor:BorderCollection.top
-        #ExFor:BorderCollection.bottom
-        #ExSummary:Shows how to apply border and shading color while building a table.
+    @unittest.skip("No type casting (lines 1397 and 1413)")
+    def test_table_borders_and_shading(self):
+
+        # ExStart
+        # ExFor:Shading
+        # ExFor:Table.set_borders
+        # ExFor:BorderCollection.left
+        # ExFor:BorderCollection.right
+        # ExFor:BorderCollection.top
+        # ExFor:BorderCollection.bottom
+        # ExSummary:Shows how to apply border and shading color while building a table.
+
+        print("Color is not available (commented all lines with color)")
+
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -1376,13 +1386,12 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.writeln("Row 2, Cell 2.")
 
         doc.save(aeb.artifacts_dir + "DocumentBuilder.table_borders_and_shading.docx")
-        #ExEnd
+        # ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.table_borders_and_shading.docx")
         table = doc.first_section.body.tables[0]
 
         for c in table.first_row:
-            
             self.assertEqual(0.5, c.cell_format.borders.top.line_width)
             self.assertEqual(0.5, c.cell_format.borders.bottom.line_width)
             self.assertEqual(0.5, c.cell_format.borders.left.line_width)
@@ -1390,15 +1399,13 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
             self.assertEqual(Color.empty.to_argb(), c.cell_format.borders.left.color.to_argb())
             self.assertEqual(LineStyle.single, c.cell_format.borders.left.line_style)
-            
 
         self.assertEqual(Color.light_sky_blue.to_argb(),
-            table.first_row.first_cell.cell_format.shading.background_pattern_color.to_argb())
+                         table.first_row.first_cell.cell_format.shading.background_pattern_color.to_argb())
         self.assertEqual(Color.orange.to_argb(),
-            table.first_row.cells[1].cell_format.shading.background_pattern_color.to_argb())
+                         table.first_row.cells[1].cell_format.shading.background_pattern_color.to_argb())
 
         for c in table.last_row:
-            
             self.assertEqual(4.0, c.cell_format.borders.top.line_width)
             self.assertEqual(4.0, c.cell_format.borders.bottom.line_width)
             self.assertEqual(4.0, c.cell_format.borders.left.line_width)
@@ -1407,14 +1414,12 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
             self.assertEqual(Color.empty.to_argb(), c.cell_format.borders.left.color.to_argb())
             self.assertEqual(LineStyle.single, c.cell_format.borders.left.line_style)
             self.assertEqual(Color.empty.to_argb(), c.cell_format.shading.background_pattern_color.to_argb())
-            
-        
 
-    def test_set_preferred_type_convert_util(self) :
-        
-        #ExStart
-        #ExFor:aw.tables.PreferredWidth.from_points
-        #ExSummary:Shows how to use unit conversion tools while specifying a preferred width for a cell.
+    def test_set_preferred_type_convert_util(self):
+
+        # ExStart
+        # ExFor:aw.tables.PreferredWidth.from_points
+        # ExSummary:Shows how to use unit conversion tools while specifying a preferred width for a cell.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -1423,16 +1428,16 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.insert_cell()
 
         self.assertEqual(216.0, table.first_row.first_cell.cell_format.preferred_width.value)
-        #ExEnd
+        # ExEnd
 
     @unittest.skip("No type casting (line 1451) and testUtil hasn't been done yet")
-    def test_insert_hyperlink_to_local_bookmark(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.start_bookmark
-        #ExFor:DocumentBuilder.end_bookmark
-        #ExFor:DocumentBuilder.insert_hyperlink
-        #ExSummary:Shows how to insert a hyperlink which references a local bookmark.
+    def test_insert_hyperlink_to_local_bookmark(self):
+
+        # ExStart
+        # ExFor:DocumentBuilder.start_bookmark
+        # ExFor:DocumentBuilder.end_bookmark
+        # ExFor:DocumentBuilder.insert_hyperlink
+        # ExSummary:Shows how to insert a hyperlink which references a local bookmark.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -1448,19 +1453,19 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.insert_hyperlink("Link to Bookmark1", "Bookmark1\" \o \"Hyperlink Tip", True)
 
         doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_hyperlink_to_local_bookmark.docx")
-        #ExEnd
+        # ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_hyperlink_to_local_bookmark.docx")
         # FieldHyperlink hyperlink = (FieldHyperlink)doc.range.fields[0]
 
-        TestUtil.verify_field(aw.FieldType.FIELD_HYPERLINK, " HYPERLINK \\l \"Bookmark1\" \\o \"Hyperlink Tip\" ", "Link to Bookmark1", aw.hyperlink)
+        TestUtil.verify_field(aw.FieldType.FIELD_HYPERLINK, " HYPERLINK \\l \"Bookmark1\" \\o \"Hyperlink Tip\" ",
+                              "Link to Bookmark1", aw.hyperlink)
         self.assertEqual("Bookmark1", aw.hyperlink.sub_address)
         self.assertEqual("Hyperlink Tip", aw.hyperlink.screen_tip)
         self.assertTrue(doc.range.bookmarks.any(lambda b: b.name == "Bookmark1"))
 
+    def test_cursor_position(self):
 
-    def test_cursor_position(self) :
-        
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
         builder.write("Hello world!")
@@ -1472,16 +1477,15 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual("Hello world!", builder.current_paragraph.get_text().strip())
 
         # Move to the beginning of the document and place the cursor at an existing node.
-        builder.move_to_document_start()          
+        builder.move_to_document_start()
         self.assertEqual(aw.NodeType.RUN, builder.current_node.node_type)
 
+    def test_move_to(self):
 
-    def test_move_to(self) :
-        
-        #ExStart
-        #ExFor:Story.last_paragraph
-        #ExFor:DocumentBuilder.move_to(Node)
-        #ExSummary:Shows how to move a DocumentBuilder's cursor position to a specified node.
+        # ExStart
+        # ExFor:Story.last_paragraph
+        # ExFor:DocumentBuilder.move_to(Node)
+        # ExSummary:Shows how to move a DocumentBuilder's cursor position to a specified node.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
         builder.writeln("Run 1. ")
@@ -1492,9 +1496,9 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # and it also always ends up immediately after any node that the builder just inserted.
         # To append content to a different part of the document,
         # we can move the cursor to a different node with the "MoveTo" method.
-        self.assertEqual(doc.first_section.body.last_paragraph, builder.current_paragraph) #ExSkip
+        self.assertEqual(doc.first_section.body.last_paragraph, builder.current_paragraph)  # ExSkip
         builder.move_to(doc.first_section.body.first_paragraph.runs[0])
-        self.assertEqual(doc.first_section.body.first_paragraph, builder.current_paragraph) #ExSkip
+        self.assertEqual(doc.first_section.body.first_paragraph, builder.current_paragraph)  # ExSkip
 
         # The cursor is now in front of the node that we moved it to.
         # Adding a second run will insert it in front of the first run.
@@ -1507,15 +1511,14 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.writeln("Run 3. ")
 
         self.assertEqual("Run 2. \rRun 1. \rRun 3.", doc.get_text().strip())
-        self.assertEqual(doc.first_section.body.last_paragraph, builder.current_paragraph) #ExSkip
-        #ExEnd
+        self.assertEqual(doc.first_section.body.last_paragraph, builder.current_paragraph)  # ExSkip
+        # ExEnd
 
-    
-    def test_move_to_paragraph(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.move_to_paragraph
-        #ExSummary:Shows how to move a builder's cursor position to a specified paragraph.
+    def test_move_to_paragraph(self):
+
+        # ExStart
+        # ExFor:DocumentBuilder.move_to_paragraph
+        # ExSummary:Shows how to move a builder's cursor position to a specified paragraph.
         doc = aw.Document(aeb.my_dir + "Paragraphs.docx")
         paragraphs = doc.first_section.body.paragraphs
 
@@ -1530,11 +1533,11 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         # Move that cursor to a different paragraph will place that cursor in front of that paragraph.
         builder.move_to_paragraph(2, 0)
-        self.assertEqual(2, paragraphs.index_of(builder.current_paragraph)) #ExSkip
+        self.assertEqual(2, paragraphs.index_of(builder.current_paragraph))  # ExSkip
 
         # Any new content that we add will be inserted at that point.
         builder.writeln("This is a new third paragraph. ")
-        #ExEnd
+        # ExEnd
 
         self.assertEqual(3, paragraphs.index_of(builder.current_paragraph))
 
@@ -1542,12 +1545,11 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         self.assertEqual("This is a new third paragraph.", doc.first_section.body.paragraphs[2].get_text().strip())
 
+    def test_move_to_cell(self):
 
-    def test_move_to_cell(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.move_to_cell
-        #ExSummary:Shows how to move a document builder's cursor to a cell in a table.
+        # ExStart
+        # ExFor:DocumentBuilder.move_to_cell
+        # ExSummary:Shows how to move a document builder's cursor to a cell in a table.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -1569,7 +1571,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.write("Column 2, cell 2.")
 
         doc.save(aeb.artifacts_dir + "DocumentBuilder.move_to_cell.docx")
-        #ExEnd
+        # ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.move_to_cell.docx")
 
@@ -1577,12 +1579,11 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         self.assertEqual("Column 2, cell 2.\a", table.rows[1].cells[1].get_text().strip())
 
+    def test_move_to_bookmark(self):
 
-    def test_move_to_bookmark(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.move_to_bookmark(String, Boolean, Boolean)
-        #ExSummary:Shows how to move a document builder's node insertion point cursor to a bookmark.
+        # ExStart
+        # ExFor:DocumentBuilder.move_to_bookmark(String, Boolean, Boolean)
+        # ExSummary:Shows how to move a document builder's node insertion point cursor to a bookmark.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -1599,48 +1600,51 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertTrue(builder.move_to_bookmark("MyBookmark", True, False))
         builder.write("1. ")
 
-        self.assertEqual("Hello world! ", doc.range.bookmarks[0].text) # Item properties can use only int, so we can't bookmarks["MyBookmark"]
+        self.assertEqual("Hello world! ", doc.range.bookmarks[
+            0].text)  # Item properties can use only int, so we can't bookmarks["MyBookmark"]
         self.assertEqual("1. Hello world!", doc.get_text().strip())
 
         # 2 -  Inside the bookmark, right after the BookmarkStart node:
         self.assertTrue(builder.move_to_bookmark("MyBookmark", True, True))
         builder.write("2. ")
 
-        self.assertEqual("2. Hello world! ", doc.range.bookmarks[0].text) # Item properties can use only int, so we can't bookmarks["MyBookmark"]
+        self.assertEqual("2. Hello world! ", doc.range.bookmarks[
+            0].text)  # Item properties can use only int, so we can't bookmarks["MyBookmark"]
         self.assertEqual("1. 2. Hello world!", doc.get_text().strip())
 
         # 2 -  Inside the bookmark, right in front of the BookmarkEnd node:
         self.assertTrue(builder.move_to_bookmark("MyBookmark", False, False))
         builder.write("3. ")
 
-        self.assertEqual("2. Hello world! 3. ", doc.range.bookmarks[0].text) # Item properties can use only int, so we can't bookmarks["MyBookmark"]
+        self.assertEqual("2. Hello world! 3. ", doc.range.bookmarks[
+            0].text)  # Item properties can use only int, so we can't bookmarks["MyBookmark"]
         self.assertEqual("1. 2. Hello world! 3.", doc.get_text().strip())
 
         # 4 -  Outside of the bookmark, after the BookmarkEnd node:
         self.assertTrue(builder.move_to_bookmark("MyBookmark", False, True))
         builder.write("4.")
 
-        self.assertEqual("2. Hello world! 3. ", doc.range.bookmarks[0].text) # Item properties can use only int, so we can't bookmarks["MyBookmark"]
+        self.assertEqual("2. Hello world! 3. ", doc.range.bookmarks[
+            0].text)  # Item properties can use only int, so we can't bookmarks["MyBookmark"]
         self.assertEqual("1. 2. Hello world! 3. 4.", doc.get_text().strip())
-        #ExEnd
+        # ExEnd
 
+    def test_build_table(self):
 
-    def test_build_table(self) :
-        
-        #ExStart
-        #ExFor:Table
-        #ExFor:DocumentBuilder.start_table
-        #ExFor:DocumentBuilder.end_row
-        #ExFor:DocumentBuilder.end_table
-        #ExFor:DocumentBuilder.cell_format
-        #ExFor:DocumentBuilder.row_format
-        #ExFor:DocumentBuilder.write(String)
-        #ExFor:DocumentBuilder.writeln(String)
-        #ExFor:tables.CellVerticalAlignment
-        #ExFor:CellFormat.orientation
-        #ExFor:TextOrientation
-        #ExFor:AutoFitBehavior
-        #ExSummary:Shows how to build a formatted 2x2 table.
+        # ExStart
+        # ExFor:Table
+        # ExFor:DocumentBuilder.start_table
+        # ExFor:DocumentBuilder.end_row
+        # ExFor:DocumentBuilder.end_table
+        # ExFor:DocumentBuilder.cell_format
+        # ExFor:DocumentBuilder.row_format
+        # ExFor:DocumentBuilder.write(String)
+        # ExFor:DocumentBuilder.writeln(String)
+        # ExFor:tables.CellVerticalAlignment
+        # ExFor:CellFormat.orientation
+        # ExFor:TextOrientation
+        # ExFor:AutoFitBehavior
+        # ExSummary:Shows how to build a formatted 2x2 table.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -1677,7 +1681,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(aw.TextOrientation.DOWNWARD, table.rows[1].cells[1].cell_format.orientation)
 
         doc.save(aeb.artifacts_dir + "DocumentBuilder.build_table.docx")
-        #ExEnd
+        # ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.build_table.docx")
         table = doc.first_section.body.tables[0]
@@ -1701,9 +1705,9 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         self.assertEqual("Row 2, cell 2.\a", table.rows[1].cells[1].get_text().strip())
         self.assertEqual(aw.TextOrientation.DOWNWARD, table.rows[1].cells[1].cell_format.orientation)
-        
-    def test_table_cell_vertical_rotated_far_east_text_orientation(self) :
-        
+
+    def test_table_cell_vertical_rotated_far_east_text_orientation(self):
+
         doc = aw.Document(aeb.my_dir + "Rotated cell text.docx")
 
         table = doc.first_section.body.tables[0]
@@ -1719,17 +1723,18 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(aw.TextOrientation.VERTICAL_ROTATED_FAR_EAST, cell.cell_format.orientation)
 
     @unittest.skip("No type casting (line 1743 and 1754) and testUtil hasn't been done yet")
-    def test_insert_floating_image(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.insert_image(String, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
-        #ExSummary:Shows how to insert an image.
+    def test_insert_floating_image(self):
+
+        # ExStart
+        # ExFor:DocumentBuilder.insert_image(String, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
+        # ExSummary:Shows how to insert an image.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # There are two ways of using a document builder to source an image and then insert it as a floating shape.
         # 1 -  From a file in the local file system:
-        builder.insert_image(aeb.image_dir + "Transparent background logo.png", aw.drawing.RelativeHorizontalPosition.MARGIN, 100,
+        builder.insert_image(aeb.image_dir + "Transparent background logo.png",
+                             aw.drawing.RelativeHorizontalPosition.MARGIN, 100,
                              aw.drawing.RelativeVerticalPosition.MARGIN, 0, 200, 200, aw.drawing.WrapType.SQUARE)
 
         # 2 -  From a URL:
@@ -1737,7 +1742,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
                              aw.drawing.RelativeVerticalPosition.MARGIN, 250, 200, 200, aw.drawing.WrapType.SQUARE)
 
         doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_floating_image.docx")
-        #ExEnd
+        # ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_floating_image.docx")
         image = doc.get_child(aw.NodeType.SHAPE, 0, True)
@@ -1763,18 +1768,19 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeVerticalPosition.margin, image.relative_vertical_position)
 
     @unittest.skip("No type casting (line 1788) and testUtil hasn't been done yet")
-    def test_insert_image_original_size(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.insert_image(String, aw.drawing.RelativeHorizontalPosition, Double, aw.drawing.RelativeVerticalPosition, Double, Double, Double, aw.drawing.WrapType)
-        #ExSummary:Shows how to insert an image from the local file system into a document while preserving its dimensions.
+    def test_insert_image_original_size(self):
+
+        # ExStart
+        # ExFor:DocumentBuilder.insert_image(String, aw.drawing.RelativeHorizontalPosition, Double, aw.drawing.RelativeVerticalPosition, Double, Double, Double, aw.drawing.WrapType)
+        # ExSummary:Shows how to insert an image from the local file system into a document while preserving its dimensions.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # The InsertImage method creates a floating shape with the passed image in its image data.
         # We can specify the dimensions of the shape can be passing them to this method.
         image_shape = builder.insert_image(aeb.image_dir + "Logo.jpg", aw.drawing.RelativeHorizontalPosition.margin, 0,
-                                           aw.drawing.RelativeVerticalPosition.margin, 0, -1, -1, aw.drawing.WrapType.square)
+                                           aw.drawing.RelativeVerticalPosition.margin, 0, -1, -1,
+                                           aw.drawing.WrapType.square)
 
         # Passing negative values as the intended dimensions will automatically define
         # the shape's dimensions based on the dimensions of its image.
@@ -1782,7 +1788,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(300.0, image_shape.height)
 
         doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_image_original_size.docx")
-        #ExEnd
+        # ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_image_original_size.docx")
         imageShape = doc.get_child(aw.NodeType.SHAPE, 0, True)
@@ -1796,12 +1802,11 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.margin, imageShape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.margin, imageShape.relative_vertical_position)
 
+    def test_insert_text_input(self):
 
-    def test_insert_text_input(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.insert_text_input
-        #ExSummary:Shows how to insert a text input form field into a document.
+        # ExStart
+        # ExFor:DocumentBuilder.insert_text_input
+        # ExSummary:Shows how to insert a text input form field into a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -1809,7 +1814,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.insert_text_input("TextInput", aw.fields.TextFormFieldType.REGULAR, "", "Enter your text here", 0)
 
         doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_text_input.docx")
-        #ExEnd
+        # ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_text_input.docx")
         form_field = doc.range.form_fields[0]
@@ -1823,21 +1828,21 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(aw.fields.TextFormFieldType.REGULAR, form_field.text_input_type)
 
     @unittest.skip("It seems that 'insert_combo_box' method is missing (line 1837)")
-    def test_insert_combo_box(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.insert_combo_box
-        #ExSummary:Shows how to insert a combo box form field into a document.
+    def test_insert_combo_box(self):
+
+        # ExStart
+        # ExFor:DocumentBuilder.insert_combo_box
+        # ExSummary:Shows how to insert a combo box form field into a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # Insert a form that prompts the user to pick one of the items from the menu.
         builder.write("Pick a fruit: ")
-        items =  ["Apple", "Banana", "Cherry"]
+        items = ["Apple", "Banana", "Cherry"]
         builder.insert_combo_box("DropDown", items, 0)
 
         doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_combo_box.docx")
-        #ExEnd
+        # ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_combo_box.docx")
         form_field = doc.range.form_fields[0]
@@ -1847,68 +1852,66 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(0, form_field.drop_down_selected_index)
         self.assertEqual(items, form_field.drop_down_items)
         self.assertEqual(aw.fields.FieldType.FIELD_FORM_DROP_DOWN, form_field.type)
-        
-    """
-    [Test]
-    [Description("WORDSNET-16868")]
-    public void SignatureLineProviderId()
-        
-        #ExStart
-        #ExFor:SignatureLine.is_signed
-        #ExFor:SignatureLine.is_valid
-        #ExFor:SignatureLine.provider_id
-        #ExFor:SignatureLineOptions.show_date
-        #ExFor:SignatureLineOptions.email
-        #ExFor:SignatureLineOptions.default_instructions
-        #ExFor:SignatureLineOptions.instructions
-        #ExFor:SignatureLineOptions.allow_comments
-        #ExFor:DocumentBuilder.insert_signature_line(SignatureLineOptions)
-        #ExFor:SignOptions.provider_id
-        #ExSummary:Shows how to sign a document with a personal certificate and a signature line.
+
+    # "WORDSNET-16868"
+    @unittest.skip(
+        "Need some imports (uuid, datetime), need type casting (1904), some problems with SignatureLineOptions constructor")
+    def test_signature_line_provider_id(self):
+
+        # ExStart
+        # ExFor:SignatureLine.is_signed
+        # ExFor:SignatureLine.is_valid
+        # ExFor:SignatureLine.provider_id
+        # ExFor:SignatureLineOptions.show_date
+        # ExFor:SignatureLineOptions.email
+        # ExFor:SignatureLineOptions.default_instructions
+        # ExFor:SignatureLineOptions.instructions
+        # ExFor:SignatureLineOptions.allow_comments
+        # ExFor:DocumentBuilder.insert_signature_line(SignatureLineOptions)
+        # ExFor:SignOptions.provider_id
+        # ExSummary:Shows how to sign a document with a personal certificate and a signature line.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        SignatureLineOptions signatureLineOptions = new SignatureLineOptions
-            
-            Signer = "vderyushev",
-            SignerTitle = "QA",
-            Email = "vderyushev@aspose.com",
-            ShowDate = True,
-            DefaultInstructions = False,
-            Instructions = "Please sign here.",
-            AllowComments = True
-            
+        signature_line_options = aw.SignatureLineOptions(
+            Signer="vderyushev",
+            SignerTitle="QA",
+            Email="vderyushev@aspose.com",
+            ShowDate=True,
+            DefaultInstructions=False,
+            Instructions="Please sign here.",
+            AllowComments=True)
 
-        SignatureLine signatureLine = builder.insert_signature_line(signatureLineOptions).signature_line
-        signatureLine.provider_id = Guid.parse("CF5A7BB4-8F3C-4756-9DF6-BEF7F13259A2")
+        signature_line = builder.insert_signature_line(signature_line_options).signature_line
+        # signature_line.provider_id = uuid.UUID("CF5A7BB4-8F3C-4756-9DF6-BEF7F13259A2") # import uuid ???
 
-        self.assertFalse(signatureLine.is_signed)
-        self.assertFalse(signatureLine.is_valid)
+        self.assertFalse(signature_line.is_signed)
+        self.assertFalse(signature_line.is_valid)
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.signature_line_provider_id.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.signature_line_provider_id.docx")
 
-        SignOptions signOptions = new SignOptions
-            
-            SignatureLineId = signatureLine.id,
-            ProviderId = signatureLine.provider_id,
-            Comments = "Document was signed by vderyushev",
-            SignTime = DateTime.now
-            
+        sign_options = aw.digitalsignatures.SignOptions(
+            SignatureLineId=signature_line.id,
+            ProviderId=signature_line.provider_id,
+            Comments="Document was signed by vderyushev",
+            #                                     SignTime = datetime.now() # import datetime ???
+        )
 
-        CertificateHolder certHolder = CertificateHolder.create(aeb.MyDir + "morzal.pfx", "aw")
+        cert_holder = aw.digitalsignatures.CertificateHolder.create(aeb.my_dir + "morzal.pfx", "aw")
 
-        DigitalSignatureUtil.sign(aeb.ArtifactsDir + "DocumentBuilder.signature_line_provider_id.docx", 
-            ArtifactsDir + "DocumentBuilder.signature_line_provider_id.signed.docx", certHolder, signOptions)
+        aw.digitalsignatures.DigitalSignatureUtil.sign(
+            aeb.artifacts_dir + "DocumentBuilder.signature_line_provider_id.docx",
+            aeb.artifacts_dir + "DocumentBuilder.signature_line_provider_id.signed.docx", cert_holder, sign_options)
 
         # Re-open our saved document, and verify that the "IsSigned" and "IsValid" properties both equal "True",
         # indicating that the signature line contains a signature.
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.signature_line_provider_id.signed.docx")
-        Shape shape = (Shape)doc.get_child(NodeType.shape, 0, True)
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.signature_line_provider_id.signed.docx")
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True)
         signatureLine = shape.signature_line
 
         self.assertTrue(signatureLine.is_signed)
         self.assertTrue(signatureLine.is_valid)
-        #ExEnd
+        # ExEnd
 
         self.assertEqual("vderyushev", signatureLine.signer)
         self.assertEqual("QA", signatureLine.signer_title)
@@ -1920,48 +1923,46 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertTrue(signatureLine.is_signed)
         self.assertTrue(signatureLine.is_valid)
 
-        DigitalSignatureCollection signatures = DigitalSignatureUtil.load_signatures(
-            ArtifactsDir + "DocumentBuilder.signature_line_provider_id.signed.docx")
+        signatures = aw.digitalsignatures.DigitalSignatureUtil.load_signatures(
+            aeb.artifacts_dir + "DocumentBuilder.signature_line_provider_id.signed.docx")
 
         self.assertEqual(1, signatures.count)
         self.assertTrue(signatures[0].is_valid)
         self.assertEqual("Document was signed by vderyushev", signatures[0].comments)
-        self.assertEqual(DateTime.today, signatures[0].sign_time.date)
+        # self.assertEqual(DateTime.today, signatures[0].sign_time.date) # import datetime ???
         self.assertEqual("CN=Morzal.me", signatures[0].issuer_name)
-        self.assertEqual(DigitalSignatureType.xml_dsig, signatures[0].signature_type)
+        self.assertEqual(aw.digitalsignatures.DigitalSignatureType.xml_dsig, signatures[0].signature_type)
 
-        
+    @unittest.skip("Need type casting (1959), some problems with SignatureLineOptions constructor")
+    def test_signature_line_inline(self):
 
-    def test_signature_line_inline(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.insert_signature_line(SignatureLineOptions, aw.drawing.RelativeHorizontalPosition, Double, aw.drawing.RelativeVerticalPosition, Double, aw.drawing.WrapType)
-        #ExSummary:Shows how to insert an inline signature line into a document.
+        # ExStart
+        # ExFor:DocumentBuilder.insert_signature_line(SignatureLineOptions, aw.drawing.RelativeHorizontalPosition, Double, aw.drawing.RelativeVerticalPosition, Double, aw.drawing.WrapType)
+        # ExSummary:Shows how to insert an inline signature line into a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        SignatureLineOptions options = new SignatureLineOptions
-            
-            Signer = "John Doe",
-            SignerTitle = "Manager",
-            Email = "johndoe@aspose.com",
-            ShowDate = True,
-            DefaultInstructions = False,
-            Instructions = "Please sign here.",
-            AllowComments = True
-            
+        options = aw.SignatureLineOptions(
+            Signer="John Doe",
+            SignerTitle="Manager",
+            Email="johndoe@aspose.com",
+            ShowDate=True,
+            DefaultInstructions=False,
+            Instructions="Please sign here.",
+            AllowComments=True
+        )
 
         builder.insert_signature_line(options, aw.drawing.RelativeHorizontalPosition.right_margin, 2.0,
-            aw.drawing.RelativeVerticalPosition.page, 3.0, aw.drawing.WrapType.inline)
+                                      aw.drawing.RelativeVerticalPosition.page, 3.0, aw.drawing.WrapType.inline)
 
         # The signature line can be signed in Microsoft Word by double clicking it.
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.signature_line_inline.docx")
-        #ExEnd
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.signature_line_inline.docx")
+        # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.signature_line_inline.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.signature_line_inline.docx")
 
-        Shape shape = (Shape) doc.get_child(NodeType.shape, 0, True)
-        SignatureLine signatureLine = shape.signature_line
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True)
+        signatureLine = shape.signature_line
 
         self.assertEqual("John Doe", signatureLine.signer)
         self.assertEqual("Manager", signatureLine.signer_title)
@@ -1972,57 +1973,53 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertTrue(signatureLine.allow_comments)
         self.assertFalse(signatureLine.is_signed)
         self.assertFalse(signatureLine.is_valid)
-        
 
-    def test_set_paragraph_formatting(self) :
-        
-        #ExStart
-        #ExFor:ParagraphFormat.right_indent
-        #ExFor:ParagraphFormat.left_indent
-        #ExSummary:Shows how to configure paragraph formatting to create off-center text.
+    @unittest.skip("No type casting (lines 2011-2015)")
+    def test_set_paragraph_formatting(self):
+
+        # ExStart
+        # ExFor:ParagraphFormat.right_indent
+        # ExFor:ParagraphFormat.left_indent
+        # ExSummary:Shows how to configure paragraph formatting to create off-center text.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # Center all text that the document builder writes, and set up indents.
         # The indent configuration below will create a body of text that will sit asymmetrically on the page.
         # The "center" that we align the text to will be the middle of the body of text, not the middle of the page.
-        ParagraphFormat paragraphFormat = builder.paragraph_format
-        paragraphFormat.alignment = aw.ParagraphAlignment.CENTER
-        paragraphFormat.left_indent = 100
-        paragraphFormat.right_indent = 50
-        paragraphFormat.space_after = 25
+        paragraph_format = builder.paragraph_format
+        paragraph_format.alignment = aw.ParagraphAlignment.CENTER
+        paragraph_format.left_indent = 100
+        paragraph_format.right_indent = 50
+        paragraph_format.space_after = 25
 
         builder.writeln(
             "This paragraph demonstrates how left and right indentation affects word wrapping.")
         builder.writeln(
             "The space between the above paragraph and this one depends on the DocumentBuilder's paragraph format.")
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.set_paragraph_formatting.docx")
-        #ExEnd
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.set_paragraph_formatting.docx")
+        # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.set_paragraph_formatting.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.set_paragraph_formatting.docx")
 
-        for (Paragraph paragraph in doc.first_section.body.paragraphs)
-            
+        for paragraph in doc.first_section.body.paragraphs:
             self.assertEqual(aw.ParagraphAlignment.CENTER, paragraph.paragraph_format.alignment)
-            self.assertEqual(100.0d, paragraph.paragraph_format.left_indent)
-            self.assertEqual(50.0d, paragraph.paragraph_format.right_indent)
-            self.assertEqual(25.0d, paragraph.paragraph_format.space_after)
-            
-        
+            self.assertEqual(100.0, paragraph.paragraph_format.left_indent)
+            self.assertEqual(50.0, paragraph.paragraph_format.right_indent)
+            self.assertEqual(25.0, paragraph.paragraph_format.space_after)
 
-    def test_set_cell_formatting(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.cell_format
-        #ExFor:CellFormat.width
-        #ExFor:CellFormat.left_padding
-        #ExFor:CellFormat.right_padding
-        #ExFor:CellFormat.top_padding
-        #ExFor:CellFormat.bottom_padding
-        #ExFor:DocumentBuilder.start_table
-        #ExFor:DocumentBuilder.end_table
-        #ExSummary:Shows how to format cells with a document builder.
+    def test_set_cell_formatting(self):
+        # ExStart
+        # ExFor:DocumentBuilder.cell_format
+        # ExFor:CellFormat.width
+        # ExFor:CellFormat.left_padding
+        # ExFor:CellFormat.right_padding
+        # ExFor:CellFormat.top_padding
+        # ExFor:CellFormat.bottom_padding
+        # ExFor:DocumentBuilder.start_table
+        # ExFor:DocumentBuilder.end_table
+        # ExSummary:Shows how to format cells with a document builder.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -2034,58 +2031,57 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # The builder will apply these settings at its current cell, and any new cells creates afterwards.
         builder.insert_cell()
 
-        CellFormat cellFormat = builder.cell_format
-        cellFormat.width = 250
-        cellFormat.left_padding = 30
-        cellFormat.right_padding = 30
-        cellFormat.top_padding = 30
-        cellFormat.bottom_padding = 30
+        cell_format = builder.cell_format
+        cell_format.width = 250
+        cell_format.left_padding = 30
+        cell_format.right_padding = 30
+        cell_format.top_padding = 30
+        cell_format.bottom_padding = 30
 
         builder.write("Row 1, cell 2.")
         builder.end_row()
         builder.end_table()
 
         # The first cell was unaffected by the padding reconfiguration, and still holds the default values.
-        self.assertEqual(0.0d, table.first_row.cells[0].cell_format.width)
-        self.assertEqual(5.4d, table.first_row.cells[0].cell_format.left_padding)
-        self.assertEqual(5.4d, table.first_row.cells[0].cell_format.right_padding)
-        self.assertEqual(0.0d, table.first_row.cells[0].cell_format.top_padding)
-        self.assertEqual(0.0d, table.first_row.cells[0].cell_format.bottom_padding)
+        self.assertEqual(0.0, table.first_row.cells[0].cell_format.width)
+        self.assertEqual(5.4, table.first_row.cells[0].cell_format.left_padding)
+        self.assertEqual(5.4, table.first_row.cells[0].cell_format.right_padding)
+        self.assertEqual(0.0, table.first_row.cells[0].cell_format.top_padding)
+        self.assertEqual(0.0, table.first_row.cells[0].cell_format.bottom_padding)
 
-        self.assertEqual(250.0d, table.first_row.cells[1].cell_format.width)
-        self.assertEqual(30.0d, table.first_row.cells[1].cell_format.left_padding)
-        self.assertEqual(30.0d, table.first_row.cells[1].cell_format.right_padding)
-        self.assertEqual(30.0d, table.first_row.cells[1].cell_format.top_padding)
-        self.assertEqual(30.0d, table.first_row.cells[1].cell_format.bottom_padding)
+        self.assertEqual(250.0, table.first_row.cells[1].cell_format.width)
+        self.assertEqual(30.0, table.first_row.cells[1].cell_format.left_padding)
+        self.assertEqual(30.0, table.first_row.cells[1].cell_format.right_padding)
+        self.assertEqual(30.0, table.first_row.cells[1].cell_format.top_padding)
+        self.assertEqual(30.0, table.first_row.cells[1].cell_format.bottom_padding)
 
         # The first cell will still grow in the output document to match the size of its neighboring cell.
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.set_cell_formatting.docx")
-        #ExEnd
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.set_cell_formatting.docx")
+        # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.set_cell_formatting.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.set_cell_formatting.docx")
         table = doc.first_section.body.tables[0]
 
-        self.assertEqual(159.3d, table.first_row.cells[0].cell_format.width)
-        self.assertEqual(5.4d, table.first_row.cells[0].cell_format.left_padding)
-        self.assertEqual(5.4d, table.first_row.cells[0].cell_format.right_padding)
-        self.assertEqual(0.0d, table.first_row.cells[0].cell_format.top_padding)
-        self.assertEqual(0.0d, table.first_row.cells[0].cell_format.bottom_padding)
+        self.assertEqual(159.3, table.first_row.cells[0].cell_format.width)
+        self.assertEqual(5.4, table.first_row.cells[0].cell_format.left_padding)
+        self.assertEqual(5.4, table.first_row.cells[0].cell_format.right_padding)
+        self.assertEqual(0.0, table.first_row.cells[0].cell_format.top_padding)
+        self.assertEqual(0.0, table.first_row.cells[0].cell_format.bottom_padding)
 
-        self.assertEqual(310.0d, table.first_row.cells[1].cell_format.width)
-        self.assertEqual(30.0d, table.first_row.cells[1].cell_format.left_padding)
-        self.assertEqual(30.0d, table.first_row.cells[1].cell_format.right_padding)
-        self.assertEqual(30.0d, table.first_row.cells[1].cell_format.top_padding)
-        self.assertEqual(30.0d, table.first_row.cells[1].cell_format.bottom_padding)
-        
+        self.assertEqual(310.0, table.first_row.cells[1].cell_format.width)
+        self.assertEqual(30.0, table.first_row.cells[1].cell_format.left_padding)
+        self.assertEqual(30.0, table.first_row.cells[1].cell_format.right_padding)
+        self.assertEqual(30.0, table.first_row.cells[1].cell_format.top_padding)
+        self.assertEqual(30.0, table.first_row.cells[1].cell_format.bottom_padding)
 
-    def test_set_row_formatting(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.row_format
-        #ExFor:aw.HeightRule
-        #ExFor:RowFormat.height
-        #ExFor:RowFormat.height_rule
-        #ExSummary:Shows how to format rows with a document builder.
+    def test_set_row_formatting(self):
+
+        # ExStart
+        # ExFor:DocumentBuilder.row_format
+        # ExFor:aw.HeightRule
+        # ExFor:RowFormat.height
+        # ExFor:RowFormat.height_rule
+        # ExSummary:Shows how to format rows with a document builder.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -2097,41 +2093,41 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # its current row, as well as any new rows it creates afterwards.
         builder.end_row()
 
-        RowFormat rowFormat = builder.row_format
-        rowFormat.height = 100
-        rowFormat.height_rule = aw.HeightRule.EXACTLY
+        row_format = builder.row_format
+        row_format.height = 100
+        row_format.height_rule = aw.HeightRule.EXACTLY
 
         builder.insert_cell()
         builder.write("Row 2, cell 1.")
         builder.end_table()
 
         # The first row was unaffected by the padding reconfiguration and still holds the default values.
-        self.assertEqual(0.0d, table.rows[0].row_format.height)
-        self.assertEqual(aw.HeightRule.auto, table.rows[0].row_format.height_rule)
+        self.assertEqual(0.0, table.rows[0].row_format.height)
+        self.assertEqual(aw.HeightRule.AUTO, table.rows[0].row_format.height_rule)
 
-        self.assertEqual(100.0d, table.rows[1].row_format.height)
+        self.assertEqual(100.0, table.rows[1].row_format.height)
         self.assertEqual(aw.HeightRule.EXACTLY, table.rows[1].row_format.height_rule)
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.set_row_formatting.docx")
-        #ExEnd
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.set_row_formatting.docx")
+        # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.set_row_formatting.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.set_row_formatting.docx")
         table = doc.first_section.body.tables[0]
 
-        self.assertEqual(0.0d, table.rows[0].row_format.height)
-        self.assertEqual(aw.HeightRule.auto, table.rows[0].row_format.height_rule)
+        self.assertEqual(0.0, table.rows[0].row_format.height)
+        self.assertEqual(aw.HeightRule.AUTO, table.rows[0].row_format.height_rule)
 
-        self.assertEqual(100.0d, table.rows[1].row_format.height)
+        self.assertEqual(100.0, table.rows[1].row_format.height)
         self.assertEqual(aw.HeightRule.EXACTLY, table.rows[1].row_format.height_rule)
-        
 
-    def test_insert_footnote(self) :
-        
-        #ExStart
-        #ExFor:FootnoteType
-        #ExFor:DocumentBuilder.insert_footnote(FootnoteType,String)
-        #ExFor:DocumentBuilder.insert_footnote(FootnoteType,String,String)
-        #ExSummary:Shows how to reference text with a footnote and an endnote.
+    @unittest.skip("No type casting (line 2164 and 2166) and testUtil hasn't been done yet")
+    def test_insert_footnote(self):
+
+        # ExStart
+        # ExFor:FootnoteType
+        # ExFor:DocumentBuilder.insert_footnote(FootnoteType,String)
+        # ExFor:DocumentBuilder.insert_footnote(FootnoteType,String,String)
+        # ExSummary:Shows how to reference text with a footnote and an endnote.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -2139,12 +2135,12 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # so the marker seen in the body text will be auto-numbered at "1",
         # and the footnote will appear at the bottom of the page.
         builder.write("This text will be referenced by a footnote.")
-        builder.insert_footnote(FootnoteType.footnote, "Footnote comment regarding referenced text.")
+        builder.insert_footnote(aw.FootnoteType.FOOTNOTE, "Footnote comment regarding referenced text.")
 
         # Insert more text and mark it with an endnote with a custom reference mark,
         # which will be used in place of the number "2" and set "IsAuto" to False.
         builder.write("This text will be referenced by an endnote.")
-        builder.insert_footnote(FootnoteType.endnote, "Endnote comment regarding referenced text.", "CustomMark")
+        builder.insert_footnote(aw.FootnoteType.ENDNOTE, "Endnote comment regarding referenced text.", "CustomMark")
 
         # Footnotes always appear at the bottom of their referenced text,
         # so this page break will not affect the footnote.
@@ -2152,66 +2148,69 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # so that this page break will push the endnote down to the next page.
         builder.insert_break(aw.BreakType.PAGE_BREAK)
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_footnote.docx")
-        #ExEnd
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_footnote.docx")
+        # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_footnote.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_footnote.docx")
 
-        TestUtil.verify_footnote(FootnoteType.footnote, True, string.empty,
-            "Footnote comment regarding referenced text.", (Footnote)doc.get_child(NodeType.footnote, 0, True))
-        TestUtil.verify_footnote(FootnoteType.endnote, False, "CustomMark",
-            "CustomMark Endnote comment regarding referenced text.", (Footnote)doc.get_child(NodeType.footnote, 1, True))
-        
+        TestUtil.verify_footnote(aw.FootnoteType.FOOTNOTE, True, "",
+                                 "Footnote comment regarding referenced text.",
+                                 doc.get_child(aw.NodeType.FOOTNOTE, 0, True))
+        TestUtil.verify_footnote(aw.FootnoteType.ENDNOTE, False, "CustomMark",
+                                 "CustomMark Endnote comment regarding referenced text.",
+                                 doc.get_child(aw.NodeType.FOOTNOTE, 1, True))
 
-    def test_apply_borders_and_shading(self) :
-        
-        #ExStart
-        #ExFor:BorderCollection.item(BorderType)
-        #ExFor:Shading
-        #ExFor:TextureIndex
-        #ExFor:ParagraphFormat.shading
-        #ExFor:Shading.texture
-        #ExFor:Shading.background_pattern_color
-        #ExFor:Shading.foreground_pattern_color
-        #ExSummary:Shows how to decorate text with borders and shading.
+    def test_apply_borders_and_shading(self):
+
+        # ExStart
+        # ExFor:BorderCollection.item(BorderType)
+        # ExFor:Shading
+        # ExFor:TextureIndex
+        # ExFor:ParagraphFormat.shading
+        # ExFor:Shading.texture
+        # ExFor:Shading.background_pattern_color
+        # ExFor:Shading.foreground_pattern_color
+        # ExSummary:Shows how to decorate text with borders and shading.
+
+        print("Color is not available (commented all lines with color)")
+
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        BorderCollection borders = builder.paragraph_format.borders
+        borders = builder.paragraph_format.borders
         borders.distance_from_text = 20
-        borders[BorderType.left].line_style = LineStyle.double
-        borders[BorderType.right].line_style = LineStyle.double
-        borders[BorderType.top].line_style = LineStyle.double
-        borders[BorderType.bottom].line_style = LineStyle.double
+        borders[aw.BorderType.LEFT].line_style = aw.LineStyle.DOUBLE
+        borders[aw.BorderType.RIGHT].line_style = aw.LineStyle.DOUBLE
+        borders[aw.BorderType.TOP].line_style = aw.LineStyle.DOUBLE
+        borders[aw.BorderType.BOTTOM].line_style = aw.LineStyle.DOUBLE
 
-        Shading shading = builder.paragraph_format.shading
-        shading.texture = TextureIndex.texture_diagonal_cross
-        shading.background_pattern_color = Color.light_coral
-        shading.foreground_pattern_color = Color.light_salmon
+        shading = builder.paragraph_format.shading
+        shading.texture = aw.TextureIndex.TEXTURE_DIAGONAL_CROSS
+        # shading.background_pattern_color = Color.light_coral
+        # shading.foreground_pattern_color = Color.light_salmon
 
         builder.write("This paragraph is formatted with a double border and shading.")
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.apply_borders_and_shading.docx")
-        #ExEnd
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.apply_borders_and_shading.docx")
+        # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.apply_borders_and_shading.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.apply_borders_and_shading.docx")
         borders = doc.first_section.body.first_paragraph.paragraph_format.borders
 
-        self.assertEqual(20.0d, borders.distance_from_text)
-        self.assertEqual(LineStyle.double, borders[BorderType.left].line_style)
-        self.assertEqual(LineStyle.double, borders[BorderType.right].line_style)
-        self.assertEqual(LineStyle.double, borders[BorderType.top].line_style)
-        self.assertEqual(LineStyle.double, borders[BorderType.bottom].line_style)
+        self.assertEqual(20.0, borders.distance_from_text)
+        self.assertEqual(aw.LineStyle.DOUBLE, borders[aw.BorderType.LEFT].line_style)
+        self.assertEqual(aw.LineStyle.DOUBLE, borders[aw.BorderType.RIGHT].line_style)
+        self.assertEqual(aw.LineStyle.DOUBLE, borders[aw.BorderType.TOP].line_style)
+        self.assertEqual(aw.LineStyle.DOUBLE, borders[aw.BorderType.BOTTOM].line_style)
 
-        self.assertEqual(TextureIndex.texture_diagonal_cross, shading.texture)
-        self.assertEqual(Color.light_coral.to_argb(), shading.background_pattern_color.to_argb())
-        self.assertEqual(Color.light_salmon.to_argb(), shading.foreground_pattern_color.to_argb())
-        
+        self.assertEqual(aw.TextureIndex.TEXTURE_DIAGONAL_CROSS, shading.texture)
+        # self.assertEqual(Color.light_coral.to_argb(), shading.background_pattern_color.to_argb())
+        # self.assertEqual(Color.light_salmon.to_argb(), shading.foreground_pattern_color.to_argb())
 
-    def test_delete_row(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.delete_row
-        #ExSummary:Shows how to delete a row from a table.
+    def test_delete_row(self):
+
+        # ExStart
+        # ExFor:DocumentBuilder.delete_row
+        # ExSummary:Shows how to delete a row from a table.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -2234,534 +2233,533 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         self.assertEqual(1, table.rows.count)
         self.assertEqual("Row 2, cell 1.\aRow 2, cell 2.\a\a", table.get_text().strip())
-        #ExEnd
-        
+        # ExEnd
 
-    [TestCase(False)]
-    [TestCase(True)]
-    public void AppendDocumentAndResolveStyles(bool keepSourceNumbering)
-        
-        #ExStart
-        #ExFor:Document.append_document(Document, ImportFormatMode, ImportFormatOptions)
-        #ExSummary:Shows how to manage list style clashes while appending a document.
+    def test_append_document_and_resolve_styles(self):
+
+        # ExStart
+        # ExFor:Document.append_document(Document, ImportFormatMode, ImportFormatOptions)
+        # ExSummary:Shows how to manage list style clashes while appending a document.
         # Load a document with text in a custom style and clone it.
-        Document srcDoc = aw.Document(aeb.MyDir + "Custom list numbering.docx")
-        Document dstDoc = srcDoc.clone()
 
-        # We now have two documents, each with an identical style named "CustomStyle".
-        # Change the text color for one of the styles to set it apart from the other.
-        dstDoc.styles["CustomStyle"].font.color = Color.dark_red
+        print("Color is not available (commented all lines with color)")
 
-        # If there is a clash of list styles, apply the list format of the source document.
-        # Set the "KeepSourceNumbering" property to "False" to not import any list numbers into the destination document.
-        # Set the "KeepSourceNumbering" property to "True" import all clashing
-        # list style numbering with the same appearance that it had in the source document.
-        ImportFormatOptions options = new ImportFormatOptions()
-        options.keep_source_numbering = keepSourceNumbering
+        for keep_source_numbering in (False, True):
+            with self.subTest(keep_source_numbering=keep_source_numbering):
+                src_doc = aw.Document(aeb.my_dir + "Custom list numbering.docx")
+                dst_doc = src_doc.clone()
 
-        # Joining two documents that have different styles that share the same name causes a style clash.
-        # We can specify an import format mode while appending documents to resolve this clash.
-        dstDoc.append_document(srcDoc, ImportFormatMode.keep_different_styles, options)
-        dstDoc.update_list_labels()
+                # We now have two documents, each with an identical style named "CustomStyle".
+                # Change the text color for one of the styles to set it apart from the other.
+                # dst_doc.styles["CustomStyle"].font.color = Color.dark_red
 
-        dstDoc.save(aeb.ArtifactsDir + "DocumentBuilder.append_document_and_resolve_styles.docx")
-        #ExEnd
-        
+                # If there is a clash of list styles, apply the list format of the source document.
+                # Set the "keep_source_numbering" property to "False" to not import any list numbers into the destination document.
+                # Set the "keep_source_numbering" property to "True" import all clashing
+                # list style numbering with the same appearance that it had in the source document.
+                options = aw.ImportFormatOptions()
+                options.keep_source_numbering = keep_source_numbering
 
-    [TestCase(False)]
-    [TestCase(True)]
-    public void InsertDocumentAndResolveStyles(bool keepSourceNumbering)
-        
-        #ExStart
-        #ExFor:Document.append_document(Document, ImportFormatMode, ImportFormatOptions)
-        #ExSummary:Shows how to manage list style clashes while inserting a document.
-        Document dstDoc = aw.Document()
-        DocumentBuilder builder = aw.DocumentBuilder(dstDoc)
-        builder.insert_break(BreakType.paragraph_break)
+                # Joining two documents that have different styles that share the same name causes a style clash.
+                # We can specify an import format mode while appending documents to resolve this clash.
+                dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_DIFFERENT_STYLES, options)
+                dst_doc.update_list_labels()
 
-        dstDoc.lists.add(ListTemplate.number_default)
-        Aspose.words.lists.list list = dstDoc.lists[0]
+                dst_doc.save(aeb.artifacts_dir + "DocumentBuilder.append_document_and_resolve_styles.docx")
+                # ExEnd
 
-        builder.list_format.list = list
+    @unittest.skip("No type casting (line 2299)")
+    def test_insert_document_and_resolve_styles(self):
 
-        for (int i = 1 i <= 15 i++)
-            builder.write($"List Item i\n")
+        # ExStart
+        # ExFor:Document.append_document(Document, ImportFormatMode, ImportFormatOptions)
+        # ExSummary:Shows how to manage list style clashes while inserting a document.
+        for keep_source_numbering in (False, True):
+            with self.subTest(keep_source_numbering=keep_source_numbering):
+                dst_doc = aw.Document()
+                builder = aw.DocumentBuilder(dst_doc)
+                builder.insert_break(aw.BreakType.PARAGRAPH_BREAK)
 
-        Document attachDoc = (Document)dstDoc.clone(True)
+                dst_doc.lists.add(aw.lists.ListTemplate.NUMBER_DEFAULT)
+                list = dst_doc.lists[0]
 
-        # If there is a clash of list styles, apply the list format of the source document.
-        # Set the "KeepSourceNumbering" property to "False" to not import any list numbers into the destination document.
-        # Set the "KeepSourceNumbering" property to "True" import all clashing
-        # list style numbering with the same appearance that it had in the source document.
-        ImportFormatOptions importOptions = new ImportFormatOptions()
-        importOptions.keep_source_numbering = keepSourceNumbering
+                builder.list_format.list = list
 
-        builder.insert_break(BreakType.section_break_new_page)
-        builder.insert_document(attachDoc, ImportFormatMode.keep_source_formatting, importOptions)
+                for i in range(1, 16):
+                    builder.write("List Item i\n")
 
-        dstDoc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_document_and_resolve_styles.docx")
-        #ExEnd
-        
+                attach_doc = dst_doc.clone(True)
 
-    [TestCase(False)]
-    [TestCase(True)]
-    public void LoadDocumentWithListNumbering(bool keepSourceNumbering)
-        
-        #ExStart
-        #ExFor:Document.append_document(Document, ImportFormatMode, ImportFormatOptions)
-        #ExSummary:Shows how to manage list style clashes while appending a clone of a document to itself.
-        Document srcDoc = aw.Document(aeb.MyDir + "List item.docx")
-        Document dstDoc = aw.Document(aeb.MyDir + "List item.docx")
+                # If there is a clash of list styles, apply the list format of the source document.
+                # Set the "keep_source_numbering" property to "False" to not import any list numbers into the destination document.
+                # Set the "keep_source_numbering" property to "True" import all clashing
+                # list style numbering with the same appearance that it had in the source document.
+                import_options = aw.ImportFormatOptions()
+                import_options.keep_source_numbering = keep_source_numbering
 
-        # If there is a clash of list styles, apply the list format of the source document.
-        # Set the "KeepSourceNumbering" property to "False" to not import any list numbers into the destination document.
-        # Set the "KeepSourceNumbering" property to "True" import all clashing
-        # list style numbering with the same appearance that it had in the source document.
-        DocumentBuilder builder = aw.DocumentBuilder(dstDoc)
-        builder.move_to_document_end()
-        builder.insert_break(BreakType.section_break_new_page)
+                builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
+                builder.insert_document(attach_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, import_options)
 
-        ImportFormatOptions options = new ImportFormatOptions()
-        options.keep_source_numbering = keepSourceNumbering
-        builder.insert_document(srcDoc, ImportFormatMode.keep_source_formatting, options)
+                dst_doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_document_and_resolve_styles.docx")
+                # ExEnd
 
-        dstDoc.update_list_labels()
-        #ExEnd
-        
+    def test_load_document_with_list_numbering(self):
 
-    [TestCase(True)]
-    [TestCase(False)]
-    public void IgnoreTextBoxes(bool ignoreTextBoxes)
-        
-        #ExStart
-        #ExFor:ImportFormatOptions.ignore_text_boxes
-        #ExSummary:Shows how to manage text box formatting while appending a document.
+        # ExStart
+        # ExFor:Document.append_document(Document, ImportFormatMode, ImportFormatOptions)
+        # ExSummary:Shows how to manage list style clashes while appending a clone of a document to itself.
+        for keep_source_numbering in (False, True):
+            with self.subTest(keep_source_numbering=keep_source_numbering):
+                src_doc = aw.Document(aeb.my_dir + "List item.docx")
+                dst_doc = aw.Document(aeb.my_dir + "List item.docx")
+
+                # If there is a clash of list styles, apply the list format of the source document.
+                # Set the "keep_source_numbering" property to "False" to not import any list numbers into the destination document.
+                # Set the "keep_source_numbering" property to "True" import all clashing
+                # list style numbering with the same appearance that it had in the source document.
+                builder = aw.DocumentBuilder(dst_doc)
+                builder.move_to_document_end()
+                builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
+
+                options = aw.ImportFormatOptions()
+                options.keep_source_numbering = keep_source_numbering
+                builder.insert_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, options)
+
+                dst_doc.update_list_labels()
+                # ExEnd
+
+    @unittest.skip("No typecasting (lines 2374-2378)")
+    def test_ignore_text_boxes(self):
+
+        # ExStart
+        # ExFor:ImportFormatOptions.ignore_text_boxes
+        # ExSummary:Shows how to manage text box formatting while appending a document.
         # Create a document that will have nodes from another document inserted into it.
-        Document dstDoc = aw.Document()
-        DocumentBuilder builder = aw.DocumentBuilder(dstDoc)
+        for ignore_text_boxes in (False, True):
+            with self.subTest(ignore_text_boxes=ignore_text_boxes):
+                dst_doc = aw.Document()
+                builder = aw.DocumentBuilder(dst_doc)
 
-        builder.writeln("Hello world!")
+                builder.writeln("Hello world!")
 
-        # Create another document with a text box, which we will import into the first document.
-        Document srcDoc = aw.Document()
-        builder = aw.DocumentBuilder(srcDoc)
+                # Create another document with a text box, which we will import into the first document.
+                src_doc = aw.Document()
+                builder = aw.DocumentBuilder(src_doc)
 
-        Shape textBox = builder.insert_shape(ShapeType.text_box, 300, 100)
-        builder.move_to(textBox.first_paragraph)
-        builder.paragraph_format.style.font.name = "Courier New"
-        builder.paragraph_format.style.font.size = 24
-        builder.write("Textbox contents")
+                text_box = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 300, 100)
+                builder.move_to(text_box.first_paragraph)
+                builder.paragraph_format.style.font.name = "Courier New"
+                builder.paragraph_format.style.font.size = 24
+                builder.write("Textbox contents")
 
-        # Set a flag to specify whether to clear or preserve text box formatting
-        # while importing them to other documents.
-        ImportFormatOptions importFormatOptions = new ImportFormatOptions()
-        importFormatOptions.ignore_text_boxes = ignoreTextBoxes
+                # Set a flag to specify whether to clear or preserve text box formatting
+                # while importing them to other documents.
+                import_format_options = aw.ImportFormatOptions()
+                import_format_options.ignore_text_boxes = ignore_text_boxes
 
-        # Import the text box from the source document into the destination document,
-        # and then verify whether we have preserved the styling of its text contents.
-        NodeImporter importer = new NodeImporter(srcDoc, dstDoc, ImportFormatMode.keep_source_formatting, importFormatOptions)
-        Shape importedTextBox = (Shape)importer.import_node(textBox, True)
-        dstDoc.first_section.body.paragraphs[1].append_child(importedTextBox)
+                # Import the text box from the source document into the destination document,
+                # and then verify whether we have preserved the styling of its text contents.
+                importer = aw.NodeImporter(src_doc, dst_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING,
+                                           import_format_options)
+                imported_text_box = importer.import_node(text_box, True)
+                dst_doc.first_section.body.paragraphs[1].append_child(imported_text_box)
 
-        if (ignoreTextBoxes)
-            
-            self.assertEqual(12.0d, importedTextBox.first_paragraph.runs[0].font.size)
-            self.assertEqual("Times New Roman", importedTextBox.first_paragraph.runs[0].font.name)
-            
-        else
-            
-            self.assertEqual(24.0d, importedTextBox.first_paragraph.runs[0].font.size)
-            self.assertEqual("Courier New", importedTextBox.first_paragraph.runs[0].font.name)
-            
+                if ignore_text_boxes:
+                    self.assertEqual(12.0, imported_text_box.first_paragraph.runs[0].font.size)
+                    self.assertEqual("Times New Roman", imported_text_box.first_paragraph.runs[0].font.name)
+                else:
+                    self.assertEqual(24.0, imported_text_box.first_paragraph.runs[0].font.size)
+                    self.assertEqual("Courier New", imported_text_box.first_paragraph.runs[0].font.name)
 
-        dstDoc.save(aeb.ArtifactsDir + "DocumentBuilder.ignore_text_boxes.docx")
-        #ExEnd
-        
+                dst_doc.save(aeb.artifacts_dir + "DocumentBuilder.ignore_text_boxes.docx")
+                # ExEnd
 
-    [TestCase(False)]
-    [TestCase(True)]
-    public void MoveToField(bool moveCursorToAfterTheField)
-        
-        #ExStart
-        #ExFor:DocumentBuilder.move_to_field
-        #ExSummary:Shows how to move a document builder's node insertion point cursor to a specific field.
+    def test_move_to_field(self):
+
+        # ExStart
+        # ExFor:DocumentBuilder.move_to_field
+        # ExSummary:Shows how to move a document builder's node insertion point cursor to a specific field.
+        for move_cursor_to_after_the_field in (False, True):
+            with self.subTest(move_cursor_to_after_the_field=move_cursor_to_after_the_field):
+                doc = aw.Document()
+                builder = aw.DocumentBuilder(doc)
+
+                # Insert a field using the DocumentBuilder and add a run of text after it.
+                field = builder.insert_field(" AUTHOR \"John Doe\" ")
+
+                # The builder's cursor is currently at end of the document.
+                self.assertIsNone(builder.current_node)
+
+                # Move the cursor to the field while specifying whether to place that cursor before or after the field.
+                builder.move_to_field(field, move_cursor_to_after_the_field)
+
+                # Note that the cursor is outside of the field in both cases.
+                # This means that we cannot edit the field using the builder like this.
+                # To edit a field, we can use the builder's MoveTo method on a field's FieldStart
+                # or FieldSeparator node to place the cursor inside.
+                if move_cursor_to_after_the_field:
+                    self.assertIsNone(builder.current_node)
+                    builder.write(" Text immediately after the field.")
+                    self.assertEqual(
+                        "\u0013 AUTHOR \"John Doe\" \u0014John Doe\u0015 Text immediately after the field.",
+                        doc.get_text().strip())
+
+                else:
+                    self.assertEqual(field.start, builder.current_node)
+                    builder.write("Text immediately before the field. ")
+                    self.assertEqual(
+                        "Text immediately before the field. \u0013 AUTHOR \"John Doe\" \u0014John Doe\u0015",
+                        doc.get_text().strip())
+
+                # ExEnd
+
+    @unittest.skip("???")
+    def test_insert_ole_object_exception(self):
+
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # Insert a field using the DocumentBuilder and add a run of text after it.
-        Field field = builder.insert_field(" AUTHOR \"John Doe\" ")
+        self.assertRaises(builder.insert_ole_object("", "checkbox", False, True, None),
+                          Throws.type_of < ArgumentException > ())
 
-        # The builder's cursor is currently at end of the document.
-        Assert.null(builder.current_node)
+    @unittest.skip("No type casting (line 2452), something wrong with add() method (line 2444)")
+    def test_insert_pie_chart(self):
 
-        # Move the cursor to the field while specifying whether to place that cursor before or after the field.
-        builder.move_to_field(field, moveCursorToAfterTheField)
-
-        # Note that the cursor is outside of the field in both cases.
-        # This means that we cannot edit the field using the builder like this.
-        # To edit a field, we can use the builder's MoveTo method on a field's FieldStart
-        # or FieldSeparator node to place the cursor inside.
-        if (moveCursorToAfterTheField)
-            
-            Assert.null(builder.current_node)
-            builder.write(" Text immediately after the field.")
-
-            self.assertEqual("\u0013 AUTHOR \"John Doe\" \u0014John Doe\u0015 Text immediately after the field.", 
-                doc.get_text().strip())
-            
-        else
-            
-            self.assertEqual(field.start, builder.current_node)
-            builder.write("Text immediately before the field. ")
-
-            self.assertEqual("Text immediately before the field. \u0013 AUTHOR \"John Doe\" \u0014John Doe\u0015", 
-                doc.get_text().strip())
-            
-        #ExEnd
-        
-
-    def test_insert_ole_object_exception(self) :
-        
+        # ExStart
+        # ExFor:DocumentBuilder.insert_chart(ChartType, Double, Double)
+        # ExSummary:Shows how to insert a pie chart into a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        Assert.that(() => builder.insert_ole_object("", "checkbox", False, True, null),
-            Throws.type_of<ArgumentException>())
-        
-
-    def test_insert_pie_chart(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.insert_chart(ChartType, Double, Double)
-        #ExSummary:Shows how to insert a pie chart into a document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-
-        Chart chart = builder.insert_chart(ChartType.pie, ConvertUtil.pixel_to_point(300), 
-            ConvertUtil.pixel_to_point(300)).chart
-        self.assertEqual(225.0d, ConvertUtil.pixel_to_point(300)) #ExSkip
+        chart = builder.insert_chart(aw.drawing.charts.ChartType.PIE, aw.ConvertUtil.pixel_to_point(300),
+                                     aw.ConvertUtil.pixel_to_point(300)).chart
+        self.assertEqual(225.0, aw.ConvertUtil.pixel_to_point(300))  # ExSkip
         chart.series.clear()
         chart.series.add("My fruit",
-            new[]  "Apples", "Bananas", "Cherries" ,
-            new[]  1.3, 2.2, 1.5 )
+                         ["Apples", "Bananas", "Cherries"],
+                         [1.3, 2.2, 1.5])
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_pie_chart.docx")
-        #ExEnd
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_pie_chart.docx")
+        # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_pie_chart.docx")
-        Shape chartShape = (Shape)doc.get_child(NodeType.shape, 0, True)
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_pie_chart.docx")
+        chart_shape = doc.get_child(aw.NodeType.SHAPE, 0, True)
 
-        self.assertEqual("Chart Title", chartShape.chart.title.text)
-        self.assertEqual(225.0d, chartShape.width)
-        self.assertEqual(225.0d, chartShape.height)
-        
+        self.assertEqual("Chart Title", chart_shape.chart.title.text)
+        self.assertEqual(225.0, chart_shape.width)
+        self.assertEqual(225.0, chart_shape.height)
 
-    def test_insert_chart_relative_position(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.insert_chart(ChartType, aw.drawing.RelativeHorizontalPosition, Double, aw.drawing.RelativeVerticalPosition, Double, Double, Double, aw.drawing.WrapType)
-        #ExSummary:Shows how to specify position and wrapping while inserting a chart.
+    @unittest.skip("No type casting (line 2480)")
+    def test_insert_chart_relative_position(self):
+
+        # ExStart
+        # ExFor:DocumentBuilder.insert_chart(ChartType, aw.drawing.RelativeHorizontalPosition, Double, aw.drawing.RelativeVerticalPosition, Double, Double, Double, aw.drawing.WrapType)
+        # ExSummary:Shows how to specify position and wrapping while inserting a chart.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        builder.insert_chart(ChartType.pie, aw.drawing.RelativeHorizontalPosition.margin, 100, aw.drawing.RelativeVerticalPosition.margin,
-            100, 200, 100, aw.drawing.WrapType.square)
+        builder.insert_chart(aw.drawing.charts.ChartType.PIE,
+                             aw.drawing.RelativeHorizontalPosition.MARGIN,
+                             100,
+                             aw.drawing.RelativeVerticalPosition.MARGIN,
+                             100,
+                             200,
+                             100,
+                             aw.drawing.WrapType.SQUARE)
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.inserted_chart_relative_position.docx")
-        #ExEnd
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.inserted_chart_relative_position.docx")
+        # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.inserted_chart_relative_position.docx")
-        Shape chartShape = (Shape)doc.get_child(NodeType.shape, 0, True)
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.inserted_chart_relative_position.docx")
+        chart_shape = doc.get_child(aw.NodeType.SHAPE, 0, True)
 
-        self.assertEqual(100.0d, chartShape.top)
-        self.assertEqual(100.0d, chartShape.left)
-        self.assertEqual(200.0d, chartShape.width)
-        self.assertEqual(100.0d, chartShape.height)
-        self.assertEqual(aw.drawing.WrapType.square, chartShape.wrap_type)
-        self.assertEqual(aw.drawing.RelativeHorizontalPosition.margin, chartShape.relative_horizontal_position)
-        self.assertEqual(aw.drawing.RelativeVerticalPosition.margin, chartShape.relative_vertical_position)
-        
+        self.assertEqual(100.0, chart_shape.top)
+        self.assertEqual(100.0, chart_shape.left)
+        self.assertEqual(200.0, chart_shape.width)
+        self.assertEqual(100.0, chart_shape.height)
+        self.assertEqual(aw.drawing.WrapType.square, chart_shape.wrap_type)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.margin, chart_shape.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.margin, chart_shape.relative_vertical_position)
 
-    def test_insert_field(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.insert_field(String)
-        #ExFor:Field
-        #ExFor:Field.result
-        #ExFor:Field.get_field_code
-        #ExFor:Field.type
-        #ExFor:FieldType
-        #ExSummary:Shows how to insert a field into a document using a field code.
+    @unittest.skip("Need some import (datetime) (line 2510)")
+    def test_insert_field(self):
+
+        # ExStart
+        # ExFor:DocumentBuilder.insert_field(String)
+        # ExFor:Field
+        # ExFor:Field.result
+        # ExFor:Field.get_field_code
+        # ExFor:Field.type
+        # ExFor:FieldType
+        # ExSummary:Shows how to insert a field into a document using a field code.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        Field field = builder.insert_field("DATE \\@ \"dddd, MMMM dd, yyyy\"")
+        field = builder.insert_field("DATE \\@ \"dddd, MMMM dd, yyyy\"")
 
-        self.assertEqual(FieldType.field_date, field.type)
+        self.assertEqual(aw.FieldType.FIELD_DATE, field.type)
         self.assertEqual("DATE \\@ \"dddd, MMMM dd, yyyy\"", field.get_field_code())
 
         # This overload of the InsertField method automatically updates inserted fields.
         Assert.that(DateTime.parse(field.result), Is.equal_to(DateTime.today).within(1).days)
-        #ExEnd			
-        
+        # ExEnd
 
-    [TestCase(False)]
-    [TestCase(True)]
-    public void InsertFieldAndUpdate(bool updateInsertedFieldsImmediately)
-        
-        #ExStart
-        #ExFor:DocumentBuilder.insert_field(FieldType, Boolean)
-        #ExFor:Field.update
-        #ExSummary:Shows how to insert a field into a document using FieldType.
+    def test_insert_field_and_update(self):
+
+        # ExStart
+        # ExFor:DocumentBuilder.insert_field(FieldType, Boolean)
+        # ExFor:Field.update
+        # ExSummary:Shows how to insert a field into a document using FieldType.
+
+        print("TestUtil hasn't been done yet")
+
+        for update_inserted_fields_immediately in (False, True):
+            with self.subTest(update_inserted_fields_immediately=update_inserted_fields_immediately):
+                doc = aw.Document()
+                builder = aw.DocumentBuilder(doc)
+
+                # Insert two fields while passing a flag which determines whether to update them as the builder inserts them.
+                # In some cases, updating fields could be computationally expensive, and it may be a good idea to defer the update.
+                doc.built_in_document_properties.author = "John Doe"
+                builder.write("This document was written by ")
+                builder.insert_field(aw.fields.FieldType.FIELD_AUTHOR, update_inserted_fields_immediately)
+
+                builder.insert_paragraph()
+                builder.write("\nThis is page ")
+                builder.insert_field(aw.fields.FieldType.FIELD_PAGE, update_inserted_fields_immediately)
+
+                self.assertEqual(" AUTHOR ", doc.range.fields[0].get_field_code())
+                self.assertEqual(" PAGE ", doc.range.fields[1].get_field_code())
+
+                if update_inserted_fields_immediately:
+                    self.assertEqual("John Doe", doc.range.fields[0].result)
+                    self.assertEqual("1", doc.range.fields[1].result)
+                else:
+                    self.assertEqual("", doc.range.fields[0].result)
+                    self.assertEqual("", doc.range.fields[1].result)
+
+                    # We will need to update these fields using the update methods manually.
+                    doc.range.fields[0].update()
+
+                    self.assertEqual("John Doe", doc.range.fields[0].result)
+
+                    doc.update_fields()
+
+                    self.assertEqual("1", doc.range.fields[1].result)
+
+                # ExEnd
+
+                doc = DocumentHelper.save_open(doc)
+
+                self.assertEqual("This document was written by \u0013 AUTHOR \u0014John Doe\u0015" +
+                                 "\r\rThis is page \u0013 PAGE \u00141\u0015", doc.get_text().strip())
+
+                # TestUtil.verify_field(FieldType.field_author, " AUTHOR ", "John Doe", doc.range.fields[0])
+                # TestUtil.verify_field(FieldType.field_page, " PAGE ", "1", doc.range.fields[1])
+
+    # def test_field_result_formatting(self):
+    #     # ExStart
+    #     # ExFor:IFieldResultFormatter
+    #     # ExFor:IFieldResultFormatter.format(Double, GeneralFormat)
+    #     # ExFor:IFieldResultFormatter.format(String, GeneralFormat)
+    #     # ExFor:IFieldResultFormatter.format_date_time(DateTime, String, CalendarType)
+    #     # ExFor:IFieldResultFormatter.format_numeric(Double, String)
+    #     # ExFor:FieldOptions.result_formatter
+    #     # ExFor:CalendarType
+    #     # ExSummary:Shows how to automatically apply a custom format to field results as the fields are updated.
+    #     doc = aw.Document()
+    #     builder = aw.DocumentBuilder(doc)
+    #     formatter = FieldResultFormatter("$0", "Date: 0", "Item # 0:")
+    #     doc.field_options.result_formatter = formatter
+    #
+    #     # Our field result formatter applies a custom format to newly created fields of three types of formats.
+    #     # Field result formatters apply new formatting to fields as they are updated,
+    #     # which happens as soon as we create them using this InsertField method overload.
+    #     # 1 -  Numeric:
+    #     builder.insert_field(" = 2 + 3 \\# $###")
+    #
+    #     self.assertEqual("$5", doc.range.fields[0].result)
+    #     self.assertEqual(1, formatter.count_format_invocations(FieldResultFormatter.format_invocation_type.numeric))
+    #
+    #     # 2 -  Date/time:
+    #     builder.insert_field("DATE \\@ \"d MMMM yyyy\"")
+    #
+    #     self.assertTrue(doc.range.fields[1].result.starts_with("Date: "))
+    #     self.assertEqual(1, formatter.count_format_invocations(FieldResultFormatter.format_invocation_type.date_time))
+    #
+    #     # 3 -  General:
+    #     builder.insert_field("QUOTE \"2\" \\* Ordinal")
+    #
+    #     self.assertEqual("Item # 2:", doc.range.fields[2].result)
+    #     self.assertEqual(1, formatter.count_format_invocations(FieldResultFormatter.format_invocation_type.general))
+    #
+    #     formatter.print_format_invocations()
+    #
+    #
+    # #/ <summary>
+    # #/ When fields with formatting are updated, this formatter will override their formatting
+    # #/ with a custom format, while tracking every invocation.
+    # #/ </summary>
+    # private class FieldResultFormatter : IFieldResultFormatter
+    #
+    #     public FieldResultFormatter(string numberFormat, string dateFormat, string generalFormat)
+    #
+    #         mNumberFormat = numberFormat
+    #         mDateFormat = dateFormat
+    #         mGeneralFormat = generalFormat
+    #
+    #
+    #     public string FormatNumeric(double value, string format)
+    #
+    #         if (string.is_null_or_empty(mNumberFormat))
+    #             return null
+    #
+    #         string newValue = String.format(mNumberFormat, value)
+    #         FormatInvocations.add(new FormatInvocation(FormatInvocationType.numeric, value, format, newValue))
+    #         return newValue
+    #
+    #
+    #     public string FormatDateTime(DateTime value, string format, CalendarType calendarType)
+    #
+    #         if (string.is_null_or_empty(mDateFormat))
+    #             return null
+    #
+    #         string newValue = String.format(mDateFormat, value)
+    #         FormatInvocations.add(new FormatInvocation(FormatInvocationType.date_time, $"value (calendarType)", format, newValue))
+    #         return newValue
+    #
+    #
+    #     public string Format(string value, GeneralFormat format)
+    #
+    #         return Format((object)value, format)
+    #
+    #
+    #     public string Format(double value, GeneralFormat format)
+    #
+    #         return Format((object)value, format)
+    #
+    #
+    #     private string Format(object value, GeneralFormat format)
+    #
+    #         if (string.is_null_or_empty(mGeneralFormat))
+    #             return null
+    #
+    #         string newValue = String.format(mGeneralFormat, value)
+    #         FormatInvocations.add(new FormatInvocation(FormatInvocationType.general, value, format.to_string(), newValue))
+    #         return newValue
+    #
+    #
+    #     public int CountFormatInvocations(FormatInvocationType formatInvocationType)
+    #
+    #         if (formatInvocationType == FormatInvocationType.all)
+    #             return FormatInvocations.count
+    #
+    #         return FormatInvocations.count(f => f.format_invocation_type == formatInvocationType)
+    #
+    #
+    #     public void PrintFormatInvocations()
+    #
+    #         for (FormatInvocation f in FormatInvocations)
+    #             Console.write_line($"Invocation type:\tf.format_invocation_type\n" +
+    #                                 $"\tOriginal value:\t\tf.value\n" +
+    #                                 $"\tOriginal format:\tf.original_format\n" +
+    #                                 $"\tNew value:\t\t\tf.new_value\n")
+    #
+    #
+    #     private readonly string mNumberFormat
+    #     private readonly string mDateFormat
+    #     private readonly string mGeneralFormat
+    #     private List<FormatInvocation> FormatInvocations  get  = new List<FormatInvocation>()
+    #
+    #     private class FormatInvocation
+    #
+    #         public FormatInvocationType FormatInvocationType  get
+    #         public object Value  get
+    #         public string OriginalFormat  get
+    #         public string NewValue  get
+    #
+    #         public FormatInvocation(FormatInvocationType formatInvocationType, object value, string originalFormat, string newValue)
+    #
+    #             Value = value
+    #             FormatInvocationType = formatInvocationType
+    #             OriginalFormat = originalFormat
+    #             NewValue = newValue
+    #
+    #
+    #
+    #     public enum FormatInvocationType
+    #
+    #         Numeric, DateTime, General, All
+    #
+    #
+    # #ExEnd
+    #
+    # [Test, Ignore("Failed")]
+    # public void InsertVideoWithUrl()
+    #
+    #     #ExStart
+    #     #ExFor:DocumentBuilder.insert_online_video(String, Double, Double)
+    #     #ExSummary:Shows how to insert an online video into a document using a URL.
+    #     doc = aw.Document()
+    #     builder = aw.DocumentBuilder(doc)
+    #
+    #     builder.insert_online_video("https:#youtu.be/t_1LYZ102RA", 360, 270)
+    #
+    #     # We can watch the video from Microsoft Word by clicking on the shape.
+    #     doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_video_with_url.docx")
+    #     #ExEnd
+    #
+    #     doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_video_with_url.docx")
+    #     Shape shape = (Shape)doc.get_child(NodeType.shape, 0, True)
+    #
+    #     TestUtil.verify_image_in_shape(480, 360, ImageType.jpeg, shape)
+    #     TestUtil.verify_web_response_status_code(HttpStatusCode.ok, shape.h_ref)
+    #
+    #     self.assertEqual(360.0d, shape.width)
+    #     self.assertEqual(270.0d, shape.height)
+    #
+
+    def test_insert_underline(self):
+
+        # ExStart
+        # ExFor:DocumentBuilder.underline
+        # ExSummary:Shows how to format text inserted by a document builder.
+
+        print("Color is not available (commented all lines with color)")
+
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # Insert two fields while passing a flag which determines whether to update them as the builder inserts them.
-        # In some cases, updating fields could be computationally expensive, and it may be a good idea to defer the update.
-        doc.built_in_document_properties.author = "John Doe"
-        builder.write("This document was written by ")
-        builder.insert_field(FieldType.field_author, updateInsertedFieldsImmediately)
-
-        builder.insert_paragraph()
-        builder.write("\nThis is page ")
-        builder.insert_field(FieldType.field_page, updateInsertedFieldsImmediately)
-
-        self.assertEqual(" AUTHOR ", doc.range.fields[0].get_field_code())
-        self.assertEqual(" PAGE ", doc.range.fields[1].get_field_code())
-
-        if (updateInsertedFieldsImmediately)
-            
-            self.assertEqual("John Doe", doc.range.fields[0].result)
-            self.assertEqual("1", doc.range.fields[1].result)
-            
-        else
-            
-            self.assertEqual(string.empty, doc.range.fields[0].result)
-            self.assertEqual(string.empty, doc.range.fields[1].result)
-
-            # We will need to update these fields using the update methods manually.
-            doc.range.fields[0].update()
-
-            self.assertEqual("John Doe", doc.range.fields[0].result)
-
-            doc.update_fields()
-
-            self.assertEqual("1", doc.range.fields[1].result)
-            
-        #ExEnd
-
-        doc = DocumentHelper.save_open(doc)
-
-        self.assertEqual("This document was written by \u0013 AUTHOR \u0014John Doe\u0015" +
-                        "\r\rThis is page \u0013 PAGE \u00141\u0015", doc.get_text().strip())
-
-        TestUtil.verify_field(FieldType.field_author, " AUTHOR ", "John Doe", doc.range.fields[0])
-        TestUtil.verify_field(FieldType.field_page, " PAGE ", "1", doc.range.fields[1])
-        
-
-    #ExStart
-    #ExFor:IFieldResultFormatter
-    #ExFor:IFieldResultFormatter.format(Double, GeneralFormat)
-    #ExFor:IFieldResultFormatter.format(String, GeneralFormat)
-    #ExFor:IFieldResultFormatter.format_date_time(DateTime, String, CalendarType)
-    #ExFor:IFieldResultFormatter.format_numeric(Double, String)
-    #ExFor:FieldOptions.result_formatter
-    #ExFor:CalendarType
-    #ExSummary:Shows how to automatically apply a custom format to field results as the fields are updated.
-    [Test] #ExSkip
-    public void FieldResultFormatting()
-        
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        FieldResultFormatter formatter = new FieldResultFormatter("$0", "Date: 0", "Item # 0:")
-        doc.field_options.result_formatter = formatter
-
-        # Our field result formatter applies a custom format to newly created fields of three types of formats.
-        # Field result formatters apply new formatting to fields as they are updated,
-        # which happens as soon as we create them using this InsertField method overload.
-        # 1 -  Numeric:
-        builder.insert_field(" = 2 + 3 \\# $###")
-
-        self.assertEqual("$5", doc.range.fields[0].result)
-        self.assertEqual(1, formatter.count_format_invocations(FieldResultFormatter.format_invocation_type.numeric))
-
-        # 2 -  Date/time:
-        builder.insert_field("DATE \\@ \"d MMMM yyyy\"")
-
-        self.assertTrue(doc.range.fields[1].result.starts_with("Date: "))
-        self.assertEqual(1, formatter.count_format_invocations(FieldResultFormatter.format_invocation_type.date_time))
-
-        # 3 -  General:
-        builder.insert_field("QUOTE \"2\" \\* Ordinal")
-
-        self.assertEqual("Item # 2:", doc.range.fields[2].result)
-        self.assertEqual(1, formatter.count_format_invocations(FieldResultFormatter.format_invocation_type.general))
-
-        formatter.print_format_invocations()
-        
-
-    #/ <summary>
-    #/ When fields with formatting are updated, this formatter will override their formatting
-    #/ with a custom format, while tracking every invocation.
-    #/ </summary>
-    private class FieldResultFormatter : IFieldResultFormatter
-        
-        public FieldResultFormatter(string numberFormat, string dateFormat, string generalFormat)
-            
-            mNumberFormat = numberFormat
-            mDateFormat = dateFormat
-            mGeneralFormat = generalFormat
-            
-
-        public string FormatNumeric(double value, string format)
-            
-            if (string.is_null_or_empty(mNumberFormat)) 
-                return null
-                
-            string newValue = String.format(mNumberFormat, value)
-            FormatInvocations.add(new FormatInvocation(FormatInvocationType.numeric, value, format, newValue))
-            return newValue
-            
-
-        public string FormatDateTime(DateTime value, string format, CalendarType calendarType)
-            
-            if (string.is_null_or_empty(mDateFormat))
-                return null
-
-            string newValue = String.format(mDateFormat, value)
-            FormatInvocations.add(new FormatInvocation(FormatInvocationType.date_time, $"value (calendarType)", format, newValue))
-            return newValue
-            
-
-        public string Format(string value, GeneralFormat format)
-            
-            return Format((object)value, format)
-            
-
-        public string Format(double value, GeneralFormat format)
-            
-            return Format((object)value, format)
-            
-
-        private string Format(object value, GeneralFormat format)
-            
-            if (string.is_null_or_empty(mGeneralFormat))
-                return null
-
-            string newValue = String.format(mGeneralFormat, value)
-            FormatInvocations.add(new FormatInvocation(FormatInvocationType.general, value, format.to_string(), newValue))
-            return newValue
-            
-
-        public int CountFormatInvocations(FormatInvocationType formatInvocationType)
-            
-            if (formatInvocationType == FormatInvocationType.all)
-                return FormatInvocations.count
-                
-            return FormatInvocations.count(f => f.format_invocation_type == formatInvocationType)
-            
-
-        public void PrintFormatInvocations()
-             
-            for (FormatInvocation f in FormatInvocations)
-                Console.write_line($"Invocation type:\tf.format_invocation_type\n" +
-                                    $"\tOriginal value:\t\tf.value\n" +
-                                    $"\tOriginal format:\tf.original_format\n" +
-                                    $"\tNew value:\t\t\tf.new_value\n")
-            
-
-        private readonly string mNumberFormat
-        private readonly string mDateFormat
-        private readonly string mGeneralFormat 
-        private List<FormatInvocation> FormatInvocations  get  = new List<FormatInvocation>()
-            
-        private class FormatInvocation
-            
-            public FormatInvocationType FormatInvocationType  get 
-            public object Value  get 
-            public string OriginalFormat  get 
-            public string NewValue  get 
-
-            public FormatInvocation(FormatInvocationType formatInvocationType, object value, string originalFormat, string newValue)
-                
-                Value = value
-                FormatInvocationType = formatInvocationType
-                OriginalFormat = originalFormat
-                NewValue = newValue
-                
-            
-
-        public enum FormatInvocationType
-            
-            Numeric, DateTime, General, All
-            
-        
-    #ExEnd
-
-    [Test, Ignore("Failed")]
-    public void InsertVideoWithUrl()
-        
-        #ExStart
-        #ExFor:DocumentBuilder.insert_online_video(String, Double, Double)
-        #ExSummary:Shows how to insert an online video into a document using a URL.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-
-        builder.insert_online_video("https:#youtu.be/t_1LYZ102RA", 360, 270)
-
-        # We can watch the video from Microsoft Word by clicking on the shape.
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_video_with_url.docx")
-        #ExEnd
-
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_video_with_url.docx")
-        Shape shape = (Shape)doc.get_child(NodeType.shape, 0, True)
-
-        TestUtil.verify_image_in_shape(480, 360, ImageType.jpeg, shape)
-        TestUtil.verify_web_response_status_code(HttpStatusCode.ok, shape.h_ref)
-
-        self.assertEqual(360.0d, shape.width)
-        self.assertEqual(270.0d, shape.height)
-        
-
-    def test_insert_underline(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.underline
-        #ExSummary:Shows how to format text inserted by a document builder.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-
-        builder.underline = Underline.dash
-        builder.font.color = Color.blue
+        builder.underline = aw.Underline.DASH
+        # builder.font.color = Color.blue
         builder.font.size = 32
 
         # The builder applies formatting to its current paragraph and any new text added by it afterward.
         builder.writeln("Large, blue, and underlined text.")
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_underline.docx")
-        #ExEnd
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_underline.docx")
+        # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_underline.docx")
-        Run firstRun = doc.first_section.body.first_paragraph.runs[0]
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_underline.docx")
+        first_run = doc.first_section.body.first_paragraph.runs[0]
 
-        self.assertEqual("Large, blue, and underlined text.", firstRun.get_text().strip())
-        self.assertEqual(Underline.dash, firstRun.font.underline)
-        self.assertEqual(Color.blue.to_argb(), firstRun.font.color.to_argb())
-        self.assertEqual(32.0d, firstRun.font.size)
-        
+        self.assertEqual("Large, blue, and underlined text.", first_run.get_text().strip())
+        self.assertEqual(aw.Underline.DASH, first_run.font.underline)
+        # self.assertEqual(Color.blue.to_argb(), firstRun.font.color.to_argb())
+        self.assertEqual(32.0, first_run.font.size)
 
-    def test_current_story(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.current_story
-        #ExSummary:Shows how to work with a document builder's current story.
+    def test_current_story(self):
+
+        # ExStart
+        # ExFor:DocumentBuilder.current_story
+        # ExSummary:Shows how to work with a document builder's current story.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # A Story is a type of node that has child Paragraph nodes, such as a Body.
         self.assertEqual(builder.current_story, doc.first_section.body)
         self.assertEqual(builder.current_story, builder.current_paragraph.parent_node)
-        self.assertEqual(StoryType.main_text, builder.current_story.story_type)
+        self.assertEqual(aw.StoryType.MAIN_TEXT, builder.current_story.story_type)
 
         builder.current_story.append_paragraph("Text added to current Story.")
 
@@ -2774,71 +2772,72 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.end_table()
 
         self.assertTrue(builder.current_story.tables.contains(table))
-        #ExEnd
+        # ExEnd
 
         doc = DocumentHelper.save_open(doc)
         self.assertEqual(1, doc.first_section.body.tables.count)
-        self.assertEqual("Row 1, cell 1\aRow 1, cell 2\a\a\rText added to current Story.", doc.first_section.body.get_text().strip())
-        
+        self.assertEqual("Row 1, cell 1\aRow 1, cell 2\a\a\rText added to current Story.",
+                         doc.first_section.body.get_text().strip())
 
-    def test_insert_ole_objects(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.insert_ole_object(Stream, String, Boolean, Stream)
-        #ExSummary:Shows how to use document builder to embed OLE objects in a document.
+    @unittest.skip("Streams are not supported")
+    def test_insert_ole_objects(self):
+
+        # ExStart
+        # ExFor:DocumentBuilder.insert_ole_object(Stream, String, Boolean, Stream)
+        # ExSummary:Shows how to use document builder to embed OLE objects in a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # Insert a Microsoft Excel spreadsheet from the local file system
         # into the document while keeping its default appearance.
-        using (Stream spreadsheetStream = File.open(aeb.MyDir + "Spreadsheet.xlsx", FileMode.open))
-            
-            builder.writeln("Spreadsheet Ole object:")
-            # If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
-            # the icon according to 'progId' and uses the predefined icon caption.
-            builder.insert_ole_object(spreadsheetStream, "OleObject.xlsx", False, null)
-            
+        # using (Stream spreadsheetStream = File.open(aeb.my_dir + "Spreadsheet.xlsx", FileMode.open))
+        #
+        #     builder.writeln("Spreadsheet Ole object:")
+        #     # If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
+        #     # the icon according to 'progId' and uses the predefined icon caption.
+        #     builder.insert_ole_object(spreadsheetStream, "OleObject.xlsx", False, null)
+        #
+        #
+        # # Insert a Microsoft Powerpoint presentation as an OLE object.
+        # # This time, it will have an image downloaded from the web for an icon.
+        # using (Stream powerpointStream = File.open(aeb.my_dir + "Presentation.pptx", FileMode.open))
+        #
+        #     using (WebClient webClient = new WebClient())
+        #
+        #         byte[] imgBytes = File.read_all_bytes(aeb.ImageDir + "Logo.jpg")
+        #
+        #         using (MemoryStream imageStream = new MemoryStream(imgBytes))
+        #
+        #             builder.insert_paragraph()
+        #             builder.writeln("Powerpoint Ole object:")
+        #             builder.insert_ole_object(powerpointStream, "OleObject.pptx", True, imageStream)
+        #
+        #
+        #
+        #
+        # # Double-click these objects in Microsoft Word to open
+        # # the linked files using their respective applications.
+        # doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_ole_objects.docx")
+        # #ExEnd
+        #
+        # doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_ole_objects.docx")
+        #
+        # self.assertEqual(2, doc.get_child_nodes(NodeType.shape, True).count)
+        #
+        # Shape shape = (Shape)doc.get_child(NodeType.shape, 0, True)
+        # self.assertEqual("", shape.ole_format.icon_caption)
+        # self.assertFalse(shape.ole_format.ole_icon)
+        #
+        # shape = (Shape)doc.get_child(NodeType.shape, 1, True)
+        # self.assertEqual("Unknown", shape.ole_format.icon_caption)
+        # self.assertTrue(shape.ole_format.ole_icon)
 
-        # Insert a Microsoft Powerpoint presentation as an OLE object.
-        # This time, it will have an image downloaded from the web for an icon.
-        using (Stream powerpointStream = File.open(aeb.MyDir + "Presentation.pptx", FileMode.open))
-            
-            using (WebClient webClient = new WebClient())
-                
-                byte[] imgBytes = File.read_all_bytes(aeb.ImageDir + "Logo.jpg")
+    @unittest.skip("No such enumerator StyleIdentifier.heading_1 (line 2853)")
+    def test_insert_style_separator(self):
 
-                using (MemoryStream imageStream = new MemoryStream(imgBytes))
-                    
-                    builder.insert_paragraph()
-                    builder.writeln("Powerpoint Ole object:")
-                    builder.insert_ole_object(powerpointStream, "OleObject.pptx", True, imageStream)
-                    
-                
-            
-
-        # Double-click these objects in Microsoft Word to open
-        # the linked files using their respective applications.
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_ole_objects.docx")
-        #ExEnd
-
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_ole_objects.docx")
-
-        self.assertEqual(2, doc.get_child_nodes(NodeType.shape, True).count)
-
-        Shape shape = (Shape)doc.get_child(NodeType.shape, 0, True)
-        self.assertEqual("", shape.ole_format.icon_caption)
-        self.assertFalse(shape.ole_format.ole_icon)
-
-        shape = (Shape)doc.get_child(NodeType.shape, 1, True)
-        self.assertEqual("Unknown", shape.ole_format.icon_caption)
-        self.assertTrue(shape.ole_format.ole_icon)
-        
-
-    def test_insert_style_separator(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.insert_style_separator
-        #ExSummary:Shows how to work with style separators.
+        # ExStart
+        # ExFor:DocumentBuilder.insert_style_separator
+        # ExSummary:Shows how to work with style separators.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -2848,12 +2847,12 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.write("This text is in a Heading style. ")
         builder.insert_style_separator()
 
-        Style paraStyle = builder.document.styles.add(StyleType.paragraph, "MyParaStyle")
-        paraStyle.font.bold = False
-        paraStyle.font.size = 8
-        paraStyle.font.name = "Arial"
+        para_style = builder.document.styles.add(aw.StyleType.PARAGRAPH, "MyParaStyle")
+        para_style.font.bold = False
+        para_style.font.size = 8
+        para_style.font.name = "Arial"
 
-        builder.paragraph_format.style_name = paraStyle.name
+        builder.paragraph_format.style_name = para_style.name
         builder.write("This text is in a custom style. ")
 
         # Calling the InsertStyleSeparator method creates another paragraph,
@@ -2863,125 +2862,123 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual("Heading 1", doc.first_section.body.paragraphs[0].paragraph_format.style.name)
         self.assertEqual("MyParaStyle", doc.first_section.body.paragraphs[1].paragraph_format.style.name)
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_style_separator.docx")
-        #ExEnd
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_style_separator.docx")
+        # ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_style_separator.docx")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_style_separator.docx")
 
         self.assertEqual(2, doc.first_section.body.paragraphs.count)
         self.assertEqual("This text is in a Heading style. \r This text is in a custom style.",
-            doc.get_text().strip())
+                         doc.get_text().strip())
         self.assertEqual("Heading 1", doc.first_section.body.paragraphs[0].paragraph_format.style.name)
         self.assertEqual("MyParaStyle", doc.first_section.body.paragraphs[1].paragraph_format.style.name)
         self.assertEqual(" ", doc.first_section.body.paragraphs[1].runs[0].get_text())
-        TestUtil.doc_package_file_contains_string("w:rPr><w:vanish /><w:specVanish /></w:rPr>", 
-            ArtifactsDir + "DocumentBuilder.insert_style_separator.docx", "document.xml")
-        TestUtil.doc_package_file_contains_string("<w:t xml:space=\"preserve\"> </w:t>", 
-            ArtifactsDir + "DocumentBuilder.insert_style_separator.docx", "document.xml")
-        
+        TestUtil.doc_package_file_contains_string("w:rPr><w:vanish /><w:specVanish /></w:rPr>",
+                                                  aeb.artifacts_dir + "DocumentBuilder.insert_style_separator.docx",
+                                                  "document.xml")
+        TestUtil.doc_package_file_contains_string("<w:t xml:space=\"preserve\"> </w:t>",
+                                                  aeb.artifacts_dir + "DocumentBuilder.insert_style_separator.docx",
+                                                  "document.xml")
 
-    [Test]
-    [Ignore("Bug: does not insert headers and footers, all lists (bullets, numbering, multilevel) breaks")]
-    public void InsertDocument()
-        
-        #ExStart
-        #ExFor:DocumentBuilder.insert_document(Document, ImportFormatMode)
-        #ExFor:ImportFormatMode
-        #ExSummary:Shows how to insert a document into another document.
-        doc = aw.Document(aeb.MyDir + "Document.docx")
+    @unittest.skip("Skipped in .NET tests: "
+                   "Bug: does not insert headers and footers, all lists (bullets, numbering, multilevel) breaks")
+    def test_insert_document(self):
+
+        # ExStart
+        # ExFor:DocumentBuilder.insert_document(Document, ImportFormatMode)
+        # ExFor:ImportFormatMode
+        # ExSummary:Shows how to insert a document into another document.
+        doc = aw.Document(aeb.my_dir + "Document.docx")
 
         builder = aw.DocumentBuilder(doc)
         builder.move_to_document_end()
         builder.insert_break(aw.BreakType.PAGE_BREAK)
 
-        docToInsert = aw.Document(aeb.MyDir + "Formatted elements.docx")
+        docToInsert = aw.Document(aeb.my_dir + "Formatted elements.docx")
 
         builder.insert_document(docToInsert, ImportFormatMode.keep_source_formatting)
-        builder.document.save(aeb.ArtifactsDir + "DocumentBuilder.insert_document.docx")
-        #ExEnd
+        builder.document.save(aeb.artifacts_dir + "DocumentBuilder.insert_document.docx")
+        # ExEnd
 
         self.assertEqual(29, doc.styles.count)
-        self.assertTrue(DocumentHelper.compare_docs(aeb.ArtifactsDir + "DocumentBuilder.insert_document.docx",
-            GoldsDir + "DocumentBuilder.insert_document Gold.docx"))
-        
+        self.assertTrue(DocumentHelper.compare_docs(aeb.artifacts_dir + "DocumentBuilder.insert_document.docx",
+                                                    aeb.golds_dir + "DocumentBuilder.insert_document Gold.docx"))
 
-    def test_smart_style_behavior(self) :
-        
-        #ExStart
-        #ExFor:ImportFormatOptions
-        #ExFor:ImportFormatOptions.smart_style_behavior
-        #ExFor:DocumentBuilder.insert_document(Document, ImportFormatMode, ImportFormatOptions)
-        #ExSummary:Shows how to resolve duplicate styles while inserting documents.
-        Document dstDoc = aw.Document()
-        DocumentBuilder builder = aw.DocumentBuilder(dstDoc)
+    def test_smart_style_behavior(self):
+        # ExStart
+        # ExFor:ImportFormatOptions
+        # ExFor:ImportFormatOptions.smart_style_behavior
+        # ExFor:DocumentBuilder.insert_document(Document, ImportFormatMode, ImportFormatOptions)
+        # ExSummary:Shows how to resolve duplicate styles while inserting documents.
 
-        Style myStyle = builder.document.styles.add(StyleType.paragraph, "MyStyle")
-        myStyle.font.size = 14
-        myStyle.font.name = "Courier New"
-        myStyle.font.color = Color.blue
+        print("Color is not available (commented all lines with color)")
 
-        builder.paragraph_format.style_name = myStyle.name
+        dst_doc = aw.Document()
+        builder = aw.DocumentBuilder(dst_doc)
+
+        my_style = builder.document.styles.add(aw.StyleType.PARAGRAPH, "MyStyle")
+        my_style.font.size = 14
+        my_style.font.name = "Courier New"
+        # my_style.font.color = Color.blue
+
+        builder.paragraph_format.style_name = my_style.name
         builder.writeln("Hello world!")
 
-        # Clone the document and edit the clone's "MyStyle" style, so it is a different color than that of the original.
+        # Clone the document and edit the clone's "my_style" style, so it is a different color than that of the original.
         # If we insert the clone into the original document, the two styles with the same name will cause a clash.
-        Document srcDoc = dstDoc.clone()
-        srcDoc.styles["MyStyle"].font.color = Color.red
+        src_doc = dst_doc.clone()
+        # src_doc.styles["MyStyle"].font.color = Color.red
 
         # When we enable SmartStyleBehavior and use the KeepSourceFormatting import format mode,
         # Aspose.words will resolve style clashes by converting source document styles.
         # with the same names as destination styles into direct paragraph attributes.
-        ImportFormatOptions options = new ImportFormatOptions()
+        options = aw.ImportFormatOptions()
         options.smart_style_behavior = True
 
-        builder.insert_document(srcDoc, ImportFormatMode.keep_source_formatting, options)
+        builder.insert_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, options)
 
-        dstDoc.save(aeb.ArtifactsDir + "DocumentBuilder.smart_style_behavior.docx")
-        #ExEnd
+        dst_doc.save(aeb.artifacts_dir + "DocumentBuilder.smart_style_behavior.docx")
+        # ExEnd
 
-        dstDoc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.smart_style_behavior.docx")
+        dst_doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.smart_style_behavior.docx")
 
-        self.assertEqual(Color.blue.to_argb(), dstDoc.styles["MyStyle"].font.color.to_argb())
-        self.assertEqual("MyStyle", dstDoc.first_section.body.paragraphs[0].paragraph_format.style.name)
+        # self.assertEqual(Color.blue.to_argb(), dst_doc.styles["MyStyle"].font.color.to_argb())
+        self.assertEqual("MyStyle", dst_doc.first_section.body.paragraphs[0].paragraph_format.style.name)
 
-        self.assertEqual("Normal", dstDoc.first_section.body.paragraphs[1].paragraph_format.style.name)
-        self.assertEqual(14, dstDoc.first_section.body.paragraphs[1].runs[0].font.size)
-        self.assertEqual("Courier New", dstDoc.first_section.body.paragraphs[1].runs[0].font.name)
-        self.assertEqual(Color.red.to_argb(), dstDoc.first_section.body.paragraphs[1].runs[0].font.color.to_argb())
-        
+        self.assertEqual("Normal", dst_doc.first_section.body.paragraphs[1].paragraph_format.style.name)
+        self.assertEqual(14, dst_doc.first_section.body.paragraphs[1].runs[0].font.size)
+        self.assertEqual("Courier New", dst_doc.first_section.body.paragraphs[1].runs[0].font.name)
+        # self.assertEqual(Color.red.to_argb(), dst_doc.first_section.body.paragraphs[1].runs[0].font.color.to_argb())
 
-    def test_emphases_warning_source_markdown(self) :
-        
-        doc = aw.Document(aeb.MyDir + "Emphases markdown warning.docx")
-            
-        WarningInfoCollection warnings = new WarningInfoCollection()
+    def test_emphases_warning_source_markdown(self):
+
+        doc = aw.Document(aeb.my_dir + "Emphases markdown warning.docx")
+
+        warnings = aw.WarningInfoCollection()
         doc.warning_callback = warnings
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.emphases_warning_source_markdown.md")
- 
-        for (WarningInfo warningInfo in warnings)
-            
-            if (warningInfo.source == WarningSource.markdown)
-                self.assertEqual("The (*, 0:11) cannot be properly written into Markdown.", warningInfo.description)
-            
-        
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.emphases_warning_source_markdown.md")
 
-    def test_do_not_ignore_header_footer(self) :
-        
-        #ExStart
-        #ExFor:ImportFormatOptions.ignore_header_footer
-        #ExSummary:Shows how to specifies ignoring or not source formatting of headers/footers content.
-        Document dstDoc = aw.Document(aeb.MyDir + "Document.docx")
-        Document srcDoc = aw.Document(aeb.MyDir + "Header and footer types.docx")
- 
-        ImportFormatOptions importFormatOptions = new ImportFormatOptions()
-        importFormatOptions.ignore_header_footer = False
- 
-        dstDoc.append_document(srcDoc, ImportFormatMode.keep_source_formatting, importFormatOptions)
+        for warning_info in warnings:
+            if warning_info.source == aw.WarningSource.MARKDOWN:
+                self.assertEqual("The (*, 0:11) cannot be properly written into Markdown.", warning_info.description)
 
-        dstDoc.save(aeb.ArtifactsDir + "DocumentBuilder.do_not_ignore_header_footer.docx")
-        #ExEnd
-        
+    def test_do_not_ignore_header_footer(self):
 
+        # ExStart
+        # ExFor:ImportFormatOptions.ignore_header_footer
+        # ExSummary:Shows how to specifies ignoring or not source formatting of headers/footers content.
+        dst_doc = aw.Document(aeb.my_dir + "Document.docx")
+        src_doc = aw.Document(aeb.my_dir + "Header and footer types.docx")
+
+        import_format_options = aw.ImportFormatOptions()
+        import_format_options.ignore_header_footer = False
+
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, import_format_options)
+
+        dst_doc.save(aeb.artifacts_dir + "DocumentBuilder.do_not_ignore_header_footer.docx")
+        # ExEnd
+
+    """
     #if NET462 || NETCOREAPP2_1 || JAVA
     #/ <summary>
     #/ All markdown tests work with the same file. That's why we need order for them.
@@ -3016,7 +3013,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.writeln("This text will be strikethrough")
             
         # Markdown treats asterisks (*), underscores (_) and tilde (~) as indicators of emphasis.
-        builder.document.save(aeb.ArtifactsDir + "DocumentBuilder.markdown_document.md")
+        builder.document.save(aeb.artifacts_dir + "DocumentBuilder.markdown_document.md")
         
 
     #/ <summary>
@@ -3025,7 +3022,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
     [Test, Order(2)]
     public void MarkdownDocumentInlineCode()
         
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.markdown_document.md")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.markdown_document.md")
         builder = aw.DocumentBuilder(doc)
             
         # Prepare our created document for further work
@@ -3046,7 +3043,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.font.style = inlineCode3BackTicks
         builder.writeln("Text with InlineCode style with 3 backticks")
 
-        builder.document.save(aeb.ArtifactsDir + "DocumentBuilder.markdown_document.md")
+        builder.document.save(aeb.artifacts_dir + "DocumentBuilder.markdown_document.md")
         
 
     #/ <summary>
@@ -3056,7 +3053,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
     [Description("WORDSNET-19850")]
     public void MarkdownDocumentHeadings()
         
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.markdown_document.md")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.markdown_document.md")
         builder = aw.DocumentBuilder(doc)
 
         # Prepare our created document for further work
@@ -3121,7 +3118,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.paragraph_format.style = doc.styles["Heading 6"]
         builder.writeln("This is an H6 tag")
             
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.markdown_document.md")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.markdown_document.md")
         
 
     #/ <summary>
@@ -3130,7 +3127,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
     [Test, Order(4)]
     public void MarkdownDocumentBlockquotes()
         
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.markdown_document.md")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.markdown_document.md")
         builder = aw.DocumentBuilder(doc)
 
         # Prepare our created document for further work
@@ -3180,7 +3177,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.font.bold = True
         builder.writeln("6. Nested italic bold blockquote")
             
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.markdown_document.md")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.markdown_document.md")
         
 
     #/ <summary>
@@ -3189,7 +3186,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
     [Test, Order(5)]
     public void MarkdownDocumentIndentedCode()
         
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.markdown_document.md")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.markdown_document.md")
         builder = aw.DocumentBuilder(doc)
 
         # Prepare our created document for further work
@@ -3203,7 +3200,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.paragraph_format.style = indentedCode
         builder.writeln("This is an indented code")
             
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.markdown_document.md")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.markdown_document.md")
         
 
     #/ <summary>
@@ -3212,7 +3209,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
     [Test, Order(6)]
     public void MarkdownDocumentFencedCode()
         
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.markdown_document.md")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.markdown_document.md")
         builder = aw.DocumentBuilder(doc)
 
         # Prepare our created document for further work
@@ -3230,7 +3227,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.paragraph_format.style = fencedCodeWithInfo
         builder.writeln("This is a fenced code with info string")
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.markdown_document.md")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.markdown_document.md")
         
 
     #/ <summary>
@@ -3239,7 +3236,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
     [Test, Order(7)]
     public void MarkdownDocumentHorizontalRule()
         
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.markdown_document.md")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.markdown_document.md")
         builder = aw.DocumentBuilder(doc)
 
         # Prepare our created document for further work
@@ -3251,7 +3248,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # Insert HorizontalRule that will be present in .md file as '-----'.
         builder.insert_horizontal_rule()
  
-        builder.document.save(aeb.ArtifactsDir + "DocumentBuilder.markdown_document.md")
+        builder.document.save(aeb.artifacts_dir + "DocumentBuilder.markdown_document.md")
         
 
     #/ <summary>
@@ -3260,7 +3257,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
     [Test, Order(8)]
     public void MarkdownDocumentBulletedList()
         
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.markdown_document.md")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.markdown_document.md")
         builder = aw.DocumentBuilder(doc)
 
         # Prepare our created document for further work
@@ -3281,7 +3278,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.writeln("Item 2a")
         builder.writeln("Item 2b")
  
-        builder.document.save(aeb.ArtifactsDir + "DocumentBuilder.markdown_document.md")
+        builder.document.save(aeb.artifacts_dir + "DocumentBuilder.markdown_document.md")
         
 
     #/ <summary>
@@ -3315,7 +3312,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
     public void LoadMarkdownDocumentAndAssertContent(string text, string styleName, bool isItalic, bool isBold)
         
         # Load created document from previous tests.
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.markdown_document.md")
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.markdown_document.md")
         ParagraphCollection paragraphs = doc.first_section.body.paragraphs
             
         for (Paragraph paragraph in paragraphs)
@@ -3342,116 +3339,114 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
             self.assertTrue(shapesCollection.count == 1)
             self.assertTrue(horizontalRuleShape.is_horizontal_rule)
             
-        
+        """
 
-    [TestCase(TableContentAlignment.left)]
-    [TestCase(TableContentAlignment.right)]
-    [TestCase(TableContentAlignment.center)]
-    [TestCase(TableContentAlignment.auto)]
-    public void MarkdownDocumentTableContentAlignment(TableContentAlignment tableContentAlignment)
-        
-        DocumentBuilder builder = aw.DocumentBuilder()
+    def test_markdown_document_table_content_alignment(self):
 
-        builder.insert_cell()
-        builder.paragraph_format.alignment = ParagraphAlignment.right
-        builder.write("Cell1")
-        builder.insert_cell()
-        builder.paragraph_format.alignment = aw.ParagraphAlignment.CENTER
-        builder.write("Cell2")
+        for table_content_alignment in (aw.saving.TableContentAlignment.LEFT,
+                                        aw.saving.TableContentAlignment.RIGHT,
+                                        aw.saving.TableContentAlignment.CENTER,
+                                        aw.saving.TableContentAlignment.AUTO):
+            with self.subTest(table_content_alignment=table_content_alignment):
 
-        MarkdownSaveOptions saveOptions = new MarkdownSaveOptions()
-        saveOptions.table_content_alignment = tableContentAlignment
+                builder = aw.DocumentBuilder()
 
-        builder.document.save(aeb.ArtifactsDir + "DocumentBuilder.markdown_document_table_content_alignment.md", saveOptions)
+                builder.insert_cell()
+                builder.paragraph_format.alignment = aw.ParagraphAlignment.RIGHT
+                builder.write("Cell1")
+                builder.insert_cell()
+                builder.paragraph_format.alignment = aw.ParagraphAlignment.CENTER
+                builder.write("Cell2")
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.markdown_document_table_content_alignment.md")
-        table = doc.first_section.body.tables[0]
+                save_options = aw.saving.MarkdownSaveOptions()
+                save_options.table_content_alignment = table_content_alignment
 
-        switch (tableContentAlignment)
-            
-            case TableContentAlignment.auto:
-                self.assertEqual(ParagraphAlignment.right,
-                    table.first_row.cells[0].first_paragraph.paragraph_format.alignment)
-                self.assertEqual(aw.ParagraphAlignment.CENTER,
-                    table.first_row.cells[1].first_paragraph.paragraph_format.alignment)
-                break
-            case TableContentAlignment.left:
-                self.assertEqual(ParagraphAlignment.left,
-                    table.first_row.cells[0].first_paragraph.paragraph_format.alignment)
-                self.assertEqual(ParagraphAlignment.left,
-                    table.first_row.cells[1].first_paragraph.paragraph_format.alignment)
-                break
-            case TableContentAlignment.center:
-                self.assertEqual(aw.ParagraphAlignment.CENTER,
-                    table.first_row.cells[0].first_paragraph.paragraph_format.alignment)
-                self.assertEqual(aw.ParagraphAlignment.CENTER,
-                    table.first_row.cells[1].first_paragraph.paragraph_format.alignment)
-                break
-            case TableContentAlignment.right:
-                self.assertEqual(ParagraphAlignment.right,
-                    table.first_row.cells[0].first_paragraph.paragraph_format.alignment)
-                self.assertEqual(ParagraphAlignment.right,
-                    table.first_row.cells[1].first_paragraph.paragraph_format.alignment)
-                break
-            
-        
+                builder.document.save(
+                    aeb.artifacts_dir + "DocumentBuilder.markdown_document_table_content_alignment.md", save_options)
 
-    #ExStart
-    #ExFor:MarkdownSaveOptions.image_saving_callback
-    #ExFor:IImageSavingCallback
-    #ExSummary:Shows how to rename the image name during saving into Markdown document.
-    [Test] #ExSkip
-    public void RenameImages()
-        
-        doc = aw.Document(aeb.MyDir + "Rendering.docx")
+                doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.markdown_document_table_content_alignment.md")
+                table = doc.first_section.body.tables[0]
 
-        MarkdownSaveOptions options = new MarkdownSaveOptions()
+                if table_content_alignment == table_content_alignment.AUTO:
+                    self.assertEqual(aw.ParagraphAlignment.RIGHT,
+                                     table.first_row.cells[0].first_paragraph.paragraph_format.alignment)
+                    self.assertEqual(aw.ParagraphAlignment.CENTER,
+                                     table.first_row.cells[1].first_paragraph.paragraph_format.alignment)
 
-        # If we convert a document that contains images into Markdown, we will end up with one Markdown file which links to several images.
-        # Each image will be in the form of a file in the local file system.
-        # There is also a callback that can customize the name and file system location of each image.
-        options.image_saving_callback = new SavedImageRename("DocumentBuilder.handle_document.md")
+                if table_content_alignment == table_content_alignment.LEFT:
+                    self.assertEqual(aw.ParagraphAlignment.LEFT,
+                                     table.first_row.cells[0].first_paragraph.paragraph_format.alignment)
+                    self.assertEqual(aw.ParagraphAlignment.LEFT,
+                                     table.first_row.cells[1].first_paragraph.paragraph_format.alignment)
 
-        # The ImageSaving() method of our callback will be run at this time.
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.handle_document.md", options)
+                if table_content_alignment == table_content_alignment.CENTER:
+                    self.assertEqual(aw.ParagraphAlignment.CENTER,
+                                     table.first_row.cells[0].first_paragraph.paragraph_format.alignment)
+                    self.assertEqual(aw.ParagraphAlignment.CENTER,
+                                     table.first_row.cells[1].first_paragraph.paragraph_format.alignment)
 
-        self.assertEqual(1,
-            Directory.get_files(aeb.ArtifactsDir)
-                .where(s => s.starts_with(aeb.ArtifactsDir + "DocumentBuilder.handle_document.md shape"))
-                .count(f => f.ends_with(".jpeg")))
-        self.assertEqual(8,
-            Directory.get_files(aeb.ArtifactsDir)
-                .where(s => s.starts_with(aeb.ArtifactsDir + "DocumentBuilder.handle_document.md shape"))
-                .count(f => f.ends_with(".png")))
-        
+                if table_content_alignment == table_content_alignment.RIGHT:
+                    self.assertEqual(aw.ParagraphAlignment.RIGHT,
+                                     table.first_row.cells[0].first_paragraph.paragraph_format.alignment)
+                    self.assertEqual(aw.ParagraphAlignment.RIGHT,
+                                     table.first_row.cells[1].first_paragraph.paragraph_format.alignment)
 
-    #/ <summary>
-    #/ Renames saved images that are produced when an Markdown document is saved.
-    #/ </summary>
-    public class SavedImageRename : IImageSavingCallback
-        
-        public SavedImageRename(string outFileName)
-            
-            mOutFileName = outFileName
-            
 
-        void IImageSavingCallback.image_saving(ImageSavingArgs args)
-            
-            string imageFileName = $"mOutFileName shape ++mCount, of type args.current_shape.shape_type_path.get_extension(args.image_file_name)"
+    # def test_rename_images(self):
+    #     # ExStart
+    #     # ExFor:MarkdownSaveOptions.image_saving_callback
+    #     # ExFor:IImageSavingCallback
+    #     # ExSummary:Shows how to rename the image name during saving into Markdown document.
+    #     doc = aw.Document(aeb.my_dir + "Rendering.docx")
+    #
+    #     options = aw.MarkdownSaveOptions()
+    #
+    #     # If we convert a document that contains images into Markdown, we will end up with one Markdown file which links to several images.
+    #     # Each image will be in the form of a file in the local file system.
+    #     # There is also a callback that can customize the name and file system location of each image.
+    #     options.image_saving_callback = SavedImageRename("DocumentBuilder.handle_document.md")
+    #
+    #     # The ImageSaving() method of our callback will be run at this time.
+    #     doc.save(aeb.artifacts_dir + "DocumentBuilder.handle_document.md", options)
+    #
+    #     self.assertEqual(1,
+    #         Directory.get_files(aeb.artifacts_dir)
+    #             .where(s => s.starts_with(aeb.artifacts_dir + "DocumentBuilder.handle_document.md shape"))
+    #             .count(f => f.ends_with(".jpeg")))
+    #     self.assertEqual(8,
+    #         Directory.get_files(aeb.artifacts_dir)
+    #             .where(s => s.starts_with(aeb.artifacts_dir + "DocumentBuilder.handle_document.md shape"))
+    #             .count(f => f.ends_with(".png")))
+    #
+    #
+    # #/ <summary>
+    # #/ Renames saved images that are produced when an Markdown document is saved.
+    # #/ </summary>
+    # public class SavedImageRename : IImageSavingCallback
+    #
+    #     public SavedImageRename(string outFileName)
+    #
+    #         mOutFileName = outFileName
+    #
+    #
+    #     void IImageSavingCallback.image_saving(ImageSavingArgs args)
+    #
+    #         string imageFileName = $"mOutFileName shape ++mCount, of type args.current_shape.shape_type_path.get_extension(args.image_file_name)"
+    #
+    #         args.image_file_name = imageFileName
+    #         args.image_stream = new FileStream(aeb.artifacts_dir + imageFileName, FileMode.create)
+    #
+    #         self.assertTrue(args.image_stream.can_write)
+    #         self.assertTrue(args.is_image_available)
+    #         self.assertFalse(args.keep_image_stream_open)
+    #
+    #
+    #     private int mCount
+    #     private readonly string mOutFileName
+    #
+    # #ExEnd
 
-            args.image_file_name = imageFileName
-            args.image_stream = new FileStream(aeb.ArtifactsDir + imageFileName, FileMode.create)
-
-            self.assertTrue(args.image_stream.can_write)
-            self.assertTrue(args.is_image_available)
-            self.assertFalse(args.keep_image_stream_open)
-            
-
-        private int mCount
-        private readonly string mOutFileName
-        
-    #ExEnd
-
+    @unittest.skip("No type casting (line 3476), testUtil hadn't been done yet, no such property as HttpStatusCode")
     def test_insert_online_video(self) :
         
         #ExStart
@@ -3460,108 +3455,109 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
             
-        string videoUrl = "https:#vimeo.com/52477838"
+        video_url = "https:#vimeo.com/52477838"
 
         # Insert a shape that plays a video from the web when clicked in Microsoft Word.
         # This rectangular shape will contain an image based on the first frame of the linked video
         # and a "play button" visual prompt. The video has an aspect ratio of 16:9.
         # We will set the shape's size to that ratio, so the image does not appear stretched.
-        builder.insert_online_video(videoUrl, aw.drawing.RelativeHorizontalPosition.left_margin, 0,
+        builder.insert_online_video(video_url, aw.drawing.RelativeHorizontalPosition.left_margin, 0,
             aw.drawing.RelativeVerticalPosition.top_margin, 0, 320, 180, aw.drawing.WrapType.square)
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_online_video.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_online_video.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_online_video.docx")
-        Shape shape = (Shape)doc.get_child(NodeType.shape, 0, True)
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_online_video.docx")
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True)
 
-        TestUtil.verify_image_in_shape(640, 360, ImageType.jpeg, shape)
+        TestUtil.verify_image_in_shape(640, 360, aw.ImageType.JPEG, shape)
 
-        self.assertEqual(320.0d, shape.width)
-        self.assertEqual(180.0d, shape.height)
-        self.assertEqual(0.0d, shape.left)
-        self.assertEqual(0.0d, shape.top)
+        self.assertEqual(320.0, shape.width)
+        self.assertEqual(180.0, shape.height)
+        self.assertEqual(0.0, shape.left)
+        self.assertEqual(0.0, shape.top)
         self.assertEqual(aw.drawing.WrapType.square, shape.wrap_type)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.top_margin, shape.relative_vertical_position)
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.left_margin, shape.relative_horizontal_position)
 
         self.assertEqual("https:#vimeo.com/52477838", shape.h_ref)
-        TestUtil.verify_web_response_status_code(HttpStatusCode.ok, shape.h_ref)
+        TestUtil.verify_web_response_status_code(HttpStatusCode.OK, shape.h_ref)
+
+
+    # def test_insert_online_video_custom_thumbnail(self) :
+    #
+    #     #ExStart
+    #     #ExFor:DocumentBuilder.insert_online_video(String, String, Byte[], Double, Double)
+    #     #ExFor:DocumentBuilder.insert_online_video(String, String, Byte[], aw.drawing.RelativeHorizontalPosition, Double, aw.drawing.RelativeVerticalPosition, Double, Double, Double, aw.drawing.WrapType)
+    #     #ExSummary:Shows how to insert an online video into a document with a custom thumbnail.
+    #     doc = aw.Document()
+    #     builder = aw.DocumentBuilder(doc)
+    #
+    #     video_url = "https:#vimeo.com/52477838"
+    #     videoEmbedCode =
+    #         "<iframe src=\"https:#player.vimeo.com/video/52477838\" width=\"640\" height=\"360\" frameborder=\"0\" " +
+    #         "title=\"Aspose\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>"
+    #
+    #     byte[] thumbnailImageBytes = File.read_all_bytes(aeb.image_dir + "Logo.jpg")
+    #
+    #     using (MemoryStream stream = new MemoryStream(thumbnailImageBytes))
+    #
+    #         using (Image image = Image.from_stream(stream))
+    #
+    #             # Below are two ways of creating a shape with a custom thumbnail, which links to an online video
+    #             # that will play when we click on the shape in Microsoft Word.
+    #             # 1 -  Insert an inline shape at the builder's node insertion cursor:
+    #             builder.insert_online_video(video_url, videoEmbedCode, thumbnailImageBytes, image.width, image.height)
+    #
+    #             builder.insert_break(aw.BreakType.PAGE_BREAK)
+    #
+    #             # 2 -  Insert a floating shape:
+    #             double left = builder.page_setup.right_margin - image.width
+    #             double top = builder.page_setup.bottom_margin - image.height
+    #
+    #             builder.insert_online_video(video_url, videoEmbedCode, thumbnailImageBytes,
+    #                 aw.drawing.RelativeHorizontalPosition.right_margin, left, aw.drawing.RelativeVerticalPosition.bottom_margin, top,
+    #                 image.width, image.height, aw.drawing.WrapType.square)
+    #
+    #
+    #
+    #     doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_online_video_custom_thumbnail.docx")
+    #     #ExEnd
+    #
+    #     doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_online_video_custom_thumbnail.docx")
+    #     Shape shape = (Shape) doc.get_child(NodeType.shape, 0, True)
+    #
+    #     TestUtil.verify_image_in_shape(400, 400, ImageType.jpeg, shape)
+    #     self.assertEqual(400.0d, shape.width)
+    #     self.assertEqual(400.0d, shape.height)
+    #     self.assertEqual(0.0d, shape.left)
+    #     self.assertEqual(0.0d, shape.top)
+    #     self.assertEqual(aw.drawing.WrapType.inline, shape.wrap_type)
+    #     self.assertEqual(aw.drawing.RelativeVerticalPosition.paragraph, shape.relative_vertical_position)
+    #     self.assertEqual(aw.drawing.RelativeHorizontalPosition.column, shape.relative_horizontal_position)
+    #
+    #     self.assertEqual("https:#vimeo.com/52477838", shape.h_ref)
+    #
+    #     shape = (Shape) doc.get_child(NodeType.shape, 1, True)
+    #
+    #     TestUtil.verify_image_in_shape(400, 400, ImageType.jpeg, shape)
+    #     self.assertEqual(400.0d, shape.width)
+    #     self.assertEqual(400.0d, shape.height)
+    #     self.assertEqual(-329.15d, shape.left)
+    #     self.assertEqual(-329.15d, shape.top)
+    #     self.assertEqual(WrapType.square, shape.wrap_type)
+    #     self.assertEqual(aw.drawing.RelativeVerticalPosition.bottom_margin, shape.relative_vertical_position)
+    #     self.assertEqual(RelativeHorizontalPosition.right_margin, shape.relative_horizontal_position)
+    #
+    #     self.assertEqual("https:#vimeo.com/52477838", shape.h_ref)
+    #
+    #     ServicePointManager.security_protocol = SecurityProtocolType.tls_12
+    #     TestUtil.verify_web_response_status_code(HttpStatusCode.ok, shape.h_ref)
         
 
-    def test_insert_online_video_custom_thumbnail(self) :
-        
-        #ExStart
-        #ExFor:DocumentBuilder.insert_online_video(String, String, Byte[], Double, Double)
-        #ExFor:DocumentBuilder.insert_online_video(String, String, Byte[], aw.drawing.RelativeHorizontalPosition, Double, aw.drawing.RelativeVerticalPosition, Double, Double, Double, aw.drawing.WrapType)
-        #ExSummary:Shows how to insert an online video into a document with a custom thumbnail.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-
-        string videoUrl = "https:#vimeo.com/52477838"
-        string videoEmbedCode =
-            "<iframe src=\"https:#player.vimeo.com/video/52477838\" width=\"640\" height=\"360\" frameborder=\"0\" " +
-            "title=\"Aspose\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>"
-
-        byte[] thumbnailImageBytes = File.read_all_bytes(aeb.ImageDir + "Logo.jpg")
-
-        using (MemoryStream stream = new MemoryStream(thumbnailImageBytes))
-            
-            using (Image image = Image.from_stream(stream))
-                
-                # Below are two ways of creating a shape with a custom thumbnail, which links to an online video
-                # that will play when we click on the shape in Microsoft Word.
-                # 1 -  Insert an inline shape at the builder's node insertion cursor:
-                builder.insert_online_video(videoUrl, videoEmbedCode, thumbnailImageBytes, image.width, image.height)
-
-                builder.insert_break(aw.BreakType.PAGE_BREAK)
-
-                # 2 -  Insert a floating shape:
-                double left = builder.page_setup.right_margin - image.width
-                double top = builder.page_setup.bottom_margin - image.height
-
-                builder.insert_online_video(videoUrl, videoEmbedCode, thumbnailImageBytes,
-                    aw.drawing.RelativeHorizontalPosition.right_margin, left, aw.drawing.RelativeVerticalPosition.bottom_margin, top,
-                    image.width, image.height, aw.drawing.WrapType.square)
-                
-            
-
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_online_video_custom_thumbnail.docx")
-        #ExEnd
-
-        doc = aw.Document(aeb.ArtifactsDir + "DocumentBuilder.insert_online_video_custom_thumbnail.docx")
-        Shape shape = (Shape) doc.get_child(NodeType.shape, 0, True)
-
-        TestUtil.verify_image_in_shape(400, 400, ImageType.jpeg, shape)
-        self.assertEqual(400.0d, shape.width)
-        self.assertEqual(400.0d, shape.height)
-        self.assertEqual(0.0d, shape.left)
-        self.assertEqual(0.0d, shape.top)
-        self.assertEqual(aw.drawing.WrapType.inline, shape.wrap_type)
-        self.assertEqual(aw.drawing.RelativeVerticalPosition.paragraph, shape.relative_vertical_position)
-        self.assertEqual(aw.drawing.RelativeHorizontalPosition.column, shape.relative_horizontal_position)
-
-        self.assertEqual("https:#vimeo.com/52477838", shape.h_ref)
-
-        shape = (Shape) doc.get_child(NodeType.shape, 1, True)
-
-        TestUtil.verify_image_in_shape(400, 400, ImageType.jpeg, shape)
-        self.assertEqual(400.0d, shape.width)
-        self.assertEqual(400.0d, shape.height)
-        self.assertEqual(-329.15d, shape.left)
-        self.assertEqual(-329.15d, shape.top)
-        self.assertEqual(WrapType.square, shape.wrap_type)
-        self.assertEqual(aw.drawing.RelativeVerticalPosition.bottom_margin, shape.relative_vertical_position)
-        self.assertEqual(RelativeHorizontalPosition.right_margin, shape.relative_horizontal_position)
-
-        self.assertEqual("https:#vimeo.com/52477838", shape.h_ref)
-
-        ServicePointManager.security_protocol = SecurityProtocolType.tls_12
-        TestUtil.verify_web_response_status_code(HttpStatusCode.ok, shape.h_ref)
-        
-
+    @unittest.skip("Streams are not supported")
     def test_insert_ole_object_as_icon(self) :
-        
+
         #ExStart
         #ExFor:DocumentBuilder.insert_ole_object_as_icon(String, String, Boolean, String, String)
         #ExFor:DocumentBuilder.insert_ole_object_as_icon(Stream, String, String, String)
@@ -3571,24 +3567,25 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         # If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
         # the icon according to 'progId' and uses the filename for the icon caption.
-        builder.insert_ole_object_as_icon(aeb.MyDir + "Presentation.pptx", "Package", False, aeb.ImageDir + "Logo icon.ico", "My embedded file")
+        builder.insert_ole_object_as_icon(aeb.my_dir + "Presentation.pptx", "Package", False, aeb.ImageDir + "Logo icon.ico", "My embedded file")
 
-        builder.insert_break(BreakType.line_break)
+        builder.insert_break(aw.BreakType.LINE_BREAK)
 
-        using (FileStream stream = new FileStream(aeb.MyDir + "Presentation.pptx", FileMode.open))
-            
-            # If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
-            # the icon according to the file extension and uses the filename for the icon caption.
-            Shape shape = builder.insert_ole_object_as_icon(stream, "PowerPoint.application", aeb.ImageDir + "Logo icon.ico",
-                "My embedded file stream")
+        # using (FileStream stream = new FileStream(aeb.my_dir + "Presentation.pptx", FileMode.open))
+        #
+        #     # If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
+        #     # the icon according to the file extension and uses the filename for the icon caption.
+        #     Shape shape = builder.insert_ole_object_as_icon(stream, "PowerPoint.application", aeb.ImageDir + "Logo icon.ico",
+        #         "My embedded file stream")
+        #
+        #     OlePackage setOlePackage = shape.ole_format.ole_package
+        #     setOlePackage.file_name = "Presentation.pptx"
+        #     setOlePackage.display_name = "Presentation.pptx"
 
-            OlePackage setOlePackage = shape.ole_format.ole_package
-            setOlePackage.file_name = "Presentation.pptx"
-            setOlePackage.display_name = "Presentation.pptx"
-            
 
-        doc.save(aeb.ArtifactsDir + "DocumentBuilder.insert_ole_object_as_icon.docx")
+        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_ole_object_as_icon.docx")
         #ExEnd
-"""
+
+
 if __name__ == '__main__':
     unittest.main()
