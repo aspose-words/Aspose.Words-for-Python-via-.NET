@@ -2413,14 +2413,13 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
                 # ExEnd
 
-    @unittest.skip("???")
-    def test_insert_ole_object_exception(self):
-
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-
-        self.assertRaises(builder.insert_ole_object("", "checkbox", False, True, None),
-                          Throws.type_of < ArgumentException > ())
+    # def test_insert_ole_object_exception(self):
+    #
+    #     doc = aw.Document()
+    #     builder = aw.DocumentBuilder(doc)
+    #
+    #     self.assertRaises(builder.insert_ole_object("", "checkbox", False, True, None),
+    #                       Throws.type_of < ArgumentException > ())
 
     @unittest.skip("No type casting (line 2452), something wrong with add() method (line 2444)")
     def test_insert_pie_chart(self):
