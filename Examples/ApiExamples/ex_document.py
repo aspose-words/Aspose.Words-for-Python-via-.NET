@@ -2,10 +2,11 @@ import os
 import unittest
 from datetime import date, datetime
 
+import aspose.words as aw
+
 import api_example_base as aeb
 from document_helper import DocumentHelper
 
-import aspose.words as aw
 
 class ExDocument(aeb.ApiExampleBase):
 
@@ -113,15 +114,15 @@ class ExDocument(aeb.ApiExampleBase):
         doc.save(aeb.artifacts_dir + "Document.ConvertToHtml.html", aw.SaveFormat.HTML)
         # ExEnd
 
-    def test_ConvertToMhtml(self):
+    def test_convert_to_mhtml(self):
         doc = aw.Document(aeb.my_dir + "Document.docx")
         doc.save(aeb.artifacts_dir + "Document.ConvertToMhtml.mht")
 
-    def test_ConvertToTxt(self):
+    def test_convert_to_txt(self):
         doc = aw.Document(aeb.my_dir + "Document.docx")
         doc.save(aeb.artifacts_dir + "Document.ConvertToTxt.txt")
 
-    def test_ConvertToEpub(self):
+    def test_convert_to_epub(self):
         doc = aw.Document(aeb.my_dir + "Rendering.docx")
         doc.save(aeb.artifacts_dir + "Document.ConvertToEpub.epub")
 
