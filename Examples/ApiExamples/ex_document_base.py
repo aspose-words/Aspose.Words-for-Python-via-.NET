@@ -1,9 +1,6 @@
-import os
 import unittest
-from datetime import date, datetime
 
 import api_example_base as aeb
-from document_helper import DocumentHelper
 
 import aspose.words as aw
 
@@ -44,7 +41,7 @@ class ExDocumentBase(aeb.ApiExampleBase):
 
         # self.assertEqual(System.drawing.color.light_gray.to_argb(), doc.page_color.to_argb())
 
-    @unittest.skip("No type casting (line 67)")
+    @unittest.skip("No type casting (line 64)")
     def test_import_node(self):
         # ExStart
         # ExFor:DocumentBase.import_node(Node, Boolean)
@@ -80,7 +77,7 @@ class ExDocumentBase(aeb.ApiExampleBase):
         self.assertEqual(imported_section.body.first_paragraph.get_text(),
                          src_doc.first_section.body.first_paragraph.get_text())
 
-    @unittest.skip("No type casting (line 108), item properties can use only int (lines 116-118)")
+    @unittest.skip("No type casting (line 105), item properties can use only int (lines 114-114)")
     def test_import_node_custom(self):
 
         #ExStart
