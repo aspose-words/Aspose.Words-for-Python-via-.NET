@@ -77,7 +77,7 @@ class ExDocumentBase(aeb.ApiExampleBase):
         self.assertEqual(imported_section.body.first_paragraph.get_text(),
                          src_doc.first_section.body.first_paragraph.get_text())
 
-    @unittest.skip("No type casting (line 105), item properties can use only int (lines 114-114)")
+    @unittest.skip("No type casting (line 105), item properties can use only int (lines 114-115)")
     def test_import_node_custom(self):
 
         #ExStart
