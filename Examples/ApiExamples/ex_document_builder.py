@@ -1,6 +1,8 @@
+import locale
 import unittest
 
 import aspose.words as aw
+import datetime
 
 import api_example_base as aeb
 from document_helper import DocumentHelper
@@ -161,11 +163,12 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExEnd
 
         doc = DocumentHelper.save_open(doc)
-        # shape = (Shape)doc.get_child(NodeType.shape, 0, True) # no type casting yet.
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True)
+        shape = shape.as_shape()
 
-        # self.assertEqual(HorizontalRuleAlignment.center, shape.horizontal_rule_format.alignment)
-        # self.assertEqual(70, shape.horizontal_rule_format.width_percent)
-        # self.assertEqual(3, shape.horizontal_rule_format.height)
+        self.assertEqual(aw.drawing.HorizontalRuleAlignment.CENTER, shape.horizontal_rule_format.alignment)
+        self.assertEqual(70, shape.horizontal_rule_format.width_percent)
+        self.assertEqual(3, shape.horizontal_rule_format.height)
         # self.assertEqual(Color.blue.to_argb(), shape.horizontal_rule_format.color.to_argb())
 
     #    [Test(Description = "Checking the boundary conditions of WidthPercent and Height properties")]
@@ -563,7 +566,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         doc.save(aeb.artifacts_dir + "Bookmarks.create_column_bookmark.docx")
         # ExEnd
 
-    @unittest.skip("It seems that 'insert_combo_box' method is missing (line 585)")
+    @unittest.skip("How to convert a aspose.words.fields.DropDownItemCollection to array ? (line 604)")
     def test_create_form(self):
         # ExStart
         # ExFor:TextFormFieldType
@@ -760,7 +763,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertTrue(paragraphs[2].runs[0].font.italic)
         self.assertEqual("John Bloggs", paragraphs[2].runs[0].get_text().strip())
 
-    @unittest.skip("No type casting (line 820)")
+    @unittest.skip(".as_field_toc ??? need new wrapper")
     def test_insert_toc(self):
 
         # ExStart
@@ -817,15 +820,14 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_toc.docx")
 
-        # FieldToc tableOfContents = (FieldToc)doc.range.fields[0] # no typecasting
+        table_of_contents = doc.range.fields[0]
+        table_of_contents = table_of_contents.as_field_toc()
 
-        self.assertEqual("1-3", tableOfContents.heading_level_range)
-        self.assertTrue(tableOfContents.insert_hyperlinks)
-        self.assertTrue(tableOfContents.hide_in_web_layout)
-        self.assertTrue(tableOfContents.use_paragraph_outline_level)
+        self.assertEqual("1-3", table_of_contents.heading_level_range)
+        self.assertTrue(table_of_contents.insert_hyperlinks)
+        self.assertTrue(table_of_contents.hide_in_web_layout)
+        self.assertTrue(table_of_contents.use_paragraph_outline_level)
 
-    @unittest.skip("Something wrong with cells.to_array() method (exit code -1073741819 (0xC0000005))" +
-                   " and without it type casting is needed (lines 923 and 935)")
     def test_insert_table(self):
 
         # ExStart
@@ -920,7 +922,8 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(aw.LineStyle.ENGRAVE3_D, table.rows[0].row_format.borders.line_style)
         # self.assertEqual(Color.orange.to_argb(), table.rows[0].row_format.borders.color.to_argb()) # color is not supported
 
-        for c in table.rows[0].cells.to_array():
+        for c in table.rows[0].cells:
+            c = c.as_cell()
             self.assertEqual(150, c.cell_format.width)
             self.assertEqual(aw.tables.CellVerticalAlignment.CENTER, c.cell_format.vertical_alignment)
             # self.assertEqual(Color.green_yellow.to_argb(), c.cell_format.shading.background_pattern_color.to_argb()) # color is not supported
@@ -932,7 +935,8 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual("Row 2, Col 1\a", table.rows[1].cells[0].get_text().strip())
         self.assertEqual("Row 2, Col 2\a", table.rows[1].cells[1].get_text().strip())
 
-        for c in table.rows[1].cells.to_array():
+        for c in table.rows[1].cells:
+            c = c.as_cell()
             self.assertEqual(150, c.cell_format.width)
             self.assertEqual(aw.tables.CellVerticalAlignment.CENTER, c.cell_format.vertical_alignment)
             # self.assertEqual(Color.empty.to_argb(), c.cell_format.shading.background_pattern_color.to_argb()) # color is not supported
@@ -1246,8 +1250,6 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual("Row 2, Cell 1.\a", table.rows[1].cells[0].get_text().strip())
         self.assertEqual("Row 2, Cell 2.\a", table.rows[1].cells[1].get_text().strip())
 
-    @unittest.skip("Something wrong with cells.to_array() method (exit code -1073741819 (0xC0000005))" +
-                   " and without it type casting is needed (lines 1326) and no type casting (line 1330)")
     def test_build_formatted_table(self):
 
         # ExStart
@@ -1323,12 +1325,14 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(aw.HeightRule.AT_LEAST, table.rows[0].row_format.height_rule)
         self.assertEqual(40.0, table.rows[0].row_format.height)
 
-        for c in doc.get_child_nodes(aw.NodeType.CELL, True).to_array():
+        for c in doc.get_child_nodes(aw.NodeType.CELL, True):
 
+            c = c.as_cell()
             self.assertEqual(aw.ParagraphAlignment.CENTER, c.first_paragraph.paragraph_format.alignment)
 
             for r in c.first_paragraph.runs:
 
+                r = r.as_run()
                 self.assertEqual("Arial", r.font.name)
 
                 if c.parent_row == table.first_row:
@@ -1341,7 +1345,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
                     self.assertEqual(12, r.font.size)
                     self.assertFalse(r.font.bold)
 
-    @unittest.skip("No type casting (lines 1394 and 1408)")
+    # @unittest.skip("No type casting (lines 1394 and 1408)")
     def test_table_borders_and_shading(self):
 
         # ExStart
@@ -1392,28 +1396,30 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         table = doc.first_section.body.tables[0]
 
         for c in table.first_row:
+            c = c.as_cell()
             self.assertEqual(0.5, c.cell_format.borders.top.line_width)
             self.assertEqual(0.5, c.cell_format.borders.bottom.line_width)
             self.assertEqual(0.5, c.cell_format.borders.left.line_width)
             self.assertEqual(0.5, c.cell_format.borders.right.line_width)
 
-            self.assertEqual(Color.empty.to_argb(), c.cell_format.borders.left.color.to_argb())
-            self.assertEqual(LineStyle.single, c.cell_format.borders.left.line_style)
+            # self.assertEqual(Color.empty.to_argb(), c.cell_format.borders.left.color.to_argb())
+            self.assertEqual(aw.LineStyle.SINGLE, c.cell_format.borders.left.line_style)
 
-        self.assertEqual(Color.light_sky_blue.to_argb(),
-                         table.first_row.first_cell.cell_format.shading.background_pattern_color.to_argb())
-        self.assertEqual(Color.orange.to_argb(),
-                         table.first_row.cells[1].cell_format.shading.background_pattern_color.to_argb())
+        # self.assertEqual(Color.light_sky_blue.to_argb(),
+        #                  table.first_row.first_cell.cell_format.shading.background_pattern_color.to_argb())
+        # self.assertEqual(Color.orange.to_argb(),
+        #                  table.first_row.cells[1].cell_format.shading.background_pattern_color.to_argb())
 
         for c in table.last_row:
+            c = c.as_cell()
             self.assertEqual(4.0, c.cell_format.borders.top.line_width)
             self.assertEqual(4.0, c.cell_format.borders.bottom.line_width)
             self.assertEqual(4.0, c.cell_format.borders.left.line_width)
             self.assertEqual(4.0, c.cell_format.borders.right.line_width)
 
-            self.assertEqual(Color.empty.to_argb(), c.cell_format.borders.left.color.to_argb())
-            self.assertEqual(LineStyle.single, c.cell_format.borders.left.line_style)
-            self.assertEqual(Color.empty.to_argb(), c.cell_format.shading.background_pattern_color.to_argb())
+            # self.assertEqual(Color.empty.to_argb(), c.cell_format.borders.left.color.to_argb())
+            self.assertEqual(aw.LineStyle.SINGLE, c.cell_format.borders.left.line_style)
+            # self.assertEqual(Color.empty.to_argb(), c.cell_format.shading.background_pattern_color.to_argb())
 
     def test_set_preferred_type_convert_util(self):
 
@@ -1722,7 +1728,6 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         self.assertEqual(aw.TextOrientation.VERTICAL_ROTATED_FAR_EAST, cell.cell_format.orientation)
 
-    @unittest.skip("No type casting (line 1748 and 1759) and testUtil hasn't been done yet")
     def test_insert_floating_image(self):
 
         # ExStart
@@ -1746,28 +1751,30 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_floating_image.docx")
         image = doc.get_child(aw.NodeType.SHAPE, 0, True)
+        image = image.as_shape()
 
-        TestUtil.verify_image_in_shape(400, 400, ImageType.png, image)
+        # TestUtil.verify_image_in_shape(400, 400, ImageType.png, image)
         self.assertEqual(100.0, image.left)
         self.assertEqual(0.0, image.top)
         self.assertEqual(200.0, image.width)
         self.assertEqual(200.0, image.height)
-        self.assertEqual(aw.drawing.WrapType.square, image.wrap_type)
-        self.assertEqual(aw.drawing.RelativeHorizontalPosition.margin, image.relative_horizontal_position)
-        self.assertEqual(aw.drawing.RelativeVerticalPosition.margin, image.relative_vertical_position)
+        self.assertEqual(aw.drawing.WrapType.SQUARE, image.wrap_type)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, image.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, image.relative_vertical_position)
 
         image = doc.get_child(aw.NodeType.SHAPE, 1, True)
+        image = image.as_shape()
 
-        TestUtil.verify_image_in_shape(320, 320, aw.drawing.ImageType.PNG, image)
+        # TestUtil.verify_image_in_shape(320, 320, aw.drawing.ImageType.PNG, image)
         self.assertEqual(100.0, image.left)
         self.assertEqual(250.0, image.top)
         self.assertEqual(200.0, image.width)
         self.assertEqual(200.0, image.height)
-        self.assertEqual(aw.drawing.WrapType.square, image.wrap_type)
-        self.assertEqual(aw.drawing.RelativeHorizontalPosition.margin, image.relative_horizontal_position)
-        self.assertEqual(aw.drawing.RelativeVerticalPosition.margin, image.relative_vertical_position)
+        self.assertEqual(aw.drawing.WrapType.SQUARE, image.wrap_type)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, image.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, image.relative_vertical_position)
 
-    @unittest.skip("No type casting (line 1794) and testUtil hasn't been done yet")
+    # @unittest.skip("No type casting (line 1794) and testUtil hasn't been done yet")
     def test_insert_image_original_size(self):
 
         # ExStart
@@ -1778,9 +1785,9 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         # The InsertImage method creates a floating shape with the passed image in its image data.
         # We can specify the dimensions of the shape can be passing them to this method.
-        image_shape = builder.insert_image(aeb.image_dir + "Logo.jpg", aw.drawing.RelativeHorizontalPosition.margin, 0,
-                                           aw.drawing.RelativeVerticalPosition.margin, 0, -1, -1,
-                                           aw.drawing.WrapType.square)
+        image_shape = builder.insert_image(aeb.image_dir + "Logo.jpg", aw.drawing.RelativeHorizontalPosition.MARGIN, 0,
+                                           aw.drawing.RelativeVerticalPosition.MARGIN, 0, -1, -1,
+                                           aw.drawing.WrapType.SQUARE)
 
         # Passing negative values as the intended dimensions will automatically define
         # the shape's dimensions based on the dimensions of its image.
@@ -1791,16 +1798,18 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_image_original_size.docx")
-        imageShape = doc.get_child(aw.NodeType.SHAPE, 0, True)
+        image_shape = doc.get_child(aw.NodeType.SHAPE, 0, True)
+        image_shape = image_shape.as_shape()
 
-        TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, imageShape)
-        self.assertEqual(0.0, imageShape.left)
-        self.assertEqual(0.0, imageShape.top)
-        self.assertEqual(300.0, imageShape.width)
-        self.assertEqual(300.0, imageShape.height)
-        self.assertEqual(aw.drawing.WrapType.square, imageShape.wrap_type)
-        self.assertEqual(aw.drawing.RelativeHorizontalPosition.margin, imageShape.relative_horizontal_position)
-        self.assertEqual(aw.drawing.RelativeVerticalPosition.margin, imageShape.relative_vertical_position)
+
+        # TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
+        self.assertEqual(0.0, image_shape.left)
+        self.assertEqual(0.0, image_shape.top)
+        self.assertEqual(300.0, image_shape.width)
+        self.assertEqual(300.0, image_shape.height)
+        self.assertEqual(aw.drawing.WrapType.SQUARE, image_shape.wrap_type)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, image_shape.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, image_shape.relative_vertical_position)
 
     def test_insert_text_input(self):
 
@@ -1827,7 +1836,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual("", form_field.text_input_format)
         self.assertEqual(aw.fields.TextFormFieldType.REGULAR, form_field.text_input_type)
 
-    @unittest.skip("It seems that 'insert_combo_box' method is missing (line 1842)")
+    @unittest.skip("How to convert a aspose.words.fields.DropDownItemCollection to array ?")
     def test_insert_combo_box(self):
 
         # ExStart
@@ -1931,7 +1940,6 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual("CN=Morzal.me", signatures[0].issuer_name)
         self.assertEqual(aw.digitalsignatures.DigitalSignatureType.xml_dsig, signatures[0].signature_type)
 
-    @unittest.skip("Need type casting (1961)")
     def test_signature_line_inline(self):
 
         # ExStart
@@ -1959,6 +1967,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.signature_line_inline.docx")
 
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True)
+        shape = shape.as_shape()
         signatureLine = shape.signature_line
 
         self.assertEqual("John Doe", signatureLine.signer)
@@ -1971,7 +1980,6 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertFalse(signatureLine.is_signed)
         self.assertFalse(signatureLine.is_valid)
 
-    @unittest.skip("No type casting (lines 2003-2007)")
     def test_set_paragraph_formatting(self):
 
         # ExStart
@@ -2001,6 +2009,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.set_paragraph_formatting.docx")
 
         for paragraph in doc.first_section.body.paragraphs:
+            paragraph = paragraph.as_paragraph()
             self.assertEqual(aw.ParagraphAlignment.CENTER, paragraph.paragraph_format.alignment)
             self.assertEqual(100.0, paragraph.paragraph_format.left_indent)
             self.assertEqual(50.0, paragraph.paragraph_format.right_indent)
@@ -2117,7 +2126,6 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(100.0, table.rows[1].row_format.height)
         self.assertEqual(aw.HeightRule.EXACTLY, table.rows[1].row_format.height_rule)
 
-    @unittest.skip("No type casting (line 2155 and 2158) and testUtil hasn't been done yet")
     def test_insert_footnote(self):
 
         # ExStart
@@ -2150,12 +2158,12 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_footnote.docx")
 
-        TestUtil.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
-                                 "Footnote comment regarding referenced text.",
-                                 doc.get_child(aw.NodeType.FOOTNOTE, 0, True))
-        TestUtil.verify_footnote(aw.notes.FootnoteType.ENDNOTE, False, "CustomMark",
-                                 "CustomMark Endnote comment regarding referenced text.",
-                                 doc.get_child(aw.NodeType.FOOTNOTE, 1, True))
+        # TestUtil.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
+        #                          "Footnote comment regarding referenced text.",
+        #                          doc.get_child(aw.NodeType.FOOTNOTE, 0, True))
+        # TestUtil.verify_footnote(aw.notes.FootnoteType.ENDNOTE, False, "CustomMark",
+        #                          "CustomMark Endnote comment regarding referenced text.",
+        #                          doc.get_child(aw.NodeType.FOOTNOTE, 1, True))
 
     def test_apply_borders_and_shading(self):
 
@@ -2265,7 +2273,6 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
                 dst_doc.save(aeb.artifacts_dir + "DocumentBuilder.append_document_and_resolve_styles.docx")
                 # ExEnd
 
-    @unittest.skip("No type casting (line 2288)")
     def test_insert_document_and_resolve_styles(self):
 
         # ExStart
@@ -2325,7 +2332,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
                 dst_doc.update_list_labels()
                 # ExEnd
 
-    @unittest.skip("No typecasting (lines 2365-2369)")
+    # @unittest.skip("No typecasting (lines 2365-2369)")
     def test_ignore_text_boxes(self):
 
         # ExStart
@@ -2359,6 +2366,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
                 importer = aw.NodeImporter(src_doc, dst_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING,
                                            import_format_options)
                 imported_text_box = importer.import_node(text_box, True)
+                imported_text_box = imported_text_box.as_shape()
                 dst_doc.first_section.body.paragraphs[1].append_child(imported_text_box)
 
                 if ignore_text_boxes:
@@ -2418,7 +2426,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
     #     self.assertRaises(builder.insert_ole_object("", "checkbox", False, True, None),
     #                       Throws.type_of < ArgumentException > ())
 
-    @unittest.skip("No type casting (line 2442), something wrong with add() method (line 2434)")
+    # @unittest.skip("Need to change locale language")
     def test_insert_pie_chart(self):
 
         # ExStart
@@ -2440,12 +2448,12 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_pie_chart.docx")
         chart_shape = doc.get_child(aw.NodeType.SHAPE, 0, True)
+        chart_shape = chart_shape.as_shape()
 
         self.assertEqual("Chart Title", chart_shape.chart.title.text)
         self.assertEqual(225.0, chart_shape.width)
         self.assertEqual(225.0, chart_shape.height)
 
-    @unittest.skip("No type casting (line 2470)")
     def test_insert_chart_relative_position(self):
 
         # ExStart
@@ -2468,18 +2476,19 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.inserted_chart_relative_position.docx")
         chart_shape = doc.get_child(aw.NodeType.SHAPE, 0, True)
+        chart_shape = chart_shape.as_shape()
 
         self.assertEqual(100.0, chart_shape.top)
         self.assertEqual(100.0, chart_shape.left)
         self.assertEqual(200.0, chart_shape.width)
         self.assertEqual(100.0, chart_shape.height)
-        self.assertEqual(aw.drawing.WrapType.square, chart_shape.wrap_type)
-        self.assertEqual(aw.drawing.RelativeHorizontalPosition.margin, chart_shape.relative_horizontal_position)
-        self.assertEqual(aw.drawing.RelativeVerticalPosition.margin, chart_shape.relative_vertical_position)
+        self.assertEqual(aw.drawing.WrapType.SQUARE, chart_shape.wrap_type)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, chart_shape.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, chart_shape.relative_vertical_position)
 
-    @unittest.skip("Need some import (datetime) (line 2500)")
+    @unittest.skip("Aspose.Words date format does not match with datetime date format")
     def test_insert_field(self):
-
+        locale.setlocale(locale.LC_ALL, 'en_US')
         # ExStart
         # ExFor:DocumentBuilder.insert_field(String)
         # ExFor:Field
@@ -2493,11 +2502,11 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         field = builder.insert_field("DATE \\@ \"dddd, MMMM dd, yyyy\"")
 
-        self.assertEqual(aw.FieldType.FIELD_DATE, field.type)
+        self.assertEqual(aw.fields.FieldType.FIELD_DATE, field.type)
         self.assertEqual("DATE \\@ \"dddd, MMMM dd, yyyy\"", field.get_field_code())
 
         # This overload of the InsertField method automatically updates inserted fields.
-        Assert.that(DateTime.parse(field.result), Is.equal_to(DateTime.today).within(1).days)
+        self.assertIs(datetime.datetime.strptime(field.result, '%A, %B %d, %Y'), datetime.now())
         # ExEnd
 
     def test_insert_field_and_update(self):
@@ -2828,7 +2837,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # self.assertEqual("Unknown", shape.ole_format.icon_caption)
         # self.assertTrue(shape.ole_format.ole_icon)
 
-    @unittest.skip("No such enumerator StyleIdentifier.heading_1 (line 2842)")
+    # @unittest.skip("No such enumerator StyleIdentifier.heading_1 (line 2842)")
     def test_insert_style_separator(self):
 
         # ExStart
@@ -2839,7 +2848,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         # Each paragraph can only have one style.
         # The InsertStyleSeparator method allows us to work around this limitation.
-        builder.paragraph_format.style_identifier = StyleIdentifier.heading_1
+        builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING1
         builder.write("This text is in a Heading style. ")
         builder.insert_style_separator()
 
@@ -2869,12 +2878,12 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual("Heading 1", doc.first_section.body.paragraphs[0].paragraph_format.style.name)
         self.assertEqual("MyParaStyle", doc.first_section.body.paragraphs[1].paragraph_format.style.name)
         self.assertEqual(" ", doc.first_section.body.paragraphs[1].runs[0].get_text())
-        TestUtil.doc_package_file_contains_string("w:rPr><w:vanish /><w:specVanish /></w:rPr>",
-                                                  aeb.artifacts_dir + "DocumentBuilder.insert_style_separator.docx",
-                                                  "document.xml")
-        TestUtil.doc_package_file_contains_string("<w:t xml:space=\"preserve\"> </w:t>",
-                                                  aeb.artifacts_dir + "DocumentBuilder.insert_style_separator.docx",
-                                                  "document.xml")
+        # TestUtil.doc_package_file_contains_string("w:rPr><w:vanish /><w:specVanish /></w:rPr>",
+        #                                           aeb.artifacts_dir + "DocumentBuilder.insert_style_separator.docx",
+        #                                           "document.xml")
+        # TestUtil.doc_package_file_contains_string("<w:t xml:space=\"preserve\"> </w:t>",
+        #                                           aeb.artifacts_dir + "DocumentBuilder.insert_style_separator.docx",
+        #                                           "document.xml")
 
     @unittest.skip("Skipped in .NET tests: "
                    "Bug: does not insert headers and footers, all lists (bullets, numbering, multilevel) breaks")
@@ -3442,7 +3451,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
     #
     # #ExEnd
 
-    @unittest.skip("No type casting (line 3467), testUtil hadn't been done yet, no such property as HttpStatusCode")
+    # @unittest.skip("No type casting (line 3467), testUtil hadn't been done yet, no such property as HttpStatusCode")
     def test_insert_online_video(self) :
         
         #ExStart
@@ -3451,33 +3460,34 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
             
-        video_url = "https:#vimeo.com/52477838"
+        video_url = "https://vimeo.com/52477838"
 
         # Insert a shape that plays a video from the web when clicked in Microsoft Word.
         # This rectangular shape will contain an image based on the first frame of the linked video
         # and a "play button" visual prompt. The video has an aspect ratio of 16:9.
         # We will set the shape's size to that ratio, so the image does not appear stretched.
-        builder.insert_online_video(video_url, aw.drawing.RelativeHorizontalPosition.left_margin, 0,
-            aw.drawing.RelativeVerticalPosition.top_margin, 0, 320, 180, aw.drawing.WrapType.square)
+        builder.insert_online_video(video_url, aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, 0,
+            aw.drawing.RelativeVerticalPosition.TOP_MARGIN, 0, 320, 180, aw.drawing.WrapType.SQUARE)
 
         doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_online_video.docx")
         #ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_online_video.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True)
+        shape = shape.as_shape()
 
-        TestUtil.verify_image_in_shape(640, 360, aw.ImageType.JPEG, shape)
+        # TestUtil.verify_image_in_shape(640, 360, aw.ImageType.JPEG, shape)
 
         self.assertEqual(320.0, shape.width)
         self.assertEqual(180.0, shape.height)
         self.assertEqual(0.0, shape.left)
         self.assertEqual(0.0, shape.top)
-        self.assertEqual(aw.drawing.WrapType.square, shape.wrap_type)
-        self.assertEqual(aw.drawing.RelativeVerticalPosition.top_margin, shape.relative_vertical_position)
-        self.assertEqual(aw.drawing.RelativeHorizontalPosition.left_margin, shape.relative_horizontal_position)
+        self.assertEqual(aw.drawing.WrapType.SQUARE, shape.wrap_type)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.TOP_MARGIN, shape.relative_vertical_position)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, shape.relative_horizontal_position)
 
-        self.assertEqual("https:#vimeo.com/52477838", shape.h_ref)
-        TestUtil.verify_web_response_status_code(HttpStatusCode.OK, shape.h_ref)
+        self.assertEqual("https://vimeo.com/52477838", shape.href)
+        # TestUtil.verify_web_response_status_code(HttpStatusCode.OK, shape.h_ref)
 
 
     # def test_insert_online_video_custom_thumbnail(self) :
@@ -3551,7 +3561,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
     #     TestUtil.verify_web_response_status_code(HttpStatusCode.ok, shape.h_ref)
         
 
-    @unittest.skip("Streams are not supported")
+    # @unittest.skip("Streams are not supported")
     def test_insert_ole_object_as_icon(self) :
 
         #ExStart
