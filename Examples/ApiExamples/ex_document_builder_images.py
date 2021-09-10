@@ -6,7 +6,7 @@ import aspose.words as aw
 
 
 class ExDocumentBuilderImages(aeb.ApiExampleBase):
-    @unittest.skip("Streams are not supported")
+    # @unittest.skip("Streams are not supported")
     def test_insert_image_from_stream(self):
 
         #ExStart
@@ -85,7 +85,6 @@ class ExDocumentBuilderImages(aeb.ApiExampleBase):
         # self.assertEqual(300.0, imageShape.image_data.image_size.height_points)
         # self.assertEqual(300.0, imageShape.image_data.image_size.width_points)
 
-    @unittest.skip("No type casting (lines 120, 135)")
     def test_insert_image_from_filename(self):
 
         #ExStart
@@ -117,50 +116,50 @@ class ExDocumentBuilderImages(aeb.ApiExampleBase):
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilderImages.insert_image_from_filename.docx")
 
-        # imageShape = (Shape)doc.get_child(NodeType.shape, 0, true)
-        #
-        # self.assertEqual(300.0, imageShape.height)
-        # self.assertEqual(300.0, imageShape.width)
-        # self.assertEqual(0.0, imageShape.left)
-        # self.assertEqual(0.0, imageShape.top)
-        #
-        # self.assertEqual(WrapType.inline, imageShape.wrap_type)
-        # self.assertEqual(RelativeHorizontalPosition.column, imageShape.relative_horizontal_position)
-        # self.assertEqual(RelativeVerticalPosition.paragraph, imageShape.relative_vertical_position)
-        #
-        # TestUtil.verify_image_in_shape(400, 400, ImageType.jpeg, imageShape)
-        # self.assertEqual(300.0, imageShape.image_data.image_size.height_points)
-        # self.assertEqual(300.0, imageShape.image_data.image_size.width_points)
-        #
-        # imageShape = (Shape)doc.get_child(NodeType.shape, 1, true)
-        #
-        # self.assertEqual(108.0, imageShape.height)
-        # self.assertEqual(187.5, imageShape.width)
-        # self.assertEqual(0.0, imageShape.left)
-        # self.assertEqual(0.0, imageShape.top)
-        #
-        # self.assertEqual(WrapType.inline, imageShape.wrap_type)
-        # self.assertEqual(RelativeHorizontalPosition.column, imageShape.relative_horizontal_position)
-        # self.assertEqual(RelativeVerticalPosition.paragraph, imageShape.relative_vertical_position)
-        #
+        imageShape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+
+        self.assertEqual(300.0, imageShape.height)
+        self.assertEqual(300.0, imageShape.width)
+        self.assertEqual(0.0, imageShape.left)
+        self.assertEqual(0.0, imageShape.top)
+
+        self.assertEqual(aw.drawing.WrapType.INLINE, imageShape.wrap_type)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, imageShape.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, imageShape.relative_vertical_position)
+
+        # TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, imageShape)
+        self.assertEqual(300.0, imageShape.image_data.image_size.height_points)
+        self.assertEqual(300.0, imageShape.image_data.image_size.width_points)
+
+        imageShape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
+
+        self.assertEqual(108.0, imageShape.height)
+        self.assertEqual(187.5, imageShape.width)
+        self.assertEqual(0.0, imageShape.left)
+        self.assertEqual(0.0, imageShape.top)
+
+        self.assertEqual(aw.drawing.WrapType.INLINE, imageShape.wrap_type)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, imageShape.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, imageShape.relative_vertical_position)
+
         # TestUtil.verify_image_in_shape(400, 400, ImageType.png, imageShape)
-        # self.assertEqual(300.0, imageShape.image_data.image_size.height_points)
-        # self.assertEqual(300.0, imageShape.image_data.image_size.width_points)
-        #
-        # imageShape = (Shape)doc.get_child(NodeType.shape, 2, true)
-        #
-        # self.assertEqual(100.0, imageShape.height)
-        # self.assertEqual(200.0, imageShape.width)
-        # self.assertEqual(100.0, imageShape.left)
-        # self.assertEqual(100.0, imageShape.top)
-        #
-        # self.assertEqual(WrapType.square, imageShape.wrap_type)
-        # self.assertEqual(RelativeHorizontalPosition.margin, imageShape.relative_horizontal_position)
-        # self.assertEqual(RelativeVerticalPosition.margin, imageShape.relative_vertical_position)
-        #
+        self.assertEqual(300.0, imageShape.image_data.image_size.height_points)
+        self.assertEqual(300.0, imageShape.image_data.image_size.width_points)
+
+        imageShape = doc.get_child(aw.NodeType.SHAPE, 2, True).as_shape()
+
+        self.assertEqual(100.0, imageShape.height)
+        self.assertEqual(200.0, imageShape.width)
+        self.assertEqual(100.0, imageShape.left)
+        self.assertEqual(100.0, imageShape.top)
+
+        self.assertEqual(aw.drawing.WrapType.INLINE, imageShape.wrap_type)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, imageShape.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, imageShape.relative_vertical_position)
+
         # TestUtil.verify_image_in_shape(1600, 1600, ImageType.wmf, imageShape)
-        # self.assertEqual(400.0, imageShape.image_data.image_size.height_points)
-        # self.assertEqual(400.0, imageShape.image_data.image_size.width_points)
+        self.assertEqual(400.0, imageShape.image_data.image_size.height_points)
+        self.assertEqual(400.0, imageShape.image_data.image_size.width_points)
 
     def test_insert_svg_image(self):
 
@@ -185,7 +184,7 @@ class ExDocumentBuilderImages(aeb.ApiExampleBase):
         doc.save(aeb.artifacts_dir + "DocumentBuilderImages.insert_svg_image.emf.docx")
         #ExEnd
 
-    @unittest.skip("No type casting (lines 221, 236, 251)")
+    @unittest.skip("Image is not supported (line 198)")
     def test_insert_image_from_image_object(self):
 
         #ExStart
@@ -196,7 +195,7 @@ class ExDocumentBuilderImages(aeb.ApiExampleBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        image = aw.Image.from_file(aeb.image_dir + "Logo.jpg")
+        # image = Image.from_file(aeb.image_dir + "Logo.jpg")
 
         # Below are three ways of inserting an image from an Image object instance.
         # 1 -  Inline shape with a default size based on the image's original dimensions:
@@ -218,50 +217,50 @@ class ExDocumentBuilderImages(aeb.ApiExampleBase):
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilderImages.insert_image_from_image_object.docx")
 
-        # Shape imageShape = (Shape)doc.get_child(NodeType.shape, 0, true)
-        # 
-        # self.assertEqual(300.0, imageShape.height)
-        # self.assertEqual(300.0, imageShape.width)
-        # self.assertEqual(0.0, imageShape.left)
-        # self.assertEqual(0.0, imageShape.top)
-        # 
-        # self.assertEqual(WrapType.inline, imageShape.wrap_type)
-        # self.assertEqual(RelativeHorizontalPosition.column, imageShape.relative_horizontal_position)
-        # self.assertEqual(RelativeVerticalPosition.paragraph, imageShape.relative_vertical_position)
-        # 
+        imageShape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+
+        self.assertEqual(300.0, imageShape.height)
+        self.assertEqual(300.0, imageShape.width)
+        self.assertEqual(0.0, imageShape.left)
+        self.assertEqual(0.0, imageShape.top)
+
+        self.assertEqual(aw.drawing.WrapType.INLINE, imageShape.wrap_type)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, imageShape.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, imageShape.relative_vertical_position)
+
         # TestUtil.verify_image_in_shape(400, 400, ImageType.jpeg, imageShape)
-        # self.assertEqual(300.0, imageShape.image_data.image_size.height_points)
-        # self.assertEqual(300.0, imageShape.image_data.image_size.width_points)
-        # 
-        # imageShape = (Shape)doc.get_child(NodeType.shape, 1, true)
-        # 
-        # self.assertEqual(108.0, imageShape.height)
-        # self.assertEqual(187.5d, imageShape.width)
-        # self.assertEqual(0.0, imageShape.left)
-        # self.assertEqual(0.0, imageShape.top)
-        # 
-        # self.assertEqual(WrapType.inline, imageShape.wrap_type)
-        # self.assertEqual(RelativeHorizontalPosition.column, imageShape.relative_horizontal_position)
-        # self.assertEqual(RelativeVerticalPosition.paragraph, imageShape.relative_vertical_position)
-        # 
+        self.assertEqual(300.0, imageShape.image_data.image_size.height_points)
+        self.assertEqual(300.0, imageShape.image_data.image_size.width_points)
+
+        imageShape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
+
+        self.assertEqual(108.0, imageShape.height)
+        self.assertEqual(187.5, imageShape.width)
+        self.assertEqual(0.0, imageShape.left)
+        self.assertEqual(0.0, imageShape.top)
+
+        self.assertEqual(aw.drawing.WrapType.INLINE, imageShape.wrap_type)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, imageShape.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, imageShape.relative_vertical_position)
+
         # TestUtil.verify_image_in_shape(400, 400, ImageType.jpeg, imageShape)
-        # self.assertEqual(300.0, imageShape.image_data.image_size.height_points)
-        # self.assertEqual(300.0, imageShape.image_data.image_size.width_points)
-        # 
-        # imageShape = (Shape)doc.get_child(NodeType.shape, 2, true)
-        # 
-        # self.assertEqual(100.0, imageShape.height)
-        # self.assertEqual(200.0, imageShape.width)
-        # self.assertEqual(100.0, imageShape.left)
-        # self.assertEqual(100.0, imageShape.top)
-        # 
-        # self.assertEqual(WrapType.square, imageShape.wrap_type)
-        # self.assertEqual(RelativeHorizontalPosition.margin, imageShape.relative_horizontal_position)
-        # self.assertEqual(RelativeVerticalPosition.margin, imageShape.relative_vertical_position)
-        # 
+        self.assertEqual(300.0, imageShape.image_data.image_size.height_points)
+        self.assertEqual(300.0, imageShape.image_data.image_size.width_points)
+
+        imageShape = doc.get_child(aw.NodeType.SHAPE, 2, True)
+
+        self.assertEqual(100.0, imageShape.height)
+        self.assertEqual(200.0, imageShape.width)
+        self.assertEqual(100.0, imageShape.left)
+        self.assertEqual(100.0, imageShape.top)
+
+        self.assertEqual(aw.drawing.WrapType.INLINE, imageShape.wrap_type)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, imageShape.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, imageShape.relative_vertical_position)
+
         # TestUtil.verify_image_in_shape(400, 400, ImageType.jpeg, imageShape)
-        # self.assertEqual(300.0, imageShape.image_data.image_size.height_points)
-        # self.assertEqual(300.0, imageShape.image_data.image_size.width_points)
+        self.assertEqual(300.0, imageShape.image_data.image_size.height_points)
+        self.assertEqual(300.0, imageShape.image_data.image_size.width_points)
 
     @unittest.skip("No type casting (lines 305, 320, 335), memory streams are not supported")
     def test_insert_image_from_byte_array(self):

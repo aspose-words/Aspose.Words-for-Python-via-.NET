@@ -763,7 +763,7 @@ class ExCharts(aeb.ApiExampleBase):
         self.assertEqual(aw.drawing.charts.ChartAxisType.VALUE, chart.axis_y.type)
 
         # 2 -  Area chart with dates distributed along the X-axis:
-        chart = self.append_chart(builder, ChartType.area, 500, 300)
+        chart = self.append_chart(builder, aw.drawing.charts.ChartType.AREA, 500, 300)
 
         dates =  [datetime(2014, 3, 31), datetime(2017, 1, 23), datetime(2017, 6, 18), datetime(2019, 11, 22), datetime(2020, 9, 7)]
             
@@ -934,7 +934,7 @@ class ExCharts(aeb.ApiExampleBase):
         # Add a series with two decimal arrays. The first array contains the X-values,
         # and the second contains corresponding Y-values for points in the scatter chart.
         chart.series.add("Series 1", 
-            [1.1, 5.4, 7.9, 3.5, 2.1, 9.7], 
+            [1.1, 5.4, 7.9, 3.5, 2.1, 9.7],
             [2.1, 0.3, 0.6, 3.3, 1.4, 1.9])
 
         # By default, default scaling is applied to the graph's X and Y-axes,
@@ -1193,7 +1193,7 @@ class ExCharts(aeb.ApiExampleBase):
 #        dataPoints[0].marker.format.stroke.back_color = Color.red
         dataPoints[1].marker.format.fill.preset_textured(aw.drawing.PresetTexture.WATER_DROPLETS)
 #        dataPoints[1].marker.format.stroke.fore_color = Color.yellow
-        dataPoints[1].marker.format.stroke.visible = false
+        dataPoints[1].marker.format.stroke.visible = False
         dataPoints[2].marker.format.fill.preset_textured(aw.drawing.PresetTexture.GREEN_MARBLE)
 #        dataPoints[2].marker.format.stroke.fore_color = Color.yellow
         dataPoints[3].marker.format.fill.preset_textured(aw.drawing.PresetTexture.OAK)
@@ -1258,7 +1258,7 @@ class ExCharts(aeb.ApiExampleBase):
 
         # Set column formatting.
         dataPoints = series.data_points
-        dataPoints[0].format.fill.preset_textured(PresetTexture.denim)
+        dataPoints[0].format.fill.preset_textured(aw.drawing.PresetTexture.DENIM)
 #        dataPoints[1].format.fill.fore_color = Color.red
 #        dataPoints[2].format.fill.fore_color = Color.yellow
 #        dataPoints[3].format.fill.fore_color = Color.blue

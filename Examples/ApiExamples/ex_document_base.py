@@ -41,7 +41,6 @@ class ExDocumentBase(aeb.ApiExampleBase):
 
         # self.assertEqual(System.drawing.color.light_gray.to_argb(), doc.page_color.to_argb())
 
-    @unittest.skip("No type casting (line 64)")
     def test_import_node(self):
         # ExStart
         # ExFor:DocumentBase.import_node(Node, Boolean)
@@ -61,7 +60,7 @@ class ExDocumentBase(aeb.ApiExampleBase):
 
         # Use the ImportNode method to create a copy of a node, which will have the document
         # that called the ImportNode method set as its new owner document.
-        imported_section = dst_doc.import_node(src_doc.first_section, True)
+        imported_section = dst_doc.import_node(src_doc.first_section, True).as_section()
 
         self.assertEqual(dst_doc, imported_section.document)
 
@@ -77,7 +76,7 @@ class ExDocumentBase(aeb.ApiExampleBase):
         self.assertEqual(imported_section.body.first_paragraph.get_text(),
                          src_doc.first_section.body.first_paragraph.get_text())
 
-    @unittest.skip("No type casting (line 105), item properties can use only int (lines 114-115)")
+    @unittest.skip("Item properties can use only int (lines 113-114)")
     def test_import_node_custom(self):
 
         #ExStart
@@ -102,7 +101,7 @@ class ExDocumentBase(aeb.ApiExampleBase):
         # Import the Section from the destination document into the source document, causing a style name collision.
         # If we use destination styles, then the imported source text with the same style name
         # as destination text will adopt the destination style.
-        imported_section = dst_doc.import_node(src_doc.first_section, True, aw.ImportFormatMode.USE_DESTINATION_STYLES)
+        imported_section = dst_doc.import_node(src_doc.first_section, True, aw.ImportFormatMode.USE_DESTINATION_STYLES).as_section()
         self.assertEqual("Source document text.", imported_section.body.paragraphs[0].runs[0].get_text().strip()) #ExSkip
         self.assertIsNone(dst_doc.styles["My style_0"]) #ExSkip
         self.assertEqual(dst_style.font.name, imported_section.body.first_paragraph.runs[0].font.name)

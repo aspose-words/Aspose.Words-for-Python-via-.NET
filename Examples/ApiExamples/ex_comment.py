@@ -52,7 +52,6 @@ class ExComment(aeb.ApiExampleBase):
 #        self.assertEqual("\u0005New reply\r", docComment.replies[0].get_text())
         
 
-    @unittest.skip("no type casting yet.")
     def test_print_all_comments(self) :
         
         #ExStart
@@ -68,13 +67,15 @@ class ExComment(aeb.ApiExampleBase):
 
         # If a comment has no ancestor, it is a "top-level" comment as opposed to a reply-type comment.
         # Print all top-level comments along with any replies they may have.
-        for comment in comments :
+        for comment in comments:
+            comment = comment.as_comment()
             if comment.ancestor == None :
                 print("Top-level comment:")
                 print(f"\t\"{comment.get_text().strip()}\", by comment.author")
                 print(f"Has {comment.replies.count} replies")
-                for commentReply in comment.replies :
-                    print(f"\t\"{commentReply.get_text().strip()}\", by {commentReply.author}")
+                for comment_reply in comment.replies:
+                    comment_reply = comment_reply.as_comment()
+                    print(f"\t\"{comment_reply.get_text().strip()}\", by {comment_reply.author}")
                     
                 print()
             

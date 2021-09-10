@@ -42,10 +42,10 @@ class ExCellFormat(aeb.ApiExampleBase):
         builder.end_row()
         builder.end_table()
 
-        doc.save(aeb.ArtifactsDir + "CellFormat.vertical_merge.docx")
+        doc.save(aeb.artifacts_dir + "CellFormat.vertical_merge.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "CellFormat.vertical_merge.docx")
+        doc = aw.Document(aeb.artifacts_dir + "CellFormat.vertical_merge.docx")
         table = doc.first_section.body.tables[0]
 
         self.assertEqual(aw.tables.CellMerge.FIRST, table.rows[0].cells[0].cell_format.vertical_merge)
@@ -84,10 +84,10 @@ class ExCellFormat(aeb.ApiExampleBase):
         builder.end_row()
         builder.end_table()
 
-        doc.save(aeb.ArtifactsDir + "CellFormat.horizontal_merge.docx")
+        doc.save(aeb.artifacts_dir + "CellFormat.horizontal_merge.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "CellFormat.horizontal_merge.docx")
+        doc = aw.Document(aeb.artifacts_dir + "CellFormat.horizontal_merge.docx")
         table = doc.first_section.body.tables[0]
 
         self.assertEqual(1, table.rows[0].cells.count)
@@ -113,10 +113,10 @@ class ExCellFormat(aeb.ApiExampleBase):
         builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
                         "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")
 
-        doc.save(aeb.ArtifactsDir + "CellFormat.padding.docx")
+        doc.save(aeb.artifacts_dir + "CellFormat.padding.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.ArtifactsDir + "CellFormat.padding.docx")
+        doc = aw.Document(aeb.artifacts_dir + "CellFormat.padding.docx")
 
         table = doc.first_section.body.tables[0]
         cell = table.rows[0].cells[0]

@@ -542,7 +542,7 @@ class ExDocument(aeb.ApiExampleBase):
         self.assertEqual(4, doc.built_in_document_properties.lines)
         # ExEnd
 
-    @unittest.skip("There is no typecasting, it is impossible to cast Style to TableStyle to work with its properties.")
+    @unittest.skip("It is impossible to cast Style to TableStyle to work with its properties.")
     def test_table_style_to_direct_formatting(self):
         # ExStart
         # ExFor:CompositeNode.get_child
@@ -557,6 +557,7 @@ class ExDocument(aeb.ApiExampleBase):
         builder.end_table()
 
         tableStyle = doc.styles.add(aw.StyleType.TABLE, "MyTableStyle1")
+        # tableStyle = tableStyle.as_tablestyle()
         tableStyle.row_stripe = 3
         tableStyle.cell_spacing = 5
         # tableStyle.shading.background_pattern_color = Color.AntiqueWhite
@@ -684,7 +685,7 @@ class ExDocument(aeb.ApiExampleBase):
         with self.assertRaises(RuntimeError) as ex:
             docWithRevision.compare(doc1, "John Doe", date.today())
 
-    @unittest.skip("There is no typecasting that is why it is impossible to cast the clonned Document to Document object. Line 748")
+    @unittest.skip("Not sure why but 'aspose.words.Document' object has no attribute 'get_child'. Skip the test for now.")
     def test_compare_options(self):
         # ExStart
         # ExFor:CompareOptions
@@ -735,10 +736,10 @@ class ExDocument(aeb.ApiExampleBase):
         builder.writeln("Original header contents.")
 
         # Create a clone of our document and perform a quick edit on each of the cloned document's elements.
-        docEdited = docOriginal.clone(True)
+        docEdited = docOriginal.clone(True).as_document()
         firstParagraph = docEdited.first_section.body.first_paragraph
 
-        firstParagraph.runs[0].Text = "hello world! this is the first paragraph, after editing."
+        firstParagraph.runs[0].text = "hello world! this is the first paragraph, after editing."
         firstParagraph.paragraph_format.style = docEdited.styles[aw.StyleIdentifier.HEADING1]
         docEdited.get_child(aw.NodeType.FOOTNOTE, 0, True).first_paragraph.runs[1].text = "Edited endnote text."
         docEdited.get_child(aw.NodeType.TABLE, 0, True).FirstRow.Cells[1].first_paragraph.runs[

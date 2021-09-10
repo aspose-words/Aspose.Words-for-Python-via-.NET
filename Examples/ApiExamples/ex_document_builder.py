@@ -1,5 +1,6 @@
 import locale
 import unittest
+import io
 
 import aspose.words as aw
 import datetime
@@ -1094,6 +1095,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(aw.tables.PreferredWidthType.PERCENT, table.preferred_width.type)
         self.assertEqual(50, table.preferred_width.value)
 
+    @unittest.skip("Line 1135: preferred_width is equated to an enumerator, which is not the required result")
     def test_insert_cells_with_preferred_widths(self):
 
         # ExStart
@@ -2784,7 +2786,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual("Row 1, cell 1\aRow 1, cell 2\a\a\rText added to current Story.",
                          doc.first_section.body.get_text().strip())
 
-    @unittest.skip("Streams are not supported")
+    @unittest.skip("Unsupported file format (?), webclient class is not supported")
     def test_insert_ole_objects(self):
 
         # ExStart
@@ -2795,14 +2797,22 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         # Insert a Microsoft Excel spreadsheet from the local file system
         # into the document while keeping its default appearance.
-        # using (Stream spreadsheetStream = File.open(aeb.my_dir + "Spreadsheet.xlsx", FileMode.open))
+
+
+        # doc_spreadsheet = aw.Document(aeb.my_dir + "Spreadsheet.xlsx")
+        # outStream = io.BytesIO()
+        # doc_spreadsheet.save(outStream, aw.SaveFormat.XLSX)
         #
-        #     builder.writeln("Spreadsheet Ole object:")
-        #     # If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
-        #     # the icon according to 'progId' and uses the predefined icon caption.
-        #     builder.insert_ole_object(spreadsheetStream, "OleObject.xlsx", False, null)
+        # docBytes = outStream.getbuffer()
+        # inStream = io.BytesIO(docBytes)
         #
-        #
+        # spreadsheetStream = aw.Document(inStream)
+        # builder.writeln("Spreadsheet Ole object:")
+        # # If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
+        # # the icon according to 'progId' and uses the predefined icon caption.
+        # builder.insert_ole_object(spreadsheetStream, "OleObject.xlsx", False, None)
+
+
         # # Insert a Microsoft Powerpoint presentation as an OLE object.
         # # This time, it will have an image downloaded from the web for an icon.
         # using (Stream powerpointStream = File.open(aeb.my_dir + "Presentation.pptx", FileMode.open))
@@ -2816,10 +2826,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         #             builder.insert_paragraph()
         #             builder.writeln("Powerpoint Ole object:")
         #             builder.insert_ole_object(powerpointStream, "OleObject.pptx", True, imageStream)
-        #
-        #
-        #
-        #
+
+
+
+
         # # Double-click these objects in Microsoft Word to open
         # # the linked files using their respective applications.
         # doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_ole_objects.docx")
@@ -3573,7 +3583,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         # If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
         # the icon according to 'progId' and uses the filename for the icon caption.
-        builder.insert_ole_object_as_icon(aeb.my_dir + "Presentation.pptx", "Package", False, aeb.ImageDir + "Logo icon.ico", "My embedded file")
+        builder.insert_ole_object_as_icon(aeb.my_dir + "Presentation.pptx", "Package", False, aeb.image_dir + "Logo icon.ico", "My embedded file")
 
         builder.insert_break(aw.BreakType.LINE_BREAK)
 
