@@ -3,6 +3,7 @@ import unittest
 from datetime import date, datetime
 
 import aspose.words as aw
+import aspose.pydrawing as drawing
 
 import api_example_base as aeb
 from document_helper import DocumentHelper
@@ -556,12 +557,11 @@ class ExDocument(aeb.ApiExampleBase):
         builder.write("Hello world!")
         builder.end_table()
 
-        tableStyle = doc.styles.add(aw.StyleType.TABLE, "MyTableStyle1")
-        # tableStyle = tableStyle.as_tablestyle()
+        tableStyle = doc.styles.add(aw.StyleType.TABLE, "MyTableStyle1").as_tablestyle
         tableStyle.row_stripe = 3
         tableStyle.cell_spacing = 5
-        # tableStyle.shading.background_pattern_color = Color.AntiqueWhite
-        # tableStyle.Borders.Color = Color.Blue
+        tableStyle.shading.background_pattern_color = drawing.Color.AntiqueWhite
+        tableStyle.Borders.Color = drawing.Color.Blue
         tableStyle.borders.line_style = aw.LineStyle.DOT_DASH
 
         table.style = tableStyle
@@ -1541,15 +1541,15 @@ class ExDocument(aeb.ApiExampleBase):
 
         style = template.styles.add(aw.StyleType.PARAGRAPH, "TemplateStyle1")
         style.font.name = "Times New Roman"
-        #        style.Font.Color = Color.Navy
+        style.font.color = drawing.Color.navy
 
         style = template.styles.add(aw.StyleType.PARAGRAPH, "TemplateStyle2")
         style.font.name = "Arial"
-        #        style.Font.Color = Color.DeepSkyBlue
+        style.font.color = drawing.Color.deep_sky_blue
 
         style = template.styles.add(aw.StyleType.PARAGRAPH, "TemplateStyle3")
         style.font.name = "Courier New"
-        #        style.Font.Color = Color.RoyalBlue
+        style.font.color = drawing.Color.royal_blue
 
         self.assertEqual(7, template.styles.count)
 
@@ -1559,7 +1559,7 @@ class ExDocument(aeb.ApiExampleBase):
         # Create a style with the same name as a style from the template document and add it to the target document.
         style = target.styles.add(aw.StyleType.PARAGRAPH, "TemplateStyle3")
         style.font.name = "Calibri"
-        #        style.Font.Color = Color.Orange
+        style.font.color = drawing.Color.orange
 
         self.assertEqual(5, target.styles.count)
 
@@ -1572,7 +1572,7 @@ class ExDocument(aeb.ApiExampleBase):
         self.assertEqual(7, target.styles.count)
 
         self.assertEqual("Courier New", DocumentHelper.get_style_by_name(target, "TemplateStyle3").font.name)
-        #        self.assertEqual(Color.RoyalBlue.ToArgb(), target.Styles["TemplateStyle3"].Font.Color.ToArgb())
+        # self.assertEqual(drawing.Color.royal_blue.to_argb(), target.styles["TemplateStyle3"].Font.Color.to_argb())    # Item properties can use only int
 
         # 2 -  Passing the local system filename of a template document:
         target.copy_styles_from_template(aeb.my_dir + "Rendering.docx")
@@ -1824,7 +1824,7 @@ class ExDocument(aeb.ApiExampleBase):
         textWatermarkOptions = aw.TextWatermarkOptions()
         textWatermarkOptions.font_family = "Arial"
         textWatermarkOptions.font_size = 36
-        #        textWatermarkOptions.Color = Color.Black
+        textWatermarkOptions.color = drawing.Color.black
         textWatermarkOptions.layout = aw.WatermarkLayout.DIAGONAL
         textWatermarkOptions.is_semitrasparent = False
 

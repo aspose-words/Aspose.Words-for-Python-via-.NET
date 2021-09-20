@@ -1,6 +1,7 @@
 import unittest
 
 import aspose.words as aw
+import aspose.pydrawing as drawing
 
 import api_example_base as aeb
 
@@ -68,12 +69,12 @@ class ExCleanupOptions(aeb.ApiExampleBase):
         my_style = doc.styles.add(aw.StyleType.PARAGRAPH, "MyStyle1")
         my_style.font.size = 14
         my_style.font.name = "Courier New"
-        # my_style.font.color = Color.blue
+        my_style.font.color = drawing.Color.blue
 
         duplicate_style = doc.styles.add(aw.StyleType.PARAGRAPH, "MyStyle2")
         duplicate_style.font.size = 14
         duplicate_style.font.name = "Courier New"
-        # duplicate_style.font.color = Color.blue
+        duplicate_style.font.color = drawing.Color.blue
 
         self.assertEqual(6, doc.styles.count)
 

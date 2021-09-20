@@ -5,6 +5,7 @@ import api_example_base as aeb
 from document_helper import DocumentHelper
 
 import aspose.words as aw
+import aspose.pydrawing as drawing
 
 class ExCharts(aeb.ApiExampleBase):
     
@@ -1189,15 +1190,15 @@ class ExCharts(aeb.ApiExampleBase):
         series.marker.symbol = aw.drawing.charts.MarkerSymbol.SQUARE
         dataPoints = series.data_points
         dataPoints[0].marker.format.fill.preset_textured(aw.drawing.PresetTexture.DENIM)
-#        dataPoints[0].marker.format.stroke.fore_color = Color.yellow
-#        dataPoints[0].marker.format.stroke.back_color = Color.red
+        dataPoints[0].marker.format.stroke.fore_color = drawing.Color.yellow
+        dataPoints[0].marker.format.stroke.back_color = drawing.Color.red
         dataPoints[1].marker.format.fill.preset_textured(aw.drawing.PresetTexture.WATER_DROPLETS)
-#        dataPoints[1].marker.format.stroke.fore_color = Color.yellow
+        dataPoints[1].marker.format.stroke.fore_color = drawing.Color.yellow
         dataPoints[1].marker.format.stroke.visible = False
         dataPoints[2].marker.format.fill.preset_textured(aw.drawing.PresetTexture.GREEN_MARBLE)
-#        dataPoints[2].marker.format.stroke.fore_color = Color.yellow
+        dataPoints[2].marker.format.stroke.fore_color = drawing.Color.yellow
         dataPoints[3].marker.format.fill.preset_textured(aw.drawing.PresetTexture.OAK)
-#        dataPoints[3].marker.format.stroke.fore_color = Color.yellow
+        dataPoints[3].marker.format.stroke.fore_color = drawing.Color.yellow
         dataPoints[3].marker.format.stroke.transparency = 0.5
 
         doc.save(aeb.artifacts_dir + "Charts.marker_formatting.docx")
@@ -1229,9 +1230,9 @@ class ExCharts(aeb.ApiExampleBase):
         series3 = seriesColl.add("Series 3", categories, [5, 6])
 
         # Set series color.
-#        series1.format.fill.fore_color = Color.red
-#        series2.format.fill.fore_color = Color.yellow
-#        series3.format.fill.fore_color = Color.blue
+        series1.format.fill.fore_color = drawing.Color.red
+        series2.format.fill.fore_color = drawing.Color.yellow
+        series3.format.fill.fore_color = drawing.Color.blue
 
         doc.save(aeb.artifacts_dir + "Charts.series_color.docx")
         #ExEnd
@@ -1259,9 +1260,9 @@ class ExCharts(aeb.ApiExampleBase):
         # Set column formatting.
         dataPoints = series.data_points
         dataPoints[0].format.fill.preset_textured(aw.drawing.PresetTexture.DENIM)
-#        dataPoints[1].format.fill.fore_color = Color.red
-#        dataPoints[2].format.fill.fore_color = Color.yellow
-#        dataPoints[3].format.fill.fore_color = Color.blue
+        dataPoints[1].format.fill.fore_color = drawing.Color.red
+        dataPoints[2].format.fill.fore_color = drawing.Color.yellow
+        dataPoints[3].format.fill.fore_color = drawing.Color.blue
 
         doc.save(aeb.artifacts_dir + "Charts.data_points_formatting.docx")
         #ExEnd

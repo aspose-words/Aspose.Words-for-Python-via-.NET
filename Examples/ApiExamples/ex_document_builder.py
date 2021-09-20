@@ -3,6 +3,7 @@ import unittest
 import io
 
 import aspose.words as aw
+import aspose.pydrawing as drawing
 import datetime
 
 import api_example_base as aeb
@@ -21,8 +22,6 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExFor:DocumentBuilder.#ctor
         # ExSummary:Shows how to insert formatted text using DocumentBuilder.
 
-        print("Color is not available (commented all lines with color)")
-
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -30,7 +29,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         font = builder.font
         font.size = 16
         font.bold = True
-        # font.color = Color.blue # Color is not supported
+        font.color = drawing.Color.blue
         font.name = "Courier New"
         font.underline = aw.Underline.DASH
 
@@ -44,7 +43,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(16.0, firstRun.font.size)
         self.assertTrue(firstRun.font.bold)
         self.assertEqual("Courier New", firstRun.font.name)
-        # self.assertEqual(Color.blue.to_argb(), firstRun.font.color.to_argb())
+        self.assertEqual(drawing.Color.blue.to_argb(), firstRun.font.color.to_argb())
         self.assertEqual(aw.Underline.DASH, firstRun.font.underline)
 
     def test_headers_and_footers(self):
@@ -146,8 +145,6 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExFor:HorizontalRuleFormat.no_shade
         # ExSummary:Shows how to insert a horizontal rule shape, and customize its formatting.
 
-        print("Color is not available (commented all lines with color)")
-
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
         shape = builder.insert_horizontal_rule()
@@ -156,7 +153,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         horizontalRuleFormat.alignment = aw.drawing.HorizontalRuleAlignment.CENTER
         horizontalRuleFormat.width_percent = 70
         horizontalRuleFormat.height = 3
-        # horizontalRuleFormat.color = Color.blue # color is not supported
+        horizontalRuleFormat.color = drawing.Color.blue
         horizontalRuleFormat.no_shade = True
 
         self.assertTrue(shape.is_horizontal_rule)
@@ -170,7 +167,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(aw.drawing.HorizontalRuleAlignment.CENTER, shape.horizontal_rule_format.alignment)
         self.assertEqual(70, shape.horizontal_rule_format.width_percent)
         self.assertEqual(3, shape.horizontal_rule_format.height)
-        # self.assertEqual(Color.blue.to_argb(), shape.horizontal_rule_format.color.to_argb())
+        self.assertEqual(drawing.Color.blue.to_argb(), shape.horizontal_rule_format.color.to_argb())
 
     #    [Test(Description = "Checking the boundary conditions of WidthPercent and Height properties")]
     #    public void HorizontalRuleFormatExceptions()
@@ -198,8 +195,6 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExFor:Underline
         # ExSummary:Shows how to insert a hyperlink field.
 
-        print("Color is not available (commented all lines with color)")
-
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -207,7 +202,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         # Insert a hyperlink and emphasize it with custom formatting.
         # The hyperlink will be a clickable piece of text which will take us to the location specified in the URL.
-        # builder.font.color = Color.blue
+        builder.font.color = drawing.Color.blue
         builder.font.underline = aw.Underline.SINGLE
         builder.insert_hyperlink("Google website", "https:#www.google.com", False)
         builder.font.clear_formatting()
@@ -217,16 +212,16 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_hyperlink.docx")
         # ExEnd
 
-    #        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_hyperlink.docx")
-    #
-    #        FieldHyperlink hyperlink = (FieldHyperlink)doc.range.fields[0]
-    #        TestUtil.verify_web_response_status_code(HttpStatusCode.ok, hyperlink.address)
-    #
-    #        Run fieldContents = (Run)hyperlink.start.next_sibling
-    #
-    #        self.assertEqual(Color.blue.to_argb(), fieldContents.font.color.to_argb())
-    #        self.assertEqual(Underline.single, fieldContents.font.underline)
-    #        self.assertEqual("HYPERLINK \"https:#www.google.com\"", fieldContents.get_text().strip())
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_hyperlink.docx")
+
+        hyperlink = doc.range.fields[0]
+        # TestUtil.verify_web_response_status_code(HttpStatusCode.ok, hyperlink.address)
+        #
+        fieldContents = hyperlink.start.next_sibling.as_run
+        #
+        self.assertEqual(drawing.Color.blue.to_argb(), fieldContents.font.color.to_argb())
+        self.assertEqual(aw.Underline.SINGLE, fieldContents.font.underline)
+        self.assertEqual("HYPERLINK \"https:#www.google.com\"", fieldContents.get_text().strip())
 
     def test_push_pop_font(self):
         # ExStart
@@ -234,8 +229,6 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExFor:DocumentBuilder.pop_font
         # ExFor:DocumentBuilder.insert_hyperlink
         # ExSummary:Shows how to use a document builder's formatting stack.
-
-        print("Color is not available (commented all lines with color)")
 
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -252,13 +245,13 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.font.style_identifier = aw.StyleIdentifier.HYPERLINK
         builder.insert_hyperlink("here", "http:#www.google.com", False)
 
-        # self.assertEqual(Color.blue.to_argb(), builder.font.color.to_argb())
+        self.assertEqual(drawing.Color.blue.to_argb(), builder.font.color.to_argb())
         self.assertEqual(aw.Underline.SINGLE, builder.font.underline)
 
         # Restore the font formatting that we saved earlier and remove the element from the stack.
         builder.pop_font()
 
-        # self.assertEqual(Color.empty.to_argb(), builder.font.color.to_argb())
+        # self.assertEqual(drawing.Color.empty.to_argb(), builder.font.color.to_argb())
         self.assertEqual(aw.Underline.NONE, builder.font.underline)
 
         builder.write(". We hope you enjoyed the example.")
@@ -273,13 +266,13 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         self.assertEqual("To visit Google, hold Ctrl and click", runs[0].get_text().strip())
         self.assertEqual(". We hope you enjoyed the example.", runs[3].get_text().strip())
-        # self.assertEqual(runs[0].font.color, runs[3].font.color)
+        self.assertEqual(runs[0].font.color, runs[3].font.color)
         self.assertEqual(runs[0].font.underline, runs[3].font.underline)
 
         self.assertEqual("here", runs[2].get_text().strip())
-        # self.assertEqual(Color.blue.to_argb(), runs[2].font.color.to_argb())
+        self.assertEqual(drawing.Color.blue.to_argb(), runs[2].font.color.to_argb())
         self.assertEqual(aw.Underline.SINGLE, runs[2].font.underline)
-        # self.assertNotEqual(runs[0].font.color, runs[2].font.color)
+        self.assertNotEqual(runs[0].font.color, runs[2].font.color)
         self.assertNotEqual(runs[0].font.underline, runs[2].font.underline)
 
     #        TestUtil.verify_web_response_status_code(HttpStatusCode.ok, ((FieldHyperlink)doc.range.fields[0]).address)
@@ -313,70 +306,70 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_watermark.docx")
         # ExEnd
 
-    #        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_watermark.docx")
-    #        shape = (Shape)doc.first_section.headers_footers[aw.HeaderFooterType.HEADER_PRIMARY].get_child(NodeType.shape, 0, True)
-    #
-    #        TestUtil.verify_image_in_shape(400, 400, ImageType.png, shape)
-    #        self.assertEqual(WrapType.none, shape.wrap_type)
-    #        self.assertTrue(shape.behind_text)
-    #        self.assertEqual(RelativeHorizontalPosition.page, shape.relative_horizontal_position)
-    #        self.assertEqual(RelativeVerticalPosition.page, shape.relative_vertical_position)
-    #        self.assertEqual((doc.first_section.page_setup.page_width - shape.width) / 2, shape.left)
-    #        self.assertEqual((doc.first_section.page_setup.page_height - shape.height) / 2, shape.top)
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_watermark.docx")
+        # shape = doc.first_section.headers_footers[aw.HeaderFooterType.HEADER_PRIMARY].get_child(aw.NodeType.SHAPE, 0, True).as_shape
+        #
+        # # TestUtil.verify_image_in_shape(400, 400, ImageType.png, shape)
+        # self.assertEqual(aw.WrapType.NONE, shape.wrap_type)
+        # self.assertTrue(shape.behind_text)
+        # self.assertEqual(aw.RelativeHorizontalPosition.PAGE, shape.relative_horizontal_position)
+        # self.assertEqual(aw.RelativeVerticalPosition.PAGE, shape.relative_vertical_position)
+        # self.assertEqual((doc.first_section.page_setup.page_width - shape.width) / 2, shape.left)
+        # self.assertEqual((doc.first_section.page_setup.page_height - shape.height) / 2, shape.top)
 
-    #    def test_insert_ole_object(self) :
+    # def test_insert_ole_object(self) :
     #
-    #        #ExStart
-    #        #ExFor:DocumentBuilder.insert_ole_object(String, Boolean, Boolean, Stream)
-    #        #ExFor:DocumentBuilder.insert_ole_object(String, String, Boolean, Boolean, Stream)
-    #        #ExFor:DocumentBuilder.insert_ole_object_as_icon(String, Boolean, String, String)
-    #        #ExSummary:Shows how to insert an OLE object into a document.
-    #        doc = aw.Document()
-    #        builder = aw.DocumentBuilder(doc)
+    #    #ExStart
+    #    #ExFor:DocumentBuilder.insert_ole_object(String, Boolean, Boolean, Stream)
+    #    #ExFor:DocumentBuilder.insert_ole_object(String, String, Boolean, Boolean, Stream)
+    #    #ExFor:DocumentBuilder.insert_ole_object_as_icon(String, Boolean, String, String)
+    #    #ExSummary:Shows how to insert an OLE object into a document.
+    #    doc = aw.Document()
+    #    builder = aw.DocumentBuilder(doc)
     #
-    #        # OLE objects are links to files in our local file system that can be opened by other installed applications.
-    #        # Double clicking these shapes will launch the application, and then use it to open the linked object.
-    #        # There are three ways of using the InsertOleObject method to insert these shapes and configure their appearance.
-    #        # 1 -  Image taken from the local file system:
-    #        using (FileStream imageStream = new FileStream(aeb.ImageDir + "Logo.jpg", FileMode.open))
-    #
-    #            # If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
-    #            # the icon according to the file extension and uses the filename for the icon caption.
-    #            builder.insert_ole_object(aeb.MyDir + "Spreadsheet.xlsx", False, False, imageStream)
-    #
+    #    # OLE objects are links to files in our local file system that can be opened by other installed applications.
+    #    # Double clicking these shapes will launch the application, and then use it to open the linked object.
+    #    # There are three ways of using the InsertOleObject method to insert these shapes and configure their appearance.
+    #    # 1 -  Image taken from the local file system:
+    #    imageStream = io.BytesIO(aeb.image_dir + "Logo.jpg")
     #
     #        # If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
-    #        # the icon according to 'progId' and uses the filename for the icon caption.
-    #        # 2 -  Icon based on the application that will open the object:
-    #        builder.insert_ole_object(aeb.MyDir + "Spreadsheet.xlsx", "Excel.sheet", False, True, null)
+    #        # the icon according to the file extension and uses the filename for the icon caption.
+    #        builder.insert_ole_object(aeb.MyDir + "Spreadsheet.xlsx", False, False, imageStream)
     #
-    #        # If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
-    #        # the icon according to 'progId' and uses the predefined icon caption.
-    #        # 3 -  Image icon that's 32 x 32 pixels or smaller from the local file system, with a custom caption:
-    #        builder.insert_ole_object_as_icon(aeb.MyDir + "Presentation.pptx", False, aeb.ImageDir + "Logo icon.ico",
-    #            "Double click to view presentation!")
     #
-    #        doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_ole_object.docx")
-    #        #ExEnd
+    #    # If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
+    #    # the icon according to 'progId' and uses the filename for the icon caption.
+    #    # 2 -  Icon based on the application that will open the object:
+    #    builder.insert_ole_object(aeb.MyDir + "Spreadsheet.xlsx", "Excel.sheet", False, True, null)
     #
-    #        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_ole_object.docx")
-    #        Shape shape = (Shape)doc.get_child(NodeType.shape,0, True)
+    #    # If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
+    #    # the icon according to 'progId' and uses the predefined icon caption.
+    #    # 3 -  Image icon that's 32 x 32 pixels or smaller from the local file system, with a custom caption:
+    #    builder.insert_ole_object_as_icon(aeb.MyDir + "Presentation.pptx", False, aeb.ImageDir + "Logo icon.ico",
+    #        "Double click to view presentation!")
     #
-    #        self.assertEqual(ShapeType.ole_object, shape.shape_type)
-    #        self.assertEqual("Excel.sheet.12", shape.ole_format.prog_id)
-    #        self.assertEqual(".xlsx", shape.ole_format.suggested_extension)
+    #    doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_ole_object.docx")
+    #    #ExEnd
     #
-    #        shape = (Shape)doc.get_child(NodeType.shape, 1, True)
+    #    doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_ole_object.docx")
+    #    Shape shape = (Shape)doc.get_child(NodeType.shape,0, True)
     #
-    #        self.assertEqual(ShapeType.ole_object, shape.shape_type)
-    #        self.assertEqual("Package", shape.ole_format.prog_id)
-    #        self.assertEqual(".xlsx", shape.ole_format.suggested_extension)
+    #    self.assertEqual(ShapeType.ole_object, shape.shape_type)
+    #    self.assertEqual("Excel.sheet.12", shape.ole_format.prog_id)
+    #    self.assertEqual(".xlsx", shape.ole_format.suggested_extension)
     #
-    #        shape = (Shape)doc.get_child(NodeType.shape, 2, True)
+    #    shape = (Shape)doc.get_child(NodeType.shape, 1, True)
     #
-    #        self.assertEqual(ShapeType.ole_object, shape.shape_type)
-    #        self.assertEqual("PowerPoint.show.12", shape.ole_format.prog_id)
-    #        self.assertEqual(".pptx", shape.ole_format.suggested_extension)
+    #    self.assertEqual(ShapeType.ole_object, shape.shape_type)
+    #    self.assertEqual("Package", shape.ole_format.prog_id)
+    #    self.assertEqual(".xlsx", shape.ole_format.suggested_extension)
+    #
+    #    shape = (Shape)doc.get_child(NodeType.shape, 2, True)
+    #
+    #    self.assertEqual(ShapeType.ole_object, shape.shape_type)
+    #    self.assertEqual("PowerPoint.show.12", shape.ole_format.prog_id)
+    #    self.assertEqual(".pptx", shape.ole_format.suggested_extension)
 
     # elif NETCOREAPP2_1 || __MOBILE__
     # def test_insert_watermark_net_standard_2(self) :
@@ -409,7 +402,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
     #
     #     doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_watermark_net_standard_2.docx")
     # ExEnd
-
+    #
     #        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_watermark_net_standard_2.docx")
     #        Shape outShape = (Shape)doc.first_section.headers_footers[aw.HeaderFooterType.HEADER_PRIMARY].get_child(NodeType.shape, 0, True)
     #
@@ -420,8 +413,8 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
     #        self.assertEqual(RelativeVerticalPosition.page, outShape.relative_vertical_position)
     #        self.assertEqual((doc.first_section.page_setup.page_width - outShape.width) / 2, outShape.left)
     #        self.assertEqual((doc.first_section.page_setup.page_height - outShape.height) / 2, outShape.top)
-
-    # endif
+    #
+    # # endif
 
     def test_insert_html(self):
         # ExStart
@@ -853,8 +846,6 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExFor:Shading.clear_formatting
         # ExSummary:Shows how to build a table with custom borders.
 
-        print("Color is not available (commented all lines with color)")
-
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -867,7 +858,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.cell_format.clear_formatting()
         builder.cell_format.width = 150
         builder.cell_format.vertical_alignment = aw.tables.CellVerticalAlignment.CENTER
-        # builder.cell_format.shading.background_pattern_color = Color.green_yellow # color is not supported
+        builder.cell_format.shading.background_pattern_color = drawing.Color.green_yellow
         builder.cell_format.wrap_text = False
         builder.cell_format.fit_text = True
 
@@ -875,7 +866,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         builder.row_format.height_rule = aw.HeightRule.EXACTLY
         builder.row_format.height = 50
         builder.row_format.borders.line_style = aw.LineStyle.ENGRAVE3_D
-        # builder.row_format.borders.color = Color.orange # color is not supported
+        builder.row_format.borders.color = drawing.Color.orange
 
         builder.insert_cell()
         builder.write("Row 1, Col 1")
@@ -921,13 +912,13 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(aw.HeightRule.EXACTLY, table.rows[0].row_format.height_rule)
         self.assertEqual(50.0, table.rows[0].row_format.height)
         self.assertEqual(aw.LineStyle.ENGRAVE3_D, table.rows[0].row_format.borders.line_style)
-        # self.assertEqual(Color.orange.to_argb(), table.rows[0].row_format.borders.color.to_argb()) # color is not supported
+        self.assertEqual(drawing.Color.orange.to_argb(), table.rows[0].row_format.borders.color.to_argb())
 
         for c in table.rows[0].cells:
             c = c.as_cell()
             self.assertEqual(150, c.cell_format.width)
             self.assertEqual(aw.tables.CellVerticalAlignment.CENTER, c.cell_format.vertical_alignment)
-            # self.assertEqual(Color.green_yellow.to_argb(), c.cell_format.shading.background_pattern_color.to_argb()) # color is not supported
+            self.assertEqual(drawing.Color.green_yellow.to_argb(), c.cell_format.shading.background_pattern_color.to_argb())
             self.assertFalse(c.cell_format.wrap_text)
             self.assertTrue(c.cell_format.fit_text)
 
@@ -940,7 +931,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
             c = c.as_cell()
             self.assertEqual(150, c.cell_format.width)
             self.assertEqual(aw.tables.CellVerticalAlignment.CENTER, c.cell_format.vertical_alignment)
-            # self.assertEqual(Color.empty.to_argb(), c.cell_format.shading.background_pattern_color.to_argb()) # color is not supported
+            # self.assertEqual(drawing.Color.empty.to_argb(), c.cell_format.shading.background_pattern_color.to_argb()) # color is not supported
             self.assertFalse(c.cell_format.wrap_text)
             self.assertTrue(c.cell_format.fit_text)
 
@@ -1017,10 +1008,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(
             aw.tables.TableStyleOptions.FIRST_COLUMN | aw.tables.TableStyleOptions.ROW_BANDS | aw.tables.TableStyleOptions.FIRST_ROW,
             table.style_options)
-        # self.assertEqual(189, table.first_row.first_cell.cell_format.shading.background_pattern_color.b)
-        # self.assertEqual(Color.white.to_argb(), table.first_row.first_cell.first_paragraph.runs[0].font.color.to_argb()) # color is not supported
-        # Assert.are_not_equal(Color.light_blue.to_argb(),
-        #     table.last_row.first_cell.cell_format.shading.background_pattern_color.b)
+        self.assertEqual(189, table.first_row.first_cell.cell_format.shading.background_pattern_color.b)
+        self.assertEqual(drawing.Color.white.to_argb(), table.first_row.first_cell.first_paragraph.runs[0].font.color.to_argb()) # color is not supported
+        self.assertNotEqual(drawing.Color.light_blue.to_argb(),
+             table.last_row.first_cell.cell_format.shading.background_pattern_color.b)
         # self.assertEqual(Color.empty.to_argb(), table.last_row.first_cell.first_paragraph.runs[0].font.color.to_argb())
 
     def test_insert_table_set_heading_row(self):
@@ -1110,8 +1101,6 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExFor:aw.tables.PreferredWidth.to_string
         # ExSummary:Shows how to set a preferred width for table cells.
 
-        print("Color is not available (commented all lines with color)")
-
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
         table = builder.start_table()
@@ -1120,13 +1109,13 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # 1 -  Set an absolute preferred width based on points:
         builder.insert_cell()
         builder.cell_format.preferred_width = aw.tables.PreferredWidth.from_points(40)
-        # builder.cell_format.shading.background_pattern_color = Color.light_yellow # color is not supported
+        builder.cell_format.shading.background_pattern_color = drawing.Color.light_yellow
         builder.writeln("Cell with a width of " + str(builder.cell_format.preferred_width) + ".")
 
         # 2 -  Set a relative preferred width based on percent of the table's width:
         builder.insert_cell()
         builder.cell_format.preferred_width = aw.tables.PreferredWidth.from_percent(20)
-        # builder.cell_format.shading.background_pattern_color = Color.light_blue # color is not supported
+        builder.cell_format.shading.background_pattern_color = drawing.Color.light_blue
         builder.writeln("Cell with a width of " + str(builder.cell_format.preferred_width) + ".")
 
         builder.insert_cell()
@@ -1138,7 +1127,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertNotEqual(table.first_row.cells[1].cell_format.preferred_width.get_hash_code(),
                             builder.cell_format.preferred_width.get_hash_code())
 
-        # builder.cell_format.shading.background_pattern_color = Color.light_green # color is not supported
+        builder.cell_format.shading.background_pattern_color = drawing.Color.light_green
         builder.writeln("Automatically sized cell.")
 
         doc.save(aeb.artifacts_dir + "DocumentBuilder.insert_cells_with_preferred_widths.docx")
@@ -1262,8 +1251,6 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExFor:DocumentBuilder.font
         # ExSummary:Shows how to create a formatted table using DocumentBuilder.
 
-        print("Color is not available (commented all lines with color)")
-
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -1274,7 +1261,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # Set some formatting options for text and table appearance.
         builder.row_format.height = 40
         builder.row_format.height_rule = aw.HeightRule.AT_LEAST
-        # builder.cell_format.shading.background_pattern_color = Color.from_argb(198, 217, 241) # color is not supported
+        builder.cell_format.shading.background_pattern_color = drawing.Color.from_argb(198, 217, 241)
 
         builder.paragraph_format.alignment = aw.ParagraphAlignment.CENTER
         builder.font.size = 16
@@ -1293,7 +1280,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         # Reconfigure the builder's formatting objects for new rows and cells that we are about to make.
         # The builder will not apply these to the first row already created so that it will stand out as a header row.
-        # builder.cell_format.shading.background_pattern_color = Color.white # color is not supported
+        builder.cell_format.shading.background_pattern_color = drawing.Color.white
         builder.cell_format.vertical_alignment = aw.tables.CellVerticalAlignment.CENTER
         builder.row_format.height = 30
         builder.row_format.height_rule = aw.HeightRule.AUTO
@@ -1347,7 +1334,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
                     self.assertEqual(12, r.font.size)
                     self.assertFalse(r.font.bold)
 
-    # @unittest.skip("No type casting (lines 1394 and 1408)")
+
     def test_table_borders_and_shading(self):
 
         # ExStart
@@ -1359,21 +1346,19 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExFor:BorderCollection.bottom
         # ExSummary:Shows how to apply border and shading color while building a table.
 
-        print("Color is not available (commented all lines with color)")
-
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # Start a table and set a default color/thickness for its borders.
         table = builder.start_table()
-        # table.set_borders(LineStyle.single, 2.0, Color.black) # colors are not supported
+        table.set_borders(aw.LineStyle.SINGLE, 2.0, drawing.Color.black)
 
         # Create a row with two cells with different background colors.
         builder.insert_cell()
-        # builder.cell_format.shading.background_pattern_color = Color.light_sky_blue # colors are not supported
+        builder.cell_format.shading.background_pattern_color = drawing.Color.light_sky_blue
         builder.writeln("Row 1, Cell 1.")
         builder.insert_cell()
-        # builder.cell_format.shading.background_pattern_color = Color.orange # colors are not supported
+        builder.cell_format.shading.background_pattern_color = drawing.Color.orange
         builder.writeln("Row 1, Cell 2.")
         builder.end_row()
 
@@ -1407,10 +1392,10 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
             # self.assertEqual(Color.empty.to_argb(), c.cell_format.borders.left.color.to_argb())
             self.assertEqual(aw.LineStyle.SINGLE, c.cell_format.borders.left.line_style)
 
-        # self.assertEqual(Color.light_sky_blue.to_argb(),
-        #                  table.first_row.first_cell.cell_format.shading.background_pattern_color.to_argb())
-        # self.assertEqual(Color.orange.to_argb(),
-        #                  table.first_row.cells[1].cell_format.shading.background_pattern_color.to_argb())
+        self.assertEqual(drawing.Color.light_sky_blue.to_argb(),
+                         table.first_row.first_cell.cell_format.shading.background_pattern_color.to_argb())
+        self.assertEqual(drawing.Color.orange.to_argb(),
+                         table.first_row.cells[1].cell_format.shading.background_pattern_color.to_argb())
 
         for c in table.last_row:
             c = c.as_cell()
@@ -1438,7 +1423,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(216.0, table.first_row.first_cell.cell_format.preferred_width.value)
         # ExEnd
 
-    @unittest.skip("TestUtil hasn't been done yet")
+    #@unittest.skip("TestUtil hasn't been done yet")
     def test_insert_hyperlink_to_local_bookmark(self):
 
         # ExStart
@@ -1456,7 +1441,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         # Insert a HYPERLINK field that links to the bookmark. We can pass field switches
         # to the "InsertHyperlink" method as part of the argument containing the referenced bookmark's name.
-        # builder.font.color = Color.blue # colors are not supported
+        builder.font.color = drawing.Color.blue # colors are not supported
         builder.font.underline = aw.Underline.SINGLE
         builder.insert_hyperlink("Link to Bookmark1", "Bookmark1\" \o \"Hyperlink Tip", True)
 
@@ -1466,11 +1451,11 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.insert_hyperlink_to_local_bookmark.docx")
         # FieldHyperlink hyperlink = (FieldHyperlink)doc.range.fields[0]
 
-        TestUtil.verify_field(aw.FieldType.FIELD_HYPERLINK, " HYPERLINK \\l \"Bookmark1\" \\o \"Hyperlink Tip\" ",
-                              "Link to Bookmark1", aw.hyperlink)
-        self.assertEqual("Bookmark1", aw.hyperlink.sub_address)
-        self.assertEqual("Hyperlink Tip", aw.hyperlink.screen_tip)
-        self.assertTrue(doc.range.bookmarks.any(lambda b: b.name == "Bookmark1"))
+        # TestUtil.verify_field(aw.FieldType.FIELD_HYPERLINK, " HYPERLINK \\l \"Bookmark1\" \\o \"Hyperlink Tip\" ",
+        #                       "Link to Bookmark1", aw.hyperlink)
+        # self.assertEqual("Bookmark1", aw.hyperlink.sub_address)
+        # self.assertEqual("Hyperlink Tip", aw.hyperlink.screen_tip)
+        # self.assertTrue(doc.range.bookmarks.any(lambda b: b.name == "Bookmark1"))
 
     def test_cursor_position(self):
 
@@ -1776,7 +1761,6 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, image.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, image.relative_vertical_position)
 
-    # @unittest.skip("No type casting (line 1794) and testUtil hasn't been done yet")
     def test_insert_image_original_size(self):
 
         # ExStart
@@ -2179,8 +2163,6 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExFor:Shading.foreground_pattern_color
         # ExSummary:Shows how to decorate text with borders and shading.
 
-        print("Color is not available (commented all lines with color)")
-
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -2193,8 +2175,8 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         shading = builder.paragraph_format.shading
         shading.texture = aw.TextureIndex.TEXTURE_DIAGONAL_CROSS
-        # shading.background_pattern_color = Color.light_coral
-        # shading.foreground_pattern_color = Color.light_salmon
+        shading.background_pattern_color = drawing.Color.light_coral
+        shading.foreground_pattern_color = drawing.Color.light_salmon
 
         builder.write("This paragraph is formatted with a double border and shading.")
         doc.save(aeb.artifacts_dir + "DocumentBuilder.apply_borders_and_shading.docx")
@@ -2210,8 +2192,8 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertEqual(aw.LineStyle.DOUBLE, borders[aw.BorderType.BOTTOM].line_style)
 
         self.assertEqual(aw.TextureIndex.TEXTURE_DIAGONAL_CROSS, shading.texture)
-        # self.assertEqual(Color.light_coral.to_argb(), shading.background_pattern_color.to_argb())
-        # self.assertEqual(Color.light_salmon.to_argb(), shading.foreground_pattern_color.to_argb())
+        self.assertEqual(drawing.Color.light_coral.to_argb(), shading.background_pattern_color.to_argb())
+        self.assertEqual(drawing.Color.light_salmon.to_argb(), shading.foreground_pattern_color.to_argb())
 
     def test_delete_row(self):
 
@@ -2249,8 +2231,6 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExSummary:Shows how to manage list style clashes while appending a document.
         # Load a document with text in a custom style and clone it.
 
-        print("Color is not available (commented all lines with color)")
-
         for keep_source_numbering in (False, True):
             with self.subTest(keep_source_numbering=keep_source_numbering):
                 src_doc = aw.Document(aeb.my_dir + "Custom list numbering.docx")
@@ -2258,7 +2238,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
                 # We now have two documents, each with an identical style named "CustomStyle".
                 # Change the text color for one of the styles to set it apart from the other.
-                # dst_doc.styles["CustomStyle"].font.color = Color.dark_red
+                # dst_doc.styles["CustomStyle"].font.color = drawing.Color.dark_red              #  Item properties can use only int
 
                 # If there is a clash of list styles, apply the list format of the source document.
                 # Set the "keep_source_numbering" property to "False" to not import any list numbers into the destination document.
@@ -2732,13 +2712,11 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExFor:DocumentBuilder.underline
         # ExSummary:Shows how to format text inserted by a document builder.
 
-        print("Color is not available (commented all lines with color)")
-
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         builder.underline = aw.Underline.DASH
-        # builder.font.color = Color.blue
+        builder.font.color = drawing.Color.blue
         builder.font.size = 32
 
         # The builder applies formatting to its current paragraph and any new text added by it afterward.
@@ -2752,7 +2730,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         self.assertEqual("Large, blue, and underlined text.", first_run.get_text().strip())
         self.assertEqual(aw.Underline.DASH, first_run.font.underline)
-        # self.assertEqual(Color.blue.to_argb(), firstRun.font.color.to_argb())
+        self.assertEqual(drawing.Color.blue.to_argb(), first_run.font.color.to_argb())
         self.assertEqual(32.0, first_run.font.size)
 
     def test_current_story(self):
@@ -2919,6 +2897,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         self.assertTrue(DocumentHelper.compare_docs(aeb.artifacts_dir + "DocumentBuilder.insert_document.docx",
                                                     aeb.golds_dir + "DocumentBuilder.insert_document Gold.docx"))
 
+    @unittest.skip("Item properties can use only int")
     def test_smart_style_behavior(self):
         # ExStart
         # ExFor:ImportFormatOptions
@@ -2926,15 +2905,13 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # ExFor:DocumentBuilder.insert_document(Document, ImportFormatMode, ImportFormatOptions)
         # ExSummary:Shows how to resolve duplicate styles while inserting documents.
 
-        print("Color is not available (commented all lines with color)")
-
         dst_doc = aw.Document()
         builder = aw.DocumentBuilder(dst_doc)
 
         my_style = builder.document.styles.add(aw.StyleType.PARAGRAPH, "MyStyle")
         my_style.font.size = 14
         my_style.font.name = "Courier New"
-        # my_style.font.color = Color.blue
+        my_style.font.color = drawing.Color.blue
 
         builder.paragraph_format.style_name = my_style.name
         builder.writeln("Hello world!")
@@ -2942,7 +2919,7 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
         # Clone the document and edit the clone's "my_style" style, so it is a different color than that of the original.
         # If we insert the clone into the original document, the two styles with the same name will cause a clash.
         src_doc = dst_doc.clone()
-        # src_doc.styles["MyStyle"].font.color = Color.red
+        src_doc.styles["MyStyle"].font.color = drawing.Color.red
 
         # When we enable SmartStyleBehavior and use the KeepSourceFormatting import format mode,
         # Aspose.words will resolve style clashes by converting source document styles.
@@ -2957,13 +2934,13 @@ class ExDocumentBuilder(aeb.ApiExampleBase):
 
         dst_doc = aw.Document(aeb.artifacts_dir + "DocumentBuilder.smart_style_behavior.docx")
 
-        # self.assertEqual(Color.blue.to_argb(), dst_doc.styles["MyStyle"].font.color.to_argb())
+        self.assertEqual(drawing.Color.blue.to_argb(), dst_doc.styles["MyStyle"].font.color.to_argb())
         self.assertEqual("MyStyle", dst_doc.first_section.body.paragraphs[0].paragraph_format.style.name)
 
         self.assertEqual("Normal", dst_doc.first_section.body.paragraphs[1].paragraph_format.style.name)
         self.assertEqual(14, dst_doc.first_section.body.paragraphs[1].runs[0].font.size)
         self.assertEqual("Courier New", dst_doc.first_section.body.paragraphs[1].runs[0].font.name)
-        # self.assertEqual(Color.red.to_argb(), dst_doc.first_section.body.paragraphs[1].runs[0].font.color.to_argb())
+        self.assertEqual(drawing.Color.red.to_argb(), dst_doc.first_section.body.paragraphs[1].runs[0].font.color.to_argb())
 
     def test_emphases_warning_source_markdown(self):
 

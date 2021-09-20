@@ -3,6 +3,7 @@ import unittest
 import api_example_base as aeb
 
 import aspose.words as aw
+import aspose.pydrawing as drawing
 
 
 class ExDocumentBase(aeb.ApiExampleBase):
@@ -26,20 +27,18 @@ class ExDocumentBase(aeb.ApiExampleBase):
         # ExFor:DocumentBase.page_color
         # ExSummary:Shows how to set the background color for all pages of a document.
 
-        print("Color is not available (commented all lines with color)")
-
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
         builder.writeln("Hello world!")
 
-        # doc.page_color = System.drawing.color.light_gray
+        doc.page_color = drawing.Color.light_gray
 
         doc.save(aeb.artifacts_dir + "DocumentBase.set_page_color.docx")
         # ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBase.set_page_color.docx")
 
-        # self.assertEqual(System.drawing.color.light_gray.to_argb(), doc.page_color.to_argb())
+        self.assertEqual(drawing.Color.light_gray.to_argb(), doc.page_color.to_argb())
 
     def test_import_node(self):
         # ExStart
@@ -132,7 +131,7 @@ class ExDocumentBase(aeb.ApiExampleBase):
 
         # There are two ways of using this shape as a page background.
         # 1 -  A flat color:
-        # shape_rectangle.fill_color = System.drawing.color.light_blue
+        shape_rectangle.fill_color = drawing.Color.light_blue
         doc.background_shape = shape_rectangle
 
         doc.save(aeb.artifacts_dir + "DocumentBase.background_shape.flat_color.docx")
@@ -156,7 +155,7 @@ class ExDocumentBase(aeb.ApiExampleBase):
 
         doc = aw.Document(aeb.artifacts_dir + "DocumentBase.background_shape.flat_color.docx")
 
-        # self.assertEqual(System.drawing.color.light_blue.to_argb(), doc.background_shape.fill_color.to_argb())
+        self.assertEqual(drawing.Color.light_blue.to_argb(), doc.background_shape.fill_color.to_argb())
         # Assert.throws<ArgumentException>(() =>
         #
         #     doc.background_shape = new Shape(doc, ShapeType.triangle)

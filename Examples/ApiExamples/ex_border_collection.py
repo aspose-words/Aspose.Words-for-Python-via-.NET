@@ -4,6 +4,7 @@ import api_example_base as aeb
 from document_helper import DocumentHelper
 
 import aspose.words as aw
+import aspose.pydrawing as drawing
 
 class ExBorderCollection(aeb.ApiExampleBase):
     
@@ -19,7 +20,7 @@ class ExBorderCollection(aeb.ApiExampleBase):
         borders = builder.paragraph_format.borders
 
         for border in borders :
-            #border.color = Color.green
+            border.color = drawing.Color.green
             border.line_style = aw.LineStyle.WAVE
             border.line_width = 3
                 
@@ -34,7 +35,7 @@ class ExBorderCollection(aeb.ApiExampleBase):
         doc = aw.Document(aeb.artifacts_dir + "BorderCollection.get_borders_enumerator.docx")
 
         for border in doc.first_section.body.first_paragraph.paragraph_format.borders :
-            #self.assertEqual(Color.green.to_argb(), border.color.to_argb())
+            self.assertEqual(drawing.Color.green.to_argb(), border.color.to_argb())
             self.assertEqual(aw.LineStyle.WAVE, border.line_style)
             self.assertEqual(3.0, border.line_width)
             
@@ -50,7 +51,7 @@ class ExBorderCollection(aeb.ApiExampleBase):
         # The first paragraph of this document has visible borders with these settings.
         firstParagraphBorders = doc.first_section.body.first_paragraph.paragraph_format.borders
 
-        #self.assertEqual(Color.red.to_argb(), firstParagraphBorders.color.to_argb())
+        self.assertEqual(drawing.Color.red.to_argb(), firstParagraphBorders.color.to_argb())
         self.assertEqual(aw.LineStyle.SINGLE, firstParagraphBorders.line_style)
         self.assertEqual(3.0, firstParagraphBorders.line_width)
 
