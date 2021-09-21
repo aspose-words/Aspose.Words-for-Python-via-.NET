@@ -1,12 +1,12 @@
 import unittest
 import os
 import sys
+import io
 
 base_dir = os.path.abspath(os.curdir) + "/"
 base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
-print(base_dir)
 
 import docs_examples_base as docs_base
 
@@ -24,30 +24,26 @@ class BaseConversions(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "BaseConversions.doc_to_docx.docx")
         #ExEnd:LoadAndSave
         
-    @unittest.skip("Streams are not supported yet.)")
+    
     def test_docx_to_rtf(self) :
-         print("not supported yet")
-#        #ExStart:LoadAndSaveToStream 
-#        #ExStart:OpeningFromStream
-#        # Read only access is enough for Aspose.words to load a document.
-#        Stream stream = File.open_read(docs_base.my_dir + "Document.docx")
-#
-#        doc = aw.Document(stream)
-#        # You can close the stream now, it is no longer needed because the document is in memory.
-#        stream.close()
-#        #ExEnd:OpeningFromStream 
-#
-#        # ... do something with the document.
-#
-#        # Convert the document to a different format and save to stream.
-#        MemoryStream dstStream = new MemoryStream()
-#        doc.save(dstStream, SaveFormat.rtf)
-#
-#        # Rewind the stream position back to zero so it is ready for the next reader.
-#        dstStream.position = 0
-#        #ExEnd:LoadAndSaveToStream 
-#            
-#        File.write_all_bytes(docs_base.artifacts_dir + "BaseConversions.docx_to_rtf.rtf", dstStream.to_array())
+    
+        #ExStart:LoadAndSaveToStream 
+        #ExStart:OpeningFromStream
+        # Read only access is enough for Aspose.words to load a document.
+        stream = io.FileIO(docs_base.my_dir + "Document.docx")
+
+        doc = aw.Document(stream)
+        # You can close the stream now, it is no longer needed because the document is in memory.
+        stream.close()
+        #ExEnd:OpeningFromStream 
+
+        # ... do something with the document.
+
+        # Convert the document to a different format and save to stream.
+        dstStream =  io.FileIO(docs_base.artifacts_dir + "BaseConversions.docx_to_rtf.rtf", "wb")
+        doc.save(dstStream, aw.SaveFormat.RTF)
+        dstStream.close()
+        #ExEnd:LoadAndSaveToStream 
         
 
     def test_docx_to_pdf(self) :
@@ -58,20 +54,20 @@ class BaseConversions(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "BaseConversions.docx_to_pdf.pdf")
         #ExEnd:Doc2Pdf
         
-    @unittest.skip("Streams are not supported yet.)")
+
     def test_docx_to_byte(self) :
-        print("not supported yet") 
-#        #ExStart:DocxToByte
-#        doc = aw.Document(docs_base.my_dir + "Document.docx")
-#
-#        MemoryStream outStream = new MemoryStream()
-#        doc.save(outStream, SaveFormat.docx)
-#
-#        byte[] docBytes = outStream.to_array()
-#        MemoryStream inStream = new MemoryStream(docBytes)
-#
-#        Document docFromBytes = new Document(inStream)
-#        #ExEnd:DocxToByte
+
+        #ExStart:DocxToByte
+        doc = aw.Document(docs_base.my_dir + "Document.docx")
+
+        outStream = io.BytesIO()
+        doc.save(outStream, aw.SaveFormat.DOCX)
+
+        docBytes = outStream.getbuffer()
+        inStream = io.BytesIO(docBytes)
+
+        docFromBytes = aw.Document(inStream)
+        #ExEnd:DocxToByte
         
 
     def test_docx_to_epub(self) :
@@ -83,7 +79,7 @@ class BaseConversions(docs_base.DocsExamplesBase):
         #ExEnd:DocxToEpub
         
 
-    @unittest.skip("Streams are not supported yet.)")
+    @unittest.skip("Aspose.Email is required. Will do later.")
     def test_docx_to_mhtml_and_sending_email(self) :
         print("not supported yet")
 #        #ExStart:DocxToMhtmlAndSendingEmail
