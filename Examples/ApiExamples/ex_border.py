@@ -4,6 +4,7 @@ import api_example_base as aeb
 from document_helper import DocumentHelper
 
 import aspose.words as aw
+import aspose.pydrawing as drawing
 
 class ExBorder(aeb.ApiExampleBase):
     
@@ -23,7 +24,7 @@ class ExBorder(aeb.ApiExampleBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        #builder.font.border.color = Color.green
+        builder.font.border.color = drawing.Color.green
         builder.font.border.line_width = 2.5
         builder.font.border.line_style = aw.LineStyle.DASH_DOT_STROKER
 
@@ -35,7 +36,7 @@ class ExBorder(aeb.ApiExampleBase):
         doc = aw.Document(aeb.artifacts_dir + "Border.font_border.docx")
         border = doc.first_section.body.first_paragraph.runs[0].font.border
 
-        #self.assertEqual(Color.green.to_argb(), border.color.to_argb())
+        self.assertEqual(drawing.Color.green.to_argb(), border.color.to_argb())
         self.assertEqual(2.5, border.line_width)
         self.assertEqual(aw.LineStyle.DASH_DOT_STROKER, border.line_style)
         
@@ -52,7 +53,7 @@ class ExBorder(aeb.ApiExampleBase):
         builder = aw.DocumentBuilder(doc)
 
         topBorder = builder.paragraph_format.borders.top
-        #topBorder.color = Color.red
+        topBorder.color = drawing.Color.red
         topBorder.line_width = 4.0
         topBorder.line_style = aw.LineStyle.DASH_SMALL_GAP
 
@@ -64,7 +65,7 @@ class ExBorder(aeb.ApiExampleBase):
         doc = aw.Document(aeb.artifacts_dir + "Border.paragraph_top_border.docx")
         border = doc.first_section.body.first_paragraph.paragraph_format.borders.top
 
-        #self.assertEqual(Color.red.to_argb(), border.color.to_argb())
+        self.assertEqual(drawing.Color.red.to_argb(), border.color.to_argb())
         self.assertEqual(4.0, border.line_width)
         self.assertEqual(aw.LineStyle.DASH_SMALL_GAP, border.line_style)
         
@@ -81,7 +82,7 @@ class ExBorder(aeb.ApiExampleBase):
         # We can access the settings for the appearance of these borders via the paragraph format object.
         borders = doc.first_section.body.first_paragraph.paragraph_format.borders
 
-        #self.assertEqual(Color.red.to_argb(), borders[0].color.to_argb())
+        self.assertEqual(drawing.Color.red.to_argb(), borders[0].color.to_argb())
         self.assertEqual(3.0, borders[0].line_width)
         self.assertEqual(aw.LineStyle.SINGLE, borders[0].line_style)
         self.assertTrue(borders[0].is_visible)
@@ -175,7 +176,7 @@ class ExBorder(aeb.ApiExampleBase):
 
         # Create a red horizontal border for the paragraph. Any paragraphs created afterwards will inherit these border settings.
         borders = doc.first_section.body.first_paragraph.paragraph_format.borders
-        #borders.horizontal.color = Color.red
+        borders.horizontal.color = drawing.Color.red
         borders.horizontal.line_style = aw.LineStyle.DASH_SMALL_GAP
         borders.horizontal.line_width = 3
 
@@ -221,12 +222,12 @@ class ExBorder(aeb.ApiExampleBase):
             borders = row.row_format.borders
 
             # Adjust the appearance of borders that will appear between rows.
-            #borders.horizontal.color = Color.red
+            borders.horizontal.color = drawing.Color.red
             borders.horizontal.line_style = aw.LineStyle.DOT
             borders.horizontal.line_width = 2.0
 
             # Adjust the appearance of borders that will appear between cells.
-            #borders.vertical.color = Color.blue
+            borders.vertical.color = drawing.Color.blue
             borders.vertical.line_style = aw.LineStyle.DOT
             borders.vertical.line_width = 2.0
             
@@ -241,20 +242,20 @@ class ExBorder(aeb.ApiExampleBase):
         doc.save(aeb.artifacts_dir + "Border.vertical_borders.docx")
         #ExEnd
 
-#        doc = aw.Document(aeb.ArtifactsDir + "Border.vertical_borders.docx")
-#        table = doc.first_section.body.tables[0]
-#
-#        for row in table.get_child_nodes(aw.NodeType.ROW, True) :
-#            
-#            #self.assertEqual(Color.red.to_argb(), row.row_format.borders.horizontal.color.to_argb())
-#            self.assertEqual(aw.LineStyle.DOT, row.row_format.borders.horizontal.line_style)
-#            self.assertEqual(2.0, row.row_format.borders.horizontal.line_width)
-#
-#            #self.assertEqual(Color.blue.to_argb(), row.row_format.borders.vertical.color.to_argb())
-#            self.assertEqual(aw.LineStyle.DOT, row.row_format.borders.vertical.line_style)
-#            self.assertEqual(2.0, row.row_format.borders.vertical.line_width)
+        doc = aw.Document(aeb.artifacts_dir + "Border.vertical_borders.docx")
+        table = doc.first_section.body.tables[0]
+
+        for row in table.get_child_nodes(aw.NodeType.ROW, True):
+            row = row.as_row()
+
+            self.assertEqual(drawing.Color.red.to_argb(), row.row_format.borders.horizontal.color.to_argb())
+            self.assertEqual(aw.LineStyle.DOT, row.row_format.borders.horizontal.line_style)
+            self.assertEqual(2.0, row.row_format.borders.horizontal.line_width)
+
+            self.assertEqual(drawing.Color.blue.to_argb(), row.row_format.borders.vertical.color.to_argb())
+            self.assertEqual(aw.LineStyle.DOT, row.row_format.borders.vertical.line_style)
+            self.assertEqual(2.0, row.row_format.borders.vertical.line_width)
             
-        
-    
+
 if __name__ == '__main__':
     unittest.main()    
