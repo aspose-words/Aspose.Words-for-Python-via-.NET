@@ -2,7 +2,6 @@ import unittest
 import os
 import sys
 from datetime import date, datetime
-import array
 
 base_dir = os.path.abspath(os.curdir) + "/"
 base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]

@@ -1,0 +1,49 @@
+{
+  "Clients": [
+    {
+      "Name": "A Company",
+      "Country": "Australia",
+      "LocalAddress": "219-241 Cleveland St STRAWBERRY HILLS  NSW  1427"
+    },
+    {
+      "Name": "B Ltd.",
+      "Country": "Brazil",
+      "LocalAddress": "Avenida Jo\u00E3o Jorge, 112, ap. 31 Vila Industrial Campinas - SP 13035-680"
+    },
+    {
+      "Name": "C \u0026 D",
+      "Country": "Canada",
+      "LocalAddress": "101-3485 RUE DE LA MONTAGNE MONTR\u00C9AL (QU\u00C9BEC) H3G 2A6"
+    },
+    {
+      "Name": "E Corp.",
+      "Country": null,
+      "LocalAddress": "445 Mount Eden Road Mount Eden Auckland 1024"
+    },
+    {
+      "Name": "F \u0026 Partners",
+      "Country": null,
+      "LocalAddress": "20 Greens Road Tuahiwi Kaiapoi 7691 "
+    },
+    {
+      "Name": "G \u0026 Co.",
+      "Country": "Greece",
+      "LocalAddress": "Karkisias 6 GR-111 42  ATHINA GR\u00C9CE"
+    },
+    {
+      "Name": "H Group",
+      "Country": "Hungary",
+      "LocalAddress": "Budapest Fikt\u00EDv utca 82., IV. em./28.2806"
+    },
+    {
+      "Name": "I \u0026 Sons",
+      "Country": null,
+      "LocalAddress": "43 Vogel Street Roslyn Palmerston North 4414"
+    },
+    {
+      "Name": "J Ent.",
+      "Country": "Japan",
+      "LocalAddress": "Hakusan 4-Ch\u014Dme 3-2 Bunky\u014D-ku, T\u014CKY\u014C 112-0001 Japan"
+    }
+  ]
+}

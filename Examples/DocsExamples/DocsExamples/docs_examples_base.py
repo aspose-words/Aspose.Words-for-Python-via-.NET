@@ -14,6 +14,7 @@ temp_dir = my_dir + "Temp/"
 images_dir = my_dir + "Images/"
 fonts_dir = my_dir + "MyFonts/"
 database_dir = my_dir + "Database/"
+json_dir = my_dir + "JSON/"
 aspose_logo_url = "https://www.aspose.cloud/templates/aspose/App_Themes/V3/images/words/header/aspose_words-for-net.png"
 
 
