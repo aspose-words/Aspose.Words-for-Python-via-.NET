@@ -50,7 +50,6 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         builder.document.save(docs_base.artifacts_dir + "WorkingWithFields.specifylocale_at_fieldlevel.docx")
         #ExEnd:SpecifylocaleAtFieldlevel
         
-    @unittest.skip("AWWRAP-1 - Casting for fields")
     def test_replace_hyperlinks(self) :
         
         #ExStart:ReplaceHyperlinks
@@ -199,7 +198,6 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         field.remove()
         #ExEnd:RemoveField
         
-    @unittest.skip("AWWRAP-1 - Casting for fields")
     def test_insert_toa_field_without_document_builder(self) :
         
         #ExStart:InsertTOAFieldWithoutDocumentBuilder
@@ -210,7 +208,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #  TA  \c 1 \l "Value 0" 
         #  TOA  \c 1 
 
-        fieldTA = para.append_field(aw.fields.FieldType.FIELD_TOA_ENTRY, False).as_field_ta
+        fieldTA = para.append_field(aw.fields.FieldType.FIELD_TOAENTRY, False).as_field_ta()
         fieldTA.entry_category = "1"
         fieldTA.long_citation = "Value 0"
 
@@ -218,7 +216,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         para = aw.Paragraph(doc)
 
-        fieldToa = para.append_field(aw.fields.FieldType.FIELD_TOA, False).as_field_toa
+        fieldToa = para.append_field(aw.fields.FieldType.FIELD_TOA, False).as_field_toa()
         fieldToa.entry_category = "1"
         doc.first_section.body.append_child(para)
 
@@ -254,7 +252,6 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:InsertNestedFields
         
     
-    @unittest.skip("AWWRAP-1 - Casting for fields")
     def test_insert_merge_field_using_dom(self) :
         
         #ExStart:InsertMergeFieldUsingDOM
@@ -268,7 +265,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         # We want to insert a merge field like this:
         #  " MERGEFIELD Test1 \\b Test2 \\f Test3 \\m \\v" 
 
-        field = builder.insert_field(aw.fields.FieldType.FIELD_merge_field, false).as_field_merge_field()
+        field = builder.insert_field(aw.fields.FieldType.FIELD_MERGE_FIELD, False).as_field_merge_field()
 
         #  " MERGEFIELD Test1" 
         field.field_name = "Test1"
@@ -292,14 +289,13 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:InsertMergeFieldUsingDOM
         
 
-    @unittest.skip("AWWRAP-1 - Casting for fields")
     def test_insert_mail_merge_address_block_field_using_dom(self) :
         
         #ExStart:InsertMailMergeAddressBlockFieldUsingDOM
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        para = doc.get_child_nodes(NodeType.paragraph, true)[0].as_paragraph()
+        para = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)[0].as_paragraph()
 
         builder.move_to(para)
 
@@ -329,7 +325,6 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:InsertMailMergeAddressBlockFieldUsingDOM
         
 
-    @unittest.skip("AWWRAP-1 - Casting for fields")
     def test_insert_field_include_text_without_document_builder(self) :
         
         #ExStart:InsertFieldIncludeTextWithoutDocumentBuilder
@@ -377,7 +372,6 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:InsertField
         
 
-    @unittest.skip("AWWRAP-1 - Casting for fields")
     def test_insert_author_field(self) :
         
         #ExStart:InsertAuthorField
@@ -388,7 +382,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         # We want to insert an AUTHOR field like this:
         #  AUTHOR Test1 
 
-        field = para.append_field(aw.fields.FieldType.FIELD_author, false).as_field_author()
+        field = para.append_field(aw.fields.FieldType.FIELD_AUTHOR, False).as_field_author()
         field.author_name = "Test1" #  AUTHOR Test1 
 
         field.update()
@@ -397,13 +391,12 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:InsertAuthorField
         
 
-    @unittest.skip("AWWRAP-1 - Casting for fields")
     def test_insert_ask_field_with_out_document_builder(self) :
         
         #ExStart:InsertASKFieldWithOutDocumentBuilder
         doc = aw.Document()
 
-        para = doc.get_child_nodes(NodeType.paragraph, true)[0].as_paragraph()
+        para = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)[0].as_paragraph()
 
         # We want to insert an Ask field like this:
         #  ASK \"Test 1\" Test2 \\d Test3 \\o 
@@ -428,7 +421,6 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:InsertASKFieldWithOutDocumentBuilder
         
 
-    @unittest.skip("AWWRAP-1 - Casting for fields")
     def test_insert_advance_field_with_out_document_builder(self) :
         
         #ExStart:InsertAdvanceFieldWithOutDocumentBuilder
@@ -507,13 +499,12 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:FieldDisplayResults
         
 
-    @unittest.skip("AWWRAP-1 - Casting for fields")
     def test_evaluate_if_condition(self) :
         
         #ExStart:EvaluateIFCondition
         builder = aw.DocumentBuilder()
 
-        field = builder.insert_field("IF 1 = 1", null).as_field_if()
+        field = builder.insert_field("IF 1 = 1", None).as_field_if()
         actualResult = field.evaluate_condition()
 
         print(actualResult)

@@ -81,7 +81,7 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
         destDoc = aw.Document()
         destDoc.vba_project = aw.vba.VbaProject() 
             
-        copyModule = doc.vba_project.modules.get_ny_name("Module1").clone()
+        copyModule = doc.vba_project.modules.get_by_name("Module1").clone()
         destDoc.vba_project.modules.add(copyModule)
 
         destDoc.save(docs_base.artifacts_dir + "WorkingWithVba.clone_vba_module.docm")

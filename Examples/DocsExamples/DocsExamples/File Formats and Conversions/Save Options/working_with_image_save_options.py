@@ -40,7 +40,7 @@ class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
             
         #ExStart:SaveAsTIFFUsingImageSaveOptions
         saveOptions = aw.saving.ImageSaveOptions(aw.SaveFormat.TIFF)
-        saveOptions.page_set = aw.saving.PageSet([aw.saving.PageRange(0, 1)])
+        saveOptions.page_set = aw.saving.PageSet([0, 1])
         saveOptions.tiff_compression = aw.saving.TiffCompression.CCITT4
         #saveOptions.resolution = 160
             

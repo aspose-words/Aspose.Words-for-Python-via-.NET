@@ -40,50 +40,5 @@ class WorkingWithHyphenation(docs_base.DocsExamplesBase):
         #ExEnd:LoadHyphenationDictionaryForLanguage
         
 
-    ##ExStart:CustomHyphenation
-    #def test_hyphenation_callback()
-        
-    #    try
-            
-    #        # Register hyphenation callback.
-    #        Hyphenation.callback = new CustomHyphenationCallback()
-
-    #        Document document = new Document(docs_base.my_dir + "German text.docx")
-    #        document.save(docs_base.artifacts_dir + "WorkingWithHyphenation.hyphenation_callback.pdf")
-            
-    #    catch (Exception e) when (e.message.starts_with("Missing hyphenation dictionary"))
-            
-    #        print(e.message)
-            
-    #    finally
-            
-    #        Hyphenation.callback = null
-            
-        
-
-    #public class CustomHyphenationCallback : IHyphenationCallback
-        
-    #    public void RequestDictionary(string language)
-            
-    #        string dictionaryFolder = docs_base.my_dir
-    #        string dictionaryFullFileName
-    #        switch (language)
-                
-    #            case "en-US":
-    #                dictionaryFullFileName = Path.combine(dictionaryFolder, "hyph_en_US.dic")
-    #                break
-    #            case "de-CH":
-    #                dictionaryFullFileName = Path.combine(dictionaryFolder, "hyph_de_CH.dic")
-    #                break
-    #            default:
-    #                throw new Exception($"Missing hyphenation dictionary for language.")
-                
-    #        # Register dictionary for requested language.
-    #        Hyphenation.register_dictionary(language, dictionaryFullFileName)
-            
-        
-    ##ExEnd:CustomHyphenation
-    
-
 if __name__ == '__main__':
     unittest.main()

@@ -90,7 +90,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
 
         # Let's remove Heading formatting from a Quote in the very last paragraph.
         paragraph = doc.first_section.body.last_paragraph
-        paragraph.paragraph_format.style = doc.styles["Quote"]
+        paragraph.paragraph_format.style = doc.styles.get_by_name("Quote")
 
         doc.save(docs_base.artifacts_dir + "WorkingWithMarkdown.read_markdown_document.md")
         #ExEnd:ReadMarkdownDocument
@@ -143,22 +143,22 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.font.italic = False
 
         builder.writeln("The following produces headings:")
-        builder.paragraph_format.style = doc.styles["Heading 1"]
+        builder.paragraph_format.style = doc.styles.get_by_name("Heading 1")
         builder.writeln("Heading1")
-        builder.paragraph_format.style = doc.styles["Heading 2"]
+        builder.paragraph_format.style = doc.styles.get_by_name("Heading 2")
         builder.writeln("Heading2")
-        builder.paragraph_format.style = doc.styles["Heading 3"]
+        builder.paragraph_format.style = doc.styles.get_by_name("Heading 3")
         builder.writeln("Heading3")
-        builder.paragraph_format.style = doc.styles["Heading 4"]
+        builder.paragraph_format.style = doc.styles.get_by_name("Heading 4")
         builder.writeln("Heading4")
-        builder.paragraph_format.style = doc.styles["Heading 5"]
+        builder.paragraph_format.style = doc.styles.get_by_name("Heading 5")
         builder.writeln("Heading5")
-        builder.paragraph_format.style = doc.styles["Heading 6"]
+        builder.paragraph_format.style = doc.styles.get_by_name("Heading 6")
         builder.writeln("Heading6")
 
         # Note that the emphases are also allowed inside Headings.
         builder.font.bold = True
-        builder.paragraph_format.style = doc.styles["Heading 1"]
+        builder.paragraph_format.style = doc.styles.get_by_name("Heading 1")
         builder.writeln("Bold Heading1")
 
         doc.save(docs_base.artifacts_dir + "WorkingWithMarkdown.headings.md")
@@ -173,11 +173,11 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
 
         builder.writeln("We support blockquotes in Markdown:")
             
-        builder.paragraph_format.style = doc.styles["Quote"]
+        builder.paragraph_format.style = doc.styles.get_by_name("Quote")
         builder.writeln("Lorem")
         builder.writeln("ipsum")
             
-        builder.paragraph_format.style = doc.styles["Normal"]
+        builder.paragraph_format.style = doc.styles.get_by_name("Normal")
         builder.writeln("The quotes can be of any level and can be nested:")
             
         quoteLevel3 = doc.styles.add(aw.StyleType.PARAGRAPH, "Quote2")
@@ -188,7 +188,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.paragraph_format.style = quoteLevel4
         builder.writeln("Nested quote level 4")
             
-        builder.paragraph_format.style = doc.styles["Quote"]
+        builder.paragraph_format.style = doc.styles.get_by_name("Quote")
         builder.writeln()
         builder.writeln("Back to first level")
             

@@ -103,7 +103,7 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
 
             # Recurse into the node if it is a composite node.
             if childNode.is_composite :
-                self.traverse_all_nodes(childNode.as_composite_node)
+                self.traverse_all_nodes(childNode.as_composite_node())
             
         
     #ExEnd:RecurseAllNodes

@@ -93,15 +93,15 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
                 checkBox =  oleControl.as_forms2_ole_control()
                 properties = properties + "\nCaption: " + checkBox.caption
                 properties = properties + "\nValue: " + checkBox.value
-                properties = properties + "\nEnabled: " + checkBox.enabled
-                properties = properties + "\nType: " + checkBox.type
+                properties = properties + "\nEnabled: " + str(checkBox.enabled)
+                properties = properties + "\nType: " + str(checkBox.type)
+
                 if checkBox.child_nodes != None :
-                    
                     properties = properties + "\nChildNodes: " + checkBox.child_nodes
 
                 properties += "\n"
                 
-        properties = properties + "\nTotal ActiveX Controls found: " + doc.get_child_nodes(NodeType.shape, true).count
+        properties = properties + "\nTotal ActiveX Controls found: " + str(doc.get_child_nodes(aw.NodeType.SHAPE, True).count)
         print("\n" + properties)
         
     
