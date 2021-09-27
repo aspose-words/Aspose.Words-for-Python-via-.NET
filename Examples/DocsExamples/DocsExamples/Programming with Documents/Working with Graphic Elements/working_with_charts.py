@@ -123,7 +123,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         shape = builder.insert_chart(aw.drawing.charts.ChartType.AREA, 432, 252)
 
         chart = shape.chart
-        chart.series.add("Aspose Series 1", 
+        chart.series.add_date("Aspose Series 1", 
             [ date(2002, 5, 1), date(2002, 6, 1), date(2002, 7, 1), date(2002, 8, 1), date(2002, 9, 1) ], 
             [ 32, 32, 28, 12, 15 ])
             
@@ -155,7 +155,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         shape = builder.insert_chart(aw.drawing.charts.ChartType.SCATTER, 432, 252)
 
         chart = shape.chart
-        chart.series.add("Aspose Series 1", [ 0.7, 1.8, 2.6 ], [ 2.7, 3.2, 0.8 ])
+        chart.series.add_double("Aspose Series 1", [ 0.7, 1.8, 2.6 ], [ 2.7, 3.2, 0.8 ])
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.insert_scatter_chart.docx")
         #ExEnd:InsertScatterChart
@@ -174,7 +174,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         chart.series.clear()
 
-        chart.series.add("Aspose Series 1",
+        chart.series.add_date("Aspose Series 1",
             [ date(2002, 1, 1), date(2002, 6, 1), date(2002, 7, 1), date(2002, 8, 1), date(2002, 9, 1) ],
             [ 640, 320, 280, 120, 150 ])
 
@@ -212,7 +212,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         chart.series.clear()
 
-        chart.series.add("Aspose Series 1",
+        chart.series.add_date("Aspose Series 1",
             [ date(2017, 11, 6), date(2017, 11, 9), date(2017, 11, 15), date(2017, 11, 21), date(2017, 11, 25), date(2017, 11, 29) ],
             [ 1.2, 0.3, 2.1, 2.9, 4.2, 5.3 ])
 

@@ -1,7 +1,7 @@
 import unittest
 import os
 import sys
-import re
+from datetime import date, datetime
 
 base_dir = os.path.abspath(os.curdir) + "/"
 base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
@@ -103,7 +103,6 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         #ExEnd:ReplaceTextContainingMetaCharacters
         
 
-    @unittest.skip("Regular expressions is not supported yet.")
     def test_ignore_text_inside_fields(self) :
         
         #ExStart:IgnoreTextInsideFields
@@ -116,13 +115,12 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         options = aw.replacing.FindReplaceOptions()
         options.ignore_fields = True 
             
-        regex = re.compile("e")
-        doc.range.replace(regex, "*", options)
+        doc.range.replace_regex("e", "*", options)
             
         print(doc.get_text())
 
         options.ignore_fields = False
-        doc.range.replace(regex, "*", options)
+        doc.range.replace("e", "*", options)
             
         print(doc.get_text())
         #ExEnd:IgnoreTextInsideFields
@@ -147,8 +145,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         options = aw.replacing.FindReplaceOptions()
         options.ignore_deleted = True 
 
-        regex = re.compile("e")
-        doc.range.replace(regex, "*", options)
+        doc.range.replace_regex("e", "*", options)
 
         print(doc.get_text())
 
@@ -159,7 +156,6 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         #ExEnd:IgnoreTextInsideDeleteRevisions
         
 
-    @unittest.skip("Regular expressions is not supported yet.")
     def test_ignore_text_inside_insert_revisions(self) :
         
         #ExStart:IgnoreTextInsideInsertRevisions
@@ -177,13 +173,12 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         options = aw.replacing.FindReplaceOptions()
         options.ignore_inserted = True 
 
-        regex = re.compile("e")
-        doc.range.replace(regex, "*", options)
+        doc.range.replace_regex("e", "*", options)
             
         print(doc.get_text())
 
         options.ignore_inserted = False
-        doc.range.replace(regex, "*", options)
+        doc.range.replace("e", "*", options)
             
         print(doc.get_text())
         #ExEnd:IgnoreTextInsideInsertRevisions
@@ -218,13 +213,12 @@ class FindAndReplace(docs_base.DocsExamplesBase):
 
         options = aw.replacing.FindReplaceOptions()
 
-        doc.range.replace(re.compile("[s|m]ad"), "bad", options)
+        doc.range.replace_regex("[s|m]ad", "bad", options)
 
         doc.save(docs_base.artifacts_dir + "FindAndReplace.replace_with_regex.docx")
         #ExEnd:ReplaceWithRegex
         
     
-    @unittest.skip("Regular expressions is not supported yet.")
     def test_recognize_and_substitutions_within_replacement_patterns(self) :
         
         #ExStart:RecognizeAndSubstitutionsWithinReplacementPatterns
@@ -233,12 +227,10 @@ class FindAndReplace(docs_base.DocsExamplesBase):
 
         builder.write("Jason give money to Paul.")
 
-        regex = re.compile("([A-z]+) give money to ([A-z]+)")
-
         options = aw.replacing.FindReplaceOptions()
         options.use_substitutions = True 
 
-        doc.range.replace(regex, "$2 take money from $1", options)
+        doc.range.replace_regex("([A-z]+) give money to ([A-z]+)", "$2 take money from $1", options)
         #ExEnd:RecognizeAndSubstitutionsWithinReplacementPatterns
         
 
