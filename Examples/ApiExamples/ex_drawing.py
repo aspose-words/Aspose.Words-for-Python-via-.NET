@@ -1,4 +1,5 @@
 import unittest
+import io
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
@@ -58,23 +59,23 @@ class ExDrawing(aeb.ApiExampleBase):
         filledInArrowImg.top = 160
         filledInArrowImg.flip_orientation = aw.drawing.FlipOrientation.BOTH
 
-        # byte[] imageBytes = File.read_all_bytes(image_dir + "Logo.jpg")
-        # 
-        # using (MemoryStream stream = new MemoryStream(imageBytes))
-        # 
-        #     Image image = Image.from_stream(stream)
+        # imageBytes = open(aeb.image_dir + "Logo.jpg")
+        # with io.BytesIO(imageBytes) as stream:
+        #
+        # with open(aeb.image_dir + "Logo.jpg") as imageBytes:
+        #
+        #     image = drawing.Image.from_stream(imageBytes)
         #     # When we flip the orientation of our arrow, we also flip the image that the arrow contains.
         #     # Flip the image the other way to cancel this out before getting the shape to display it.
-        #     image.rotate_flip(RotateFlipType.rotate_none_flip_xy)
-        # 
+        #     image.rotate_flip(drawing.RotateFlipType.rotate_none_flip_xy)
+        #
         #     filledInArrowImg.image_data.set_image(image)
-        #     filledInArrowImg.stroke.join_style = JoinStyle.round
-        # 
+        #     filledInArrowImg.stroke.join_style = aw.drawing.JoinStyle.ROUND
+        #
         #     builder.insert_node(filledInArrowImg)
 
-
         doc.save(aeb.artifacts_dir + "Drawing.various_shapes.docx")
-        #ExEnd
+        # ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "Drawing.various_shapes.docx")
 
@@ -120,35 +121,31 @@ class ExDrawing(aeb.ApiExampleBase):
         # self.assertEqual(160.0, filledInArrowImg.top)
         # self.assertEqual(aw.drawing.FlipOrientation.both, filledInArrowImg.flip_orientation)
 
-
     # def test_type_of_image(self):
-    # 
+    #
     #     #ExStart
     #     #ExFor:Drawing.image_type
     #     #ExSummary:Shows how to add an image to a shape and check its type.
     #     doc = aw.Document()
     #     builder = aw.DocumentBuilder(doc)
-    # 
-    #     byte[] imageBytes = File.read_all_bytes(ImageDir + "Logo.jpg")
-    # 
+    #
+    #     byte[] imageBytes = File.read_all_bytes(aeb.image_dir + "Logo.jpg")
+    #
     #     using (MemoryStream stream = new MemoryStream(imageBytes))
-    # 
+    #
     #         Image image = Image.from_stream(stream)
-    # 
+    #
     #         # The image in the URL is a .gif. Inserting it into a document converts it into a .png.
     #         Shape imgShape = builder.insert_image(image)
     #         self.assertEqual(ImageType.jpeg, imgShape.image_data.image_type)
 
-
-        #ExEnd
-
+    # ExEnd
 
     def test_fill_solid(self):
-
-        #ExStart
-        #ExFor:Fill.color()
-        #ExFor:Fill.color(Color)
-        #ExSummary:Shows how to convert any of the fills back to solid fill.
+        # ExStart
+        # ExFor:Fill.color()
+        # ExFor:Fill.color(Color)
+        # ExSummary:Shows how to convert any of the fills back to solid fill.
         doc = aw.Document(aeb.my_dir + "Two color gradient.docx")
 
         # Get Fill object for Font of the first Run.
@@ -167,8 +164,7 @@ class ExDrawing(aeb.ApiExampleBase):
         print("The fill transparency is 0%", fill.transparency * 100)
 
         doc.save(aeb.artifacts_dir + "Drawing.fill_solid.docx")
-        #ExEnd
-
+        # ExEnd
 
     # def test_save_all_images(self):
     #
@@ -224,7 +220,6 @@ class ExDrawing(aeb.ApiExampleBase):
     #     TestUtil.verify_image(1200, 1500, fileInfos[8].full_name)
     #     self.assertEqual(".jpeg", fileInfos[8].extension)
 
-
     # def test_import_image(self):
     #
     #     #ExStart
@@ -239,7 +234,7 @@ class ExDrawing(aeb.ApiExampleBase):
     #
     #     # Below are two ways of getting an image from a file in the local file system.
     #     # 1 -  Create an image object from an image file:
-    #     using (Image srcImage = Image.from_file(ImageDir + "Logo.jpg"))
+    #     using (Image srcImage = Image.from_file(aeb.image_dir + "Logo.jpg"))
     #
     #         imgShape = new Shape(doc, ShapeType.image)
     #         doc.first_section.body.first_paragraph.append_child(imgShape)
@@ -247,7 +242,7 @@ class ExDrawing(aeb.ApiExampleBase):
     #
     #
     #     # 2 -  Open an image file from the local file system using a stream:
-    #     using (Stream stream = new FileStream(ImageDir + "Logo.jpg", FileMode.open, FileAccess.read))
+    #     using (Stream stream = new FileStream(aeb.image_dir + "Logo.jpg", FileMode.open, FileAccess.read))
     #
     #         imgShape = new Shape(doc, ShapeType.image)
     #         doc.first_section.body.first_paragraph.append_child(imgShape)
@@ -279,250 +274,245 @@ class ExDrawing(aeb.ApiExampleBase):
     #     self.assertEqual(300.0d, imgShape.height)
     #     self.assertEqual(300.0d, imgShape.width)
 
-#endif
-'''
-    [Test]
-    public void StrokePattern()
-
-        #ExStart
-        #ExFor:Stroke.color_2
-        #ExFor:Stroke.image_bytes
-        #ExSummary:Shows how to process shape stroke features.
-        Document doc = new Document(aeb.my_dir + "Shape stroke pattern border.docx")
-        Shape shape = (Shape)doc.get_child(NodeType.shape, 0, true)
-        Stroke stroke = shape.stroke
-
-        # Strokes can have two colors, which are used to create a pattern defined by two-tone image data.
-        # Strokes with a single color do not use the Color2 property.
-        self.assertEqual(Color.from_argb(255, 128, 0, 0), stroke.color)
-        self.assertEqual(Color.from_argb(255, 255, 255, 0), stroke.color_2)
-
-        Assert.not_null(stroke.image_bytes)
-        File.write_all_bytes(aeb.artifacts_dir + "Drawing.stroke_pattern.png", stroke.image_bytes)
-        #ExEnd
-
-        TestUtil.verify_image(8, 8, aeb.artifacts_dir + "Drawing.stroke_pattern.png")
-
-
-    #ExStart
-    #ExFor:DocumentVisitor.visit_shape_end(Shape)
-    #ExFor:DocumentVisitor.visit_shape_start(Shape)
-    #ExFor:DocumentVisitor.visit_group_shape_end(GroupShape)
-    #ExFor:DocumentVisitor.visit_group_shape_start(GroupShape)
-    #ExFor:Drawing.group_shape
-    #ExFor:Drawing.group_shape.#ctor(DocumentBase)
-    #ExFor:Drawing.group_shape.accept(DocumentVisitor)
-    #ExFor:ShapeBase.is_group
-    #ExFor:ShapeBase.shape_type
-    #ExSummary:Shows how to create a group of shapes, and print its contents using a document visitor.
-    [Test] #ExSkip
-    public void GroupOfShapes()
-
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-
-        # If you need to create "NonPrimitive" shapes, such as SingleCornerSnipped, TopCornersSnipped, DiagonalCornersSnipped,
-        # TopCornersOneRoundedOneSnipped, SingleCornerRounded, TopCornersRounded, DiagonalCornersRounded
-        # please use DocumentBuilder.insert_shape methods.
-        Shape balloon = new Shape(doc, ShapeType.balloon)
-
-            Width = 200,
-            Height = 200,
-            Stroke =  Color = Color.red
-
-
-        Shape cube = new Shape(doc, ShapeType.cube)
-
-            Width = 100,
-            Height = 100,
-            Stroke =  Color = Color.blue
-
-
-        GroupShape group = new GroupShape(doc)
-        group.append_child(balloon)
-        group.append_child(cube)
-
-        self.assertTrue(group.is_group)
-
-        builder.insert_node(group)
-
-        ShapeGroupPrinter printer = new ShapeGroupPrinter()
-        group.accept(printer)
-
-        print(printer.get_text())
-        TestGroupShapes(doc) #ExSkip
-
-
-    # <summary>
-    # Prints the contents of a visited shape group to the console.
-    # </summary>
-    public class ShapeGroupPrinter : DocumentVisitor
-
-        public ShapeGroupPrinter()
-
-            mBuilder = new StringBuilder()
-
-
-        public string GetText()
-
-            return mBuilder.to_string()
-
-
-        public override VisitorAction VisitGroupShapeStart(GroupShape groupShape)
-
-            mBuilder.append_line("Shape group started:")
-            return VisitorAction.continue
-
-
-        public override VisitorAction VisitGroupShapeEnd(GroupShape groupShape)
-
-            mBuilder.append_line("End of shape group")
-            return VisitorAction.continue
-
-
-        public override VisitorAction VisitShapeStart(Shape shape)
-
-            mBuilder.append_line("\tShape - " + shape.shape_type + ":")
-            mBuilder.append_line("\t\tWidth: " + shape.width)
-            mBuilder.append_line("\t\tHeight: " + shape.height)
-            mBuilder.append_line("\t\tStroke color: " + shape.stroke.color)
-            mBuilder.append_line("\t\tFill color: " + shape.fill.fore_color)
-            return VisitorAction.continue
-
-
-        public override VisitorAction VisitShapeEnd(Shape shape)
-
-            mBuilder.append_line("\tEnd of shape")
-            return VisitorAction.continue
-
-
-        private readonly StringBuilder mBuilder
-
-    #ExEnd
-
-    private static void TestGroupShapes(Document doc)
-
-        doc = DocumentHelper.save_open(doc)
-        GroupShape shapes = (GroupShape)doc.get_child(NodeType.group_shape, 0, true)
-
-        self.assertEqual(2, shapes.child_nodes.count)
-
-        Shape shape = (Shape)shapes.child_nodes[0]
-
-        self.assertEqual(ShapeType.balloon, shape.shape_type)
-        self.assertEqual(200.0d, shape.width)
-        self.assertEqual(200.0d, shape.height)
-        self.assertEqual(Color.red.to_argb(), shape.stroke_color.to_argb())
-
-        shape = (Shape)shapes.child_nodes[1]
-
-        self.assertEqual(ShapeType.cube, shape.shape_type)
-        self.assertEqual(100.0d, shape.width)
-        self.assertEqual(100.0d, shape.height)
-        self.assertEqual(Color.blue.to_argb(), shape.stroke_color.to_argb())
-    
-
-    def test_text_box(self):
-
-        #ExStart
-        #ExFor:Drawing.layout_flow
-        #ExSummary:Shows how to add text to a text box, and change its orientation
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-
-        textbox = aw.Shape(doc, aw.ShapeType.TEXT_BOX)
-        Width = 100,
-        Height = 100,
-        TextBox =  LayoutFlow = LayoutFlow.bottom_to_top
-
-
-        textbox.append_child(new Paragraph(doc))
-        builder.insert_node(textbox)
-
-        builder.move_to(textbox.first_paragraph)
-        builder.write("This text is flipped 90 degrees to the left.")
-
-        doc.save(aeb.artifacts_dir + "Drawing.text_box.docx")
-        #ExEnd
-
-        doc = new Document(aeb.artifacts_dir + "Drawing.text_box.docx")
-        textbox = (Shape)doc.get_child(NodeType.shape, 0, true)
-
-        self.assertEqual(ShapeType.text_box, textbox.shape_type)
-        self.assertEqual(100.0d, textbox.width)
-        self.assertEqual(100.0d, textbox.height)
-        self.assertEqual(LayoutFlow.bottom_to_top, textbox.text_box.layout_flow)
-        self.assertEqual("This text is flipped 90 degrees to the left.", textbox.get_text().strip())
-
-
-    [Test]
-    public void GetDataFromImage()
-
-        #ExStart
-        #ExFor:ImageData.image_bytes
-        #ExFor:ImageData.to_byte_array
-        #ExFor:ImageData.to_stream
-        #ExSummary:Shows how to create an image file from a shape's raw image data.
-        Document imgSourceDoc = new Document(aeb.my_dir + "Images.docx")
-        self.assertEqual(10, imgSourceDoc.get_child_nodes(NodeType.shape, true).count) #ExSkip
-
-        Shape imgShape = (Shape) imgSourceDoc.get_child(NodeType.shape, 0, true)
-
-        self.assertTrue(imgShape.has_image)
-
-        # ToByteArray() returns the array stored in the ImageBytes property.
-        self.assertEqual(imgShape.image_data.image_bytes, imgShape.image_data.to_byte_array())
-
-        # Save the shape's image data to an image file in the local file system.
-        using (Stream imgStream = imgShape.image_data.to_stream())
-
-            using (FileStream outStream = new FileStream(aeb.artifacts_dir + "Drawing.get_data_from_image.png",
-                FileMode.create, FileAccess.read_write))
-
-                imgStream.copy_to(outStream)
-
-
-        #ExEnd
-
-        TestUtil.verify_image(2467, 1500, aeb.artifacts_dir + "Drawing.get_data_from_image.png")
-
-
-    [Test]
-    public void ImageData()
-
-        #ExStart
-        #ExFor:ImageData.bi_level
-        #ExFor:ImageData.borders
-        #ExFor:ImageData.brightness
-        #ExFor:ImageData.chroma_key
-        #ExFor:ImageData.contrast
-        #ExFor:ImageData.crop_bottom
-        #ExFor:ImageData.crop_left
-        #ExFor:ImageData.crop_right
-        #ExFor:ImageData.crop_top
-        #ExFor:ImageData.gray_scale
-        #ExFor:ImageData.is_link
-        #ExFor:ImageData.is_link_only
-        #ExFor:ImageData.title
-        #ExSummary:Shows how to edit a shape's image data.
-        Document imgSourceDoc = new Document(aeb.my_dir + "Images.docx")
-        Shape sourceShape = (Shape)imgSourceDoc.get_child_nodes(NodeType.shape, true)[0]
-
-        Document dstDoc = new Document()
+    # endif
+
+    # [Test]
+    # public void StrokePattern()
+    #
+    #     #ExStart
+    #     #ExFor:Stroke.color_2
+    #     #ExFor:Stroke.image_bytes
+    #     #ExSummary:Shows how to process shape stroke features.
+    #     Document doc = new Document(aeb.my_dir + "Shape stroke pattern border.docx")
+    #     Shape shape = (Shape)doc.get_child(NodeType.shape, 0, true)
+    #     Stroke stroke = shape.stroke
+    #
+    #     # Strokes can have two colors, which are used to create a pattern defined by two-tone image data.
+    #     # Strokes with a single color do not use the Color2 property.
+    #     self.assertEqual(Color.from_argb(255, 128, 0, 0), stroke.color)
+    #     self.assertEqual(Color.from_argb(255, 255, 255, 0), stroke.color_2)
+    #
+    #     Assert.not_null(stroke.image_bytes)
+    #     File.write_all_bytes(aeb.artifacts_dir + "Drawing.stroke_pattern.png", stroke.image_bytes)
+    #     #ExEnd
+    #
+    #     TestUtil.verify_image(8, 8, aeb.artifacts_dir + "Drawing.stroke_pattern.png")
+    #
+    #
+    # #ExStart
+    # #ExFor:DocumentVisitor.visit_shape_end(Shape)
+    # #ExFor:DocumentVisitor.visit_shape_start(Shape)
+    # #ExFor:DocumentVisitor.visit_group_shape_end(GroupShape)
+    # #ExFor:DocumentVisitor.visit_group_shape_start(GroupShape)
+    # #ExFor:Drawing.group_shape
+    # #ExFor:Drawing.group_shape.#ctor(DocumentBase)
+    # #ExFor:Drawing.group_shape.accept(DocumentVisitor)
+    # #ExFor:ShapeBase.is_group
+    # #ExFor:ShapeBase.shape_type
+    # #ExSummary:Shows how to create a group of shapes, and print its contents using a document visitor.
+    # [Test] #ExSkip
+    # public void GroupOfShapes()
+    #
+    #     doc = aw.Document()
+    #     builder = aw.DocumentBuilder(doc)
+    #
+    #     # If you need to create "NonPrimitive" shapes, such as SingleCornerSnipped, TopCornersSnipped, DiagonalCornersSnipped,
+    #     # TopCornersOneRoundedOneSnipped, SingleCornerRounded, TopCornersRounded, DiagonalCornersRounded
+    #     # please use DocumentBuilder.insert_shape methods.
+    #     Shape balloon = new Shape(doc, ShapeType.balloon)
+    #
+    #         Width = 200,
+    #         Height = 200,
+    #         Stroke =  Color = Color.red
+    #
+    #
+    #     Shape cube = new Shape(doc, ShapeType.cube)
+    #
+    #         Width = 100,
+    #         Height = 100,
+    #         Stroke =  Color = Color.blue
+    #
+    #
+    #     GroupShape group = new GroupShape(doc)
+    #     group.append_child(balloon)
+    #     group.append_child(cube)
+    #
+    #     self.assertTrue(group.is_group)
+    #
+    #     builder.insert_node(group)
+    #
+    #     ShapeGroupPrinter printer = new ShapeGroupPrinter()
+    #     group.accept(printer)
+    #
+    #     print(printer.get_text())
+    #     TestGroupShapes(doc) #ExSkip
+    #
+    #
+    # # <summary>
+    # # Prints the contents of a visited shape group to the console.
+    # # </summary>
+    # public class ShapeGroupPrinter : DocumentVisitor
+    #
+    #     public ShapeGroupPrinter()
+    #
+    #         mBuilder = new StringBuilder()
+    #
+    #
+    #     public string GetText()
+    #
+    #         return mBuilder.to_string()
+    #
+    #
+    #     public override VisitorAction VisitGroupShapeStart(GroupShape groupShape)
+    #
+    #         mBuilder.append_line("Shape group started:")
+    #         return VisitorAction.continue
+    #
+    #
+    #     public override VisitorAction VisitGroupShapeEnd(GroupShape groupShape)
+    #
+    #         mBuilder.append_line("End of shape group")
+    #         return VisitorAction.continue
+    #
+    #
+    #     public override VisitorAction VisitShapeStart(Shape shape)
+    #
+    #         mBuilder.append_line("\tShape - " + shape.shape_type + ":")
+    #         mBuilder.append_line("\t\tWidth: " + shape.width)
+    #         mBuilder.append_line("\t\tHeight: " + shape.height)
+    #         mBuilder.append_line("\t\tStroke color: " + shape.stroke.color)
+    #         mBuilder.append_line("\t\tFill color: " + shape.fill.fore_color)
+    #         return VisitorAction.continue
+    #
+    #
+    #     public override VisitorAction VisitShapeEnd(Shape shape)
+    #
+    #         mBuilder.append_line("\tEnd of shape")
+    #         return VisitorAction.continue
+    #
+    #
+    #     private readonly StringBuilder mBuilder
+    #
+    # #ExEnd
+    #
+    # private static void TestGroupShapes(Document doc)
+    #
+    #     doc = DocumentHelper.save_open(doc)
+    #     GroupShape shapes = (GroupShape)doc.get_child(NodeType.group_shape, 0, true)
+    #
+    #     self.assertEqual(2, shapes.child_nodes.count)
+    #
+    #     Shape shape = (Shape)shapes.child_nodes[0]
+    #
+    #     self.assertEqual(ShapeType.balloon, shape.shape_type)
+    #     self.assertEqual(200.0d, shape.width)
+    #     self.assertEqual(200.0d, shape.height)
+    #     self.assertEqual(Color.red.to_argb(), shape.stroke_color.to_argb())
+    #
+    #     shape = (Shape)shapes.child_nodes[1]
+    #
+    #     self.assertEqual(ShapeType.cube, shape.shape_type)
+    #     self.assertEqual(100.0d, shape.width)
+    #     self.assertEqual(100.0d, shape.height)
+    #     self.assertEqual(Color.blue.to_argb(), shape.stroke_color.to_argb())
+    #
+
+    # def test_text_box(self):
+    #
+    #     #ExStart
+    #     #ExFor:Drawing.layout_flow
+    #     #ExSummary:Shows how to add text to a text box, and change its orientation
+    #     doc = aw.Document()
+    #     builder = aw.DocumentBuilder(doc)
+    #
+    #     textbox = aw.Shape(doc, aw.ShapeType.TEXT_BOX)
+    #     Width = 100,
+    #     Height = 100,
+    #     TextBox =  LayoutFlow = LayoutFlow.bottom_to_top
+    #
+    #
+    #     textbox.append_child(new Paragraph(doc))
+    #     builder.insert_node(textbox)
+    #
+    #     builder.move_to(textbox.first_paragraph)
+    #     builder.write("This text is flipped 90 degrees to the left.")
+    #
+    #     doc.save(aeb.artifacts_dir + "Drawing.text_box.docx")
+    #     #ExEnd
+    #
+    #     doc = new Document(aeb.artifacts_dir + "Drawing.text_box.docx")
+    #     textbox = (Shape)doc.get_child(NodeType.shape, 0, true)
+    #
+    #     self.assertEqual(ShapeType.text_box, textbox.shape_type)
+    #     self.assertEqual(100.0d, textbox.width)
+    #     self.assertEqual(100.0d, textbox.height)
+    #     self.assertEqual(LayoutFlow.bottom_to_top, textbox.text_box.layout_flow)
+    #     self.assertEqual("This text is flipped 90 degrees to the left.", textbox.get_text().strip())
+
+    # def test_get_data_from_image(self):
+    #
+    #     #ExStart
+    #     #ExFor:ImageData.image_bytes
+    #     #ExFor:ImageData.to_byte_array
+    #     #ExFor:ImageData.to_stream
+    #     #ExSummary:Shows how to create an image file from a shape's raw image data.
+    #     Document imgSourceDoc = new Document(aeb.my_dir + "Images.docx")
+    #     self.assertEqual(10, imgSourceDoc.get_child_nodes(NodeType.shape, true).count) #ExSkip
+    #
+    #     Shape imgShape = (Shape) imgSourceDoc.get_child(NodeType.shape, 0, true)
+    #
+    #     self.assertTrue(imgShape.has_image)
+    #
+    #     # ToByteArray() returns the array stored in the ImageBytes property.
+    #     self.assertEqual(imgShape.image_data.image_bytes, imgShape.image_data.to_byte_array())
+    #
+    #     # Save the shape's image data to an image file in the local file system.
+    #     using (Stream imgStream = imgShape.image_data.to_stream())
+    #
+    #         using (FileStream outStream = new FileStream(aeb.artifacts_dir + "Drawing.get_data_from_image.png",
+    #             FileMode.create, FileAccess.read_write))
+    #
+    #             imgStream.copy_to(outStream)
+    #
+    #
+    #     #ExEnd
+    #
+    #     TestUtil.verify_image(2467, 1500, aeb.artifacts_dir + "Drawing.get_data_from_image.png")
+
+    def test_image_data(self):
+        # ExStart
+        # ExFor:ImageData.bi_level
+        # ExFor:ImageData.borders
+        # ExFor:ImageData.brightness
+        # ExFor:ImageData.chroma_key
+        # ExFor:ImageData.contrast
+        # ExFor:ImageData.crop_bottom
+        # ExFor:ImageData.crop_left
+        # ExFor:ImageData.crop_right
+        # ExFor:ImageData.crop_top
+        # ExFor:ImageData.gray_scale
+        # ExFor:ImageData.is_link
+        # ExFor:ImageData.is_link_only
+        # ExFor:ImageData.title
+        # ExSummary:Shows how to edit a shape's image data.
+        imgSourceDoc = aw.Document(aeb.my_dir + "Images.docx")
+        sourceShape = imgSourceDoc.get_child_nodes(aw.NodeType.SHAPE, True)[0].as_shape()
+
+        dstDoc = aw.Document()
 
         # Import a shape from the source document and append it to the first paragraph.
-        Shape importedShape = (Shape)dstDoc.import_node(sourceShape, true)
+        importedShape = dstDoc.import_node(sourceShape, True).as_shape()
         dstDoc.first_section.body.first_paragraph.append_child(importedShape)
 
         # The imported shape contains an image. We can access the image's properties and raw data via the ImageData object.
-        ImageData imageData = importedShape.image_data
+        imageData = importedShape.image_data
         imageData.title = "Imported Image"
 
         self.assertTrue(imageData.has_image)
 
         # If an image has no borders, its ImageData object will define the border color as empty.
         self.assertEqual(4, imageData.borders.count)
-        self.assertEqual(Color.empty, imageData.borders[0].color)
+        # self.assertEqual(drawing.Color.empty, imageData.borders[0].color)
 
         # This image does not link to another shape or image file in the local file system.
         self.assertFalse(imageData.is_link)
@@ -535,20 +525,20 @@ class ExDrawing(aeb.ApiExampleBase):
 
         # The above brightness and contrast values have created an image with a lot of white.
         # We can select a color with the ChromaKey property to replace with transparency, such as white.
-        imageData.chroma_key = Color.white
+        imageData.chroma_key = drawing.Color.white
 
         # Import the source shape again and set the image to monochrome.
-        importedShape = (Shape)dstDoc.import_node(sourceShape, true)
+        importedShape = dstDoc.import_node(sourceShape, True).as_shape()
         dstDoc.first_section.body.first_paragraph.append_child(importedShape)
 
-        importedShape.image_data.gray_scale = true
+        importedShape.image_data.gray_scale = True
 
         # Import the source shape again to create a third image and set it to BiLevel.
         # BiLevel sets every pixel to either black or white, whichever is closer to the original color.
-        importedShape = (Shape)dstDoc.import_node(sourceShape, true)
+        importedShape = dstDoc.import_node(sourceShape, True).as_shape()
         dstDoc.first_section.body.first_paragraph.append_child(importedShape)
 
-        importedShape.image_data.bi_level = true
+        importedShape.image_data.bi_level = True
 
         # Cropping is determined on a 0-1 scale. Cropping a side by 0.3
         # will crop 30% of the image out at the cropped side.
@@ -558,80 +548,77 @@ class ExDrawing(aeb.ApiExampleBase):
         importedShape.image_data.crop_right = 0.3
 
         dstDoc.save(aeb.artifacts_dir + "Drawing.image_data.docx")
-        #ExEnd
+        # ExEnd
 
-        imgSourceDoc = new Document(aeb.artifacts_dir + "Drawing.image_data.docx")
-        sourceShape = (Shape)imgSourceDoc.get_child(NodeType.shape, 0, true)
+        imgSourceDoc = aw.Document(aeb.artifacts_dir + "Drawing.image_data.docx")
+        sourceShape = imgSourceDoc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(2467, 1500, ImageType.jpeg, sourceShape)
+        # TestUtil.verify_image_in_shape(2467, 1500, ImageType.jpeg, sourceShape)
         self.assertEqual("Imported Image", sourceShape.image_data.title)
-        self.assertEqual(0.8d, sourceShape.image_data.brightness, 0.1d)
-        self.assertEqual(1.0d, sourceShape.image_data.contrast, 0.1d)
-        self.assertEqual(Color.white.to_argb(), sourceShape.image_data.chroma_key.to_argb())
+        self.assertAlmostEqual(0.8, sourceShape.image_data.brightness, 1)
+        self.assertAlmostEqual(1.0, sourceShape.image_data.contrast, 1)
+        self.assertEqual(drawing.Color.white.to_argb(), sourceShape.image_data.chroma_key.to_argb())
 
-        sourceShape = (Shape)imgSourceDoc.get_child(NodeType.shape, 1, true)
+        sourceShape = imgSourceDoc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
 
-        TestUtil.verify_image_in_shape(2467, 1500, ImageType.jpeg, sourceShape)
+        # TestUtil.verify_image_in_shape(2467, 1500, ImageType.jpeg, sourceShape)
         self.assertTrue(sourceShape.image_data.gray_scale)
 
-        sourceShape = (Shape)imgSourceDoc.get_child(NodeType.shape, 2, true)
+        sourceShape = imgSourceDoc.get_child(aw.NodeType.SHAPE, 2, True).as_shape()
 
-        TestUtil.verify_image_in_shape(2467, 1500, ImageType.jpeg, sourceShape)
+        # TestUtil.verify_image_in_shape(2467, 1500, ImageType.jpeg, sourceShape)
         self.assertTrue(sourceShape.image_data.bi_level)
-        self.assertEqual(0.3d, sourceShape.image_data.crop_bottom, 0.1d)
-        self.assertEqual(0.3d, sourceShape.image_data.crop_left, 0.1d)
-        self.assertEqual(0.3d, sourceShape.image_data.crop_top, 0.1d)
-        self.assertEqual(0.3d, sourceShape.image_data.crop_right, 0.1d)
+        self.assertAlmostEqual(0.3, sourceShape.image_data.crop_bottom, 1)
+        self.assertAlmostEqual(0.3, sourceShape.image_data.crop_left, 1)
+        self.assertAlmostEqual(0.3, sourceShape.image_data.crop_top, 1)
+        self.assertAlmostEqual(0.3, sourceShape.image_data.crop_right, 1)
 
-
-    [Test]
-    public void ImageSize()
-
-        #ExStart
-        #ExFor:ImageSize.height_pixels
-        #ExFor:ImageSize.horizontal_resolution
-        #ExFor:ImageSize.vertical_resolution
-        #ExFor:ImageSize.width_pixels
-        #ExSummary:Shows how to read the properties of an image in a shape.
+    def test_image_size(self):
+        # ExStart
+        # ExFor:ImageSize.height_pixels
+        # ExFor:ImageSize.horizontal_resolution
+        # ExFor:ImageSize.vertical_resolution
+        # ExFor:ImageSize.width_pixels
+        # ExSummary:Shows how to read the properties of an image in a shape.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # Insert a shape into the document which contains an image taken from our local file system.
-        Shape shape = builder.insert_image(ImageDir + "Logo.jpg")
+        shape = builder.insert_image(aeb.image_dir + "Logo.jpg")
 
         # If the shape contains an image, its ImageData property will be valid,
         # and it will contain an ImageSize object.
-        ImageSize imageSize = shape.image_data.image_size
+        imageSize = shape.image_data.image_size
 
         # The ImageSize object contains read-only information about the image within the shape.
         self.assertEqual(400, imageSize.height_pixels)
         self.assertEqual(400, imageSize.width_pixels)
 
-        const double delta = 0.05
-        self.assertEqual(95.98d, imageSize.horizontal_resolution, delta)
-        self.assertEqual(95.98d, imageSize.vertical_resolution, delta)
+        delta = 1
+        self.assertAlmostEqual(95.98, imageSize.horizontal_resolution, delta)
+        self.assertAlmostEqual(95.98, imageSize.vertical_resolution, delta)
 
         # We can base the size of the shape on the size of its image to avoid stretching the image.
         shape.width = imageSize.width_points * 2
         shape.height = imageSize.height_points * 2
 
         doc.save(aeb.artifacts_dir + "Drawing.image_size.docx")
-        #ExEnd
+        # ExEnd
 
-        doc = new Document(aeb.artifacts_dir + "Drawing.image_size.docx")
-        shape = (Shape)doc.get_child(NodeType.shape, 0, true)
+        doc = aw.Document(aeb.artifacts_dir + "Drawing.image_size.docx")
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(400, 400, ImageType.jpeg, shape)
-        self.assertEqual(600.0d, shape.width)
-        self.assertEqual(600.0d, shape.height)
+        # TestUtil.verify_image_in_shape(400, 400, ImageType.jpeg, shape)
+        self.assertEqual(600.0, shape.width)
+        self.assertEqual(600.0, shape.height)
 
         imageSize = shape.image_data.image_size
 
         self.assertEqual(400, imageSize.height_pixels)
         self.assertEqual(400, imageSize.width_pixels)
-        self.assertEqual(95.98d, imageSize.horizontal_resolution, delta)
-        self.assertEqual(95.98d, imageSize.vertical_resolution, delta)
-'''
+        self.assertAlmostEqual(95.98, imageSize.horizontal_resolution, delta)
+        self.assertAlmostEqual(95.98, imageSize.vertical_resolution, delta)
+
 
 if __name__ == '__main__':
     unittest.main()
