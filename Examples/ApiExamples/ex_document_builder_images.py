@@ -7,7 +7,7 @@ import aspose.words as aw
 
 class ExDocumentBuilderImages(aeb.ApiExampleBase):
     # @unittest.skip("Streams are not supported")
-    def test_insert_image_from_stream(self):
+    def test_insert_image_from_stream_NOT_STREAM(self):
 
         #ExStart
         #ExFor:DocumentBuilder.insert_image(Stream)
@@ -17,73 +17,74 @@ class ExDocumentBuilderImages(aeb.ApiExampleBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # using (Stream stream = File.open_read(aeb.image_dir + "Logo.jpg"))
-        #
-        #     # Below are three ways of inserting an image from a stream.
-        #     # 1 -  Inline shape with a default size based on the image's original dimensions:
-        #     builder.insert_image(stream)
-        #
-        #     builder.insert_break(BreakType.page_break)
-        #
-        #     # 2 -  Inline shape with custom dimensions:
-        #     builder.insert_image(stream, ConvertUtil.pixel_to_point(250), ConvertUtil.pixel_to_point(144))
-        #
-        #     builder.insert_break(BreakType.page_break)
-        #
-        #     # 3 -  Floating shape with custom dimensions:
-        #     builder.insert_image(stream, RelativeHorizontalPosition.margin, 100, RelativeVerticalPosition.margin,
-        #         100, 200, 100, WrapType.square)
-        #
-        #
-        # doc.save(artifacts_dir + "DocumentBuilderImages.insert_image_from_stream.docx")
-        # #ExEnd
-        #
-        # doc = new Document(artifacts_dir + "DocumentBuilderImages.insert_image_from_stream.docx")
-        #
-        # Shape imageShape = (Shape)doc.get_child(NodeType.shape, 0, true)
-        #
-        # self.assertEqual(300.0, imageShape.height)
-        # self.assertEqual(300.0, imageShape.width)
-        # self.assertEqual(0.0, imageShape.left)
-        # self.assertEqual(0.0, imageShape.top)
-        #
-        # self.assertEqual(WrapType.inline, imageShape.wrap_type)
-        # self.assertEqual(RelativeHorizontalPosition.column, imageShape.relative_horizontal_position)
-        # self.assertEqual(RelativeVerticalPosition.paragraph, imageShape.relative_vertical_position)
-        #
+
+        # Below are three ways of inserting an image from a stream.
+        # 1 -  Inline shape with a default size based on the image's original dimensions:
+        builder.insert_image(aeb.image_dir + "Logo.jpg")
+
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+
+        # 2 -  Inline shape with custom dimensions:
+        builder.insert_image(aeb.image_dir + "Logo.jpg", aw.ConvertUtil.pixel_to_point(250), aw.ConvertUtil.pixel_to_point(144))
+
+
+
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+
+        # 3 -  Floating shape with custom dimensions:
+        builder.insert_image(aeb.image_dir + "Logo.jpg", aw.drawing.RelativeHorizontalPosition.MARGIN, 100, aw.drawing.RelativeVerticalPosition.MARGIN,
+            100, 200, 100, aw.drawing.WrapType.SQUARE)
+
+
+        doc.save(aeb.artifacts_dir + "DocumentBuilderImages.insert_image_from_stream.docx")
+        #ExEnd
+
+        doc = aw.Document(aeb.artifacts_dir + "DocumentBuilderImages.insert_image_from_stream.docx")
+
+        imageShape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+
+        self.assertEqual(300.0, imageShape.height)
+        self.assertEqual(300.0, imageShape.width)
+        self.assertEqual(0.0, imageShape.left)
+        self.assertEqual(0.0, imageShape.top)
+
+        self.assertEqual(aw.drawing.WrapType.INLINE, imageShape.wrap_type)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, imageShape.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, imageShape.relative_vertical_position)
+
         # TestUtil.verify_image_in_shape(400, 400, ImageType.jpeg, imageShape)
-        # self.assertEqual(300.0, imageShape.image_data.image_size.height_points)
-        # self.assertEqual(300.0, imageShape.image_data.image_size.width_points)
-        #
-        # imageShape = (Shape)doc.get_child(NodeType.shape, 1, true)
-        #
-        # self.assertEqual(108.0, imageShape.height)
-        # self.assertEqual(187.5, imageShape.width)
-        # self.assertEqual(0.0, imageShape.left)
-        # self.assertEqual(0.0, imageShape.top)
-        #
-        # self.assertEqual(WrapType.inline, imageShape.wrap_type)
-        # self.assertEqual(RelativeHorizontalPosition.column, imageShape.relative_horizontal_position)
-        # self.assertEqual(RelativeVerticalPosition.paragraph, imageShape.relative_vertical_position)
-        #
+        self.assertEqual(300.0, imageShape.image_data.image_size.height_points)
+        self.assertEqual(300.0, imageShape.image_data.image_size.width_points)
+
+        imageShape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
+
+        self.assertEqual(108.0, imageShape.height)
+        self.assertEqual(187.5, imageShape.width)
+        self.assertEqual(0.0, imageShape.left)
+        self.assertEqual(0.0, imageShape.top)
+
+        self.assertEqual(aw.drawing.WrapType.INLINE, imageShape.wrap_type)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, imageShape.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, imageShape.relative_vertical_position)
+
         # TestUtil.verify_image_in_shape(400, 400, ImageType.jpeg, imageShape)
-        # self.assertEqual(300.0, imageShape.image_data.image_size.height_points)
-        # self.assertEqual(300.0, imageShape.image_data.image_size.width_points)
-        #
-        # imageShape = (Shape)doc.get_child(NodeType.shape, 2, true)
-        #
-        # self.assertEqual(100.0, imageShape.height)
-        # self.assertEqual(200.0, imageShape.width)
-        # self.assertEqual(100.0, imageShape.left)
-        # self.assertEqual(100.0, imageShape.top)
-        #
-        # self.assertEqual(WrapType.square, imageShape.wrap_type)
-        # self.assertEqual(RelativeHorizontalPosition.margin, imageShape.relative_horizontal_position)
-        # self.assertEqual(RelativeVerticalPosition.margin, imageShape.relative_vertical_position)
-        #
+        self.assertEqual(300.0, imageShape.image_data.image_size.height_points)
+        self.assertEqual(300.0, imageShape.image_data.image_size.width_points)
+
+        imageShape = doc.get_child(aw.NodeType.SHAPE, 2, True).as_shape()
+
+        self.assertEqual(100.0, imageShape.height)
+        self.assertEqual(200.0, imageShape.width)
+        self.assertEqual(100.0, imageShape.left)
+        self.assertEqual(100.0, imageShape.top)
+
+        self.assertEqual(aw.drawing.WrapType.SQUARE, imageShape.wrap_type)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, imageShape.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, imageShape.relative_vertical_position)
+
         # TestUtil.verify_image_in_shape(400, 400, ImageType.jpeg, imageShape)
-        # self.assertEqual(300.0, imageShape.image_data.image_size.height_points)
-        # self.assertEqual(300.0, imageShape.image_data.image_size.width_points)
+        self.assertEqual(300.0, imageShape.image_data.image_size.height_points)
+        self.assertEqual(300.0, imageShape.image_data.image_size.width_points)
 
     def test_insert_image_from_filename(self):
 
@@ -184,7 +185,7 @@ class ExDocumentBuilderImages(aeb.ApiExampleBase):
         doc.save(aeb.artifacts_dir + "DocumentBuilderImages.insert_svg_image.emf.docx")
         #ExEnd
 
-    @unittest.skip("Image is not supported (line 198)")
+    # @unittest.skip("Image is not supported (line 198)")
     def test_insert_image_from_image_object(self):
 
         #ExStart
@@ -195,7 +196,7 @@ class ExDocumentBuilderImages(aeb.ApiExampleBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # image = Image.from_file(aeb.image_dir + "Logo.jpg")
+        image = aeb.image_dir + "Logo.jpg"
 
         # Below are three ways of inserting an image from an Image object instance.
         # 1 -  Inline shape with a default size based on the image's original dimensions:
@@ -209,8 +210,8 @@ class ExDocumentBuilderImages(aeb.ApiExampleBase):
         builder.insert_break(aw.BreakType.PAGE_BREAK)
 
         # 3 -  Floating shape with custom dimensions:
-        builder.insert_image(image, aw.RelativeHorizontalPosition.MARGIN, 100, aw.RelativeVerticalPosition.MARGIN,
-        100, 200, 100, aw.WrapType.SQUARE)
+        builder.insert_image(image, aw.drawing.RelativeHorizontalPosition.MARGIN, 100, aw.drawing.RelativeVerticalPosition.MARGIN,
+        100, 200, 100, aw.drawing.WrapType.SQUARE)
 
         doc.save(aeb.artifacts_dir + "DocumentBuilderImages.insert_image_from_image_object.docx")
         #ExEnd
@@ -247,7 +248,7 @@ class ExDocumentBuilderImages(aeb.ApiExampleBase):
         self.assertEqual(300.0, imageShape.image_data.image_size.height_points)
         self.assertEqual(300.0, imageShape.image_data.image_size.width_points)
 
-        imageShape = doc.get_child(aw.NodeType.SHAPE, 2, True)
+        imageShape = doc.get_child(aw.NodeType.SHAPE, 2, True).as_shape()
 
         self.assertEqual(100.0, imageShape.height)
         self.assertEqual(200.0, imageShape.width)
