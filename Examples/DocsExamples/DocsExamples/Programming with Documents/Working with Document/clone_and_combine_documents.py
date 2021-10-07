@@ -123,6 +123,35 @@ class CloneAndCombineDocuments(docs_base.DocsExamplesBase):
             
         
     #ExEnd:InsertDocumentWithSectionFormatting
+
+    def test_creating_document_clone(self) :
+
+        #ExStart:CreatingDocumentClone
+        # Create a document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        builder.writeln("This is the original document before applying the clone method")
+
+        # Clone the document.
+        clone = doc.clone().as_document()
+
+        # Edit the cloned document.
+        builder = aw.DocumentBuilder(clone)
+        builder.write("Section 1")
+        builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
+        builder.write("Section 2")
+
+        # This shows what is in the document originally. The document has two sections.
+        self.assertEqual(clone.sections.count, 2)
+
+        # Duplicate the last section and append the copy to the end of the document.
+        lastSectionIdx = clone.sections.count - 1
+        newSection = clone.sections[lastSectionIdx].clone()
+        clone.sections.add(newSection)
+
+        # Check what the document contains after we changed it.
+        self.assertEqual(clone.sections.count, 3)
+        #ExEnd:CreatingDocumentClone
     
 
 if __name__ == '__main__':

@@ -188,6 +188,28 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
         
     #ExEnd:CommentResolvedandReplies
     
+    def test_remove_region_text(self) :
+
+        #ExStart:RemoveRegionText
+        # Open the document.
+        doc = aw.Document(docs_base.my_dir + "Comments.docx")
+
+        commentStart = doc.get_child(aw.NodeType.COMMENT_RANGE_START, 0, True).as_comment_range_start()
+        commentEnd = doc.get_child(aw.NodeType.COMMENT_RANGE_END, 0, True).as_comment_range_end()
+
+        currentNode = commentStart
+        isRemoving = True
+        while (currentNode != None and isRemoving) :
+            if (currentNode.node_type == aw.NodeType.COMMENT_RANGE_END) :
+                isRemoving = False
+
+            nextNode = currentNode.next_pre_order(doc)
+            currentNode.remove()
+            currentNode = nextNode
+            
+        # Save the document.
+        doc.save(docs_base.artifacts_dir + "WorkingWithComments.remove_region_text.docx")
+        #ExEnd:RemoveRegionText
 
 
 if __name__ == '__main__':

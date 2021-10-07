@@ -17,6 +17,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
     
     def test_simple_find_replace(self) :
         
+        #ExStart:SimpleFindReplace
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -29,6 +30,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
 
         # Save the modified document
         doc.save(docs_base.artifacts_dir + "FindAndReplace.simple_find_replace.docx")
+        #ExEnd:SimpleFindReplace
         
 
     def test_find_and_highlight(self) :

@@ -155,12 +155,12 @@ class WorkingWithDigitalSinatures(docs_base.DocsExamplesBase):
             # This property is available in MS Word documents only.
             print("Reason for signing: " + signature.comments) 
             print("Time of signing: " + str(signature.sign_time))
-            #print("Subject name: " + signature.certificate_holder.certificate.subject_name.name)
-            #print("Issuer name: " + signature.certificate_holder.certificate.issuer_name.name)
-            print()
             
         #ExEnd:AccessAndVerifySignature
-        
+
+            # Currently certificate property is not available in Python.
+            #print("Subject name: " + signature.certificate_holder.certificate.subject_name.name)
+            #print("Issuer name: " + signature.certificate_holder.certificate.issuer_name.name)        
     
 
 if __name__ == '__main__':

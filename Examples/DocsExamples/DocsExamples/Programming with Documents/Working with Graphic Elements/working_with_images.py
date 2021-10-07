@@ -130,6 +130,109 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         
     #ExEnd:InsertBarcodeIntoFooter
 
+    def test_document_builder_insert_inline_image(self) :
+
+        #ExStart:DocumentBuilderInsertInlineImage
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        builder.insert_image(docs_base.images_dir + "Logo.jpg")
+
+        doc.save(docs_base.artifacts_dir + "WorkingWithImages.document_builder_insert_inline_image.doc")
+        #ExEnd:DocumentBuilderInsertInlineImage
+
+    def test_document_builder_insert_floating_image(self) :
+
+        #ExStart:DocumentBuilderInsertFloatingImage
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        builder.insert_image(docs_base.images_dir + "Logo.jpg",
+            aw.drawing.RelativeHorizontalPosition.MARGIN,
+            100,
+            aw.drawing.RelativeVerticalPosition.MARGIN,
+            100,
+            200,
+            100,
+            aw.drawing.WrapType.SQUARE)
+
+        doc.save(docs_base.artifacts_dir+"WorkingWithImages.document_builder_insert_floating_image.doc")
+        #ExEnd:DocumentBuilderInsertFloatingImage
+
+    def test_set_aspect_ratio_locked(self) :
+
+        #ExStart:SetAspectRatioLocked
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        shape = builder.insert_image(docs_base.images_dir + "Logo.jpg")
+        shape.aspect_ratio_locked = False
+
+        doc.save(docs_base.artifacts_dir+"WorkingWithImages.set_aspect_ratio_locked.doc")
+        #ExEnd:SetAspectRatioLocked
+
+
+    def test_get_actual_shape_bounds_points(self) :
+
+        #ExStart:GetActualShapeBoundsPoints
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        shape = builder.insert_image(docs_base.images_dir + "Logo.jpg")
+        shape.aspect_ratio_locked = False
+
+        print("\nGets the actual bounds of the shape in points.")
+        rect = shape.get_shape_renderer().bounds_in_points
+        print(f"{rect.x}, {rect.y}, {rect.width}, {rect.height}")
+        #ExEnd:GetActualShapeBoundsPoints
+
+    def test_crop_image_call(self) :
+
+        #ExStart:CropImageCall
+        # The path to the documents directory.
+        inputPath = docs_base.images_dir + "Logo.jpg"
+        outputPath = docs_base.artifacts_dir + "cropped_logo.jpg"
+
+        self.crop_image(inputPath,outputPath, 100, 90, 200, 200)
+        #ExEnd:CropImageCall
+
+    #ExStart:CropImage
+    @staticmethod
+    def crop_image(inPath : str, outPath : str, left : int, top : int, width : int, height : int) :
+    
+        doc = aw.Document();
+        builder = aw.DocumentBuilder(doc)
+
+        croppedImage = builder.insert_image(inPath)
+
+        src_width_points = croppedImage.width
+        src_height_points = croppedImage.height
+
+        croppedImage.width = aw.ConvertUtil.pixel_to_point(width)
+        croppedImage.height = aw.ConvertUtil.pixel_to_point(height)
+
+        widthRatio = croppedImage.width / src_width_points
+        heightRatio = croppedImage.height / src_height_points
+
+        if (widthRatio< 1) :
+            croppedImage.image_data.crop_right = 1 - widthRatio
+
+        if (heightRatio< 1) :
+            croppedImage.image_data.crop_bottom = 1 - heightRatio
+
+        leftToWidth = aw.ConvertUtil.pixel_to_point(left) / src_width_points
+        topToHeight = aw.ConvertUtil.pixel_to_point(top) / src_height_points
+
+        croppedImage.image_data.crop_left = leftToWidth
+        croppedImage.image_data.crop_right = croppedImage.image_data.crop_right - leftToWidth
+
+        croppedImage.image_data.crop_top = topToHeight
+        croppedImage.image_data.crop_bottom = croppedImage.image_data.crop_bottom - topToHeight
+
+        croppedImage.get_shape_renderer().save(outPath, aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG))
+    #ExEnd:CropImage
+
+
 
 if __name__ == '__main__':
     unittest.main()

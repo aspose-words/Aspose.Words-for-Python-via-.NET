@@ -72,6 +72,8 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
         builder.insert_ole_object_as_icon(stream, "Package", docs_base.images_dir + "Logo icon.ico", "My embedded file")
 
         doc.save(docs_base.artifacts_dir + "WorkingWithOleObjectsAndActiveX.insert_ole_object_as_icon_using_stream.docx")
+        
+        stream.close()
         #ExEnd:InsertOLEObjectAsIconUsingStream
         
 
@@ -103,6 +105,49 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
                 
         properties = properties + "\nTotal ActiveX Controls found: " + str(doc.get_child_nodes(aw.NodeType.SHAPE, True).count)
         print("\n" + properties)
+
+    def test_insert_online_video(self) :
+
+        #ExStart:InsertOnlineVideo
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        # Pass direct url from youtu.be.
+        url = "https://youtu.be/t_1LYZ102RA"
+
+        width = 360
+        height = 270
+
+        shape = builder.insert_online_video(url, width, height)
+
+        doc.save(docs_base.artifacts_dir + "WorkingWithOleObjectsAndActiveX.insert_online_video.docx")
+        #ExEnd:InsertOnlineVideo
+
+    def test_insert_online_video_with_embed_html(self) :
+
+        #ExStart:InsertOnlineVideoWithEmbedHtml
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        # Shape width/height.
+        width = 360
+        height = 270
+
+        # Poster frame image.
+        f = open(docs_base.images_dir + "Logo.jpg", "rb")
+        imageBytes = f.read()
+        f.close()
+
+        # Visible url
+        vimeoVideoUrl = "https://vimeo.com/52477838"
+
+        # Embed Html code.
+        vimeoEmbedCode = ""
+
+        builder.insert_online_video(vimeoVideoUrl, vimeoEmbedCode, imageBytes, width, height)
+
+        doc.save(docs_base.artifacts_dir + "WorkingWithOleObjectsAndActiveX.insert_online_video_with_embed_html.docx")
+        #ExEnd:InsertOnlineVideoWithEmbedHtml
         
     
 

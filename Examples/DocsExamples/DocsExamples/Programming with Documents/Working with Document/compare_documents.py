@@ -81,6 +81,39 @@ class CompareDocument(docs_base.DocsExamplesBase):
             builderA.document.compare(builderB.document, "author", datetime.today(), compareOptions)
             #ExEnd:ComparisonGranularity      
         
+        def test_apply_compare_two_documents(self) :
+
+            #ExStart:ApplyCompareTwoDocuments
+            # The source document doc1.
+            doc1 = aw.Document()
+            builder = aw.DocumentBuilder(doc1)
+            builder.writeln("This is the original document.")
+
+            # The target document doc2.
+            doc2 = aw.Document()
+            builder = aw.DocumentBuilder(doc2)
+            builder.writeln("This is the edited document.")
+
+            # If either document has a revision, an exception will be thrown.
+            if (doc1.revisions.count == 0 and doc2.revisions.count == 0) :
+                doc1.compare(doc2, "authorName", datetime.today())
+
+            # If doc1 and doc2 are different, doc1 now has some revisions after the comparison, which can now be viewed and processed.
+            self.assertEqual(2, doc1.revisions.count)
+
+            for r in doc1.revisions :
+                print(f"Revision type: {r.revision_type}, on a node of type \"{r.parent_node.node_type}\"")
+                print(f"\tChanged text: \"{r.parent_node.get_text()}\"")
+
+            # All the revisions in doc1 are differences between doc1 and doc2, so accepting them on doc1 transforms doc1 into doc2.
+            doc1.revisions.accept_all()
+
+            # doc1, when saved, now resembles doc2.
+            doc1.save(docs_base.artifacts_dir + "Document.Compare.docx")
+            doc1 = aw.Document(docs_base.artifacts_dir + "Document.Compare.docx")
+            self.assertEqual(0, doc1.revisions.count)
+            self.assertEqual(doc2.get_text().strip(), doc1.get_text().strip())
+            #ExEnd:ApplyCompareTwoDocuments
     
 
 if __name__ == '__main__':

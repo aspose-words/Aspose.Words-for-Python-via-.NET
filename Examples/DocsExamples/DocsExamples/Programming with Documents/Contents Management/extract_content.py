@@ -171,6 +171,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
 
     def test_extract_table_of_contents(self) :
         
+        #ExStart:ExtractTableOfContents
         doc = aw.Document(docs_base.my_dir + "Table of contents.docx")
 
         for field in doc.range.fields :
@@ -189,6 +190,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
                     pointer = bm.bookmark_start.get_ancestor(aw.NodeType.PARAGRAPH).as_paragraph()
                         
                     print(pointer.to_string(aw.SaveFormat.TEXT))
+        #ExEnd:ExtractTableOfContents
                     
                 
     def test_extract_text_only(self) :

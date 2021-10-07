@@ -159,6 +159,33 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.export_text_input_form_field_as_text.html", saveOptions)
         #ExEnd:ExportTextInputFormFieldAsText
         
+    def test_convert_document_to_epub(self) :
+
+        #ExStart:ConvertDocumentToEPUB
+        # Load the document from disk.
+        doc = aw.Document(docs_base.my_dir + "Rendering.docx")
+
+        # Create a new instance of HtmlSaveOptions. This object allows us to set options that control
+        # How the output document is saved.
+        saveOptions = aw.saving.HtmlSaveOptions()
+
+        # Specify the desired encoding.
+        saveOptions.encoding = "utf-8"
+
+        # Specify at what elements to split the internal HTML at. This creates a new HTML within the EPUB 
+        # which allows you to limit the size of each HTML part. This is useful for readers which cannot read 
+        # HTML files greater than a certain size e.g 300kb.
+        saveOptions.document_split_criteria = aw.saving.DocumentSplitCriteria.HEADING_PARAGRAPH
+
+        # Specify that we want to export document properties.
+        saveOptions.export_document_properties = True
+
+        # Specify that we want to save in EPUB format.
+        saveOptions.save_format = aw.SaveFormat.EPUB
+
+        # Export the document as an EPUB file.
+        doc.save(docs_base.artifacts_dir + "Document.EpubConversion_out.epub", saveOptions)
+        #ExEnd:ConvertDocumentToEPUB
     
 
 if __name__ == '__main__':

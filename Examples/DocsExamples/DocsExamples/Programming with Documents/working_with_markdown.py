@@ -210,26 +210,254 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
 
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.horizontal_rule_example.md")
         #ExEnd:HorizontalRule
+
+    def test_bold_text(self) :
+
+        #ExStart:BoldText
+        # Use a document builder to add content to the document.
+        builder = aw.DocumentBuilder()
+
+        # Make the text Bold.
+        builder.font.bold = True
+        builder.writeln("This text will be Bold")
+
+        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.bold_text_example.md")
+        #ExEnd:BoldText
+
+    def test_italic_text(self) :
+
+        #ExStart:ItalicText
+        # Use a document builder to add content to the document.
+        builder = aw.DocumentBuilder()
+
+        # Make the text Italic.
+        builder.font.italic = True
+        builder.writeln("This text will be Italic")
+
+        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.italic_text_example.md")
+        #ExEnd:ItalicText
         
+    def test_strikethrough_text(self) :
 
-    #def test_use_warning_source(self) :
-        
-    #    #ExStart:UseWarningSourceMarkdown
-    #    doc = aw.Document(docs_base.my_dir + "Emphases markdown warning.docx")
+        #ExStart:Strikethrough
+        # Use a document builder to add content to the document.
+        builder = aw.DocumentBuilder()
 
-    #    WarningInfoCollection warnings = new WarningInfoCollection()
-    #    doc.warning_callback = warnings
+        # Make the text Strikethrough.
+        builder.font.strike_through = True
+        builder.writeln("This text will be Strikethrough")
 
-    #    doc.save(docs_base.artifacts_dir + "WorkingWithMarkdown.use_warning_source.md")
+        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.strikethrough_text_example.md")
+        #ExEnd:Strikethrough
 
-    #    foreach (WarningInfo warningInfo in warnings)
-            
-    #        if (warningInfo.source == WarningSource.markdown)
-    #            print(warningInfo.description)
-            
-    #    #ExEnd:UseWarningSourceMarkdown
-        
+    def test_inline_code(self) :
+
+        #ExStart:InlineCode
+        # Use a document builder to add content to the document.
+        builder = aw.DocumentBuilder()
+
+        # Number of backticks is missed, one backtick will be used by default.
+        inlineCode1BackTicks = builder.document.styles.add(aw.StyleType.CHARACTER, "InlineCode")
+        builder.font.style = inlineCode1BackTicks
+        builder.writeln("Text with InlineCode style with 1 backtick")
+
+        # There will be 3 backticks.
+        inlineCode3BackTicks = builder.document.styles.add(aw.StyleType.CHARACTER, "InlineCode.3")
+        builder.font.style = inlineCode3BackTicks
+        builder.writeln("Text with InlineCode style with 3 backtick")
+
+        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.inline_code_example.md")
+        #ExEnd:InlineCode
+
+    def test_autolink(self) :
+
+        #ExStart:Autolink
+        # Use a document builder to add content to the document.
+        builder = aw.DocumentBuilder()
+
+        # Insert hyperlink.
+        builder.insert_hyperlink("https://www.aspose.com", "https://www.aspose.com", False);
+        builder.insert_hyperlink("email@aspose.com", "mailto:email@aspose.com", False);
+
+        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.autolink_example.md")
+        #ExEnd:Autolink
+
+    def test_link(self) :
+
+        #ExStart:Link
+        # Use a document builder to add content to the document.
+        builder = aw.DocumentBuilder()
+
+        # Insert hyperlink.
+        builder.insert_hyperlink("Aspose", "https://www.aspose.com", False)
+
+        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.link_example.md")
+        #ExEnd:Link
     
+    def test_image(self) :
+
+        #ExStart:Image
+        # Use a document builder to add content to the document.
+        builder = aw.DocumentBuilder()
+
+        # Insert image.
+        shape = aw.drawing.Shape(builder.document, aw.drawing.ShapeType.IMAGE)
+        shape.wrap_type = aw.drawing.WrapType.INLINE
+        shape.image_data.source_full_name = "/attachment/1456/pic001.png"
+        shape.image_data.title = "title"
+        builder.insert_node(shape)
+
+        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.image_example.md")
+        #ExEnd:Image
+
+    def test_setext_heading(self) :
+
+        #ExStart:SetextHeading
+        # Use a document builder to add content to the document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        builder.paragraph_format.style_name = "Heading 1"
+        builder.writeln("This is an H1 tag")
+
+        # Reset styles from the previous paragraph to not combine styles between paragraphs.
+        builder.font.bold = False
+        builder.font.italic = False
+
+        setexHeading1 = doc.styles.add(aw.StyleType.PARAGRAPH, "SetexHeading1")
+        builder.paragraph_format.style = setexHeading1
+        doc.styles.get_by_name("SetexHeading1").base_style_name = "Heading 1"
+        builder.writeln("Setex Heading level 1")
+
+        builder.paragraph_format.style = doc.styles.get_by_name("Heading 3")
+        builder.writeln("This is an H3 tag")
+
+        # Reset styles from the previous paragraph to not combine styles between paragraphs.
+        builder.font.bold = False
+        builder.font.italic = False
+
+        setexHeading2 = doc.styles.add(aw.StyleType.PARAGRAPH, "SetexHeading2")
+        builder.paragraph_format.style = setexHeading2
+        doc.styles.get_by_name("SetexHeading2").base_style_name = "Heading 3"
+
+        # Setex heading level will be reset to 2 if the base paragraph has a Heading level greater than 2.
+        builder.writeln("Setex Heading level 2")
+
+        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.setext_heading_example.md")
+        #ExEnd:SetextHeading
+
+    def test_indented_code(self) :
+
+        #ExStart:IndentedCode
+        # Use a document builder to add content to the document.
+        builder = aw.DocumentBuilder()
+
+        indentedCode = builder.document.styles.add(aw.StyleType.PARAGRAPH, "IndentedCode")
+        builder.paragraph_format.style = indentedCode
+        builder.writeln("This is an indented code")
+
+        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.indented_code_example.md")
+        #ExEnd:IndentedCode
+
+    def test_fenced_code(self) :
+
+        #ExStart:FencedCode
+        # Use a document builder to add content to the document.
+        builder = aw.DocumentBuilder()
+
+        fencedCode = builder.document.styles.add(aw.StyleType.PARAGRAPH, "FencedCode")
+        builder.paragraph_format.style = fencedCode
+        builder.writeln("This is an fenced code")
+
+        fencedCodeWithInfo = builder.document.styles.add(aw.StyleType.PARAGRAPH, "FencedCode.C#")
+        builder.paragraph_format.style = fencedCodeWithInfo
+        builder.writeln("This is a fenced code with info string")
+
+        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.fenced_code_example.md")
+        #ExEnd:FencedCode
+
+    def test_quote(self) :
+
+        #ExStart:Quote
+        # Use a document builder to add content to the document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        # By default a document stores blockquote style for the first level.
+        builder.paragraph_format.style_name = "Quote"
+        builder.writeln("Blockquote")
+
+        # Create styles for nested levels through style inheritance.
+        quoteLevel2 = doc.styles.add(aw.StyleType.PARAGRAPH, "Quote1")
+        builder.paragraph_format.style = quoteLevel2
+        doc.styles.get_by_name("Quote1").base_style_name = "Quote"
+        builder.writeln("1. Nested blockquote")
+
+        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.quote_example.md")
+        #ExEnd:Quote
+
+    def test_bulleted_list(self) :
+
+        #ExStart:BulletedList
+        # Use a document builder to add content to the document.
+        builder = aw.DocumentBuilder()
+
+        builder.list_format.apply_bullet_default()
+        builder.list_format.list.list_levels[0].number_format = "-"
+
+        builder.writeln("Item 1")
+        builder.writeln("Item 2")
+
+        builder.list_format.list_indent()
+
+        builder.writeln("Item 2a")
+        builder.writeln("Item 2b")
+
+        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.bulleted_list_example.md")
+        #ExEnd:BulletedList
+
+    def test_ordered_list(self) :
+
+        #ExStart:OrderedList
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        builder.list_format.apply_number_default()
+
+        builder.writeln("Item 1")
+        builder.writeln("Item 2")
+
+        builder.list_format.list_indent()
+
+        builder.writeln("Item 2a")
+        builder.write("Item 2b")
+
+        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.ordered_list_example.md")
+        #ExEnd:OrderedList
+
+    def test_table(self) :
+
+        #ExStart:Table
+        # Use a document builder to add content to the document.
+        builder = aw.DocumentBuilder()
+
+        # Add the first row.
+        builder.insert_cell()
+        builder.writeln("a")
+        builder.insert_cell()
+        builder.writeln("b")
+        builder.end_row()
+
+        # Add the second row.
+        builder.insert_cell()
+        builder.writeln("c")
+        builder.insert_cell()
+        builder.writeln("d")
+        builder.end_table()
+
+        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.ordered_list_table.md")
+        #ExEnd:Table
+
 
 if __name__ == '__main__':
     unittest.main()

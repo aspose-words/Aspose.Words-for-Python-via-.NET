@@ -1,6 +1,7 @@
 import unittest
 import os
 import sys
+import io
 
 base_dir = os.path.abspath(os.curdir) + "/"
 base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
@@ -87,6 +88,31 @@ class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithImageSaveOptions.get_jpeg_page_range.jpeg", options)
         #ExEnd:GetJpegPageRange
+
+    def test_save_document_to_jpeg(self) :
+
+        #ExStart:SaveDocumentToJPEG
+        # Open the document
+        doc = aw.Document(docs_base.my_dir + "Rendering.docx")
+        # Save as a JPEG image file with default options
+        doc.save(docs_base.artifacts_dir + "Rendering.JpegDefaultOptions.jpg")
+
+        # Save document to stream as a JPEG with default options
+        docStream = io.BytesIO()
+        doc.save(docStream, aw.SaveFormat.JPEG)
+        # Rewind the stream position back to the beginning, ready for use
+        docStream.seek(0)
+
+        # Save document to a JPEG image with specified options.
+        # Render the third page only and set the JPEG quality to 80%
+        # In this case we need to pass the desired SaveFormat to the ImageSaveOptions constructor 
+        # to signal what type of image to save as.
+        imageOptions = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
+        imageOptions.page_index = 2
+        imageOptions.page_count = 1
+        imageOptions.jpeg_quality = 80
+        doc.save(docs_base.artifacts_dir + "Rendering.JpegCustomOptions.jpg", imageOptions)
+        #ExEnd:SaveDocumentToJPEG
 
 
 if __name__ == '__main__':

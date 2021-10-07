@@ -24,7 +24,7 @@ class WorkingWithDocSaveOptions(docs_base.DocsExamplesBase):
         saveOptions = aw.saving.DocSaveOptions()
         saveOptions.password = "password" 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithDocSaveOptions.encrypt_document_with_password.docx", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithDocSaveOptions.encrypt_document_with_password.doc", saveOptions)
         #ExEnd:EncryptDocumentWithPassword
         
 
@@ -36,7 +36,7 @@ class WorkingWithDocSaveOptions(docs_base.DocsExamplesBase):
         saveOptions = aw.saving.DocSaveOptions()
         saveOptions.always_compress_metafiles = False 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithDocSaveOptions.not_compress_small_metafiles.docx", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithDocSaveOptions.not_compress_small_metafiles.doc", saveOptions)
         #ExEnd:DoNotCompressSmallMetafiles
         
 
@@ -48,7 +48,7 @@ class WorkingWithDocSaveOptions(docs_base.DocsExamplesBase):
         saveOptions = aw.saving.DocSaveOptions()
         saveOptions.save_picture_bullet = False 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithDocSaveOptions.do_not_save_picture_bullet.docx", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithDocSaveOptions.do_not_save_picture_bullet.doc", saveOptions)
         #ExEnd:DoNotSavePictureBullet
 
 if __name__ == '__main__':

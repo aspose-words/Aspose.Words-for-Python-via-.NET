@@ -74,6 +74,26 @@ class WorkingWithTxtSaveOptions(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "WorkingWithTxtSaveOptions.use_space_character_per_level_for_list_indentation.txt", saveOptions)
         #ExEnd:UseSpaceCharacterPerLevelForListIndentation
         
+    def test_export_headers_footers_mode(self) :
+
+        #ExStart:ExportHeadersFootersMode
+        doc = aw.Document(docs_base.my_dir + "Document.docx")
+
+        options = aw.saving.TxtSaveOptions()
+        options.save_format = aw.SaveFormat.TEXT
+
+        # All headers and footers are placed at the very end of the output document.
+        options.export_headers_footers_mode = aw.saving.TxtExportHeadersFootersMode.ALL_AT_END
+        doc.save(docs_base.artifacts_dir + "WorkingWithTxtSaveOptions.export_headers_footers_mode_A.txt", options)
+
+        # Only primary headers and footers are exported at the beginning and end of each section.
+        options.export_headers_footers_mode = aw.saving.TxtExportHeadersFootersMode.PRIMARY_ONLY
+        doc.save(docs_base.artifacts_dir + "WorkingWithTxtSaveOptions.export_headers_footers_mode_B.txt", options)
+
+        # No headers and footers are exported.
+        options.export_headers_footers_mode = aw.saving.TxtExportHeadersFootersMode.NONE
+        doc.save(docs_base.artifacts_dir + "WorkingWithTxtSaveOptions.export_headers_footers_mode_C.txt", options)
+        #ExEnd:ExportHeadersFootersMode
     
 
 if __name__ == '__main__':

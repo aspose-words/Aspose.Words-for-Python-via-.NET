@@ -176,10 +176,7 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
             for paragraph in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True) :
                 paragraph = paragraph.as_paragraph()
                 if (paragraph.break_is_style_separator) :
-                
                     print("Separator Found!")
-                
-            
             #ExEnd:GetParagraphStyleSeparator
         
     

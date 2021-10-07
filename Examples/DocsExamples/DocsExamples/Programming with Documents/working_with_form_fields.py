@@ -22,7 +22,40 @@ class WorkingWithFormFields(docs_base.DocsExamplesBase):
         items =  ["One", "Two", "Three"] 
         builder.insert_combo_box("DropDown", items, 0)
         #ExEnd:InsertFormFields
+
+    def test_document_builder_insert_text_input_form_field(self) :
+
+        #ExStart:DocumentBuilderInsertTextInputFormField
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        builder.insert_text_input("TextInput", aw.fields.TextFormFieldType.REGULAR, "", "Hello", 0)
         
+        doc.save(docs_base.artifacts_dir + "WorkingWithFormFields.document_builder_insert_text_input_form_field.docx")
+        #ExEnd:DocumentBuilderInsertTextInputFormField
+
+    def test_document_builder_insert_check_box_form_field(self) :
+
+        #ExStart:DocumentBuilderInsertCheckBoxFormField
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        builder.insert_check_box("CheckBox", True, True, 0)
+        
+        doc.save(docs_base.artifacts_dir + "WorkingWithFormFields.document_builder_insert_check_box_form_field.docx")
+        #ExEnd:DocumentBuilderInsertCheckBoxFormField
+
+    def test_document_builder_insert_combo_box_form_field(self) :
+        
+        #ExStart:DocumentBuilderInsertComboBoxFormField
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        items =  ["One", "Two", "Three"] 
+        builder.insert_combo_box("DropDown", items, 0)
+
+        doc.save(docs_base.artifacts_dir + "WorkingWithFormFields.document_builder_insert_combo_box_form_field.docx")
+        #ExEnd:DocumentBuilderInsertComboBoxFormField
 
     def test_form_fields_work_with_properties(self) :
         

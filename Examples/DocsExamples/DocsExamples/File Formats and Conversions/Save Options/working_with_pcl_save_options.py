@@ -21,7 +21,6 @@ class WorkingWithPclSaveOptions(docs_base.DocsExamplesBase):
         saveOptions = aw.saving.PclSaveOptions()
         saveOptions.save_format = aw.SaveFormat.PCL
         saveOptions.rasterize_transformed_elements = False
-            
 
         doc.save(docs_base.artifacts_dir + "WorkingWithPclSaveOptions.rasterize_transformed_elements.pcl", saveOptions)
         #ExEnd:RasterizeTransformedElements

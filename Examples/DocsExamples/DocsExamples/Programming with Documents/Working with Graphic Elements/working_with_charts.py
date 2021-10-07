@@ -11,6 +11,7 @@ sys.path.insert(0, base_dir)
 import docs_examples_base as docs_base
 
 import aspose.words as aw
+import aspose.pydrawing as drawing
 
 class WorkingWithCharts(docs_base.DocsExamplesBase):
 
@@ -454,6 +455,64 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         #ExEnd:ChartDataPoint 
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.single_chart_series.docx")
+
+
+    def test_set_series_color(self) :
+
+        #ExStart:SetSeriesColor
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        shape = builder.insert_chart(aw.drawing.charts.ChartType.COLUMN, 432, 252)
+
+        chart = shape.chart
+        seriesColl = chart.series
+
+        # Delete default generated series.
+        seriesColl.clear()
+
+        # Create category names array.
+        categories = [ "AW Category 1", "AW Category 2" ]
+
+        # Adding new series. Value and category arrays must be the same size.
+        series1 = seriesColl.add("AW Series 1", categories, [ 1, 2 ])
+        series2 = seriesColl.add("AW Series 2", categories, [ 3, 4 ])
+        series3 = seriesColl.add("AW Series 3", categories, [ 5, 6 ])
+
+        # Set series color.
+        series1.format.fill.fore_color = drawing.Color.red
+        series2.format.fill.fore_color = drawing.Color.yellow
+        series3.format.fill.fore_color = drawing.Color.blue
+
+        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.set_series_color.docx")
+        #ExEnd:SetSeriesColor
+
+    def test_line_color_and_weight(self) :
+
+        #ExStart:LineColorAndWeight
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        shape = builder.insert_chart(aw.drawing.charts.ChartType.LINE, 432, 252)
+
+        chart = shape.chart
+        seriesColl = chart.series
+
+        # Delete default generated series.
+        seriesColl.clear()
+
+        # Adding new series.
+        series1 = seriesColl.add_double("AW Series 1", [ 0.7, 1.8, 2.6 ], [ 2.7, 3.2, 0.8 ])
+        series2 = seriesColl.add_double("AW Series 2", [ 0.5, 1.5, 2.5 ], [ 3, 1, 2 ])
+
+        # Set series color.
+        series1.format.stroke.fore_color = drawing.Color.red
+        series1.format.stroke.weight = 5
+        series2.format.stroke.fore_color = drawing.Color.light_green
+        series2.format.stroke.weight = 5
+
+        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.line_color_and_weight.docx")
+        #ExEnd:LineColorAndWeight
         
     
 
