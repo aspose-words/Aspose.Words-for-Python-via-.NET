@@ -14,27 +14,16 @@ import aspose.words as aw
 
 class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
     
-        @unittest.skip("cannot iterate though variables for now.")
         def test_get_variables(self) :
         
             #ExStart:GetVariables
             doc = aw.Document(docs_base.my_dir + "Document.docx")
             
-            doc.variables.add("test", "test")
+            doc.variables.add("my_var", "test")
 
-            variables = ""
-            for entry in doc.variables :
-            
-                name = entry.key
-                value = entry.value
-                if (variables == "") :
-                    variables = "Name: " + name + "," + "Value: " + value
-                else :
-                    variables = variables + "Name: " + name + "," + "Value: " + value
+            print(doc.variables.get_by_name("my_var"))
                 
             #ExEnd:GetVariables
-
-            print("\nDocument have following variables " + variables)
         
 
         def test_enumerate_properties(self) :

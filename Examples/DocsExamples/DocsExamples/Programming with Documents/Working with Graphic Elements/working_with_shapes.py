@@ -2,6 +2,7 @@ import unittest
 import os
 import sys
 import uuid
+import io
 
 base_dir = os.path.abspath(os.curdir) + "/"
 base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
@@ -203,6 +204,61 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
                 shape.update_smart_art_drawing()
         #ExEnd:UpdateSmartArtDrawing
         
+    def test_render_shape_to_disk(self) :
+
+        doc = aw.Document(docs_base.my_dir + "Rendering.docx")
+
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+
+        #ExStart:RenderShapeToDisk
+        r = shape.get_shape_renderer()
+
+        # Define custom options which control how the image is rendered. Render the shape to the JPEG raster format.
+        imageOptions = aw.saving.ImageSaveOptions(aw.SaveFormat.EMF)
+        imageOptions.scale = 1.5
+        
+        # Save the rendered image to disk.
+        r.save(docs_base.artifacts_dir + "TestFile.RenderToDisk_out.emf", imageOptions)
+        #ExEnd:RenderShapeToDisk
+
+    def test_render_shape_to_stream(self) :
+
+        doc = aw.Document(docs_base.my_dir + "Rendering.docx")
+
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+
+        #ExStart:RenderShapeToStream
+        r = shape.get_shape_renderer()
+
+        # Define custom options which control how the image is rendered. Render the shape to the vector format EMF.
+        imageOptions = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
+        
+        # Output the image in gray scale
+        imageOptions.image_color_mode = aw.saving.ImageColorMode.GRAYSCALE
+
+        # Reduce the brightness a bit (default is 0.5f).
+        imageOptions.image_brightness = 0.45
+        
+        stream =  io.FileIO(docs_base.artifacts_dir + "TestFile.RenderToStream_out.jpg", "w+b")
+
+        # Save the rendered image to the stream using different options.
+        r.save(stream, imageOptions)
+
+        # Close the stream
+        stream.close()
+        #ExEnd:RenderShapeToStream
+
+    def test_render_shape_to_disk(self) :
+
+        doc = aw.Document(docs_base.my_dir + "Rendering.docx")
+
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+
+        #ExStart:RenderShapeImage
+        # Save the rendered image to disk.
+        shape.get_shape_renderer().save(docs_base.artifacts_dir + "TestFile.RenderShapeImage.jpeg", None)
+        #ExEnd:RenderShapeImage
+
     
 
 if __name__ == '__main__':

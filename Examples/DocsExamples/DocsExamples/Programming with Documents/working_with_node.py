@@ -10,6 +10,7 @@ sys.path.insert(0, base_dir)
 import docs_examples_base as docs_base
 
 import aspose.words as aw
+import aspose.pydrawing as drawing
 
 class WorkingWithNode(docs_base.DocsExamplesBase):
     
@@ -142,7 +143,19 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
         section = doc.last_section
         section.body.append_child(para)
         #ExEnd:CreateAndAddParagraphNode
-        
+
+    def test_change_run_color(self) :
+
+        doc = aw.Document(docs_base.my_dir + "Document.docx")
+
+        # Get the first Run node and cast it to Run object.
+        run = doc.get_child(aw.NodeType.RUN, 0, True).as_shape()
+
+        # Make changes to the run 
+        run.font.color = drawing.Color.red
+
+        # Save the result
+        doc.save(docs_base.artifacts_dir + "WorkingWithNode.change_run_color.docx")
     
 
 if __name__ == '__main__':

@@ -67,8 +67,6 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
                 hyperlink.address = "http:#www.aspose.com"
                 hyperlink.result = "Aspose - The .net & Java Component Publisher"
-                
-            
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFields.replace_hyperlinks.docx")
         #ExEnd:ReplaceHyperlinks

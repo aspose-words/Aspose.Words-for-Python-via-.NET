@@ -286,6 +286,23 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithPdfSaveOptions.interpolate_images.pdf", saveOptions)
         #ExEnd:SetImageInterpolation
+
+
+    def test_render_metafile_to_bitmap(self) :
+
+        #ExStart:RenderMetafileToBitmap
+        # Load the document from disk.
+        doc = aw.Document(docs_base.my_dir +  "Rendering.docx")
+
+        metafileRenderingOptions = aw.saving.MetafileRenderingOptions()
+        metafileRenderingOptions.emulate_raster_operations = False
+        metafileRenderingOptions.rendering_mode = aw.saving.MetafileRenderingMode.VECTOR_WITH_FALLBACK
+
+        saveOptions = aw.saving.PdfSaveOptions()
+        saveOptions.metafile_rendering_options = metafileRenderingOptions
+
+        doc.save(docs_base.artifacts_dir +"PdfSaveOptions.HandleRasterWarnings.pdf", saveOptions)
+        #ExEnd:RenderMetafileToBitmap
         
     
 
