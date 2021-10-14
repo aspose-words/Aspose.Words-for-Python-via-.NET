@@ -22,37 +22,6 @@ class DocumentHelper(aeb.ApiExampleBase):
 
     #        return doc
 
-    # <summary>
-    # Create new document with text
-    # </summary>
-    #    def  CreateDocumentFillWithDummyText() -> Document :
-    #        doc = aw.Document()
-
-    # Remove the previous changes of the document
-    #        doc.remove_all_children()
-
-    # Set the document author
-    #        doc.built_in_document_properties.author = "Test Author"
-
-    #        builder = aw.DocumentBuilder(doc)
-
-    #        builder.write("Page ")
-    #        builder.InsertField("PAGE", "")
-    #        builder.write(" of ")
-    #        builder.InsertField("NUMPAGES", "")
-
-    # Insert new table with two rows and two cells
-    #        InsertTable(builder)
-
-    #        builder.writeln("Hello World!")
-
-    #  Continued on page 2 of the document content
-    #        builder.insert_break(aw.BreakType.PAGE_BREAK)
-
-    # Insert TOC entries
-    #        InsertToc(builder)
-
-    #        return doc
 
     #    def FindTextInFile(path : str, expression : str) :
     #        with open(str) as f:
@@ -69,6 +38,38 @@ class DocumentHelper(aeb.ApiExampleBase):
     #        builder.write(templateText)
 
     #        return doc
+
+    # <summary>
+    # Create new document with text
+    # </summary>
+    def create_document_fill_with_dummy_text(self):
+        doc = aw.Document()
+
+        # Remove the previous changes of the document
+        doc.remove_all_children()
+
+        # Set the document author
+        doc.built_in_document_properties.author = "Test Author"
+
+        builder = aw.DocumentBuilder(doc)
+
+        builder.write("Page ")
+        builder.insert_field("PAGE", "")
+        builder.write(" of ")
+        builder.insert_field("NUMPAGES", "")
+
+        # Insert new table with two rows and two cells
+        self.insert_table(builder)
+
+        builder.writeln("Hello World!")
+
+        #  Continued on page 2 of the document content
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+
+        # Insert TOC entries
+        self.insert_toc(builder)
+
+        return doc
 
     # <summary>
     # Create new document with textbox shape and some query
@@ -144,36 +145,36 @@ class DocumentHelper(aeb.ApiExampleBase):
     # Insert new table in the document
     # </summary>
     # <param name="builder">Current document builder</param>
-    #    def InsertTable(builder) -> aw.Table :
-    # Start creating a new table
-    #        table = builder.start_table()
+    def insert_table(self, builder):
+        # Start creating a new table
+        table = builder.start_table()
 
-    # Insert Row 1 Cell 1
-    #        builder.insert_cell()
-    #        builder.write("Date")
+        # Insert Row 1 Cell 1
+        builder.insert_cell()
+        builder.write("Date")
 
-    # Set width to fit the table contents
-    #        table.auto_fit(aw.AutoFitBehavior.AUTO_FIT_TO_CONTENTS)
+        # Set width to fit the table contents
+        table.auto_fit(aw.tables.AutoFitBehavior.AUTO_FIT_TO_CONTENTS)
 
-    # Insert Row 1 Cell 2
-    #        builder.insert_cell()
-    #        builder.write(" ")
+        # Insert Row 1 Cell 2
+        builder.insert_cell()
+        builder.write(" ")
 
-    #        builder.end_row()
+        builder.end_row()
 
-    # Insert Row 2 Cell 1
-    #        builder.insert_cell()
-    #        builder.write("Author")
+        # Insert Row 2 Cell 1
+        builder.insert_cell()
+        builder.write("Author")
 
-    # Insert Row 2 Cell 2
-    #        builder.insert_cell()
-    #        builder.write(" ")
+        # Insert Row 2 Cell 2
+        builder.insert_cell()
+        builder.write(" ")
 
-    #        builder.end_row()
+        builder.end_row()
 
-    #        builder.end_table()
+        builder.end_table()
 
-    #        return table
+        return table
 
     # <summary>
     # Insert TOC entries in the document
@@ -181,27 +182,27 @@ class DocumentHelper(aeb.ApiExampleBase):
     # <param name="builder">
     # The builder.
     # </param>
-    #    def InsertToc(DocumentBuilder builder)
-    #  Creating TOC entries
-    #        builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING1
+    def insert_toc(self, builder):
+        # Creating TOC entries
+        builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING1
 
-    #        builder.writeln("Heading 1")
+        builder.writeln("Heading 1")
 
-    #        builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING2
+        builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING2
 
-    #        builder.writeln("Heading 1.1")
+        builder.writeln("Heading 1.1")
 
-    #        builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING4
+        builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING4
 
-    #        builder.writeln("Heading 1.1.1.1")
+        builder.writeln("Heading 1.1.1.1")
 
-    #        builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING5
+        builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING5
 
-    #        builder.writeln("Heading 1.1.1.1.1")
+        builder.writeln("Heading 1.1.1.1.1")
 
-    #        builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING9
+        builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING9
 
-    #        builder.writeln("Heading 1.1.1.1.1.1.1.1.1")
+        builder.writeln("Heading 1.1.1.1.1.1.1.1.1")
 
     # <summary>
     # Get section text of the current document
@@ -226,7 +227,6 @@ class DocumentHelper(aeb.ApiExampleBase):
     # Used for testing how document features are preserved after saving/loading
     # </remarks>
     # <param name="doc">The document we wish to re-open</param>
-
     @staticmethod
     def save_open(doc):
         tmp_file_name = aeb.temp_dir + "tmp.docx"
