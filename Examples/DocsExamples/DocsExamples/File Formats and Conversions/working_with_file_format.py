@@ -4,6 +4,7 @@ import shutil
 import sys
 
 base_dir = os.path.abspath(os.curdir) + "/"
+print("This is base_dir:" + base_dir)
 base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
