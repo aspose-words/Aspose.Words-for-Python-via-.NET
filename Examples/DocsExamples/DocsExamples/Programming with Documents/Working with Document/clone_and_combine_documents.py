@@ -14,27 +14,27 @@ import aspose.words as aw
 class CloneAndCombineDocuments(docs_base.DocsExamplesBase):
 
     def test_cloning_document(self) :
-        
+
         #ExStart:CloningDocument
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
         clone = doc.clone().as_document()
         clone.save(docs_base.artifacts_dir + "CloneAndCombineDocuments.cloning_document.docx")
         #ExEnd:CloningDocument
- 
+
 
     def test_insert_document_at_bookmark(self) :
-        
-        #ExStart:InsertDocumentAtBookmark         
+
+        #ExStart:InsertDocumentAtBookmark
         mainDoc = aw.Document(docs_base.my_dir + "Document insertion 1.docx")
         subDoc = aw.Document(docs_base.my_dir + "Document insertion 2.docx")
 
         bookmark = mainDoc.range.bookmarks.get_by_name("insertionPlace")
         self.insert_document(bookmark.bookmark_start.parent_node, subDoc)
-            
+
         mainDoc.save(docs_base.artifacts_dir + "CloneAndCombineDocuments.insert_document_at_bookmark.docx")
         #ExEnd:InsertDocumentAtBookmark
-        
+
 
     # <summary>
     # Inserts content of the external document after the specified node.
@@ -46,9 +46,9 @@ class CloneAndCombineDocuments(docs_base.DocsExamplesBase):
     #ExStart:InsertDocument
     @staticmethod
     def insert_document(insertionDestination : aw.Node, docToInsert : aw.Document) :
-        
+
         if (insertionDestination.node_type == aw.NodeType.PARAGRAPH or insertionDestination.node_type == awNodeType.TABLE) :
-            
+
             destinationParent = insertionDestination.parent_node
 
             importer = aw.NodeImporter(docToInsert, insertionDestination.document, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
@@ -58,7 +58,7 @@ class CloneAndCombineDocuments(docs_base.DocsExamplesBase):
             for srcSection in docToInsert.sections :
                 for srcNode in srcSection.as_section().body.child_nodes :
                     if (srcNode.node_type == aw.NodeType.PARAGRAPH) :
-                    
+
                         para = srcNode.as_paragraph()
                         if (para.is_end_of_section and not para.has_child_nodes) :
                             continue
@@ -68,10 +68,10 @@ class CloneAndCombineDocuments(docs_base.DocsExamplesBase):
                     destinationParent.insert_after(newNode, insertionDestination)
                     insertionDestination = newNode
         else :
-            
+
             raise ValueError("The destination node should be either a paragraph or table.")
-            
-        
+
+
     #ExEnd:InsertDocument
 
     #ExStart:InsertDocumentWithSectionFormatting
@@ -83,7 +83,7 @@ class CloneAndCombineDocuments(docs_base.DocsExamplesBase):
     # <param name="srcDoc">The document to insert.</param>
     @staticmethod
     def InsertDocumentWithSectionFormatting(insertAfterNode : aw.Node, srcDoc : aw.Document) :
-        
+
         if (insertAfterNode.node_type != aw.NodeType.PARAGRAPH and
             insertAfterNode.node_type != aw.NodeType.TABLE) :
             raise ValueError("The destination node should be either a paragraph or table.")
@@ -106,22 +106,22 @@ class CloneAndCombineDocuments(docs_base.DocsExamplesBase):
         # The marker so the sections from the other document can be inserted directly.
         currentNode = insertAfterNode.next_sibling
         while (currentNode != None) :
-            
+
             nextNode = currentNode.next_sibling
             cloneSection.body.append_child(currentNode)
             currentNode = nextNode
-            
+
         # This object will be translating styles and lists during the import.
         importer = aw.NodeImporter(srcDoc, dstDoc, aw.ImportFormatMode.USE_DESTINATION_STYLES)
 
         for srcSection in srcDoc.sections :
-            
+
             newNode = importer.import_node(srcSection, True)
 
             dstDoc.insert_after(newNode, currentSection)
             currentSection = newNode.as_section()
-            
-        
+
+
     #ExEnd:InsertDocumentWithSectionFormatting
 
     def test_creating_document_clone(self) :
@@ -152,7 +152,7 @@ class CloneAndCombineDocuments(docs_base.DocsExamplesBase):
         # Check what the document contains after we changed it.
         self.assertEqual(clone.sections.count, 3)
         #ExEnd:CreatingDocumentClone
-    
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -13,9 +13,9 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class WorkingWithTxtLoadOptions(docs_base.DocsExamplesBase):
-    
+
     def test_detect_numbering_with_whitespaces(self) :
-        
+
         #ExStart:DetectNumberingWithWhitespaces
         # Create a plaintext document in the form of a string with parts that may be interpreted as lists.
         # Upon loading, the first three lists will always be detected by Aspose.words,
@@ -41,34 +41,34 @@ class WorkingWithTxtLoadOptions(docs_base.DocsExamplesBase):
         # will only be detected as a list if "DetectNumberingWithWhitespaces" in a LoadOptions object is set to true,
         # to avoid paragraphs that start with numbers being mistakenly detected as lists.
         loadOptions = aw.loading.TxtLoadOptions()
-        loadOptions.detect_numbering_with_whitespaces = True 
+        loadOptions.detect_numbering_with_whitespaces = True
 
         # Load the document while applying LoadOptions as a parameter and verify the result.
         doc = aw.Document(io.BytesIO(textDoc.encode("utf-8")), loadOptions)
 
         doc.save(docs_base.artifacts_dir + "WorkingWithTxtLoadOptions.detect_numbering_with_whitespaces.docx")
         #ExEnd:DetectNumberingWithWhitespaces
-        
+
 
     def test_handle_spaces_options(self) :
-        
+
         #ExStart:HandleSpacesOptions
         textDoc = "      Line 1 \n" + "    Line 2   \n" +  " Line 3       "
 
         loadOptions = aw.loading.TxtLoadOptions()
         loadOptions.leading_spaces_options = aw.loading.TxtLeadingSpacesOptions.TRIM
         loadOptions.trailing_spaces_options = aw.loading.TxtTrailingSpacesOptions.TRIM
-        
+
         f = io.BytesIO(textDoc.encode("utf-8"))
 
         doc = aw.Document(f, loadOptions)
 
         doc.save(docs_base.artifacts_dir + "WorkingWithTxtLoadOptions.handle_spaces_options.docx")
         #ExEnd:HandleSpacesOptions
-        
+
 
     def test_document_text_direction(self) :
-        
+
         #ExStart:DocumentTextDirection
         loadOptions = aw.loading.TxtLoadOptions()
         loadOptions.document_direction = aw.loading.DocumentDirection.AUTO
@@ -80,8 +80,8 @@ class WorkingWithTxtLoadOptions(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithTxtLoadOptions.document_text_direction.docx")
         #ExEnd:DocumentTextDirection
-        
-    
+
+
 
 
 if __name__ == '__main__':

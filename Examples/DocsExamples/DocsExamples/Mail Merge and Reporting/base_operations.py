@@ -12,9 +12,9 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class BaseOperations(docs_base.DocsExamplesBase):
-    
+
     def test_simple_mail_merge(self) :
-        
+
         #ExStart:SimpleMailMerge
         # Include the code for our template.
         doc = aw.Document()
@@ -33,10 +33,10 @@ class BaseOperations(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "BaseOperations.simple_mail_merge.docx")
         #ExEnd:SimpleMailMerge
-        
+
 
     def test_use_if_else_mustache(self) :
-        
+
         #ExStart:UseOfifelseMustacheSyntax
         doc = aw.Document(docs_base.my_dir + "Mail merge destinations - Mustache syntax.docx")
 
@@ -54,7 +54,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
     #ExStart:CreateMailMergeTemplate
     @staticmethod
     def create_mail_merge_template() :
-    
+
         builder = aw.DocumentBuilder()
 
         # Insert a text input field the unique name of this field is "Hello", the other parameters define
@@ -97,7 +97,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
 
         return builder.document
     #ExEnd:CreateMailMergeTemplate
-        
+
 
 if __name__ == '__main__':
     unittest.main()

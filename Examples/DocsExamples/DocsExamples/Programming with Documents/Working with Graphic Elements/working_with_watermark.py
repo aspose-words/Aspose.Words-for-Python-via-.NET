@@ -13,47 +13,47 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 class WorkWithWatermark(docs_base.DocsExamplesBase):
-    
+
     def test_add_text_watermark_with_specific_options(self) :
-        
+
         #ExStart:AddTextWatermarkWithSpecificOptions
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
         options = aw.TextWatermarkOptions()
-            
+
         options.font_family = "Arial"
         options.font_size = 36
         options.color = drawing.Color.black
         options.layout = aw.WatermarkLayout.HORIZONTAL
         options.is_semitrasparent = False
-            
+
 
         doc.watermark.set_text("Test", options)
 
         doc.save(docs_base.artifacts_dir + "WorkWithWatermark.add_text_watermark_with_specific_options.docx")
         #ExEnd:AddTextWatermarkWithSpecificOptions
-        
+
 
 #if NET462
     def test_add_image_watermark_with_specific_options(self) :
-        
+
         #ExStart:AddImageWatermarkWithSpecificOptions
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
         options = aw.ImageWatermarkOptions()
-            
+
         options.scale = 5
         options.is_washout = False
-            
+
 
         doc.watermark.set_image(docs_base.images_dir + "Transparent background logo.png", options)
 
         doc.save(docs_base.artifacts_dir + "WorkWithWatermark.add_image_watermark.docx")
         #ExEnd:AddImageWatermarkWithSpecificOptions
-        
+
 
     def test_remove_watermark_from_document(self) :
-        
+
         #ExStart:RemoveWatermarkFromDocument
         doc = aw.Document()
 
@@ -79,12 +79,12 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkWithWatermark.remove_watermark_from_document.docx")
         #ExEnd:RemoveWatermarkFromDocument
-        
+
 #endif
 
     #ExStart:AddWatermark
     def test_add_and_remove_watermark(self) :
-        
+
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
         self.insert_watermark_text(doc, "CONFIDENTIAL")
@@ -92,7 +92,7 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
 
         self.remove_watermark_text(doc)
         doc.save(docs_base.artifacts_dir + "WorkWithWatermark.remove_watermark.docx")
-        
+
 
     # <summary>
     # Inserts a watermark into a document.
@@ -100,10 +100,10 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
     # <param name="doc">The input document.</param>
     # <param name="watermarkText">Text of the watermark.</param>
     def insert_watermark_text(self, doc : aw.Document, watermarkText : str) :
-        
+
         # Create a watermark shape, this will be a WordArt shape.
         watermark = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
-        watermark.name = "Watermark" 
+        watermark.name = "Watermark"
 
         watermark.text_path.text = watermarkText
         watermark.text_path.font_family = "Arial"
@@ -114,7 +114,7 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
         watermark.rotation = -40
 
         # Remove the following two lines if you need a solid black text.
-        watermark.fill_color = drawing.Color.gray 
+        watermark.fill_color = drawing.Color.gray
         watermark.stroke_color = drawing.Color.gray
 
         # Place the watermark in the page center.
@@ -136,28 +136,28 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
             self.insert_watermark_into_header(watermarkPara, sect, aw.HeaderFooterType.HEADER_PRIMARY)
             self.insert_watermark_into_header(watermarkPara, sect, aw.HeaderFooterType.HEADER_FIRST)
             self.insert_watermark_into_header(watermarkPara, sect, aw.HeaderFooterType.HEADER_EVEN)
-            
-        
+
+
 
     def insert_watermark_into_header(self, watermarkPara : aw.Paragraph, sect : aw.Section, headerType : aw.HeaderFooterType) :
-        
+
         header = sect.headers_footers.get_by_header_footer_type(headerType)
 
         if (header == None) :
-            
+
             # There is no header of the specified type in the current section, so we need to create it.
             header = aw.HeaderFooter(sect.document, headerType)
             sect.headers_footers.add(header)
-            
+
 
         # Insert a clone of the watermark into the header.
         header.append_child(watermarkPara.clone(True))
-        
+
     #ExEnd:AddWatermark
-        
+
     #ExStart:RemoveWatermark
     def remove_watermark_text(self, doc : aw.Document) :
-        
+
         for hf in doc.get_child_nodes(aw.NodeType.HEADER_FOOTER, True) :
             hf = hf.as_header_footer()
 
@@ -166,10 +166,10 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
 
                 if shape.name.find("WaterMark") >= 0 :
                     shape.remove()
-                    
-                
+
+
     #ExEnd:RemoveWatermark
-    
+
 
 
 if __name__ == '__main__':

@@ -13,9 +13,9 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class WorkingWithHyphenation(docs_base.DocsExamplesBase):
-    
+
     def test_hyphenate_words_of_languages(self) :
-        
+
         #ExStart:HyphenateWordsOfLanguages
         doc = aw.Document(docs_base.my_dir + "German text.docx")
 
@@ -24,13 +24,13 @@ class WorkingWithHyphenation(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithHyphenation.hyphenate_words_of_languages.pdf")
         #ExEnd:HyphenateWordsOfLanguages
-        
+
 
     def test_load_hyphenation_dictionary_for_language(self) :
-        
+
         #ExStart:LoadHyphenationDictionaryForLanguage
         doc = aw.Document(docs_base.my_dir + "German text.docx")
-            
+
         stream = io.FileIO(docs_base.my_dir + "hyph_de_CH.dic")
         aw.Hyphenation.register_dictionary("de-CH", stream)
 
@@ -38,7 +38,7 @@ class WorkingWithHyphenation(docs_base.DocsExamplesBase):
 
         stream.close()
         #ExEnd:LoadHyphenationDictionaryForLanguage
-        
+
 
 if __name__ == '__main__':
     unittest.main()

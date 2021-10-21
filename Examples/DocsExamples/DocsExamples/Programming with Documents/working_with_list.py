@@ -13,12 +13,12 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 class WorkingWithList(docs_base.DocsExamplesBase):
-    
+
     def test_restart_list_at_each_section(self) :
-        
+
         #ExStart:RestartListAtEachSection
         doc = aw.Document()
-            
+
         doc.lists.add(aw.lists.ListTemplate.NUMBER_DEFAULT)
 
         list = doc.lists[0]
@@ -28,23 +28,23 @@ class WorkingWithList(docs_base.DocsExamplesBase):
         builder.list_format.list = list
 
         for i in range(1, 45) :
-            
+
             builder.writeln(f"List Item {i}")
 
             if i == 15 :
                 builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
-            
+
 
         # IsRestartAtEachSection will be written only if compliance is higher then OoxmlComplianceCore.ecma_376.
         options = aw.saving.OoxmlSaveOptions()
-        options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL 
+        options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
 
         doc.save(docs_base.artifacts_dir + "WorkingWithList.restart_list_at_each_section.docx", options)
         #ExEnd:RestartListAtEachSection
-        
+
 
     def test_specify_list_level(self) :
-        
+
         #ExStart:SpecifyListLevel
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -55,30 +55,30 @@ class WorkingWithList(docs_base.DocsExamplesBase):
 
         # There are nine levels in this list, let's try them all.
         for i in range(0, 9) :
-            
+
             builder.list_format.list_level_number = i
             builder.writeln(f"Level {i}")
-            
+
 
         # Create a bulleted list based on one of the Microsoft Word list templates
         # and apply it to the document builder's current paragraph.
         builder.list_format.list = doc.lists.add(aw.lists.ListTemplate.BULLET_DIAMONDS)
 
         for i in range(0, 9) :
-            
+
             builder.list_format.list_level_number = i
             builder.writeln(f"Level {i}")
-            
+
 
         # This is a way to stop list formatting.
         builder.list_format.list = None
 
         builder.document.save(docs_base.artifacts_dir + "WorkingWithList.specify_list_level.docx")
         #ExEnd:SpecifyListLevel
-        
+
 
     def test_restart_list_number(self) :
-        
+
         #ExStart:RestartListNumber
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -108,8 +108,8 @@ class WorkingWithList(docs_base.DocsExamplesBase):
 
         builder.document.save(docs_base.artifacts_dir + "WorkingWithList.restart_list_number.docx")
         #ExEnd:RestartListNumber
-        
-    
+
+
 
 if __name__ == '__main__':
     unittest.main()

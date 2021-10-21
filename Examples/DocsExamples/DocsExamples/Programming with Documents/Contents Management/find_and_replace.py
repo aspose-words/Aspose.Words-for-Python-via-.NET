@@ -14,9 +14,9 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 class FindAndReplace(docs_base.DocsExamplesBase):
-    
+
     def test_simple_find_replace(self) :
-        
+
         #ExStart:SimpleFindReplace
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -31,10 +31,10 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         # Save the modified document
         doc.save(docs_base.artifacts_dir + "FindAndReplace.simple_find_replace.docx")
         #ExEnd:SimpleFindReplace
-        
+
 
     def test_find_and_highlight(self) :
-        
+
         #ExStart:FindAndHighlight
         doc = aw.Document(docs_base.my_dir + "Find and highlight.docx")
 
@@ -47,21 +47,21 @@ class FindAndReplace(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "FindAndReplace.find_and_highlight.docx")
         #ExEnd:FindAndHighlight
-        
+
 
     def test_meta_characters_in_search_pattern(self) :
-        
+
         # meta-characters
         # &p - paragraph break
         # &b - section break
         # &m - page break
         # &l - manual line break
-        
+
 
         #ExStart:MetaCharactersInSearchPattern
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
-            
+
         builder.writeln("This is Line 1")
         builder.writeln("This is Line 2")
 
@@ -76,10 +76,10 @@ class FindAndReplace(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "FindAndReplace.meta_characters_in_search_pattern.docx")
         #ExEnd:MetaCharactersInSearchPattern
-        
+
 
     def test_replace_text_containing_meta_characters(self) :
-        
+
         #ExStart:ReplaceTextContainingMetaCharacters
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -103,34 +103,34 @@ class FindAndReplace(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "FindAndReplace.replace_text_containing_meta_characters.docx")
         #ExEnd:ReplaceTextContainingMetaCharacters
-        
+
 
     def test_ignore_text_inside_fields(self) :
-        
+
         #ExStart:IgnoreTextInsideFields
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # Insert field with text inside.
         builder.insert_field("INCLUDETEXT", "Text in field")
-            
+
         options = aw.replacing.FindReplaceOptions()
-        options.ignore_fields = True 
-            
+        options.ignore_fields = True
+
         doc.range.replace_regex("e", "*", options)
-            
+
         print(doc.get_text())
 
         options.ignore_fields = False
         doc.range.replace("e", "*", options)
-            
+
         print(doc.get_text())
         #ExEnd:IgnoreTextInsideFields
-        
+
 
     @unittest.skip("Regular expressions is not supported yet.")
     def test_ignore_text_inside_delete_revisions(self) :
-        
+
         #ExStart:IgnoreTextInsideDeleteRevisions
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -145,7 +145,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         doc.stop_track_revisions()
 
         options = aw.replacing.FindReplaceOptions()
-        options.ignore_deleted = True 
+        options.ignore_deleted = True
 
         doc.range.replace_regex("e", "*", options)
 
@@ -156,10 +156,10 @@ class FindAndReplace(docs_base.DocsExamplesBase):
 
         print(doc.get_text())
         #ExEnd:IgnoreTextInsideDeleteRevisions
-        
+
 
     def test_ignore_text_inside_insert_revisions(self) :
-        
+
         #ExStart:IgnoreTextInsideInsertRevisions
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -173,21 +173,21 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         builder.write("Text")
 
         options = aw.replacing.FindReplaceOptions()
-        options.ignore_inserted = True 
+        options.ignore_inserted = True
 
         doc.range.replace_regex("e", "*", options)
-            
+
         print(doc.get_text())
 
         options.ignore_inserted = False
         doc.range.replace("e", "*", options)
-            
+
         print(doc.get_text())
         #ExEnd:IgnoreTextInsideInsertRevisions
-        
+
 
     def test_replace_text_in_footer(self) :
-        
+
         #ExStart:ReplaceTextInFooter
         doc = aw.Document(docs_base.my_dir + "Footer.docx")
 
@@ -196,21 +196,21 @@ class FindAndReplace(docs_base.DocsExamplesBase):
 
         options = aw.replacing.FindReplaceOptions()
         options.match_case = False
-        options.find_whole_words_only = False 
+        options.find_whole_words_only = False
 
         footer.range.replace("(C) 2006 Aspose Pty Ltd.", "Copyright (C) 2020 by Aspose Pty Ltd.", options)
 
         doc.save(docs_base.artifacts_dir + "FindAndReplace.replace_text_in_footer.docx")
         #ExEnd:ReplaceTextInFooter
-        
+
 
     @unittest.skip("Regular expressions is not supported yet.")
     def test_replace_with_regex(self) :
-        
+
         #ExStart:ReplaceWithRegex
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
-            
+
         builder.writeln("sad mad bad")
 
         options = aw.replacing.FindReplaceOptions()
@@ -219,10 +219,10 @@ class FindAndReplace(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "FindAndReplace.replace_with_regex.docx")
         #ExEnd:ReplaceWithRegex
-        
-    
+
+
     def test_recognize_and_substitutions_within_replacement_patterns(self) :
-        
+
         #ExStart:RecognizeAndSubstitutionsWithinReplacementPatterns
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -230,28 +230,28 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         builder.write("Jason give money to Paul.")
 
         options = aw.replacing.FindReplaceOptions()
-        options.use_substitutions = True 
+        options.use_substitutions = True
 
         doc.range.replace_regex("([A-z]+) give money to ([A-z]+)", "$2 take money from $1", options)
         #ExEnd:RecognizeAndSubstitutionsWithinReplacementPatterns
-        
+
 
     def test_replace_with_string(self) :
-        
+
         #ExStart:ReplaceWithString
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
-            
+
         builder.writeln("sad mad bad")
 
         doc.range.replace("sad", "bad", aw.replacing.FindReplaceOptions(aw.replacing.FindReplaceDirection.FORWARD))
 
         doc.save(docs_base.artifacts_dir + "FindAndReplace.replace_with_string.docx")
         #ExEnd:ReplaceWithString
-        
+
 
     def test_replace_text_in_table(self) :
-        
+
         #ExStart:ReplaceText
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
 
@@ -262,8 +262,8 @@ class FindAndReplace(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "FindAndReplace.replace_text_in_table.docx")
         #ExEnd:ReplaceText
-        
-    
+
+
 
 
 if __name__ == '__main__':

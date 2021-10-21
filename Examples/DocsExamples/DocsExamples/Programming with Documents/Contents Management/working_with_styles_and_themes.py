@@ -13,9 +13,9 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 class WorkingWithStylesAndThemes(docs_base.DocsExamplesBase):
-    
+
         def test_access_styles(self) :
-        
+
             #ExStart:AccessStyles
             doc = aw.Document()
 
@@ -24,20 +24,20 @@ class WorkingWithStylesAndThemes(docs_base.DocsExamplesBase):
             # Get styles collection from the document.
             styles = doc.styles
             for style in styles :
-            
+
                 if (styleName == "") :
                     styleName = style.name
                     print(styleName)
-                
+
                 else :
                     styleName = styleName + ", " + style.name
                     print(styleName)
-                
+
             #ExEnd:AccessStyles
-        
+
 
         def test_copy_styles(self) :
-        
+
             #ExStart:CopyStyles
             doc = aw.Document()
             target = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -46,10 +46,10 @@ class WorkingWithStylesAndThemes(docs_base.DocsExamplesBase):
 
             doc.save(docs_base.artifacts_dir + "WorkingWithStylesAndThemes.copy_styles.docx")
             #ExEnd:CopyStyles
-        
+
 
         def test_get_theme_properties(self) :
-        
+
             #ExStart:GetThemeProperties
             doc = aw.Document()
 
@@ -58,22 +58,22 @@ class WorkingWithStylesAndThemes(docs_base.DocsExamplesBase):
             print(theme.major_fonts.latin)
             print(theme.minor_fonts.east_asian)
             print(theme.colors.accent1)
-            #ExEnd:GetThemeProperties 
-        
+            #ExEnd:GetThemeProperties
+
 
         def test_set_theme_properties(self) :
-        
+
             #ExStart:SetThemeProperties
             doc = aw.Document()
 
             theme = doc.theme
             theme.minor_fonts.latin = "Times New Roman"
             theme.colors.hyperlink = drawing.Color.gold
-            #ExEnd:SetThemeProperties 
-        
+            #ExEnd:SetThemeProperties
+
 
         def test_insert_style_separator(self) :
-        
+
             #ExStart:InsertStyleSeparator
             doc = aw.Document()
             builder = aw.DocumentBuilder(doc)
@@ -94,8 +94,8 @@ class WorkingWithStylesAndThemes(docs_base.DocsExamplesBase):
 
             doc.save(docs_base.artifacts_dir + "WorkingWithStylesAndThemes.insert_style_separator.docx")
             #ExEnd:InsertStyleSeparator
-        
-    
+
+
 
 if __name__ == '__main__':
         unittest.main()

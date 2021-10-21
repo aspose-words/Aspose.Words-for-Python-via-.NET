@@ -12,37 +12,37 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class WorkingWithFootnotes(docs_base.DocsExamplesBase):
-    
+
     def test_set_foot_note_columns(self) :
-        
+
         #ExStart:SetFootNoteColumns
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
         # Specify the number of columns with which the footnotes area is formatted.
         doc.footnote_options.columns = 3
-            
+
         doc.save(docs_base.artifacts_dir + "WorkingWithFootnotes.set_foot_note_columns.docx")
         #ExEnd:SetFootNoteColumns
-        
+
 
     def test_set_footnote_and_end_note_position(self) :
-        
+
         #ExStart:SetFootnoteAndEndNotePosition
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
         doc.footnote_options.position = aw.notes.FootnotePosition.BENEATH_TEXT
         doc.endnote_options.position = aw.notes.EndnotePosition.END_OF_SECTION
-            
+
         doc.save(docs_base.artifacts_dir + "WorkingWithFootnotes.set_footnote_and_end_note_position.docx")
         #ExEnd:SetFootnoteAndEndNotePosition
-        
+
 
     def test_set_endnote_options(self) :
-        
+
         #ExStart:SetEndnoteOptions
         doc = aw.Document(docs_base.my_dir + "Document.docx")
         builder = aw.DocumentBuilder(doc)
-            
+
         builder.write("Some text")
         builder.insert_footnote(aw.notes.FootnoteType.ENDNOTE, "Footnote text.")
 
@@ -52,8 +52,8 @@ class WorkingWithFootnotes(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFootnotes.set_endnote_options.docx")
         #ExEnd:SetEndnoteOptions
-        
-    
+
+
 
 if __name__ == '__main__':
     unittest.main()

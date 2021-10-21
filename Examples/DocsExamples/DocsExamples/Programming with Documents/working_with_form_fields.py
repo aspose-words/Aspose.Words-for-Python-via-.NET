@@ -12,14 +12,14 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class WorkingWithFormFields(docs_base.DocsExamplesBase):
-    
+
     def test_insert_form_fields(self) :
-        
+
         #ExStart:InsertFormFields
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        items =  ["One", "Two", "Three"] 
+        items =  ["One", "Two", "Three"]
         builder.insert_combo_box("DropDown", items, 0)
         #ExEnd:InsertFormFields
 
@@ -30,7 +30,7 @@ class WorkingWithFormFields(docs_base.DocsExamplesBase):
         builder = aw.DocumentBuilder(doc)
 
         builder.insert_text_input("TextInput", aw.fields.TextFormFieldType.REGULAR, "", "Hello", 0)
-        
+
         doc.save(docs_base.artifacts_dir + "WorkingWithFormFields.document_builder_insert_text_input_form_field.docx")
         #ExEnd:DocumentBuilderInsertTextInputFormField
 
@@ -41,44 +41,44 @@ class WorkingWithFormFields(docs_base.DocsExamplesBase):
         builder = aw.DocumentBuilder(doc)
 
         builder.insert_check_box("CheckBox", True, True, 0)
-        
+
         doc.save(docs_base.artifacts_dir + "WorkingWithFormFields.document_builder_insert_check_box_form_field.docx")
         #ExEnd:DocumentBuilderInsertCheckBoxFormField
 
     def test_document_builder_insert_combo_box_form_field(self) :
-        
+
         #ExStart:DocumentBuilderInsertComboBoxFormField
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        items =  ["One", "Two", "Three"] 
+        items =  ["One", "Two", "Three"]
         builder.insert_combo_box("DropDown", items, 0)
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFormFields.document_builder_insert_combo_box_form_field.docx")
         #ExEnd:DocumentBuilderInsertComboBoxFormField
 
     def test_form_fields_work_with_properties(self) :
-        
+
         #ExStart:FormFieldsWorkWithProperties
         doc = aw.Document(docs_base.my_dir + "Form fields.docx")
         formField = doc.range.form_fields[3]
 
         if formField.type == aw.fields.FieldType.FIELD_FORM_TEXT_INPUT :
             formField.result = "My name is " + formField.name
-        #ExEnd:FormFieldsWorkWithProperties            
-        
+        #ExEnd:FormFieldsWorkWithProperties
+
 
     def test_form_fields_get_form_fields_collection(self) :
-        
+
         #ExStart:FormFieldsGetFormFieldsCollection
         doc = aw.Document(docs_base.my_dir + "Form fields.docx")
-            
+
         formFields = doc.range.form_fields
         #ExEnd:FormFieldsGetFormFieldsCollection
-        
+
 
     def test_form_fields_get_by_name(self) :
-        
+
         #ExStart:FormFieldsFontFormatting
         #ExStart:FormFieldsGetByName
         doc = aw.Document(docs_base.my_dir + "Form fields.docx")
@@ -92,8 +92,8 @@ class WorkingWithFormFields(docs_base.DocsExamplesBase):
         formField1.font.size = 20
         #formField2.font.color = Color.red
         #ExEnd:FormFieldsFontFormatting
-        
-    
+
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -14,7 +14,7 @@ import aspose.words as aw
 class WorkingWithTextboxes(docs_base.DocsExamplesBase):
 
     def test_create_a_link(self) :
-        
+
         #ExStart:CreateALink
         doc = aw.Document()
 
@@ -27,10 +27,10 @@ class WorkingWithTextboxes(docs_base.DocsExamplesBase):
         if textBox1.is_valid_link_target(textBox2) :
             textBox1.next = textBox2
         #ExEnd:CreateALink
-        
+
 
     def test_check_sequence(self) :
-        
+
         #ExStart:CheckSequence
         doc = aw.Document()
 
@@ -39,20 +39,20 @@ class WorkingWithTextboxes(docs_base.DocsExamplesBase):
 
         if (textBox.next != None and textBox.previous == None) :
             print("The head of the sequence")
-            
+
 
         if (textBox.next != None and textBox.previous != None) :
             print("The Middle of the sequence.")
-            
+
 
         if (textBox.next == None and textBox.previous != None) :
             print("The Tail of the sequence.")
-            
+
         #ExEnd:CheckSequence
-        
+
 
     def test_break_a_link(self) :
-        
+
         #ExStart:BreakALink
         doc = aw.Document()
 
@@ -69,8 +69,8 @@ class WorkingWithTextboxes(docs_base.DocsExamplesBase):
         if textBox.previous != None :
             textBox.previous.break_forward_link()
         #ExEnd:BreakALink
-        
-    
+
+
 
 if __name__ == '__main__':
     unittest.main()

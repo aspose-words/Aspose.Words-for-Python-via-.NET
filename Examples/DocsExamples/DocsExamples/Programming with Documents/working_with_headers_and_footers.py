@@ -12,9 +12,9 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class WorkingWithHeadersAndFooters(docs_base.DocsExamplesBase):
-    
+
     def test_create_header_footer(self) :
-        
+
         #ExStart:CreateHeaderFooterUsingDocBuilder
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -110,7 +110,7 @@ class WorkingWithHeadersAndFooters(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithHeadersAndFooters.create_header_footer.docx")
         #ExEnd:CreateHeaderFooterUsingDocBuilder
-        
+
 
     #ExStart:CopyHeadersFootersFromPreviousSection
     # <summary>
@@ -118,7 +118,7 @@ class WorkingWithHeadersAndFooters(docs_base.DocsExamplesBase):
     # </summary>
     @staticmethod
     def copy_headers_footers_from_previous_section(section) :
-        
+
         previousSection = section.previous_sibling.as_section()
 
         if previousSection == None :
@@ -128,9 +128,9 @@ class WorkingWithHeadersAndFooters(docs_base.DocsExamplesBase):
 
         for headerFooter in previousSection.headers_footers :
             section.headers_footers.add(headerFooter.clone(True))
-        
-    #ExEnd:CopyHeadersFootersFromPreviousSection        
-    
+
+    #ExEnd:CopyHeadersFootersFromPreviousSection
+
 
 if __name__ == '__main__':
     unittest.main()

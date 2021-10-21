@@ -16,7 +16,7 @@ import aspose.pydrawing as drawing
 class WorkingWithCharts(docs_base.DocsExamplesBase):
 
     def test_format_number_of_data_label(self) :
-        
+
         #ExStart:FormatNumberOfDataLabel
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -30,7 +30,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         chart.series.clear()
 
         series1 = chart.series.add("Aspose Series 1", [ "Category 1", "Category 2", "Category 3" ], [ 2.5, 1.5, 3.5 ])
-            
+
         series1.has_data_labels = True
         series1.data_labels.show_value = True
         series1.data_labels[0].number_format.format_code = "\"$\"#,##0.00"
@@ -43,10 +43,10 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.format_number_of_data_label.docx")
         #ExEnd:FormatNumberOfDataLabel
-        
+
 
     def test_create_chart_using_shape(self) :
-        
+
         #ExStart:CreateChartUsingShape
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -62,13 +62,13 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         chart.legend.position = aw.drawing.charts.LegendPosition.LEFT
         chart.legend.overlay = True
-            
+
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.create_chart_using_shape.docx")
         #ExEnd:CreateChartUsingShape
-        
+
 
     def test_insert_simple_column_chart(self) :
-        
+
         #ExStart:InsertSimpleColumnChart
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -77,11 +77,11 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         shape = builder.insert_chart(aw.drawing.charts.ChartType.COLUMN, 432, 252)
 
         chart = shape.chart
-        #ExStart:ChartSeriesCollection 
+        #ExStart:ChartSeriesCollection
         seriesColl = chart.series
 
         print(seriesColl.count)
-        #ExEnd:ChartSeriesCollection 
+        #ExEnd:ChartSeriesCollection
 
         # Delete default generated series.
         seriesColl.clear()
@@ -98,10 +98,10 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.insert_simple_column_chart.docx")
         #ExEnd:InsertSimpleColumnChart
-        
+
 
     def test_insert_column_chart(self) :
-        
+
         #ExStart:InsertColumnChart
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -113,10 +113,10 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.insert_column_chart.docx")
         #ExEnd:InsertColumnChart
-        
+
 
     def test_insert_area_chart(self) :
-        
+
         #ExStart:InsertAreaChart
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -124,16 +124,16 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         shape = builder.insert_chart(aw.drawing.charts.ChartType.AREA, 432, 252)
 
         chart = shape.chart
-        chart.series.add_date("Aspose Series 1", 
-            [ date(2002, 5, 1), date(2002, 6, 1), date(2002, 7, 1), date(2002, 8, 1), date(2002, 9, 1) ], 
+        chart.series.add_date("Aspose Series 1",
+            [ date(2002, 5, 1), date(2002, 6, 1), date(2002, 7, 1), date(2002, 8, 1), date(2002, 9, 1) ],
             [ 32, 32, 28, 12, 15 ])
-            
+
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.insert_area_chart.docx")
         #ExEnd:InsertAreaChart
-        
+
 
     def test_insert_bubble_chart(self) :
-        
+
         #ExStart:InsertBubbleChart
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -142,13 +142,13 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         chart = shape.chart
         chart.series.add("Aspose Series 1", [ 0.7, 1.8, 2.6 ], [ 2.7, 3.2, 0.8 ], [ 10, 4, 8 ])
-            
+
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.insert_bubble_chart.docx")
         #ExEnd:InsertBubbleChart
-        
+
 
     def test_insert_scatter_chart(self) :
-        
+
         #ExStart:InsertScatterChart
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -160,10 +160,10 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.insert_scatter_chart.docx")
         #ExEnd:InsertScatterChart
-        
+
 
     def test_define_xy_axis_properties(self) :
-        
+
         #ExStart:DefineXYAxisProperties
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -200,10 +200,10 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.define_xy_axis_properties.docx")
         #ExEnd:DefineXYAxisProperties
-        
+
 
     def test_date_time_values_to_axis(self) :
-        
+
         #ExStart:SetDateTimeValuesToAxis
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -229,10 +229,10 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.date_time_values_to_axis.docx")
         #ExEnd:SetDateTimeValuesToAxis
-        
+
 
     def test_number_format_for_axis(self) :
-        
+
         #ExStart:SetNumberFormatForAxis
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -251,10 +251,10 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.number_format_for_axis.docx")
         #ExEnd:SetNumberFormatForAxis
-        
+
 
     def test_bounds_of_axis(self) :
-        
+
         #ExStart:SetboundsOfAxis
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -274,10 +274,10 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.bounds_of_axis.docx")
         #ExEnd:SetboundsOfAxis
-        
+
 
     def test_interval_unit_between_labels_on_axis(self) :
-        
+
         #ExStart:SetIntervalUnitBetweenLabelsOnAxis
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -296,10 +296,10 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.interval_unit_between_labels_on_axis.docx")
         #ExEnd:SetIntervalUnitBetweenLabelsOnAxis
-        
+
 
     def test_hide_chart_axis(self) :
-        
+
         #ExStart:HideChartAxis
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -307,21 +307,21 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         shape = builder.insert_chart(aw.drawing.charts.ChartType.COLUMN, 432, 252)
 
         chart = shape.chart
-            
+
         chart.series.clear()
-            
+
         chart.series.add("Aspose Series 1",
             [ "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" ],
             [ 1.2, 0.3, 2.1, 2.9, 4.2 ])
-            
+
         chart.axis_y.hidden = True
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.hide_chart_axis.docx")
         #ExEnd:HideChartAxis
-        
+
 
     def test_tick_multi_line_label_alignment(self) :
-        
+
         #ExStart:TickMultiLineLabelAlignment
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -334,10 +334,10 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.tick_multi_line_label_alignment.docx")
         #ExEnd:TickMultiLineLabelAlignment
-        
+
 
     def test_chart_data_label(self) :
-        
+
         #ExStart:WorkWithChartDataLabel
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -350,7 +350,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         labels = series0.data_labels
         labels.show_legend_key = True
         # By default, when you add data labels to the data points in a pie chart, leader lines are displayed for data labels that are
-        # positioned far outside the end of data points. Leader lines create a visual connection between a data label and its 
+        # positioned far outside the end of data points. Leader lines create a visual connection between a data label and its
         # corresponding data point.
         labels.show_leader_lines = True
         labels.show_category_name = False
@@ -359,13 +359,13 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         labels.show_value = True
         labels.separator = "/"
         labels.show_value = True
-            
+
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.chart_data_label.docx")
         #ExEnd:WorkWithChartDataLabel
-        
+
 
     def test_default_options_for_data_labels(self) :
-        
+
         #ExStart:DefaultOptionsForDataLabels
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -388,10 +388,10 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.default_options_for_data_labels.docx")
         #ExEnd:DefaultOptionsForDataLabels
-        
+
 
     def test_single_chart_data_point(self) :
-        
+
         #ExStart:WorkWithSingleChartDataPoint
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -420,10 +420,10 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.single_chart_data_point.docx")
         #ExEnd:WorkWithSingleChartDataPoint
-        
+
 
     def test_single_chart_series(self) :
-        
+
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -443,7 +443,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         series1.smooth = True
         #ExEnd:WorkWithSingleChartSeries
 
-        #ExStart:ChartDataPoint 
+        #ExStart:ChartDataPoint
         # Specifies whether by default the parent element shall inverts its colors if the value is negative.
         series0.invert_if_negative = True
 
@@ -452,7 +452,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         series1.marker.symbol = aw.drawing.charts.MarkerSymbol.STAR
         series1.marker.size = 10
-        #ExEnd:ChartDataPoint 
+        #ExEnd:ChartDataPoint
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.single_chart_series.docx")
 
@@ -513,8 +513,8 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.line_color_and_weight.docx")
         #ExEnd:LineColorAndWeight
-        
-    
+
+
 
 
 if __name__ == '__main__':

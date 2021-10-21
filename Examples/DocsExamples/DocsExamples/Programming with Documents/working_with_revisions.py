@@ -13,9 +13,9 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class WorkingWithRevisions(docs_base.DocsExamplesBase):
-    
+
     def test_accept_revisions(self) :
-        
+
         #ExStart:AcceptAllRevisions
         doc = aw.Document()
         body = doc.first_section.body
@@ -57,39 +57,39 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         # Save the document.
         doc.save(docs_base.artifacts_dir + "WorkingWithRevisions.accept_revisions.docx")
         #ExEnd:AcceptAllRevisions
-        
+
 
     def test_get_revision_types(self) :
-        
+
         #ExStart:GetRevisionTypes
         doc = aw.Document(docs_base.my_dir + "Revisions.docx")
 
         paragraphs = doc.first_section.body.paragraphs
         for i in range(0, paragraphs.count) :
-            
+
             if paragraphs[i].is_move_from_revision :
                 print(f"The paragraph {i} has been moved (deleted).")
             if paragraphs[i].is_move_to_revision :
                 print(f"The paragraph {i} has been moved (inserted).")
-            
+
         #ExEnd:GetRevisionTypes
-        
+
 
     def test_get_revision_groups(self) :
-        
+
         #ExStart:GetRevisionGroups
         doc = aw.Document(docs_base.my_dir + "Revisions.docx")
 
         for group in doc.revisions.groups :
-            
+
             print(f"{group.author}, {group.revision_type}:")
             print(group.text)
-            
+
         #ExEnd:GetRevisionGroups
-        
+
 
     def test_remove_comments_in_pdf(self) :
-        
+
         #ExStart:RemoveCommentsInPDF
         doc = aw.Document(docs_base.my_dir + "Revisions.docx")
 
@@ -98,10 +98,10 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithRevisions.remove_comments_in_pdf.pdf")
         #ExEnd:RemoveCommentsInPDF
-        
+
 
     def test_show_revisions_in_balloons(self) :
-        
+
         #ExStart:ShowRevisionsInBalloons
         #ExStart:SetMeasurementUnit
         #ExStart:SetRevisionBarsPosition
@@ -112,20 +112,20 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         doc.layout_options.revision_options.measurement_unit = aw.MeasurementUnits.INCHES
         # Renders revision bars on the right side of a page.
         doc.layout_options.revision_options.revision_bars_position = aw.drawing.HorizontalAlignment.RIGHT
-            
+
         doc.save(docs_base.artifacts_dir + "WorkingWithRevisions.show_revisions_in_balloons.pdf")
         #ExEnd:SetRevisionBarsPosition
         #ExEnd:SetMeasurementUnit
         #ExEnd:ShowRevisionsInBalloons
-        
+
 
     def test_get_revision_group_details(self) :
-        
+
         #ExStart:GetRevisionGroupDetails
         doc = aw.Document(docs_base.my_dir + "Revisions.docx")
 
         for revision in doc.revisions :
-            
+
             groupText = "Revision group text: " + revision.group.text if revision.group != None else "Revision has no group"
 
             print(f"Type: {revision.revision_type}")
@@ -133,12 +133,12 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
             print(f"Date: {revision.date_time}")
             print(f"Revision text: {revision.parent_node.to_string(aw.SaveFormat.TEXT)}")
             print(groupText)
-            
+
         #ExEnd:GetRevisionGroupDetails
-        
+
 
     def test_access_revised_version(self) :
-        
+
         #ExStart:AccessRevisedVersion
         doc = aw.Document(docs_base.my_dir + "Revisions.docx")
         doc.update_list_labels()
@@ -147,22 +147,22 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         doc.revisions_view = aw.RevisionsView.FINAL
 
         for revision in doc.revisions :
-            
+
             if revision.parent_node.node_type == aw.NodeType.PARAGRAPH :
-                
+
                 paragraph = revision.parent_node.as_paragraph()
                 if paragraph.is_list_item :
-                    
+
                     print(paragraph.list_label.label_string)
                     print(paragraph.list_format.list_level)
-                    
-                
-            
+
+
+
         #ExEnd:AccessRevisedVersion
-        
+
 
     def test_move_node_in_tracked_document(self) :
-        
+
         #ExStart:MoveNodeInTrackedDocument
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -183,11 +183,11 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         endNode = body.paragraphs[5].next_sibling
         referenceNode = body.paragraphs[0]
         while (node != endNode) :
-            
+
             nextNode = node.next_sibling
             body.insert_before(node, referenceNode)
             node = nextNode
-            
+
 
         # Stop the process of tracking revisions.
         doc.stop_track_revisions()
@@ -196,10 +196,10 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         print("Paragraph count: 0", body.paragraphs.count)
         doc.save(docs_base.artifacts_dir + "WorkingWithRevisions.move_node_in_tracked_document.docx")
         #ExEnd:MoveNodeInTrackedDocument
-        
+
 
     def test_shape_revision(self) :
-        
+
         #ExStart:ShapeRevision
         doc = aw.Document()
 
@@ -239,7 +239,7 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         # The document has one shape that was moved, but shape move revisions will have two instances of that shape.
         # One will be the shape at its arrival destination and the other will be the shape at its original location.
         doc = aw.Document(docs_base.my_dir + "Revision shape.docx")
-            
+
         shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
         self.assertEqual(2, shapes.count)
 
@@ -253,8 +253,8 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         self.assertTrue(shape1.is_move_from_revision)
         self.assertFalse(shape1.is_move_to_revision)
         #ExEnd:ShapeRevision
-        
-    
+
+
 
 if __name__ == '__main__':
     unittest.main()

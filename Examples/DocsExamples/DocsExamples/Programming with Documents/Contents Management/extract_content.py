@@ -15,7 +15,7 @@ import aspose.words as aw
 class ExtractContent(docs_base.DocsExamplesBase):
 
     def test_extract_content_between_block_level_nodes(self) :
-        
+
         #ExStart:ExtractContentBetweenBlockLevelNodes
         doc = aw.Document(docs_base.my_dir + "Extract content.docx")
 
@@ -29,19 +29,19 @@ class ExtractContent(docs_base.DocsExamplesBase):
         extractedNodes.reverse()
 
         while (len(extractedNodes) > 0) :
-            
+
             # Insert the last node from the reversed list.
             endTable.parent_node.insert_after(extractedNodes[0], endTable)
             # Remove this node from the list after insertion.
             del extractedNodes[0]
-            
+
 
         doc.save(docs_base.artifacts_dir + "ExtractContent.extract_content_between_block_level_nodes.docx")
         #ExEnd:ExtractContentBetweenBlockLevelNodes
-        
+
 
     def test_extract_content_between_bookmark(self) :
-        
+
         #ExStart:ExtractContentBetweenBookmark
         doc = aw.Document(docs_base.my_dir + "Extract content.docx")
 
@@ -56,20 +56,20 @@ class ExtractContent(docs_base.DocsExamplesBase):
 
         # Firstly, extract the content between these nodes, including the bookmark.
         extractedNodesInclusive = helper.ExtractContentHelper.extract_content(bookmarkStart, bookmarkEnd, True)
-            
+
         dstDoc = helper.ExtractContentHelper.generate_document(doc, extractedNodesInclusive)
         dstDoc.save(docs_base.artifacts_dir + "ExtractContent.extract_content_between_bookmark.including_bookmark.docx")
 
         # Secondly, extract the content between these nodes this time without including the bookmark.
         extractedNodesExclusive = helper.ExtractContentHelper.extract_content(bookmarkStart, bookmarkEnd, False)
-            
+
         dstDoc = helper.ExtractContentHelper.generate_document(doc, extractedNodesExclusive)
         dstDoc.save(docs_base.artifacts_dir + "ExtractContent.extract_content_between_bookmark.without_bookmark.docx")
         #ExEnd:ExtractContentBetweenBookmark
-        
+
 
     def test_extract_content_between_comment_range(self) :
-        
+
         #ExStart:ExtractContentBetweenCommentRange
         doc = aw.Document(docs_base.my_dir + "Extract content.docx")
 
@@ -80,20 +80,20 @@ class ExtractContent(docs_base.DocsExamplesBase):
 
         # Firstly, extract the content between these nodes including the comment as well.
         extractedNodesInclusive = helper.ExtractContentHelper.extract_content(commentStart, commentEnd, True)
-            
+
         dstDoc = helper.ExtractContentHelper.generate_document(doc, extractedNodesInclusive)
         dstDoc.save(docs_base.artifacts_dir + "ExtractContent.extract_content_between_comment_range.including_comment.docx")
 
         # Secondly, extract the content between these nodes without the comment.
         extractedNodesExclusive = helper.ExtractContentHelper.extract_content(commentStart, commentEnd, False)
-            
+
         dstDoc = helper.ExtractContentHelper.generate_document(doc, extractedNodesExclusive)
         dstDoc.save(docs_base.artifacts_dir + "ExtractContent.extract_content_between_comment_range.without_comment.docx")
         #ExEnd:ExtractContentBetweenCommentRange
-        
+
 
     def test_extract_content_between_paragraphs(self) :
-        
+
         #ExStart:ExtractContentBetweenParagraphs
         doc = aw.Document(docs_base.my_dir + "Extract content.docx")
 
@@ -106,10 +106,10 @@ class ExtractContent(docs_base.DocsExamplesBase):
         dstDoc = helper.ExtractContentHelper.generate_document(doc, extractedNodes)
         dstDoc.save(docs_base.artifacts_dir + "ExtractContent.extract_content_between_paragraphs.docx")
         #ExEnd:ExtractContentBetweenParagraphs
-        
+
 
     def test_extract_content_between_paragraph_styles(self) :
-        
+
         #ExStart:ExtractContentBetweenParagraphStyles
         doc = aw.Document(docs_base.my_dir + "Extract content.docx")
 
@@ -127,10 +127,10 @@ class ExtractContent(docs_base.DocsExamplesBase):
         dstDoc = helper.ExtractContentHelper.generate_document(doc, extractedNodes)
         dstDoc.save(docs_base.artifacts_dir + "ExtractContent.extract_content_between_paragraph_styles.docx")
         #ExEnd:ExtractContentBetweenParagraphStyles
-        
+
 
     def test_extract_content_between_runs(self) :
-        
+
         #ExStart:ExtractContentBetweenRuns
         doc = aw.Document(docs_base.my_dir + "Extract content.docx")
 
@@ -145,10 +145,10 @@ class ExtractContent(docs_base.DocsExamplesBase):
         node = extractedNodes[0]
         print(node.to_string(aw.SaveFormat.TEXT))
         #ExEnd:ExtractContentBetweenRuns
-        
+
 
     def test_extract_content_using_field(self) :
-        
+
         #ExStart:ExtractContentUsingField
         doc = aw.Document(docs_base.my_dir + "Extract content.docx")
         builder = aw.DocumentBuilder(doc)
@@ -167,51 +167,51 @@ class ExtractContent(docs_base.DocsExamplesBase):
         dstDoc = helper.ExtractContentHelper.generate_document(doc, extractedNodes)
         dstDoc.save(docs_base.artifacts_dir + "ExtractContent.extract_content_using_field.docx")
         #ExEnd:ExtractContentUsingField
-        
+
 
     def test_extract_table_of_contents(self) :
-        
+
         #ExStart:ExtractTableOfContents
         doc = aw.Document(docs_base.my_dir + "Table of contents.docx")
 
         for field in doc.range.fields :
-            
+
             if (field.type == aw.fields.FieldType.FIELD_HYPERLINK) :
-                
+
                 hyperlink = field.as_field_hyperlink()
                 if (hyperlink.sub_address != None and hyperlink.sub_address.find("_Toc") == 0) :
-                    
+
                     tocItem = field.start.get_ancestor(aw.NodeType.PARAGRAPH).as_paragraph()
-                        
+
                     print(tocItem.to_string(aw.SaveFormat.TEXT).strip())
                     print("------------------")
 
                     bm = doc.range.bookmarks.get_by_name(hyperlink.sub_address)
                     pointer = bm.bookmark_start.get_ancestor(aw.NodeType.PARAGRAPH).as_paragraph()
-                        
+
                     print(pointer.to_string(aw.SaveFormat.TEXT))
         #ExEnd:ExtractTableOfContents
-                    
-                
+
+
     def test_extract_text_only(self) :
-        
+
         #ExStart:ExtractTextOnly
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
-            
+
         builder.insert_field("MERGEFIELD Field")
 
         print("GetText() Result: " + doc.get_text())
 
         # When converted to text it will not retrieve fields code or special characters,
-        # but will still contain some natural formatting characters such as paragraph markers etc. 
+        # but will still contain some natural formatting characters such as paragraph markers etc.
         # This is the same as "viewing" the document as if it was opened in a text editor.
         print("ToString() Result: " + doc.to_string(aw.SaveFormat.TEXT))
-        #ExEnd:ExtractTextOnly            
-        
+        #ExEnd:ExtractTextOnly
+
 
     def test_extract_content_based_on_styles(self) :
-        
+
         #ExStart:ExtractContentBasedOnStyles
         doc = aw.Document(docs_base.my_dir + "Styles.docx")
 
@@ -220,56 +220,56 @@ class ExtractContent(docs_base.DocsExamplesBase):
 
         paragraphs = ExtractContent.paragraphs_by_style_name(doc, paraStyle)
         print(f"Paragraphs with \"{paraStyle}\" styles ({len(paragraphs)}):")
-            
+
         for paragraph in paragraphs :
             print(paragraph.to_string(aw.SaveFormat.TEXT))
 
         runs = ExtractContent.runs_by_style_name(doc, runStyle)
         print(f"\nRuns with \"{runStyle}\" styles ({len(runs)}):")
-            
+
         for run in runs :
             print(run.range.text)
         #ExEnd:ExtractContentBasedOnStyles
-        
+
 
     #ExStart:ParagraphsByStyleName
     @staticmethod
     def paragraphs_by_style_name(doc : aw.Document, styleName : str) :
-        
+
         paragraphsWithStyle = []
         paragraphs = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)
-            
+
         for paragraph in paragraphs :
             paragraph = paragraph.as_paragraph()
             if (paragraph.paragraph_format.style.name == styleName) :
                 paragraphsWithStyle.append(paragraph)
 
         return paragraphsWithStyle
-        
+
     #ExEnd:ParagraphsByStyleName
-        
+
     #ExStart:RunsByStyleName
     @staticmethod
     def runs_by_style_name(doc : aw.Document, styleName : str) :
-        
+
         runsWithStyle = []
         runs = doc.get_child_nodes(aw.NodeType.RUN, True)
-            
+
         for run in runs :
             run = run.as_run()
             if (run.font.style.name == styleName) :
                 runsWithStyle.append(run)
 
         return runsWithStyle
-        
+
     #ExEnd:RunsByStyleName
 
     def test_extract_print_text(self) :
-        
+
         #ExStart:ExtractText
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
 
-            
+
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
         # The range text will include control characters such as "\a" for a cell.
@@ -277,7 +277,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
 
         print("Contents of the table: ")
         print(table.range.text)
-        #ExEnd:ExtractText   
+        #ExEnd:ExtractText
 
         #ExStart:PrintTextRangeOFRowAndTable
         print("\nContents of the row: ")
@@ -286,28 +286,28 @@ class ExtractContent(docs_base.DocsExamplesBase):
         print("\nContents of the cell: ")
         print(table.last_row.last_cell.range.text)
         #ExEnd:PrintTextRangeOFRowAndTable
-        
+
 
     def test_extract_images_to_files(self) :
-        
+
         #ExStart:ExtractImagesToFiles
         doc = aw.Document(docs_base.my_dir + "Images.docx")
 
         shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
         imageIndex = 0
-            
+
         for shape in shapes :
             shape = shape.as_shape()
             if (shape.has_image) :
-                
+
                 imageFileName = f"Image.ExportImages.{imageIndex}_{aw.FileFormatUtil.image_type_to_extension(shape.image_data.image_type)}"
 
                 shape.image_data.save(docs_base.artifacts_dir + imageFileName)
                 imageIndex += 1
-                
+
         #ExEnd:ExtractImagesToFiles
-        
-    
+
+
 
 if __name__ == '__main__':
     unittest.main()

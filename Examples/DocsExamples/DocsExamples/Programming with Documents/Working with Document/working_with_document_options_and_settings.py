@@ -12,9 +12,9 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
-    
+
     def test_optimize_for_ms_word(self) :
-        
+
         #ExStart:OptimizeForMsWord
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
@@ -22,10 +22,10 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithDocumentOptionsAndSettings.optimize_for_ms_word.docx")
         #ExEnd:OptimizeForMsWord
-        
+
 
     def test_show_grammatical_and_spelling_errors(self) :
-        
+
         #ExStart:ShowGrammaticalAndSpellingErrors
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
@@ -34,10 +34,10 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithDocumentOptionsAndSettings.show_grammatical_and_spelling_errors.docx")
         #ExEnd:ShowGrammaticalAndSpellingErrors
-        
+
 
     def test_cleanup_unused_styles_and_lists(self) :
-        
+
         #ExStart:CleanupUnusedStylesandLists
         doc = aw.Document(docs_base.my_dir + "Unused styles.docx")
 
@@ -47,10 +47,10 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
         print(f"Count of styles before Cleanup: {doc.styles.count}\n" +
                             f"Count of lists before Cleanup: {doc.lists.count}")
 
-        # Cleans unused styles and lists from the document depending on given CleanupOptions. 
+        # Cleans unused styles and lists from the document depending on given CleanupOptions.
         cleanupOptions = aw.CleanupOptions()
         cleanupOptions.unused_lists = False
-        cleanupOptions.unused_styles = True 
+        cleanupOptions.unused_styles = True
         doc.cleanup(cleanupOptions)
 
         print(f"Count of styles after Cleanup was decreased: {doc.styles.count}\n" +
@@ -58,10 +58,10 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithDocumentOptionsAndSettings.cleanup_unused_styles_and_lists.docx")
         #ExEnd:CleanupUnusedStylesandLists
-        
+
 
     def test_cleanup_duplicate_style(self) :
-        
+
         #ExStart:CleanupDuplicateStyle
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
@@ -70,7 +70,7 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
 
         # Cleans duplicate styles from the document.
         options = aw.CleanupOptions()
-        options.duplicate_style = True 
+        options.duplicate_style = True
         doc.cleanup(options)
 
         # Count of styles after Cleanup was decreased.
@@ -78,22 +78,22 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithDocumentOptionsAndSettings.cleanup_duplicate_style.docx")
         #ExEnd:CleanupDuplicateStyle
-        
+
 
     def test_view_options(self) :
-        
+
         #ExStart:SetViewOption
         doc = aw.Document(docs_base.my_dir + "Document.docx")
-            
+
         doc.view_options.view_type = aw.settings.ViewType.PAGE_LAYOUT
         doc.view_options.zoom_percent = 50
 
         doc.save(docs_base.artifacts_dir + "WorkingWithDocumentOptionsAndSettings.view_options.docx")
         #ExEnd:SetViewOption
-        
+
 
     def test_document_page_setup(self) :
-        
+
         #ExStart:DocumentPageSetup
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
@@ -106,13 +106,13 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithDocumentOptionsAndSettings.document_page_setup.docx")
         #ExEnd:DocumentPageSetup
-        
+
 
     def test_add_japanese_as_editing_languages(self) :
-        
+
         #ExStart:AddJapaneseAsEditinglanguages
         loadOptions = aw.loading.LoadOptions()
-            
+
         # Set language preferences that will be used when document is loading.
         loadOptions.language_preferences.add_editing_language(aw.loading.EditingLanguage.JAPANESE)
         #ExEnd:AddJapaneseAsEditinglanguages
@@ -122,10 +122,10 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
         localeIdFarEast = doc.styles.default_font.locale_id_far_east
         print("The document either has no any FarEast language set in defaults or it was set to Japanese originally." if (localeIdFarEast == aw.loading.EditingLanguage.JAPANESE)
                 else "The document default FarEast language was set to another than Japanese language originally, so it is not overridden.")
-        
+
 
     def test_set_russian_as_default_editing_language(self) :
-        
+
         #ExStart:SetRussianAsDefaultEditingLanguage
         loadOptions = aw.loading.LoadOptions()
         loadOptions.language_preferences.default_editing_language = aw.loading.EditingLanguage.RUSSIAN
@@ -136,10 +136,10 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
         print("The document either has no any language set in defaults or it was set to Russian originally." if (localeId == aw.loading.EditingLanguage.RUSSIAN)
                 else "The document default language was set to another than Russian language originally, so it is not overridden.")
         #ExEnd:SetRussianAsDefaultEditingLanguage
-        
+
 
     def test_set_page_setup_and_section_formatting(self) :
-        
+
         #ExStart:DocumentBuilderSetPageSetupAndSectionFormatting
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -150,8 +150,8 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithDocumentOptionsAndSettings.set_page_setup_and_section_formatting.docx")
         #ExEnd:DocumentBuilderSetPageSetupAndSectionFormatting
-        
-    
+
+
 
 if __name__ == '__main__':
     unittest.main()

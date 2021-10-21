@@ -12,9 +12,9 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class WorkingWithTxtSaveOptions(docs_base.DocsExamplesBase):
-    
+
     def test_add_bidi_marks(self) :
-        
+
         #ExStart:AddBidiMarks
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -25,14 +25,14 @@ class WorkingWithTxtSaveOptions(docs_base.DocsExamplesBase):
         builder.writeln("مرحبا بالعالم!")
 
         saveOptions = aw.saving.TxtSaveOptions()
-        saveOptions.add_bidi_marks = True 
+        saveOptions.add_bidi_marks = True
 
         doc.save(docs_base.artifacts_dir + "WorkingWithTxtSaveOptions.add_bidi_marks.txt", saveOptions)
         #ExEnd:AddBidiMarks
-        
+
 
     def test_use_tab_character_per_level_for_list_indentation(self) :
-        
+
         #ExStart:UseTabCharacterPerLevelForListIndentation
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -42,7 +42,7 @@ class WorkingWithTxtSaveOptions(docs_base.DocsExamplesBase):
         builder.writeln("Item 1")
         builder.list_format.list_indent()
         builder.writeln("Item 2")
-        builder.list_format.list_indent() 
+        builder.list_format.list_indent()
         builder.write("Item 3")
 
         saveOptions = aw.saving.TxtSaveOptions()
@@ -51,10 +51,10 @@ class WorkingWithTxtSaveOptions(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithTxtSaveOptions.use_tab_character_per_level_for_list_indentation.txt", saveOptions)
         #ExEnd:UseTabCharacterPerLevelForListIndentation
-        
+
 
     def test_use_space_character_per_level_for_list_indentation(self) :
-        
+
         #ExStart:UseSpaceCharacterPerLevelForListIndentation
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -64,7 +64,7 @@ class WorkingWithTxtSaveOptions(docs_base.DocsExamplesBase):
         builder.writeln("Item 1")
         builder.list_format.list_indent()
         builder.writeln("Item 2")
-        builder.list_format.list_indent() 
+        builder.list_format.list_indent()
         builder.write("Item 3")
 
         saveOptions = aw.saving.TxtSaveOptions()
@@ -73,7 +73,7 @@ class WorkingWithTxtSaveOptions(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithTxtSaveOptions.use_space_character_per_level_for_list_indentation.txt", saveOptions)
         #ExEnd:UseSpaceCharacterPerLevelForListIndentation
-        
+
     def test_export_headers_footers_mode(self) :
 
         #ExStart:ExportHeadersFootersMode
@@ -94,7 +94,7 @@ class WorkingWithTxtSaveOptions(docs_base.DocsExamplesBase):
         options.export_headers_footers_mode = aw.saving.TxtExportHeadersFootersMode.NONE
         doc.save(docs_base.artifacts_dir + "WorkingWithTxtSaveOptions.export_headers_footers_mode_C.txt", options)
         #ExEnd:ExportHeadersFootersMode
-    
+
 
 if __name__ == '__main__':
     unittest.main()

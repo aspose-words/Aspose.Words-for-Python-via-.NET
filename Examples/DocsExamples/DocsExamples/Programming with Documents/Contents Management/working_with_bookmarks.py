@@ -12,21 +12,21 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class WorkingWithBookmarks(docs_base.DocsExamplesBase):
-    
+
     def test_access_bookmarks(self) :
-        
+
         #ExStart:AccessBookmarks
         doc = aw.Document(docs_base.my_dir + "Bookmarks.docx")
-            
+
         # By index:
         bookmark1 = doc.range.bookmarks[0]
         # By name:
         bookmark2 = doc.range.bookmarks.get_by_name("MyBookmark3")
         #ExEnd:AccessBookmarks
-        
+
 
     def test_update_bookmark_data(self) :
-        
+
         #ExStart:UpdateBookmarkData
         doc = aw.Document(docs_base.my_dir + "Bookmarks.docx")
 
@@ -38,16 +38,16 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
         bookmark.name = "RenamedBookmark"
         bookmark.text = "This is a new bookmarked text."
         #ExEnd:UpdateBookmarkData
-        
+
 
     def test_bookmark_table_columns(self) :
-        
+
         #ExStart:BookmarkTable
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         builder.start_table()
-            
+
         builder.insert_cell()
 
         builder.start_bookmark("MyBookmark")
@@ -67,27 +67,27 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
 
         builder.end_row()
         builder.end_table()
-            
+
         builder.end_bookmark("MyBookmark")
         #ExEnd:BookmarkTable
 
         #ExStart:BookmarkTableColumns
         for bookmark in doc.range.bookmarks :
-            
+
             print("Bookmark: " + bookmark.name + " (Column)" if bookmark.is_column else "")
 
             if (bookmark.is_column) :
-                
-                row = bookmark.bookmark_start.get_ancestor(aw.NodeType.ROW).as_row() 
+
+                row = bookmark.bookmark_start.get_ancestor(aw.NodeType.ROW).as_row()
                 if (bookmark.first_column < row.cells.count) :
                     print(row.cells[bookmark.first_column].get_text().trim_end(aw.ControlChar.CELL_CHAR))
-                
-            
+
+
         #ExEnd:BookmarkTableColumns
-        
+
 
     def test_copy_bookmarked_text(self) :
-        
+
         srcDoc = aw.Document(docs_base.my_dir + "Bookmarks.docx")
 
         # This is the bookmark whose content we want to copy.
@@ -103,9 +103,9 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
         importer = aw.NodeImporter(srcDoc, dstDoc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
         self.append_bookmarked_text(importer, srcBookmark, dstNode)
-            
+
         dstDoc.save(docs_base.artifacts_dir + "WorkingWithBookmarks.copy_bookmarked_text.docx")
-        
+
 
     # <summary>
     # Copies content of the bookmark and adds it to the end of the specified node.
@@ -116,7 +116,7 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
     # <param name="dstNode">Must be a node that can contain paragraphs (such as a Story).</param>
     @staticmethod
     def append_bookmarked_text(importer : aw.NodeImporter, srcBookmark : aw.Bookmark, dstNode : aw.CompositeNode) :
-        
+
         # This is the paragraph that contains the beginning of the bookmark.
         startPara = srcBookmark.bookmark_start.parent_node.as_paragraph()
 
@@ -136,17 +136,17 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
 
         curNode = startPara
         while(curNode != endNode) :
-            
+
             # This creates a copy of the current node and imports it (makes it valid) in the context
             # of the destination document. Importing means adjusting styles and list identifiers correctly.
             newNode = importer.import_node(curNode, True)
             dstNode.append_child(newNode)
             curNode = curNode.next_sibling
-            
-        
+
+
 
     def test_create_bookmark(self) :
-        
+
         #ExStart:CreateBookmark
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -167,23 +167,23 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithBookmarks.create_bookmark.pdf", options)
         #ExEnd:CreateBookmark
-        
+
 
     def test_show_hide_bookmarks(self) :
-        
+
         #ExStart:ShowHideBookmarks
         doc = aw.Document(docs_base.my_dir + "Bookmarks.docx")
 
         self.show_hide_bookmarked_content(doc, "MyBookmark1", False)
-            
+
         doc.save(docs_base.artifacts_dir + "WorkingWithBookmarks.show_hide_bookmarks.docx")
         #ExEnd:ShowHideBookmarks
-        
+
 
     #ExStart:ShowHideBookmarkedContent
     @staticmethod
     def show_hide_bookmarked_content(doc : aw.Document, bookmarkName : str, showHide : bool) :
-        
+
         bm = doc.range.bookmarks.get_by_name(bookmarkName)
 
         builder = aw.DocumentBuilder(doc)
@@ -201,7 +201,7 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
         currentNode = field.start
         flag = True
         while (currentNode != None and flag) :
-            
+
             if (currentNode.node_type == aw.NodeType.RUN) :
                 if (currentNode.to_string(aw.SaveFormat.TEXT).strip() == "\"") :
                     flag = False
@@ -210,12 +210,12 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
 
             bm.bookmark_start.parent_node.insert_before(currentNode, bm.bookmark_start)
             currentNode = nextNode
-            
+
 
         endNode = bm.bookmark_end
         flag = True
         while (currentNode != None and flag) :
-            
+
             if (currentNode.node_type == aw.NodeType.FIELD_END) :
                 flag = False
 
@@ -224,14 +224,14 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
             bm.bookmark_end.parent_node.insert_after(currentNode, endNode)
             endNode = currentNode
             currentNode = nextNode
-            
+
 
         doc.mail_merge.execute([ bookmarkName ], [ showHide ])
-        
+
     #ExEnd:ShowHideBookmarkedContent
 
     def test_untangle_row_bookmarks(self) :
-        
+
         doc = aw.Document(docs_base.my_dir + "Table column bookmarks.docx")
 
         # This performs the custom task of putting the row bookmark ends into the same row with the bookmark starts.
@@ -245,13 +245,13 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
             raise RuntimeError("Wrong, the end of the bookmark was deleted.")
 
         doc.save(docs_base.artifacts_dir + "WorkingWithBookmarks.untangle_row_bookmarks.docx")
-        
+
 
     @staticmethod
     def untangle(doc : aw.Document) :
-        
+
         for bookmark in doc.range.bookmarks :
-            
+
             # Get the parent row of both the bookmark and bookmark end node.
             row1 = bookmark.bookmark_start.get_ancestor(aw.NodeType.ROW)
             row2 = bookmark.bookmark_end.get_ancestor(aw.NodeType.ROW)
@@ -260,19 +260,19 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
             # move the bookmark end node to the end of the last paragraph in the top row's last cell.
             if (row1 != None and row2 != None and row1.next_sibling == row2) :
                 row1.as_row().last_cell.last_paragraph.append_child(bookmark.bookmark_end)
-            
-        
+
+
     @staticmethod
     def delete_row_by_bookmark(doc : aw.Document, bookmarkName : str) :
-        
+
         bookmark = doc.range.bookmarks.get_by_name(bookmarkName)
 
         if(bookmark != None) :
             row = bookmark.bookmark_start.get_ancestor(aw.NodeType.ROW)
             if(row != None) :
                 row.remove()
-        
-    
+
+
 
 
 if __name__ == '__main__':

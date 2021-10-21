@@ -13,9 +13,9 @@ import aspose.words as aw
 
 class WorkingWithImages(docs_base.DocsExamplesBase):
 
-    
+
     def test_add_image_to_each_page(self) :
-        
+
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
         # Create and attach collector before the document before page layout is built.
@@ -26,18 +26,18 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         for page in range(1, doc.page_count) :
             for para in doc.first_section.body.paragraphs :
                 para = para.as_paragraph()
-                
+
                 # Check if the current paragraph belongs to the target page.
                 if (layoutCollector.get_start_page_index(para) == page) :
                     self.add_image_to_page(paragraph, page, docs_base.images_dir)
                     break
-            
+
 
         # If we need to save the document as a PDF or image, call UpdatePageLayout() method.
         doc.update_page_layout()
 
         doc.save(docs_base.artifacts_dir + "WorkingWithImages.add_image_to_each_page.docx")
-        
+
 
     # <summary>
     # Adds an image to a page using the supplied paragraph.
@@ -46,7 +46,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
     # <param name="page">The page number the paragraph appears on.</param>
     @staticmethod
     def add_image_to_page(para : aw.Paragraph, page : int, imagesDir : str) :
-        
+
         doc = para.document.as_document()
 
         builder = aw.DocumentBuilder(doc)
@@ -73,10 +73,10 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         builder.insert_node(textBox)
         builder.move_to(textBox.first_child)
         builder.writeln("This is a custom note for page " + page)
-        
+
 
     def test_insert_barcode_image(self) :
-        
+
         #ExStart:InsertBarcodeImage
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -87,7 +87,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         self.insert_barcode_into_footer(builder, doc.first_section, aw.HeaderFooterType.FOOTER_PRIMARY)
 
         for i in range(1, numPages) :
-            
+
             # Clone the first section and add it into the end of the document
             cloneSection = doc.first_section.clone(False).as_section()
             cloneSection.page_setup.section_start = aw.SectionStart.NEW_PAGE
@@ -95,18 +95,18 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
 
             # Insert the barcode and other information into the footer of the section
             self.insert_barcode_into_footer(builder, cloneSection, aw.HeaderFooterType.FOOTER_PRIMARY)
-            
+
 
         # Save the document as a PDF to disk
         # You can also save this directly to a stream
         doc.save(docs_base.artifacts_dir + "InsertBarcodeImage.docx")
         #ExEnd:InsertBarcodeImage
-        
+
 
     #ExStart:InsertBarcodeIntoFooter
     @staticmethod
     def insert_barcode_into_footer(builder : aw.DocumentBuilder, section : aw.Section, footerType : aw.HeaderFooterType) :
-        
+
         # Move to the footer type in the specific section.
         builder.move_to_section(section.document.index_of(section))
         builder.move_to_header_footer(footerType)
@@ -127,7 +127,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         builder.insert_field("PAGE")
         builder.write(" of ")
         builder.insert_field("NUMPAGES")
-        
+
     #ExEnd:InsertBarcodeIntoFooter
 
     def test_document_builder_insert_inline_image(self) :
@@ -199,7 +199,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
     #ExStart:CropImage
     @staticmethod
     def crop_image(inPath : str, outPath : str, left : int, top : int, width : int, height : int) :
-    
+
         doc = aw.Document();
         builder = aw.DocumentBuilder(doc)
 

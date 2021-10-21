@@ -12,9 +12,9 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class WorkingWithPclSaveOptions(docs_base.DocsExamplesBase):
-    
+
     def test_rasterize_transformed_elements(self) :
-        
+
         #ExStart:RasterizeTransformedElements
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
@@ -24,8 +24,8 @@ class WorkingWithPclSaveOptions(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithPclSaveOptions.rasterize_transformed_elements.pcl", saveOptions)
         #ExEnd:RasterizeTransformedElements
-        
-    
+
+
 
 if __name__ == '__main__':
     unittest.main()

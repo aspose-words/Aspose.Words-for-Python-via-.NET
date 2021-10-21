@@ -13,9 +13,9 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 class DocumentFormatting(docs_base.DocsExamplesBase):
-    
+
         def test_space_between_asian_and_latin_text(self) :
-        
+
             #ExStart:SpaceBetweenAsianAndLatinText
             doc = aw.Document()
             builder = aw.DocumentBuilder(doc)
@@ -29,10 +29,10 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
 
             doc.save(docs_base.artifacts_dir + "DocumentFormatting.space_between_asian_and_latin_text.docx")
             #ExEnd:SpaceBetweenAsianAndLatinText
-        
+
 
         def test_asian_typography_line_break_group(self) :
-        
+
             #ExStart:AsianTypographyLineBreakGroup
             doc = aw.Document(docs_base.my_dir + "Asian typography.docx")
 
@@ -43,10 +43,10 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
 
             doc.save(docs_base.artifacts_dir + "DocumentFormatting.asian_typography_line_break_group.docx")
             #ExEnd:AsianTypographyLineBreakGroup
-        
+
 
         def test_paragraph_formatting(self) :
-        
+
             #ExStart:ParagraphFormatting
             doc = aw.Document()
             builder = aw.DocumentBuilder(doc)
@@ -64,10 +64,10 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
 
             doc.save(docs_base.artifacts_dir + "DocumentFormatting.paragraph_formatting.docx")
             #ExEnd:ParagraphFormatting
-        
+
 
         def test_multilevel_list_formatting(self) :
-        
+
             #ExStart:MultilevelListFormatting
             doc = aw.Document()
             builder = aw.DocumentBuilder(doc)
@@ -79,7 +79,7 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
             builder.list_format.list_indent()
             builder.writeln("Item 2.1")
             builder.writeln("Item 2.2")
-            
+
             builder.list_format.list_indent()
             builder.writeln("Item 2.2.1")
             builder.writeln("Item 2.2.2")
@@ -91,26 +91,26 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
             builder.writeln("Item 3")
 
             builder.list_format.remove_numbers()
-            
+
             doc.save(docs_base.artifacts_dir + "DocumentFormatting.multilevel_list_formatting.docx")
             #ExEnd:MultilevelListFormatting
-        
+
 
         def test_apply_paragraph_style(self) :
-        
+
             #ExStart:ApplyParagraphStyle
             doc = aw.Document()
             builder = aw.DocumentBuilder(doc)
 
             builder.paragraph_format.style_identifier = aw.StyleIdentifier.TITLE
             builder.write("Hello")
-            
+
             doc.save(docs_base.artifacts_dir + "DocumentFormatting.apply_paragraph_style.docx")
             #ExEnd:ApplyParagraphStyle
-        
+
 
         def test_apply_borders_and_shading_to_paragraph(self) :
-        
+
             #ExStart:ApplyBordersAndShadingToParagraph
             doc = aw.Document()
             builder = aw.DocumentBuilder(doc)
@@ -128,13 +128,13 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
             shading.foreground_pattern_color = drawing.Color.light_salmon
 
             builder.write("I'm a formatted paragraph with double border and nice shading.")
-            
+
             doc.save(docs_base.artifacts_dir + "DocumentFormatting.apply_borders_and_shading_to_paragraph.doc")
             #ExEnd:ApplyBordersAndShadingToParagraph
-        
-        
+
+
         def test_change_asian_paragraph_spacing_and_indents(self) :
-        
+
             #ExStart:ChangeAsianParagraphSpacingAndIndents
             doc = aw.Document(docs_base.my_dir + "Asian typography.docx")
 
@@ -147,10 +147,10 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
 
             doc.save(docs_base.artifacts_dir + "DocumentFormatting.change_asian_paragraph_spacing_and_indents.doc")
             #ExEnd:ChangeAsianParagraphSpacingAndIndents
-        
+
 
         def test_snap_to_grid(self) :
-        
+
             #ExStart:SetSnapToGrid
             doc = aw.Document()
             builder = aw.DocumentBuilder(doc)
@@ -161,15 +161,15 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
 
             builder.writeln("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod " +
                             "tempor incididunt ut labore et dolore magna aliqua.")
-            
+
             par.runs[0].font.snap_to_grid = True
 
             doc.save(docs_base.artifacts_dir + "Paragraph.snap_to_grid.docx")
             #ExEnd:SetSnapToGrid
-        
+
 
         def test_get_paragraph_style_separator(self) :
-        
+
             #ExStart:GetParagraphStyleSeparator
             doc = aw.Document(docs_base.my_dir + "Document.docx")
 
@@ -178,8 +178,8 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
                 if (paragraph.break_is_style_separator) :
                     print("Separator Found!")
             #ExEnd:GetParagraphStyleSeparator
-        
-    
+
+
 
 if __name__ == '__main__':
         unittest.main()

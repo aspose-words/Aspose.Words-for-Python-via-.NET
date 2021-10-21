@@ -13,9 +13,9 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class Tables(docs_base.DocsExamplesBase):
-    
+
     def test_in_table_alternate_content(self) :
-        
+
         #ExStart:InTableAlternateContent
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Total.docx")
 
@@ -26,10 +26,10 @@ class Tables(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "ReportingEngine.in_table_alternate_content.docx")
         #ExEnd:InTableAlternateContent
-        
+
 
     def test_in_table_master_detail(self) :
-        
+
         #ExStart:InTableMasterDetail
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Nested data table.docx")
 
@@ -38,10 +38,10 @@ class Tables(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "ReportingEngine.in_table_master_detail.docx")
         #ExEnd:InTableMasterDetail
-        
+
 
     def test_in_table_with_filtering_grouping_sorting(self) :
-        
+
         #ExStart:InTableWithFilteringGroupingSorting
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Table with filtering.docx")
 
@@ -50,8 +50,8 @@ class Tables(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "ReportingEngine.in_table_with_filtering_grouping_sorting.docx")
         #ExEnd:InTableWithFilteringGroupingSorting
-        
-    
+
+
 
 if __name__ == '__main__':
     unittest.main()

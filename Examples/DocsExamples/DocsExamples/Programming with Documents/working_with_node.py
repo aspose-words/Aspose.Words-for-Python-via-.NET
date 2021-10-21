@@ -13,19 +13,19 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 class WorkingWithNode(docs_base.DocsExamplesBase):
-    
+
     def test_use_node_type(self) :
-        
-        #ExStart:UseNodeType            
+
+        #ExStart:UseNodeType
         doc = aw.Document()
-            
+
         type = doc.node_type
         #ExEnd:UseNodeType
-        
+
 
     def test_get_parent_node(self) :
-        
-        #ExStart:GetParentNode           
+
+        #ExStart:GetParentNode
         doc = aw.Document()
 
         # The section is the first child node of the document.
@@ -33,11 +33,11 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
 
         # The section's parent node is the document.
         print(f"Section parent is the document: {doc == section.parent_node}")
-        #ExEnd:GetParentNode           
-        
+        #ExEnd:GetParentNode
+
 
     def test_owner_document(self) :
-        
+
         #ExStart:OwnerDocument
         doc = aw.Document()
 
@@ -60,68 +60,68 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
         # The paragraph node is now a child of the Body node.
         print(f"Paragraph has a parent node: {para.parent_node != None}")
         #ExEnd:OwnerDocument
-        
+
 
     def test_enumerate_child_nodes(self) :
-        
-        #ExStart:EnumerateChildNodes 
+
+        #ExStart:EnumerateChildNodes
         doc = aw.Document()
         paragraph = doc.get_child(aw.NodeType.PARAGRAPH, 0, True).as_paragraph()
 
         children = paragraph.child_nodes
         for child in children :
-            
+
             # A paragraph may contain children of various types such as runs, shapes, and others.
             if child.node_type == aw.NodeType.RUN :
-                
+
                 run = child.as_run()
                 print(run.text)
-                
-            
-        #ExEnd:EnumerateChildNodes
-        
 
-    
+
+        #ExEnd:EnumerateChildNodes
+
+
+
     #ExStart:RecurseAllNodes
     def test_recurse_all_nodes(self) :
-        
+
         doc = aw.Document(docs_base.my_dir + "Paragraphs.docx")
 
         # Invoke the recursive function that will walk the tree.
         self.traverse_all_nodes(doc)
-        
+
 
     # <summary>
-    # A simple function that will walk through all children of a specified node recursively 
+    # A simple function that will walk through all children of a specified node recursively
     # and print the type of each node to the screen.
     # </summary>
     def traverse_all_nodes(self, parentNode) :
-        
+
         # This is the most efficient way to loop through immediate children of a node.
         for childNode in parentNode.child_nodes :
-            
+
             print(aw.Node.node_type_to_string(childNode.node_type))
 
             # Recurse into the node if it is a composite node.
             if childNode.is_composite :
                 self.traverse_all_nodes(childNode.as_composite_node())
-            
-        
+
+
     #ExEnd:RecurseAllNodes
 
     def test_typed_access(self) :
-        
+
         #ExStart:TypedAccess
         doc = aw.Document()
 
         section = doc.first_section
         body = section.body
-            
+
         # Quick typed access to all Table child nodes contained in the Body.
         tables = body.tables
 
         for table in tables :
-            
+
             # Quick typed access to the first row of the table.
             if table.first_row != None :
                 table.first_row.remove()
@@ -129,12 +129,12 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
             # Quick typed access to the last row of the table.
             if table.last_row != None :
                 table.last_row.remove()
-            
+
         #ExEnd:TypedAccess
-        
+
 
     def test_create_and_add_paragraph_node(self) :
-        
+
         #ExStart:CreateAndAddParagraphNode
         doc = aw.Document()
 
@@ -151,12 +151,12 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
         # Get the first Run node and cast it to Run object.
         run = doc.get_child(aw.NodeType.RUN, 0, True).as_shape()
 
-        # Make changes to the run 
+        # Make changes to the run
         run.font.color = drawing.Color.red
 
         # Save the result
         doc.save(docs_base.artifacts_dir + "WorkingWithNode.change_run_color.docx")
-    
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -12,9 +12,9 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class WorkingWithMarkdown(docs_base.DocsExamplesBase):
-    
+
     def test_create_markdown_document(self) :
-        
+
         #ExStart:CreateMarkdownDocument
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -61,7 +61,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.paragraph_format.style_name = "Quote1"
         builder.writeln("A nested Quote block")
 
-        # Reset paragraph style to Normal to stop Quote blocks. 
+        # Reset paragraph style to Normal to stop Quote blocks.
         builder.paragraph_format.style_name = "Normal"
 
         # Specify a Hyperlink for the desired text.
@@ -81,10 +81,10 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         # Save your document as a Markdown file.
         doc.save(docs_base.artifacts_dir + "WorkingWithMarkdown.create_markdown_document.md")
         #ExEnd:CreateMarkdownDocument
-        
+
 
     def test_read_markdown_document(self) :
-        
+
         #ExStart:ReadMarkdownDocument
         doc = aw.Document(docs_base.my_dir + "Quotes.md")
 
@@ -94,10 +94,10 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithMarkdown.read_markdown_document.md")
         #ExEnd:ReadMarkdownDocument
-        
+
 
     def test_emphases(self) :
-        
+
         #ExStart:Emphases
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -129,10 +129,10 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
 
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.emphases.md")
         #ExEnd:Emphases
-        
+
 
     def test_headings(self) :
-        
+
         #ExStart:Headings
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -163,45 +163,45 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithMarkdown.headings.md")
         #ExEnd:Headings
-        
+
 
     def test_block_quotes(self) :
-        
+
         #ExStart:BlockQuotes
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         builder.writeln("We support blockquotes in Markdown:")
-            
+
         builder.paragraph_format.style = doc.styles.get_by_name("Quote")
         builder.writeln("Lorem")
         builder.writeln("ipsum")
-            
+
         builder.paragraph_format.style = doc.styles.get_by_name("Normal")
         builder.writeln("The quotes can be of any level and can be nested:")
-            
+
         quoteLevel3 = doc.styles.add(aw.StyleType.PARAGRAPH, "Quote2")
         builder.paragraph_format.style = quoteLevel3
         builder.writeln("Quote level 3")
-            
+
         quoteLevel4 = doc.styles.add(aw.StyleType.PARAGRAPH, "Quote3")
         builder.paragraph_format.style = quoteLevel4
         builder.writeln("Nested quote level 4")
-            
+
         builder.paragraph_format.style = doc.styles.get_by_name("Quote")
         builder.writeln()
         builder.writeln("Back to first level")
-            
+
         quoteLevel1WithHeading = doc.styles.add(aw.StyleType.PARAGRAPH, "Quote Heading 3")
         builder.paragraph_format.style = quoteLevel1WithHeading
         builder.write("Headings are allowed inside Quotes")
 
         doc.save(docs_base.artifacts_dir + "WorkingWithMarkdown.block_quotes.md")
         #ExEnd:BlockQuotes
-        
+
 
     def test_horizontal_rule(self) :
-        
+
         #ExStart:HorizontalRule
         builder = aw.DocumentBuilder()
 
@@ -236,7 +236,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
 
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.italic_text_example.md")
         #ExEnd:ItalicText
-        
+
     def test_strikethrough_text(self) :
 
         #ExStart:Strikethrough
@@ -293,7 +293,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
 
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.link_example.md")
         #ExEnd:Link
-    
+
     def test_image(self) :
 
         #ExStart:Image

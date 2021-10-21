@@ -13,9 +13,9 @@ import aspose.words as aw
 
 class WorkingWithOfficeMath(docs_base.DocsExamplesBase):
 
-    
+
     def test_math_equations(self) :
-        
+
         #ExStart:MathEquations
         doc = aw.Document(docs_base.my_dir + "Office math.docx")
         officeMath = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
@@ -26,8 +26,8 @@ class WorkingWithOfficeMath(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithOfficeMath.math_equations.docx")
         #ExEnd:MathEquations
-        
-    
+
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -12,9 +12,9 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class WorkingWithWebExtension(docs_base.DocsExamplesBase):
-    
+
         def test_using_web_extension_task_panes(self) :
-        
+
             #ExStart:UsingWebExtensionTaskPanes
             doc = aw.Document()
 
@@ -35,20 +35,20 @@ class WorkingWithWebExtension(docs_base.DocsExamplesBase):
 
             doc.save(docs_base.artifacts_dir + "WorkingWithWebExtension.using_web_extension_task_panes.docx")
             #ExEnd:UsingWebExtensionTaskPanes
-            
+
             #ExStart:GetListOfAddins
             doc = aw.Document(docs_base.artifacts_dir + "WorkingWithWebExtension.using_web_extension_task_panes.docx")
-            
+
             print("Task panes sources:\n")
 
             for taskPaneInfo in doc.web_extension_task_panes :
-            
+
                 reference = taskPaneInfo.web_extension.reference
                 print(f"Provider: \"{reference.store}\", version: \"{reference.version}\", catalog identifier: \"{reference.id}\"")
-            
+
             #ExEnd:GetListOfAddins
-        
-    
+
+
 
 if __name__ == '__main__':
         unittest.main()

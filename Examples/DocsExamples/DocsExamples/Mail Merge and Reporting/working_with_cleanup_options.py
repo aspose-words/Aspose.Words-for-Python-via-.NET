@@ -12,10 +12,10 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class WorkingWithCleanupOptions(docs_base.DocsExamplesBase):
-    
+
 
         def test_cleanup_paragraphs_with_punctuation_marks(self) :
-        
+
             #ExStart:CleanupParagraphsWithPunctuationMarks
             doc = aw.Document()
             builder = aw.DocumentBuilder(doc)
@@ -38,10 +38,10 @@ class WorkingWithCleanupOptions(docs_base.DocsExamplesBase):
 
             doc.save(docs_base.artifacts_dir + "WorkingWithCleanupOptions.cleanup_paragraphs_with_punctuation_marks.docx")
             #ExEnd:CleanupParagraphsWithPunctuationMarks
-        
+
 
         def test_remove_empty_paragraphs(self) :
-        
+
             #ExStart:RemoveEmptyParagraphs
             doc = aw.Document(docs_base.my_dir + "Table with fields.docx")
 
@@ -52,10 +52,10 @@ class WorkingWithCleanupOptions(docs_base.DocsExamplesBase):
 
             doc.save(docs_base.artifacts_dir + "WorkingWithCleanupOptions.remove_empty_paragraphs.docx")
             #ExEnd:RemoveEmptyParagraphs
-        
+
 
         def test_remove_unused_fields(self) :
-        
+
             #ExStart:RemoveUnusedFields
             doc = aw.Document(docs_base.my_dir + "Table with fields.docx")
 
@@ -66,10 +66,10 @@ class WorkingWithCleanupOptions(docs_base.DocsExamplesBase):
 
             doc.save(docs_base.artifacts_dir + "WorkingWithCleanupOptions.remove_unused_fields.docx")
             #ExEnd:RemoveUnusedFields
-        
+
 
         def test_remove_containing_fields(self) :
-        
+
             #ExStart:RemoveContainingFields
             doc = aw.Document(docs_base.my_dir + "Table with fields.docx")
 
@@ -80,10 +80,10 @@ class WorkingWithCleanupOptions(docs_base.DocsExamplesBase):
 
             doc.save(docs_base.artifacts_dir + "WorkingWithCleanupOptions.remove_containing_fields.docx")
             #ExEnd:RemoveContainingFields
-        
+
 
         def test_remove_empty_table_rows(self) :
-        
+
             #ExStart:RemoveEmptyTableRows
             doc = aw.Document(docs_base.my_dir + "Table with fields.docx")
 
@@ -94,8 +94,8 @@ class WorkingWithCleanupOptions(docs_base.DocsExamplesBase):
 
             doc.save(docs_base.artifacts_dir + "WorkingWithCleanupOptions.remove_empty_table_rows.docx")
             #ExEnd:RemoveEmptyTableRows
-        
-    
+
+
 
 if __name__ == '__main__':
         unittest.main()

@@ -12,30 +12,30 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class DocumentProtection(docs_base.DocsExamplesBase):
-    
+
         def test_protect(self) :
-        
+
             #ExStart:ProtectDocument
             doc = aw.Document(docs_base.my_dir + "Document.docx")
             doc.protect(aw.ProtectionType.ALLOW_ONLY_FORM_FIELDS, "password")
             #ExEnd:ProtectDocument
-        
+
 
         def test_unprotect(self) :
-        
+
             #ExStart:UnprotectDocument
             doc = aw.Document(docs_base.my_dir + "Document.docx")
             doc.unprotect()
             #ExEnd:UnprotectDocument
-        
+
 
         def test_get_protection_type(self) :
-        
+
             #ExStart:GetProtectionType
             doc = aw.Document(docs_base.my_dir + "Document.docx")
             protectionType = doc.protection_type
             #ExEnd:GetProtectionType
-        
+
         def test_read_only_protection(self) :
 
             #ExStart:ReadOnlyProtection
@@ -59,7 +59,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
 
             #ExStart:RemoveReadOnlyRestriction
             doc = aw.Document()
-            
+
             # Enter a password that's up to 15 characters long.
             doc.write_protection.set_password("MyPassword")
 
@@ -162,7 +162,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
             self.assertFalse(doc.sections[0].protected_for_forms)
             self.assertTrue(doc.sections[1].protected_for_forms);
             #ExEnd:UnrestrictedSection
-    
+
 
 if __name__ == '__main__':
         unittest.main()

@@ -17,22 +17,22 @@ import aspose.pydrawing as drawing
 class WorkingWithShapes(docs_base.DocsExamplesBase):
 
     def test_add_group_shape(self) :
-        
+
         #ExStart:AddGroupShape
         doc = aw.Document()
         doc.ensure_minimum()
-            
+
         groupShape = aw.drawing.GroupShape(doc)
         accentBorderShape = aw.drawing.Shape(doc, aw.drawing.ShapeType.ACCENT_BORDER_CALLOUT1)
         accentBorderShape.width = 100
-        accentBorderShape.height = 100 
+        accentBorderShape.height = 100
         groupShape.append_child(accentBorderShape)
 
         actionButtonShape = aw.drawing.Shape(doc, aw.drawing.ShapeType.ACTION_BUTTON_BEGINNING)
         actionButtonShape.left = 100
         actionButtonShape.width = 100
         actionButtonShape.height = 200
-            
+
         groupShape.append_child(actionButtonShape)
 
         groupShape.width = 200
@@ -44,10 +44,10 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithShapes.add_group_shape.docx")
         #ExEnd:AddGroupShape
-        
+
 
     def test_insert_shape(self) :
-        
+
         #ExStart:InsertShape
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -63,14 +63,14 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
 
         saveOptions = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
         saveOptions.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
-            
+
 
         doc.save(docs_base.artifacts_dir + "WorkingWithShapes.insert_shape.docx", saveOptions)
         #ExEnd:InsertShape
-        
+
 
     def test_aspect_ratio_locked(self) :
-        
+
         #ExStart:AspectRatioLocked
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -80,10 +80,10 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithShapes.aspect_ratio_locked.docx")
         #ExEnd:AspectRatioLocked
-        
+
 
     def test_layout_in_cell(self) :
-        
+
         #ExStart:LayoutInCell
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -93,17 +93,17 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         builder.row_format.height_rule = aw.HeightRule.EXACTLY
 
         for i in range(0, 31) :
-            
+
             if (i != 0 and i % 7 == 0) :
                 builder.end_row()
             builder.insert_cell()
             builder.write("Cell contents")
-            
+
 
         builder.end_table()
 
         watermark = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
-            
+
         watermark.relative_horizontal_position = aw.drawing.RelativeHorizontalPosition.PAGE
         watermark.relative_vertical_position = aw.drawing.RelativeVerticalPosition.PAGE
         watermark.is_layout_in_cell = True # Display the shape outside of the table cell if it will be placed into a cell.
@@ -112,7 +112,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         watermark.horizontal_alignment = aw.drawing.HorizontalAlignment.CENTER
         watermark.vertical_alignment = aw.drawing.VerticalAlignment.CENTER
         watermark.rotation = -40
-            
+
 
         watermark.fill_color = drawing.Color.gray
         watermark.stroke_color = drawing.Color.gray
@@ -131,10 +131,10 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithShapes.layout_in_cell.docx")
         #ExEnd:LayoutInCell
-        
+
 
     def test_add_corners_snipped(self) :
-        
+
         #ExStart:AddCornersSnipped
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -143,13 +143,13 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
 
         saveOptions = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
         saveOptions.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
-            
+
         doc.save(docs_base.artifacts_dir + "WorkingWithShapes.add_corners_snipped.docx", saveOptions)
         #ExEnd:AddCornersSnipped
-        
+
 
     def test_get_actual_shape_bounds_points(self) :
-        
+
         #ExStart:GetActualShapeBoundsPoints
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -160,26 +160,26 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         print("\nGets the actual bounds of the shape in points: ")
         print(shape.get_shape_renderer().bounds_in_points)
         #ExEnd:GetActualShapeBoundsPoints
-        
+
 
     def test_vertical_anchor(self) :
-        
+
         #ExStart:VerticalAnchor
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         textBox = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 200, 200)
         textBox.text_box.vertical_anchor = aw.drawing.TextBoxAnchor.BOTTOM
-            
+
         builder.move_to(textBox.first_paragraph)
         builder.write("Textbox contents")
 
         doc.save(docs_base.artifacts_dir + "WorkingWithShapes.vertical_anchor.docx")
         #ExEnd:VerticalAnchor
-        
+
 
     def test_detect_smart_art_shape(self) :
-        
+
         #ExStart:DetectSmartArtShape
         doc = aw.Document(docs_base.my_dir + "SmartArt.docx")
 
@@ -191,10 +191,10 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
 
         print("The document has 0 shapes with SmartArt.", count)
         #ExEnd:DetectSmartArtShape
-        
+
 
     def test_update_smart_art_drawing(self) :
-        
+
         doc = aw.Document(docs_base.my_dir + "SmartArt.docx")
 
         #ExStart:UpdateSmartArtDrawing
@@ -203,7 +203,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
             if (shape.has_smart_art) :
                 shape.update_smart_art_drawing()
         #ExEnd:UpdateSmartArtDrawing
-        
+
     def test_render_shape_to_disk(self) :
 
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -216,7 +216,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         # Define custom options which control how the image is rendered. Render the shape to the JPEG raster format.
         imageOptions = aw.saving.ImageSaveOptions(aw.SaveFormat.EMF)
         imageOptions.scale = 1.5
-        
+
         # Save the rendered image to disk.
         r.save(docs_base.artifacts_dir + "TestFile.RenderToDisk_out.emf", imageOptions)
         #ExEnd:RenderShapeToDisk
@@ -232,13 +232,13 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
 
         # Define custom options which control how the image is rendered. Render the shape to the vector format EMF.
         imageOptions = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
-        
+
         # Output the image in gray scale
         imageOptions.image_color_mode = aw.saving.ImageColorMode.GRAYSCALE
 
         # Reduce the brightness a bit (default is 0.5f).
         imageOptions.image_brightness = 0.45
-        
+
         stream =  io.FileIO(docs_base.artifacts_dir + "TestFile.RenderToStream_out.jpg", "w+b")
 
         # Save the rendered image to the stream using different options.
@@ -259,7 +259,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         shape.get_shape_renderer().save(docs_base.artifacts_dir + "TestFile.RenderShapeImage.jpeg", None)
         #ExEnd:RenderShapeImage
 
-    
+
 
 if __name__ == '__main__':
     unittest.main()

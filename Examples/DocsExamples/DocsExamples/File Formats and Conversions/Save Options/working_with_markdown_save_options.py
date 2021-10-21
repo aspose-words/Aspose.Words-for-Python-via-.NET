@@ -12,9 +12,9 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class WorkingWithMarkdownSaveOptions(docs_base.DocsExamplesBase):
-    
+
     def test_export_into_markdown_with_table_content_alignment(self) :
-        
+
         #ExStart:ExportIntoMarkdownWithTableContentAlignment
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -28,9 +28,9 @@ class WorkingWithMarkdownSaveOptions(docs_base.DocsExamplesBase):
 
         # Makes all paragraphs inside the table to be aligned.
         saveOptions = aw.saving.MarkdownSaveOptions()
-            
+
         saveOptions.table_content_alignment = aw.saving.TableContentAlignment.LEFT
-            
+
         doc.save(docs_base.artifacts_dir + "WorkingWithMarkdownSaveOptions.left_table_content_alignment.md", saveOptions)
 
         saveOptions.table_content_alignment = aw.saving.TableContentAlignment.RIGHT
@@ -43,20 +43,20 @@ class WorkingWithMarkdownSaveOptions(docs_base.DocsExamplesBase):
         saveOptions.table_content_alignment = aw.saving.TableContentAlignment.AUTO
         doc.save(docs_base.artifacts_dir + "WorkingWithMarkdownSaveOptions.auto_table_content_alignment.md", saveOptions)
         #ExEnd:ExportIntoMarkdownWithTableContentAlignment
-        
+
 
     def test_set_images_folder(self) :
-        
+
         #ExStart:SetImagesFolder
         doc = aw.Document(docs_base.my_dir + "Image bullet points.docx")
 
         saveOptions = aw.saving.MarkdownSaveOptions()
-        saveOptions.images_folder = docs_base.artifacts_dir + "Images" 
+        saveOptions.images_folder = docs_base.artifacts_dir + "Images"
 
         doc.save(docs_base.artifacts_dir + "WorkingWithMarkdownSaveOptions.set_images_folder.md", saveOptions)
         #ExEnd:SetImagesFolder
-        
-    
+
+
 
 
 if __name__ == '__main__':

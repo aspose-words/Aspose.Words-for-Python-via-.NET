@@ -12,7 +12,7 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class WorkingWithParagraph(docs_base.DocsExamplesBase):
-    
+
     def test_count_lines_in_paragraph(self) :
 
         #ExStart:CountLinesInParagraph
@@ -22,7 +22,7 @@ class WorkingWithParagraph(docs_base.DocsExamplesBase):
         it = aw.layout.LayoutEnumerator(document)
 
         for paragraph in document.get_child_nodes(aw.NodeType.PARAGRAPH, True) :
-         
+
             paragraph = paragraph.as_paragraph()
             paraBreak = collector.get_entity(paragraph)
 
@@ -61,8 +61,8 @@ class WorkingWithParagraph(docs_base.DocsExamplesBase):
 
             print(f"Paragraph '{paraText}' has {count} line(-s).")
         #ExEnd:CountLinesInParagraph
-        
-    
+
+
 
 if __name__ == '__main__':
     unittest.main()

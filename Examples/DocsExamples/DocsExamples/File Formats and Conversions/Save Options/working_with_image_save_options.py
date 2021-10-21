@@ -13,62 +13,62 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
-    
+
     def test_expose_threshold_control_for_tiff_binarization(self) :
-        
+
         #ExStart:ExposeThresholdControlForTiffBinarization
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
         saveOptions = aw.saving.ImageSaveOptions(aw.SaveFormat.TIFF)
-            
+
         saveOptions.tiff_compression = aw.saving.TiffCompression.CCITT3
         saveOptions.image_color_mode = aw.saving.ImageColorMode.GRAYSCALE
         saveOptions.tiff_binarization_method = aw.saving.ImageBinarizationMethod.FLOYD_STEINBERG_DITHERING
         saveOptions.threshold_for_floyd_steinberg_dithering = 254
-            
+
 
         doc.save(docs_base.artifacts_dir + "WorkingWithImageSaveOptions.expose_threshold_control_for_tiff_binarization.tiff", saveOptions)
         #ExEnd:ExposeThresholdControlForTiffBinarization
-        
+
 
     def test_get_tiff_page_range(self) :
-        
+
         #ExStart:GetTiffPageRange
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
         #ExStart:SaveAsTIFF
         doc.save(docs_base.artifacts_dir + "WorkingWithImageSaveOptions.multipage_tiff.tiff")
         #ExEnd:SaveAsTIFF
-            
+
         #ExStart:SaveAsTIFFUsingImageSaveOptions
         saveOptions = aw.saving.ImageSaveOptions(aw.SaveFormat.TIFF)
         saveOptions.page_set = aw.saving.PageSet([0, 1])
         saveOptions.tiff_compression = aw.saving.TiffCompression.CCITT4
         #saveOptions.resolution = 160
-            
+
 
         doc.save(docs_base.artifacts_dir + "WorkingWithImageSaveOptions.get_tiff_page_range.tiff", saveOptions)
         #ExEnd:SaveAsTIFFUsingImageSaveOptions
         #ExEnd:GetTiffPageRange
-        
+
 
     def test_format_1_bpp_indexed(self) :
-        
+
         #ExStart:Format1BppIndexed
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
         saveOptions = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
-            
+
         saveOptions.page_set = aw.saving.PageSet(1)
         saveOptions.image_color_mode = aw.saving.ImageColorMode.BLACK_AND_WHITE
         saveOptions.pixel_format = aw.saving.ImagePixelFormat.FORMAT1BPP_INDEXED
-            
+
 
         doc.save(docs_base.artifacts_dir + "WorkingWithImageSaveOptions.format_1_bpp_indexed.png", saveOptions)
         #ExEnd:Format1BppIndexed
-        
+
 
     def test_get_jpeg_page_range(self) :
-        
+
         #ExStart:GetJpegPageRange
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
@@ -105,7 +105,7 @@ class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
 
         # Save document to a JPEG image with specified options.
         # Render the third page only and set the JPEG quality to 80%
-        # In this case we need to pass the desired SaveFormat to the ImageSaveOptions constructor 
+        # In this case we need to pass the desired SaveFormat to the ImageSaveOptions constructor
         # to signal what type of image to save as.
         imageOptions = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
         imageOptions.page_index = 2

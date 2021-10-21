@@ -14,9 +14,9 @@ import docs_examples_base as docs_base
 import aspose.words as aw
 
 class WorkingWithFileFormat(docs_base.DocsExamplesBase):
-    
+
     def test_detect_file_format(self) :
-        
+
         #ExStart:CheckFormatCompatibility
         supported_dir = docs_base.artifacts_dir + "Supported"
         unknown_dir = docs_base.artifacts_dir + "Unknown"
@@ -79,44 +79,44 @@ class WorkingWithFileFormat(docs_base.DocsExamplesBase):
                 print("\tMS Word 6 or Word 95 format.")
             elif lf == aw.LoadFormat.UNKNOWN:
                 print("\tUnknown format.")
-                
+
             #ExEnd:DetectFileFormat
 
             if info.is_encrypted:
-                
+
                 print("\tAn encrypted document.")
                 shutil.copyfile(fileName, os.path.join(encrypted_dir, name_only))
-                
+
             else:
-                
+
                 if lf == aw.LoadFormat.DOC_PRE_WORD60:
                     shutil.copyfile(fileName, os.path.join(pre97_dir, name_only))
                 elif lf == aw.LoadFormat.UNKNOWN:
                     shutil.copyfile(fileName, os.path.join(unknown_dir, name_only))
-                else: 
+                else:
                     shutil.copyfile(fileName, os.path.join(supported_dir, name_only))
-            
+
         #ExEnd:CheckFormatCompatibility
-        
+
 
     def test_detect_document_signatures(self) :
-        
+
         #ExStart:DetectDocumentSignatures
         info = aw.FileFormatUtil.detect_file_format(docs_base.my_dir + "Digitally signed.docx")
 
         if info.has_digital_signature:
             print("Document has digital signatures, they will be lost if you open/save this document with Aspose.words.")
-            
-        #ExEnd:DetectDocumentSignatures            
-        
+
+        #ExEnd:DetectDocumentSignatures
+
 
     def test_verify_encrypted_document(self) :
-        
+
         #ExStart:VerifyEncryptedDocument
         info = aw.FileFormatUtil.detect_file_format(docs_base.my_dir + "Encrypted.docx")
         print(info.is_encrypted)
         #ExEnd:VerifyEncryptedDocument
-        
-    
+
+
 if __name__ == '__main__':
-    unittest.main()    
+    unittest.main()
