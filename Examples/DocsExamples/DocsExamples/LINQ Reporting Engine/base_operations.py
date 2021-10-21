@@ -98,11 +98,11 @@ class BaseOperations(docs_base.DocsExamplesBase):
     def test_xml_data_source(self) :
 
         xml = b"""<Person>
-	                <Name>John Doe</Name>
-	                <Age>30</Age>
-	                <Birth>1989-04-01 4:00:00 pm</Birth>
-	                <Child>Ann Doe</Child>
-	                <Child>Charles Doe</Child>
+                    <Name>John Doe</Name>
+                    <Age>30</Age>
+                    <Birth>1989-04-01 4:00:00 pm</Birth>
+                    <Child>Ann Doe</Child>
+                    <Child>Charles Doe</Child>
                 </Person>"""
 
         template_md = b"""**Name**: <<[Name]>>, **Age**: <<[Age]>>, **Date of Birth**:
@@ -127,21 +127,21 @@ class BaseOperations(docs_base.DocsExamplesBase):
     def test_xml_data_source_seq(self) :
 
         xml = b"""<Persons>
-	                <Person>
-		                <Name>John Doe</Name>
-		                <Age>30</Age>
-		                <Birth>1989-04-01 4:00:00 pm</Birth>
-	                </Person>
-	                <Person>
-		                <Name>Jane Doe</Name>
-		                <Age>27</Age>
-		                <Birth>1992-01-31 07:00:00 am</Birth>
-	                </Person>
-	                <Person>
-		                <Name>John Smith</Name>
-		                <Age>51</Age>
-		                <Birth>1968-03-08 1:00:00 pm</Birth>
-	                </Person>
+                    <Person>
+                        <Name>John Doe</Name>
+                        <Age>30</Age>
+                        <Birth>1989-04-01 4:00:00 pm</Birth>
+                    </Person>
+                    <Person>
+                        <Name>Jane Doe</Name>
+                        <Age>27</Age>
+                        <Birth>1992-01-31 07:00:00 am</Birth>
+                    </Person>
+                    <Person>
+                        <Name>John Smith</Name>
+                        <Age>51</Age>
+                        <Birth>1968-03-08 1:00:00 pm</Birth>
+                    </Person>
                 </Persons>"""
 
         template_md = b"""<<foreach [in persons]>>**Name:** <<[Name]>>, **Age:** <<[Age]>>, **Date of Birth:** <<[Birth]:"dd.MM.yyyy">>
@@ -163,69 +163,69 @@ class BaseOperations(docs_base.DocsExamplesBase):
     def test_xml_data_source_complex(self) :
 
         xml = b"""<Managers>
-	                <Manager>
-		                <Name>John Smith</Name>
-		                <Contract>
-			                <Client>
-				                <Name>A Company</Name>
-			                </Client>
-			                <Price>1200000</Price>
-		                </Contract>
-		                <Contract>
-			                <Client>
-				                <Name>B Ltd.</Name>
-			                </Client>
-			                <Price>750000</Price>
-		                </Contract>
-		                <Contract>
-			                <Client>
-				                <Name>C &amp; D</Name>
-			                </Client>
-			                <Price>350000</Price>
-		                </Contract>
-	                </Manager>
-	                <Manager>
-		                <Name>Tony Anderson</Name>
-		                <Contract>
-			                <Client>
-				                <Name>E Corp.</Name>
-			                </Client>
-			                <Price>650000</Price>
-		                </Contract>
-		                <Contract>
-			                <Client>
-				                <Name>F &amp; Partners</Name>
-			                </Client>
-			                <Price>550000</Price>
-		                </Contract>
-	                </Manager>
-	                <Manager>
-		                <Name>July James</Name>
-		                <Contract>
-			                <Client>
-				                <Name>G &amp; Co.</Name>
-			                </Client>
-			                <Price>350000</Price>
-		                </Contract>
-		                <Contract>
-			                <Client>
-				                <Name>H Group</Name>
-			                </Client>
-			                <Price>250000</Price>
-		                </Contract>
-		                <Contract>
-			                <Client>
-				                <Name>I &amp; Sons</Name>
-			                </Client>
-			                <Price>100000</Price>
-		                </Contract>
-		                <Contract>
-			                <Client>
-				                <Name>J Ent.</Name>
-			                </Client>
-			                <Price>100000</Price>
-		                </Contract>
-	                </Manager>
+                    <Manager>
+                        <Name>John Smith</Name>
+                        <Contract>
+                            <Client>
+                                <Name>A Company</Name>
+                            </Client>
+                            <Price>1200000</Price>
+                        </Contract>
+                        <Contract>
+                            <Client>
+                                <Name>B Ltd.</Name>
+                            </Client>
+                            <Price>750000</Price>
+                        </Contract>
+                        <Contract>
+                            <Client>
+                                <Name>C &amp; D</Name>
+                            </Client>
+                            <Price>350000</Price>
+                        </Contract>
+                    </Manager>
+                    <Manager>
+                        <Name>Tony Anderson</Name>
+                        <Contract>
+                            <Client>
+                                <Name>E Corp.</Name>
+                            </Client>
+                            <Price>650000</Price>
+                        </Contract>
+                        <Contract>
+                            <Client>
+                                <Name>F &amp; Partners</Name>
+                            </Client>
+                            <Price>550000</Price>
+                        </Contract>
+                    </Manager>
+                    <Manager>
+                        <Name>July James</Name>
+                        <Contract>
+                            <Client>
+                                <Name>G &amp; Co.</Name>
+                            </Client>
+                            <Price>350000</Price>
+                        </Contract>
+                        <Contract>
+                            <Client>
+                                <Name>H Group</Name>
+                            </Client>
+                            <Price>250000</Price>
+                        </Contract>
+                        <Contract>
+                            <Client>
+                                <Name>I &amp; Sons</Name>
+                            </Client>
+                            <Price>100000</Price>
+                        </Contract>
+                        <Contract>
+                            <Client>
+                                <Name>J Ent.</Name>
+                            </Client>
+                            <Price>100000</Price>
+                        </Contract>
+                    </Manager>
                 </Managers>"""
 
         template_md = b"""<<foreach [in managers]>>**Manager:** <<[Name]>>
@@ -250,11 +250,11 @@ class BaseOperations(docs_base.DocsExamplesBase):
     def test_json_data_source(self) :
 
         json = b"""{
-						Name: "John Doe",
-						Age: 30,
-						Birth: "1989-04-01 4:00:00 pm",
-						Child: [ "Ann Doe", "Charles Doe" ]
-					}"""
+                        Name: "John Doe",
+                        Age: 30,
+                        Birth: "1989-04-01 4:00:00 pm",
+                        Child: [ "Ann Doe", "Charles Doe" ]
+                    }"""
 
         template_md = b"""**Name**: <<[Name]>>, **Age**: <<[Age]>>, **Date of Birth**:
 <<[Birth]:"dd.MM.yyyy">>
@@ -278,22 +278,22 @@ class BaseOperations(docs_base.DocsExamplesBase):
     def test_json_data_source_seq(self) :
 
         json = b"""[
-					{
-						Name: "John Doe",
-						Age: 30,
-						Birth: "1989-04-01 4:00:00 pm"
-					},
-					{
-						Name: "Jane Doe",
-						Age: 27,
-						Birth: "1992-01-31 07:00:00 am"
-					},
-					{
-						Name: "John Smith",
-						Age: 51,
-						Birth: "1968-03-08 1:00:00 pm"
-					}
-				]"""
+                    {
+                        Name: "John Doe",
+                        Age: 30,
+                        Birth: "1989-04-01 4:00:00 pm"
+                    },
+                    {
+                        Name: "Jane Doe",
+                        Age: 27,
+                        Birth: "1992-01-31 07:00:00 am"
+                    },
+                    {
+                        Name: "John Smith",
+                        Age: 51,
+                        Birth: "1968-03-08 1:00:00 pm"
+                    }
+                ]"""
 
         template_md = b"""<<foreach [in persons]>>**Name:** <<[Name]>>, **Age:** <<[Age]>>, **Date of Birth:** <<[Birth]:"dd.MM.yyyy">>
 <</foreach>>
@@ -314,88 +314,88 @@ class BaseOperations(docs_base.DocsExamplesBase):
     def test_json_data_source_complex(self) :
 
         json = b"""[
-					{
-						Name: "John Smith",
-						Contract:
-						[
-							{
-								Client:
-								{
-									Name: "A Company"
-								},
-								Price: 1200000
-							},
-							{
-								Client:
-								{
-									Name: "B Ltd."
-								},
-								Price: 750000
-							},
-							{
-								Client:
-								{
-									Name: "C & D"
-								},
-								Price: 350000
-							}
-						]
-					},
-					{
-						Name: "Tony Anderson",
-						Contract:
-						[
-							{
-								Client:
-								{
-									Name: "E Corp."
-								},
-								Price: 650000
-							},
-							{
-								Client:
-								{
-									Name: "F & Partners"
-								},
-								Price: 550000
-							}
-						]
-					},
-					{
-						Name: "July James",
-						Contract:
-						[
-							{
-								Client:
-								{
-									Name: "G & Co."
-								},
-								Price: 350000
-							},
-							{
-								Client:
-								{
-									Name: "H Group"
-								},
-								Price: 250000
-							},
-							{
-								Client:
-								{
-									Name: "I & Sons"
-								},
-								Price: 100000
-							},
-							{
-								Client:
-								{
-									Name: "J Ent."
-								},
-								Price: 100000
-							}
-						]
-					}
-				]"""
+                    {
+                        Name: "John Smith",
+                        Contract:
+                        [
+                            {
+                                Client:
+                                {
+                                    Name: "A Company"
+                                },
+                                Price: 1200000
+                            },
+                            {
+                                Client:
+                                {
+                                    Name: "B Ltd."
+                                },
+                                Price: 750000
+                            },
+                            {
+                                Client:
+                                {
+                                    Name: "C & D"
+                                },
+                                Price: 350000
+                            }
+                        ]
+                    },
+                    {
+                        Name: "Tony Anderson",
+                        Contract:
+                        [
+                            {
+                                Client:
+                                {
+                                    Name: "E Corp."
+                                },
+                                Price: 650000
+                            },
+                            {
+                                Client:
+                                {
+                                    Name: "F & Partners"
+                                },
+                                Price: 550000
+                            }
+                        ]
+                    },
+                    {
+                        Name: "July James",
+                        Contract:
+                        [
+                            {
+                                Client:
+                                {
+                                    Name: "G & Co."
+                                },
+                                Price: 350000
+                            },
+                            {
+                                Client:
+                                {
+                                    Name: "H Group"
+                                },
+                                Price: 250000
+                            },
+                            {
+                                Client:
+                                {
+                                    Name: "I & Sons"
+                                },
+                                Price: 100000
+                            },
+                            {
+                                Client:
+                                {
+                                    Name: "J Ent."
+                                },
+                                Price: 100000
+                            }
+                        ]
+                    }
+                ]"""
 
         template_md = b"""<<foreach [in managers]>>**Manager:** <<[Name]>>
 **Contracts:**
@@ -473,88 +473,88 @@ John Smith,51,1968-03-08 1:00:00 pm"""
     def test_csv_data_source_complex(self) :
 
         csv = b"""[
-					{
-						Name: "John Smith",
-						Contract:
-						[
-							{
-								Client:
-								{
-									Name: "A Company"
-								},
-								Price: 1200000
-							},
-							{
-								Client:
-								{
-									Name: "B Ltd."
-								},
-								Price: 750000
-							},
-							{
-								Client:
-								{
-									Name: "C & D"
-								},
-								Price: 350000
-							}
-						]
-					},
-					{
-						Name: "Tony Anderson",
-						Contract:
-						[
-							{
-								Client:
-								{
-									Name: "E Corp."
-								},
-								Price: 650000
-							},
-							{
-								Client:
-								{
-									Name: "F & Partners"
-								},
-								Price: 550000
-							}
-						]
-					},
-					{
-						Name: "July James",
-						Contract:
-						[
-							{
-								Client:
-								{
-									Name: "G & Co."
-								},
-								Price: 350000
-							},
-							{
-								Client:
-								{
-									Name: "H Group"
-								},
-								Price: 250000
-							},
-							{
-								Client:
-								{
-									Name: "I & Sons"
-								},
-								Price: 100000
-							},
-							{
-								Client:
-								{
-									Name: "J Ent."
-								},
-								Price: 100000
-							}
-						]
-					}
-				]"""
+                    {
+                        Name: "John Smith",
+                        Contract:
+                        [
+                            {
+                                Client:
+                                {
+                                    Name: "A Company"
+                                },
+                                Price: 1200000
+                            },
+                            {
+                                Client:
+                                {
+                                    Name: "B Ltd."
+                                },
+                                Price: 750000
+                            },
+                            {
+                                Client:
+                                {
+                                    Name: "C & D"
+                                },
+                                Price: 350000
+                            }
+                        ]
+                    },
+                    {
+                        Name: "Tony Anderson",
+                        Contract:
+                        [
+                            {
+                                Client:
+                                {
+                                    Name: "E Corp."
+                                },
+                                Price: 650000
+                            },
+                            {
+                                Client:
+                                {
+                                    Name: "F & Partners"
+                                },
+                                Price: 550000
+                            }
+                        ]
+                    },
+                    {
+                        Name: "July James",
+                        Contract:
+                        [
+                            {
+                                Client:
+                                {
+                                    Name: "G & Co."
+                                },
+                                Price: 350000
+                            },
+                            {
+                                Client:
+                                {
+                                    Name: "H Group"
+                                },
+                                Price: 250000
+                            },
+                            {
+                                Client:
+                                {
+                                    Name: "I & Sons"
+                                },
+                                Price: 100000
+                            },
+                            {
+                                Client:
+                                {
+                                    Name: "J Ent."
+                                },
+                                Price: 100000
+                            }
+                        ]
+                    }
+                ]"""
 
         template_md = b"""<<foreach [in managers]>>**Manager:** <<[Name]>>
 **Contracts:**
