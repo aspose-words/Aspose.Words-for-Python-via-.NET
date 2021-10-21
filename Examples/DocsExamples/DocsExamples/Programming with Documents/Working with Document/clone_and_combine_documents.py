@@ -26,13 +26,13 @@ class CloneAndCombineDocuments(docs_base.DocsExamplesBase):
     def test_insert_document_at_bookmark(self) :
 
         #ExStart:InsertDocumentAtBookmark
-        mainDoc = aw.Document(docs_base.my_dir + "Document insertion 1.docx")
-        subDoc = aw.Document(docs_base.my_dir + "Document insertion 2.docx")
+        main_doc = aw.Document(docs_base.my_dir + "Document insertion 1.docx")
+        sub_doc = aw.Document(docs_base.my_dir + "Document insertion 2.docx")
 
-        bookmark = mainDoc.range.bookmarks.get_by_name("insertionPlace")
-        self.insert_document(bookmark.bookmark_start.parent_node, subDoc)
+        bookmark = main_doc.range.bookmarks.get_by_name("insertionPlace")
+        self.insert_document(bookmark.bookmark_start.parent_node, sub_doc)
 
-        mainDoc.save(docs_base.artifacts_dir + "CloneAndCombineDocuments.insert_document_at_bookmark.docx")
+        main_doc.save(docs_base.artifacts_dir + "CloneAndCombineDocuments.insert_document_at_bookmark.docx")
         #ExEnd:InsertDocumentAtBookmark
 
 
@@ -40,33 +40,33 @@ class CloneAndCombineDocuments(docs_base.DocsExamplesBase):
     # Inserts content of the external document after the specified node.
     # Section breaks and section formatting of the inserted document are ignored.
     # </summary>
-    # <param name="insertionDestination">Node in the destination document after which the content
+    # <param name="insertion_destination">Node in the destination document after which the content
     # Should be inserted. This node should be a block level node (paragraph or table).</param>
     # <param name="docToInsert">The document to insert.</param>
     #ExStart:InsertDocument
     @staticmethod
-    def insert_document(insertionDestination : aw.Node, docToInsert : aw.Document) :
+    def insert_document(insertion_destination : aw.Node, doc_to_insert : aw.Document) :
 
-        if (insertionDestination.node_type == aw.NodeType.PARAGRAPH or insertionDestination.node_type == awNodeType.TABLE) :
+        if (insertion_destination.node_type == aw.NodeType.PARAGRAPH or insertion_destination.node_type == awNodeType.TABLE) :
 
-            destinationParent = insertionDestination.parent_node
+            destination_parent = insertion_destination.parent_node
 
-            importer = aw.NodeImporter(docToInsert, insertionDestination.document, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+            importer = aw.NodeImporter(doc_to_insert, insertion_destination.document, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
             # Loop through all block-level nodes in the section's body,
             # then clone and insert every node that is not the last empty paragraph of a section.
-            for srcSection in docToInsert.sections :
-                for srcNode in srcSection.as_section().body.child_nodes :
-                    if (srcNode.node_type == aw.NodeType.PARAGRAPH) :
+            for src_section in doc_to_insert.sections :
+                for src_node in src_section.as_section().body.child_nodes :
+                    if (src_node.node_type == aw.NodeType.PARAGRAPH) :
 
-                        para = srcNode.as_paragraph()
+                        para = src_node.as_paragraph()
                         if (para.is_end_of_section and not para.has_child_nodes) :
                             continue
 
-                    newNode = importer.import_node(srcNode, True)
+                    new_node = importer.import_node(src_node, True)
 
-                    destinationParent.insert_after(newNode, insertionDestination)
-                    insertionDestination = newNode
+                    destination_parent.insert_after(new_node, insertion_destination)
+                    insertion_destination = new_node
         else :
 
             raise ValueError("The destination node should be either a paragraph or table.")
@@ -82,44 +82,44 @@ class CloneAndCombineDocuments(docs_base.DocsExamplesBase):
     # Should be inserted. This node should be a block level node (paragraph or table).</param>
     # <param name="srcDoc">The document to insert.</param>
     @staticmethod
-    def InsertDocumentWithSectionFormatting(insertAfterNode : aw.Node, srcDoc : aw.Document) :
+    def insert_document_with_section_formatting(insert_after_node : aw.Node, src_doc : aw.Document) :
 
-        if (insertAfterNode.node_type != aw.NodeType.PARAGRAPH and
-            insertAfterNode.node_type != aw.NodeType.TABLE) :
+        if (insert_after_node.node_type != aw.NodeType.PARAGRAPH and
+            insert_after_node.node_type != aw.NodeType.TABLE) :
             raise ValueError("The destination node should be either a paragraph or table.")
 
-        dstDoc = insertAfterNode.document.as_document()
+        dst_doc = insert_after_node.document.as_document()
         # To retain section formatting, split the current section into two at the marker node and then import the content
         # from srcDoc as whole sections. The section of the node to which the insert marker node belongs.
-        currentSection = insertAfterNode.get_ancestor(aw.NodeType.SECTION).as_section()
+        current_section = insert_after_node.get_ancestor(aw.NodeType.SECTION).as_section()
 
         # Don't clone the content inside the section, we just want the properties of the section retained.
-        cloneSection = currentSection.clone(False).as_section()
+        clone_section = current_section.clone(False).as_section()
 
         # However, make sure the clone section has a body but no empty first paragraph.
-        cloneSection.ensure_minimum()
-        cloneSection.body.first_paragraph.remove()
+        clone_section.ensure_minimum()
+        clone_section.body.first_paragraph.remove()
 
-        insertAfterNode.document.insert_after(cloneSection, currentSection)
+        insert_after_node.document.insert_after(clone_section, current_section)
 
         # Append all nodes after the marker node to the new section. This will split the content at the section level at.
         # The marker so the sections from the other document can be inserted directly.
-        currentNode = insertAfterNode.next_sibling
-        while (currentNode != None) :
+        current_node = insert_after_node.next_sibling
+        while (current_node != None) :
 
-            nextNode = currentNode.next_sibling
-            cloneSection.body.append_child(currentNode)
-            currentNode = nextNode
+            next_node = current_node.next_sibling
+            clone_section.body.append_child(current_node)
+            current_node = next_node
 
         # This object will be translating styles and lists during the import.
-        importer = aw.NodeImporter(srcDoc, dstDoc, aw.ImportFormatMode.USE_DESTINATION_STYLES)
+        importer = aw.NodeImporter(src_doc, dst_doc, aw.ImportFormatMode.USE_DESTINATION_STYLES)
 
-        for srcSection in srcDoc.sections :
+        for src_section in src_doc.sections :
 
-            newNode = importer.import_node(srcSection, True)
+            new_node = importer.import_node(src_section, True)
 
-            dstDoc.insert_after(newNode, currentSection)
-            currentSection = newNode.as_section()
+            dst_doc.insert_after(new_node, current_section)
+            current_section = new_node.as_section()
 
 
     #ExEnd:InsertDocumentWithSectionFormatting
@@ -145,9 +145,9 @@ class CloneAndCombineDocuments(docs_base.DocsExamplesBase):
         self.assertEqual(clone.sections.count, 2)
 
         # Duplicate the last section and append the copy to the end of the document.
-        lastSectionIdx = clone.sections.count - 1
-        newSection = clone.sections[lastSectionIdx].clone()
-        clone.sections.add(newSection)
+        last_section_idx = clone.sections.count - 1
+        new_section = clone.sections[last_section_idx].clone()
+        clone.sections.add(new_section)
 
         # Check what the document contains after we changed it.
         self.assertEqual(clone.sections.count, 3)

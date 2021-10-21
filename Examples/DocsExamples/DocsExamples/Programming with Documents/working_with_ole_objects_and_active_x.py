@@ -35,9 +35,9 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
         stream = io.FileIO(docs_base.my_dir + "Zip file.zip")
 
         shape = builder.insert_ole_object(stream, "Package", True, None)
-        olePackage = shape.ole_format.ole_package
-        olePackage.file_name = "filename.zip"
-        olePackage.display_name = "displayname.zip"
+        ole_package = shape.ole_format.ole_package
+        ole_package.file_name = "filename.zip"
+        ole_package.display_name = "displayname.zip"
 
         doc.save(docs_base.artifacts_dir + "WorkingWithOleObjectsAndActiveX.insert_ole_object_with_ole_package.docx")
 
@@ -45,8 +45,8 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
         #ExEnd:InsertOleObjectwithOlePackage
 
         #ExStart:GetAccessToOLEObjectRawData
-        oleShape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        oleRawData = oleShape.ole_format.get_raw_data()
+        ole_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        ole_raw_data = ole_shape.ole_format.get_raw_data()
         #ExEnd:GetAccessToOLEObjectRawData
 
 
@@ -89,17 +89,17 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
             if shape.ole_format == None :
                 break
 
-            oleControl = shape.ole_format.ole_control
-            if oleControl.is_forms2_ole_control :
+            ole_control = shape.ole_format.ole_control
+            if ole_control.is_forms2_ole_control :
 
-                checkBox =  oleControl.as_forms2_ole_control()
-                properties = properties + "\nCaption: " + checkBox.caption
-                properties = properties + "\nValue: " + checkBox.value
-                properties = properties + "\nEnabled: " + str(checkBox.enabled)
-                properties = properties + "\nType: " + str(checkBox.type)
+                check_box =  ole_control.as_forms2_ole_control()
+                properties = properties + "\nCaption: " + check_box.caption
+                properties = properties + "\nValue: " + check_box.value
+                properties = properties + "\nEnabled: " + str(check_box.enabled)
+                properties = properties + "\nType: " + str(check_box.type)
 
-                if checkBox.child_nodes != None :
-                    properties = properties + "\nChildNodes: " + checkBox.child_nodes
+                if check_box.child_nodes != None :
+                    properties = properties + "\nChildNodes: " + check_box.child_nodes
 
                 properties += "\n"
 
@@ -134,17 +134,17 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
         height = 270
 
         # Poster frame image.
-        f = open(docs_base.images_dir + "Logo.jpg", "rb")
-        imageBytes = f.read()
-        f.close()
+        image = open(docs_base.images_dir + "Logo.jpg", "rb")
+        image_bytes = image.read()
+        image.close()
 
         # Visible url
-        vimeoVideoUrl = "https://vimeo.com/52477838"
+        vimeo_video_url = "https://vimeo.com/52477838"
 
         # Embed Html code.
-        vimeoEmbedCode = ""
+        vimeo_embed_code = ""
 
-        builder.insert_online_video(vimeoVideoUrl, vimeoEmbedCode, imageBytes, width, height)
+        builder.insert_online_video(vimeo_video_url, vimeo_embed_code, image_bytes, width, height)
 
         doc.save(docs_base.artifacts_dir + "WorkingWithOleObjectsAndActiveX.insert_online_video_with_embed_html.docx")
         #ExEnd:InsertOnlineVideoWithEmbedHtml

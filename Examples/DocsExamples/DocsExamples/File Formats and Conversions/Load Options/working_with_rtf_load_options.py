@@ -16,10 +16,10 @@ class WorkingWithRtfLoadOptions(docs_base.DocsExamplesBase):
     def test_recognize_utf_8_text(self) :
 
         #ExStart:RecognizeUtf8Text
-        loadOptions = aw.loading.RtfLoadOptions()
-        loadOptions.recognize_utf8_text = True
+        load_options = aw.loading.RtfLoadOptions()
+        load_options.recognize_utf8_text = True
 
-        doc = aw.Document(docs_base.my_dir + "UTF-8 characters.rtf", loadOptions)
+        doc = aw.Document(docs_base.my_dir + "UTF-8 characters.rtf", load_options)
 
         doc.save(docs_base.artifacts_dir + "WorkingWithRtfLoadOptions.recognize_utf_8_text.rtf")
         #ExEnd:RecognizeUtf8Text

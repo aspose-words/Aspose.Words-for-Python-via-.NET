@@ -56,8 +56,8 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.writeln("A Quote block")
 
         # Specify nesting Quote.
-        nestedQuote = doc.styles.add(aw.StyleType.PARAGRAPH, "Quote1")
-        nestedQuote.base_style_name = "Quote"
+        nested_quote = doc.styles.add(aw.StyleType.PARAGRAPH, "Quote1")
+        nested_quote.base_style_name = "Quote"
         builder.paragraph_format.style_name = "Quote1"
         builder.writeln("A nested Quote block")
 
@@ -180,20 +180,20 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.paragraph_format.style = doc.styles.get_by_name("Normal")
         builder.writeln("The quotes can be of any level and can be nested:")
 
-        quoteLevel3 = doc.styles.add(aw.StyleType.PARAGRAPH, "Quote2")
-        builder.paragraph_format.style = quoteLevel3
+        quote_level3 = doc.styles.add(aw.StyleType.PARAGRAPH, "Quote2")
+        builder.paragraph_format.style = quote_level3
         builder.writeln("Quote level 3")
 
-        quoteLevel4 = doc.styles.add(aw.StyleType.PARAGRAPH, "Quote3")
-        builder.paragraph_format.style = quoteLevel4
+        quote_level4 = doc.styles.add(aw.StyleType.PARAGRAPH, "Quote3")
+        builder.paragraph_format.style = quote_level4
         builder.writeln("Nested quote level 4")
 
         builder.paragraph_format.style = doc.styles.get_by_name("Quote")
         builder.writeln()
         builder.writeln("Back to first level")
 
-        quoteLevel1WithHeading = doc.styles.add(aw.StyleType.PARAGRAPH, "Quote Heading 3")
-        builder.paragraph_format.style = quoteLevel1WithHeading
+        quote_level1_with_heading = doc.styles.add(aw.StyleType.PARAGRAPH, "Quote Heading 3")
+        builder.paragraph_format.style = quote_level1_with_heading
         builder.write("Headings are allowed inside Quotes")
 
         doc.save(docs_base.artifacts_dir + "WorkingWithMarkdown.block_quotes.md")
@@ -257,13 +257,13 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder = aw.DocumentBuilder()
 
         # Number of backticks is missed, one backtick will be used by default.
-        inlineCode1BackTicks = builder.document.styles.add(aw.StyleType.CHARACTER, "InlineCode")
-        builder.font.style = inlineCode1BackTicks
+        inline_code1_back_ticks = builder.document.styles.add(aw.StyleType.CHARACTER, "InlineCode")
+        builder.font.style = inline_code1_back_ticks
         builder.writeln("Text with InlineCode style with 1 backtick")
 
         # There will be 3 backticks.
-        inlineCode3BackTicks = builder.document.styles.add(aw.StyleType.CHARACTER, "InlineCode.3")
-        builder.font.style = inlineCode3BackTicks
+        inline_code3_back_ticks = builder.document.styles.add(aw.StyleType.CHARACTER, "InlineCode.3")
+        builder.font.style = inline_code3_back_ticks
         builder.writeln("Text with InlineCode style with 3 backtick")
 
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.inline_code_example.md")
@@ -324,8 +324,8 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.font.bold = False
         builder.font.italic = False
 
-        setexHeading1 = doc.styles.add(aw.StyleType.PARAGRAPH, "SetexHeading1")
-        builder.paragraph_format.style = setexHeading1
+        setex_heading1 = doc.styles.add(aw.StyleType.PARAGRAPH, "SetexHeading1")
+        builder.paragraph_format.style = setex_heading1
         doc.styles.get_by_name("SetexHeading1").base_style_name = "Heading 1"
         builder.writeln("Setex Heading level 1")
 
@@ -336,8 +336,8 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.font.bold = False
         builder.font.italic = False
 
-        setexHeading2 = doc.styles.add(aw.StyleType.PARAGRAPH, "SetexHeading2")
-        builder.paragraph_format.style = setexHeading2
+        setex_heading2 = doc.styles.add(aw.StyleType.PARAGRAPH, "SetexHeading2")
+        builder.paragraph_format.style = setex_heading2
         doc.styles.get_by_name("SetexHeading2").base_style_name = "Heading 3"
 
         # Setex heading level will be reset to 2 if the base paragraph has a Heading level greater than 2.
@@ -352,8 +352,8 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         # Use a document builder to add content to the document.
         builder = aw.DocumentBuilder()
 
-        indentedCode = builder.document.styles.add(aw.StyleType.PARAGRAPH, "IndentedCode")
-        builder.paragraph_format.style = indentedCode
+        indented_code = builder.document.styles.add(aw.StyleType.PARAGRAPH, "IndentedCode")
+        builder.paragraph_format.style = indented_code
         builder.writeln("This is an indented code")
 
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.indented_code_example.md")
@@ -365,12 +365,12 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         # Use a document builder to add content to the document.
         builder = aw.DocumentBuilder()
 
-        fencedCode = builder.document.styles.add(aw.StyleType.PARAGRAPH, "FencedCode")
-        builder.paragraph_format.style = fencedCode
+        fenced_code = builder.document.styles.add(aw.StyleType.PARAGRAPH, "FencedCode")
+        builder.paragraph_format.style = fenced_code
         builder.writeln("This is an fenced code")
 
-        fencedCodeWithInfo = builder.document.styles.add(aw.StyleType.PARAGRAPH, "FencedCode.C#")
-        builder.paragraph_format.style = fencedCodeWithInfo
+        fenced_code_with_info = builder.document.styles.add(aw.StyleType.PARAGRAPH, "FencedCode.C#")
+        builder.paragraph_format.style = fenced_code_with_info
         builder.writeln("This is a fenced code with info string")
 
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.fenced_code_example.md")
@@ -388,8 +388,8 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.writeln("Blockquote")
 
         # Create styles for nested levels through style inheritance.
-        quoteLevel2 = doc.styles.add(aw.StyleType.PARAGRAPH, "Quote1")
-        builder.paragraph_format.style = quoteLevel2
+        quote_level2 = doc.styles.add(aw.StyleType.PARAGRAPH, "Quote1")
+        builder.paragraph_format.style = quote_level2
         doc.styles.get_by_name("Quote1").base_style_name = "Quote"
         builder.writeln("1. Nested blockquote")
 

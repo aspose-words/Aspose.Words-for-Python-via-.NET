@@ -126,13 +126,13 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
 
         for revision in doc.revisions :
 
-            groupText = "Revision group text: " + revision.group.text if revision.group != None else "Revision has no group"
+            group_text = "Revision group text: " + revision.group.text if revision.group != None else "Revision has no group"
 
             print(f"Type: {revision.revision_type}")
             print(f"Author: {revision.author}")
             print(f"Date: {revision.date_time}")
             print(f"Revision text: {revision.parent_node.to_string(aw.SaveFormat.TEXT)}")
-            print(groupText)
+            print(group_text)
 
         #ExEnd:GetRevisionGroupDetails
 
@@ -180,13 +180,13 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
 
         # Generate revisions when moving a node from one location to another.
         node = body.paragraphs[3]
-        endNode = body.paragraphs[5].next_sibling
-        referenceNode = body.paragraphs[0]
-        while (node != endNode) :
+        end_node = body.paragraphs[5].next_sibling
+        reference_node = body.paragraphs[0]
+        while (node != end_node) :
 
-            nextNode = node.next_sibling
-            body.insert_before(node, referenceNode)
-            node = nextNode
+            next_node = node.next_sibling
+            body.insert_before(node, reference_node)
+            node = next_node
 
 
         # Stop the process of tracking revisions.

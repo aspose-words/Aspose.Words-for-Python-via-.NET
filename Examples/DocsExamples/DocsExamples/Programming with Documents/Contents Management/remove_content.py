@@ -113,37 +113,37 @@ class RemoveContent(docs_base.DocsExamplesBase):
         def remove_table_of_contents(doc : aw.Document, index : int) :
 
             # Store the FieldStart nodes of TOC fields in the document for quick access.
-            fieldStarts = []
+            field_starts = []
             # This is a list to store the nodes found inside the specified TOC. They will be removed at the end of this method.
-            nodeList = []
+            node_list = []
 
             for start in doc.get_child_nodes(aw.NodeType.FIELD_START, True) :
                 start = start.as_field_start()
                 if (start.field_type == aw.fields.FieldType.FIELD_TOC) :
-                    fieldStarts.append(start)
+                    field_starts.append(start)
 
             # Ensure the TOC specified by the passed index exists.
-            if (index > len(fieldStarts) - 1) :
+            if (index > len(field_starts) - 1) :
                 raise IndexError("TOC index is out of range")
 
-            isRemoving = True
+            is_removing = True
 
-            currentNode = fieldStarts[index]
-            while (isRemoving) :
+            current_node = field_starts[index]
+            while (is_removing) :
 
                 # It is safer to store these nodes and delete them all at once later.
-                nodeList.append(currentNode)
-                currentNode = currentNode.next_pre_order(doc)
+                node_list.append(current_node)
+                current_node = current_node.next_pre_order(doc)
 
                 # Once we encounter a FieldEnd node of type FieldTOC,
                 # we know we are at the end of the current TOC and stop here.
-                if (currentNode.node_type == aw.NodeType.FIELD_END) :
+                if (current_node.node_type == aw.NodeType.FIELD_END) :
 
-                    fieldEnd = currentNode.as_field_end()
-                    if (fieldEnd.field_type == aw.fields.FieldType.FIELD_TOC) :
-                        isRemoving = False
+                    field_end = current_node.as_field_end()
+                    if (field_end.field_type == aw.fields.FieldType.FIELD_TOC) :
+                        is_removing = False
 
-            for node in nodeList :
+            for node in node_list :
                 node.remove()
 
         #ExEnd:RemoveTOCFromDocument

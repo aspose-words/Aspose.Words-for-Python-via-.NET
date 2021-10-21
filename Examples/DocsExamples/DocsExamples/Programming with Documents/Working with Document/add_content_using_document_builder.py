@@ -84,12 +84,12 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
 
             shape = builder.insert_horizontal_rule()
 
-            horizontalRuleFormat = shape.horizontal_rule_format
-            horizontalRuleFormat.alignment = aw.drawing.HorizontalRuleAlignment.CENTER
-            horizontalRuleFormat.width_percent = 70
-            horizontalRuleFormat.height = 3
-            horizontalRuleFormat.color = drawing.Color.blue
-            horizontalRuleFormat.no_shade = True
+            horizontal_rule_format = shape.horizontal_rule_format
+            horizontal_rule_format.alignment = aw.drawing.HorizontalRuleAlignment.CENTER
+            horizontal_rule_format.width_percent = 70
+            horizontal_rule_format.height = 3
+            horizontal_rule_format.color = drawing.Color.blue
+            horizontal_rule_format.no_shade = True
 
             builder.document.save(docs_base.artifacts_dir + "AddContentUsingDocumentBuilder.horizontal_rule_format.docx")
             #ExEnd:HorizontalRuleFormat

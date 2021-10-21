@@ -19,19 +19,19 @@ class WorkingWithStylesAndThemes(docs_base.DocsExamplesBase):
             #ExStart:AccessStyles
             doc = aw.Document()
 
-            styleName = ""
+            style_name = ""
 
             # Get styles collection from the document.
             styles = doc.styles
             for style in styles :
 
-                if (styleName == "") :
-                    styleName = style.name
-                    print(styleName)
+                if (style_name == "") :
+                    style_name = style.name
+                    print(style_name)
 
                 else :
-                    styleName = styleName + ", " + style.name
-                    print(styleName)
+                    style_name = style_name + ", " + style.name
+                    print(style_name)
 
             #ExEnd:AccessStyles
 
@@ -78,10 +78,10 @@ class WorkingWithStylesAndThemes(docs_base.DocsExamplesBase):
             doc = aw.Document()
             builder = aw.DocumentBuilder(doc)
 
-            paraStyle = builder.document.styles.add(aw.StyleType.PARAGRAPH, "MyParaStyle")
-            paraStyle.font.bold = False
-            paraStyle.font.size = 8
-            paraStyle.font.name = "Arial"
+            para_style = builder.document.styles.add(aw.StyleType.PARAGRAPH, "MyParaStyle")
+            para_style.font.bold = False
+            para_style.font.size = 8
+            para_style.font.name = "Arial"
 
             # Append text with "Heading 1" style.
             builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING1
@@ -89,7 +89,7 @@ class WorkingWithStylesAndThemes(docs_base.DocsExamplesBase):
             builder.insert_style_separator()
 
             # Append text with another style.
-            builder.paragraph_format.style_name = paraStyle.name
+            builder.paragraph_format.style_name = para_style.name
             builder.write("This is text with some other formatting ")
 
             doc.save(docs_base.artifacts_dir + "WorkingWithStylesAndThemes.insert_style_separator.docx")

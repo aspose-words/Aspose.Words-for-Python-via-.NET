@@ -33,7 +33,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
 
             #ExStart:GetProtectionType
             doc = aw.Document(docs_base.my_dir + "Document.docx")
-            protectionType = doc.protection_type
+            protection_type = doc.protection_type
             #ExEnd:GetProtectionType
 
         def test_read_only_protection(self) :
@@ -125,15 +125,15 @@ class DocumentProtection(docs_base.DocsExamplesBase):
             builder.writeln("Hello world! Since we have set the document's protection level to read-only, we cannot edit this paragraph without the password.")
 
             # Start an editable range.
-            edRangeStart = builder.start_editable_range()
+            ed_range_start = builder.start_editable_range()
             # An EditableRange object is created for the EditableRangeStart that we just made.
-            editableRange = edRangeStart.editable_range
+            editable_range = ed_range_start.editable_range
 
             # Put something inside the editable range.
             builder.writeln("Paragraph inside first editable range")
 
             # An editable range is well-formed if it has a start and an end.
-            edRangeEnd = builder.end_editable_range()
+            ed_range_end = builder.end_editable_range()
 
             builder.writeln("This paragraph is outside any editable ranges, and cannot be edited.");
 

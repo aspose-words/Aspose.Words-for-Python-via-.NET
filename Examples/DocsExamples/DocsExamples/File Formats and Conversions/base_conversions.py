@@ -40,9 +40,9 @@ class BaseConversions(docs_base.DocsExamplesBase):
         # ... do something with the document.
 
         # Convert the document to a different format and save to stream.
-        dstStream =  io.FileIO(docs_base.artifacts_dir + "BaseConversions.docx_to_rtf.rtf", "wb")
-        doc.save(dstStream, aw.SaveFormat.RTF)
-        dstStream.close()
+        dst_stream =  io.FileIO(docs_base.artifacts_dir + "BaseConversions.docx_to_rtf.rtf", "wb")
+        doc.save(dst_stream, aw.SaveFormat.RTF)
+        dst_stream.close()
         #ExEnd:LoadAndSaveToStream
 
 
@@ -60,13 +60,13 @@ class BaseConversions(docs_base.DocsExamplesBase):
         #ExStart:DocxToByte
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
-        outStream = io.BytesIO()
-        doc.save(outStream, aw.SaveFormat.DOCX)
+        out_stream = io.BytesIO()
+        doc.save(out_stream, aw.SaveFormat.DOCX)
 
-        docBytes = outStream.getbuffer()
-        inStream = io.BytesIO(docBytes)
+        doc_bytes = out_stream.getbuffer()
+        in_stream = io.BytesIO(doc_bytes)
 
-        docFromBytes = aw.Document(inStream)
+        doc_from_bytes = aw.Document(in_stream)
         #ExEnd:DocxToByte
 
 

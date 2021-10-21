@@ -19,22 +19,22 @@ class WorkingWithDigitalSinatures(docs_base.DocsExamplesBase):
     def test_sign_document(self) :
 
         #ExStart:SingDocument
-        certHolder = aw.digitalsignatures.CertificateHolder.create(docs_base.my_dir + "morzal.pfx", "aw")
+        cert_holder = aw.digitalsignatures.CertificateHolder.create(docs_base.my_dir + "morzal.pfx", "aw")
 
-        aw.digitalsignatures.DigitalSignatureUtil.sign(docs_base.my_dir + "Digitally signed.docx", docs_base.artifacts_dir + "Document.signed.docx", certHolder)
+        aw.digitalsignatures.DigitalSignatureUtil.sign(docs_base.my_dir + "Digitally signed.docx", docs_base.artifacts_dir + "Document.signed.docx", cert_holder)
         #ExEnd:SingDocument
 
 
     def test_signing_encrypted_document(self) :
 
         #ExStart:SigningEncryptedDocument
-        signOptions = aw.digitalsignatures.SignOptions()
-        signOptions.decryption_password = "decryptionPassword"
+        sign_options = aw.digitalsignatures.SignOptions()
+        sign_options.decryption_password = "decryptionPassword"
 
-        certHolder = aw.digitalsignatures.CertificateHolder.create(docs_base.my_dir + "morzal.pfx", "aw")
+        cert_holder = aw.digitalsignatures.CertificateHolder.create(docs_base.my_dir + "morzal.pfx", "aw")
 
         aw.digitalsignatures.DigitalSignatureUtil.sign(docs_base.my_dir + "Digitally signed.docx", docs_base.artifacts_dir + "Document.encrypted_document.docx",
-            certHolder, signOptions)
+            cert_holder, sign_options)
         #ExEnd:SigningEncryptedDocument
 
 
@@ -44,21 +44,21 @@ class WorkingWithDigitalSinatures(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        signatureLine = builder.insert_signature_line(aw.SignatureLineOptions()).signature_line
+        signature_line = builder.insert_signature_line(aw.SignatureLineOptions()).signature_line
 
         doc.save(docs_base.artifacts_dir + "SignDocuments.signature_line.docx")
 
-        signOptions = aw.digitalsignatures.SignOptions()
+        sign_options = aw.digitalsignatures.SignOptions()
 
-        signOptions.signature_line_id = signatureLine.id
+        sign_options.signature_line_id = signature_line.id
         with open(docs_base.images_dir + "Enhanced Windows MetaFile.emf", "rb") as image_file:
-            signOptions.signature_line_image = image_file.read()
+            sign_options.signature_line_image = image_file.read()
 
 
-        certHolder = aw.digitalsignatures.CertificateHolder.create(docs_base.my_dir + "morzal.pfx", "aw")
+        cert_holder = aw.digitalsignatures.CertificateHolder.create(docs_base.my_dir + "morzal.pfx", "aw")
 
         aw.digitalsignatures.DigitalSignatureUtil.sign(docs_base.artifacts_dir + "SignDocuments.signature_line.docx",
-            docs_base.artifacts_dir + "SignDocuments.new_signature_line.docx", certHolder, signOptions)
+            docs_base.artifacts_dir + "SignDocuments.new_signature_line.docx", cert_holder, sign_options)
         #ExEnd:CreatingAndSigningNewSignatureLine
 
 
@@ -67,22 +67,22 @@ class WorkingWithDigitalSinatures(docs_base.DocsExamplesBase):
         #ExStart:SigningExistingSignatureLine
         doc = aw.Document(docs_base.my_dir + "Signature line.docx")
 
-        signatureLine = doc.first_section.body.get_child(aw.NodeType.SHAPE, 0, True).as_shape().signature_line
+        signature_line = doc.first_section.body.get_child(aw.NodeType.SHAPE, 0, True).as_shape().signature_line
 
-        signOptions = aw.digitalsignatures.SignOptions()
+        sign_options = aw.digitalsignatures.SignOptions()
 
-        signOptions.signature_line_id = signatureLine.id
+        sign_options.signature_line_id = signature_line.id
 
         imagefile = open(docs_base.images_dir + "Enhanced Windows MetaFile.emf", "rb")
 
         with open(docs_base.images_dir + "Enhanced Windows MetaFile.emf", "rb") as image_file:
-            signOptions.signature_line_image = image_file.read()
+            sign_options.signature_line_image = image_file.read()
 
 
-        certHolder = aw.digitalsignatures.CertificateHolder.create(docs_base.my_dir + "morzal.pfx", "aw")
+        cert_holder = aw.digitalsignatures.CertificateHolder.create(docs_base.my_dir + "morzal.pfx", "aw")
 
         aw.digitalsignatures.DigitalSignatureUtil.sign(docs_base.my_dir + "Digitally signed.docx",
-            docs_base.artifacts_dir + "SignDocuments.signing_existing_signature_line.docx", certHolder, signOptions)
+            docs_base.artifacts_dir + "SignDocuments.signing_existing_signature_line.docx", cert_holder, sign_options)
         #ExEnd:SigningExistingSignatureLine
 
 
@@ -91,18 +91,18 @@ class WorkingWithDigitalSinatures(docs_base.DocsExamplesBase):
         #ExStart:SetSignatureProviderID
         doc = aw.Document(docs_base.my_dir + "Signature line.docx")
 
-        signatureLine = doc.first_section.body.get_child(aw.NodeType.SHAPE, 0, True).as_shape().signature_line
+        signature_line = doc.first_section.body.get_child(aw.NodeType.SHAPE, 0, True).as_shape().signature_line
 
-        signOptions = aw.digitalsignatures.SignOptions()
+        sign_options = aw.digitalsignatures.SignOptions()
 
-        signOptions.provider_id = signatureLine.provider_id
-        signOptions.signature_line_id = signatureLine.id
+        sign_options.provider_id = signature_line.provider_id
+        sign_options.signature_line_id = signature_line.id
 
 
-        certHolder = aw.digitalsignatures.CertificateHolder.create(docs_base.my_dir + "morzal.pfx", "aw")
+        cert_holder = aw.digitalsignatures.CertificateHolder.create(docs_base.my_dir + "morzal.pfx", "aw")
 
         aw.digitalsignatures.DigitalSignatureUtil.sign(docs_base.my_dir + "Digitally signed.docx",
-            docs_base.artifacts_dir + "SignDocuments.set_signature_provider_id.docx", certHolder, signOptions)
+            docs_base.artifacts_dir + "SignDocuments.set_signature_provider_id.docx", cert_holder, sign_options)
         #ExEnd:SetSignatureProviderID
 
 
@@ -112,34 +112,34 @@ class WorkingWithDigitalSinatures(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        signatureLineOptions = aw.SignatureLineOptions()
+        signature_line_options = aw.SignatureLineOptions()
 
-        signatureLineOptions.signer = "vderyushev"
-        signatureLineOptions.signer_title = "QA"
-        signatureLineOptions.email = "vderyushev@aspose.com"
-        signatureLineOptions.show_date = True
-        signatureLineOptions.default_instructions = False
-        signatureLineOptions.instructions = "Please sign here."
-        signatureLineOptions.allow_comments = True
+        signature_line_options.signer = "vderyushev"
+        signature_line_options.signer_title = "QA"
+        signature_line_options.email = "vderyushev@aspose.com"
+        signature_line_options.show_date = True
+        signature_line_options.default_instructions = False
+        signature_line_options.instructions = "Please sign here."
+        signature_line_options.allow_comments = True
 
 
-        signatureLine = builder.insert_signature_line(signatureLineOptions).signature_line
-        signatureLine.provider_id = uuid.UUID('{CF5A7BB4-8F3C-4756-9DF6-BEF7F13259A2}')
+        signature_line = builder.insert_signature_line(signature_line_options).signature_line
+        signature_line.provider_id = uuid.UUID('{CF5A7BB4-8F3C-4756-9DF6-BEF7F13259A2}')
 
         doc.save(docs_base.artifacts_dir + "SignDocuments.signature_line_provider_id.docx")
 
-        signOptions = aw.digitalsignatures.SignOptions()
+        sign_options = aw.digitalsignatures.SignOptions()
 
-        signOptions.signature_line_id = signatureLine.id
-        signOptions.provider_id = signatureLine.provider_id
-        signOptions.comments = "Document was signed by vderyushev"
-        signOptions.sign_time = datetime.today()
+        sign_options.signature_line_id = signature_line.id
+        sign_options.provider_id = signature_line.provider_id
+        sign_options.comments = "Document was signed by vderyushev"
+        sign_options.sign_time = datetime.today()
 
 
-        certHolder = aw.digitalsignatures.CertificateHolder.create(docs_base.my_dir + "morzal.pfx", "aw")
+        cert_holder = aw.digitalsignatures.CertificateHolder.create(docs_base.my_dir + "morzal.pfx", "aw")
 
         aw.digitalsignatures.DigitalSignatureUtil.sign(docs_base.artifacts_dir + "SignDocuments.signature_line_provider_id.docx",
-            docs_base.artifacts_dir + "SignDocuments.create_new_signature_line_and_set_provider_id.docx", certHolder, signOptions)
+            docs_base.artifacts_dir + "SignDocuments.create_new_signature_line_and_set_provider_id.docx", cert_holder, sign_options)
         #ExEnd:CreateNewSignatureLineAndSetProviderID
 
 

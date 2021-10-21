@@ -18,11 +18,11 @@ class WorkingWithOfficeMath(docs_base.DocsExamplesBase):
 
         #ExStart:MathEquations
         doc = aw.Document(docs_base.my_dir + "Office math.docx")
-        officeMath = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
+        office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
 
         # OfficeMath display type represents whether an equation is displayed inline with the text or displayed on its line.
-        officeMath.display_type = aw.math.OfficeMathDisplayType.DISPLAY
-        officeMath.justification = aw.math.OfficeMathJustification.LEFT
+        office_math.display_type = aw.math.OfficeMathDisplayType.DISPLAY
+        office_math.justification = aw.math.OfficeMathJustification.LEFT
 
         doc.save(docs_base.artifacts_dir + "WorkingWithOfficeMath.math_equations.docx")
         #ExEnd:MathEquations

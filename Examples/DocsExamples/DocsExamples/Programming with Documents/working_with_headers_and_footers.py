@@ -19,13 +19,13 @@ class WorkingWithHeadersAndFooters(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        currentSection = builder.current_section
-        pageSetup = currentSection.page_setup
+        current_section = builder.current_section
+        page_setup = current_section.page_setup
         # Specify if we want headers/footers of the first page to be different from other pages.
         # You can also use PageSetup.odd_and_even_pages_header_footer property to specify
         # different headers/footers for odd and even pages.
-        pageSetup.different_first_page_header_footer = True
-        pageSetup.header_distance = 20
+        page_setup.different_first_page_header_footer = True
+        page_setup.header_distance = 20
 
         builder.move_to_header_footer(aw.HeaderFooterType.HEADER_FIRST)
         builder.paragraph_format.alignment = aw.ParagraphAlignment.CENTER
@@ -36,7 +36,7 @@ class WorkingWithHeadersAndFooters(docs_base.DocsExamplesBase):
 
         builder.write("Aspose.words Header/Footer Creation Primer - Title Page.")
 
-        pageSetup.header_distance = 20
+        page_setup.header_distance = 20
         builder.move_to_header_footer(aw.HeaderFooterType.HEADER_PRIMARY)
 
         # Insert a positioned image into the top/left corner of the header.
@@ -85,26 +85,26 @@ class WorkingWithHeadersAndFooters(docs_base.DocsExamplesBase):
         builder.insert_break(aw.BreakType.PAGE_BREAK)
         builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
 
-        currentSection = builder.current_section
-        pageSetup = currentSection.page_setup
-        pageSetup.orientation = aw.Orientation.LANDSCAPE
+        current_section = builder.current_section
+        page_setup = current_section.page_setup
+        page_setup.orientation = aw.Orientation.LANDSCAPE
         # This section does not need a different first-page header/footer we need only one title page in the document,
         # and the header/footer for this page has already been defined in the previous section.
-        pageSetup.different_first_page_header_footer = False
+        page_setup.different_first_page_header_footer = False
 
         # This section displays headers/footers from the previous section
         # by default call currentSection.headers_footers.link_to_previous(false) to cancel this page width
         # is different for the new section, and therefore we need to set different cell widths for a footer table.
-        currentSection.headers_footers.link_to_previous(False)
+        current_section.headers_footers.link_to_previous(False)
 
         # If we want to use the already existing header/footer set for this section.
         # But with some minor modifications, then it may be expedient to copy headers/footers
         # from the previous section and apply the necessary modifications where we want them.
-        self.copy_headers_footers_from_previous_section(currentSection)
+        self.copy_headers_footers_from_previous_section(current_section)
 
-        primaryFooter = currentSection.headers_footers[2] #aw.HeaderFooterType.FOOTER_PRIMARY
+        primary_footer = current_section.headers_footers[2] #aw.HeaderFooterType.FOOTER_PRIMARY
 
-        row = primaryFooter.tables[0].first_row
+        row = primary_footer.tables[0].first_row
         row.first_cell.cell_format.preferred_width = aw.tables.PreferredWidth.from_percent(100 / 3)
         row.last_cell.cell_format.preferred_width = aw.tables.PreferredWidth.from_percent(100 * 2 / 3)
 
@@ -119,15 +119,15 @@ class WorkingWithHeadersAndFooters(docs_base.DocsExamplesBase):
     @staticmethod
     def copy_headers_footers_from_previous_section(section) :
 
-        previousSection = section.previous_sibling.as_section()
+        previous_section = section.previous_sibling.as_section()
 
-        if previousSection == None :
+        if previous_section == None :
             return
 
         section.headers_footers.clear()
 
-        for headerFooter in previousSection.headers_footers :
-            section.headers_footers.add(headerFooter.clone(True))
+        for header_footer in previous_section.headers_footers :
+            section.headers_footers.add(header_footer.clone(True))
 
     #ExEnd:CopyHeadersFootersFromPreviousSection
 

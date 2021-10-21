@@ -18,10 +18,10 @@ class WorkingWithHtmlFixedSaveOptions(docs_base.DocsExamplesBase):
         #ExStart:UseFontFromTargetMachine
         doc = aw.Document(docs_base.my_dir + "Bullet points with alternative font.docx")
 
-        saveOptions = aw.saving.HtmlFixedSaveOptions()
-        saveOptions.use_target_machine_fonts = True
+        save_options = aw.saving.HtmlFixedSaveOptions()
+        save_options.use_target_machine_fonts = True
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlFixedSaveOptions.use_font_from_target_machine.html", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlFixedSaveOptions.use_font_from_target_machine.html", save_options)
         #ExEnd:UseFontFromTargetMachine
 
 
@@ -32,10 +32,10 @@ class WorkingWithHtmlFixedSaveOptions(docs_base.DocsExamplesBase):
 
         # Setting this property to true restores the old behavior (separate files) for compatibility with legacy code.
         # All CSS rules are written into single file "styles.css.
-        saveOptions = aw.saving.HtmlFixedSaveOptions()
-        saveOptions.save_font_face_css_separately = False
+        save_options = aw.saving.HtmlFixedSaveOptions()
+        save_options.save_font_face_css_separately = False
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlFixedSaveOptions.write_all_css_rules_in_single_file.html", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlFixedSaveOptions.write_all_css_rules_in_single_file.html", save_options)
         #ExEnd:WriteAllCssRulesInSingleFile
 
 

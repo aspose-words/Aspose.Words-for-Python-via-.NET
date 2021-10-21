@@ -53,14 +53,14 @@ class WorkingWithFonts(docs_base.DocsExamplesBase):
         doc = aw.Document(docs_base.my_dir + "DrawingML text effects.docx")
 
         runs = doc.first_section.body.first_paragraph.runs
-        runFont = runs[0].font
+        run_font = runs[0].font
 
         # One run might have several Dml text effects applied.
-        print(runFont.has_dml_effect(aw.TextDmlEffect.SHADOW))
-        print(runFont.has_dml_effect(aw.TextDmlEffect.EFFECT3_D))
-        print(runFont.has_dml_effect(aw.TextDmlEffect.REFLECTION))
-        print(runFont.has_dml_effect(aw.TextDmlEffect.OUTLINE))
-        print(runFont.has_dml_effect(aw.TextDmlEffect.FILL))
+        print(run_font.has_dml_effect(aw.TextDmlEffect.SHADOW))
+        print(run_font.has_dml_effect(aw.TextDmlEffect.EFFECT3_D))
+        print(run_font.has_dml_effect(aw.TextDmlEffect.REFLECTION))
+        print(run_font.has_dml_effect(aw.TextDmlEffect.OUTLINE))
+        print(run_font.has_dml_effect(aw.TextDmlEffect.FILL))
         #ExEnd:CheckDMLTextEffect
 
 
@@ -117,11 +117,11 @@ class WorkingWithFonts(docs_base.DocsExamplesBase):
         #ExStart:EnableDisableFontSubstitution
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
-        fontSettings = aw.fonts.FontSettings()
-        fontSettings.substitution_settings.default_font_substitution.default_font_name = "Arial"
-        fontSettings.substitution_settings.font_info_substitution.enabled = False
+        font_settings = aw.fonts.FontSettings()
+        font_settings.substitution_settings.default_font_substitution.default_font_name = "Arial"
+        font_settings.substitution_settings.font_info_substitution.enabled = False
 
-        doc.font_settings = fontSettings
+        doc.font_settings = font_settings
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFonts.enable_disable_font_substitution.pdf")
         #ExEnd:EnableDisableFontSubstitution
@@ -132,10 +132,10 @@ class WorkingWithFonts(docs_base.DocsExamplesBase):
         #ExStart:SetFontFallbackSettings
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
-        fontSettings = aw.fonts.FontSettings()
-        fontSettings.fallback_settings.load(docs_base.my_dir + "Font fallback rules.xml")
+        font_settings = aw.fonts.FontSettings()
+        font_settings.fallback_settings.load(docs_base.my_dir + "Font fallback rules.xml")
 
-        doc.font_settings = fontSettings
+        doc.font_settings = font_settings
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFonts.set_font_fallback_settings.pdf")
         #ExEnd:SetFontFallbackSettings
@@ -146,10 +146,10 @@ class WorkingWithFonts(docs_base.DocsExamplesBase):
         #ExStart:SetPredefinedFontFallbackSettings
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
-        fontSettings = aw.fonts.FontSettings()
-        fontSettings.fallback_settings.load_noto_fallback_settings()
+        font_settings = aw.fonts.FontSettings()
+        font_settings.fallback_settings.load_noto_fallback_settings()
 
-        doc.font_settings = fontSettings
+        doc.font_settings = font_settings
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFonts.noto_fallback_settings.pdf")
         #ExEnd:SetPredefinedFontFallbackSettings
@@ -170,13 +170,13 @@ class WorkingWithFonts(docs_base.DocsExamplesBase):
         #ExStart:SetFontsFoldersMultipleFolders
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
-        fontSettings = aw.fonts.FontSettings()
+        font_settings = aw.fonts.FontSettings()
         # Note that this setting will override any default font sources that are being searched by default. Now only these folders will be searched for
         # fonts when rendering or embedding fonts. To add an extra font source while keeping system font sources then use both FontSettings.get_font_sources and
         # FontSettings.set_font_sources instead.
-        fontSettings.set_fonts_folders(["C:\\MyFonts\\", "D:\\Misc\\Fonts\\"], True)
+        font_settings.set_fonts_folders(["C:\\MyFonts\\", "D:\\Misc\\Fonts\\"], True)
 
-        doc.font_settings = fontSettings
+        doc.font_settings = font_settings
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFonts.set_fonts_folders_multiple_folders.pdf")
         #ExEnd:SetFontsFoldersMultipleFolders
@@ -187,25 +187,25 @@ class WorkingWithFonts(docs_base.DocsExamplesBase):
         #ExStart:SetFontsFoldersSystemAndCustomFolder
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
-        fontSettings = aw.fonts.FontSettings()
+        font_settings = aw.fonts.FontSettings()
         # Retrieve the array of environment-dependent font sources that are searched by default.
         # For example this will contain a "Windows\Fonts\" source on a Windows machines.
         # We add this array to a new List to make adding or removing font entries much easier.
-        fontSources = fontSettings.get_fonts_sources()
+        font_sources = font_settings.get_fonts_sources()
 
         # Add a new folder source which will instruct Aspose.words to search the following folder for fonts.
-        folderFontSource = aw.fonts.FolderFontSource("C:\\MyFonts\\", True)
+        folder_font_source = aw.fonts.FolderFontSource("C:\\MyFonts\\", True)
 
         # Add the custom folder which contains our fonts to the list of existing font sources.
-        updatedFontSources = []
-        for fontSource in fontSources :
-            updatedFontSources.append(fontSource)
+        updated_font_sources = []
+        for font_source in font_sources :
+            updated_font_sources.append(font_source)
 
-        updatedFontSources.append(folderFontSource)
+        updated_font_sources.append(folder_font_source)
 
-        fontSettings.set_fonts_sources(updatedFontSources)
+        font_settings.set_fonts_sources(updated_font_sources)
 
-        doc.font_settings = fontSettings
+        doc.font_settings = font_settings
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFonts.set_fonts_folders_system_and_custom_folder.pdf")
         #ExEnd:SetFontsFoldersSystemAndCustomFolder
@@ -226,13 +226,13 @@ class WorkingWithFonts(docs_base.DocsExamplesBase):
         #ExStart:SetTrueTypeFontsFolder
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
-        fontSettings = aw.fonts.FontSettings()
+        font_settings = aw.fonts.FontSettings()
         # Note that this setting will override any default font sources that are being searched by default. Now only these folders will be searched for
         # Fonts when rendering or embedding fonts. To add an extra font source while keeping system font sources then use both FontSettings.get_font_sources and
         # FontSettings.set_font_sources instead
-        fontSettings.set_fonts_folder("C:\\MyFonts\\", False)
+        font_settings.set_fonts_folder("C:\\MyFonts\\", False)
         # Set font settings
-        doc.font_settings = fontSettings
+        doc.font_settings = font_settings
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFonts.set_true_type_fonts_folder.pdf")
         #ExEnd:SetTrueTypeFontsFolder
@@ -243,12 +243,12 @@ class WorkingWithFonts(docs_base.DocsExamplesBase):
         #ExStart:SpecifyDefaultFontWhenRendering
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
-        fontSettings = aw.fonts.FontSettings()
+        font_settings = aw.fonts.FontSettings()
         # If the default font defined here cannot be found during rendering then
         # the closest font on the machine is used instead.
-        fontSettings.substitution_settings.default_font_substitution.default_font_name = "Arial Unicode MS"
+        font_settings.substitution_settings.default_font_substitution.default_font_name = "Arial Unicode MS"
 
-        doc.font_settings = fontSettings
+        doc.font_settings = font_settings
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFonts.specify_default_font_when_rendering.pdf")
         #ExEnd:SpecifyDefaultFontWhenRendering
@@ -257,39 +257,39 @@ class WorkingWithFonts(docs_base.DocsExamplesBase):
     def test_font_settings_with_load_options(self) :
 
         #ExStart:FontSettingsWithLoadOptions
-        fontSettings = aw.fonts.FontSettings()
+        font_settings = aw.fonts.FontSettings()
 
-        substitutionRule = fontSettings.substitution_settings.table_substitution
+        substitution_rule = font_settings.substitution_settings.table_substitution
         # If "UnknownFont1" font family is not available then substitute it by "Comic Sans MS"
-        substitutionRule.add_substitutes("UnknownFont1", ["Comic Sans MS"])
+        substitution_rule.add_substitutes("UnknownFont1", ["Comic Sans MS"])
 
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.font_settings = fontSettings
+        load_options = aw.loading.LoadOptions()
+        load_options.font_settings = font_settings
 
-        doc = aw.Document(docs_base.my_dir + "Rendering.docx", loadOptions)
+        doc = aw.Document(docs_base.my_dir + "Rendering.docx", load_options)
         #ExEnd:FontSettingsWithLoadOptions
 
 
     def test_set_fonts_folder(self) :
 
         #ExStart:SetFontsFolder
-        fontSettings = aw.fonts.FontSettings()
-        fontSettings.set_fonts_folder(docs_base.my_dir + "Fonts", False)
+        font_settings = aw.fonts.FontSettings()
+        font_settings.set_fonts_folder(docs_base.my_dir + "Fonts", False)
 
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.font_settings = fontSettings
+        load_options = aw.loading.LoadOptions()
+        load_options.font_settings = font_settings
 
-        doc = aw.Document(docs_base.my_dir + "Rendering.docx", loadOptions)
+        doc = aw.Document(docs_base.my_dir + "Rendering.docx", load_options)
         #ExEnd:SetFontsFolder
 
 
     def test_font_settings_with_load_option(self) :
 
         #ExStart:FontSettingsWithLoadOption
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.font_settings = aw.fonts.FontSettings()
+        load_options = aw.loading.LoadOptions()
+        load_options.font_settings = aw.fonts.FontSettings()
 
-        doc = aw.Document(docs_base.my_dir + "Rendering.docx", loadOptions)
+        doc = aw.Document(docs_base.my_dir + "Rendering.docx", load_options)
         #ExEnd:FontSettingsWithLoadOption
 
 
@@ -297,37 +297,37 @@ class WorkingWithFonts(docs_base.DocsExamplesBase):
 
         #ExStart:FontSettingsFontSource
         #ExStart:FontSettingsDefaultInstance
-        fontSettings = aw.fonts.FontSettings.default_instance
+        font_settings = aw.fonts.FontSettings.default_instance
         #ExEnd:FontSettingsDefaultInstance
-        fontSettings.set_fonts_sources([aw.fonts.SystemFontSource(), aw.fonts.FolderFontSource("C:\\MyFonts\\", True)])
+        font_settings.set_fonts_sources([aw.fonts.SystemFontSource(), aw.fonts.FolderFontSource("C:\\MyFonts\\", True)])
         #ExEnd:FontSettingsFontSource
 
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.font_settings = fontSettings
-        doc = aw.Document(docs_base.my_dir + "Rendering.docx", loadOptions)
+        load_options = aw.loading.LoadOptions()
+        load_options.font_settings = font_settings
+        doc = aw.Document(docs_base.my_dir + "Rendering.docx", load_options)
 
 
     def test_get_list_of_available_fonts(self) :
 
         #ExStart:GetListOfAvailableFonts
-        fontSettings = aw.fonts.FontSettings()
-        fontSources = fontSettings.get_fonts_sources()
+        font_settings = aw.fonts.FontSettings()
+        font_sources = font_settings.get_fonts_sources()
 
         # Add a new folder source which will instruct Aspose.words to search the following folder for fonts.
-        folderFontSource = aw.fonts.FolderFontSource(docs_base.my_dir, True)
+        folder_font_source = aw.fonts.FolderFontSource(docs_base.my_dir, True)
         # Add the custom folder which contains our fonts to the list of existing font sources.
-        updatedFontSources = []
-        for fontSource in fontSources :
-            updatedFontSources.append(fontSource)
+        updated_font_sources = []
+        for font_source in font_sources :
+            updated_font_sources.append(font_source)
 
-        updatedFontSources.append(folderFontSource)
+        updated_font_sources.append(folder_font_source)
 
-        for fontInfo in updatedFontSources[0].get_available_fonts() :
+        for font_info in updated_font_sources[0].get_available_fonts() :
 
-            print("FontFamilyName : " + fontInfo.font_family_name)
-            print("FullFontName  : " + fontInfo.full_font_name)
-            print("Version  : " + fontInfo.version)
-            print("FilePath : " + fontInfo.file_path)
+            print("FontFamilyName : " + font_info.font_family_name)
+            print("FullFontName  : " + font_info.full_font_name)
+            print("Version  : " + font_info.version)
+            print("FilePath : " + font_info.file_path)
 
         #ExEnd:GetListOfAvailableFonts
 

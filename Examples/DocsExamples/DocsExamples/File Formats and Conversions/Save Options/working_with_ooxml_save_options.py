@@ -18,10 +18,10 @@ class WorkingWithOoxmlSaveOptions(docs_base.DocsExamplesBase):
         #ExStart:EncryptDocxWithPassword
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
-        saveOptions = aw.saving.OoxmlSaveOptions()
-        saveOptions.password = "password"
+        save_options = aw.saving.OoxmlSaveOptions()
+        save_options.password = "password"
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithOoxmlSaveOptions.encrypt_docx_with_password.docx", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithOoxmlSaveOptions.encrypt_docx_with_password.docx", save_options)
         #ExEnd:EncryptDocxWithPassword
 
 
@@ -32,10 +32,10 @@ class WorkingWithOoxmlSaveOptions(docs_base.DocsExamplesBase):
 
         doc.compatibility_options.optimize_for(aw.settings.MsWordVersion.WORD2016)
 
-        saveOptions = aw.saving.OoxmlSaveOptions()
-        saveOptions.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_STRICT
+        save_options = aw.saving.OoxmlSaveOptions()
+        save_options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_STRICT
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithOoxmlSaveOptions.ooxml_compliance_iso_29500_2008_strict.docx", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithOoxmlSaveOptions.ooxml_compliance_iso_29500_2008_strict.docx", save_options)
         #ExEnd:OoxmlComplianceIso29500_2008_Strict
 
 
@@ -44,10 +44,10 @@ class WorkingWithOoxmlSaveOptions(docs_base.DocsExamplesBase):
         #ExStart:UpdateLastSavedTimeProperty
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
-        saveOptions = aw.saving.OoxmlSaveOptions()
-        saveOptions.update_last_saved_time_property = True
+        save_options = aw.saving.OoxmlSaveOptions()
+        save_options.update_last_saved_time_property = True
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithOoxmlSaveOptions.update_last_saved_time_property.docx", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithOoxmlSaveOptions.update_last_saved_time_property.docx", save_options)
         #ExEnd:UpdateLastSavedTimeProperty
 
 
@@ -56,10 +56,10 @@ class WorkingWithOoxmlSaveOptions(docs_base.DocsExamplesBase):
         #ExStart:KeepLegacyControlChars
         doc = aw.Document(docs_base.my_dir + "Legacy control character.doc")
 
-        saveOptions = aw.saving.OoxmlSaveOptions(aw.SaveFormat.FLAT_OPC)
-        saveOptions.keep_legacy_control_chars = True
+        save_options = aw.saving.OoxmlSaveOptions(aw.SaveFormat.FLAT_OPC)
+        save_options.keep_legacy_control_chars = True
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithOoxmlSaveOptions.keep_legacy_control_chars.docx", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithOoxmlSaveOptions.keep_legacy_control_chars.docx", save_options)
         #ExEnd:KeepLegacyControlChars
 
 
@@ -68,10 +68,10 @@ class WorkingWithOoxmlSaveOptions(docs_base.DocsExamplesBase):
         #ExStart:SetCompressionLevel
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
-        saveOptions = aw.saving.OoxmlSaveOptions()
-        saveOptions.compression_level = aw.saving.CompressionLevel.SUPER_FAST
+        save_options = aw.saving.OoxmlSaveOptions()
+        save_options.compression_level = aw.saving.CompressionLevel.SUPER_FAST
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithOoxmlSaveOptions.set_compression_level.docx", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithOoxmlSaveOptions.set_compression_level.docx", save_options)
         #ExEnd:SetCompressionLevel
 
 

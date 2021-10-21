@@ -18,10 +18,10 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
         #ExStart:ExportRoundtripInformation
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
-        saveOptions = aw.saving.HtmlSaveOptions()
-        saveOptions.export_roundtrip_information = True
+        save_options = aw.saving.HtmlSaveOptions()
+        save_options.export_roundtrip_information = True
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.export_roundtrip_information.html", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.export_roundtrip_information.html", save_options)
         #ExEnd:ExportRoundtripInformation
 
 
@@ -30,10 +30,10 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
         #ExStart:ExportFontsAsBase64
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
-        saveOptions = aw.saving.HtmlSaveOptions()
-        saveOptions.export_fonts_as_base64 = True
+        save_options = aw.saving.HtmlSaveOptions()
+        save_options.export_fonts_as_base64 = True
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.export_fonts_as_base64.html", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.export_fonts_as_base64.html", save_options)
         #ExEnd:ExportFontsAsBase64
 
 
@@ -42,15 +42,15 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
         #ExStart:ExportResources
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
-        saveOptions = aw.saving.HtmlSaveOptions()
+        save_options = aw.saving.HtmlSaveOptions()
 
-        saveOptions.css_style_sheet_type = aw.saving.CssStyleSheetType.EXTERNAL
-        saveOptions.export_font_resources = True
-        saveOptions.resource_folder = docs_base.artifacts_dir + "Resources"
-        saveOptions.resource_folder_alias = "http:#example.com/resources"
+        save_options.css_style_sheet_type = aw.saving.CssStyleSheetType.EXTERNAL
+        save_options.export_font_resources = True
+        save_options.resource_folder = docs_base.artifacts_dir + "Resources"
+        save_options.resource_folder_alias = "http:#example.com/resources"
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.export_resources.html", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.export_resources.html", save_options)
         #ExEnd:ExportResources
 
 
@@ -69,10 +69,10 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
                 ch9#q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0
                 vr4MkhoXe0rZigAAAABJRU5ErkJggg==\" alt=\"Red dot\" />""")
 
-        saveOptions = aw.saving.HtmlSaveOptions()
-        saveOptions.metafile_format = aw.saving.HtmlMetafileFormat.EMF_OR_WMF
+        save_options = aw.saving.HtmlSaveOptions()
+        save_options.metafile_format = aw.saving.HtmlMetafileFormat.EMF_OR_WMF
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.convert_metafiles_to_emf_or_wmf.html", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.convert_metafiles_to_emf_or_wmf.html", save_options)
         #ExEnd:ConvertMetafilesToEmfOrWmf
 
 
@@ -88,10 +88,10 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
                 style='fill:limestroke:purplestroke-width:5fill-rule:evenodd' />
             </svg> """)
 
-        saveOptions = aw.saving.HtmlSaveOptions()
-        saveOptions.metafile_format = aw.saving.HtmlMetafileFormat.SVG
+        save_options = aw.saving.HtmlSaveOptions()
+        save_options.metafile_format = aw.saving.HtmlMetafileFormat.SVG
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.convert_metafiles_to_svg.html", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.convert_metafiles_to_svg.html", save_options)
         #ExEnd:ConvertMetafilesToSvg
 
 
@@ -100,12 +100,12 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
         #ExStart:AddCssClassNamePrefix
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
-        saveOptions = aw.saving.HtmlSaveOptions()
-        saveOptions.css_style_sheet_type = aw.saving.CssStyleSheetType.EXTERNAL
-        saveOptions.css_class_name_prefix = "pfx_"
+        save_options = aw.saving.HtmlSaveOptions()
+        save_options.css_style_sheet_type = aw.saving.CssStyleSheetType.EXTERNAL
+        save_options.css_class_name_prefix = "pfx_"
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.add_css_class_name_prefix.html", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.add_css_class_name_prefix.html", save_options)
         #ExEnd:AddCssClassNamePrefix
 
 
@@ -114,12 +114,12 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
         #ExStart:ExportCidUrlsForMhtmlResources
         doc = aw.Document(docs_base.my_dir + "Content-ID.docx")
 
-        saveOptions = aw.saving.HtmlSaveOptions(aw.SaveFormat.MHTML)
-        saveOptions.pretty_format = True
-        saveOptions.export_cid_urls_for_mhtml_resources = True
+        save_options = aw.saving.HtmlSaveOptions(aw.SaveFormat.MHTML)
+        save_options.pretty_format = True
+        save_options.export_cid_urls_for_mhtml_resources = True
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.export_cid_urls_for_mhtml_resources.mhtml", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.export_cid_urls_for_mhtml_resources.mhtml", save_options)
         #ExEnd:ExportCidUrlsForMhtmlResources
 
 
@@ -128,12 +128,12 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
         #ExStart:ResolveFontNames
         doc = aw.Document(docs_base.my_dir + "Missing font.docx")
 
-        saveOptions = aw.saving.HtmlSaveOptions(aw.SaveFormat.HTML)
-        saveOptions.pretty_format = True
-        saveOptions.resolve_font_names = True
+        save_options = aw.saving.HtmlSaveOptions(aw.SaveFormat.HTML)
+        save_options.pretty_format = True
+        save_options.resolve_font_names = True
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.resolve_font_names.html", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.resolve_font_names.html", save_options)
         #ExEnd:ResolveFontNames
 
 
@@ -142,21 +142,21 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
         #ExStart:ExportTextInputFormFieldAsText
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
-        imagesDir = os.path.join(docs_base.artifacts_dir, "Images")
+        images_dir = os.path.join(docs_base.artifacts_dir, "Images")
 
         # The folder specified needs to exist and should be empty.
-        if os.path.exists(imagesDir):
-            os.rmdir(imagesDir)
+        if os.path.exists(images_dir):
+            os.rmdir(images_dir)
 
-        os.makedirs(imagesDir)
+        os.makedirs(images_dir)
 
         # Set an option to export form fields as plain text, not as HTML input elements.
-        saveOptions = aw.saving.HtmlSaveOptions(aw.SaveFormat.HTML)
-        saveOptions.export_text_input_form_field_as_text = True
-        saveOptions.images_folder = imagesDir
+        save_options = aw.saving.HtmlSaveOptions(aw.SaveFormat.HTML)
+        save_options.export_text_input_form_field_as_text = True
+        save_options.images_folder = images_dir
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.export_text_input_form_field_as_text.html", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.export_text_input_form_field_as_text.html", save_options)
         #ExEnd:ExportTextInputFormFieldAsText
 
     def test_convert_document_to_epub(self) :
@@ -167,24 +167,24 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
 
         # Create a new instance of HtmlSaveOptions. This object allows us to set options that control
         # How the output document is saved.
-        saveOptions = aw.saving.HtmlSaveOptions()
+        save_options = aw.saving.HtmlSaveOptions()
 
         # Specify the desired encoding.
-        saveOptions.encoding = "utf-8"
+        save_options.encoding = "utf-8"
 
         # Specify at what elements to split the internal HTML at. This creates a new HTML within the EPUB
         # which allows you to limit the size of each HTML part. This is useful for readers which cannot read
         # HTML files greater than a certain size e.g 300kb.
-        saveOptions.document_split_criteria = aw.saving.DocumentSplitCriteria.HEADING_PARAGRAPH
+        save_options.document_split_criteria = aw.saving.DocumentSplitCriteria.HEADING_PARAGRAPH
 
         # Specify that we want to export document properties.
-        saveOptions.export_document_properties = True
+        save_options.export_document_properties = True
 
         # Specify that we want to save in EPUB format.
-        saveOptions.save_format = aw.SaveFormat.EPUB
+        save_options.save_format = aw.SaveFormat.EPUB
 
         # Export the document as an EPUB file.
-        doc.save(docs_base.artifacts_dir + "Document.EpubConversion_out.epub", saveOptions)
+        doc.save(docs_base.artifacts_dir + "Document.EpubConversion_out.epub", save_options)
         #ExEnd:ConvertDocumentToEPUB
 
 

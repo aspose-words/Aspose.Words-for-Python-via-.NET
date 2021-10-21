@@ -17,10 +17,10 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
     def test_update_dirty_fields(self) :
 
         #ExStart:UpdateDirtyFields
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.update_dirty_fields = True
+        load_options = aw.loading.LoadOptions()
+        load_options.update_dirty_fields = True
 
-        doc = aw.Document(docs_base.my_dir + "Dirty field.docx", loadOptions)
+        doc = aw.Document(docs_base.my_dir + "Dirty field.docx", load_options)
 
         doc.save(docs_base.artifacts_dir + "WorkingWithLoadOptions.update_dirty_fields.docx")
         #ExEnd:UpdateDirtyFields
@@ -40,10 +40,10 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
     def test_convert_shape_to_office_math(self) :
 
         #ExStart:ConvertShapeToOfficeMath
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.convert_shape_to_office_math = True
+        load_options = aw.loading.LoadOptions()
+        load_options.convert_shape_to_office_math = True
 
-        doc = aw.Document(docs_base.my_dir + "Office math.docx", loadOptions)
+        doc = aw.Document(docs_base.my_dir + "Office math.docx", load_options)
 
         doc.save(docs_base.artifacts_dir + "WorkingWithLoadOptions.convert_shape_to_office_math.docx", aw.SaveFormat.DOCX)
         #ExEnd:ConvertShapeToOfficeMath
@@ -54,10 +54,10 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
         #ExStart:SetMSWordVersion
         # Create a new LoadOptions object, which will load documents according to MS Word 2019 specification by default
         # and change the loading version to Microsoft Word 2010.
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.msw_version = aw.settings.MsWordVersion.WORD2010
+        load_options = aw.loading.LoadOptions()
+        load_options.msw_version = aw.settings.MsWordVersion.WORD2010
 
-        doc = aw.Document(docs_base.my_dir + "Document.docx", loadOptions)
+        doc = aw.Document(docs_base.my_dir + "Document.docx", load_options)
 
         doc.save(docs_base.artifacts_dir + "WorkingWithLoadOptions.set_ms_word_version.docx")
         #ExEnd:SetMSWordVersion
@@ -66,50 +66,50 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
     def test_use_temp_folder(self) :
 
         #ExStart:UseTempFolder
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.temp_folder = docs_base.artifacts_dir
+        load_options = aw.loading.LoadOptions()
+        load_options.temp_folder = docs_base.artifacts_dir
 
-        doc = aw.Document(docs_base.my_dir + "Document.docx", loadOptions)
+        doc = aw.Document(docs_base.my_dir + "Document.docx", load_options)
         #ExEnd:UseTempFolder
 
 
     def test_load_with_encoding(self) :
 
         #ExStart:LoadWithEncoding
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.encoding = "utf-7"
+        load_options = aw.loading.LoadOptions()
+        load_options.encoding = "utf-7"
 
-        doc = aw.Document(docs_base.my_dir + "Encoded in UTF-7.txt", loadOptions)
+        doc = aw.Document(docs_base.my_dir + "Encoded in UTF-7.txt", load_options)
         #ExEnd:LoadWithEncoding
 
 
     def test_skip_pdf_images(self) :
 
         #ExStart:SkipPdfImages
-        loadOptions = aw.loading.PdfLoadOptions()
-        loadOptions.skip_pdf_images = True
+        load_options = aw.loading.PdfLoadOptions()
+        load_options.skip_pdf_images = True
 
-        doc = aw.Document(docs_base.my_dir + "Pdf Document.pdf", loadOptions)
+        doc = aw.Document(docs_base.my_dir + "Pdf Document.pdf", load_options)
         #ExEnd:SkipPdfImages
 
 
     def test_convert_metafiles_to_png(self) :
 
         #ExStart:ConvertMetafilesToPng
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.convert_metafiles_to_png = True
+        load_options = aw.loading.LoadOptions()
+        load_options.convert_metafiles_to_png = True
 
-        doc = aw.Document(docs_base.my_dir + "WMF with image.docx", loadOptions)
+        doc = aw.Document(docs_base.my_dir + "WMF with image.docx", load_options)
         #ExEnd:ConvertMetafilesToPng
 
 
     def test_load_chm(self) :
 
         #ExStart:LoadCHM
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.encoding = "windows-1251"
+        load_options = aw.loading.LoadOptions()
+        load_options.encoding = "windows-1251"
 
-        doc = aw.Document(docs_base.my_dir + "HTML help.chm", loadOptions)
+        doc = aw.Document(docs_base.my_dir + "HTML help.chm", load_options)
         #ExEnd:LoadCHM
 
 

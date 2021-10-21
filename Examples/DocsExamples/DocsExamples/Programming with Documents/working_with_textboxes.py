@@ -21,11 +21,11 @@ class WorkingWithTextboxes(docs_base.DocsExamplesBase):
         shape1 = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
         shape2 = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
 
-        textBox1 = shape1.text_box
-        textBox2 = shape2.text_box
+        text_box1 = shape1.text_box
+        text_box2 = shape2.text_box
 
-        if textBox1.is_valid_link_target(textBox2) :
-            textBox1.next = textBox2
+        if text_box1.is_valid_link_target(text_box2) :
+            text_box1.next = text_box2
         #ExEnd:CreateALink
 
 
@@ -35,17 +35,17 @@ class WorkingWithTextboxes(docs_base.DocsExamplesBase):
         doc = aw.Document()
 
         shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
-        textBox = shape.text_box
+        text_box = shape.text_box
 
-        if (textBox.next != None and textBox.previous == None) :
+        if (text_box.next != None and text_box.previous == None) :
             print("The head of the sequence")
 
 
-        if (textBox.next != None and textBox.previous != None) :
+        if (text_box.next != None and text_box.previous != None) :
             print("The Middle of the sequence.")
 
 
-        if (textBox.next == None and textBox.previous != None) :
+        if (text_box.next == None and text_box.previous != None) :
             print("The Tail of the sequence.")
 
         #ExEnd:CheckSequence
@@ -57,17 +57,17 @@ class WorkingWithTextboxes(docs_base.DocsExamplesBase):
         doc = aw.Document()
 
         shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
-        textBox = shape.text_box
+        text_box = shape.text_box
 
         # Break a forward link.
-        textBox.break_forward_link()
+        text_box.break_forward_link()
 
         # Break a forward link by setting a None.
-        textBox.next = None
+        text_box.next = None
 
         # Break a link, which leads to this textbox.
-        if textBox.previous != None :
-            textBox.previous.break_forward_link()
+        if text_box.previous != None :
+            text_box.previous.break_forward_link()
         #ExEnd:BreakALink
 
 

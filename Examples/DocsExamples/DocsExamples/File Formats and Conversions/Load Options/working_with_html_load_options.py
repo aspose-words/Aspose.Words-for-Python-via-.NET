@@ -26,10 +26,10 @@ class WorkingWithHtmlLoadOptions(docs_base.DocsExamplesBase):
             </html>
         """
 
-        loadOptions = aw.loading.HtmlLoadOptions()
-        loadOptions.preferred_control_type = aw.loading.HtmlControlType.STRUCTURED_DOCUMENT_TAG
+        load_options = aw.loading.HtmlLoadOptions()
+        load_options.preferred_control_type = aw.loading.HtmlControlType.STRUCTURED_DOCUMENT_TAG
 
-        doc = aw.Document(io.BytesIO(html.encode("utf-8")), loadOptions)
+        doc = aw.Document(io.BytesIO(html.encode("utf-8")), load_options)
 
         doc.save(docs_base.artifacts_dir + "WorkingWithHtmlLoadOptions.preferred_control_type.docx", aw.SaveFormat.DOCX)
         #ExEnd:LoadHtmlElementsWithPreferredControlType

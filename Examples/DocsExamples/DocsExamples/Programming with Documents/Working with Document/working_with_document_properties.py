@@ -49,16 +49,16 @@ class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
             #ExStart:AddCustomDocumentProperties
             doc = aw.Document(docs_base.my_dir + "Properties.docx")
 
-            customDocumentProperties = doc.custom_document_properties
+            custom_document_properties = doc.custom_document_properties
 
-            if (customDocumentProperties.get_by_name("Authorized") != None) :
+            if (custom_document_properties.get_by_name("Authorized") != None) :
                 return
 
-            customDocumentProperties.add("Authorized", True)
-            customDocumentProperties.add("Authorized By", "John Smith")
-            customDocumentProperties.add("Authorized Date", datetime.today())
-            customDocumentProperties.add("Authorized Revision", doc.built_in_document_properties.revision_number)
-            customDocumentProperties.add("Authorized Amount", 123.45)
+            custom_document_properties.add("Authorized", True)
+            custom_document_properties.add("Authorized By", "John Smith")
+            custom_document_properties.add("Authorized Date", datetime.today())
+            custom_document_properties.add("Authorized Revision", doc.built_in_document_properties.revision_number)
+            custom_document_properties.add("Authorized Amount", 123.45)
             #ExEnd:AddCustomDocumentProperties
 
 
@@ -91,16 +91,16 @@ class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
             builder.end_bookmark("MyBookmark")
 
             # Retrieve a list of all custom document properties from the file.
-            customProperties = doc.custom_document_properties
+            custom_properties = doc.custom_document_properties
             # Add linked to content property.
-            customProperty = customProperties.add_link_to_content("Bookmark", "MyBookmark")
-            customProperty = customProperties.get_by_name("Bookmark")
+            custom_property = custom_properties.add_link_to_content("Bookmark", "MyBookmark")
+            custom_property = custom_properties.get_by_name("Bookmark")
 
-            isLinkedToContent = customProperty.is_link_to_content
+            is_linked_to_content = custom_property.is_link_to_content
 
-            linkSource = customProperty.link_source
+            link_source = custom_property.link_source
 
-            customPropertyValue = customProperty.value
+            custom_property_value = custom_property.value
             #ExEnd:ConfiguringLinkToContent
 
 
@@ -110,13 +110,13 @@ class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
             doc = aw.Document()
             builder = aw.DocumentBuilder(doc)
 
-            pageSetup = builder.page_setup
-            pageSetup.top_margin = aw.ConvertUtil.inch_to_point(1.0)
-            pageSetup.bottom_margin = aw.ConvertUtil.inch_to_point(1.0)
-            pageSetup.left_margin = aw.ConvertUtil.inch_to_point(1.5)
-            pageSetup.right_margin = aw.ConvertUtil.inch_to_point(1.5)
-            pageSetup.header_distance = aw.ConvertUtil.inch_to_point(0.2)
-            pageSetup.footer_distance = aw.ConvertUtil.inch_to_point(0.2)
+            page_setup = builder.page_setup
+            page_setup.top_margin = aw.ConvertUtil.inch_to_point(1.0)
+            page_setup.bottom_margin = aw.ConvertUtil.inch_to_point(1.0)
+            page_setup.left_margin = aw.ConvertUtil.inch_to_point(1.5)
+            page_setup.right_margin = aw.ConvertUtil.inch_to_point(1.5)
+            page_setup.header_distance = aw.ConvertUtil.inch_to_point(0.2)
+            page_setup.footer_distance = aw.ConvertUtil.inch_to_point(0.2)
             #ExEnd:ConvertBetweenMeasurementUnits
 
 

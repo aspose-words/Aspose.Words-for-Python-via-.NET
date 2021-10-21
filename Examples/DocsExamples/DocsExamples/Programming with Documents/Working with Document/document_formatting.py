@@ -20,9 +20,9 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
             doc = aw.Document()
             builder = aw.DocumentBuilder(doc)
 
-            paragraphFormat = builder.paragraph_format
-            paragraphFormat.add_space_between_far_east_and_alpha = True
-            paragraphFormat.add_space_between_far_east_and_digit = True
+            paragraph_format = builder.paragraph_format
+            paragraph_format.add_space_between_far_east_and_alpha = True
+            paragraph_format.add_space_between_far_east_and_digit = True
 
             builder.writeln("Automatically adjust space between Asian and Latin text")
             builder.writeln("Automatically adjust space between Asian text and numbers")
@@ -51,11 +51,11 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
             doc = aw.Document()
             builder = aw.DocumentBuilder(doc)
 
-            paragraphFormat = builder.paragraph_format
-            paragraphFormat.alignment = aw.ParagraphAlignment.CENTER
-            paragraphFormat.left_indent = 50
-            paragraphFormat.right_indent = 50
-            paragraphFormat.space_after = 25
+            paragraph_format = builder.paragraph_format
+            paragraph_format.alignment = aw.ParagraphAlignment.CENTER
+            paragraph_format.left_indent = 50
+            paragraph_format.right_indent = 50
+            paragraph_format.space_after = 25
 
             builder.writeln(
                 "I'm a very nice formatted paragraph. I'm intended to demonstrate how the left and right indents affect word wrapping.")

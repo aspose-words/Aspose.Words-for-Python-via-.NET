@@ -78,10 +78,10 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
         # Retrieve the first row in the table.
-        firstRow = table.first_row
-        firstRow.row_format.borders.line_style = aw.LineStyle.NONE
-        firstRow.row_format.height_rule = aw.HeightRule.AUTO
-        firstRow.row_format.allow_break_across_pages = True
+        first_row = table.first_row
+        first_row.row_format.borders.line_style = aw.LineStyle.NONE
+        first_row.row_format.height_rule = aw.HeightRule.AUTO
+        first_row.row_format.allow_break_across_pages = True
         #ExEnd:ModifyRowFormatting
 
 
@@ -94,9 +94,9 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         table = builder.start_table()
         builder.insert_cell()
 
-        rowFormat = builder.row_format
-        rowFormat.height = 100
-        rowFormat.height_rule = aw.HeightRule.EXACTLY
+        row_format = builder.row_format
+        row_format.height = 100
+        row_format.height_rule = aw.HeightRule.EXACTLY
 
         # These formatting properties are set on the table and are applied to all rows in the table.
         table.left_padding = 30
@@ -142,10 +142,10 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
-        firstCell = table.first_row.first_cell
-        firstCell.cell_format.width = 30
-        firstCell.cell_format.orientation = aw.TextOrientation.DOWNWARD
-        firstCell.cell_format.shading.foreground_pattern_color = drawing.Color.light_green
+        first_cell = table.first_row.first_cell
+        first_cell.cell_format.width = 30
+        first_cell.cell_format.orientation = aw.TextOrientation.DOWNWARD
+        first_cell.cell_format.shading.foreground_pattern_color = drawing.Color.light_green
         #ExEnd:ModifyCellFormatting
 
 
@@ -278,19 +278,19 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
 
         # Get the first cell of the first table in the document.
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
-        firstCell = table.first_row.first_cell
+        first_cell = table.first_row.first_cell
 
         # First print the color of the cell shading.
         # This should be empty as the current shading is stored in the table style.
-        cellShadingBefore = firstCell.cell_format.shading.background_pattern_color
-        print(f"Cell shading before style expansion: {cellShadingBefore}")
+        cell_shading_before = first_cell.cell_format.shading.background_pattern_color
+        print(f"Cell shading before style expansion: {cell_shading_before}")
 
         doc.expand_table_styles_to_direct_formatting()
 
         # Now print the cell shading after expanding table styles.
         # A blue background pattern color should have been applied from the table style.
-        cellShadingAfter = firstCell.cell_format.shading.background_pattern_color
-        print(f"Cell shading after style expansion: {cellShadingAfter}")
+        cell_shading_after = first_cell.cell_format.shading.background_pattern_color
+        print(f"Cell shading after style expansion: {cell_shading_after}")
         #ExEnd:ExpandFormattingOnCellsAndRowFromStyle
 
 
@@ -310,15 +310,15 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         builder.insert_cell()
         builder.end_table()
 
-        tableStyle = doc.styles.add(aw.StyleType.TABLE, "MyTableStyle1").as_table_style()
-        tableStyle.borders.line_style = aw.LineStyle.DOUBLE
-        tableStyle.borders.line_width = 1
-        tableStyle.left_padding = 18
-        tableStyle.right_padding = 18
-        tableStyle.top_padding = 12
-        tableStyle.bottom_padding = 12
+        table_style = doc.styles.add(aw.StyleType.TABLE, "MyTableStyle1").as_table_style()
+        table_style.borders.line_style = aw.LineStyle.DOUBLE
+        table_style.borders.line_width = 1
+        table_style.left_padding = 18
+        table_style.right_padding = 18
+        table_style.top_padding = 12
+        table_style.bottom_padding = 12
 
-        table.style = tableStyle
+        table.style = table_style
 
         doc.save(docs_base.artifacts_dir + "WorkingWithTableStylesAndFormatting.create_table_style.docx")
         #ExEnd:CreateTableStyle
@@ -340,11 +340,11 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         builder.insert_cell()
         builder.end_table()
 
-        tableStyle = doc.styles.add(aw.StyleType.TABLE, "MyTableStyle1").as_table_style()
-        tableStyle.conditional_styles.first_row.shading.background_pattern_color = drawing.Color.green_yellow
-        tableStyle.conditional_styles.first_row.shading.texture = aw.TextureIndex.TEXTURE_NONE
+        table_style = doc.styles.add(aw.StyleType.TABLE, "MyTableStyle1").as_table_style()
+        table_style.conditional_styles.first_row.shading.background_pattern_color = drawing.Color.green_yellow
+        table_style.conditional_styles.first_row.shading.texture = aw.TextureIndex.TEXTURE_NONE
 
-        table.style = tableStyle
+        table.style = table_style
 
         doc.save(docs_base.artifacts_dir + "WorkingWithTableStylesAndFormatting.define_conditional_formatting.docx")
         #ExEnd:DefineConditionalFormatting
@@ -359,12 +359,12 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         builder.start_table()
         builder.insert_cell()
 
-        cellFormat = builder.cell_format
-        cellFormat.width = 250
-        cellFormat.left_padding = 30
-        cellFormat.right_padding = 30
-        cellFormat.top_padding = 30
-        cellFormat.bottom_padding = 30
+        cell_format = builder.cell_format
+        cell_format.width = 250
+        cell_format.left_padding = 30
+        cell_format.right_padding = 30
+        cell_format.top_padding = 30
+        cell_format.bottom_padding = 30
 
         builder.writeln("I'm a wonderful formatted cell.")
 
@@ -384,9 +384,9 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         table = builder.start_table()
         builder.insert_cell()
 
-        rowFormat = builder.row_format
-        rowFormat.height = 100
-        rowFormat.height_rule = aw.HeightRule.EXACTLY
+        row_format = builder.row_format
+        row_format.height = 100
+        row_format.height_rule = aw.HeightRule.EXACTLY
 
         # These formatting properties are set on the table and are applied to all rows in the table.
         table.left_padding = 30

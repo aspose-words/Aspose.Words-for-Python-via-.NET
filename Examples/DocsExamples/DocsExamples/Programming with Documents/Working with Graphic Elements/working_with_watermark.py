@@ -62,14 +62,14 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
 
         # If we wish to edit the text formatting using it as a watermark,
         # we can do so by passing a TextWatermarkOptions object when creating the watermark.
-        textWatermarkOptions = aw.TextWatermarkOptions()
-        textWatermarkOptions.font_family = "Arial"
-        textWatermarkOptions.font_size = 36
-        textWatermarkOptions.color = drawing.Color.black
-        textWatermarkOptions.layout = aw.WatermarkLayout.DIAGONAL
-        textWatermarkOptions.is_semitrasparent = False
+        text_watermark_options = aw.TextWatermarkOptions()
+        text_watermark_options.font_family = "Arial"
+        text_watermark_options.font_size = 36
+        text_watermark_options.color = drawing.Color.black
+        text_watermark_options.layout = aw.WatermarkLayout.DIAGONAL
+        text_watermark_options.is_semitrasparent = False
 
-        doc.watermark.set_text("Aspose Watermark", textWatermarkOptions)
+        doc.watermark.set_text("Aspose Watermark", text_watermark_options)
 
         doc.save(docs_base.artifacts_dir + "Document.text_watermark.docx")
 
@@ -99,13 +99,13 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
     # </summary>
     # <param name="doc">The input document.</param>
     # <param name="watermarkText">Text of the watermark.</param>
-    def insert_watermark_text(self, doc : aw.Document, watermarkText : str) :
+    def insert_watermark_text(self, doc : aw.Document, watermark_text : str) :
 
         # Create a watermark shape, this will be a WordArt shape.
         watermark = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
         watermark.name = "Watermark"
 
-        watermark.text_path.text = watermarkText
+        watermark.text_path.text = watermark_text
         watermark.text_path.font_family = "Arial"
         watermark.width = 500
         watermark.height = 100
@@ -125,43 +125,43 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
         watermark.horizontal_alignment = aw.drawing.HorizontalAlignment.CENTER
 
         # Create a new paragraph and append the watermark to this paragraph.
-        watermarkPara = aw.Paragraph(doc)
-        watermarkPara.append_child(watermark)
+        watermark_para = aw.Paragraph(doc)
+        watermark_para.append_child(watermark)
 
         # Insert the watermark into all headers of each document section.
         for sect in doc.sections :
             sect = sect.as_section()
             # There could be up to three different headers in each section.
             # Since we want the watermark to appear on all pages, insert it into all headers.
-            self.insert_watermark_into_header(watermarkPara, sect, aw.HeaderFooterType.HEADER_PRIMARY)
-            self.insert_watermark_into_header(watermarkPara, sect, aw.HeaderFooterType.HEADER_FIRST)
-            self.insert_watermark_into_header(watermarkPara, sect, aw.HeaderFooterType.HEADER_EVEN)
+            self.insert_watermark_into_header(watermark_para, sect, aw.HeaderFooterType.HEADER_PRIMARY)
+            self.insert_watermark_into_header(watermark_para, sect, aw.HeaderFooterType.HEADER_FIRST)
+            self.insert_watermark_into_header(watermark_para, sect, aw.HeaderFooterType.HEADER_EVEN)
 
 
 
-    def insert_watermark_into_header(self, watermarkPara : aw.Paragraph, sect : aw.Section, headerType : aw.HeaderFooterType) :
+    def insert_watermark_into_header(self, watermark_para : aw.Paragraph, sect : aw.Section, header_type : aw.HeaderFooterType) :
 
-        header = sect.headers_footers.get_by_header_footer_type(headerType)
+        header = sect.headers_footers.get_by_header_footer_type(header_type)
 
         if (header == None) :
 
             # There is no header of the specified type in the current section, so we need to create it.
-            header = aw.HeaderFooter(sect.document, headerType)
+            header = aw.HeaderFooter(sect.document, header_type)
             sect.headers_footers.add(header)
 
 
         # Insert a clone of the watermark into the header.
-        header.append_child(watermarkPara.clone(True))
+        header.append_child(watermark_para.clone(True))
 
     #ExEnd:AddWatermark
 
     #ExStart:RemoveWatermark
     def remove_watermark_text(self, doc : aw.Document) :
 
-        for hf in doc.get_child_nodes(aw.NodeType.HEADER_FOOTER, True) :
-            hf = hf.as_header_footer()
+        for header_footer in doc.get_child_nodes(aw.NodeType.HEADER_FOOTER, True) :
+            header_footer = header_footer.as_header_footer()
 
-            for shape in hf.get_child_nodes(aw.NodeType.SHAPE, True) :
+            for shape in header_footer.get_child_nodes(aw.NodeType.SHAPE, True) :
                 shape = shape.as_shape()
 
                 if shape.name.find("WaterMark") >= 0 :

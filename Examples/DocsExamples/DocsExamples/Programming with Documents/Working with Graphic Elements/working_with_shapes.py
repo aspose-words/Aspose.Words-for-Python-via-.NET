@@ -22,25 +22,25 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         doc = aw.Document()
         doc.ensure_minimum()
 
-        groupShape = aw.drawing.GroupShape(doc)
-        accentBorderShape = aw.drawing.Shape(doc, aw.drawing.ShapeType.ACCENT_BORDER_CALLOUT1)
-        accentBorderShape.width = 100
-        accentBorderShape.height = 100
-        groupShape.append_child(accentBorderShape)
+        group_shape = aw.drawing.GroupShape(doc)
+        accent_border_shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.ACCENT_BORDER_CALLOUT1)
+        accent_border_shape.width = 100
+        accent_border_shape.height = 100
+        group_shape.append_child(accent_border_shape)
 
-        actionButtonShape = aw.drawing.Shape(doc, aw.drawing.ShapeType.ACTION_BUTTON_BEGINNING)
-        actionButtonShape.left = 100
-        actionButtonShape.width = 100
-        actionButtonShape.height = 200
+        action_button_shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.ACTION_BUTTON_BEGINNING)
+        action_button_shape.left = 100
+        action_button_shape.width = 100
+        action_button_shape.height = 200
 
-        groupShape.append_child(actionButtonShape)
+        group_shape.append_child(action_button_shape)
 
-        groupShape.width = 200
-        groupShape.height = 200
-        groupShape.coord_size = drawing.Size(200, 200)
+        group_shape.width = 200
+        group_shape.height = 200
+        group_shape.coord_size = drawing.Size(200, 200)
 
         builder = aw.DocumentBuilder(doc)
-        builder.insert_node(groupShape)
+        builder.insert_node(group_shape)
 
         doc.save(docs_base.artifacts_dir + "WorkingWithShapes.add_group_shape.docx")
         #ExEnd:AddGroupShape
@@ -61,11 +61,11 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         shape = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 50, 50)
         shape.rotation = 30.0
 
-        saveOptions = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
-        saveOptions.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
+        save_options = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
+        save_options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithShapes.insert_shape.docx", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithShapes.insert_shape.docx", save_options)
         #ExEnd:InsertShape
 
 
@@ -141,10 +141,10 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
 
         builder.insert_shape(aw.drawing.ShapeType.TOP_CORNERS_SNIPPED, 50, 50)
 
-        saveOptions = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
-        saveOptions.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
+        save_options = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
+        save_options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithShapes.add_corners_snipped.docx", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithShapes.add_corners_snipped.docx", save_options)
         #ExEnd:AddCornersSnipped
 
 
@@ -168,10 +168,10 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        textBox = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 200, 200)
-        textBox.text_box.vertical_anchor = aw.drawing.TextBoxAnchor.BOTTOM
+        text_box = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 200, 200)
+        text_box.text_box.vertical_anchor = aw.drawing.TextBoxAnchor.BOTTOM
 
-        builder.move_to(textBox.first_paragraph)
+        builder.move_to(text_box.first_paragraph)
         builder.write("Textbox contents")
 
         doc.save(docs_base.artifacts_dir + "WorkingWithShapes.vertical_anchor.docx")
@@ -211,14 +211,14 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         #ExStart:RenderShapeToDisk
-        r = shape.get_shape_renderer()
+        renderer = shape.get_shape_renderer()
 
         # Define custom options which control how the image is rendered. Render the shape to the JPEG raster format.
-        imageOptions = aw.saving.ImageSaveOptions(aw.SaveFormat.EMF)
-        imageOptions.scale = 1.5
+        image_options = aw.saving.ImageSaveOptions(aw.SaveFormat.EMF)
+        image_options.scale = 1.5
 
         # Save the rendered image to disk.
-        r.save(docs_base.artifacts_dir + "TestFile.RenderToDisk_out.emf", imageOptions)
+        renderer.save(docs_base.artifacts_dir + "TestFile.RenderToDisk_out.emf", image_options)
         #ExEnd:RenderShapeToDisk
 
     def test_render_shape_to_stream(self) :
@@ -228,21 +228,21 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         #ExStart:RenderShapeToStream
-        r = shape.get_shape_renderer()
+        renderer = shape.get_shape_renderer()
 
         # Define custom options which control how the image is rendered. Render the shape to the vector format EMF.
-        imageOptions = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
+        image_options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
 
         # Output the image in gray scale
-        imageOptions.image_color_mode = aw.saving.ImageColorMode.GRAYSCALE
+        image_options.image_color_mode = aw.saving.ImageColorMode.GRAYSCALE
 
         # Reduce the brightness a bit (default is 0.5f).
-        imageOptions.image_brightness = 0.45
+        image_options.image_brightness = 0.45
 
         stream =  io.FileIO(docs_base.artifacts_dir + "TestFile.RenderToStream_out.jpg", "w+b")
 
         # Save the rendered image to the stream using different options.
-        r.save(stream, imageOptions)
+        renderer.save(stream, image_options)
 
         # Close the stream
         stream.close()

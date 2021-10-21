@@ -48,10 +48,10 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
                             f"Count of lists before Cleanup: {doc.lists.count}")
 
         # Cleans unused styles and lists from the document depending on given CleanupOptions.
-        cleanupOptions = aw.CleanupOptions()
-        cleanupOptions.unused_lists = False
-        cleanupOptions.unused_styles = True
-        doc.cleanup(cleanupOptions)
+        cleanup_options = aw.CleanupOptions()
+        cleanup_options.unused_lists = False
+        cleanup_options.unused_styles = True
+        doc.cleanup(cleanup_options)
 
         print(f"Count of styles after Cleanup was decreased: {doc.styles.count}\n" +
                             f"Count of lists after Cleanup is the same: {doc.lists.count}")
@@ -111,29 +111,29 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
     def test_add_japanese_as_editing_languages(self) :
 
         #ExStart:AddJapaneseAsEditinglanguages
-        loadOptions = aw.loading.LoadOptions()
+        load_options = aw.loading.LoadOptions()
 
         # Set language preferences that will be used when document is loading.
-        loadOptions.language_preferences.add_editing_language(aw.loading.EditingLanguage.JAPANESE)
+        load_options.language_preferences.add_editing_language(aw.loading.EditingLanguage.JAPANESE)
         #ExEnd:AddJapaneseAsEditinglanguages
 
-        doc = aw.Document(docs_base.my_dir + "No default editing language.docx", loadOptions)
+        doc = aw.Document(docs_base.my_dir + "No default editing language.docx", load_options)
 
-        localeIdFarEast = doc.styles.default_font.locale_id_far_east
-        print("The document either has no any FarEast language set in defaults or it was set to Japanese originally." if (localeIdFarEast == aw.loading.EditingLanguage.JAPANESE)
+        locale_id_far_east = doc.styles.default_font.locale_id_far_east
+        print("The document either has no any FarEast language set in defaults or it was set to Japanese originally." if (locale_id_far_east == aw.loading.EditingLanguage.JAPANESE)
                 else "The document default FarEast language was set to another than Japanese language originally, so it is not overridden.")
 
 
     def test_set_russian_as_default_editing_language(self) :
 
         #ExStart:SetRussianAsDefaultEditingLanguage
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.language_preferences.default_editing_language = aw.loading.EditingLanguage.RUSSIAN
+        load_options = aw.loading.LoadOptions()
+        load_options.language_preferences.default_editing_language = aw.loading.EditingLanguage.RUSSIAN
 
-        doc = aw.Document(docs_base.my_dir + "No default editing language.docx", loadOptions)
+        doc = aw.Document(docs_base.my_dir + "No default editing language.docx", load_options)
 
-        localeId = doc.styles.default_font.locale_id
-        print("The document either has no any language set in defaults or it was set to Russian originally." if (localeId == aw.loading.EditingLanguage.RUSSIAN)
+        locale_id = doc.styles.default_font.locale_id
+        print("The document either has no any language set in defaults or it was set to Russian originally." if (locale_id == aw.loading.EditingLanguage.RUSSIAN)
                 else "The document default language was set to another than Russian language originally, so it is not overridden.")
         #ExEnd:SetRussianAsDefaultEditingLanguage
 

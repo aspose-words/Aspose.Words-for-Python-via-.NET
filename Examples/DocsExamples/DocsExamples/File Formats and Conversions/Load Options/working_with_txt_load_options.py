@@ -20,7 +20,7 @@ class WorkingWithTxtLoadOptions(docs_base.DocsExamplesBase):
         # Create a plaintext document in the form of a string with parts that may be interpreted as lists.
         # Upon loading, the first three lists will always be detected by Aspose.words,
         # and List objects will be created for them after loading.
-        textDoc = """Full stop delimiters:\n
+        text_doc = """Full stop delimiters:\n
                     1. First list item 1\n
                     2. First list item 2\n
                     3. First list item 3\n\n
@@ -40,11 +40,11 @@ class WorkingWithTxtLoadOptions(docs_base.DocsExamplesBase):
         # The fourth list, with whitespace inbetween the list number and list item contents,
         # will only be detected as a list if "DetectNumberingWithWhitespaces" in a LoadOptions object is set to true,
         # to avoid paragraphs that start with numbers being mistakenly detected as lists.
-        loadOptions = aw.loading.TxtLoadOptions()
-        loadOptions.detect_numbering_with_whitespaces = True
+        load_options = aw.loading.TxtLoadOptions()
+        load_options.detect_numbering_with_whitespaces = True
 
         # Load the document while applying LoadOptions as a parameter and verify the result.
-        doc = aw.Document(io.BytesIO(textDoc.encode("utf-8")), loadOptions)
+        doc = aw.Document(io.BytesIO(text_doc.encode("utf-8")), load_options)
 
         doc.save(docs_base.artifacts_dir + "WorkingWithTxtLoadOptions.detect_numbering_with_whitespaces.docx")
         #ExEnd:DetectNumberingWithWhitespaces
@@ -53,15 +53,15 @@ class WorkingWithTxtLoadOptions(docs_base.DocsExamplesBase):
     def test_handle_spaces_options(self) :
 
         #ExStart:HandleSpacesOptions
-        textDoc = "      Line 1 \n" + "    Line 2   \n" +  " Line 3       "
+        text_doc = "      Line 1 \n" + "    Line 2   \n" +  " Line 3       "
 
-        loadOptions = aw.loading.TxtLoadOptions()
-        loadOptions.leading_spaces_options = aw.loading.TxtLeadingSpacesOptions.TRIM
-        loadOptions.trailing_spaces_options = aw.loading.TxtTrailingSpacesOptions.TRIM
+        load_options = aw.loading.TxtLoadOptions()
+        load_options.leading_spaces_options = aw.loading.TxtLeadingSpacesOptions.TRIM
+        load_options.trailing_spaces_options = aw.loading.TxtTrailingSpacesOptions.TRIM
 
-        f = io.BytesIO(textDoc.encode("utf-8"))
+        stream = io.BytesIO(text_doc.encode("utf-8"))
 
-        doc = aw.Document(f, loadOptions)
+        doc = aw.Document(stream, load_options)
 
         doc.save(docs_base.artifacts_dir + "WorkingWithTxtLoadOptions.handle_spaces_options.docx")
         #ExEnd:HandleSpacesOptions
@@ -70,10 +70,10 @@ class WorkingWithTxtLoadOptions(docs_base.DocsExamplesBase):
     def test_document_text_direction(self) :
 
         #ExStart:DocumentTextDirection
-        loadOptions = aw.loading.TxtLoadOptions()
-        loadOptions.document_direction = aw.loading.DocumentDirection.AUTO
+        load_options = aw.loading.TxtLoadOptions()
+        load_options.document_direction = aw.loading.DocumentDirection.AUTO
 
-        doc = aw.Document(docs_base.my_dir + "Hebrew text.txt", loadOptions)
+        doc = aw.Document(docs_base.my_dir + "Hebrew text.txt", load_options)
 
         paragraph = doc.first_section.body.first_paragraph
         print(paragraph.paragraph_format.bidi)

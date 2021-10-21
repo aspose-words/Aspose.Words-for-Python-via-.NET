@@ -88,23 +88,23 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
 
     def test_copy_bookmarked_text(self) :
 
-        srcDoc = aw.Document(docs_base.my_dir + "Bookmarks.docx")
+        src_doc = aw.Document(docs_base.my_dir + "Bookmarks.docx")
 
         # This is the bookmark whose content we want to copy.
-        srcBookmark = srcDoc.range.bookmarks.get_by_name("MyBookmark1")
+        src_bookmark = src_doc.range.bookmarks.get_by_name("MyBookmark1")
 
         # We will be adding to this document.
-        dstDoc = aw.Document()
+        dst_doc = aw.Document()
 
         # Let's say we will be appended to the end of the body of the last section.
-        dstNode = dstDoc.last_section.body
+        dst_node = dst_doc.last_section.body
 
         # If you import multiple times without a single context, it will result in many styles created.
-        importer = aw.NodeImporter(srcDoc, dstDoc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+        importer = aw.NodeImporter(src_doc, dst_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
-        self.append_bookmarked_text(importer, srcBookmark, dstNode)
+        self.append_bookmarked_text(importer, src_bookmark, dst_node)
 
-        dstDoc.save(docs_base.artifacts_dir + "WorkingWithBookmarks.copy_bookmarked_text.docx")
+        dst_doc.save(docs_base.artifacts_dir + "WorkingWithBookmarks.copy_bookmarked_text.docx")
 
 
     # <summary>
@@ -115,33 +115,33 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
     # <param name="srcBookmark">The input bookmark.</param>
     # <param name="dstNode">Must be a node that can contain paragraphs (such as a Story).</param>
     @staticmethod
-    def append_bookmarked_text(importer : aw.NodeImporter, srcBookmark : aw.Bookmark, dstNode : aw.CompositeNode) :
+    def append_bookmarked_text(importer : aw.NodeImporter, src_bookmark : aw.Bookmark, dst_node : aw.CompositeNode) :
 
         # This is the paragraph that contains the beginning of the bookmark.
-        startPara = srcBookmark.bookmark_start.parent_node.as_paragraph()
+        start_para = src_bookmark.bookmark_start.parent_node.as_paragraph()
 
         # This is the paragraph that contains the end of the bookmark.
-        endPara = srcBookmark.bookmark_end.parent_node.as_paragraph()
+        end_para = src_bookmark.bookmark_end.parent_node.as_paragraph()
 
-        if (startPara == None or endPara == None) :
+        if (start_para == None or end_para == None) :
             raise RuntimeError("Parent of the bookmark start or end is not a paragraph, cannot handle this scenario yet.")
 
         # Limit ourselves to a reasonably simple scenario.
-        if (startPara.parent_node != endPara.parent_node) :
+        if (start_para.parent_node != end_para.parent_node) :
             raise RuntimeError("Start and end paragraphs have different parents, cannot handle this scenario yet.")
 
         # We want to copy all paragraphs from the start paragraph up to (and including) the end paragraph,
         # therefore the node at which we stop is one after the end paragraph.
-        endNode = endPara.next_sibling
+        end_node = end_para.next_sibling
 
-        curNode = startPara
-        while(curNode != endNode) :
+        cur_node = start_para
+        while(cur_node != end_node) :
 
             # This creates a copy of the current node and imports it (makes it valid) in the context
             # of the destination document. Importing means adjusting styles and list identifiers correctly.
-            newNode = importer.import_node(curNode, True)
-            dstNode.append_child(newNode)
-            curNode = curNode.next_sibling
+            new_node = importer.import_node(cur_node, True)
+            dst_node.append_child(new_node)
+            cur_node = cur_node.next_sibling
 
 
 
@@ -182,9 +182,9 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
 
     #ExStart:ShowHideBookmarkedContent
     @staticmethod
-    def show_hide_bookmarked_content(doc : aw.Document, bookmarkName : str, showHide : bool) :
+    def show_hide_bookmarked_content(doc : aw.Document, bookmark_name : str, show_hide : bool) :
 
-        bm = doc.range.bookmarks.get_by_name(bookmarkName)
+        bookmark = doc.range.bookmarks.get_by_name(bookmark_name)
 
         builder = aw.DocumentBuilder(doc)
         builder.move_to_document_end()
@@ -192,41 +192,41 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
         # IF "MERGEFIELD bookmark" = "True" "" ""
         field = builder.insert_field("IF \"", None)
         builder.move_to(field.start.next_sibling)
-        builder.insert_field("MERGEFIELD " + bookmarkName + "", None)
+        builder.insert_field("MERGEFIELD " + bookmark_name + "", None)
         builder.write("\" = \"True\" ")
         builder.write("\"")
         builder.write("\"")
         builder.write(" \"\"")
 
-        currentNode = field.start
+        current_node = field.start
         flag = True
-        while (currentNode != None and flag) :
+        while (current_node != None and flag) :
 
-            if (currentNode.node_type == aw.NodeType.RUN) :
-                if (currentNode.to_string(aw.SaveFormat.TEXT).strip() == "\"") :
+            if (current_node.node_type == aw.NodeType.RUN) :
+                if (current_node.to_string(aw.SaveFormat.TEXT).strip() == "\"") :
                     flag = False
 
-            nextNode = currentNode.next_sibling
+            next_node = current_node.next_sibling
 
-            bm.bookmark_start.parent_node.insert_before(currentNode, bm.bookmark_start)
-            currentNode = nextNode
+            bookmark.bookmark_start.parent_node.insert_before(current_node, bookmark.bookmark_start)
+            current_node = next_node
 
 
-        endNode = bm.bookmark_end
+        end_node = bookmark.bookmark_end
         flag = True
-        while (currentNode != None and flag) :
+        while (current_node != None and flag) :
 
-            if (currentNode.node_type == aw.NodeType.FIELD_END) :
+            if (current_node.node_type == aw.NodeType.FIELD_END) :
                 flag = False
 
-            nextNode = currentNode.next_sibling
+            next_node = current_node.next_sibling
 
-            bm.bookmark_end.parent_node.insert_after(currentNode, endNode)
-            endNode = currentNode
-            currentNode = nextNode
+            bookmark.bookmark_end.parent_node.insert_after(current_node, end_node)
+            end_node = current_node
+            current_node = next_node
 
 
-        doc.mail_merge.execute([ bookmarkName ], [ showHide ])
+        doc.mail_merge.execute([ bookmark_name ], [ show_hide ])
 
     #ExEnd:ShowHideBookmarkedContent
 
@@ -263,9 +263,9 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
 
 
     @staticmethod
-    def delete_row_by_bookmark(doc : aw.Document, bookmarkName : str) :
+    def delete_row_by_bookmark(doc : aw.Document, bookmark_name : str) :
 
-        bookmark = doc.range.bookmarks.get_by_name(bookmarkName)
+        bookmark = doc.range.bookmarks.get_by_name(bookmark_name)
 
         if(bookmark != None) :
             row = bookmark.bookmark_start.get_ancestor(aw.NodeType.ROW)

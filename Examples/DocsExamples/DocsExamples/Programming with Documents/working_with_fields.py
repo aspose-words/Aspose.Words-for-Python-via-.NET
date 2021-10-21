@@ -82,14 +82,14 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         builder.insert_field("MERGEFIELD MyMergeField2 \\* MERGEFORMAT")
 
         # Select all field start nodes so we can find the merge fields.
-        fieldStarts = doc.get_child_nodes(aw.NodeType.FIELD_START, True)
-        for start in fieldStarts :
+        field_starts = doc.get_child_nodes(aw.NodeType.FIELD_START, True)
+        for start in field_starts :
 
-            fieldStart = start.as_field_start()
-            if fieldStart.field_type == aw.fields.FieldType.FIELD_MERGE_FIELD :
+            field_start = start.as_field_start()
+            if field_start.field_type == aw.fields.FieldType.FIELD_MERGE_FIELD :
 
-                mergeField = self.MergeField(fieldStart)
-                mergeField.set_name(mergeField.get_name() + "_Renamed")
+                merge_field = self.MergeField(field_start)
+                merge_field.set_name(merge_field.get_name() + "_Renamed")
 
 
 
@@ -141,27 +141,27 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
             # Merge field name is stored in the field result which is a Run
             # node between field separator and field end.
-            fieldResult = self.mFieldSeparator.next_sibling.as_run()
-            fieldResult.text = f"«{name}»"
+            field_result = self.mFieldSeparator.next_sibling.as_run()
+            field_result.text = f"«{name}»"
 
             # But sometimes the field result can consist of more than one run, delete these runs.
-            self.remove_same_parent(fieldResult.next_sibling, self.mFieldEnd)
+            self.remove_same_parent(field_result.next_sibling, self.mFieldEnd)
 
             self.update_field_code(name)
 
 
-        def update_field_code(self, fieldName : str) :
+        def update_field_code(self, field_name : str) :
 
             # Field code is stored in a Run node between field start and field separator.
-            fieldCode = self.mFieldStart.next_sibling.as_run()
+            field_code = self.mFieldStart.next_sibling.as_run()
 
             match = self.gRegex.match(self.mFieldStart.get_field().get_field_code())
 
-            newFieldCode = f" {match.group(1)}{fieldName} "
-            fieldCode.text = newFieldCode
+            new_field_code = f" {match.group(1)}{field_name} "
+            field_code.text = new_field_code
 
             # But sometimes the field code can consist of more than one run, delete these runs.
-            self.remove_same_parent(fieldCode.next_sibling, self.mFieldSeparator)
+            self.remove_same_parent(field_code.next_sibling, self.mFieldSeparator)
 
 
         #
@@ -169,17 +169,17 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         # Start and end are assumed to have the same parent.
         #
         @staticmethod
-        def remove_same_parent(startNode, endNode) :
+        def remove_same_parent(start_node, end_node) :
 
-            if (endNode != None and startNode.parent_node != endNode.parent_node) :
+            if (end_node != None and start_node.parent_node != end_node.parent_node) :
                 raise ValueError("Start and end nodes are expected to have the same parent.")
 
-            curChild = startNode
-            while (curChild != None and curChild != endNode) :
+            cur_child = start_node
+            while (cur_child != None and cur_child != end_node) :
 
-                nextChild = curChild.next_sibling
-                curChild.remove()
-                curChild = nextChild
+                next_child = cur_child.next_sibling
+                cur_child.remove()
+                cur_child = next_child
 
 
 
@@ -206,19 +206,19 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #  TA  \c 1 \l "Value 0"
         #  TOA  \c 1
 
-        fieldTA = para.append_field(aw.fields.FieldType.FIELD_TOAENTRY, False).as_field_ta()
-        fieldTA.entry_category = "1"
-        fieldTA.long_citation = "Value 0"
+        field_ta = para.append_field(aw.fields.FieldType.FIELD_TOAENTRY, False).as_field_ta()
+        field_ta.entry_category = "1"
+        field_ta.long_citation = "Value 0"
 
         doc.first_section.body.append_child(para)
 
         para = aw.Paragraph(doc)
 
-        fieldToa = para.append_field(aw.fields.FieldType.FIELD_TOA, False).as_field_toa()
-        fieldToa.entry_category = "1"
+        field_toa = para.append_field(aw.fields.FieldType.FIELD_TOA, False).as_field_toa()
+        field_toa.entry_category = "1"
         doc.first_section.body.append_child(para)
 
-        fieldToa.update()
+        field_toa.update()
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFields.insert_toa_field_without_document_builder.docx")
         #ExEnd:InsertTOAFieldWithoutDocumentBuilder
@@ -333,13 +333,13 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         # We want to insert an INCLUDETEXT field like this:
         #  INCLUDETEXT  "file path"
 
-        fieldIncludeText = para.append_field(aw.fields.FieldType.FIELD_INCLUDE_TEXT, False).as_field_include_text()
-        fieldIncludeText.bookmark_name = "bookmark"
-        fieldIncludeText.source_full_name = docs_base.my_dir + "IncludeText.docx"
+        field_include_text = para.append_field(aw.fields.FieldType.FIELD_INCLUDE_TEXT, False).as_field_include_text()
+        field_include_text.bookmark_name = "bookmark"
+        field_include_text.source_full_name = docs_base.my_dir + "IncludeText.docx"
 
         doc.first_section.body.append_child(para)
 
-        fieldIncludeText.update()
+        field_include_text.update()
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFields.insert_include_field_without_document_builder.docx")
         #ExEnd:InsertFieldIncludeTextWithoutDocumentBuilder
@@ -460,9 +460,9 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExStart:GetFieldNames
         doc = aw.Document()
 
-        fieldNames = doc.mail_merge.get_field_names()
+        field_names = doc.mail_merge.get_field_names()
         #ExEnd:GetFieldNames
-        print(f"\nDocument have {len(fieldNames)} fields.")
+        print(f"\nDocument have {len(field_names)} fields.")
 
 
     def test_mapped_data_fields(self) :
@@ -503,9 +503,9 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         builder = aw.DocumentBuilder()
 
         field = builder.insert_field("IF 1 = 1", None).as_field_if()
-        actualResult = field.evaluate_condition()
+        actual_result = field.evaluate_condition()
 
-        print(actualResult)
+        print(actual_result)
         #ExEnd:EvaluateIFCondition
 
 
@@ -516,9 +516,9 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         # Pass the appropriate parameters to convert all IF fields to text that are encountered only in the last
         # paragraph of the document.
-        for f in doc.first_section.body.last_paragraph.range.fields :
-            if f.type == aw.fields.FieldType.FIELD_IF :
-                f.unlink()
+        for field in doc.first_section.body.last_paragraph.range.fields :
+            if field.type == aw.fields.FieldType.FIELD_IF :
+                field.unlink()
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFields.test_file.docx")
         #ExEnd:ConvertFieldsInParagraph
@@ -530,9 +530,9 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         doc = aw.Document(docs_base.my_dir + "Linked fields.docx")
 
         # Pass the appropriate parameters to convert all IF fields encountered in the document (including headers and footers) to text.
-        for f in doc.range.fields :
-            if f.type == aw.fields.FieldType.FIELD_IF :
-                f.unlink()
+        for field in doc.range.fields :
+            if field.type == aw.fields.FieldType.FIELD_IF :
+                field.unlink()
 
         # Save the document with fields transformed to disk
         doc.save(docs_base.artifacts_dir + "WorkingWithFields.convert_fields_in_document.docx")
@@ -545,9 +545,9 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         doc = aw.Document(docs_base.my_dir + "Linked fields.docx")
 
         # Pass the appropriate parameters to convert PAGE fields encountered to text only in the body of the first section.
-        for f in doc.first_section.body.range.fields :
-            if f.type == aw.fields.FieldType.FIELD_PAGE :
-                f.unlink()
+        for field in doc.first_section.body.range.fields :
+            if field.type == aw.fields.FieldType.FIELD_PAGE :
+                field.unlink()
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFields.convert_fields_in_body.docx")
         #ExEnd:ConvertFieldsInBody

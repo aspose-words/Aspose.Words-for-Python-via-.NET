@@ -55,8 +55,8 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
 
         project = doc.vba_project
 
-        newSourceCode = "Test change source code"
-        project.modules[0].source_code = newSourceCode
+        new_source_code = "Test change source code"
+        project.modules[0].source_code = new_source_code
         #ExEnd:ModifyVbaMacros
 
         doc.save(docs_base.artifacts_dir + "WorkingWithVba.modify_vba_macros.docm")
@@ -67,10 +67,10 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
 
         #ExStart:CloneVbaProject
         doc = aw.Document(docs_base.my_dir + "VBA project.docm")
-        destDoc = aw.Document()
-        destDoc.vba_project = doc.vba_project.clone()
+        dest_doc = aw.Document()
+        dest_doc.vba_project = doc.vba_project.clone()
 
-        destDoc.save(docs_base.artifacts_dir + "WorkingWithVba.clone_vba_project.docm")
+        dest_doc.save(docs_base.artifacts_dir + "WorkingWithVba.clone_vba_project.docm")
         #ExEnd:CloneVbaProject
 
 
@@ -78,13 +78,13 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
 
         #ExStart:CloneVbaModule
         doc = aw.Document(docs_base.my_dir + "VBA project.docm")
-        destDoc = aw.Document()
-        destDoc.vba_project = aw.vba.VbaProject()
+        dest_doc = aw.Document()
+        dest_doc.vba_project = aw.vba.VbaProject()
 
-        copyModule = doc.vba_project.modules.get_by_name("Module1").clone()
-        destDoc.vba_project.modules.add(copyModule)
+        copy_module = doc.vba_project.modules.get_by_name("Module1").clone()
+        dest_doc.vba_project.modules.add(copy_module)
 
-        destDoc.save(docs_base.artifacts_dir + "WorkingWithVba.clone_vba_module.docm")
+        dest_doc.save(docs_base.artifacts_dir + "WorkingWithVba.clone_vba_module.docm")
         #ExEnd:CloneVbaModule
 
 
@@ -94,14 +94,14 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
         doc = aw.Document(docs_base.my_dir + "VBA project.docm")
 
         # Find and remove the reference with some LibId path.
-        brokenPath = "brokenPath.dll"
+        broken_path = "brokenPath.dll"
         references = doc.vba_project.references
         for i in range(references.count - 1, 0) :
 
             reference = doc.vba_project.references.element_at(i)
 
             path = get_lib_id_path(reference)
-            if (path == brokenPath) :
+            if (path == broken_path) :
                 references.remove_at(i)
 
 
@@ -129,13 +129,13 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
     # Please see details for the syntax at [MS-OVBA], 2.1.1.8 LibidReference.
     # </remarks>
     @staticmethod
-    def get_lib_id_reference_path(libIdReference : str) :
+    def get_lib_id_reference_path(lib_id_reference : str) :
 
-        if (libIdReference != None) :
+        if (lib_id_reference != None) :
 
-            refParts = libIdReference.split('#')
-            if (refParts.length > 3) :
-                return refParts[3]
+            ref_parts = lib_id_reference.split('#')
+            if (ref_parts.length > 3) :
+                return ref_parts[3]
 
         return ""
 
@@ -147,10 +147,10 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
     # Please see details for the syntax at [MS-OVBA], 2.1.1.12 ProjectReference.
     # </remarks>
     @staticmethod
-    def get_lib_id_project_path(libIdProject : str) :
+    def get_lib_id_project_path(lib_id_project : str) :
 
-        if (libIdProject != None) :
-           return libIdProject.substring(3)
+        if (lib_id_project != None) :
+           return lib_id_project.substring(3)
 
         return ""
 

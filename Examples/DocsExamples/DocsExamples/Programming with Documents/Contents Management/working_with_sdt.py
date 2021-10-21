@@ -21,8 +21,8 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
             doc = aw.Document()
             builder = aw.DocumentBuilder(doc)
 
-            sdtCheckBox = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.CHECKBOX, aw.markup.MarkupLevel.INLINE)
-            builder.insert_node(sdtCheckBox)
+            sdt_check_box = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.CHECKBOX, aw.markup.MarkupLevel.INLINE)
+            builder.insert_node(sdt_check_box)
 
             doc.save(docs_base.artifacts_dir + "WorkingWithSdt.check_box_type_content_control.docx", aw.SaveFormat.DOCX)
             #ExEnd:CheckBoxTypeContentControl
@@ -34,10 +34,10 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
             doc = aw.Document(docs_base.my_dir + "Structured document tags.docx")
 
             # Get the first content control from the document.
-            sdtCheckBox = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
+            sdt_check_box = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
 
-            if (sdtCheckBox.sdt_type == aw.markup.SdtType.CHECKBOX) :
-                sdtCheckBox.checked = True
+            if (sdt_check_box.sdt_type == aw.markup.SdtType.CHECKBOX) :
+                sdt_check_box.checked = True
 
             doc.save(docs_base.artifacts_dir + "WorkingWithSdt.current_state_of_check_box.docx")
             #ExEnd:SetCurrentStateOfCheckBox
@@ -60,8 +60,8 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
 
                 elif (sdt.sdt_type == aw.markup.SdtType.DROP_DOWN_LIST) :
 
-                    secondItem = sdt.list_items[2]
-                    sdt.list_items.selected_value = secondItem
+                    second_item = sdt.list_items[2]
+                    sdt.list_items.selected_value = second_item
 
                 elif (sdt.sdt_type == aw.markup.SdtType.PICTURE) :
 
@@ -93,15 +93,15 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
             #ExStart:RichTextBoxContentControl
             doc = aw.Document()
 
-            sdtRichText = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.RICH_TEXT, aw.markup.MarkupLevel.BLOCK)
+            sdt_rich_text = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.RICH_TEXT, aw.markup.MarkupLevel.BLOCK)
 
             para = aw.Paragraph(doc)
             run = aw.Run(doc)
             run.text = "Hello World"
             run.font.color = drawing.Color.green
             para.runs.add(run)
-            sdtRichText.child_nodes.add(para)
-            doc.first_section.body.append_child(sdtRichText)
+            sdt_rich_text.child_nodes.add(para)
+            doc.first_section.body.append_child(sdt_rich_text)
 
             doc.save(docs_base.artifacts_dir + "WorkingWithSdt.rich_text_box_content_control.docx")
             #ExEnd:RichTextBoxContentControl
@@ -135,12 +135,12 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
 
             #ExStart:BindSDTtoCustomXmlPart
             doc = aw.Document()
-            xmlPart = doc.custom_xml_parts.add(str(uuid.uuid4()), "<root><text>Hello, World!</text></root>")
+            xml_part = doc.custom_xml_parts.add(str(uuid.uuid4()), "<root><text>Hello, World!</text></root>")
 
             sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.BLOCK)
             doc.first_section.body.append_child(sdt)
 
-            sdt.xml_mapping.set_mapping(xmlPart, "/root[1]/text[1]", "")
+            sdt.xml_mapping.set_mapping(xml_part, "/root[1]/text[1]", "")
 
             doc.save(docs_base.artifacts_dir + "WorkingWithSdt.bind_sd_tto_custom_xml_part.doc")
             #ExEnd:BindSDTtoCustomXmlPart
@@ -165,7 +165,7 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
             doc = aw.Document()
             builder = aw.DocumentBuilder(doc)
 
-            xmlPart = doc.custom_xml_parts.add("Books",
+            xml_part = doc.custom_xml_parts.add("Books",
                 "<books><book><title>Everyday Italian</title><author>Giada De Laurentiis</author></book>" +
                 "<book><title>Harry Potter</title><author>J K. Rowling</author></book>" +
                 "<book><title>Learning XML</title><author>Erik T. Ray</author></book></books>")
@@ -181,23 +181,23 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
             builder.end_row()
             builder.end_table()
 
-            repeatingSectionSdt =aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.REPEATING_SECTION, aw.markup.MarkupLevel.ROW)
-            repeatingSectionSdt.xml_mapping.set_mapping(xmlPart, "/books[1]/book", "")
-            table.append_child(repeatingSectionSdt)
+            repeating_section_sdt =aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.REPEATING_SECTION, aw.markup.MarkupLevel.ROW)
+            repeating_section_sdt.xml_mapping.set_mapping(xml_part, "/books[1]/book", "")
+            table.append_child(repeating_section_sdt)
 
-            repeatingSectionItemSdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.REPEATING_SECTION_ITEM, aw.markup.MarkupLevel.ROW)
-            repeatingSectionSdt.append_child(repeatingSectionItemSdt)
+            repeating_section_item_sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.REPEATING_SECTION_ITEM, aw.markup.MarkupLevel.ROW)
+            repeating_section_sdt.append_child(repeating_section_item_sdt)
 
             row = aw.tables.Row(doc)
-            repeatingSectionItemSdt.append_child(row)
+            repeating_section_item_sdt.append_child(row)
 
-            titleSdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.CELL)
-            titleSdt.xml_mapping.set_mapping(xmlPart, "/books[1]/book[1]/title[1]", "")
-            row.append_child(titleSdt)
+            title_sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.CELL)
+            title_sdt.xml_mapping.set_mapping(xml_part, "/books[1]/book[1]/title[1]", "")
+            row.append_child(title_sdt)
 
-            authorSdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.CELL)
-            authorSdt.xml_mapping.set_mapping(xmlPart, "/books[1]/book[1]/author[1]", "")
-            row.append_child(authorSdt)
+            author_sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.CELL)
+            author_sdt.xml_mapping.set_mapping(xml_part, "/books[1]/book[1]/author[1]", "")
+            row.append_child(author_sdt)
 
             doc.save(docs_base.artifacts_dir + "WorkingWithSdt.creating_table_repeating_section_mapped_to_custom_xml_part.docx")
             #ExEnd:CreatingTableRepeatingSectionMappedToCustomXmlPart
@@ -221,18 +221,18 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
             doc = aw.Document(docs_base.my_dir + "Multi-section structured document tags.docx")
 
             # Construct an XML part that contains data and add it to the document's CustomXmlPart collection.
-            xmlPartId = str(uuid.uuid4())
-            xmlPartContent = "<root><text>Text element #1</text><text>Text element #2</text></root>"
-            xmlPart = doc.custom_xml_parts.add(xmlPartId, xmlPartContent)
-            print(xmlPart.data.decode("utf-8"))
+            xml_part_id = str(uuid.uuid4())
+            xml_part_content = "<root><text>Text element #1</text><text>Text element #2</text></root>"
+            xml_part = doc.custom_xml_parts.add(xml_part_id, xml_part_content)
+            print(xml_part.data.decode("utf-8"))
 
             # Create a StructuredDocumentTag that will display the contents of our CustomXmlPart in the document.
-            sdtRangeStart = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, True).as_structured_document_tag_range_start()
+            sdt_range_start = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, True).as_structured_document_tag_range_start()
 
             # If we set a mapping for our StructuredDocumentTag,
             # it will only display a part of the CustomXmlPart that the XPath points to.
             # This XPath will point to the contents second "<text>" element of the first "<root>" element of our CustomXmlPart.
-            sdtRangeStart.xml_mapping.set_mapping(xmlPart, "/root[1]/text[2]", None)
+            sdt_range_start.xml_mapping.set_mapping(xml_part, "/root[1]/text[2]", None)
 
             doc.save(docs_base.artifacts_dir + "WorkingWithSdt.structured_document_tag_range_start_xml_mapping.docx")
             #ExEnd:StructuredDocumentTagRangeStartXmlMapping

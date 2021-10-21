@@ -92,14 +92,14 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         builder.writeln("Second section")
         builder.writeln("  1st paragraph")
 
-        findReplaceOptions = aw.replacing.FindReplaceOptions()
-        findReplaceOptions.apply_paragraph_format.alignment = aw.ParagraphAlignment.CENTER
+        find_replace_options = aw.replacing.FindReplaceOptions()
+        find_replace_options.apply_paragraph_format.alignment = aw.ParagraphAlignment.CENTER
 
         # Double each paragraph break after word "section", add kind of underline and make it centered.
-        count = doc.range.replace("section&p", "section&p----------------------&p", findReplaceOptions)
+        count = doc.range.replace("section&p", "section&p----------------------&p", find_replace_options)
 
         # Insert section break instead of custom text tag.
-        count = doc.range.replace("insert-section", "&b", findReplaceOptions)
+        count = doc.range.replace("insert-section", "&b", find_replace_options)
 
         doc.save(docs_base.artifacts_dir + "FindAndReplace.replace_text_containing_meta_characters.docx")
         #ExEnd:ReplaceTextContainingMetaCharacters
@@ -191,8 +191,8 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         #ExStart:ReplaceTextInFooter
         doc = aw.Document(docs_base.my_dir + "Footer.docx")
 
-        headersFooters = doc.first_section.headers_footers
-        footer = headersFooters.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_PRIMARY)
+        headers_footers = doc.first_section.headers_footers
+        footer = headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_PRIMARY)
 
         options = aw.replacing.FindReplaceOptions()
         options.match_case = False

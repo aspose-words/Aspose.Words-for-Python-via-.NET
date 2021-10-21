@@ -78,23 +78,23 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         chart = shape.chart
         #ExStart:ChartSeriesCollection
-        seriesColl = chart.series
+        series_coll = chart.series
 
-        print(seriesColl.count)
+        print(series_coll.count)
         #ExEnd:ChartSeriesCollection
 
         # Delete default generated series.
-        seriesColl.clear()
+        series_coll.clear()
 
         # Create category names array, in this example we have two categories.
         categories = [ "Category 1", "Category 2" ]
 
         # Please note, data arrays must not be empty and arrays must be the same size.
-        seriesColl.add("Aspose Series 1", categories, [ 1, 2 ])
-        seriesColl.add("Aspose Series 2", categories, [ 3, 4 ])
-        seriesColl.add("Aspose Series 3", categories, [ 5, 6 ])
-        seriesColl.add("Aspose Series 4", categories, [ 7, 8 ])
-        seriesColl.add("Aspose Series 5", categories, [ 9, 10 ])
+        series_coll.add("Aspose Series 1", categories, [ 1, 2 ])
+        series_coll.add("Aspose Series 2", categories, [ 3, 4 ])
+        series_coll.add("Aspose Series 3", categories, [ 5, 6 ])
+        series_coll.add("Aspose Series 4", categories, [ 7, 8 ])
+        series_coll.add("Aspose Series 5", categories, [ 9, 10 ])
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.insert_simple_column_chart.docx")
         #ExEnd:InsertSimpleColumnChart
@@ -179,24 +179,24 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
             [ date(2002, 1, 1), date(2002, 6, 1), date(2002, 7, 1), date(2002, 8, 1), date(2002, 9, 1) ],
             [ 640, 320, 280, 120, 150 ])
 
-        xAxis = chart.axis_x
-        yAxis = chart.axis_y
+        x_axis = chart.axis_x
+        y_axis = chart.axis_y
 
         # Change the X axis to be category instead of date, so all the points will be put with equal interval on the X axis.
-        xAxis.category_type = aw.drawing.charts.AxisCategoryType.CATEGORY
-        xAxis.crosses = aw.drawing.charts.AxisCrosses.CUSTOM
-        xAxis.crosses_at = 3 # Measured in display units of the Y axis (hundreds).
-        xAxis.reverse_order = True
-        xAxis.major_tick_mark = aw.drawing.charts.AxisTickMark.CROSS
-        xAxis.minor_tick_mark = aw.drawing.charts.AxisTickMark.OUTSIDE
-        xAxis.tick_label_offset = 200
+        x_axis.category_type = aw.drawing.charts.AxisCategoryType.CATEGORY
+        x_axis.crosses = aw.drawing.charts.AxisCrosses.CUSTOM
+        x_axis.crosses_at = 3 # Measured in display units of the Y axis (hundreds).
+        x_axis.reverse_order = True
+        x_axis.major_tick_mark = aw.drawing.charts.AxisTickMark.CROSS
+        x_axis.minor_tick_mark = aw.drawing.charts.AxisTickMark.OUTSIDE
+        x_axis.tick_label_offset = 200
 
-        yAxis.tick_label_position = aw.drawing.charts.AxisTickLabelPosition.HIGH
-        yAxis.major_unit = 100
-        yAxis.minor_unit = 50
-        yAxis.display_unit.unit = aw.drawing.charts.AxisBuiltInUnit.HUNDREDS
-        yAxis.scaling.minimum = aw.drawing.charts.AxisBound(100)
-        yAxis.scaling.maximum = aw.drawing.charts.AxisBound(700)
+        y_axis.tick_label_position = aw.drawing.charts.AxisTickLabelPosition.HIGH
+        y_axis.major_unit = 100
+        y_axis.minor_unit = 50
+        y_axis.display_unit.unit = aw.drawing.charts.AxisBuiltInUnit.HUNDREDS
+        y_axis.scaling.minimum = aw.drawing.charts.AxisBound(100)
+        y_axis.scaling.maximum = aw.drawing.charts.AxisBound(700)
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.define_xy_axis_properties.docx")
         #ExEnd:DefineXYAxisProperties
@@ -217,15 +217,15 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
             [ date(2017, 11, 6), date(2017, 11, 9), date(2017, 11, 15), date(2017, 11, 21), date(2017, 11, 25), date(2017, 11, 29) ],
             [ 1.2, 0.3, 2.1, 2.9, 4.2, 5.3 ])
 
-        xAxis = chart.axis_x
-        xAxis.scaling.minimum = aw.drawing.charts.AxisBound(date(2017, 11, 5))
-        xAxis.scaling.maximum = aw.drawing.charts.AxisBound(date(2017, 12, 3))
+        x_axis = chart.axis_x
+        x_axis.scaling.minimum = aw.drawing.charts.AxisBound(date(2017, 11, 5))
+        x_axis.scaling.maximum = aw.drawing.charts.AxisBound(date(2017, 12, 3))
 
         # Set major units to a week and minor units to a day.
-        xAxis.major_unit = 7
-        xAxis.minor_unit = 1
-        xAxis.major_tick_mark = aw.drawing.charts.AxisTickMark.CROSS
-        xAxis.minor_tick_mark = aw.drawing.charts.AxisTickMark.OUTSIDE
+        x_axis.major_unit = 7
+        x_axis.minor_unit = 1
+        x_axis.major_tick_mark = aw.drawing.charts.AxisTickMark.CROSS
+        x_axis.minor_tick_mark = aw.drawing.charts.AxisTickMark.OUTSIDE
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.date_time_values_to_axis.docx")
         #ExEnd:SetDateTimeValuesToAxis
@@ -402,21 +402,21 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         series0 = chart.series[0]
         series1 = chart.series[1]
 
-        dataPointCollection = series0.data_points
-        dataPoint00 = dataPointCollection[0]
-        dataPoint01 = dataPointCollection[1]
+        data_point_collection = series0.data_points
+        data_point00 = data_point_collection[0]
+        data_point01 = data_point_collection[1]
 
-        dataPoint00.explosion = 50
-        dataPoint00.marker.symbol = aw.drawing.charts.MarkerSymbol.CIRCLE
-        dataPoint00.marker.size = 15
+        data_point00.explosion = 50
+        data_point00.marker.symbol = aw.drawing.charts.MarkerSymbol.CIRCLE
+        data_point00.marker.size = 15
 
-        dataPoint01.marker.symbol = aw.drawing.charts.MarkerSymbol.DIAMOND
-        dataPoint01.marker.size = 20
+        data_point01.marker.symbol = aw.drawing.charts.MarkerSymbol.DIAMOND
+        data_point01.marker.size = 20
 
-        dataPoint12 = series1.data_points[2]
-        dataPoint12.invert_if_negative = True
-        dataPoint12.marker.symbol = aw.drawing.charts.MarkerSymbol.STAR
-        dataPoint12.marker.size = 20
+        data_point12 = series1.data_points[2]
+        data_point12.invert_if_negative = True
+        data_point12.marker.symbol = aw.drawing.charts.MarkerSymbol.STAR
+        data_point12.marker.size = 20
 
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.single_chart_data_point.docx")
         #ExEnd:WorkWithSingleChartDataPoint
@@ -466,18 +466,18 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         shape = builder.insert_chart(aw.drawing.charts.ChartType.COLUMN, 432, 252)
 
         chart = shape.chart
-        seriesColl = chart.series
+        series_coll = chart.series
 
         # Delete default generated series.
-        seriesColl.clear()
+        series_coll.clear()
 
         # Create category names array.
         categories = [ "AW Category 1", "AW Category 2" ]
 
         # Adding new series. Value and category arrays must be the same size.
-        series1 = seriesColl.add("AW Series 1", categories, [ 1, 2 ])
-        series2 = seriesColl.add("AW Series 2", categories, [ 3, 4 ])
-        series3 = seriesColl.add("AW Series 3", categories, [ 5, 6 ])
+        series1 = series_coll.add("AW Series 1", categories, [ 1, 2 ])
+        series2 = series_coll.add("AW Series 2", categories, [ 3, 4 ])
+        series3 = series_coll.add("AW Series 3", categories, [ 5, 6 ])
 
         # Set series color.
         series1.format.fill.fore_color = drawing.Color.red
@@ -496,14 +496,14 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         shape = builder.insert_chart(aw.drawing.charts.ChartType.LINE, 432, 252)
 
         chart = shape.chart
-        seriesColl = chart.series
+        series_coll = chart.series
 
         # Delete default generated series.
-        seriesColl.clear()
+        series_coll.clear()
 
         # Adding new series.
-        series1 = seriesColl.add_double("AW Series 1", [ 0.7, 1.8, 2.6 ], [ 2.7, 3.2, 0.8 ])
-        series2 = seriesColl.add_double("AW Series 2", [ 0.5, 1.5, 2.5 ], [ 3, 1, 2 ])
+        series1 = series_coll.add_double("AW Series 1", [ 0.7, 1.8, 2.6 ], [ 2.7, 3.2, 0.8 ])
+        series2 = series_coll.add_double("AW Series 2", [ 0.5, 1.5, 2.5 ], [ 3, 1, 2 ])
 
         # Set series color.
         series1.format.stroke.fore_color = drawing.Color.red

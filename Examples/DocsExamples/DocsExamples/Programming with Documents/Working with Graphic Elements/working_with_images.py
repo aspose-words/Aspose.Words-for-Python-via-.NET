@@ -19,7 +19,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
         # Create and attach collector before the document before page layout is built.
-        layoutCollector = aw.layout.LayoutCollector(doc)
+        layout_collector = aw.layout.LayoutCollector(doc)
 
         # Images in a document are added to paragraphs to add an image to every page we need
         # to find at any paragraph belonging to each page.
@@ -28,7 +28,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
                 para = para.as_paragraph()
 
                 # Check if the current paragraph belongs to the target page.
-                if (layoutCollector.get_start_page_index(para) == page) :
+                if (layout_collector.get_start_page_index(para) == page) :
                     self.add_image_to_page(paragraph, page, docs_base.images_dir)
                     break
 
@@ -45,7 +45,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
     # <param name="para">The paragraph to an an image to.</param>
     # <param name="page">The page number the paragraph appears on.</param>
     @staticmethod
-    def add_image_to_page(para : aw.Paragraph, page : int, imagesDir : str) :
+    def add_image_to_page(para : aw.Paragraph, page : int, images_dir : str) :
 
         doc = para.document.as_document()
 
@@ -57,21 +57,21 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
             aw.drawing.RelativeVerticalPosition.PAGE, 60, -1, -1, aw.drawing.WrapType.NONE)
 
         # Insert a textbox next to the image which contains some text consisting of the page number.
-        textBox = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
+        text_box = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
 
         # We want a floating shape relative to the page.
-        textBox.wrap_type = aw.drawing.WrapType.NONE
-        textBox.relative_horizontal_position = aw.drawing.RelativeHorizontalPosition.PAGE
-        textBox.relative_vertical_position = aw.drawing.RelativeVerticalPosition.PAGE
+        text_box.wrap_type = aw.drawing.WrapType.NONE
+        text_box.relative_horizontal_position = aw.drawing.RelativeHorizontalPosition.PAGE
+        text_box.relative_vertical_position = aw.drawing.RelativeVerticalPosition.PAGE
 
-        textBox.height = 30
-        textBox.width = 200
-        textBox.left = 150
-        textBox.top = 80
+        text_box.height = 30
+        text_box.width = 200
+        text_box.left = 150
+        text_box.top = 80
 
-        textBox.append_child(aw.Paragraph(doc))
-        builder.insert_node(textBox)
-        builder.move_to(textBox.first_child)
+        text_box.append_child(aw.Paragraph(doc))
+        builder.insert_node(text_box)
+        builder.move_to(text_box.first_child)
         builder.writeln("This is a custom note for page " + page)
 
 
@@ -82,19 +82,19 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         builder = aw.DocumentBuilder(doc)
 
         # The number of pages the document should have
-        numPages = 4
+        num_pages = 4
         # The document starts with one section, insert the barcode into this existing section
         self.insert_barcode_into_footer(builder, doc.first_section, aw.HeaderFooterType.FOOTER_PRIMARY)
 
-        for i in range(1, numPages) :
+        for i in range(1, num_pages) :
 
             # Clone the first section and add it into the end of the document
-            cloneSection = doc.first_section.clone(False).as_section()
-            cloneSection.page_setup.section_start = aw.SectionStart.NEW_PAGE
-            doc.append_child(cloneSection)
+            clone_section = doc.first_section.clone(False).as_section()
+            clone_section.page_setup.section_start = aw.SectionStart.NEW_PAGE
+            doc.append_child(clone_section)
 
             # Insert the barcode and other information into the footer of the section
-            self.insert_barcode_into_footer(builder, cloneSection, aw.HeaderFooterType.FOOTER_PRIMARY)
+            self.insert_barcode_into_footer(builder, clone_section, aw.HeaderFooterType.FOOTER_PRIMARY)
 
 
         # Save the document as a PDF to disk
@@ -105,11 +105,11 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
 
     #ExStart:InsertBarcodeIntoFooter
     @staticmethod
-    def insert_barcode_into_footer(builder : aw.DocumentBuilder, section : aw.Section, footerType : aw.HeaderFooterType) :
+    def insert_barcode_into_footer(builder : aw.DocumentBuilder, section : aw.Section, footer_type : aw.HeaderFooterType) :
 
         # Move to the footer type in the specific section.
         builder.move_to_section(section.document.index_of(section))
-        builder.move_to_header_footer(footerType)
+        builder.move_to_header_footer(footer_type)
 
         # Insert the barcode, then move to the next line and insert the ID along with the page number.
         # Use pageId if you need to insert a different barcode on each page. 0 = First page, 1 = Second page etc.
@@ -119,8 +119,8 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         builder.insert_field("PAGE")
 
         # Create a right-aligned tab at the right margin.
-        tabPos = section.page_setup.page_width - section.page_setup.right_margin - section.page_setup.left_margin
-        builder.current_paragraph.paragraph_format.tab_stops.add(aw.TabStop(tabPos, aw.TabAlignment.RIGHT, aw.TabLeader.NONE))
+        tab_pos = section.page_setup.page_width - section.page_setup.right_margin - section.page_setup.left_margin
+        builder.current_paragraph.paragraph_format.tab_stops.add(aw.TabStop(tab_pos, aw.TabAlignment.RIGHT, aw.TabLeader.NONE))
 
         # Move to the right-hand side of the page and insert the page and page total.
         builder.write(aw.ControlChar.TAB)
@@ -190,46 +190,46 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
 
         #ExStart:CropImageCall
         # The path to the documents directory.
-        inputPath = docs_base.images_dir + "Logo.jpg"
-        outputPath = docs_base.artifacts_dir + "cropped_logo.jpg"
+        input_path = docs_base.images_dir + "Logo.jpg"
+        output_path = docs_base.artifacts_dir + "cropped_logo.jpg"
 
-        self.crop_image(inputPath,outputPath, 100, 90, 200, 200)
+        self.crop_image(input_path,output_path, 100, 90, 200, 200)
         #ExEnd:CropImageCall
 
     #ExStart:CropImage
     @staticmethod
-    def crop_image(inPath : str, outPath : str, left : int, top : int, width : int, height : int) :
+    def crop_image(in_path : str, out_path : str, left : int, top : int, width : int, height : int) :
 
         doc = aw.Document();
         builder = aw.DocumentBuilder(doc)
 
-        croppedImage = builder.insert_image(inPath)
+        cropped_image = builder.insert_image(in_path)
 
-        src_width_points = croppedImage.width
-        src_height_points = croppedImage.height
+        src_width_points = cropped_image.width
+        src_height_points = cropped_image.height
 
-        croppedImage.width = aw.ConvertUtil.pixel_to_point(width)
-        croppedImage.height = aw.ConvertUtil.pixel_to_point(height)
+        cropped_image.width = aw.ConvertUtil.pixel_to_point(width)
+        cropped_image.height = aw.ConvertUtil.pixel_to_point(height)
 
-        widthRatio = croppedImage.width / src_width_points
-        heightRatio = croppedImage.height / src_height_points
+        width_ratio = cropped_image.width / src_width_points
+        height_ratio = cropped_image.height / src_height_points
 
-        if (widthRatio< 1) :
-            croppedImage.image_data.crop_right = 1 - widthRatio
+        if (width_ratio< 1) :
+            cropped_image.image_data.crop_right = 1 - width_ratio
 
-        if (heightRatio< 1) :
-            croppedImage.image_data.crop_bottom = 1 - heightRatio
+        if (height_ratio< 1) :
+            cropped_image.image_data.crop_bottom = 1 - height_ratio
 
-        leftToWidth = aw.ConvertUtil.pixel_to_point(left) / src_width_points
-        topToHeight = aw.ConvertUtil.pixel_to_point(top) / src_height_points
+        left_to_width = aw.ConvertUtil.pixel_to_point(left) / src_width_points
+        top_to_height = aw.ConvertUtil.pixel_to_point(top) / src_height_points
 
-        croppedImage.image_data.crop_left = leftToWidth
-        croppedImage.image_data.crop_right = croppedImage.image_data.crop_right - leftToWidth
+        cropped_image.image_data.crop_left = left_to_width
+        cropped_image.image_data.crop_right = cropped_image.image_data.crop_right - left_to_width
 
-        croppedImage.image_data.crop_top = topToHeight
-        croppedImage.image_data.crop_bottom = croppedImage.image_data.crop_bottom - topToHeight
+        cropped_image.image_data.crop_top = top_to_height
+        cropped_image.image_data.crop_bottom = cropped_image.image_data.crop_bottom - top_to_height
 
-        croppedImage.get_shape_renderer().save(outPath, aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG))
+        cropped_image.get_shape_renderer().save(out_path, aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG))
     #ExEnd:CropImage
 
 

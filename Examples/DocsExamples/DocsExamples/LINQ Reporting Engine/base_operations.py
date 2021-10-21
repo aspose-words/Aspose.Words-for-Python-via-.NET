@@ -112,14 +112,14 @@ class BaseOperations(docs_base.DocsExamplesBase):
 <<foreach [in Child]>><<[Child_Text]>>
 <</foreach>>"""
 
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.load_format = aw.LoadFormat.MARKDOWN
+        load_options = aw.loading.LoadOptions()
+        load_options.load_format = aw.LoadFormat.MARKDOWN
 
-        doc = aw.Document(io.BytesIO(template_md), loadOptions)
-        dataSource = aw.reporting.XmlDataSource(io.BytesIO(xml))
+        doc = aw.Document(io.BytesIO(template_md), load_options)
+        data_source = aw.reporting.XmlDataSource(io.BytesIO(xml))
 
         engine = aw.reporting.ReportingEngine()
-        engine.build_report(doc, dataSource)
+        engine.build_report(doc, data_source)
 
         doc.save(docs_base.artifacts_dir + "ReportingEngine.xml_data_source.docx")
 
@@ -149,14 +149,14 @@ class BaseOperations(docs_base.DocsExamplesBase):
 
 **Average age:** <<[persons.Average(p => p.Age)]>>"""
 
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.load_format = aw.LoadFormat.MARKDOWN
+        load_options = aw.loading.LoadOptions()
+        load_options.load_format = aw.LoadFormat.MARKDOWN
 
-        doc = aw.Document(io.BytesIO(template_md), loadOptions)
-        dataSource = aw.reporting.XmlDataSource(io.BytesIO(xml))
+        doc = aw.Document(io.BytesIO(template_md), load_options)
+        data_source = aw.reporting.XmlDataSource(io.BytesIO(xml))
 
         engine = aw.reporting.ReportingEngine()
-        engine.build_report(doc, dataSource, "persons")
+        engine.build_report(doc, data_source, "persons")
 
         doc.save(docs_base.artifacts_dir + "ReportingEngine.xml_data_source_seq.docx")
 
@@ -234,15 +234,15 @@ class BaseOperations(docs_base.DocsExamplesBase):
 <</foreach>>
 <</foreach>>"""
 
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.load_format = aw.LoadFormat.MARKDOWN
+        load_options = aw.loading.LoadOptions()
+        load_options.load_format = aw.LoadFormat.MARKDOWN
 
-        doc = aw.Document(io.BytesIO(template_md), loadOptions)
+        doc = aw.Document(io.BytesIO(template_md), load_options)
 
-        dataSource = aw.reporting.XmlDataSource(io.BytesIO(xml))
+        data_source = aw.reporting.XmlDataSource(io.BytesIO(xml))
 
         engine = aw.reporting.ReportingEngine()
-        engine.build_report(doc, dataSource, "managers")
+        engine.build_report(doc, data_source, "managers")
 
         doc.save(docs_base.artifacts_dir + "ReportingEngine.xml_data_source_complex.docx")
 
@@ -263,14 +263,14 @@ class BaseOperations(docs_base.DocsExamplesBase):
 <<foreach [in Child]>><<[Child_Text]>>
 <</foreach>>"""
 
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.load_format = aw.LoadFormat.MARKDOWN
+        load_options = aw.loading.LoadOptions()
+        load_options.load_format = aw.LoadFormat.MARKDOWN
 
-        doc = aw.Document(io.BytesIO(template_md), loadOptions)
-        dataSource = aw.reporting.JsonDataSource(io.BytesIO(json))
+        doc = aw.Document(io.BytesIO(template_md), load_options)
+        data_source = aw.reporting.JsonDataSource(io.BytesIO(json))
 
         engine = aw.reporting.ReportingEngine()
-        engine.build_report(doc, dataSource)
+        engine.build_report(doc, data_source)
 
         doc.save(docs_base.artifacts_dir + "ReportingEngine.json_data_source.docx")
 
@@ -300,14 +300,14 @@ class BaseOperations(docs_base.DocsExamplesBase):
 
 **Average age:** <<[persons.Average(p => p.Age)]>>"""
 
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.load_format = aw.LoadFormat.MARKDOWN
+        load_options = aw.loading.LoadOptions()
+        load_options.load_format = aw.LoadFormat.MARKDOWN
 
-        doc = aw.Document(io.BytesIO(template_md), loadOptions)
-        dataSource = aw.reporting.JsonDataSource(io.BytesIO(json))
+        doc = aw.Document(io.BytesIO(template_md), load_options)
+        data_source = aw.reporting.JsonDataSource(io.BytesIO(json))
 
         engine = aw.reporting.ReportingEngine()
-        engine.build_report(doc, dataSource, "persons")
+        engine.build_report(doc, data_source, "persons")
 
         doc.save(docs_base.artifacts_dir + "ReportingEngine.json_data_source_seq.docx")
 
@@ -403,15 +403,15 @@ class BaseOperations(docs_base.DocsExamplesBase):
 <</foreach>>
 <</foreach>>"""
 
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.load_format = aw.LoadFormat.MARKDOWN
+        load_options = aw.loading.LoadOptions()
+        load_options.load_format = aw.LoadFormat.MARKDOWN
 
-        doc = aw.Document(io.BytesIO(template_md), loadOptions)
+        doc = aw.Document(io.BytesIO(template_md), load_options)
 
-        dataSource = aw.reporting.JsonDataSource(io.BytesIO(json))
+        data_source = aw.reporting.JsonDataSource(io.BytesIO(json))
 
         engine = aw.reporting.ReportingEngine()
-        engine.build_report(doc, dataSource, "managers")
+        engine.build_report(doc, data_source, "managers")
 
         doc.save(docs_base.artifacts_dir + "ReportingEngine.json_data_source_complex.docx")
 
@@ -435,14 +435,14 @@ John Smith,51,1968-03-08 1:00:00 pm"""
 
 **Average age:** <<[persons.Average(p => p.Column2)]>>"""
 
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.load_format = aw.LoadFormat.MARKDOWN
+        load_options = aw.loading.LoadOptions()
+        load_options.load_format = aw.LoadFormat.MARKDOWN
 
-        doc = aw.Document(io.BytesIO(template_md), loadOptions)
-        dataSource = aw.reporting.CsvDataSource(io.BytesIO(csv))
+        doc = aw.Document(io.BytesIO(template_md), load_options)
+        data_source = aw.reporting.CsvDataSource(io.BytesIO(csv))
 
         engine = aw.reporting.ReportingEngine()
-        engine.build_report(doc, dataSource, "persons")
+        engine.build_report(doc, data_source, "persons")
 
         doc.save(docs_base.artifacts_dir + "ReportingEngine.csv_data_source_seq.docx")
 
@@ -458,15 +458,15 @@ John Smith,51,1968-03-08 1:00:00 pm"""
 
 **Average age:** <<[persons.Average(p => p.Age)]>>"""
 
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.load_format = aw.LoadFormat.MARKDOWN
+        load_options = aw.loading.LoadOptions()
+        load_options.load_format = aw.LoadFormat.MARKDOWN
 
-        doc = aw.Document(io.BytesIO(template_md), loadOptions)
+        doc = aw.Document(io.BytesIO(template_md), load_options)
         options = aw.reporting.CsvDataLoadOptions(True)
-        dataSource = aw.reporting.CsvDataSource(io.BytesIO(csv), options)
+        data_source = aw.reporting.CsvDataSource(io.BytesIO(csv), options)
 
         engine = aw.reporting.ReportingEngine()
-        engine.build_report(doc, dataSource, "persons")
+        engine.build_report(doc, data_source, "persons")
 
         doc.save(docs_base.artifacts_dir + "ReportingEngine.csv_data_source_seq_column_names.docx")
 
@@ -562,15 +562,15 @@ John Smith,51,1968-03-08 1:00:00 pm"""
 <</foreach>>
 <</foreach>>"""
 
-        loadOptions = aw.loading.LoadOptions()
-        loadOptions.load_format = aw.LoadFormat.MARKDOWN
+        load_options = aw.loading.LoadOptions()
+        load_options.load_format = aw.LoadFormat.MARKDOWN
 
-        doc = aw.Document(io.BytesIO(template_md), loadOptions)
+        doc = aw.Document(io.BytesIO(template_md), load_options)
 
-        dataSource = aw.reporting.CsvDataSource(io.BytesIO(csv))
+        data_source = aw.reporting.CsvDataSource(io.BytesIO(csv))
 
         engine = aw.reporting.ReportingEngine()
-        engine.build_report(doc, dataSource, "managers")
+        engine.build_report(doc, data_source, "managers")
 
         doc.save(docs_base.artifacts_dir + "ReportingEngine.csv_data_source_complex.docx")
 

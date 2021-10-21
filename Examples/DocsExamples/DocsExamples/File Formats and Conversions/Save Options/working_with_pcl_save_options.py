@@ -18,11 +18,11 @@ class WorkingWithPclSaveOptions(docs_base.DocsExamplesBase):
         #ExStart:RasterizeTransformedElements
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
-        saveOptions = aw.saving.PclSaveOptions()
-        saveOptions.save_format = aw.SaveFormat.PCL
-        saveOptions.rasterize_transformed_elements = False
+        save_options = aw.saving.PclSaveOptions()
+        save_options.save_format = aw.SaveFormat.PCL
+        save_options.rasterize_transformed_elements = False
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithPclSaveOptions.rasterize_transformed_elements.pcl", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithPclSaveOptions.rasterize_transformed_elements.pcl", save_options)
         #ExEnd:RasterizeTransformedElements
 
 

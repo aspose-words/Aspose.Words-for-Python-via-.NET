@@ -42,10 +42,10 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
 
         # Create a new column to the left of this column.
         # This is the same as using the "Insert Column Before" command in Microsoft Word.
-        newColumn = column.insert_column_before()
+        new_column = column.insert_column_before()
 
-        for cell in newColumn.get_column_cells() :
-            cell.first_paragraph.append_child(aw.Run(doc, f"Column Text {newColumn.index_of(cell)}"))
+        for cell in new_column.get_column_cells() :
+            cell.first_paragraph.append_child(aw.Run(doc, f"Column Text {new_column.index_of(cell)}"))
         #ExEnd:InsertBlankColumn
 
 
@@ -77,17 +77,17 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         # </summary>
         def insert_column_before(self) :
 
-            columnCells = self.get_column_cells()
+            column_cells = self.get_column_cells()
 
-            if (len(columnCells) == 0) :
+            if (len(column_cells) == 0) :
                 raise ValueError("Column must not be empty")
 
             # Create a clone of this column.
-            for cell in columnCells :
+            for cell in column_cells :
                 cell.parent_row.insert_before(cell.clone(False), cell)
 
             # This is the new column.
-            column = self.__class__(columnCells[0].parent_row.parent_table, self.mColumnIndex)
+            column = self.__class__(column_cells[0].parent_row.parent_table, self.mColumnIndex)
 
             # We want to make sure that the cells are all valid to work with (have at least one paragraph).
             for cell in column.get_column_cells() :
@@ -126,15 +126,15 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         # </summary>
         def get_column_cells(self) :
 
-            columnCells = []
+            column_cells = []
 
             for row in self.mTable.rows :
 
                 cell = row.as_row().cells[self.mColumnIndex]
                 if (cell != None) :
-                    columnCells.append(cell)
+                    column_cells.append(cell)
 
-            return columnCells
+            return column_cells
 
 
     #ExEnd:ColumnClass
@@ -281,8 +281,8 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
         # Clone the table and insert it into the document after the original.
-        tableClone = table.clone(True).as_table()
-        table.parent_node.insert_after(tableClone, table)
+        table_clone = table.clone(True).as_table()
+        table.parent_node.insert_after(table_clone, table)
 
         # Insert an empty paragraph between the two tables,
         # or else they will be combined into one upon saving this has to do with document validation.
@@ -299,13 +299,13 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
-        clonedRow = table.last_row.clone(True).as_row()
+        cloned_row = table.last_row.clone(True).as_row()
         # Remove all content from the cloned row's cells. This makes the row ready for new content to be inserted into.
-        for cell in clonedRow.cells :
+        for cell in cloned_row.cells :
             cell = cell.as_cell()
             cell.remove_all_children()
 
-        table.append_child(clonedRow)
+        table.append_child(cloned_row)
 
         doc.save(docs_base.artifacts_dir + "WorkingWithTables.clone_last_row.docx")
         #ExEnd:CloneLastRow
@@ -318,21 +318,21 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExStart:RetrieveTableIndex
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
-        allTables = doc.get_child_nodes(aw.NodeType.TABLE, True)
-        tableIndex = allTables.index_of(table)
+        all_tables = doc.get_child_nodes(aw.NodeType.TABLE, True)
+        table_index = all_tables.index_of(table)
         #ExEnd:RetrieveTableIndex
-        print(f"\nTable index is {tableIndex}")
+        print(f"\nTable index is {table_index}")
 
         #ExStart:RetrieveRowIndex
-        rowIndex = table.index_of(table.last_row)
+        row_index = table.index_of(table.last_row)
         #ExEnd:RetrieveRowIndex
-        print(f"\nRow index is {rowIndex}")
+        print(f"\nRow index is {row_index}")
 
         row = table.last_row
         #ExStart:RetrieveCellIndex
-        cellIndex = row.index_of(row.cells[4])
+        cell_index = row.index_of(row.cells[4])
         #ExEnd:RetrieveCellIndex
-        print(f"\nCell index is {cellIndex}")
+        print(f"\nCell index is {cell_index}")
 
 
     def test_insert_table_directly(self) :
@@ -541,15 +541,15 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
 
         # The rows from the second table will be appended to the end of the first table.
-        firstTable = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
-        secondTable = doc.get_child(aw.NodeType.TABLE, 1, True).as_table()
+        first_table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
+        second_table = doc.get_child(aw.NodeType.TABLE, 1, True).as_table()
 
         # Append all rows from the current table to the next tables
         # with different cell count and widths can be joined into one table.
-        while secondTable.has_child_nodes :
-            firstTable.rows.add(secondTable.first_row)
+        while second_table.has_child_nodes :
+            first_table.rows.add(second_table.first_row)
 
-        secondTable.remove()
+        second_table.remove()
 
         doc.save(docs_base.artifacts_dir + "WorkingWithTables.combine_rows.docx")
         #ExEnd:CombineRows
@@ -560,25 +560,25 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExStart:SplitTable
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
 
-        firstTable = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
+        first_table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
         # We will split the table at the third row (inclusive).
-        row = firstTable.rows[2]
+        row = first_table.rows[2]
 
         # Create a new container for the split table.
-        table = firstTable.clone(False).as_table()
+        table = first_table.clone(False).as_table()
 
         # Insert the container after the original.
-        firstTable.parent_node.insert_after(table, firstTable)
+        first_table.parent_node.insert_after(table, first_table)
 
         # Add a buffer paragraph to ensure the tables stay apart.
-        firstTable.parent_node.insert_after(aw.Paragraph(doc), firstTable)
+        first_table.parent_node.insert_after(aw.Paragraph(doc), first_table)
 
 
         while True :
-            currentRow = firstTable.last_row
-            table.prepend_child(currentRow)
-            if currentRow == row :
+            current_row = first_table.last_row
+            table.prepend_child(current_row)
+            if current_row == row :
                 break
 
 
@@ -643,21 +643,21 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
     @staticmethod
     def print_cell_merge_type(cell : aw.tables.Cell) :
 
-        isHorizontallyMerged = cell.cell_format.horizontal_merge != aw.tables.CellMerge.NONE
-        isVerticallyMerged = cell.cell_format.vertical_merge != aw.tables.CellMerge.NONE
+        is_horizontally_merged = cell.cell_format.horizontal_merge != aw.tables.CellMerge.NONE
+        is_vertically_merged = cell.cell_format.vertical_merge != aw.tables.CellMerge.NONE
 
-        cellLocation = f"R{cell.parent_row.parent_table.index_of(cell.parent_row) + 1}, C{cell.parent_row.index_of(cell) + 1}"
+        cell_location = f"R{cell.parent_row.parent_table.index_of(cell.parent_row) + 1}, C{cell.parent_row.index_of(cell) + 1}"
 
-        if isHorizontallyMerged and isVerticallyMerged :
-            return f"The cell at {cellLocation} is both horizontally and vertically merged"
+        if is_horizontally_merged and is_vertically_merged :
+            return f"The cell at {cell_location} is both horizontally and vertically merged"
 
-        if isHorizontallyMerged :
-            return f"The cell at {cellLocation} is horizontally merged."
+        if is_horizontally_merged :
+            return f"The cell at {cell_location} is horizontally merged."
 
-        if isVerticallyMerged :
-            return f"The cell at {cellLocation} is vertically merged"
+        if is_vertically_merged :
+            return f"The cell at {cell_location} is vertically merged"
 
-        return f"The cell at {cellLocation} is not merged"
+        return f"The cell at {cell_location} is not merged"
 
     #ExEnd:PrintCellMergeType
 
@@ -726,11 +726,11 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         table = doc.first_section.body.tables[0]
 
         # We want to merge the range of cells found inbetween these two cells.
-        cellStartRange = table.rows[0].cells[0]
-        cellEndRange = table.rows[1].cells[1]
+        cell_start_range = table.rows[0].cells[0]
+        cell_end_range = table.rows[1].cells[1]
 
         # Merge all the cells between the two specified cells into one.
-        self.merge_cells(cellStartRange, cellEndRange)
+        self.merge_cells(cell_start_range, cell_end_range)
 
         doc.save(docs_base.artifacts_dir + "WorkingWithTables.merge_cell_range.docx")
         #ExEnd:MergeCellRange
@@ -749,33 +749,33 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
 
     #ExStart:MergeCells
     @staticmethod
-    def merge_cells(startCell : aw.tables.Cell, endCell : aw.tables.Cell) :
+    def merge_cells(start_cell : aw.tables.Cell, end_cell : aw.tables.Cell) :
 
-        parentTable = startCell.parent_row.parent_table
+        parent_table = start_cell.parent_row.parent_table
 
         # Find the row and cell indices for the start and end cell.
-        startCellPos = drawing.Point(startCell.parent_row.index_of(startCell), parentTable.index_of(startCell.parent_row))
-        endCellPos = drawing.Point(endCell.parent_row.index_of(endCell), parentTable.index_of(endCell.parent_row))
+        start_cell_pos = drawing.Point(start_cell.parent_row.index_of(start_cell), parent_table.index_of(start_cell.parent_row))
+        end_cell_pos = drawing.Point(end_cell.parent_row.index_of(end_cell), parent_table.index_of(end_cell.parent_row))
 
         # Create a range of cells to be merged based on these indices.
         # Inverse each index if the end cell is before the start cell.
-        mergeRange = drawing.Rectangle(min(startCellPos.x, endCellPos.x),
-            min(startCellPos.y, endCellPos.y),
-            abs(endCellPos.x - startCellPos.x) + 1, abs(endCellPos.y - startCellPos.y) + 1)
+        merge_range = drawing.Rectangle(min(start_cell_pos.x, end_cell_pos.x),
+            min(start_cell_pos.y, end_cell_pos.y),
+            abs(end_cell_pos.x - start_cell_pos.x) + 1, abs(end_cell_pos.y - start_cell_pos.y) + 1)
 
-        for row in parentTable.rows :
+        for row in parent_table.rows :
             row = row.as_row()
             for cell in row.cells :
 
                 cell = cell.as_cell()
-                currentPos = drawing.Point(row.index_of(cell), parentTable.index_of(row))
+                current_pos = drawing.Point(row.index_of(cell), parent_table.index_of(row))
 
                 # Check if the current cell is inside our merge range, then merge it.
-                if mergeRange.contains(currentPos) :
+                if merge_range.contains(current_pos) :
 
-                    cell.cell_format.horizontal_merge = aw.tables.CellMerge.FIRST if (currentPos.x == mergeRange.x) else aw.tables.CellMerge.PREVIOUS
+                    cell.cell_format.horizontal_merge = aw.tables.CellMerge.FIRST if (current_pos.x == merge_range.x) else aw.tables.CellMerge.PREVIOUS
 
-                    cell.cell_format.vertical_merge = aw.tables.CellMerge.FIRST if (currentPos.y == mergeRange.y) else aw.tables.CellMerge.PREVIOUS
+                    cell.cell_format.vertical_merge = aw.tables.CellMerge.FIRST if (current_pos.y == merge_range.y) else aw.tables.CellMerge.PREVIOUS
 
 
 
@@ -884,9 +884,9 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         table.allow_auto_fit = True
         #ExEnd:AllowAutoFit
 
-        firstCell = table.first_row.first_cell
-        type = firstCell.cell_format.preferred_width.type
-        value = firstCell.cell_format.preferred_width.value
+        first_cell = table.first_row.first_cell
+        type = first_cell.cell_format.preferred_width.type
+        value = first_cell.cell_format.preferred_width.value
         #ExEnd:RetrievePreferredWidthType
 
 

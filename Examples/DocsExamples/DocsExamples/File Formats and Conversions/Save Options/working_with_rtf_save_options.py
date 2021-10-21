@@ -18,10 +18,10 @@ class WorkingWithRtfSaveOptions(docs_base.DocsExamplesBase):
         #ExStart:SavingImagesAsWmf
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
-        saveOptions = aw.saving.RtfSaveOptions()
-        saveOptions.save_images_as_wmf = True
+        save_options = aw.saving.RtfSaveOptions()
+        save_options.save_images_as_wmf = True
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithRtfSaveOptions.saving_images_as_wmf.rtf", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithRtfSaveOptions.saving_images_as_wmf.rtf", save_options)
         #ExEnd:SavingImagesAsWmf
 
 

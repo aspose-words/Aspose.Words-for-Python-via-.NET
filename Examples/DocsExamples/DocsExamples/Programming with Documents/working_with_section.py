@@ -22,8 +22,8 @@ class WorkingWithSection(docs_base.DocsExamplesBase):
         builder.writeln("Hello1")
         builder.writeln("Hello2")
 
-        sectionToAdd = aw.Section(doc)
-        doc.sections.add(sectionToAdd)
+        section_to_add = aw.Section(doc)
+        doc.sections.add(section_to_add)
         #ExEnd:AddSection
 
 
@@ -75,12 +75,12 @@ class WorkingWithSection(docs_base.DocsExamplesBase):
         section = doc.sections[2]
 
         # This copies the content of the 1st section and inserts it at the beginning of the specified section.
-        sectionToPrepend = doc.sections[0]
-        section.prepend_content(sectionToPrepend)
+        section_to_prepend = doc.sections[0]
+        section.prepend_content(section_to_prepend)
 
         # This copies the content of the 2nd section and inserts it at the end of the specified section.
-        sectionToAppend = doc.sections[1]
-        section.append_content(sectionToAppend)
+        section_to_append = doc.sections[1]
+        section.append_content(section_to_append)
         #ExEnd:AppendSectionContent
 
 
@@ -88,21 +88,21 @@ class WorkingWithSection(docs_base.DocsExamplesBase):
 
         #ExStart:CloneSection
         doc = aw.Document(docs_base.my_dir + "Document.docx")
-        cloneSection = doc.sections[0].clone()
+        clone_section = doc.sections[0].clone()
         #ExEnd:CloneSection
 
 
     def test_copy_section(self) :
 
         #ExStart:CopySection
-        srcDoc = aw.Document(docs_base.my_dir + "Document.docx")
-        dstDoc = aw.Document()
+        src_doc = aw.Document(docs_base.my_dir + "Document.docx")
+        dst_doc = aw.Document()
 
-        sourceSection = srcDoc.sections[0]
-        newSection = dstDoc.import_node(sourceSection, True).as_section()
-        dstDoc.sections.add(newSection)
+        source_section = src_doc.sections[0]
+        new_section = dst_doc.import_node(source_section, True).as_section()
+        dst_doc.sections.add(new_section)
 
-        dstDoc.save(docs_base.artifacts_dir + "WorkingWithSection.copy_section.docx")
+        dst_doc.save(docs_base.artifacts_dir + "WorkingWithSection.copy_section.docx")
         #ExEnd:CopySection
 
 

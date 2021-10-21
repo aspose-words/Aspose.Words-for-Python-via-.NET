@@ -19,45 +19,45 @@ class WorkingWithParagraph(docs_base.DocsExamplesBase):
         document = aw.Document(docs_base.my_dir + "Bibliography.docx")
 
         collector = aw.layout.LayoutCollector(document)
-        it = aw.layout.LayoutEnumerator(document)
+        enumerator = aw.layout.LayoutEnumerator(document)
 
         for paragraph in document.get_child_nodes(aw.NodeType.PARAGRAPH, True) :
 
             paragraph = paragraph.as_paragraph()
-            paraBreak = collector.get_entity(paragraph)
+            para_break = collector.get_entity(paragraph)
 
             stop = None
-            prevItem = paragraph.previous_sibling
-            if (prevItem != None) :
-                prevBreak = collector.get_entity(prevItem)
-                if (prevItem.node_type == aw.NodeType.PARAGRAPH) :
-                    it.current = collector.get_entity(prevItem) # para break
-                    it.move_parent()    # last line
-                    stop = it.current
-                elif (prevItem.node_type == aw.NodeType.TABLE) :
-                    table = prevItem.as_table()
-                    it.current = collector.get_entity(table.last_row.last_cell.last_paragraph) # cell break
-                    it.move_parent()    # cell
-                    it.move_parent()    # row
-                    stop = it.current
+            prev_item = paragraph.previous_sibling
+            if (prev_item != None) :
+                prev_break = collector.get_entity(prev_item)
+                if (prev_item.node_type == aw.NodeType.PARAGRAPH) :
+                    enumerator.current = collector.get_entity(prev_item) # para break
+                    enumerator.move_parent()    # last line
+                    stop = enumerator.current
+                elif (prev_item.node_type == aw.NodeType.TABLE) :
+                    table = prev_item.as_table()
+                    enumerator.current = collector.get_entity(table.last_row.last_cell.last_paragraph) # cell break
+                    enumerator.move_parent()    # cell
+                    enumerator.move_parent()    # row
+                    stop = enumerator.current
                 else :
                     raise RuntimeError()
 
-            it.current = paraBreak
-            it.move_parent()
+            enumerator.current = para_break
+            enumerator.move_parent()
 
             # We move from line to line in a paragraph.
             # When paragraph spans multiple pages the we will follow across them.
             count = 1
-            while (it.current != stop) :
-                if (not it.move_previous_logical()) :
+            while (enumerator.current != stop) :
+                if (not enumerator.move_previous_logical()) :
                     break
                 count += 1
 
-            MAX_CHARS = 16
-            paraText = paragraph.get_text()
-            if (len(paraText) > MAX_CHARS) :
-                paraText = f"{paraText.substring(0, MAX_CHARS)}..."
+            max_chars = 16
+            para_text = paragraph.get_text()
+            if (len(para_text) > max_chars) :
+                para_text = f"{paraText.substring(0, MAX_CHARS)}..."
 
             print(f"Paragraph '{paraText}' has {count} line(-s).")
         #ExEnd:CountLinesInParagraph

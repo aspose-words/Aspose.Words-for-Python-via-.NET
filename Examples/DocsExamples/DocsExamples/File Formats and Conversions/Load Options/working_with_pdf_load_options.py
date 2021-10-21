@@ -18,29 +18,29 @@ class WorkingWithPdfLoadOptions(docs_base.DocsExamplesBase):
         #ExStart:LoadEncryptedPdf
         doc = aw.Document(docs_base.my_dir + "Pdf Document.pdf")
 
-        saveOptions = aw.saving.PdfSaveOptions()
-        saveOptions.encryption_details = aw.saving.PdfEncryptionDetails("Aspose", None, aw.saving.PdfEncryptionAlgorithm.RC4_40)
+        save_options = aw.saving.PdfSaveOptions()
+        save_options.encryption_details = aw.saving.PdfEncryptionDetails("Aspose", None, aw.saving.PdfEncryptionAlgorithm.RC4_40)
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithPdfLoadOptions.load_encrypted_pdf.pdf", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithPdfLoadOptions.load_encrypted_pdf.pdf", save_options)
 
-        loadOptions = aw.loading.PdfLoadOptions()
-        loadOptions.password = "Aspose"
-        loadOptions.load_format = aw.LoadFormat.PDF
+        load_options = aw.loading.PdfLoadOptions()
+        load_options.password = "Aspose"
+        load_options.load_format = aw.LoadFormat.PDF
 
-        doc = aw.Document(docs_base.artifacts_dir + "WorkingWithPdfLoadOptions.load_encrypted_pdf.pdf", loadOptions)
+        doc = aw.Document(docs_base.artifacts_dir + "WorkingWithPdfLoadOptions.load_encrypted_pdf.pdf", load_options)
         #ExEnd:LoadEncryptedPdf
 
 
     def test_load_page_range_of_pdf(self) :
 
         #ExStart:LoadPageRangeOfPdf
-        loadOptions = aw.loading.PdfLoadOptions()
-        loadOptions.page_index = 0;
-        loadOptions.page_count = 1
+        load_options = aw.loading.PdfLoadOptions()
+        load_options.page_index = 0;
+        load_options.page_count = 1
 
         #ExStart:LoadPDF
-        doc = aw.Document(docs_base.my_dir + "Pdf Document.pdf", loadOptions)
+        doc = aw.Document(docs_base.my_dir + "Pdf Document.pdf", load_options)
 
         doc.save(docs_base.artifacts_dir + "WorkingWithPdfLoadOptions.load_page_range_of_pdf.pdf")
         #ExEnd:LoadPDF

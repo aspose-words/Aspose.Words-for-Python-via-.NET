@@ -61,10 +61,10 @@ class WorkingWithFormFields(docs_base.DocsExamplesBase):
 
         #ExStart:FormFieldsWorkWithProperties
         doc = aw.Document(docs_base.my_dir + "Form fields.docx")
-        formField = doc.range.form_fields[3]
+        form_field = doc.range.form_fields[3]
 
-        if formField.type == aw.fields.FieldType.FIELD_FORM_TEXT_INPUT :
-            formField.result = "My name is " + formField.name
+        if form_field.type == aw.fields.FieldType.FIELD_FORM_TEXT_INPUT :
+            form_field.result = "My name is " + form_field.name
         #ExEnd:FormFieldsWorkWithProperties
 
 
@@ -73,7 +73,7 @@ class WorkingWithFormFields(docs_base.DocsExamplesBase):
         #ExStart:FormFieldsGetFormFieldsCollection
         doc = aw.Document(docs_base.my_dir + "Form fields.docx")
 
-        formFields = doc.range.form_fields
+        form_fields = doc.range.form_fields
         #ExEnd:FormFieldsGetFormFieldsCollection
 
 
@@ -83,13 +83,13 @@ class WorkingWithFormFields(docs_base.DocsExamplesBase):
         #ExStart:FormFieldsGetByName
         doc = aw.Document(docs_base.my_dir + "Form fields.docx")
 
-        documentFormFields = doc.range.form_fields
+        document_form_fields = doc.range.form_fields
 
-        formField1 = documentFormFields[3]
+        form_field1 = document_form_fields[3]
         #formField2 = documentFormFields["Text2"]
         #ExEnd:FormFieldsGetByName
 
-        formField1.font.size = 20
+        form_field1.font.size = 20
         #formField2.font.color = Color.red
         #ExEnd:FormFieldsFontFormatting
 

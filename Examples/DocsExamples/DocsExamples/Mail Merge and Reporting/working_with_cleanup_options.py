@@ -20,14 +20,14 @@ class WorkingWithCleanupOptions(docs_base.DocsExamplesBase):
             doc = aw.Document()
             builder = aw.DocumentBuilder(doc)
 
-            mergeFieldOption1 = builder.insert_field("MERGEFIELD", "Option_1").as_field_merge_field()
-            mergeFieldOption1.field_name = "Option_1"
+            merge_field_option1 = builder.insert_field("MERGEFIELD", "Option_1").as_field_merge_field()
+            merge_field_option1.field_name = "Option_1"
 
             # Here is the complete list of cleanable punctuation marks: ! , . :  ? ¡ ¿.
             builder.write(" ?  ")
 
-            mergeFieldOption2 = builder.insert_field("MERGEFIELD", "Option_2").as_field_merge_field()
-            mergeFieldOption2.field_name = "Option_2"
+            merge_field_option2 = builder.insert_field("MERGEFIELD", "Option_2").as_field_merge_field()
+            merge_field_option2.field_name = "Option_2"
 
             doc.mail_merge.cleanup_options = aw.mailmerging.MailMergeCleanupOptions.REMOVE_EMPTY_PARAGRAPHS
             # The option's default value is True, which means that the behavior was changed to mimic MS Word.

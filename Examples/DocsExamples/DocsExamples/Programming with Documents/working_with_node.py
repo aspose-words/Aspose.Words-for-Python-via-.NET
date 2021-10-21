@@ -95,16 +95,16 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
     # A simple function that will walk through all children of a specified node recursively
     # and print the type of each node to the screen.
     # </summary>
-    def traverse_all_nodes(self, parentNode) :
+    def traverse_all_nodes(self, parent_node) :
 
         # This is the most efficient way to loop through immediate children of a node.
-        for childNode in parentNode.child_nodes :
+        for child_node in parent_node.child_nodes :
 
-            print(aw.Node.node_type_to_string(childNode.node_type))
+            print(aw.Node.node_type_to_string(child_node.node_type))
 
             # Recurse into the node if it is a composite node.
-            if childNode.is_composite :
-                self.traverse_all_nodes(childNode.as_composite_node())
+            if child_node.is_composite :
+                self.traverse_all_nodes(child_node.as_composite_node())
 
 
     #ExEnd:RecurseAllNodes

@@ -34,50 +34,50 @@ class WorkingWithFileFormat(docs_base.DocsExamplesBase):
             os.makedirs(pre97_dir)
 
         #ExStart:GetListOfFilesInFolder
-        fileList =  (file for file in os.listdir(docs_base.my_dir)
+        file_list =  (file for file in os.listdir(docs_base.my_dir)
            if (os.path.isfile(os.path.join(docs_base.my_dir, file)) and not file.endswith("Corrupted document.docx")))
 
         #ExEnd:GetListOfFilesInFolder
-        for fileName in fileList:
+        for file_name in file_list:
 
-            name_only = fileName
-            fileName = os.path.join(docs_base.my_dir, name_only)
+            name_only = file_name
+            file_name = os.path.join(docs_base.my_dir, name_only)
 
             print(name_only)
             #ExStart:DetectFileFormat
-            info = aw.FileFormatUtil.detect_file_format(fileName)
+            info = aw.FileFormatUtil.detect_file_format(file_name)
 
-            lf = info.load_format
+            load_format = info.load_format
             # Display the document type
-            if lf == aw.LoadFormat.DOC:
+            if load_format == aw.LoadFormat.DOC:
                 print("\tMicrosoft Word 97-2003 document.")
-            elif lf == aw.LoadFormat.DOT:
+            elif load_format == aw.LoadFormat.DOT:
                 print("\tMicrosoft Word 97-2003 template.")
-            elif lf ==  aw.LoadFormat.DOCX:
+            elif load_format ==  aw.LoadFormat.DOCX:
                 print("\tOffice Open XML WordprocessingML Macro-Free Document.")
-            elif lf == aw.LoadFormat.DOCM:
+            elif load_format == aw.LoadFormat.DOCM:
                 print("\tOffice Open XML WordprocessingML Macro-Enabled Document.")
-            elif lf == aw.LoadFormat.DOTX:
+            elif load_format == aw.LoadFormat.DOTX:
                 print("\tOffice Open XML WordprocessingML Macro-Free Template.")
-            elif lf == aw.LoadFormat.DOTM:
+            elif load_format == aw.LoadFormat.DOTM:
                 print("\tOffice Open XML WordprocessingML Macro-Enabled Template.")
-            elif lf == aw.LoadFormat.FLAT_OPC:
+            elif load_format == aw.LoadFormat.FLAT_OPC:
                 print("\tFlat OPC document.")
-            elif lf == aw.LoadFormat.RTF:
+            elif load_format == aw.LoadFormat.RTF:
                 print("\tRTF format.")
-            elif lf == aw.LoadFormat.WORD_ML:
+            elif load_format == aw.LoadFormat.WORD_ML:
                 print("\tMicrosoft Word 2003 WordprocessingML format.")
-            elif lf == aw.LoadFormat.HTML:
+            elif load_format == aw.LoadFormat.HTML:
                 print("\tHTML format.")
-            elif lf == aw.LoadFormat.MHTML:
+            elif load_format == aw.LoadFormat.MHTML:
                 print("\tMHTML (Web archive) format.")
-            elif lf == aw.LoadFormat.ODT:
+            elif load_format == aw.LoadFormat.ODT:
                 print("\tOpenDocument Text.")
-            elif lf == aw.LoadFormat.OTT:
+            elif load_format == aw.LoadFormat.OTT:
                 print("\tOpenDocument Text Template.")
-            elif lf == aw.LoadFormat.DOC_PRE_WORD60:
+            elif load_format == aw.LoadFormat.DOC_PRE_WORD60:
                 print("\tMS Word 6 or Word 95 format.")
-            elif lf == aw.LoadFormat.UNKNOWN:
+            elif load_format == aw.LoadFormat.UNKNOWN:
                 print("\tUnknown format.")
 
             #ExEnd:DetectFileFormat
@@ -85,16 +85,16 @@ class WorkingWithFileFormat(docs_base.DocsExamplesBase):
             if info.is_encrypted:
 
                 print("\tAn encrypted document.")
-                shutil.copyfile(fileName, os.path.join(encrypted_dir, name_only))
+                shutil.copyfile(file_name, os.path.join(encrypted_dir, name_only))
 
             else:
 
-                if lf == aw.LoadFormat.DOC_PRE_WORD60:
-                    shutil.copyfile(fileName, os.path.join(pre97_dir, name_only))
-                elif lf == aw.LoadFormat.UNKNOWN:
-                    shutil.copyfile(fileName, os.path.join(unknown_dir, name_only))
+                if load_format == aw.LoadFormat.DOC_PRE_WORD60:
+                    shutil.copyfile(file_name, os.path.join(pre97_dir, name_only))
+                elif load_format == aw.LoadFormat.UNKNOWN:
+                    shutil.copyfile(file_name, os.path.join(unknown_dir, name_only))
                 else:
-                    shutil.copyfile(fileName, os.path.join(supported_dir, name_only))
+                    shutil.copyfile(file_name, os.path.join(supported_dir, name_only))
 
         #ExEnd:CheckFormatCompatibility
 

@@ -19,15 +19,15 @@ class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
         #ExStart:ExposeThresholdControlForTiffBinarization
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
-        saveOptions = aw.saving.ImageSaveOptions(aw.SaveFormat.TIFF)
+        save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.TIFF)
 
-        saveOptions.tiff_compression = aw.saving.TiffCompression.CCITT3
-        saveOptions.image_color_mode = aw.saving.ImageColorMode.GRAYSCALE
-        saveOptions.tiff_binarization_method = aw.saving.ImageBinarizationMethod.FLOYD_STEINBERG_DITHERING
-        saveOptions.threshold_for_floyd_steinberg_dithering = 254
+        save_options.tiff_compression = aw.saving.TiffCompression.CCITT3
+        save_options.image_color_mode = aw.saving.ImageColorMode.GRAYSCALE
+        save_options.tiff_binarization_method = aw.saving.ImageBinarizationMethod.FLOYD_STEINBERG_DITHERING
+        save_options.threshold_for_floyd_steinberg_dithering = 254
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithImageSaveOptions.expose_threshold_control_for_tiff_binarization.tiff", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithImageSaveOptions.expose_threshold_control_for_tiff_binarization.tiff", save_options)
         #ExEnd:ExposeThresholdControlForTiffBinarization
 
 
@@ -40,13 +40,13 @@ class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:SaveAsTIFF
 
         #ExStart:SaveAsTIFFUsingImageSaveOptions
-        saveOptions = aw.saving.ImageSaveOptions(aw.SaveFormat.TIFF)
-        saveOptions.page_set = aw.saving.PageSet([0, 1])
-        saveOptions.tiff_compression = aw.saving.TiffCompression.CCITT4
+        save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.TIFF)
+        save_options.page_set = aw.saving.PageSet([0, 1])
+        save_options.tiff_compression = aw.saving.TiffCompression.CCITT4
         #saveOptions.resolution = 160
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithImageSaveOptions.get_tiff_page_range.tiff", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithImageSaveOptions.get_tiff_page_range.tiff", save_options)
         #ExEnd:SaveAsTIFFUsingImageSaveOptions
         #ExEnd:GetTiffPageRange
 
@@ -56,14 +56,14 @@ class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
         #ExStart:Format1BppIndexed
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
-        saveOptions = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
+        save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
 
-        saveOptions.page_set = aw.saving.PageSet(1)
-        saveOptions.image_color_mode = aw.saving.ImageColorMode.BLACK_AND_WHITE
-        saveOptions.pixel_format = aw.saving.ImagePixelFormat.FORMAT1BPP_INDEXED
+        save_options.page_set = aw.saving.PageSet(1)
+        save_options.image_color_mode = aw.saving.ImageColorMode.BLACK_AND_WHITE
+        save_options.pixel_format = aw.saving.ImagePixelFormat.FORMAT1BPP_INDEXED
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithImageSaveOptions.format_1_bpp_indexed.png", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithImageSaveOptions.format_1_bpp_indexed.png", save_options)
         #ExEnd:Format1BppIndexed
 
 
@@ -98,20 +98,20 @@ class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "Rendering.JpegDefaultOptions.jpg")
 
         # Save document to stream as a JPEG with default options
-        docStream = io.BytesIO()
-        doc.save(docStream, aw.SaveFormat.JPEG)
+        doc_stream = io.BytesIO()
+        doc.save(doc_stream, aw.SaveFormat.JPEG)
         # Rewind the stream position back to the beginning, ready for use
-        docStream.seek(0)
+        doc_stream.seek(0)
 
         # Save document to a JPEG image with specified options.
         # Render the third page only and set the JPEG quality to 80%
         # In this case we need to pass the desired SaveFormat to the ImageSaveOptions constructor
         # to signal what type of image to save as.
-        imageOptions = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
-        imageOptions.page_index = 2
-        imageOptions.page_count = 1
-        imageOptions.jpeg_quality = 80
-        doc.save(docs_base.artifacts_dir + "Rendering.JpegCustomOptions.jpg", imageOptions)
+        image_options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
+        image_options.page_index = 2
+        image_options.page_count = 1
+        image_options.jpeg_quality = 80
+        doc.save(docs_base.artifacts_dir + "Rendering.JpegCustomOptions.jpg", image_options)
         #ExEnd:SaveDocumentToJPEG
 
 

@@ -24,10 +24,10 @@ class WorkingWithTxtSaveOptions(docs_base.DocsExamplesBase):
         builder.writeln("שלום עולם!")
         builder.writeln("مرحبا بالعالم!")
 
-        saveOptions = aw.saving.TxtSaveOptions()
-        saveOptions.add_bidi_marks = True
+        save_options = aw.saving.TxtSaveOptions()
+        save_options.add_bidi_marks = True
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTxtSaveOptions.add_bidi_marks.txt", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithTxtSaveOptions.add_bidi_marks.txt", save_options)
         #ExEnd:AddBidiMarks
 
 
@@ -45,11 +45,11 @@ class WorkingWithTxtSaveOptions(docs_base.DocsExamplesBase):
         builder.list_format.list_indent()
         builder.write("Item 3")
 
-        saveOptions = aw.saving.TxtSaveOptions()
-        saveOptions.list_indentation.count = 1
+        save_options = aw.saving.TxtSaveOptions()
+        save_options.list_indentation.count = 1
         #saveOptions.list_indentation.character = '\t'
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTxtSaveOptions.use_tab_character_per_level_for_list_indentation.txt", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithTxtSaveOptions.use_tab_character_per_level_for_list_indentation.txt", save_options)
         #ExEnd:UseTabCharacterPerLevelForListIndentation
 
 
@@ -67,11 +67,11 @@ class WorkingWithTxtSaveOptions(docs_base.DocsExamplesBase):
         builder.list_format.list_indent()
         builder.write("Item 3")
 
-        saveOptions = aw.saving.TxtSaveOptions()
-        saveOptions.list_indentation.count = 3
+        save_options = aw.saving.TxtSaveOptions()
+        save_options.list_indentation.count = 3
         #saveOptions.list_indentation.character = ' '
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTxtSaveOptions.use_space_character_per_level_for_list_indentation.txt", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithTxtSaveOptions.use_space_character_per_level_for_list_indentation.txt", save_options)
         #ExEnd:UseSpaceCharacterPerLevelForListIndentation
 
     def test_export_headers_footers_mode(self) :

@@ -58,12 +58,12 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
         comment.paragraphs.add(aw.Paragraph(doc))
         comment.first_paragraph.runs.add(aw.Run(doc, "Comment text."))
 
-        commentRangeStart = aw.CommentRangeStart(doc, comment.id)
-        commentRangeEnd = aw.CommentRangeEnd(doc, comment.id)
+        comment_range_start = aw.CommentRangeStart(doc, comment.id)
+        comment_range_end = aw.CommentRangeEnd(doc, comment.id)
 
-        run1.parent_node.insert_after(commentRangeStart, run1)
-        run3.parent_node.insert_after(commentRangeEnd, run3)
-        commentRangeEnd.parent_node.insert_after(comment, commentRangeEnd)
+        run1.parent_node.insert_after(comment_range_start, run1)
+        run3.parent_node.insert_after(comment_range_end, run3)
+        comment_range_end.parent_node.insert_after(comment, comment_range_end)
 
         doc.save(docs_base.artifacts_dir + "WorkingWithComments.anchor_comment.doc")
         #ExEnd:AnchorComment
@@ -114,30 +114,30 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
     @staticmethod
     def extract_comments(doc) :
 
-        collectedComments = []
+        collected_comments = []
         comments = doc.get_child_nodes(aw.NodeType.COMMENT, True)
 
         for node in comments :
             comment = node.as_comment()
-            collectedComments.append(comment.author + " " + comment.date_time.strftime("%Y-%m-%d %H:%M:%S") + " " + comment.to_string(aw.SaveFormat.TEXT))
+            collected_comments.append(comment.author + " " + comment.date_time.strftime("%Y-%m-%d %H:%M:%S") + " " + comment.to_string(aw.SaveFormat.TEXT))
 
-        return collectedComments
+        return collected_comments
 
     #ExEnd:ExtractComments
 
     #ExStart:ExtractCommentsByAuthor
     @staticmethod
-    def extract_comments_by_author(doc, authorName) :
+    def extract_comments_by_author(doc, author_name) :
 
-        collectedComments = []
+        collected_comments = []
         comments = doc.get_child_nodes(aw.NodeType.COMMENT, True)
 
         for node in comments :
             comment = node.as_comment()
-            if (comment.author == authorName) :
-                collectedComments.append(comment.author + " " + comment.date_time.strftime("%Y-%m-%d %H:%M:%S") + " " + comment.to_string(aw.SaveFormat.TEXT))
+            if (comment.author == author_name) :
+                collected_comments.append(comment.author + " " + comment.date_time.strftime("%Y-%m-%d %H:%M:%S") + " " + comment.to_string(aw.SaveFormat.TEXT))
 
-        return collectedComments
+        return collected_comments
 
     #ExEnd:ExtractCommentsByAuthor
 
@@ -174,16 +174,16 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
 
         comments = doc.get_child_nodes(aw.NodeType.COMMENT, True)
 
-        parentComment = comments[0].as_comment()
-        for child in parentComment.replies :
+        parent_comment = comments[0].as_comment()
+        for child in parent_comment.replies :
 
-            childComment = child.as_comment()
+            child_comment = child.as_comment()
             # Get comment parent and status.
-            print(childComment.ancestor.id)
-            print(childComment.done)
+            print(child_comment.ancestor.id)
+            print(child_comment.done)
 
             # And update comment Done mark.
-            childComment.done = True
+            child_comment.done = True
 
 
     #ExEnd:CommentResolvedandReplies
@@ -194,18 +194,18 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
         # Open the document.
         doc = aw.Document(docs_base.my_dir + "Comments.docx")
 
-        commentStart = doc.get_child(aw.NodeType.COMMENT_RANGE_START, 0, True).as_comment_range_start()
-        commentEnd = doc.get_child(aw.NodeType.COMMENT_RANGE_END, 0, True).as_comment_range_end()
+        comment_start = doc.get_child(aw.NodeType.COMMENT_RANGE_START, 0, True).as_comment_range_start()
+        comment_end = doc.get_child(aw.NodeType.COMMENT_RANGE_END, 0, True).as_comment_range_end()
 
-        currentNode = commentStart
-        isRemoving = True
-        while (currentNode != None and isRemoving) :
-            if (currentNode.node_type == aw.NodeType.COMMENT_RANGE_END) :
-                isRemoving = False
+        current_node = comment_start
+        is_removing = True
+        while (current_node != None and is_removing) :
+            if (current_node.node_type == aw.NodeType.COMMENT_RANGE_END) :
+                is_removing = False
 
-            nextNode = currentNode.next_pre_order(doc)
-            currentNode.remove()
-            currentNode = nextNode
+            next_node = current_node.next_pre_order(doc)
+            current_node.remove()
+            current_node = next_node
 
         # Save the document.
         doc.save(docs_base.artifacts_dir + "WorkingWithComments.remove_region_text.docx")

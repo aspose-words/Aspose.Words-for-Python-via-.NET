@@ -20,10 +20,10 @@ class WorkingWithOdtSaveOptions(docs_base.DocsExamplesBase):
 
         # Open Office uses centimeters when specifying lengths, widths and other measurable formatting
         # and content properties in documents whereas MS Office uses inches.
-        saveOptions = aw.saving.OdtSaveOptions()
-        saveOptions.measure_unit = aw.saving.OdtSaveMeasureUnit.INCHES
+        save_options = aw.saving.OdtSaveOptions()
+        save_options.measure_unit = aw.saving.OdtSaveMeasureUnit.INCHES
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithOdtSaveOptions.measure_unit.odt", saveOptions)
+        doc.save(docs_base.artifacts_dir + "WorkingWithOdtSaveOptions.measure_unit.odt", save_options)
         #ExEnd:MeasureUnit
 
 
