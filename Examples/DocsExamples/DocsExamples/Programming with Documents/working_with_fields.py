@@ -174,7 +174,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
                 raise ValueError("Start and end nodes are expected to have the same parent.")
 
             cur_child = start_node
-            while (cur_child != None and cur_child != end_node):
+            while cur_child != None and cur_child != end_node:
 
                 next_child = cur_child.next_sibling
                 cur_child.remove()

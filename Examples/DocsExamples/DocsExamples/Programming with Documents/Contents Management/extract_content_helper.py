@@ -41,7 +41,7 @@ class ExtractContentHelper():
         # and last nodes when needed, so paragraph formatting is retained.
         # Method is a little more complicated than a regular extractor as we need to factor
         # in extracting using inline nodes, fields, bookmarks, etc. to make it useful.
-        while (is_extracting):
+        while is_extracting:
 
             # Clone the current node and its children to obtain a copy.
             clone_node = curr_node.clone(True)
@@ -200,7 +200,7 @@ class ExtractContentHelper():
             # If the marker is a start node and is not included, skip to the end of the field.
             # If the marker is an end node and is to be included, then move to the end field so the field will not be removed.
             if is_start_marker and not is_inclusive or not is_start_marker and is_inclusive:
-                while (node.next_sibling != None and node.node_type != aw.NodeType.FIELD_END):
+                while node.next_sibling != None and node.node_type != aw.NodeType.FIELD_END:
                     node = node.next_sibling
 
         # Support a case if the marker node is on the third level of the document body or lower.
@@ -229,7 +229,7 @@ class ExtractContentHelper():
         is_removing = is_start_marker
         next_node = marker_node.parent_node.first_child
 
-        while (is_processing and next_node != None):
+        while is_processing and next_node != None:
 
             current_node = next_node
             is_skip = False
@@ -255,7 +255,7 @@ class ExtractContentHelper():
         list = []
         current_node = node
 
-        while (current_node != till_node):
+        while current_node != till_node:
             list.append(current_node)
             current_node = current_node.parent_node
 
@@ -278,7 +278,7 @@ class ExtractContentHelper():
     @staticmethod
     def get_ancestor_in_body(start_node: aw.Node):
 
-        while (start_node.parent_node.node_type != aw.NodeType.BODY):
+        while start_node.parent_node.node_type != aw.NodeType.BODY:
             start_node = start_node.parent_node
         return start_node
 

@@ -128,7 +128,7 @@ class RemoveContent(docs_base.DocsExamplesBase):
         is_removing = True
 
         current_node = field_starts[index]
-        while (is_removing):
+        while is_removing:
 
             # It is safer to store these nodes and delete them all at once later.
             node_list.append(current_node)

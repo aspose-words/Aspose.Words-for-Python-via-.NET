@@ -105,7 +105,7 @@ class CloneAndCombineDocuments(docs_base.DocsExamplesBase):
         # Append all nodes after the marker node to the new section. This will split the content at the section level at.
         # The marker so the sections from the other document can be inserted directly.
         current_node = insert_after_node.next_sibling
-        while (current_node != None):
+        while current_node != None:
 
             next_node = current_node.next_sibling
             clone_section.body.append_child(current_node)

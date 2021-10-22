@@ -135,7 +135,7 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
         end_node = end_para.next_sibling
 
         cur_node = start_para
-        while(cur_node != end_node):
+        while cur_node != end_node:
 
             # This creates a copy of the current node and imports it (makes it valid) in the context
             # of the destination document. Importing means adjusting styles and list identifiers correctly.
@@ -199,7 +199,7 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
 
         current_node = field.start
         flag = True
-        while (current_node != None and flag):
+        while current_node != None and flag:
 
             if current_node.node_type == aw.NodeType.RUN:
                 if (current_node.to_string(aw.SaveFormat.TEXT).strip() == "\""):
@@ -213,7 +213,7 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
 
         end_node = bookmark.bookmark_end
         flag = True
-        while (current_node != None and flag):
+        while current_node != None and flag:
 
             if current_node.node_type == aw.NodeType.FIELD_END:
                 flag = False

@@ -202,7 +202,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         is_removing = True
 
         current_node = field_start
-        while (current_node != None and is_removing):
+        while current_node != None and is_removing:
 
             if current_node.node_type == aw.NodeType.FIELD_END:
                 is_removing = False

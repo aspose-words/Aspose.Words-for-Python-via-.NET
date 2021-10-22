@@ -49,7 +49,7 @@ class WorkingWithParagraph(docs_base.DocsExamplesBase):
             # We move from line to line in a paragraph.
             # When paragraph spans multiple pages the we will follow across them.
             count = 1
-            while (enumerator.current != stop):
+            while enumerator.current != stop:
                 if (not enumerator.move_previous_logical()):
                     break
                 count += 1

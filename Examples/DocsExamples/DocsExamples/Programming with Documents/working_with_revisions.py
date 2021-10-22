@@ -181,7 +181,7 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         node = body.paragraphs[3]
         end_node = body.paragraphs[5].next_sibling
         reference_node = body.paragraphs[0]
-        while (node != end_node):
+        while node != end_node:
 
             next_node = node.next_sibling
             body.insert_before(node, reference_node)
