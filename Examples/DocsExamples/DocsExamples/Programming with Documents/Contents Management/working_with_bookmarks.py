@@ -202,7 +202,7 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
         while current_node != None and flag:
 
             if current_node.node_type == aw.NodeType.RUN:
-                if (current_node.to_string(aw.SaveFormat.TEXT).strip() == "\""):
+                if current_node.to_string(aw.SaveFormat.TEXT).strip() == "\"":
                     flag = False
 
             next_node = current_node.next_sibling
@@ -240,7 +240,7 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
         self.delete_row_by_bookmark(doc, "ROW2")
 
         # This is just to check that the other bookmark was not damaged.
-        if (doc.range.bookmarks.get_by_name("ROW1").bookmark_end == None):
+        if doc.range.bookmarks.get_by_name("ROW1").bookmark_end == None:
             raise RuntimeError("Wrong, the end of the bookmark was deleted.")
 
         doc.save(docs_base.artifacts_dir + "WorkingWithBookmarks.untangle_row_bookmarks.docx")

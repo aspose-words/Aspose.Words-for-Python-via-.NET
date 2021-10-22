@@ -133,7 +133,7 @@ class ExtractContentHelper():
         if start_node.document != end_node.document:
             raise ValueError("Start node and end node must belong to the same document")
 
-        if (start_node.get_ancestor(aw.NodeType.BODY) == None or end_node.get_ancestor(aw.NodeType.BODY) == None):
+        if start_node.get_ancestor(aw.NodeType.BODY) == None or end_node.get_ancestor(aw.NodeType.BODY) == None:
             raise ValueError("Start node and end node must be a child or descendant of a body")
 
         # Check the end node is after the start node in the DOM tree.
@@ -151,7 +151,7 @@ class ExtractContentHelper():
                 end_section.body.index_of(ExtractContentHelper.get_ancestor_in_body(end_node))):
                 raise ValueError("The end node must be after the start node in the body")
 
-        elif (start_index > end_index):
+        elif start_index > end_index:
             raise ValueError("The section of end node must be after the section start node")
 
 
@@ -218,7 +218,7 @@ class ExtractContentHelper():
 
 
         # After processing, the composite node may become empty if it has doesn't include it.
-        if (can_add and (force_add or clone_node.as_composite_node().has_child_nodes)):
+        if can_add and (force_add or clone_node.as_composite_node().has_child_nodes):
             nodes.append(clone_node)
 
 

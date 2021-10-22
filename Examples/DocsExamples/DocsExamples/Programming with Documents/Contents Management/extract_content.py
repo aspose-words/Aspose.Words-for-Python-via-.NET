@@ -28,7 +28,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
         # Let's reverse the array to make inserting the content back into the document easier.
         extracted_nodes.reverse()
 
-        while (len(extracted_nodes) > 0):
+        while len(extracted_nodes) > 0:
 
             # Insert the last node from the reversed list.
             end_table.parent_node.insert_after(extracted_nodes[0], end_table)

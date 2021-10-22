@@ -76,7 +76,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
 
             column_cells = self.get_column_cells()
 
-            if (len(column_cells) == 0):
+            if len(column_cells) == 0:
                 raise ValueError("Column must not be empty")
 
             # Create a clone of this column.
@@ -612,7 +612,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
 
             for para in cell.paragraphs:
                 para = para.as_paragraph()
-                if (not (cell.parent_row.is_last_row and para.is_end_of_cell)):
+                if not (cell.parent_row.is_last_row and para.is_end_of_cell):
                     para.paragraph_format.keep_with_next = True
 
 

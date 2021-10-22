@@ -51,7 +51,7 @@ class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
 
         custom_document_properties = doc.custom_document_properties
 
-        if (custom_document_properties.get_by_name("Authorized") != None):
+        if custom_document_properties.get_by_name("Authorized") != None:
             return
 
         custom_document_properties.add("Authorized", True)

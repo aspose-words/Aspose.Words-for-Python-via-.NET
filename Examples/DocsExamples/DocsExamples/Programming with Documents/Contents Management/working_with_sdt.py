@@ -58,12 +58,12 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
                 run = aw.Run(doc, "new text goes here")
                 para.append_child(run)
 
-            elif (sdt.sdt_type == aw.markup.SdtType.DROP_DOWN_LIST):
+            elif sdt.sdt_type == aw.markup.SdtType.DROP_DOWN_LIST:
 
                 second_item = sdt.list_items[2]
                 sdt.list_items.selected_value = second_item
 
-            elif (sdt.sdt_type == aw.markup.SdtType.PICTURE):
+            elif sdt.sdt_type == aw.markup.SdtType.PICTURE:
 
                 shape = sdt.get_child(NodeType.shape, 0, True).as_shape()
                 if shape.has_image:

@@ -362,12 +362,12 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
 
                 # Check if the destination document contains a list with this ID already. If it does, then this may
                 # cause the two lists to run together. Create a copy of the list in the source document instead.
-                if (dst_doc.lists.get_list_by_list_id(list_id) != None):
+                if dst_doc.lists.get_list_by_list_id(list_id) != None:
 
                     current_list
                     # A newly copied list already exists for this ID, retrieve the stored list,
                     # and use it on the current paragraph.
-                    if (new_lists.contains_key(list_id)):
+                    if new_lists.contains_key(list_id):
                         current_list = new_lists[list_id]
                     else:
                         # Add a copy of this list to the document and store it for later reference.

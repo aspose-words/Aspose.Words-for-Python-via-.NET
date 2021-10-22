@@ -28,7 +28,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
                 para = para.as_paragraph()
 
                 # Check if the current paragraph belongs to the target page.
-                if (layout_collector.get_start_page_index(para) == page):
+                if layout_collector.get_start_page_index(para) == page:
                     self.add_image_to_page(paragraph, page, docs_base.images_dir)
                     break
 

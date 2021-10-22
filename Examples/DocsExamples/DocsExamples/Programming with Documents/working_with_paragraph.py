@@ -34,7 +34,7 @@ class WorkingWithParagraph(docs_base.DocsExamplesBase):
                     enumerator.current = collector.get_entity(prev_item) # para break
                     enumerator.move_parent()    # last line
                     stop = enumerator.current
-                elif (prev_item.node_type == aw.NodeType.TABLE):
+                elif prev_item.node_type == aw.NodeType.TABLE:
                     table = prev_item.as_table()
                     enumerator.current = collector.get_entity(table.last_row.last_cell.last_paragraph) # cell break
                     enumerator.move_parent()    # cell
@@ -50,13 +50,13 @@ class WorkingWithParagraph(docs_base.DocsExamplesBase):
             # When paragraph spans multiple pages the we will follow across them.
             count = 1
             while enumerator.current != stop:
-                if (not enumerator.move_previous_logical()):
+                if not enumerator.move_previous_logical():
                     break
                 count += 1
 
             max_chars = 16
             para_text = paragraph.get_text()
-            if (len(para_text) > max_chars):
+            if len(para_text) > max_chars:
                 para_text = f"{paraText.substring(0, MAX_CHARS)}..."
 
             print(f"Paragraph '{paraText}' has {count} line(-s).")

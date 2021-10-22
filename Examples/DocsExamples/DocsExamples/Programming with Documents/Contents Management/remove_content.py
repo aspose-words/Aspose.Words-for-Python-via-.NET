@@ -43,7 +43,7 @@ class RemoveContent(docs_base.DocsExamplesBase):
             # Check all runs in the paragraph for page breaks and remove them.
             for run in para.runs:
                 run = run.as_run()
-                if (run.text.find(aw.ControlChar.PAGE_BREAK) >= 0):
+                if run.text.find(aw.ControlChar.PAGE_BREAK) >= 0:
                     run.text = run.text.replace(aw.ControlChar.PAGE_BREAK, "")
 
 
@@ -122,7 +122,7 @@ class RemoveContent(docs_base.DocsExamplesBase):
                 field_starts.append(start)
 
         # Ensure the TOC specified by the passed index exists.
-        if (index > len(field_starts) - 1):
+        if index > len(field_starts) - 1:
             raise IndexError("TOC index is out of range")
 
         is_removing = True
