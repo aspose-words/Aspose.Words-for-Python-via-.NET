@@ -1,6 +1,3 @@
-import unittest
-import os
-import sys
 import aspose.words as aw
 
 class ExtractContentHelper():
