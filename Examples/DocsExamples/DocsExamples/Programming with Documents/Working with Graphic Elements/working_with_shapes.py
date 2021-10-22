@@ -92,7 +92,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         builder.row_format.height = 100
         builder.row_format.height_rule = aw.HeightRule.EXACTLY
 
-        for i in range(0, 31):
+        for i in range(31):
 
             if i != 0 and i % 7 == 0:
                 builder.end_row()

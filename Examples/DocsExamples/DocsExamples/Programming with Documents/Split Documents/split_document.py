@@ -44,7 +44,7 @@ class SplitDocument(docs_base.DocsExamplesBase):
         #ExStart:SplitDocumentBySections
         doc = aw.Document(docs_base.my_dir + "Big document.docx")
 
-        for i in range(0, doc.sections.count):
+        for i in range(doc.sections.count):
 
             # Split a document into smaller parts, in this instance, split by section.
             section = doc.sections[i].clone()
@@ -68,7 +68,7 @@ class SplitDocument(docs_base.DocsExamplesBase):
 
         page_count = doc.page_count
 
-        for page in range(0, page_count):
+        for page in range(page_count):
 
             # Save each page as a separate document.
             extracted_page = doc.extract_pages(page, 1)

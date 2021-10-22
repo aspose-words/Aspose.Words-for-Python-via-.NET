@@ -65,7 +65,7 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         doc = aw.Document(docs_base.my_dir + "Revisions.docx")
 
         paragraphs = doc.first_section.body.paragraphs
-        for i in range(0, paragraphs.count):
+        for i in range(paragraphs.count):
 
             if paragraphs[i].is_move_from_revision:
                 print(f"The paragraph {i} has been moved (deleted).")

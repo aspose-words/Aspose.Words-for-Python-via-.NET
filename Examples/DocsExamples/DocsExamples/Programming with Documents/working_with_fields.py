@@ -222,7 +222,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        for i in range(0, 5):
+        for i in range(5):
             builder.insert_break(aw.BreakType.PAGE_BREAK)
 
         builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_PRIMARY)

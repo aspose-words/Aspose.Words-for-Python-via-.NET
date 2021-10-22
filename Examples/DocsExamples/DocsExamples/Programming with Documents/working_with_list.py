@@ -54,7 +54,7 @@ class WorkingWithList(docs_base.DocsExamplesBase):
         builder.list_format.list = doc.lists.add(aw.lists.ListTemplate.NUMBER_ARABIC_DOT)
 
         # There are nine levels in this list, let's try them all.
-        for i in range(0, 9):
+        for i in range(9):
 
             builder.list_format.list_level_number = i
             builder.writeln(f"Level {i}")
@@ -64,7 +64,7 @@ class WorkingWithList(docs_base.DocsExamplesBase):
         # and apply it to the document builder's current paragraph.
         builder.list_format.list = doc.lists.add(aw.lists.ListTemplate.BULLET_DIAMONDS)
 
-        for i in range(0, 9):
+        for i in range(9):
 
             builder.list_format.list_level_number = i
             builder.writeln(f"Level {i}")

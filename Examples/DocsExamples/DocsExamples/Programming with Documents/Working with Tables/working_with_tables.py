@@ -796,7 +796,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         builder.cell_format.width = 50
         builder.paragraph_format.clear_formatting()
 
-        for i in range(0, 50):
+        for i in range(50):
 
             builder.insert_cell()
             builder.row_format.heading_format = False
