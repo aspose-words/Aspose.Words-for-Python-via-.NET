@@ -28,7 +28,7 @@ class WorkingWithParagraph(docs_base.DocsExamplesBase):
 
             stop = None
             prev_item = paragraph.previous_sibling
-            if prev_item != None:
+            if prev_item is not None:
                 prev_break = collector.get_entity(prev_item)
                 if prev_item.node_type == aw.NodeType.PARAGRAPH:
                     enumerator.current = collector.get_entity(prev_item) # para break

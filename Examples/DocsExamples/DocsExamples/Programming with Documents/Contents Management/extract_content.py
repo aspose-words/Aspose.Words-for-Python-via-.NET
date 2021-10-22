@@ -179,7 +179,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
             if field.type == aw.fields.FieldType.FIELD_HYPERLINK:
 
                 hyperlink = field.as_field_hyperlink()
-                if (hyperlink.sub_address != None and hyperlink.sub_address.find("_Toc") == 0):
+                if (hyperlink.sub_address is not None and hyperlink.sub_address.find("_Toc") == 0):
 
                     toc_item = field.start.get_ancestor(aw.NodeType.PARAGRAPH).as_paragraph()
 

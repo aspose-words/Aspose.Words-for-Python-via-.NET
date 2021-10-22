@@ -86,7 +86,7 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
 
             shape = shape.as_shape()
 
-            if shape.ole_format == None:
+            if shape.ole_format is None:
                 break
 
             ole_control = shape.ole_format.ole_control
@@ -98,7 +98,7 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
                 properties = properties + "\nEnabled: " + str(check_box.enabled)
                 properties = properties + "\nType: " + str(check_box.type)
 
-                if check_box.child_nodes != None:
+                if check_box.child_nodes is not None:
                     properties = properties + "\nChildNodes: " + check_box.child_nodes
 
                 properties += "\n"

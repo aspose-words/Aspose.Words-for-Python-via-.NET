@@ -199,7 +199,7 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
 
         current_node = comment_start
         is_removing = True
-        while current_node != None and is_removing:
+        while current_node is not None and is_removing:
             if current_node.node_type == aw.NodeType.COMMENT_RANGE_END:
                 is_removing = False
 

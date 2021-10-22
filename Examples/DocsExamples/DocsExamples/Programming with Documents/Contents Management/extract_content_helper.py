@@ -20,7 +20,7 @@ class ExtractContentHelper():
         if end_node.node_type == aw.NodeType.COMMENT_RANGE_END and is_inclusive:
 
             node = ExtractContentHelper.find_next_node(aw.NodeType.COMMENT, end_node.next_sibling)
-            if node != None:
+            if node is not None:
                 end_node = node
 
         # Keep a record of the original nodes passed to this method to split marker nodes if needed.
@@ -67,7 +67,7 @@ class ExtractContentHelper():
 
             # Move to the next node and extract it. If the next node is None,
             # the rest of the content is found in a different section.
-            if curr_node.next_sibling == None and is_extracting:
+            if curr_node.next_sibling is None and is_extracting:
                 # Move to the next section.
                 next_section = curr_node.get_ancestor(aw.NodeType.SECTION).next_sibling.as_section()
                 curr_node = next_section.body.first_child
@@ -125,15 +125,15 @@ class ExtractContentHelper():
     def verify_parameter_nodes(start_node: aw.Node, end_node: aw.Node):
 
         # The order in which these checks are done is important.
-        if start_node == None:
+        if start_node is None:
             raise ValueError("Start node cannot be None")
-        if end_node == None:
+        if end_node is None:
             raise ValueError("End node cannot be None")
 
         if start_node.document != end_node.document:
             raise ValueError("Start node and end node must belong to the same document")
 
-        if start_node.get_ancestor(aw.NodeType.BODY) == None or end_node.get_ancestor(aw.NodeType.BODY) == None:
+        if start_node.get_ancestor(aw.NodeType.BODY) is None or end_node.get_ancestor(aw.NodeType.BODY) is None:
             raise ValueError("Start node and end node must be a child or descendant of a body")
 
         # Check the end node is after the start node in the DOM tree.
@@ -158,13 +158,13 @@ class ExtractContentHelper():
     @staticmethod
     def find_next_node(node_type: aw.NodeType, from_node: aw.Node):
 
-        if from_node == None or from_node.node_type == node_type:
+        if from_node is None or from_node.node_type == node_type:
             return from_node
 
         if from_node.is_composite:
 
             node = ExtractContentHelper.find_next_node(node_type, from_node.as_composite_node().first_child)
-            if node != None:
+            if node is not None:
                 return node
 
         return ExtractContentHelper.find_next_node(node_type, from_node.next_sibling)
@@ -175,7 +175,7 @@ class ExtractContentHelper():
 
         # Test if the node is a descendant of a Paragraph or Table node and is not a paragraph
         # or a table a paragraph inside a comment class that is decent of a paragraph is possible.
-        return ((node.get_ancestor(aw.NodeType.PARAGRAPH) != None or node.get_ancestor(aw.NodeType.TABLE) != None) and
+        return ((node.get_ancestor(aw.NodeType.PARAGRAPH) is not None or node.get_ancestor(aw.NodeType.TABLE) is not None) and
                 not (node.node_type == aw.NodeType.PARAGRAPH or node.node_type == aw.NodeType.TABLE))
 
 
@@ -200,7 +200,7 @@ class ExtractContentHelper():
             # If the marker is a start node and is not included, skip to the end of the field.
             # If the marker is an end node and is to be included, then move to the end field so the field will not be removed.
             if is_start_marker and not is_inclusive or not is_start_marker and is_inclusive:
-                while node.next_sibling != None and node.node_type != aw.NodeType.FIELD_END:
+                while node.next_sibling is not None and node.node_type != aw.NodeType.FIELD_END:
                     node = node.next_sibling
 
         # Support a case if the marker node is on the third level of the document body or lower.
@@ -229,7 +229,7 @@ class ExtractContentHelper():
         is_removing = is_start_marker
         next_node = marker_node.parent_node.first_child
 
-        while is_processing and next_node != None:
+        while is_processing and next_node is not None:
 
             current_node = next_node
             is_skip = False
@@ -265,7 +265,7 @@ class ExtractContentHelper():
     def include_next_paragraph(node: aw.Node, nodes):
 
         paragraph = ExtractContentHelper.find_next_node(aw.NodeType.PARAGRAPH, node.next_sibling).as_paragraph()
-        if paragraph != None:
+        if paragraph is not None:
 
             # Move to the first child to include paragraphs without content.
             marker_node = paragraph.first_child if paragraph.has_child_nodes else paragraph

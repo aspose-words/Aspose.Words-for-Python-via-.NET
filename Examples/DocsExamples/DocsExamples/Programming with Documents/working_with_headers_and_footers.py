@@ -121,7 +121,7 @@ class WorkingWithHeadersAndFooters(docs_base.DocsExamplesBase):
 
         previous_section = section.previous_sibling.as_section()
 
-        if previous_section == None:
+        if previous_section is None:
             return
 
         section.headers_footers.clear()

@@ -126,7 +126,7 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
 
         for revision in doc.revisions:
 
-            group_text = "Revision group text: " + revision.group.text if revision.group != None else "Revision has no group"
+            group_text = "Revision group text: " + revision.group.text if revision.group is not None else "Revision has no group"
 
             print(f"Type: {revision.revision_type}")
             print(f"Author: {revision.author}")

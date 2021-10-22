@@ -57,7 +57,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
 
         def __init__(self, table: aw.tables.Table, column_index: int):
 
-            if table == None:
+            if table is None:
                 raise ValueError("table")
             self.table = table
             self.column_index = column_index
@@ -128,7 +128,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
             for row in self.table.rows:
 
                 cell = row.as_row().cells[self.column_index]
-                if cell != None:
+                if cell is not None:
                     column_cells.append(cell)
 
             return column_cells

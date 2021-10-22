@@ -142,7 +142,7 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
 
         header = sect.headers_footers.get_by_header_footer_type(header_type)
 
-        if header == None:
+        if header is None:
 
             # There is no header of the specified type in the current section, so we need to create it.
             header = aw.HeaderFooter(sect.document, header_type)

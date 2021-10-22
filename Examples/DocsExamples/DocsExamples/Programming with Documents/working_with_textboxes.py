@@ -37,15 +37,15 @@ class WorkingWithTextboxes(docs_base.DocsExamplesBase):
         shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
         text_box = shape.text_box
 
-        if text_box.next != None and text_box.previous == None:
+        if text_box.next is not None and text_box.previous is None:
             print("The head of the sequence")
 
 
-        if text_box.next != None and text_box.previous != None:
+        if text_box.next is not None and text_box.previous is not None:
             print("The Middle of the sequence.")
 
 
-        if text_box.next == None and text_box.previous != None:
+        if text_box.next is None and text_box.previous is not None:
             print("The Tail of the sequence.")
 
         #ExEnd:CheckSequence
@@ -66,7 +66,7 @@ class WorkingWithTextboxes(docs_base.DocsExamplesBase):
         text_box.next = None
 
         # Break a link, which leads to this textbox.
-        if text_box.previous != None:
+        if text_box.previous is not None:
             text_box.previous.break_forward_link()
         #ExEnd:BreakALink
 

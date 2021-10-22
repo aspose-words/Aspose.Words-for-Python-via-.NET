@@ -45,7 +45,7 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
         para = aw.Paragraph(doc)
 
         # The new paragraph node does not yet have a parent.
-        print(f"Paragraph has no parent node: {para.parent_node == None}")
+        print(f"Paragraph has no parent node: {para.parent_node is None}")
 
         # But the paragraph node knows its document.
         print(f"Both nodes' documents are the same: {para.document == doc}")
@@ -58,7 +58,7 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
         doc.first_section.body.append_child(para)
 
         # The paragraph node is now a child of the Body node.
-        print(f"Paragraph has a parent node: {para.parent_node != None}")
+        print(f"Paragraph has a parent node: {para.parent_node is not None}")
         #ExEnd:OwnerDocument
 
 
@@ -122,11 +122,11 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
         for table in tables:
 
             # Quick typed access to the first row of the table.
-            if table.first_row != None:
+            if table.first_row is not None:
                 table.first_row.remove()
 
             # Quick typed access to the last row of the table.
-            if table.last_row != None:
+            if table.last_row is not None:
                 table.last_row.remove()
 
         #ExEnd:TypedAccess

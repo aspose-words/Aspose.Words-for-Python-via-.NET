@@ -179,7 +179,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
                     # the new field not to pick up the original field's formatting. To counter this,
                     # insert the field just before the original field if a previous run cannot be found,
                     # we are forced to use the FieldStart node.
-                    previous_node = field_start.previous_sibling if (field_start.previous_sibling != None) else field_start
+                    previous_node = field_start.previous_sibling if (field_start.previous_sibling is not None) else field_start
 
                     # Insert a PAGEREF field at the same position as the field.
                     builder.move_to(previous_node)
@@ -202,7 +202,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         is_removing = True
 
         current_node = field_start
-        while current_node != None and is_removing:
+        while current_node is not None and is_removing:
 
             if current_node.node_type == aw.NodeType.FIELD_END:
                 is_removing = False
@@ -218,7 +218,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         builder = ""
 
         node = field_start
-        while ((node != None) and (node.node_type != aw.NodeType.FIELD_SEPARATOR) and (node.node_type != aw.NodeType.FIELD_END)):
+        while ((node is not None) and (node.node_type != aw.NodeType.FIELD_SEPARATOR) and (node.node_type != aw.NodeType.FIELD_END)):
             if node.node_type == aw.NodeType.RUN:
                 builder += node.get_text()
             node = node.next_pre_order(node.document)
@@ -362,7 +362,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
 
                 # Check if the destination document contains a list with this ID already. If it does, then this may
                 # cause the two lists to run together. Create a copy of the list in the source document instead.
-                if dst_doc.lists.get_list_by_list_id(list_id) != None:
+                if dst_doc.lists.get_list_by_list_id(list_id) is not None:
 
                     current_list
                     # A newly copied list already exists for this ID, retrieve the stored list,

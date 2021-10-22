@@ -62,7 +62,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
                 hyperlink = field.as_field_hyperlink()
 
                 # Some hyperlinks can be local (links to bookmarks inside the document), ignore these.
-                if hyperlink.sub_address != None:
+                if hyperlink.sub_address is not None:
                     continue
 
                 hyperlink.address = "http:#www.aspose.com"
@@ -106,7 +106,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         def __init__(self, field_start):
 
-            if field_start == None:
+            if field_start is None:
                 raise ValueError("fieldStart")
             if field_start.field_type != aw.fields.FieldType.FIELD_MERGE_FIELD:
                 raise ValueError("Field start type must be FieldMergeField.")
@@ -116,7 +116,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
             # Find the field separator node.
             self.field_separator = field_start.get_field().separator
-            if self.field_separator == None:
+            if self.field_separator is None:
                 raise RuntimeError("Cannot find field separator.")
 
             self.field_end = field_start.get_field().end
@@ -166,11 +166,11 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         @staticmethod
         def remove_same_parent(start_node, end_node):
 
-            if end_node != None and start_node.parent_node != end_node.parent_node:
+            if end_node is not None and start_node.parent_node != end_node.parent_node:
                 raise ValueError("Start and end nodes are expected to have the same parent.")
 
             cur_child = start_node
-            while cur_child != None and cur_child != end_node:
+            while cur_child is not None and cur_child != end_node:
 
                 next_child = cur_child.next_sibling
                 cur_child.remove()

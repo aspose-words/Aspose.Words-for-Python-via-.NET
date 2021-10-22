@@ -75,16 +75,16 @@ class RemoveContent(docs_base.DocsExamplesBase):
             # Up to three different footers are possible in a section (for first, even and odd pages)
             # we check and delete all of them.
             footer = section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_FIRST)
-            if footer != None:
+            if footer is not None:
                 footer.remove()
 
             # Primary footer is the footer used for odd pages.
             footer = section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_PRIMARY)
-            if footer != None:
+            if footer is not None:
                 footer.remove()
 
             footer = section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_EVEN)
-            if footer != None:
+            if footer is not None:
                 footer.remove()
 
 
