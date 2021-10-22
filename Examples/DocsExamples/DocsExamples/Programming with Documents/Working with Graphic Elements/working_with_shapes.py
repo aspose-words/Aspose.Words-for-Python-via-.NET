@@ -16,7 +16,7 @@ import aspose.pydrawing as drawing
 
 class WorkingWithShapes(docs_base.DocsExamplesBase):
 
-    def test_add_group_shape(self) :
+    def test_add_group_shape(self):
 
         #ExStart:AddGroupShape
         doc = aw.Document()
@@ -46,7 +46,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         #ExEnd:AddGroupShape
 
 
-    def test_insert_shape(self) :
+    def test_insert_shape(self):
 
         #ExStart:InsertShape
         doc = aw.Document()
@@ -69,7 +69,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         #ExEnd:InsertShape
 
 
-    def test_aspect_ratio_locked(self) :
+    def test_aspect_ratio_locked(self):
 
         #ExStart:AspectRatioLocked
         doc = aw.Document()
@@ -82,7 +82,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         #ExEnd:AspectRatioLocked
 
 
-    def test_layout_in_cell(self) :
+    def test_layout_in_cell(self):
 
         #ExStart:LayoutInCell
         doc = aw.Document()
@@ -92,9 +92,9 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         builder.row_format.height = 100
         builder.row_format.height_rule = aw.HeightRule.EXACTLY
 
-        for i in range(0, 31) :
+        for i in range(0, 31):
 
-            if (i != 0 and i % 7 == 0) :
+            if (i != 0 and i % 7 == 0):
                 builder.end_row()
             builder.insert_cell()
             builder.write("Cell contents")
@@ -133,7 +133,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         #ExEnd:LayoutInCell
 
 
-    def test_add_corners_snipped(self) :
+    def test_add_corners_snipped(self):
 
         #ExStart:AddCornersSnipped
         doc = aw.Document()
@@ -148,7 +148,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         #ExEnd:AddCornersSnipped
 
 
-    def test_get_actual_shape_bounds_points(self) :
+    def test_get_actual_shape_bounds_points(self):
 
         #ExStart:GetActualShapeBoundsPoints
         doc = aw.Document()
@@ -162,7 +162,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         #ExEnd:GetActualShapeBoundsPoints
 
 
-    def test_vertical_anchor(self) :
+    def test_vertical_anchor(self):
 
         #ExStart:VerticalAnchor
         doc = aw.Document()
@@ -178,33 +178,33 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         #ExEnd:VerticalAnchor
 
 
-    def test_detect_smart_art_shape(self) :
+    def test_detect_smart_art_shape(self):
 
         #ExStart:DetectSmartArtShape
         doc = aw.Document(docs_base.my_dir + "SmartArt.docx")
 
         count = 0
-        for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True) :
+        for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True):
             shape = shape.as_shape()
-            if(shape.has_smart_art) :
+            if(shape.has_smart_art):
                 count += 1
 
         print("The document has 0 shapes with SmartArt.", count)
         #ExEnd:DetectSmartArtShape
 
 
-    def test_update_smart_art_drawing(self) :
+    def test_update_smart_art_drawing(self):
 
         doc = aw.Document(docs_base.my_dir + "SmartArt.docx")
 
         #ExStart:UpdateSmartArtDrawing
-        for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True) :
+        for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True):
             shape = shape.as_shape()
-            if (shape.has_smart_art) :
+            if (shape.has_smart_art):
                 shape.update_smart_art_drawing()
         #ExEnd:UpdateSmartArtDrawing
 
-    def test_render_shape_to_disk(self) :
+    def test_render_shape_to_disk(self):
 
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
@@ -221,7 +221,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         renderer.save(docs_base.artifacts_dir + "TestFile.RenderToDisk_out.emf", image_options)
         #ExEnd:RenderShapeToDisk
 
-    def test_render_shape_to_stream(self) :
+    def test_render_shape_to_stream(self):
 
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
@@ -248,7 +248,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         stream.close()
         #ExEnd:RenderShapeToStream
 
-    def test_render_shape_to_disk(self) :
+    def test_render_shape_to_disk(self):
 
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 

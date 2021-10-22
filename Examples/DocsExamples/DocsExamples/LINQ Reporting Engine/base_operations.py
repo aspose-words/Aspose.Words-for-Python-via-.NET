@@ -14,7 +14,7 @@ import aspose.words as aw
 
 class BaseOperations(docs_base.DocsExamplesBase):
 
-    def test_hello_world(self) :
+    def test_hello_world(self):
 
         #ExStart:HelloWorld
         doc = aw.Document()
@@ -31,7 +31,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
         #ExEnd:HelloWorld
 
 
-    def test_single_row(self) :
+    def test_single_row(self):
 
         #ExStart:SingleRow
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Table row.docx")
@@ -43,7 +43,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
         #ExEnd:SingleRow
 
 
-    def test_common_master_detail(self) :
+    def test_common_master_detail(self):
 
         #ExStart:CommonMasterDetail
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Common master detail.docx")
@@ -55,7 +55,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
         #ExEnd:CommonMasterDetail
 
 
-    def test_conditional_blocks(self) :
+    def test_conditional_blocks(self):
 
         #ExStart:ConditionalBlocks
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Table row conditional blocks.docx")
@@ -67,7 +67,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
         #ExEnd:ConditionalBlocks
 
 
-    def test_setting_background_color(self) :
+    def test_setting_background_color(self):
 
         #ExStart:SettingBackgroundColor
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Background color.docx")
@@ -95,7 +95,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "ReportingEngine.back_color.docx")
         #ExEnd:SettingBackgroundColor
 
-    def test_xml_data_source(self) :
+    def test_xml_data_source(self):
 
         xml = b"""<Person>
                     <Name>John Doe</Name>
@@ -124,7 +124,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "ReportingEngine.xml_data_source.docx")
 
 
-    def test_xml_data_source_seq(self) :
+    def test_xml_data_source_seq(self):
 
         xml = b"""<Persons>
                     <Person>
@@ -160,7 +160,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "ReportingEngine.xml_data_source_seq.docx")
 
-    def test_xml_data_source_complex(self) :
+    def test_xml_data_source_complex(self):
 
         xml = b"""<Managers>
                     <Manager>
@@ -247,7 +247,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "ReportingEngine.xml_data_source_complex.docx")
 
 
-    def test_json_data_source(self) :
+    def test_json_data_source(self):
 
         json = b"""{
                         Name: "John Doe",
@@ -275,7 +275,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "ReportingEngine.json_data_source.docx")
 
 
-    def test_json_data_source_seq(self) :
+    def test_json_data_source_seq(self):
 
         json = b"""[
                     {
@@ -311,7 +311,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "ReportingEngine.json_data_source_seq.docx")
 
-    def test_json_data_source_complex(self) :
+    def test_json_data_source_complex(self):
 
         json = b"""[
                     {
@@ -416,7 +416,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "ReportingEngine.json_data_source_complex.docx")
 
 
-    def test_exact_date_time_parse_formats(self) :
+    def test_exact_date_time_parse_formats(self):
 
         formats = [ "MM/dd/yyyy" ]
         options = aw.reporting.JsonDataLoadOptions()
@@ -424,7 +424,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
 
 #=========================================================================================================================================================
 
-    def test_csv_data_source_seq(self) :
+    def test_csv_data_source_seq(self):
 
         csv = b"""John Doe,30,1989-04-01 4:00:00 pm
 Jane Doe,27,1992-01-31 07:00:00 am
@@ -446,7 +446,7 @@ John Smith,51,1968-03-08 1:00:00 pm"""
 
         doc.save(docs_base.artifacts_dir + "ReportingEngine.csv_data_source_seq.docx")
 
-    def test_csv_data_source_seq_column_names(self) :
+    def test_csv_data_source_seq_column_names(self):
 
         csv = b"""Name,Age,Birth
 John Doe,30,1989-04-01 4:00:00 pm
@@ -470,7 +470,7 @@ John Smith,51,1968-03-08 1:00:00 pm"""
 
         doc.save(docs_base.artifacts_dir + "ReportingEngine.csv_data_source_seq_column_names.docx")
 
-    def test_csv_data_source_complex(self) :
+    def test_csv_data_source_complex(self):
 
         csv = b"""[
                     {

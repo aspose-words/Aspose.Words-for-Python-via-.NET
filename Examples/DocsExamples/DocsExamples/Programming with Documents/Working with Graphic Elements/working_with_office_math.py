@@ -14,7 +14,7 @@ import aspose.words as aw
 class WorkingWithOfficeMath(docs_base.DocsExamplesBase):
 
 
-    def test_math_equations(self) :
+    def test_math_equations(self):
 
         #ExStart:MathEquations
         doc = aw.Document(docs_base.my_dir + "Office math.docx")

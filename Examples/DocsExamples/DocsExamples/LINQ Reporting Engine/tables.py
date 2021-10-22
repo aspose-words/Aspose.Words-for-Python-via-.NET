@@ -14,7 +14,7 @@ import aspose.words as aw
 
 class Tables(docs_base.DocsExamplesBase):
 
-    def test_in_table_alternate_content(self) :
+    def test_in_table_alternate_content(self):
 
         #ExStart:InTableAlternateContent
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Total.docx")
@@ -28,7 +28,7 @@ class Tables(docs_base.DocsExamplesBase):
         #ExEnd:InTableAlternateContent
 
 
-    def test_in_table_master_detail(self) :
+    def test_in_table_master_detail(self):
 
         #ExStart:InTableMasterDetail
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Nested data table.docx")
@@ -40,7 +40,7 @@ class Tables(docs_base.DocsExamplesBase):
         #ExEnd:InTableMasterDetail
 
 
-    def test_in_table_with_filtering_grouping_sorting(self) :
+    def test_in_table_with_filtering_grouping_sorting(self):
 
         #ExStart:InTableWithFilteringGroupingSorting
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Table with filtering.docx")

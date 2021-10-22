@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithSection(docs_base.DocsExamplesBase):
 
-    def test_add_section(self) :
+    def test_add_section(self):
 
         #ExStart:AddSection
         doc = aw.Document()
@@ -27,7 +27,7 @@ class WorkingWithSection(docs_base.DocsExamplesBase):
         #ExEnd:AddSection
 
 
-    def test_delete_section(self) :
+    def test_delete_section(self):
 
         #ExStart:DeleteSection
         doc = aw.Document()
@@ -42,7 +42,7 @@ class WorkingWithSection(docs_base.DocsExamplesBase):
         #ExEnd:DeleteSection
 
 
-    def test_delete_all_sections(self) :
+    def test_delete_all_sections(self):
 
         #ExStart:DeleteAllSections
         doc = aw.Document()
@@ -57,7 +57,7 @@ class WorkingWithSection(docs_base.DocsExamplesBase):
         #ExEnd:DeleteAllSections
 
 
-    def test_append_section_content(self) :
+    def test_append_section_content(self):
 
         #ExStart:AppendSectionContent
         doc = aw.Document()
@@ -84,7 +84,7 @@ class WorkingWithSection(docs_base.DocsExamplesBase):
         #ExEnd:AppendSectionContent
 
 
-    def test_clone_section(self) :
+    def test_clone_section(self):
 
         #ExStart:CloneSection
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -92,7 +92,7 @@ class WorkingWithSection(docs_base.DocsExamplesBase):
         #ExEnd:CloneSection
 
 
-    def test_copy_section(self) :
+    def test_copy_section(self):
 
         #ExStart:CopySection
         src_doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -106,7 +106,7 @@ class WorkingWithSection(docs_base.DocsExamplesBase):
         #ExEnd:CopySection
 
 
-    def test_delete_header_footer_content(self) :
+    def test_delete_header_footer_content(self):
 
         #ExStart:DeleteHeaderFooterContent
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -116,7 +116,7 @@ class WorkingWithSection(docs_base.DocsExamplesBase):
         #ExEnd:DeleteHeaderFooterContent
 
 
-    def test_delete_section_content(self) :
+    def test_delete_section_content(self):
 
         #ExStart:DeleteSectionContent
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -126,7 +126,7 @@ class WorkingWithSection(docs_base.DocsExamplesBase):
         #ExEnd:DeleteSectionContent
 
 
-    def test_modify_page_setup_in_all_sections(self) :
+    def test_modify_page_setup_in_all_sections(self):
 
         #ExStart:ModifyPageSetupInAllSections
         doc = aw.Document()
@@ -142,14 +142,14 @@ class WorkingWithSection(docs_base.DocsExamplesBase):
 
         # It is important to understand that a document can contain many sections,
         # and each section has its page setup. In this case, we want to modify them all.
-        for child in doc :
+        for child in doc:
             child.as_section().page_setup.paper_size = aw.PaperSize.LETTER
 
         doc.save(docs_base.artifacts_dir + "WorkingWithSection.modify_page_setup_in_all_sections.doc")
         #ExEnd:ModifyPageSetupInAllSections
 
 
-    def test_sections_access_by_index(self) :
+    def test_sections_access_by_index(self):
 
         #ExStart:SectionsAccessByIndex
         doc = aw.Document(docs_base.my_dir + "Document.docx")

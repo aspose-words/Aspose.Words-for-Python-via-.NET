@@ -14,7 +14,7 @@ import aspose.pydrawing as drawing
 
 class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
 
-    def test_document_builder_insert_bookmark(self) :
+    def test_document_builder_insert_bookmark(self):
 
         #ExStart:DocumentBuilderInsertBookmark
         doc = aw.Document()
@@ -28,7 +28,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:DocumentBuilderInsertBookmark
 
 
-    def test_build_table(self) :
+    def test_build_table(self):
 
         #ExStart:BuildTable
         doc = aw.Document()
@@ -64,7 +64,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:BuildTable
 
 
-    def test_insert_horizontal_rule(self) :
+    def test_insert_horizontal_rule(self):
 
         #ExStart:InsertHorizontalRule
         doc = aw.Document()
@@ -77,7 +77,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:InsertHorizontalRule
 
 
-    def test_horizontal_rule_format(self) :
+    def test_horizontal_rule_format(self):
 
         #ExStart:HorizontalRuleFormat
         builder = aw.DocumentBuilder()
@@ -95,7 +95,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:HorizontalRuleFormat
 
 
-    def test_insert_break(self) :
+    def test_insert_break(self):
 
         #ExStart:InsertBreak
         doc = aw.Document()
@@ -113,7 +113,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:InsertBreak
 
 
-    def test_insert_text_input_form_field(self) :
+    def test_insert_text_input_form_field(self):
 
         #ExStart:InsertTextInputFormField
         doc = aw.Document()
@@ -125,7 +125,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:InsertTextInputFormField
 
 
-    def test_insert_check_box_form_field(self) :
+    def test_insert_check_box_form_field(self):
 
         #ExStart:InsertCheckBoxFormField
         doc = aw.Document()
@@ -137,7 +137,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:InsertCheckBoxFormField
 
 
-    def test_insert_combo_box_form_field(self) :
+    def test_insert_combo_box_form_field(self):
 
         #ExStart:InsertComboBoxFormField
         items =  [ "One", "Two", "Three" ]
@@ -151,7 +151,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:InsertComboBoxFormField
 
 
-    def test_insert_html(self) :
+    def test_insert_html(self):
 
         #ExStart:InsertHtml
         doc = aw.Document()
@@ -167,7 +167,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:InsertHtml
 
 
-    def test_insert_hyperlink(self) :
+    def test_insert_hyperlink(self):
 
         #ExStart:InsertHyperlink
         doc = aw.Document()
@@ -186,7 +186,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:InsertHyperlink
 
 
-    def test_insert_table_of_contents(self) :
+    def test_insert_table_of_contents(self):
 
         #ExStart:InsertTableOfContents
         doc = aw.Document()
@@ -236,7 +236,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:InsertTableOfContents
 
 
-    def test_insert_inline_image(self) :
+    def test_insert_inline_image(self):
 
         #ExStart:InsertInlineImage
         doc = aw.Document()
@@ -248,7 +248,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:InsertInlineImage
 
 
-    def test_insert_floating_image(self) :
+    def test_insert_floating_image(self):
 
         #ExStart:InsertFloatingImage
         doc = aw.Document()
@@ -267,7 +267,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:InsertFloatingImage
 
 
-    def test_insert_paragraph(self) :
+    def test_insert_paragraph(self):
 
         #ExStart:InsertParagraph
         doc = aw.Document()
@@ -291,7 +291,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:InsertParagraph
 
 
-    def test_insert_tc_field(self) :
+    def test_insert_tc_field(self):
 
         #ExStart:InsertTCField
         doc = aw.Document()
@@ -303,7 +303,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:InsertTCField
 
 
-    #def test_insert_tc_fields_at_text(self) :
+    #def test_insert_tc_fields_at_text(self):
 
     #    #ExStart:InsertTCFieldsAtText
     #    doc = aw.Document()
@@ -317,7 +317,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
 
 
     ##ExStart:InsertTCFieldHandler
-    #public sealed class InsertTCFieldHandler : IReplacingCallback
+    #public sealed class InsertTCFieldHandler: IReplacingCallback
 
     #    # Store the text and switches to be used for the TC fields.
     #    private readonly string mFieldText
@@ -339,7 +339,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
 
     #        # If the user-specified text to be used in the field as display text, then use that,
     #        # otherwise use the match string as the display text.
-    #        string insertText = !string.is_None_or_empty(mFieldText) ? mFieldText : args.match.value
+    #        string insertText = !string.is_None_or_empty(mFieldText) ? mFieldText: args.match.value
 
     #        builder.insert_field($"TC \"insertText\" mFieldSwitches")
 
@@ -348,7 +348,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
 
     ##ExEnd:InsertTCFieldHandler
 
-    def test_cursor_position(self) :
+    def test_cursor_position(self):
 
         #ExStart:CursorPosition
         doc = aw.Document()
@@ -361,7 +361,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         print("\nCursor move to paragraph: " + curParagraph.get_text())
 
 
-    def test_move_to_node(self) :
+    def test_move_to_node(self):
 
         #ExStart:MoveToNode
         #ExStart:MoveToBookmark
@@ -398,7 +398,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:MoveToNode
 
 
-    def test_move_to_document_start_end(self) :
+    def test_move_to_document_start_end(self):
 
         #ExStart:MoveToDocumentStartEnd
         doc = aw.Document()
@@ -414,7 +414,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:MoveToDocumentStartEnd
 
 
-    def test_move_to_section(self) :
+    def test_move_to_section(self):
 
         #ExStart:MoveToSection
         doc = aw.Document()
@@ -443,7 +443,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:MoveToSection
 
 
-    def test_move_to_headers_footers(self) :
+    def test_move_to_headers_footers(self):
 
         #ExStart:MoveToHeadersFooters
         doc = aw.Document()
@@ -471,7 +471,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:MoveToHeadersFooters
 
 
-    def test_move_to_paragraph(self) :
+    def test_move_to_paragraph(self):
 
         #ExStart:MoveToParagraph
         doc = aw.Document(docs_base.my_dir + "Paragraphs.docx")
@@ -482,7 +482,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:MoveToParagraph
 
 
-    def test_move_to_table_cell(self) :
+    def test_move_to_table_cell(self):
 
         #ExStart:MoveToTableCell
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -498,7 +498,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:MoveToTableCell
 
 
-    def test_move_to_bookmark_end(self) :
+    def test_move_to_bookmark_end(self):
 
         #ExStart:MoveToBookmarkEnd
         doc = aw.Document(docs_base.my_dir + "Bookmarks.docx")
@@ -509,7 +509,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         #ExEnd:MoveToBookmarkEnd
 
 
-    def test_move_to_merge_field(self) :
+    def test_move_to_merge_field(self):
 
         #ExStart:MoveToMergeField
         doc = aw.Document()

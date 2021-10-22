@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithPdfLoadOptions(docs_base.DocsExamplesBase):
 
-    def test_load_encrypted_pdf(self) :
+    def test_load_encrypted_pdf(self):
 
         #ExStart:LoadEncryptedPdf
         doc = aw.Document(docs_base.my_dir + "Pdf Document.pdf")
@@ -32,7 +32,7 @@ class WorkingWithPdfLoadOptions(docs_base.DocsExamplesBase):
         #ExEnd:LoadEncryptedPdf
 
 
-    def test_load_page_range_of_pdf(self) :
+    def test_load_page_range_of_pdf(self):
 
         #ExStart:LoadPageRangeOfPdf
         load_options = aw.loading.PdfLoadOptions()

@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithHeadersAndFooters(docs_base.DocsExamplesBase):
 
-    def test_create_header_footer(self) :
+    def test_create_header_footer(self):
 
         #ExStart:CreateHeaderFooterUsingDocBuilder
         doc = aw.Document()
@@ -117,16 +117,16 @@ class WorkingWithHeadersAndFooters(docs_base.DocsExamplesBase):
     # Clones and copies headers/footers form the previous section to the specified section.
     # </summary>
     @staticmethod
-    def copy_headers_footers_from_previous_section(section) :
+    def copy_headers_footers_from_previous_section(section):
 
         previous_section = section.previous_sibling.as_section()
 
-        if previous_section == None :
+        if previous_section == None:
             return
 
         section.headers_footers.clear()
 
-        for header_footer in previous_section.headers_footers :
+        for header_footer in previous_section.headers_footers:
             section.headers_footers.add(header_footer.clone(True))
 
     #ExEnd:CopyHeadersFootersFromPreviousSection

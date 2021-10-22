@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithHtmlFixedSaveOptions(docs_base.DocsExamplesBase):
 
-    def test_use_font_from_target_machine(self) :
+    def test_use_font_from_target_machine(self):
 
         #ExStart:UseFontFromTargetMachine
         doc = aw.Document(docs_base.my_dir + "Bullet points with alternative font.docx")
@@ -25,7 +25,7 @@ class WorkingWithHtmlFixedSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:UseFontFromTargetMachine
 
 
-    def test_write_all_css_rules_in_single_file(self) :
+    def test_write_all_css_rules_in_single_file(self):
 
         #ExStart:WriteAllCssRulesInSingleFile
         doc = aw.Document(docs_base.my_dir + "Document.docx")

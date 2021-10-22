@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithTxtSaveOptions(docs_base.DocsExamplesBase):
 
-    def test_add_bidi_marks(self) :
+    def test_add_bidi_marks(self):
 
         #ExStart:AddBidiMarks
         doc = aw.Document()
@@ -31,7 +31,7 @@ class WorkingWithTxtSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:AddBidiMarks
 
 
-    def test_use_tab_character_per_level_for_list_indentation(self) :
+    def test_use_tab_character_per_level_for_list_indentation(self):
 
         #ExStart:UseTabCharacterPerLevelForListIndentation
         doc = aw.Document()
@@ -53,7 +53,7 @@ class WorkingWithTxtSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:UseTabCharacterPerLevelForListIndentation
 
 
-    def test_use_space_character_per_level_for_list_indentation(self) :
+    def test_use_space_character_per_level_for_list_indentation(self):
 
         #ExStart:UseSpaceCharacterPerLevelForListIndentation
         doc = aw.Document()
@@ -74,7 +74,7 @@ class WorkingWithTxtSaveOptions(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "WorkingWithTxtSaveOptions.use_space_character_per_level_for_list_indentation.txt", save_options)
         #ExEnd:UseSpaceCharacterPerLevelForListIndentation
 
-    def test_export_headers_footers_mode(self) :
+    def test_export_headers_footers_mode(self):
 
         #ExStart:ExportHeadersFootersMode
         doc = aw.Document(docs_base.my_dir + "Document.docx")

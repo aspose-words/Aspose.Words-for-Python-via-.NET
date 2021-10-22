@@ -14,7 +14,7 @@ import aspose.words as aw
 
 class WorkingWithHtmlLoadOptions(docs_base.DocsExamplesBase):
 
-    def test_preferred_control_type(self) :
+    def test_preferred_control_type(self):
 
         #ExStart:LoadHtmlElementsWithPreferredControlType
         html = """

@@ -14,7 +14,7 @@ import aspose.words as aw
 
 class CompareDocument(docs_base.DocsExamplesBase):
 
-    def test_compare_for_equal(self) :
+    def test_compare_for_equal(self):
 
         #ExStart:CompareForEqual
         doc_a = aw.Document(docs_base.my_dir + "Document.docx")
@@ -27,7 +27,7 @@ class CompareDocument(docs_base.DocsExamplesBase):
         #ExEnd:CompareForEqual
 
 
-    def test_compare_options(self) :
+    def test_compare_options(self):
 
         #ExStart:CompareOptions
         doc_a = aw.Document(docs_base.my_dir + "Document.docx")
@@ -51,7 +51,7 @@ class CompareDocument(docs_base.DocsExamplesBase):
         #ExEnd:CompareOptions
 
 
-    def test_comparison_target(self) :
+    def test_comparison_target(self):
 
         #ExStart:ComparisonTarget
         doc_a = aw.Document(docs_base.my_dir + "Document.docx")
@@ -66,7 +66,7 @@ class CompareDocument(docs_base.DocsExamplesBase):
         #ExEnd:ComparisonTarget
 
 
-    def test_comparison_granularity(self) :
+    def test_comparison_granularity(self):
 
         #ExStart:ComparisonGranularity
         builder_a = aw.DocumentBuilder(aw.Document())
@@ -81,7 +81,7 @@ class CompareDocument(docs_base.DocsExamplesBase):
         builder_a.document.compare(builder_b.document, "author", datetime.today(), compare_options)
         #ExEnd:ComparisonGranularity
 
-    def test_apply_compare_two_documents(self) :
+    def test_apply_compare_two_documents(self):
 
         #ExStart:ApplyCompareTwoDocuments
         # The source document doc1.
@@ -95,13 +95,13 @@ class CompareDocument(docs_base.DocsExamplesBase):
         builder.writeln("This is the edited document.")
 
         # If either document has a revision, an exception will be thrown.
-        if (doc1.revisions.count == 0 and doc2.revisions.count == 0) :
+        if (doc1.revisions.count == 0 and doc2.revisions.count == 0):
             doc1.compare(doc2, "authorName", datetime.today())
 
         # If doc1 and doc2 are different, doc1 now has some revisions after the comparison, which can now be viewed and processed.
         self.assertEqual(2, doc1.revisions.count)
 
-        for revision in doc1.revisions :
+        for revision in doc1.revisions:
             print(f"Revision type: {revision.revision_type}, on a node of type \"{revision.parent_node.node_type}\"")
             print(f"\tChanged text: \"{revision.parent_node.get_text()}\"")
 

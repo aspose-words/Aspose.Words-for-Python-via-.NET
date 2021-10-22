@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
 
-    def test_export_roundtrip_information(self) :
+    def test_export_roundtrip_information(self):
 
         #ExStart:ExportRoundtripInformation
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -25,7 +25,7 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:ExportRoundtripInformation
 
 
-    def test_export_fonts_as_base_64(self) :
+    def test_export_fonts_as_base_64(self):
 
         #ExStart:ExportFontsAsBase64
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -37,7 +37,7 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:ExportFontsAsBase64
 
 
-    def test_export_resources(self) :
+    def test_export_resources(self):
 
         #ExStart:ExportResources
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -54,7 +54,7 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:ExportResources
 
 
-    def test_convert_metafiles_to_emf_or_wmf(self) :
+    def test_convert_metafiles_to_emf_or_wmf(self):
 
         #ExStart:ConvertMetafilesToEmfOrWmf
         doc = aw.Document()
@@ -76,7 +76,7 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:ConvertMetafilesToEmfOrWmf
 
 
-    def test_convert_metafiles_to_svg(self) :
+    def test_convert_metafiles_to_svg(self):
 
         #ExStart:ConvertMetafilesToSvg
         doc = aw.Document()
@@ -95,7 +95,7 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:ConvertMetafilesToSvg
 
 
-    def test_add_css_class_name_prefix(self) :
+    def test_add_css_class_name_prefix(self):
 
         #ExStart:AddCssClassNamePrefix
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -109,7 +109,7 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:AddCssClassNamePrefix
 
 
-    def test_export_cid_urls_for_mhtml_resources(self) :
+    def test_export_cid_urls_for_mhtml_resources(self):
 
         #ExStart:ExportCidUrlsForMhtmlResources
         doc = aw.Document(docs_base.my_dir + "Content-ID.docx")
@@ -123,7 +123,7 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:ExportCidUrlsForMhtmlResources
 
 
-    def test_resolve_font_names(self) :
+    def test_resolve_font_names(self):
 
         #ExStart:ResolveFontNames
         doc = aw.Document(docs_base.my_dir + "Missing font.docx")
@@ -137,7 +137,7 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:ResolveFontNames
 
 
-    def test_export_text_input_form_field_as_text(self) :
+    def test_export_text_input_form_field_as_text(self):
 
         #ExStart:ExportTextInputFormFieldAsText
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -159,7 +159,7 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "WorkingWithHtmlSaveOptions.export_text_input_form_field_as_text.html", save_options)
         #ExEnd:ExportTextInputFormFieldAsText
 
-    def test_convert_document_to_epub(self) :
+    def test_convert_document_to_epub(self):
 
         #ExStart:ConvertDocumentToEPUB
         # Load the document from disk.

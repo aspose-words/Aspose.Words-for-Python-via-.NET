@@ -14,7 +14,7 @@ import aspose.words as aw
 
 class Lists(docs_base.DocsExamplesBase):
 
-    def test_create_bulleted_list(self) :
+    def test_create_bulleted_list(self):
 
         #ExStart:BulletedList
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Bulleted list.docx")
@@ -26,7 +26,7 @@ class Lists(docs_base.DocsExamplesBase):
         #ExEnd:BulletedList
 
 
-    def test_common_list(self) :
+    def test_common_list(self):
 
         #ExStart:CommonList
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Common master detail.docx")
@@ -40,7 +40,7 @@ class Lists(docs_base.DocsExamplesBase):
         #ExEnd:CommonList
 
 
-    def test_in_paragraph_list(self) :
+    def test_in_paragraph_list(self):
 
         #ExStart:InParagraphList
         doc = aw.Document()
@@ -55,7 +55,7 @@ class Lists(docs_base.DocsExamplesBase):
         #ExEnd:InParagraphList
 
 
-    def test_in_table_list(self) :
+    def test_in_table_list(self):
 
         #ExStart:InTableList
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Contextual object member access.docx")
@@ -67,7 +67,7 @@ class Lists(docs_base.DocsExamplesBase):
         #ExEnd:InTableList
 
 
-    def test_multicolored_numbered_list(self) :
+    def test_multicolored_numbered_list(self):
 
         #ExStart:MulticoloredNumberedList
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Multicolored numbered list.docx")
@@ -79,7 +79,7 @@ class Lists(docs_base.DocsExamplesBase):
         #ExEnd:MulticoloredNumberedList
 
 
-    def test_numbered_list(self) :
+    def test_numbered_list(self):
 
         #ExStart:NumberedList
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Numbered list.docx")

@@ -14,7 +14,7 @@ import aspose.pydrawing as drawing
 
 class WorkingWithList(docs_base.DocsExamplesBase):
 
-    def test_restart_list_at_each_section(self) :
+    def test_restart_list_at_each_section(self):
 
         #ExStart:RestartListAtEachSection
         doc = aw.Document()
@@ -27,11 +27,11 @@ class WorkingWithList(docs_base.DocsExamplesBase):
         builder = aw.DocumentBuilder(doc)
         builder.list_format.list = list
 
-        for i in range(1, 45) :
+        for i in range(1, 45):
 
             builder.writeln(f"List Item {i}")
 
-            if i == 15 :
+            if i == 15:
                 builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
 
 
@@ -43,7 +43,7 @@ class WorkingWithList(docs_base.DocsExamplesBase):
         #ExEnd:RestartListAtEachSection
 
 
-    def test_specify_list_level(self) :
+    def test_specify_list_level(self):
 
         #ExStart:SpecifyListLevel
         doc = aw.Document()
@@ -54,7 +54,7 @@ class WorkingWithList(docs_base.DocsExamplesBase):
         builder.list_format.list = doc.lists.add(aw.lists.ListTemplate.NUMBER_ARABIC_DOT)
 
         # There are nine levels in this list, let's try them all.
-        for i in range(0, 9) :
+        for i in range(0, 9):
 
             builder.list_format.list_level_number = i
             builder.writeln(f"Level {i}")
@@ -64,7 +64,7 @@ class WorkingWithList(docs_base.DocsExamplesBase):
         # and apply it to the document builder's current paragraph.
         builder.list_format.list = doc.lists.add(aw.lists.ListTemplate.BULLET_DIAMONDS)
 
-        for i in range(0, 9) :
+        for i in range(0, 9):
 
             builder.list_format.list_level_number = i
             builder.writeln(f"Level {i}")
@@ -77,7 +77,7 @@ class WorkingWithList(docs_base.DocsExamplesBase):
         #ExEnd:SpecifyListLevel
 
 
-    def test_restart_list_number(self) :
+    def test_restart_list_number(self):
 
         #ExStart:RestartListNumber
         doc = aw.Document()

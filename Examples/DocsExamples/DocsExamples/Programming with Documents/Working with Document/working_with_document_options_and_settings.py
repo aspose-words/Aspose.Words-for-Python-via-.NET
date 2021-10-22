@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
 
-    def test_optimize_for_ms_word(self) :
+    def test_optimize_for_ms_word(self):
 
         #ExStart:OptimizeForMsWord
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -24,7 +24,7 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
         #ExEnd:OptimizeForMsWord
 
 
-    def test_show_grammatical_and_spelling_errors(self) :
+    def test_show_grammatical_and_spelling_errors(self):
 
         #ExStart:ShowGrammaticalAndSpellingErrors
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -36,7 +36,7 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
         #ExEnd:ShowGrammaticalAndSpellingErrors
 
 
-    def test_cleanup_unused_styles_and_lists(self) :
+    def test_cleanup_unused_styles_and_lists(self):
 
         #ExStart:CleanupUnusedStylesandLists
         doc = aw.Document(docs_base.my_dir + "Unused styles.docx")
@@ -60,7 +60,7 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
         #ExEnd:CleanupUnusedStylesandLists
 
 
-    def test_cleanup_duplicate_style(self) :
+    def test_cleanup_duplicate_style(self):
 
         #ExStart:CleanupDuplicateStyle
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -80,7 +80,7 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
         #ExEnd:CleanupDuplicateStyle
 
 
-    def test_view_options(self) :
+    def test_view_options(self):
 
         #ExStart:SetViewOption
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -92,7 +92,7 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
         #ExEnd:SetViewOption
 
 
-    def test_document_page_setup(self) :
+    def test_document_page_setup(self):
 
         #ExStart:DocumentPageSetup
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -108,7 +108,7 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
         #ExEnd:DocumentPageSetup
 
 
-    def test_add_japanese_as_editing_languages(self) :
+    def test_add_japanese_as_editing_languages(self):
 
         #ExStart:AddJapaneseAsEditinglanguages
         load_options = aw.loading.LoadOptions()
@@ -124,7 +124,7 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
                 else "The document default FarEast language was set to another than Japanese language originally, so it is not overridden.")
 
 
-    def test_set_russian_as_default_editing_language(self) :
+    def test_set_russian_as_default_editing_language(self):
 
         #ExStart:SetRussianAsDefaultEditingLanguage
         load_options = aw.loading.LoadOptions()
@@ -138,7 +138,7 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
         #ExEnd:SetRussianAsDefaultEditingLanguage
 
 
-    def test_set_page_setup_and_section_formatting(self) :
+    def test_set_page_setup_and_section_formatting(self):
 
         #ExStart:DocumentBuilderSetPageSetupAndSectionFormatting
         doc = aw.Document()

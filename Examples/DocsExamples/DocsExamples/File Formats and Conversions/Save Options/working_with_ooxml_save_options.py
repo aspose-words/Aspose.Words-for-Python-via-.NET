@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithOoxmlSaveOptions(docs_base.DocsExamplesBase):
 
-    def test_encrypt_docx_with_password(self) :
+    def test_encrypt_docx_with_password(self):
 
         #ExStart:EncryptDocxWithPassword
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -25,7 +25,7 @@ class WorkingWithOoxmlSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:EncryptDocxWithPassword
 
 
-    def test_ooxml_compliance_iso_29500_2008_strict(self) :
+    def test_ooxml_compliance_iso_29500_2008_strict(self):
 
         #ExStart:OoxmlComplianceIso29500_2008_Strict
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -39,7 +39,7 @@ class WorkingWithOoxmlSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:OoxmlComplianceIso29500_2008_Strict
 
 
-    def test_update_last_saved_time_property(self) :
+    def test_update_last_saved_time_property(self):
 
         #ExStart:UpdateLastSavedTimeProperty
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -51,7 +51,7 @@ class WorkingWithOoxmlSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:UpdateLastSavedTimeProperty
 
 
-    def test_keep_legacy_control_chars(self) :
+    def test_keep_legacy_control_chars(self):
 
         #ExStart:KeepLegacyControlChars
         doc = aw.Document(docs_base.my_dir + "Legacy control character.doc")
@@ -63,7 +63,7 @@ class WorkingWithOoxmlSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:KeepLegacyControlChars
 
 
-    def test_set_compression_level(self) :
+    def test_set_compression_level(self):
 
         #ExStart:SetCompressionLevel
         doc = aw.Document(docs_base.my_dir + "Document.docx")

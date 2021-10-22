@@ -14,7 +14,7 @@ import aspose.words as aw
 
 class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
 
-    def test_get_variables(self) :
+    def test_get_variables(self):
 
         #ExStart:GetVariables
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -26,7 +26,7 @@ class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
         #ExEnd:GetVariables
 
 
-    def test_enumerate_properties(self) :
+    def test_enumerate_properties(self):
 
         #ExStart:EnumerateProperties
         doc = aw.Document(docs_base.my_dir + "Properties.docx")
@@ -34,24 +34,24 @@ class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
         print("1. Document name: 0", doc.original_file_name)
         print("2. Built-in Properties")
 
-        for prop in doc.built_in_document_properties :
-            print("0 : 1", prop.name, prop.value)
+        for prop in doc.built_in_document_properties:
+            print("0: 1", prop.name, prop.value)
 
         print("3. Custom Properties")
 
-        for prop in doc.custom_document_properties :
-            print("0 : 1", prop.name, prop.value)
+        for prop in doc.custom_document_properties:
+            print("0: 1", prop.name, prop.value)
         #ExEnd:EnumerateProperties
 
 
-    def test_add_custom_document_properties(self) :
+    def test_add_custom_document_properties(self):
 
         #ExStart:AddCustomDocumentProperties
         doc = aw.Document(docs_base.my_dir + "Properties.docx")
 
         custom_document_properties = doc.custom_document_properties
 
-        if (custom_document_properties.get_by_name("Authorized") != None) :
+        if (custom_document_properties.get_by_name("Authorized") != None):
             return
 
         custom_document_properties.add("Authorized", True)
@@ -62,7 +62,7 @@ class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
         #ExEnd:AddCustomDocumentProperties
 
 
-    def test_remove_custom_document_properties(self) :
+    def test_remove_custom_document_properties(self):
 
         #ExStart:CustomRemove
         doc = aw.Document(docs_base.my_dir + "Properties.docx")
@@ -70,7 +70,7 @@ class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
         #ExEnd:CustomRemove
 
 
-    def test_remove_personal_information(self) :
+    def test_remove_personal_information(self):
 
         #ExStart:RemovePersonalInformation
         doc = aw.Document(docs_base.my_dir + "Properties.docx")
@@ -80,7 +80,7 @@ class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
         #ExEnd:RemovePersonalInformation
 
 
-    def test_configuring_link_to_content(self) :
+    def test_configuring_link_to_content(self):
 
         #ExStart:ConfiguringLinkToContent
         doc = aw.Document()
@@ -104,7 +104,7 @@ class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
         #ExEnd:ConfiguringLinkToContent
 
 
-    def test_convert_between_measurement_units(self) :
+    def test_convert_between_measurement_units(self):
 
         #ExStart:ConvertBetweenMeasurementUnits
         doc = aw.Document()
@@ -120,7 +120,7 @@ class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
         #ExEnd:ConvertBetweenMeasurementUnits
 
 
-    def test_use_control_characters(self) :
+    def test_use_control_characters(self):
 
         #ExStart:UseControlCharacters
         text = "test\r"

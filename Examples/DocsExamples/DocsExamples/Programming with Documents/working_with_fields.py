@@ -16,7 +16,7 @@ import aspose.words as aw
 
 class WorkingWithFields(docs_base.DocsExamplesBase):
 
-    def test_change_field_update_culture_source(self) :
+    def test_change_field_update_culture_source(self):
 
         #ExStart:ChangeFieldUpdateCultureSource
         #ExStart:DocumentBuilderInsertField
@@ -39,7 +39,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:ChangeFieldUpdateCultureSource
 
 
-    def test_specify_locale_at_field_level(self) :
+    def test_specify_locale_at_field_level(self):
 
         #ExStart:SpecifylocaleAtFieldlevel
         builder = aw.DocumentBuilder()
@@ -50,19 +50,19 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         builder.document.save(docs_base.artifacts_dir + "WorkingWithFields.specifylocale_at_fieldlevel.docx")
         #ExEnd:SpecifylocaleAtFieldlevel
 
-    def test_replace_hyperlinks(self) :
+    def test_replace_hyperlinks(self):
 
         #ExStart:ReplaceHyperlinks
         doc = aw.Document(docs_base.my_dir + "Hyperlinks.docx")
 
-        for field in doc.range.fields :
+        for field in doc.range.fields:
 
             if field.type == aw.fields.FieldType.FIELD_HYPERLINK:
 
                 hyperlink = field.as_field_hyperlink()
 
                 # Some hyperlinks can be local (links to bookmarks inside the document), ignore these.
-                if hyperlink.sub_address != None :
+                if hyperlink.sub_address != None:
                     continue
 
                 hyperlink.address = "http:#www.aspose.com"
@@ -72,7 +72,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:ReplaceHyperlinks
 
 
-    def test_rename_merge_fields(self) :
+    def test_rename_merge_fields(self):
 
         #ExStart:RenameMergeFields
         doc = aw.Document()
@@ -83,10 +83,10 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         # Select all field start nodes so we can find the merge fields.
         field_starts = doc.get_child_nodes(aw.NodeType.FIELD_START, True)
-        for start in field_starts :
+        for start in field_starts:
 
             field_start = start.as_field_start()
-            if field_start.field_type == aw.fields.FieldType.FIELD_MERGE_FIELD :
+            if field_start.field_type == aw.fields.FieldType.FIELD_MERGE_FIELD:
 
                 merge_field = self.MergeField(field_start)
                 merge_field.set_name(merge_field.get_name() + "_Renamed")
@@ -100,7 +100,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
     #
     # Represents a facade object for a merge field in a Microsoft Word document.
     #
-    class MergeField :
+    class MergeField:
 
         mFieldStart = None
         mFieldSeparator = None
@@ -108,11 +108,11 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         gRegex = re.compile("\\s*(MERGEFIELD\\s|)(\\s|)(\\S+)\\s+")
 
-        def __init__(self, fieldStart) :
+        def __init__(self, fieldStart):
 
-            if fieldStart == None :
+            if fieldStart == None:
                 raise ValueError("fieldStart")
-            if fieldStart.field_type != aw.fields.FieldType.FIELD_MERGE_FIELD :
+            if fieldStart.field_type != aw.fields.FieldType.FIELD_MERGE_FIELD:
                 raise ValueError("Field start type must be FieldMergeField.")
 
             self.mFieldStart = fieldStart
@@ -120,7 +120,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
             # Find the field separator node.
             self.mFieldSeparator = fieldStart.get_field().separator
-            if self.mFieldSeparator == None :
+            if self.mFieldSeparator == None:
                 raise RuntimeError("Cannot find field separator.")
 
             self.mFieldEnd = fieldStart.get_field().end
@@ -129,14 +129,14 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #
         # Gets the name of the merge field.
         #
-        def get_name(self) :
+        def get_name(self):
             print(type(self.mFieldStart))
             return self.mFieldStart.get_field().result.replace("«", "").replace("»", "")
 
         #
         # Gets the name of the merge field.
         #
-        def set_name(self, name : str) :
+        def set_name(self, name: str):
 
             # Merge field name is stored in the field result which is a Run
             # node between field separator and field end.
@@ -149,7 +149,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
             self.update_field_code(name)
 
 
-        def update_field_code(self, field_name : str) :
+        def update_field_code(self, field_name: str):
 
             # Field code is stored in a Run node between field start and field separator.
             field_code = self.mFieldStart.next_sibling.as_run()
@@ -168,13 +168,13 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         # Start and end are assumed to have the same parent.
         #
         @staticmethod
-        def remove_same_parent(start_node, end_node) :
+        def remove_same_parent(start_node, end_node):
 
-            if (end_node != None and start_node.parent_node != end_node.parent_node) :
+            if (end_node != None and start_node.parent_node != end_node.parent_node):
                 raise ValueError("Start and end nodes are expected to have the same parent.")
 
             cur_child = start_node
-            while (cur_child != None and cur_child != end_node) :
+            while (cur_child != None and cur_child != end_node):
 
                 next_child = cur_child.next_sibling
                 cur_child.remove()
@@ -183,7 +183,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
     #ExEnd:MergeField
 
-    def test_remove_field(self) :
+    def test_remove_field(self):
 
         #ExStart:RemoveField
         doc = aw.Document(docs_base.my_dir + "Various fields.docx")
@@ -192,7 +192,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         field.remove()
         #ExEnd:RemoveField
 
-    def test_insert_toa_field_without_document_builder(self) :
+    def test_insert_toa_field_without_document_builder(self):
 
         #ExStart:InsertTOAFieldWithoutDocumentBuilder
         doc = aw.Document()
@@ -220,13 +220,13 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:InsertTOAFieldWithoutDocumentBuilder
 
 
-    def test_insert_nested_fields(self) :
+    def test_insert_nested_fields(self):
 
         #ExStart:InsertNestedFields
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        for i in range(0, 5) :
+        for i in range(0, 5):
             builder.insert_break(aw.BreakType.PAGE_BREAK)
 
         builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_PRIMARY)
@@ -246,7 +246,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:InsertNestedFields
 
 
-    def test_insert_merge_field_using_dom(self) :
+    def test_insert_merge_field_using_dom(self):
 
         #ExStart:InsertMergeFieldUsingDOM
         doc = aw.Document()
@@ -283,7 +283,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:InsertMergeFieldUsingDOM
 
 
-    def test_insert_mail_merge_address_block_field_using_dom(self) :
+    def test_insert_mail_merge_address_block_field_using_dom(self):
 
         #ExStart:InsertMailMergeAddressBlockFieldUsingDOM
         doc = aw.Document()
@@ -319,7 +319,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:InsertMailMergeAddressBlockFieldUsingDOM
 
 
-    def test_insert_field_include_text_without_document_builder(self) :
+    def test_insert_field_include_text_without_document_builder(self):
 
         #ExStart:InsertFieldIncludeTextWithoutDocumentBuilder
         doc = aw.Document()
@@ -341,7 +341,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:InsertFieldIncludeTextWithoutDocumentBuilder
 
 
-    def test_insert_field_none(self) :
+    def test_insert_field_none(self):
 
         #ExStart:InsertFieldNone
         doc = aw.Document()
@@ -353,7 +353,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:InsertFieldNone
 
 
-    def test_insert_field(self) :
+    def test_insert_field(self):
 
         #ExStart:InsertField
         doc = aw.Document()
@@ -365,7 +365,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:InsertField
 
 
-    def test_insert_author_field(self) :
+    def test_insert_author_field(self):
 
         #ExStart:InsertAuthorField
         doc = aw.Document()
@@ -384,7 +384,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:InsertAuthorField
 
 
-    def test_insert_ask_field_with_out_document_builder(self) :
+    def test_insert_ask_field_with_out_document_builder(self):
 
         #ExStart:InsertASKFieldWithOutDocumentBuilder
         doc = aw.Document()
@@ -414,7 +414,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:InsertASKFieldWithOutDocumentBuilder
 
 
-    def test_insert_advance_field_with_out_document_builder(self) :
+    def test_insert_advance_field_with_out_document_builder(self):
 
         #ExStart:InsertAdvanceFieldWithOutDocumentBuilder
         doc = aw.Document()
@@ -450,7 +450,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:InsertAdvanceFieldWithOutDocumentBuilder
 
 
-    def test_get_mail_merge_field_names(self) :
+    def test_get_mail_merge_field_names(self):
 
         #ExStart:GetFieldNames
         doc = aw.Document()
@@ -460,7 +460,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         print(f"\nDocument have {len(field_names)} fields.")
 
 
-    def test_mapped_data_fields(self) :
+    def test_mapped_data_fields(self):
 
         #ExStart:MappedDataFields
         doc = aw.Document()
@@ -469,7 +469,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:MappedDataFields
 
 
-    def test_delete_fields(self) :
+    def test_delete_fields(self):
 
         #ExStart:DeleteFields
         doc = aw.Document()
@@ -478,7 +478,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:DeleteFields
 
 
-    def test_field_display_results(self) :
+    def test_field_display_results(self):
 
         #ExStart:FieldDisplayResults
         #ExStart:UpdateDocFields
@@ -487,12 +487,12 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         document.update_fields()
         #ExEnd:UpdateDocFields
 
-        for field in document.range.fields :
+        for field in document.range.fields:
             print(field.display_result)
         #ExEnd:FieldDisplayResults
 
 
-    def test_evaluate_if_condition(self) :
+    def test_evaluate_if_condition(self):
 
         #ExStart:EvaluateIFCondition
         builder = aw.DocumentBuilder()
@@ -504,29 +504,29 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:EvaluateIFCondition
 
 
-    def test_convert_fields_in_paragraph(self) :
+    def test_convert_fields_in_paragraph(self):
 
         #ExStart:ConvertFieldsInParagraph
         doc = aw.Document(docs_base.my_dir + "Linked fields.docx")
 
         # Pass the appropriate parameters to convert all IF fields to text that are encountered only in the last
         # paragraph of the document.
-        for field in doc.first_section.body.last_paragraph.range.fields :
-            if field.type == aw.fields.FieldType.FIELD_IF :
+        for field in doc.first_section.body.last_paragraph.range.fields:
+            if field.type == aw.fields.FieldType.FIELD_IF:
                 field.unlink()
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFields.test_file.docx")
         #ExEnd:ConvertFieldsInParagraph
 
 
-    def test_convert_fields_in_document(self) :
+    def test_convert_fields_in_document(self):
 
         #ExStart:ConvertFieldsInDocument
         doc = aw.Document(docs_base.my_dir + "Linked fields.docx")
 
         # Pass the appropriate parameters to convert all IF fields encountered in the document (including headers and footers) to text.
-        for field in doc.range.fields :
-            if field.type == aw.fields.FieldType.FIELD_IF :
+        for field in doc.range.fields:
+            if field.type == aw.fields.FieldType.FIELD_IF:
                 field.unlink()
 
         # Save the document with fields transformed to disk
@@ -534,21 +534,21 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         #ExEnd:ConvertFieldsInDocument
 
 
-    def test_convert_fields_in_body(self) :
+    def test_convert_fields_in_body(self):
 
         #ExStart:ConvertFieldsInBody
         doc = aw.Document(docs_base.my_dir + "Linked fields.docx")
 
         # Pass the appropriate parameters to convert PAGE fields encountered to text only in the body of the first section.
-        for field in doc.first_section.body.range.fields :
-            if field.type == aw.fields.FieldType.FIELD_PAGE :
+        for field in doc.first_section.body.range.fields:
+            if field.type == aw.fields.FieldType.FIELD_PAGE:
                 field.unlink()
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFields.convert_fields_in_body.docx")
         #ExEnd:ConvertFieldsInBody
 
 
-    def test_change_locale(self) :
+    def test_change_locale(self):
 
         #ExStart:ChangeLocale
         doc = aw.Document()

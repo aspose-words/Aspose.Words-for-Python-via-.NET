@@ -14,7 +14,7 @@ import aspose.pydrawing as drawing
 
 class DocumentFormatting(docs_base.DocsExamplesBase):
 
-    def test_space_between_asian_and_latin_text(self) :
+    def test_space_between_asian_and_latin_text(self):
 
         #ExStart:SpaceBetweenAsianAndLatinText
         doc = aw.Document()
@@ -31,7 +31,7 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
         #ExEnd:SpaceBetweenAsianAndLatinText
 
 
-    def test_asian_typography_line_break_group(self) :
+    def test_asian_typography_line_break_group(self):
 
         #ExStart:AsianTypographyLineBreakGroup
         doc = aw.Document(docs_base.my_dir + "Asian typography.docx")
@@ -45,7 +45,7 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
         #ExEnd:AsianTypographyLineBreakGroup
 
 
-    def test_paragraph_formatting(self) :
+    def test_paragraph_formatting(self):
 
         #ExStart:ParagraphFormatting
         doc = aw.Document()
@@ -66,7 +66,7 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
         #ExEnd:ParagraphFormatting
 
 
-    def test_multilevel_list_formatting(self) :
+    def test_multilevel_list_formatting(self):
 
         #ExStart:MultilevelListFormatting
         doc = aw.Document()
@@ -96,7 +96,7 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
         #ExEnd:MultilevelListFormatting
 
 
-    def test_apply_paragraph_style(self) :
+    def test_apply_paragraph_style(self):
 
         #ExStart:ApplyParagraphStyle
         doc = aw.Document()
@@ -109,7 +109,7 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
         #ExEnd:ApplyParagraphStyle
 
 
-    def test_apply_borders_and_shading_to_paragraph(self) :
+    def test_apply_borders_and_shading_to_paragraph(self):
 
         #ExStart:ApplyBordersAndShadingToParagraph
         doc = aw.Document()
@@ -133,7 +133,7 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
         #ExEnd:ApplyBordersAndShadingToParagraph
 
 
-    def test_change_asian_paragraph_spacing_and_indents(self) :
+    def test_change_asian_paragraph_spacing_and_indents(self):
 
         #ExStart:ChangeAsianParagraphSpacingAndIndents
         doc = aw.Document(docs_base.my_dir + "Asian typography.docx")
@@ -149,7 +149,7 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
         #ExEnd:ChangeAsianParagraphSpacingAndIndents
 
 
-    def test_snap_to_grid(self) :
+    def test_snap_to_grid(self):
 
         #ExStart:SetSnapToGrid
         doc = aw.Document()
@@ -168,14 +168,14 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
         #ExEnd:SetSnapToGrid
 
 
-    def test_get_paragraph_style_separator(self) :
+    def test_get_paragraph_style_separator(self):
 
         #ExStart:GetParagraphStyleSeparator
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
-        for paragraph in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True) :
+        for paragraph in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True):
             paragraph = paragraph.as_paragraph()
-            if (paragraph.break_is_style_separator) :
+            if (paragraph.break_is_style_separator):
                 print("Separator Found!")
         #ExEnd:GetParagraphStyleSeparator
 

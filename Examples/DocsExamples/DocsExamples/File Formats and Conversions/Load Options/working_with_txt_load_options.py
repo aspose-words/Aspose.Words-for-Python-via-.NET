@@ -14,7 +14,7 @@ import aspose.words as aw
 
 class WorkingWithTxtLoadOptions(docs_base.DocsExamplesBase):
 
-    def test_detect_numbering_with_whitespaces(self) :
+    def test_detect_numbering_with_whitespaces(self):
 
         #ExStart:DetectNumberingWithWhitespaces
         # Create a plaintext document in the form of a string with parts that may be interpreted as lists.
@@ -50,7 +50,7 @@ class WorkingWithTxtLoadOptions(docs_base.DocsExamplesBase):
         #ExEnd:DetectNumberingWithWhitespaces
 
 
-    def test_handle_spaces_options(self) :
+    def test_handle_spaces_options(self):
 
         #ExStart:HandleSpacesOptions
         text_doc = "      Line 1 \n" + "    Line 2   \n" +  " Line 3       "
@@ -67,7 +67,7 @@ class WorkingWithTxtLoadOptions(docs_base.DocsExamplesBase):
         #ExEnd:HandleSpacesOptions
 
 
-    def test_document_text_direction(self) :
+    def test_document_text_direction(self):
 
         #ExStart:DocumentTextDirection
         load_options = aw.loading.TxtLoadOptions()

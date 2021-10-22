@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithPclSaveOptions(docs_base.DocsExamplesBase):
 
-    def test_rasterize_transformed_elements(self) :
+    def test_rasterize_transformed_elements(self):
 
         #ExStart:RasterizeTransformedElements
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")

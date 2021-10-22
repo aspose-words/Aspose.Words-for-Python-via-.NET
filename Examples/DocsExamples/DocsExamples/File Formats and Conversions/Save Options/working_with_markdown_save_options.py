@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithMarkdownSaveOptions(docs_base.DocsExamplesBase):
 
-    def test_export_into_markdown_with_table_content_alignment(self) :
+    def test_export_into_markdown_with_table_content_alignment(self):
 
         #ExStart:ExportIntoMarkdownWithTableContentAlignment
         doc = aw.Document()
@@ -45,7 +45,7 @@ class WorkingWithMarkdownSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:ExportIntoMarkdownWithTableContentAlignment
 
 
-    def test_set_images_folder(self) :
+    def test_set_images_folder(self):
 
         #ExStart:SetImagesFolder
         doc = aw.Document(docs_base.my_dir + "Image bullet points.docx")

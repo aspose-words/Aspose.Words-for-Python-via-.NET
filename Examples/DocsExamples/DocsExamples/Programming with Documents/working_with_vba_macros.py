@@ -14,7 +14,7 @@ import aspose.words as aw
 class WorkingWithVba(docs_base.DocsExamplesBase):
 
 
-    def test_create_vba_project(self) :
+    def test_create_vba_project(self):
 
         #ExStart:CreateVbaProject
         doc = aw.Document()
@@ -36,19 +36,19 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
         #ExEnd:CreateVbaProject
 
 
-    def test_read_vba_macros(self) :
+    def test_read_vba_macros(self):
 
         #ExStart:ReadVbaMacros
         doc = aw.Document(docs_base.my_dir + "VBA project.docm")
 
-        if (doc.vba_project != None) :
-            for module in doc.vba_project.modules :
+        if (doc.vba_project != None):
+            for module in doc.vba_project.modules:
                 print(module.source_code)
 
         #ExEnd:ReadVbaMacros
 
 
-    def test_modify_vba_macros(self) :
+    def test_modify_vba_macros(self):
 
         #ExStart:ModifyVbaMacros
         doc = aw.Document(docs_base.my_dir + "VBA project.docm")
@@ -63,7 +63,7 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
         #ExEnd:ModifyVbaMacros
 
 
-    def test_clone_vba_project(self) :
+    def test_clone_vba_project(self):
 
         #ExStart:CloneVbaProject
         doc = aw.Document(docs_base.my_dir + "VBA project.docm")
@@ -74,7 +74,7 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
         #ExEnd:CloneVbaProject
 
 
-    def test_clone_vba_module(self) :
+    def test_clone_vba_module(self):
 
         #ExStart:CloneVbaModule
         doc = aw.Document(docs_base.my_dir + "VBA project.docm")
@@ -88,7 +88,7 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
         #ExEnd:CloneVbaModule
 
 
-    def test_remove_broken_ref(self) :
+    def test_remove_broken_ref(self):
 
         #ExStart:RemoveReferenceFromCollectionOfReferences
         doc = aw.Document(docs_base.my_dir + "VBA project.docm")
@@ -96,12 +96,12 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
         # Find and remove the reference with some LibId path.
         broken_path = "brokenPath.dll"
         references = doc.vba_project.references
-        for i in range(references.count - 1, 0) :
+        for i in range(references.count - 1, 0):
 
             reference = doc.vba_project.references.element_at(i)
 
             path = get_lib_id_path(reference)
-            if (path == broken_path) :
+            if (path == broken_path):
                 references.remove_at(i)
 
 
@@ -112,13 +112,13 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
     # <summary>
     # Returns string representing LibId path of a specified reference.
     # </summary>
-    def get_lib_id_path(self, reference) :
+    def get_lib_id_path(self, reference):
 
-        if reference.type == aw.vba.VbaReferenceType.REGISTERED or reference.type == aw.vba.VbaReferenceType.ORIGINAL or reference.type == aw.vba.VbaReferenceType.CONTROL :
+        if reference.type == aw.vba.VbaReferenceType.REGISTERED or reference.type == aw.vba.VbaReferenceType.ORIGINAL or reference.type == aw.vba.VbaReferenceType.CONTROL:
             return self.get_lib_id_reference_path(reference.lib_id)
-        elif reference.type == aw.vba.VbaReferenceType.PROJECT :
+        elif reference.type == aw.vba.VbaReferenceType.PROJECT:
             return self.get_lib_id_project_path(reference.lib_id)
-        else :
+        else:
             raise RuntimeError()
 
 
@@ -129,12 +129,12 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
     # Please see details for the syntax at [MS-OVBA], 2.1.1.8 LibidReference.
     # </remarks>
     @staticmethod
-    def get_lib_id_reference_path(lib_id_reference : str) :
+    def get_lib_id_reference_path(lib_id_reference: str):
 
-        if (lib_id_reference != None) :
+        if (lib_id_reference != None):
 
             ref_parts = lib_id_reference.split('#')
-            if (ref_parts.length > 3) :
+            if (ref_parts.length > 3):
                 return ref_parts[3]
 
         return ""
@@ -147,9 +147,9 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
     # Please see details for the syntax at [MS-OVBA], 2.1.1.12 ProjectReference.
     # </remarks>
     @staticmethod
-    def get_lib_id_project_path(lib_id_project : str) :
+    def get_lib_id_project_path(lib_id_project: str):
 
-        if (lib_id_project != None) :
+        if (lib_id_project != None):
            return lib_id_project.substring(3)
 
         return ""

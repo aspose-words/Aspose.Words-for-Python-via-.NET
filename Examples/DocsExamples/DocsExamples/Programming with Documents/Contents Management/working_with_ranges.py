@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithRanges(docs_base.DocsExamplesBase):
 
-    def test_ranges_delete_text(self) :
+    def test_ranges_delete_text(self):
 
         #ExStart:RangesDeleteText
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -21,7 +21,7 @@ class WorkingWithRanges(docs_base.DocsExamplesBase):
         #ExEnd:RangesDeleteText
 
 
-    def test_ranges_get_text(self) :
+    def test_ranges_get_text(self):
 
         #ExStart:RangesGetText
         doc = aw.Document(docs_base.my_dir + "Document.docx")

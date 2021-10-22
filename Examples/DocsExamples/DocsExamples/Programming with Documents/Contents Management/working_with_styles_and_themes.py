@@ -14,7 +14,7 @@ import aspose.pydrawing as drawing
 
 class WorkingWithStylesAndThemes(docs_base.DocsExamplesBase):
 
-    def test_access_styles(self) :
+    def test_access_styles(self):
 
         #ExStart:AccessStyles
         doc = aw.Document()
@@ -23,20 +23,20 @@ class WorkingWithStylesAndThemes(docs_base.DocsExamplesBase):
 
         # Get styles collection from the document.
         styles = doc.styles
-        for style in styles :
+        for style in styles:
 
-            if (style_name == "") :
+            if (style_name == ""):
                 style_name = style.name
                 print(style_name)
 
-            else :
+            else:
                 style_name = style_name + ", " + style.name
                 print(style_name)
 
         #ExEnd:AccessStyles
 
 
-    def test_copy_styles(self) :
+    def test_copy_styles(self):
 
         #ExStart:CopyStyles
         doc = aw.Document()
@@ -48,7 +48,7 @@ class WorkingWithStylesAndThemes(docs_base.DocsExamplesBase):
         #ExEnd:CopyStyles
 
 
-    def test_get_theme_properties(self) :
+    def test_get_theme_properties(self):
 
         #ExStart:GetThemeProperties
         doc = aw.Document()
@@ -61,7 +61,7 @@ class WorkingWithStylesAndThemes(docs_base.DocsExamplesBase):
         #ExEnd:GetThemeProperties
 
 
-    def test_set_theme_properties(self) :
+    def test_set_theme_properties(self):
 
         #ExStart:SetThemeProperties
         doc = aw.Document()
@@ -72,7 +72,7 @@ class WorkingWithStylesAndThemes(docs_base.DocsExamplesBase):
         #ExEnd:SetThemeProperties
 
 
-    def test_insert_style_separator(self) :
+    def test_insert_style_separator(self):
 
         #ExStart:InsertStyleSeparator
         doc = aw.Document()

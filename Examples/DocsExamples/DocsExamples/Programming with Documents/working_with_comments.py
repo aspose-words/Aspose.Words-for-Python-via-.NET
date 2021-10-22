@@ -14,7 +14,7 @@ import aspose.words as aw
 
 class WorkingWithComments(docs_base.DocsExamplesBase):
 
-    def test_add_comments(self) :
+    def test_add_comments(self):
 
         #ExStart:AddComments
         #ExStart:CreateSimpleDocumentUsingDocumentBuilder
@@ -35,7 +35,7 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
         #ExEnd:AddComments
 
 
-    def test_anchor_comment(self) :
+    def test_anchor_comment(self):
 
         #ExStart:AnchorComment
         doc = aw.Document()
@@ -69,7 +69,7 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
         #ExEnd:AnchorComment
 
 
-    def test_add_remove_comment_reply(self) :
+    def test_add_remove_comment_reply(self):
 
         #ExStart:AddRemoveCommentReply
         doc = aw.Document(docs_base.my_dir + "Comments.docx")
@@ -83,13 +83,13 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
         #ExEnd:AddRemoveCommentReply
 
 
-    def test_process_comments(self) :
+    def test_process_comments(self):
 
         #ExStart:ProcessComments
         doc = aw.Document(docs_base.my_dir + "Comments.docx")
 
         # Extract the information about the comments of all the authors.
-        for comment in self.extract_comments(doc) :
+        for comment in self.extract_comments(doc):
             print(comment)
 
         # Remove comments by the "pm" author.
@@ -97,7 +97,7 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
         print("Comments from \"pm\" are removed!")
 
         # Extract the information about the comments of the "ks" author.
-        for comment in self.extract_comments_by_author(doc, "ks") :
+        for comment in self.extract_comments_by_author(doc, "ks"):
             print(comment)
 
         # Read the comment's reply and resolve them.
@@ -112,12 +112,12 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
 
     #ExStart:ExtractComments
     @staticmethod
-    def extract_comments(doc) :
+    def extract_comments(doc):
 
         collected_comments = []
         comments = doc.get_child_nodes(aw.NodeType.COMMENT, True)
 
-        for node in comments :
+        for node in comments:
             comment = node.as_comment()
             collected_comments.append(comment.author + " " + comment.date_time.strftime("%Y-%m-%d %H:%M:%S") + " " + comment.to_string(aw.SaveFormat.TEXT))
 
@@ -127,14 +127,14 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
 
     #ExStart:ExtractCommentsByAuthor
     @staticmethod
-    def extract_comments_by_author(doc, author_name) :
+    def extract_comments_by_author(doc, author_name):
 
         collected_comments = []
         comments = doc.get_child_nodes(aw.NodeType.COMMENT, True)
 
-        for node in comments :
+        for node in comments:
             comment = node.as_comment()
-            if (comment.author == author_name) :
+            if (comment.author == author_name):
                 collected_comments.append(comment.author + " " + comment.date_time.strftime("%Y-%m-%d %H:%M:%S") + " " + comment.to_string(aw.SaveFormat.TEXT))
 
         return collected_comments
@@ -143,7 +143,7 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
 
     #ExStart:RemoveComments
     @staticmethod
-    def remove_comments(doc) :
+    def remove_comments(doc):
 
         comments = doc.get_child_nodes(aw.NodeType.COMMENT, True)
 
@@ -153,15 +153,15 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
 
     #ExStart:RemoveCommentsByAuthor
     @staticmethod
-    def remove_comments_by_author(doc, authorName) :
+    def remove_comments_by_author(doc, authorName):
 
         comments = doc.get_child_nodes(aw.NodeType.COMMENT, True)
 
         # Look through all comments and remove those written by the authorName.
-        for i in range(comments.count, 0) :
+        for i in range(comments.count, 0):
             print(i)
             comment = comments[i].as_comment()
-            if (comment.author == authorName) :
+            if (comment.author == authorName):
                 comment.remove()
 
 
@@ -170,12 +170,12 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
 
     #ExStart:CommentResolvedandReplies
     @staticmethod
-    def comment_resolved_and_replies(doc) :
+    def comment_resolved_and_replies(doc):
 
         comments = doc.get_child_nodes(aw.NodeType.COMMENT, True)
 
         parent_comment = comments[0].as_comment()
-        for child in parent_comment.replies :
+        for child in parent_comment.replies:
 
             child_comment = child.as_comment()
             # Get comment parent and status.
@@ -188,7 +188,7 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
 
     #ExEnd:CommentResolvedandReplies
 
-    def test_remove_region_text(self) :
+    def test_remove_region_text(self):
 
         #ExStart:RemoveRegionText
         # Open the document.
@@ -199,8 +199,8 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
 
         current_node = comment_start
         is_removing = True
-        while (current_node != None and is_removing) :
-            if (current_node.node_type == aw.NodeType.COMMENT_RANGE_END) :
+        while (current_node != None and is_removing):
+            if (current_node.node_type == aw.NodeType.COMMENT_RANGE_END):
                 is_removing = False
 
             next_node = current_node.next_pre_order(doc)

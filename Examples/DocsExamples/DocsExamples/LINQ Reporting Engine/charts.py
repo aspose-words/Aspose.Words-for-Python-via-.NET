@@ -15,7 +15,7 @@ import aspose.words as aw
 class Charts(docs_base.DocsExamplesBase):
 
 
-    def test_create_bubble_chart(self) :
+    def test_create_bubble_chart(self):
 
         #ExStart:BubbleChart
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Bubble chart.docx")
@@ -29,7 +29,7 @@ class Charts(docs_base.DocsExamplesBase):
         #ExEnd:BubbleChart
 
 
-    def test_set_chart_series_name_dynamically(self) :
+    def test_set_chart_series_name_dynamically(self):
 
         #ExStart:SetChartSeriesNameDynamically
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Chart.docx")
@@ -43,7 +43,7 @@ class Charts(docs_base.DocsExamplesBase):
         #ExEnd:SetChartSeriesNameDynamically
 
 
-    def test_chart_with_filtering_grouping_ordering(self) :
+    def test_chart_with_filtering_grouping_ordering(self):
 
         #ExStart:ChartWithFilteringGroupingOrdering
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Chart with filtering.docx")
@@ -55,7 +55,7 @@ class Charts(docs_base.DocsExamplesBase):
         #ExEnd:ChartWithFilteringGroupingOrdering
 
 
-    def test_pie_chart(self) :
+    def test_pie_chart(self):
 
         #ExStart:PieChart
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Pie chart.docx")
@@ -69,7 +69,7 @@ class Charts(docs_base.DocsExamplesBase):
         #ExEnd:PieChart
 
 
-    def test_scatter_chart(self) :
+    def test_scatter_chart(self):
 
         #ExStart:ScatterChart
         doc = aw.Document(docs_base.my_dir + "Reporting engine template - Scatter chart.docx")

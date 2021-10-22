@@ -14,7 +14,7 @@ import aspose.words as aw
 
 class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
 
-    def test_insert_ole_object(self) :
+    def test_insert_ole_object(self):
 
         #ExStart:DocumentBuilderInsertOleObject
         doc = aw.Document()
@@ -26,7 +26,7 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
         #ExEnd:DocumentBuilderInsertOleObject
 
 
-    def test_insert_ole_object_with_ole_package(self) :
+    def test_insert_ole_object_with_ole_package(self):
 
         #ExStart:InsertOleObjectwithOlePackage
         doc = aw.Document()
@@ -50,7 +50,7 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
         #ExEnd:GetAccessToOLEObjectRawData
 
 
-    def test_insert_ole_object_as_icon(self) :
+    def test_insert_ole_object_as_icon(self):
 
         #ExStart:InsertOLEObjectAsIcon
         doc = aw.Document()
@@ -62,7 +62,7 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
         #ExEnd:InsertOLEObjectAsIcon
 
 
-    def test_insert_ole_object_as_icon_using_stream(self) :
+    def test_insert_ole_object_as_icon_using_stream(self):
 
         #ExStart:InsertOLEObjectAsIconUsingStream
         doc = aw.Document()
@@ -77,20 +77,20 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
         #ExEnd:InsertOLEObjectAsIconUsingStream
 
 
-    def test_read_active_x_control_properties(self) :
+    def test_read_active_x_control_properties(self):
 
         doc = aw.Document(docs_base.my_dir + "ActiveX controls.docx")
 
         properties = ""
-        for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True) :
+        for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True):
 
             shape = shape.as_shape()
 
-            if shape.ole_format == None :
+            if shape.ole_format == None:
                 break
 
             ole_control = shape.ole_format.ole_control
-            if ole_control.is_forms2_ole_control :
+            if ole_control.is_forms2_ole_control:
 
                 check_box =  ole_control.as_forms2_ole_control()
                 properties = properties + "\nCaption: " + check_box.caption
@@ -98,7 +98,7 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
                 properties = properties + "\nEnabled: " + str(check_box.enabled)
                 properties = properties + "\nType: " + str(check_box.type)
 
-                if check_box.child_nodes != None :
+                if check_box.child_nodes != None:
                     properties = properties + "\nChildNodes: " + check_box.child_nodes
 
                 properties += "\n"
@@ -106,7 +106,7 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
         properties = properties + "\nTotal ActiveX Controls found: " + str(doc.get_child_nodes(aw.NodeType.SHAPE, True).count)
         print("\n" + properties)
 
-    def test_insert_online_video(self) :
+    def test_insert_online_video(self):
 
         #ExStart:InsertOnlineVideo
         doc = aw.Document()
@@ -123,7 +123,7 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "WorkingWithOleObjectsAndActiveX.insert_online_video.docx")
         #ExEnd:InsertOnlineVideo
 
-    def test_insert_online_video_with_embed_html(self) :
+    def test_insert_online_video_with_embed_html(self):
 
         #ExStart:InsertOnlineVideoWithEmbedHtml
         doc = aw.Document()

@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
 
-    def test_simple_append_document(self) :
+    def test_simple_append_document(self):
 
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
         dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
@@ -24,7 +24,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.simple_append_document.docx")
 
 
-    def test_append_document(self) :
+    def test_append_document(self):
 
         #ExStart:AppendDocumentManually
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
@@ -32,7 +32,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
 
         # Loop through all sections in the source document.
         # Section nodes are immediate children of the Document node so we can just enumerate the Document.
-        for src_section in src_doc :
+        for src_section in src_doc:
 
             # Because we are copying a section from one document to another,
             # it is required to import the Section node into the destination document.
@@ -50,7 +50,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:AppendDocumentManually
 
 
-    def test_append_document_to_blank(self) :
+    def test_append_document_to_blank(self):
 
         #ExStart:AppendDocumentToBlank
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
@@ -66,7 +66,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:AppendDocumentToBlank
 
 
-    def test_append_with_import_format_options(self) :
+    def test_append_with_import_format_options(self):
 
         #ExStart:AppendWithImportFormatOptions
         src_doc = aw.Document(docs_base.my_dir + "Document source with list.docx")
@@ -81,7 +81,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:AppendWithImportFormatOptions
 
 
-    def test_convert_num_page_fields(self) :
+    def test_convert_num_page_fields(self):
 
         #ExStart:ConvertNumPageFields
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
@@ -106,7 +106,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
 
 
     #ExStart:ConvertNumPageFieldsToPageRef
-    def convert_num_page_fields_to_page_ref(self, doc : aw.Document) :
+    def convert_num_page_fields_to_page_ref(self, doc: aw.Document):
 
         # This is the prefix for each bookmark, which signals where page numbering restarts.
         # The underscore "_" at the start inserts this bookmark as hidden in MS Word.
@@ -120,17 +120,17 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
 
         builder = aw.DocumentBuilder(doc)
 
-        for section in doc.sections :
+        for section in doc.sections:
 
             section = section.as_section()
             # This section has its page numbering restarted to treat this as the start of a sub-document.
             # Any PAGENUM fields in this inner document must be converted to special PAGEREF fields to correct numbering.
-            if (section.page_setup.restart_page_numbering) :
+            if (section.page_setup.restart_page_numbering):
 
                 # Don't do anything if this is the first section of the document.
                 # This part of the code will insert the bookmark marking the end of the previous sub-document so,
                 # therefore, it does not apply to the first section in the document.
-                if (section != doc.first_section) :
+                if (section != doc.first_section):
 
                     # Get the previous section and the last node within the body of that section.
                     prev_section = section.previous_sibling.as_section()
@@ -147,7 +147,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
 
 
             # The last section needs the ending bookmark to signal that it is the end of the current sub-document.
-            if (section == doc.last_section) :
+            if (section == doc.last_section):
 
                 # Insert the bookmark at the end of the body of the last section.
                 # Don't increase the count this time as we are just marking the end of the document.
@@ -164,10 +164,10 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
             # or the last section is encountered.
             nodes = section.get_child_nodes(aw.NodeType.FIELD_START, True).to_array()
 
-            for field_start in nodes :
+            for field_start in nodes:
 
                 field_start = field_start.as_field_start()
-                if (field_start.field_type == aw.fields.FieldType.FIELD_NUM_PAGES) :
+                if (field_start.field_type == aw.fields.FieldType.FIELD_NUM_PAGES):
 
                     field_code = self.get_field_code(field_start)
                     # Since the NUMPAGES field does not take any additional parameters,
@@ -197,14 +197,14 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
 
     #ExStart:GetRemoveField
     @staticmethod
-    def remove_field(field_start : aw.fields.FieldStart) :
+    def remove_field(field_start: aw.fields.FieldStart):
 
         is_removing = True
 
         current_node = field_start
-        while (current_node != None and is_removing) :
+        while (current_node != None and is_removing):
 
-            if (current_node.node_type == aw.NodeType.FIELD_END) :
+            if (current_node.node_type == aw.NodeType.FIELD_END):
                 is_removing = False
 
             next_node = current_node.next_pre_order(current_node.document)
@@ -213,13 +213,13 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
 
 
     @staticmethod
-    def get_field_code(field_start : aw.fields.FieldStart) :
+    def get_field_code(field_start: aw.fields.FieldStart):
 
         builder = ""
 
         node = field_start
-        while ((node != None) and (node.node_type != aw.NodeType.FIELD_SEPARATOR) and (node.node_type != aw.NodeType.FIELD_END)) :
-            if (node.node_type == aw.NodeType.RUN) :
+        while ((node != None) and (node.node_type != aw.NodeType.FIELD_SEPARATOR) and (node.node_type != aw.NodeType.FIELD_END)):
+            if (node.node_type == aw.NodeType.RUN):
                 builder += node.get_text()
             node = node.next_pre_order(node.document)
 
@@ -227,7 +227,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
 
     #ExEnd:GetRemoveField
 
-    def test_different_page_setup(self) :
+    def test_different_page_setup(self):
 
         #ExStart:DifferentPageSetup
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
@@ -249,7 +249,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         src_doc.first_section.page_setup.orientation = dst_doc.last_section.page_setup.orientation
 
         # Iterate through all sections in the source document.
-        for para in src_doc.get_child_nodes(aw.NodeType.PARAGRAPH, True) :
+        for para in src_doc.get_child_nodes(aw.NodeType.PARAGRAPH, True):
             para = para.as_paragraph()
             para.paragraph_format.keep_with_next = True
 
@@ -260,7 +260,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:DifferentPageSetup
 
 
-    def test_join_continuous(self) :
+    def test_join_continuous(self):
 
         #ExStart:JoinContinuous
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
@@ -275,7 +275,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:JoinContinuous
 
 
-    def test_join_new_page(self) :
+    def test_join_new_page(self):
 
         #ExStart:JoinNewPage
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
@@ -290,7 +290,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:JoinNewPage
 
 
-    def test_keep_source_formatting(self) :
+    def test_keep_source_formatting(self):
 
         #ExStart:KeepSourceFormatting
         dst_doc = aw.Document()
@@ -307,7 +307,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:KeepSourceFormatting
 
 
-    def test_keep_source_together(self) :
+    def test_keep_source_together(self):
 
         #ExStart:KeepSourceTogether
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
@@ -316,7 +316,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         # Set the source document to appear straight after the destination document's content.
         src_doc.first_section.page_setup.section_start = aw.SectionStart.CONTINUOUS
 
-        for para in src_doc.get_child_nodes(aw.NodeType.PARAGRAPH, True) :
+        for para in src_doc.get_child_nodes(aw.NodeType.PARAGRAPH, True):
             para = para.as_paragraph()
             para.paragraph_format.keep_with_next = True
 
@@ -327,7 +327,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:KeepSourceTogether
 
 
-    def test_list_keep_source_formatting(self) :
+    def test_list_keep_source_formatting(self):
 
         #ExStart:ListKeepSourceFormatting
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
@@ -342,7 +342,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:ListKeepSourceFormatting
 
 
-    def test_list_use_destination_styles(self) :
+    def test_list_use_destination_styles(self):
 
         #ExStart:ListUseDestinationStyles
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
@@ -354,22 +354,22 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         # Keep track of the lists that are created.
         new_lists = {}
 
-        for para in src_doc.get_child_nodes(aw.NodeType.PARAGRAPH, True) :
+        for para in src_doc.get_child_nodes(aw.NodeType.PARAGRAPH, True):
             para = para.as_paragraph()
-            if (para.is_list_item) :
+            if (para.is_list_item):
 
                 list_id = para.list_format.list.list_id
 
                 # Check if the destination document contains a list with this ID already. If it does, then this may
                 # cause the two lists to run together. Create a copy of the list in the source document instead.
-                if (dst_doc.lists.get_list_by_list_id(list_id) != None) :
+                if (dst_doc.lists.get_list_by_list_id(list_id) != None):
 
                     current_list
                     # A newly copied list already exists for this ID, retrieve the stored list,
                     # and use it on the current paragraph.
-                    if (new_lists.contains_key(list_id)) :
+                    if (new_lists.contains_key(list_id)):
                         current_list = new_lists[list_id]
-                    else :
+                    else:
                         # Add a copy of this list to the document and store it for later reference.
                         current_list = src_doc.lists.add_copy(para.list_format.list)
                         new_lists.add(list_id, current_list)
@@ -385,7 +385,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:ListUseDestinationStyles
 
 
-    def test_restart_page_numbering(self) :
+    def test_restart_page_numbering(self):
 
         #ExStart:RestartPageNumbering
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
@@ -400,7 +400,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:RestartPageNumbering
 
 
-    def test_update_page_layout(self) :
+    def test_update_page_layout(self):
 
         #ExStart:UpdatePageLayout
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
@@ -421,7 +421,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:UpdatePageLayout
 
 
-    def test_use_destination_styles(self) :
+    def test_use_destination_styles(self):
 
         #ExStart:UseDestinationStyles
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
@@ -434,7 +434,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:UseDestinationStyles
 
 
-    def test_smart_style_behavior(self) :
+    def test_smart_style_behavior(self):
 
         #ExStart:SmartStyleBehavior
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
@@ -452,7 +452,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:SmartStyleBehavior
 
 
-    def test_insert_document_with_builder(self) :
+    def test_insert_document_with_builder(self):
 
         #ExStart:InsertDocumentWithBuilder
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
@@ -467,7 +467,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:InsertDocumentWithBuilder
 
 
-    def test_keep_source_numbering(self) :
+    def test_keep_source_numbering(self):
 
         #ExStart:KeepSourceNumbering
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
@@ -481,7 +481,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
 
         src_paras = src_doc.first_section.body.paragraphs
 
-        for src_para in src_paras :
+        for src_para in src_paras:
             imported_node = importer.import_node(src_para, False)
             dst_doc.first_section.body.append_child(imported_node)
 
@@ -490,7 +490,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:KeepSourceNumbering
 
 
-    def test_ignore_text_boxes(self) :
+    def test_ignore_text_boxes(self):
 
         #ExStart:IgnoreTextBoxes
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
@@ -503,7 +503,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         importer = aw.NodeImporter(src_doc, dst_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, import_format_options)
 
         src_paras = src_doc.first_section.body.paragraphs
-        for src_para in src_paras :
+        for src_para in src_paras:
             imported_node = importer.import_node(src_para, True)
             dst_doc.first_section.body.append_child(imported_node)
 
@@ -512,7 +512,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:IgnoreTextBoxes
 
 
-    def test_ignore_header_footer(self) :
+    def test_ignore_header_footer(self):
 
         #ExStart:IgnoreHeaderFooter
         src_document = aw.Document(docs_base.my_dir + "Document source.docx")
@@ -527,7 +527,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:IgnoreHeaderFooter
 
 
-    def test_link_headers_footers(self) :
+    def test_link_headers_footers(self):
 
         #ExStart:LinkHeadersFooters
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
@@ -545,14 +545,14 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:LinkHeadersFooters
 
 
-    def test_remove_source_headers_footers(self) :
+    def test_remove_source_headers_footers(self):
 
         #ExStart:RemoveSourceHeadersFooters
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
         dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
 
         # Remove the headers and footers from each of the sections in the source document.
-        for section in src_doc.sections :
+        for section in src_doc.sections:
             section.as_section().clear_headers_footers()
 
         # Even after the headers and footers are cleared from the source document, the "LinkToPrevious" setting
@@ -566,7 +566,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         #ExEnd:RemoveSourceHeadersFooters
 
 
-    def test_unlink_headers_footers(self) :
+    def test_unlink_headers_footers(self):
 
         #ExStart:UnlinkHeadersFooters
         src_doc = aw.Document(docs_base.my_dir + "Document source.docx")

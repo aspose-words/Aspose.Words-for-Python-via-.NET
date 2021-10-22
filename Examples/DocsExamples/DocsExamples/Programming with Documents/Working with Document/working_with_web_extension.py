@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithWebExtension(docs_base.DocsExamplesBase):
 
-    def test_using_web_extension_task_panes(self) :
+    def test_using_web_extension_task_panes(self):
 
         #ExStart:UsingWebExtensionTaskPanes
         doc = aw.Document()
@@ -41,7 +41,7 @@ class WorkingWithWebExtension(docs_base.DocsExamplesBase):
 
         print("Task panes sources:\n")
 
-        for task_pane_info in doc.web_extension_task_panes :
+        for task_pane_info in doc.web_extension_task_panes:
 
             reference = task_pane_info.web_extension.reference
             print(f"Provider: \"{reference.store}\", version: \"{reference.version}\", catalog identifier: \"{reference.id}\"")

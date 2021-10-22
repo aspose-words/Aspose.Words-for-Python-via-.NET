@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithRtfLoadOptions(docs_base.DocsExamplesBase):
 
-    def test_recognize_utf_8_text(self) :
+    def test_recognize_utf_8_text(self):
 
         #ExStart:RecognizeUtf8Text
         load_options = aw.loading.RtfLoadOptions()

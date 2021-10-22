@@ -14,7 +14,7 @@ import aspose.words as aw
 class WorkingWithCleanupOptions(docs_base.DocsExamplesBase):
 
 
-    def test_cleanup_paragraphs_with_punctuation_marks(self) :
+    def test_cleanup_paragraphs_with_punctuation_marks(self):
 
         #ExStart:CleanupParagraphsWithPunctuationMarks
         doc = aw.Document()
@@ -23,7 +23,7 @@ class WorkingWithCleanupOptions(docs_base.DocsExamplesBase):
         merge_field_option1 = builder.insert_field("MERGEFIELD", "Option_1").as_field_merge_field()
         merge_field_option1.field_name = "Option_1"
 
-        # Here is the complete list of cleanable punctuation marks: ! , . :  ? ¡ ¿.
+        # Here is the complete list of cleanable punctuation marks: ! , .:  ? ¡ ¿.
         builder.write(" ?  ")
 
         merge_field_option2 = builder.insert_field("MERGEFIELD", "Option_2").as_field_merge_field()
@@ -40,7 +40,7 @@ class WorkingWithCleanupOptions(docs_base.DocsExamplesBase):
         #ExEnd:CleanupParagraphsWithPunctuationMarks
 
 
-    def test_remove_empty_paragraphs(self) :
+    def test_remove_empty_paragraphs(self):
 
         #ExStart:RemoveEmptyParagraphs
         doc = aw.Document(docs_base.my_dir + "Table with fields.docx")
@@ -54,7 +54,7 @@ class WorkingWithCleanupOptions(docs_base.DocsExamplesBase):
         #ExEnd:RemoveEmptyParagraphs
 
 
-    def test_remove_unused_fields(self) :
+    def test_remove_unused_fields(self):
 
         #ExStart:RemoveUnusedFields
         doc = aw.Document(docs_base.my_dir + "Table with fields.docx")
@@ -68,7 +68,7 @@ class WorkingWithCleanupOptions(docs_base.DocsExamplesBase):
         #ExEnd:RemoveUnusedFields
 
 
-    def test_remove_containing_fields(self) :
+    def test_remove_containing_fields(self):
 
         #ExStart:RemoveContainingFields
         doc = aw.Document(docs_base.my_dir + "Table with fields.docx")
@@ -82,7 +82,7 @@ class WorkingWithCleanupOptions(docs_base.DocsExamplesBase):
         #ExEnd:RemoveContainingFields
 
 
-    def test_remove_empty_table_rows(self) :
+    def test_remove_empty_table_rows(self):
 
         #ExStart:RemoveEmptyTableRows
         doc = aw.Document(docs_base.my_dir + "Table with fields.docx")

@@ -14,7 +14,7 @@ import aspose.words as aw
 
 class ExtractContent(docs_base.DocsExamplesBase):
 
-    def test_extract_content_between_block_level_nodes(self) :
+    def test_extract_content_between_block_level_nodes(self):
 
         #ExStart:ExtractContentBetweenBlockLevelNodes
         doc = aw.Document(docs_base.my_dir + "Extract content.docx")
@@ -28,7 +28,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
         # Let's reverse the array to make inserting the content back into the document easier.
         extracted_nodes.reverse()
 
-        while (len(extracted_nodes) > 0) :
+        while (len(extracted_nodes) > 0):
 
             # Insert the last node from the reversed list.
             end_table.parent_node.insert_after(extracted_nodes[0], end_table)
@@ -40,7 +40,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
         #ExEnd:ExtractContentBetweenBlockLevelNodes
 
 
-    def test_extract_content_between_bookmark(self) :
+    def test_extract_content_between_bookmark(self):
 
         #ExStart:ExtractContentBetweenBookmark
         doc = aw.Document(docs_base.my_dir + "Extract content.docx")
@@ -68,7 +68,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
         #ExEnd:ExtractContentBetweenBookmark
 
 
-    def test_extract_content_between_comment_range(self) :
+    def test_extract_content_between_comment_range(self):
 
         #ExStart:ExtractContentBetweenCommentRange
         doc = aw.Document(docs_base.my_dir + "Extract content.docx")
@@ -92,7 +92,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
         #ExEnd:ExtractContentBetweenCommentRange
 
 
-    def test_extract_content_between_paragraphs(self) :
+    def test_extract_content_between_paragraphs(self):
 
         #ExStart:ExtractContentBetweenParagraphs
         doc = aw.Document(docs_base.my_dir + "Extract content.docx")
@@ -108,7 +108,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
         #ExEnd:ExtractContentBetweenParagraphs
 
 
-    def test_extract_content_between_paragraph_styles(self) :
+    def test_extract_content_between_paragraph_styles(self):
 
         #ExStart:ExtractContentBetweenParagraphStyles
         doc = aw.Document(docs_base.my_dir + "Extract content.docx")
@@ -129,7 +129,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
         #ExEnd:ExtractContentBetweenParagraphStyles
 
 
-    def test_extract_content_between_runs(self) :
+    def test_extract_content_between_runs(self):
 
         #ExStart:ExtractContentBetweenRuns
         doc = aw.Document(docs_base.my_dir + "Extract content.docx")
@@ -147,7 +147,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
         #ExEnd:ExtractContentBetweenRuns
 
 
-    def test_extract_content_using_field(self) :
+    def test_extract_content_using_field(self):
 
         #ExStart:ExtractContentUsingField
         doc = aw.Document(docs_base.my_dir + "Extract content.docx")
@@ -169,17 +169,17 @@ class ExtractContent(docs_base.DocsExamplesBase):
         #ExEnd:ExtractContentUsingField
 
 
-    def test_extract_table_of_contents(self) :
+    def test_extract_table_of_contents(self):
 
         #ExStart:ExtractTableOfContents
         doc = aw.Document(docs_base.my_dir + "Table of contents.docx")
 
-        for field in doc.range.fields :
+        for field in doc.range.fields:
 
-            if (field.type == aw.fields.FieldType.FIELD_HYPERLINK) :
+            if (field.type == aw.fields.FieldType.FIELD_HYPERLINK):
 
                 hyperlink = field.as_field_hyperlink()
-                if (hyperlink.sub_address != None and hyperlink.sub_address.find("_Toc") == 0) :
+                if (hyperlink.sub_address != None and hyperlink.sub_address.find("_Toc") == 0):
 
                     toc_item = field.start.get_ancestor(aw.NodeType.PARAGRAPH).as_paragraph()
 
@@ -193,7 +193,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
         #ExEnd:ExtractTableOfContents
 
 
-    def test_extract_text_only(self) :
+    def test_extract_text_only(self):
 
         #ExStart:ExtractTextOnly
         doc = aw.Document()
@@ -210,7 +210,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
         #ExEnd:ExtractTextOnly
 
 
-    def test_extract_content_based_on_styles(self) :
+    def test_extract_content_based_on_styles(self):
 
         #ExStart:ExtractContentBasedOnStyles
         doc = aw.Document(docs_base.my_dir + "Styles.docx")
@@ -221,27 +221,27 @@ class ExtractContent(docs_base.DocsExamplesBase):
         paragraphs = ExtractContent.paragraphs_by_style_name(doc, para_style)
         print(f"Paragraphs with \"{paraStyle}\" styles ({len(paragraphs)}):")
 
-        for paragraph in paragraphs :
+        for paragraph in paragraphs:
             print(paragraph.to_string(aw.SaveFormat.TEXT))
 
         runs = ExtractContent.runs_by_style_name(doc, run_style)
         print(f"\nRuns with \"{runStyle}\" styles ({len(runs)}):")
 
-        for run in runs :
+        for run in runs:
             print(run.range.text)
         #ExEnd:ExtractContentBasedOnStyles
 
 
     #ExStart:ParagraphsByStyleName
     @staticmethod
-    def paragraphs_by_style_name(doc : aw.Document, style_name : str) :
+    def paragraphs_by_style_name(doc: aw.Document, style_name: str):
 
         paragraphs_with_style = []
         paragraphs = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)
 
-        for paragraph in paragraphs :
+        for paragraph in paragraphs:
             paragraph = paragraph.as_paragraph()
-            if (paragraph.paragraph_format.style.name == style_name) :
+            if (paragraph.paragraph_format.style.name == style_name):
                 paragraphs_with_style.append(paragraph)
 
         return paragraphs_with_style
@@ -250,21 +250,21 @@ class ExtractContent(docs_base.DocsExamplesBase):
 
     #ExStart:RunsByStyleName
     @staticmethod
-    def runs_by_style_name(doc : aw.Document, style_name : str) :
+    def runs_by_style_name(doc: aw.Document, style_name: str):
 
         runs_with_style = []
         runs = doc.get_child_nodes(aw.NodeType.RUN, True)
 
-        for run in runs :
+        for run in runs:
             run = run.as_run()
-            if (run.font.style.name == style_name) :
+            if (run.font.style.name == style_name):
                 runs_with_style.append(run)
 
         return runs_with_style
 
     #ExEnd:RunsByStyleName
 
-    def test_extract_print_text(self) :
+    def test_extract_print_text(self):
 
         #ExStart:ExtractText
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -288,7 +288,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
         #ExEnd:PrintTextRangeOFRowAndTable
 
 
-    def test_extract_images_to_files(self) :
+    def test_extract_images_to_files(self):
 
         #ExStart:ExtractImagesToFiles
         doc = aw.Document(docs_base.my_dir + "Images.docx")
@@ -296,9 +296,9 @@ class ExtractContent(docs_base.DocsExamplesBase):
         shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
         image_index = 0
 
-        for shape in shapes :
+        for shape in shapes:
             shape = shape.as_shape()
-            if (shape.has_image) :
+            if (shape.has_image):
 
                 image_file_name = f"Image.ExportImages.{imageIndex}_{aw.FileFormatUtil.image_type_to_extension(shape.image_data.image_type)}"
 

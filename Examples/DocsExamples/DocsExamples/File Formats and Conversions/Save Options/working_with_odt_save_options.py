@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithOdtSaveOptions(docs_base.DocsExamplesBase):
 
-    def test_measure_unit(self) :
+    def test_measure_unit(self):
 
         #ExStart:MeasureUnit
         doc = aw.Document(docs_base.my_dir + "Document.docx")

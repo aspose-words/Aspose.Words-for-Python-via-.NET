@@ -14,7 +14,7 @@ import aspose.words as aw
 
 class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
 
-    def test_expose_threshold_control_for_tiff_binarization(self) :
+    def test_expose_threshold_control_for_tiff_binarization(self):
 
         #ExStart:ExposeThresholdControlForTiffBinarization
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -31,7 +31,7 @@ class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:ExposeThresholdControlForTiffBinarization
 
 
-    def test_get_tiff_page_range(self) :
+    def test_get_tiff_page_range(self):
 
         #ExStart:GetTiffPageRange
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -51,7 +51,7 @@ class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:GetTiffPageRange
 
 
-    def test_format_1_bpp_indexed(self) :
+    def test_format_1_bpp_indexed(self):
 
         #ExStart:Format1BppIndexed
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -67,7 +67,7 @@ class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:Format1BppIndexed
 
 
-    def test_get_jpeg_page_range(self) :
+    def test_get_jpeg_page_range(self):
 
         #ExStart:GetJpegPageRange
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -89,7 +89,7 @@ class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "WorkingWithImageSaveOptions.get_jpeg_page_range.jpeg", options)
         #ExEnd:GetJpegPageRange
 
-    def test_save_document_to_jpeg(self) :
+    def test_save_document_to_jpeg(self):
 
         #ExStart:SaveDocumentToJPEG
         # Open the document

@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class SplitDocument(docs_base.DocsExamplesBase):
 
-    def test_by_headings_html(self) :
+    def test_by_headings_html(self):
 
         #ExStart:SplitDocumentByHeadingsHtml
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -27,7 +27,7 @@ class SplitDocument(docs_base.DocsExamplesBase):
         #ExEnd:SplitDocumentByHeadingsHtml
 
 
-    def test_by_sections_html(self) :
+    def test_by_sections_html(self):
 
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
 
@@ -39,12 +39,12 @@ class SplitDocument(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "SplitDocument.by_sections_html.html", options)
 
 
-    def test_by_sections(self) :
+    def test_by_sections(self):
 
         #ExStart:SplitDocumentBySections
         doc = aw.Document(docs_base.my_dir + "Big document.docx")
 
-        for i in range(0, doc.sections.count) :
+        for i in range(0, doc.sections.count):
 
             # Split a document into smaller parts, in this instance, split by section.
             section = doc.sections[i].clone()
@@ -61,14 +61,14 @@ class SplitDocument(docs_base.DocsExamplesBase):
         #ExEnd:SplitDocumentBySections
 
 
-    def test_page_by_page(self) :
+    def test_page_by_page(self):
 
         #ExStart:SplitDocumentPageByPage
         doc = aw.Document(docs_base.my_dir + "Big document.docx")
 
         page_count = doc.page_count
 
-        for page in range(0, page_count) :
+        for page in range(0, page_count):
 
             # Save each page as a separate document.
             extracted_page = doc.extract_pages(page, 1)
@@ -81,7 +81,7 @@ class SplitDocument(docs_base.DocsExamplesBase):
 
     #ExStart:MergeSplitDocuments
     @staticmethod
-    def merge_documents() :
+    def merge_documents():
 
         # Find documents using for merge.
         document_paths = [f for f in os.listdir(docs_base.artifacts_dir) if (os.path.isfile(os.path.join(docs_base.artifacts_dir, f)) and f.find("SplitDocument.page_by_page_") >= 0)]
@@ -96,10 +96,10 @@ class SplitDocument(docs_base.DocsExamplesBase):
         merged_doc_builder = aw.DocumentBuilder(merged_doc)
 
         # Merge document parts one by one.
-        for document_path in document_paths :
+        for document_path in document_paths:
 
             document_path = os.path.join(docs_base.artifacts_dir, document_path)
-            if (document_path == source_document_path) :
+            if (document_path == source_document_path):
                 continue
 
             merged_doc_builder.move_to_document_end()
@@ -111,7 +111,7 @@ class SplitDocument(docs_base.DocsExamplesBase):
 
     #ExEnd:MergeSplitDocuments
 
-    def test_by_page_range(self) :
+    def test_by_page_range(self):
 
         #ExStart:SplitDocumentByPageRange
         doc = aw.Document(docs_base.my_dir + "Big document.docx")

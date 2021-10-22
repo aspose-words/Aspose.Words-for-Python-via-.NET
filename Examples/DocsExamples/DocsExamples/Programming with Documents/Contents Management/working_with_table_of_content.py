@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithTableOfContent(docs_base.DocsExamplesBase):
 
-    def test_change_style_of_toc_level(self) :
+    def test_change_style_of_toc_level(self):
 
         #ExStart:ChangeStyleOfTOCLevel
         doc = aw.Document()
@@ -22,17 +22,17 @@ class WorkingWithTableOfContent(docs_base.DocsExamplesBase):
         #ExEnd:ChangeStyleOfTOCLevel
 
 
-    def test_change_toc_tab_stops(self) :
+    def test_change_toc_tab_stops(self):
 
         #ExStart:ChangeTOCTabStops
         doc = aw.Document(docs_base.my_dir + "Table of contents.docx")
 
-        for para in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True) :
+        for para in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True):
             para = para.as_paragraph()
             # Check if this paragraph is formatted using the TOC result based styles.
             # This is any style between TOC and TOC9.
             if (para.paragraph_format.style.style_identifier >= aw.StyleIdentifier.TOC1 and
-                para.paragraph_format.style.style_identifier <= aw.StyleIdentifier.TOC9) :
+                para.paragraph_format.style.style_identifier <= aw.StyleIdentifier.TOC9):
 
                 # Get the first tab used in this paragraph, this should be the tab used to align the page numbers.
                 tab = para.paragraph_format.tab_stops[0]

@@ -14,7 +14,7 @@ import aspose.pydrawing as drawing
 
 class WorkWithWatermark(docs_base.DocsExamplesBase):
 
-    def test_add_text_watermark_with_specific_options(self) :
+    def test_add_text_watermark_with_specific_options(self):
 
         #ExStart:AddTextWatermarkWithSpecificOptions
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -35,7 +35,7 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
 
 
 #if NET462
-    def test_add_image_watermark_with_specific_options(self) :
+    def test_add_image_watermark_with_specific_options(self):
 
         #ExStart:AddImageWatermarkWithSpecificOptions
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -52,7 +52,7 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
         #ExEnd:AddImageWatermarkWithSpecificOptions
 
 
-    def test_remove_watermark_from_document(self) :
+    def test_remove_watermark_from_document(self):
 
         #ExStart:RemoveWatermarkFromDocument
         doc = aw.Document()
@@ -74,7 +74,7 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "Document.text_watermark.docx")
 
         # We can remove a watermark from a document like this.
-        if (doc.watermark.type == aw.WatermarkType.TEXT) :
+        if (doc.watermark.type == aw.WatermarkType.TEXT):
             doc.watermark.remove()
 
         doc.save(docs_base.artifacts_dir + "WorkWithWatermark.remove_watermark_from_document.docx")
@@ -83,7 +83,7 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
 #endif
 
     #ExStart:AddWatermark
-    def test_add_and_remove_watermark(self) :
+    def test_add_and_remove_watermark(self):
 
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
@@ -99,7 +99,7 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
     # </summary>
     # <param name="doc">The input document.</param>
     # <param name="watermarkText">Text of the watermark.</param>
-    def insert_watermark_text(self, doc : aw.Document, watermark_text : str) :
+    def insert_watermark_text(self, doc: aw.Document, watermark_text: str):
 
         # Create a watermark shape, this will be a WordArt shape.
         watermark = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
@@ -129,7 +129,7 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
         watermark_para.append_child(watermark)
 
         # Insert the watermark into all headers of each document section.
-        for sect in doc.sections :
+        for sect in doc.sections:
             sect = sect.as_section()
             # There could be up to three different headers in each section.
             # Since we want the watermark to appear on all pages, insert it into all headers.
@@ -138,11 +138,11 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
             self.insert_watermark_into_header(watermark_para, sect, aw.HeaderFooterType.HEADER_EVEN)
 
 
-    def insert_watermark_into_header(self, watermark_para : aw.Paragraph, sect : aw.Section, header_type : aw.HeaderFooterType) :
+    def insert_watermark_into_header(self, watermark_para: aw.Paragraph, sect: aw.Section, header_type: aw.HeaderFooterType):
 
         header = sect.headers_footers.get_by_header_footer_type(header_type)
 
-        if (header == None) :
+        if (header == None):
 
             # There is no header of the specified type in the current section, so we need to create it.
             header = aw.HeaderFooter(sect.document, header_type)
@@ -155,15 +155,15 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
     #ExEnd:AddWatermark
 
     #ExStart:RemoveWatermark
-    def remove_watermark_text(self, doc : aw.Document) :
+    def remove_watermark_text(self, doc: aw.Document):
 
-        for header_footer in doc.get_child_nodes(aw.NodeType.HEADER_FOOTER, True) :
+        for header_footer in doc.get_child_nodes(aw.NodeType.HEADER_FOOTER, True):
             header_footer = header_footer.as_header_footer()
 
-            for shape in header_footer.get_child_nodes(aw.NodeType.SHAPE, True) :
+            for shape in header_footer.get_child_nodes(aw.NodeType.SHAPE, True):
                 shape = shape.as_shape()
 
-                if shape.name.find("WaterMark") >= 0 :
+                if shape.name.find("WaterMark") >= 0:
                     shape.remove()
 
 

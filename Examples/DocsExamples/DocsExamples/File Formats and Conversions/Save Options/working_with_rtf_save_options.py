@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithRtfSaveOptions(docs_base.DocsExamplesBase):
 
-    def test_saving_images_as_wmf(self) :
+    def test_saving_images_as_wmf(self):
 
         #ExStart:SavingImagesAsWmf
         doc = aw.Document(docs_base.my_dir + "Document.docx")

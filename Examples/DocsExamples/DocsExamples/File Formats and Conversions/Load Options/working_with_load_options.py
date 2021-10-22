@@ -14,7 +14,7 @@ import aspose.words as aw
 
 class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
 
-    def test_update_dirty_fields(self) :
+    def test_update_dirty_fields(self):
 
         #ExStart:UpdateDirtyFields
         load_options = aw.loading.LoadOptions()
@@ -26,7 +26,7 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
         #ExEnd:UpdateDirtyFields
 
 
-    def test_load_encrypted_document(self) :
+    def test_load_encrypted_document(self):
 
         #ExStart:LoadSaveEncryptedDoc
         #ExStart:OpenEncryptedDocument
@@ -37,7 +37,7 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
         #ExEnd:LoadSaveEncryptedDoc
 
 
-    def test_convert_shape_to_office_math(self) :
+    def test_convert_shape_to_office_math(self):
 
         #ExStart:ConvertShapeToOfficeMath
         load_options = aw.loading.LoadOptions()
@@ -49,7 +49,7 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
         #ExEnd:ConvertShapeToOfficeMath
 
 
-    def test_set_ms_word_version(self) :
+    def test_set_ms_word_version(self):
 
         #ExStart:SetMSWordVersion
         # Create a new LoadOptions object, which will load documents according to MS Word 2019 specification by default
@@ -63,7 +63,7 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
         #ExEnd:SetMSWordVersion
 
 
-    def test_use_temp_folder(self) :
+    def test_use_temp_folder(self):
 
         #ExStart:UseTempFolder
         load_options = aw.loading.LoadOptions()
@@ -73,7 +73,7 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
         #ExEnd:UseTempFolder
 
 
-    def test_load_with_encoding(self) :
+    def test_load_with_encoding(self):
 
         #ExStart:LoadWithEncoding
         load_options = aw.loading.LoadOptions()
@@ -83,7 +83,7 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
         #ExEnd:LoadWithEncoding
 
 
-    def test_skip_pdf_images(self) :
+    def test_skip_pdf_images(self):
 
         #ExStart:SkipPdfImages
         load_options = aw.loading.PdfLoadOptions()
@@ -93,7 +93,7 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
         #ExEnd:SkipPdfImages
 
 
-    def test_convert_metafiles_to_png(self) :
+    def test_convert_metafiles_to_png(self):
 
         #ExStart:ConvertMetafilesToPng
         load_options = aw.loading.LoadOptions()
@@ -103,7 +103,7 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
         #ExEnd:ConvertMetafilesToPng
 
 
-    def test_load_chm(self) :
+    def test_load_chm(self):
 
         #ExStart:LoadCHM
         load_options = aw.loading.LoadOptions()

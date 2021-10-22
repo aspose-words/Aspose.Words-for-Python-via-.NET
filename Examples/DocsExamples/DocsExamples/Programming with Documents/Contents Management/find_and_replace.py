@@ -15,7 +15,7 @@ import aspose.pydrawing as drawing
 
 class FindAndReplace(docs_base.DocsExamplesBase):
 
-    def test_simple_find_replace(self) :
+    def test_simple_find_replace(self):
 
         #ExStart:SimpleFindReplace
         doc = aw.Document()
@@ -33,7 +33,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         #ExEnd:SimpleFindReplace
 
 
-    def test_find_and_highlight(self) :
+    def test_find_and_highlight(self):
 
         #ExStart:FindAndHighlight
         doc = aw.Document(docs_base.my_dir + "Find and highlight.docx")
@@ -49,7 +49,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         #ExEnd:FindAndHighlight
 
 
-    def test_meta_characters_in_search_pattern(self) :
+    def test_meta_characters_in_search_pattern(self):
 
         # meta-characters
         # &p - paragraph break
@@ -78,7 +78,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         #ExEnd:MetaCharactersInSearchPattern
 
 
-    def test_replace_text_containing_meta_characters(self) :
+    def test_replace_text_containing_meta_characters(self):
 
         #ExStart:ReplaceTextContainingMetaCharacters
         doc = aw.Document()
@@ -105,7 +105,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         #ExEnd:ReplaceTextContainingMetaCharacters
 
 
-    def test_ignore_text_inside_fields(self) :
+    def test_ignore_text_inside_fields(self):
 
         #ExStart:IgnoreTextInsideFields
         doc = aw.Document()
@@ -129,7 +129,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
 
 
     @unittest.skip("Regular expressions is not supported yet.")
-    def test_ignore_text_inside_delete_revisions(self) :
+    def test_ignore_text_inside_delete_revisions(self):
 
         #ExStart:IgnoreTextInsideDeleteRevisions
         doc = aw.Document()
@@ -158,7 +158,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         #ExEnd:IgnoreTextInsideDeleteRevisions
 
 
-    def test_ignore_text_inside_insert_revisions(self) :
+    def test_ignore_text_inside_insert_revisions(self):
 
         #ExStart:IgnoreTextInsideInsertRevisions
         doc = aw.Document()
@@ -186,7 +186,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         #ExEnd:IgnoreTextInsideInsertRevisions
 
 
-    def test_replace_text_in_footer(self) :
+    def test_replace_text_in_footer(self):
 
         #ExStart:ReplaceTextInFooter
         doc = aw.Document(docs_base.my_dir + "Footer.docx")
@@ -205,7 +205,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
 
 
     @unittest.skip("Regular expressions is not supported yet.")
-    def test_replace_with_regex(self) :
+    def test_replace_with_regex(self):
 
         #ExStart:ReplaceWithRegex
         doc = aw.Document()
@@ -221,7 +221,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         #ExEnd:ReplaceWithRegex
 
 
-    def test_recognize_and_substitutions_within_replacement_patterns(self) :
+    def test_recognize_and_substitutions_within_replacement_patterns(self):
 
         #ExStart:RecognizeAndSubstitutionsWithinReplacementPatterns
         doc = aw.Document()
@@ -236,7 +236,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         #ExEnd:RecognizeAndSubstitutionsWithinReplacementPatterns
 
 
-    def test_replace_with_string(self) :
+    def test_replace_with_string(self):
 
         #ExStart:ReplaceWithString
         doc = aw.Document()
@@ -250,7 +250,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         #ExEnd:ReplaceWithString
 
 
-    def test_replace_text_in_table(self) :
+    def test_replace_text_in_table(self):
 
         #ExStart:ReplaceText
         doc = aw.Document(docs_base.my_dir + "Tables.docx")

@@ -14,7 +14,7 @@ import aspose.words as aw
 
 class WorkingWithRevisions(docs_base.DocsExamplesBase):
 
-    def test_accept_revisions(self) :
+    def test_accept_revisions(self):
 
         #ExStart:AcceptAllRevisions
         doc = aw.Document()
@@ -59,28 +59,28 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         #ExEnd:AcceptAllRevisions
 
 
-    def test_get_revision_types(self) :
+    def test_get_revision_types(self):
 
         #ExStart:GetRevisionTypes
         doc = aw.Document(docs_base.my_dir + "Revisions.docx")
 
         paragraphs = doc.first_section.body.paragraphs
-        for i in range(0, paragraphs.count) :
+        for i in range(0, paragraphs.count):
 
-            if paragraphs[i].is_move_from_revision :
+            if paragraphs[i].is_move_from_revision:
                 print(f"The paragraph {i} has been moved (deleted).")
-            if paragraphs[i].is_move_to_revision :
+            if paragraphs[i].is_move_to_revision:
                 print(f"The paragraph {i} has been moved (inserted).")
 
         #ExEnd:GetRevisionTypes
 
 
-    def test_get_revision_groups(self) :
+    def test_get_revision_groups(self):
 
         #ExStart:GetRevisionGroups
         doc = aw.Document(docs_base.my_dir + "Revisions.docx")
 
-        for group in doc.revisions.groups :
+        for group in doc.revisions.groups:
 
             print(f"{group.author}, {group.revision_type}:")
             print(group.text)
@@ -88,7 +88,7 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         #ExEnd:GetRevisionGroups
 
 
-    def test_remove_comments_in_pdf(self) :
+    def test_remove_comments_in_pdf(self):
 
         #ExStart:RemoveCommentsInPDF
         doc = aw.Document(docs_base.my_dir + "Revisions.docx")
@@ -100,7 +100,7 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         #ExEnd:RemoveCommentsInPDF
 
 
-    def test_show_revisions_in_balloons(self) :
+    def test_show_revisions_in_balloons(self):
 
         #ExStart:ShowRevisionsInBalloons
         #ExStart:SetMeasurementUnit
@@ -119,12 +119,12 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         #ExEnd:ShowRevisionsInBalloons
 
 
-    def test_get_revision_group_details(self) :
+    def test_get_revision_group_details(self):
 
         #ExStart:GetRevisionGroupDetails
         doc = aw.Document(docs_base.my_dir + "Revisions.docx")
 
-        for revision in doc.revisions :
+        for revision in doc.revisions:
 
             group_text = "Revision group text: " + revision.group.text if revision.group != None else "Revision has no group"
 
@@ -137,7 +137,7 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         #ExEnd:GetRevisionGroupDetails
 
 
-    def test_access_revised_version(self) :
+    def test_access_revised_version(self):
 
         #ExStart:AccessRevisedVersion
         doc = aw.Document(docs_base.my_dir + "Revisions.docx")
@@ -146,12 +146,12 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         # Switch to the revised version of the document.
         doc.revisions_view = aw.RevisionsView.FINAL
 
-        for revision in doc.revisions :
+        for revision in doc.revisions:
 
-            if revision.parent_node.node_type == aw.NodeType.PARAGRAPH :
+            if revision.parent_node.node_type == aw.NodeType.PARAGRAPH:
 
                 paragraph = revision.parent_node.as_paragraph()
-                if paragraph.is_list_item :
+                if paragraph.is_list_item:
 
                     print(paragraph.list_label.label_string)
                     print(paragraph.list_format.list_level)
@@ -160,7 +160,7 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         #ExEnd:AccessRevisedVersion
 
 
-    def test_move_node_in_tracked_document(self) :
+    def test_move_node_in_tracked_document(self):
 
         #ExStart:MoveNodeInTrackedDocument
         doc = aw.Document()
@@ -181,7 +181,7 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         node = body.paragraphs[3]
         end_node = body.paragraphs[5].next_sibling
         reference_node = body.paragraphs[0]
-        while (node != end_node) :
+        while (node != end_node):
 
             next_node = node.next_sibling
             body.insert_before(node, reference_node)
@@ -197,7 +197,7 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         #ExEnd:MoveNodeInTrackedDocument
 
 
-    def test_shape_revision(self) :
+    def test_shape_revision(self):
 
         #ExStart:ShapeRevision
         doc = aw.Document()

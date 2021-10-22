@@ -14,7 +14,7 @@ import aspose.words as aw
 class WorkingWithImages(docs_base.DocsExamplesBase):
 
 
-    def test_add_image_to_each_page(self) :
+    def test_add_image_to_each_page(self):
 
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 
@@ -23,12 +23,12 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
 
         # Images in a document are added to paragraphs to add an image to every page we need
         # to find at any paragraph belonging to each page.
-        for page in range(1, doc.page_count) :
-            for para in doc.first_section.body.paragraphs :
+        for page in range(1, doc.page_count):
+            for para in doc.first_section.body.paragraphs:
                 para = para.as_paragraph()
 
                 # Check if the current paragraph belongs to the target page.
-                if (layout_collector.get_start_page_index(para) == page) :
+                if (layout_collector.get_start_page_index(para) == page):
                     self.add_image_to_page(paragraph, page, docs_base.images_dir)
                     break
 
@@ -45,7 +45,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
     # <param name="para">The paragraph to an an image to.</param>
     # <param name="page">The page number the paragraph appears on.</param>
     @staticmethod
-    def add_image_to_page(para : aw.Paragraph, page : int, images_dir : str) :
+    def add_image_to_page(para: aw.Paragraph, page: int, images_dir: str):
 
         doc = para.document.as_document()
 
@@ -75,7 +75,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         builder.writeln("This is a custom note for page " + page)
 
 
-    def test_insert_barcode_image(self) :
+    def test_insert_barcode_image(self):
 
         #ExStart:InsertBarcodeImage
         doc = aw.Document()
@@ -86,7 +86,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         # The document starts with one section, insert the barcode into this existing section
         self.insert_barcode_into_footer(builder, doc.first_section, aw.HeaderFooterType.FOOTER_PRIMARY)
 
-        for i in range(1, num_pages) :
+        for i in range(1, num_pages):
 
             # Clone the first section and add it into the end of the document
             clone_section = doc.first_section.clone(False).as_section()
@@ -105,7 +105,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
 
     #ExStart:InsertBarcodeIntoFooter
     @staticmethod
-    def insert_barcode_into_footer(builder : aw.DocumentBuilder, section : aw.Section, footer_type : aw.HeaderFooterType) :
+    def insert_barcode_into_footer(builder: aw.DocumentBuilder, section: aw.Section, footer_type: aw.HeaderFooterType):
 
         # Move to the footer type in the specific section.
         builder.move_to_section(section.document.index_of(section))
@@ -130,7 +130,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
 
     #ExEnd:InsertBarcodeIntoFooter
 
-    def test_document_builder_insert_inline_image(self) :
+    def test_document_builder_insert_inline_image(self):
 
         #ExStart:DocumentBuilderInsertInlineImage
         doc = aw.Document()
@@ -141,7 +141,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "WorkingWithImages.document_builder_insert_inline_image.doc")
         #ExEnd:DocumentBuilderInsertInlineImage
 
-    def test_document_builder_insert_floating_image(self) :
+    def test_document_builder_insert_floating_image(self):
 
         #ExStart:DocumentBuilderInsertFloatingImage
         doc = aw.Document()
@@ -159,7 +159,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir+"WorkingWithImages.document_builder_insert_floating_image.doc")
         #ExEnd:DocumentBuilderInsertFloatingImage
 
-    def test_set_aspect_ratio_locked(self) :
+    def test_set_aspect_ratio_locked(self):
 
         #ExStart:SetAspectRatioLocked
         doc = aw.Document()
@@ -172,7 +172,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         #ExEnd:SetAspectRatioLocked
 
 
-    def test_get_actual_shape_bounds_points(self) :
+    def test_get_actual_shape_bounds_points(self):
 
         #ExStart:GetActualShapeBoundsPoints
         doc = aw.Document()
@@ -186,7 +186,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         print(f"{rect.x}, {rect.y}, {rect.width}, {rect.height}")
         #ExEnd:GetActualShapeBoundsPoints
 
-    def test_crop_image_call(self) :
+    def test_crop_image_call(self):
 
         #ExStart:CropImageCall
         # The path to the documents directory.
@@ -198,7 +198,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
 
     #ExStart:CropImage
     @staticmethod
-    def crop_image(in_path : str, out_path : str, left : int, top : int, width : int, height : int) :
+    def crop_image(in_path: str, out_path: str, left: int, top: int, width: int, height: int):
 
         doc = aw.Document();
         builder = aw.DocumentBuilder(doc)
@@ -214,10 +214,10 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         width_ratio = cropped_image.width / src_width_points
         height_ratio = cropped_image.height / src_height_points
 
-        if (width_ratio< 1) :
+        if (width_ratio< 1):
             cropped_image.image_data.crop_right = 1 - width_ratio
 
-        if (height_ratio< 1) :
+        if (height_ratio< 1):
             cropped_image.image_data.crop_bottom = 1 - height_ratio
 
         left_to_width = aw.ConvertUtil.pixel_to_point(left) / src_width_points

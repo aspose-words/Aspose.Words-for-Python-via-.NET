@@ -14,7 +14,7 @@ import aspose.words as aw
 
 class BaseConversions(docs_base.DocsExamplesBase):
 
-    def test_doc_to_docx(self) :
+    def test_doc_to_docx(self):
 
         #ExStart:LoadAndSave
         #ExStart:OpenDocument
@@ -25,7 +25,7 @@ class BaseConversions(docs_base.DocsExamplesBase):
         #ExEnd:LoadAndSave
 
 
-    def test_docx_to_rtf(self) :
+    def test_docx_to_rtf(self):
 
         #ExStart:LoadAndSaveToStream
         #ExStart:OpeningFromStream
@@ -46,7 +46,7 @@ class BaseConversions(docs_base.DocsExamplesBase):
         #ExEnd:LoadAndSaveToStream
 
 
-    def test_docx_to_pdf(self) :
+    def test_docx_to_pdf(self):
 
         #ExStart:Doc2Pdf
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -55,7 +55,7 @@ class BaseConversions(docs_base.DocsExamplesBase):
         #ExEnd:Doc2Pdf
 
 
-    def test_docx_to_byte(self) :
+    def test_docx_to_byte(self):
 
         #ExStart:DocxToByte
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -70,7 +70,7 @@ class BaseConversions(docs_base.DocsExamplesBase):
         #ExEnd:DocxToByte
 
 
-    def test_docx_to_epub(self) :
+    def test_docx_to_epub(self):
 
         #ExStart:DocxToEpub
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -80,7 +80,7 @@ class BaseConversions(docs_base.DocsExamplesBase):
 
 
     @unittest.skip("Aspose.Email is required. Will do later.")
-    def test_docx_to_mhtml_and_sending_email(self) :
+    def test_docx_to_mhtml_and_sending_email(self):
         print("not supported yet")
 #        #ExStart:DocxToMhtmlAndSendingEmail
 #        doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -104,7 +104,7 @@ class BaseConversions(docs_base.DocsExamplesBase):
 #        #ExEnd:DocxToMhtmlAndSendingEmail
 
 
-    def test_docx_to_markdown(self) :
+    def test_docx_to_markdown(self):
 
         #ExStart:SaveToMarkdownDocument
         doc = aw.Document()
@@ -116,7 +116,7 @@ class BaseConversions(docs_base.DocsExamplesBase):
         #ExEnd:SaveToMarkdownDocument
 
 
-    def test_docx_to_txt(self) :
+    def test_docx_to_txt(self):
 
         #ExStart:DocxToTxt
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -125,7 +125,7 @@ class BaseConversions(docs_base.DocsExamplesBase):
         #ExEnd:DocxToTxt
 
 
-    def test_txt_to_docx(self) :
+    def test_txt_to_docx(self):
 
         #ExStart:TxtToDocx
         # The encoding of the text file is automatically detected.
@@ -135,7 +135,7 @@ class BaseConversions(docs_base.DocsExamplesBase):
         #ExEnd:TxtToDocx
 
 
-    def test_pdf_to_jpeg(self) :
+    def test_pdf_to_jpeg(self):
 
         #ExStart:PdfToJpeg
         doc = aw.Document(docs_base.my_dir + "Pdf Document.pdf")
@@ -144,7 +144,7 @@ class BaseConversions(docs_base.DocsExamplesBase):
         #ExEnd:PdfToJpeg
 
 
-    def test_pdf_to_docx(self) :
+    def test_pdf_to_docx(self):
 
         #ExStart:PdfToDocx
         doc = aw.Document(docs_base.my_dir + "Pdf Document.pdf")

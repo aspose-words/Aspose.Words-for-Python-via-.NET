@@ -14,7 +14,7 @@ import aspose.pydrawing as drawing
 
 class WorkingWithNode(docs_base.DocsExamplesBase):
 
-    def test_use_node_type(self) :
+    def test_use_node_type(self):
 
         #ExStart:UseNodeType
         doc = aw.Document()
@@ -23,7 +23,7 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
         #ExEnd:UseNodeType
 
 
-    def test_get_parent_node(self) :
+    def test_get_parent_node(self):
 
         #ExStart:GetParentNode
         doc = aw.Document()
@@ -36,7 +36,7 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
         #ExEnd:GetParentNode
 
 
-    def test_owner_document(self) :
+    def test_owner_document(self):
 
         #ExStart:OwnerDocument
         doc = aw.Document()
@@ -62,17 +62,17 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
         #ExEnd:OwnerDocument
 
 
-    def test_enumerate_child_nodes(self) :
+    def test_enumerate_child_nodes(self):
 
         #ExStart:EnumerateChildNodes
         doc = aw.Document()
         paragraph = doc.get_child(aw.NodeType.PARAGRAPH, 0, True).as_paragraph()
 
         children = paragraph.child_nodes
-        for child in children :
+        for child in children:
 
             # A paragraph may contain children of various types such as runs, shapes, and others.
-            if child.node_type == aw.NodeType.RUN :
+            if child.node_type == aw.NodeType.RUN:
 
                 run = child.as_run()
                 print(run.text)
@@ -82,7 +82,7 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
 
 
     #ExStart:RecurseAllNodes
-    def test_recurse_all_nodes(self) :
+    def test_recurse_all_nodes(self):
 
         doc = aw.Document(docs_base.my_dir + "Paragraphs.docx")
 
@@ -94,21 +94,21 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
     # A simple function that will walk through all children of a specified node recursively
     # and print the type of each node to the screen.
     # </summary>
-    def traverse_all_nodes(self, parent_node) :
+    def traverse_all_nodes(self, parent_node):
 
         # This is the most efficient way to loop through immediate children of a node.
-        for child_node in parent_node.child_nodes :
+        for child_node in parent_node.child_nodes:
 
             print(aw.Node.node_type_to_string(child_node.node_type))
 
             # Recurse into the node if it is a composite node.
-            if child_node.is_composite :
+            if child_node.is_composite:
                 self.traverse_all_nodes(child_node.as_composite_node())
 
 
     #ExEnd:RecurseAllNodes
 
-    def test_typed_access(self) :
+    def test_typed_access(self):
 
         #ExStart:TypedAccess
         doc = aw.Document()
@@ -119,20 +119,20 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
         # Quick typed access to all Table child nodes contained in the Body.
         tables = body.tables
 
-        for table in tables :
+        for table in tables:
 
             # Quick typed access to the first row of the table.
-            if table.first_row != None :
+            if table.first_row != None:
                 table.first_row.remove()
 
             # Quick typed access to the last row of the table.
-            if table.last_row != None :
+            if table.last_row != None:
                 table.last_row.remove()
 
         #ExEnd:TypedAccess
 
 
-    def test_create_and_add_paragraph_node(self) :
+    def test_create_and_add_paragraph_node(self):
 
         #ExStart:CreateAndAddParagraphNode
         doc = aw.Document()
@@ -143,7 +143,7 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
         section.body.append_child(para)
         #ExEnd:CreateAndAddParagraphNode
 
-    def test_change_run_color(self) :
+    def test_change_run_color(self):
 
         doc = aw.Document(docs_base.my_dir + "Document.docx")
 

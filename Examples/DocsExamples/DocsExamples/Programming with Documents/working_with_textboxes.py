@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithTextboxes(docs_base.DocsExamplesBase):
 
-    def test_create_a_link(self) :
+    def test_create_a_link(self):
 
         #ExStart:CreateALink
         doc = aw.Document()
@@ -24,12 +24,12 @@ class WorkingWithTextboxes(docs_base.DocsExamplesBase):
         text_box1 = shape1.text_box
         text_box2 = shape2.text_box
 
-        if text_box1.is_valid_link_target(text_box2) :
+        if text_box1.is_valid_link_target(text_box2):
             text_box1.next = text_box2
         #ExEnd:CreateALink
 
 
-    def test_check_sequence(self) :
+    def test_check_sequence(self):
 
         #ExStart:CheckSequence
         doc = aw.Document()
@@ -37,21 +37,21 @@ class WorkingWithTextboxes(docs_base.DocsExamplesBase):
         shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
         text_box = shape.text_box
 
-        if (text_box.next != None and text_box.previous == None) :
+        if (text_box.next != None and text_box.previous == None):
             print("The head of the sequence")
 
 
-        if (text_box.next != None and text_box.previous != None) :
+        if (text_box.next != None and text_box.previous != None):
             print("The Middle of the sequence.")
 
 
-        if (text_box.next == None and text_box.previous != None) :
+        if (text_box.next == None and text_box.previous != None):
             print("The Tail of the sequence.")
 
         #ExEnd:CheckSequence
 
 
-    def test_break_a_link(self) :
+    def test_break_a_link(self):
 
         #ExStart:BreakALink
         doc = aw.Document()
@@ -66,7 +66,7 @@ class WorkingWithTextboxes(docs_base.DocsExamplesBase):
         text_box.next = None
 
         # Break a link, which leads to this textbox.
-        if text_box.previous != None :
+        if text_box.previous != None:
             text_box.previous.break_forward_link()
         #ExEnd:BreakALink
 

@@ -14,7 +14,7 @@ import aspose.pydrawing as drawing
 
 class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
 
-    def test_get_distance_between_table_surrounding_text(self) :
+    def test_get_distance_between_table_surrounding_text(self):
 
         #ExStart:GetDistancebetweenTableSurroundingText
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -29,7 +29,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         #ExEnd:GetDistancebetweenTableSurroundingText
 
 
-    def test_apply_outline_border(self) :
+    def test_apply_outline_border(self):
 
         #ExStart:ApplyOutlineBorder
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -53,7 +53,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         #ExEnd:ApplyOutlineBorder
 
 
-    def test_build_table_with_borders(self) :
+    def test_build_table_with_borders(self):
 
         #ExStart:BuildTableWithBorders
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -70,7 +70,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         #ExEnd:BuildTableWithBorders
 
 
-    def test_modify_row_formatting(self) :
+    def test_modify_row_formatting(self):
 
         #ExStart:ModifyRowFormatting
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -85,7 +85,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         #ExEnd:ModifyRowFormatting
 
 
-    def test_apply_row_formatting(self) :
+    def test_apply_row_formatting(self):
 
         #ExStart:ApplyRowFormatting
         doc = aw.Document()
@@ -113,7 +113,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         #ExEnd:ApplyRowFormatting
 
 
-    def test_set_cell_padding(self) :
+    def test_set_cell_padding(self):
 
         #ExStart:SetCellPadding
         doc = aw.Document()
@@ -136,7 +136,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
     # <summary>
     # Shows how to modify formatting of a table cell.
     # </summary>
-    def test_modify_cell_formatting(self) :
+    def test_modify_cell_formatting(self):
 
         #ExStart:ModifyCellFormatting
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -149,7 +149,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         #ExEnd:ModifyCellFormatting
 
 
-    def test_format_table_and_cell_with_different_borders(self) :
+    def test_format_table_and_cell_with_different_borders(self):
 
         #ExStart:FormatTableAndCellWithDifferentBorders
         doc = aw.Document()
@@ -194,7 +194,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         #ExEnd:FormatTableAndCellWithDifferentBorders
 
 
-    def test_set_table_title_and_description(self) :
+    def test_set_table_title_and_description(self):
 
         #ExStart:SetTableTitleAndDescription
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -212,7 +212,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         #ExEnd:SetTableTitleAndDescription
 
 
-    def test_allow_cell_spacing(self) :
+    def test_allow_cell_spacing(self):
 
         #ExStart:AllowCellSpacing
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -225,7 +225,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         #ExEnd:AllowCellSpacing
 
 
-    def test_build_table_with_style(self) :
+    def test_build_table_with_style(self):
 
         #ExStart:BuildTableWithStyle
         doc = aw.Document()
@@ -271,7 +271,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         #ExEnd:BuildTableWithStyle
 
 
-    def test_expand_formatting_on_cells_and_row_from_style(self) :
+    def test_expand_formatting_on_cells_and_row_from_style(self):
 
         #ExStart:ExpandFormattingOnCellsAndRowFromStyle
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -294,7 +294,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         #ExEnd:ExpandFormattingOnCellsAndRowFromStyle
 
 
-    def test_create_table_style(self) :
+    def test_create_table_style(self):
 
         #ExStart:CreateTableStyle
         doc = aw.Document()
@@ -324,7 +324,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         #ExEnd:CreateTableStyle
 
 
-    def test_define_conditional_formatting(self) :
+    def test_define_conditional_formatting(self):
 
         #ExStart:DefineConditionalFormatting
         doc = aw.Document()
@@ -350,7 +350,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         #ExEnd:DefineConditionalFormatting
 
 
-    def test_set_table_cell_formatting(self) :
+    def test_set_table_cell_formatting(self):
 
         #ExStart:DocumentBuilderSetTableCellFormatting
         doc = aw.Document()
@@ -375,7 +375,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         #ExEnd:DocumentBuilderSetTableCellFormatting
 
 
-    def test_set_table_row_formatting(self) :
+    def test_set_table_row_formatting(self):
 
         #ExStart:DocumentBuilderSetTableRowFormatting
         doc = aw.Document()

@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithFootnotes(docs_base.DocsExamplesBase):
 
-    def test_set_foot_note_columns(self) :
+    def test_set_foot_note_columns(self):
 
         #ExStart:SetFootNoteColumns
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -25,7 +25,7 @@ class WorkingWithFootnotes(docs_base.DocsExamplesBase):
         #ExEnd:SetFootNoteColumns
 
 
-    def test_set_footnote_and_end_note_position(self) :
+    def test_set_footnote_and_end_note_position(self):
 
         #ExStart:SetFootnoteAndEndNotePosition
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -37,7 +37,7 @@ class WorkingWithFootnotes(docs_base.DocsExamplesBase):
         #ExEnd:SetFootnoteAndEndNotePosition
 
 
-    def test_set_endnote_options(self) :
+    def test_set_endnote_options(self):
 
         #ExStart:SetEndnoteOptions
         doc = aw.Document(docs_base.my_dir + "Document.docx")

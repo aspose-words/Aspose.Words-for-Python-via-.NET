@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithParagraph(docs_base.DocsExamplesBase):
 
-    def test_count_lines_in_paragraph(self) :
+    def test_count_lines_in_paragraph(self):
 
         #ExStart:CountLinesInParagraph
         document = aw.Document(docs_base.my_dir + "Bibliography.docx")
@@ -21,26 +21,26 @@ class WorkingWithParagraph(docs_base.DocsExamplesBase):
         collector = aw.layout.LayoutCollector(document)
         enumerator = aw.layout.LayoutEnumerator(document)
 
-        for paragraph in document.get_child_nodes(aw.NodeType.PARAGRAPH, True) :
+        for paragraph in document.get_child_nodes(aw.NodeType.PARAGRAPH, True):
 
             paragraph = paragraph.as_paragraph()
             para_break = collector.get_entity(paragraph)
 
             stop = None
             prev_item = paragraph.previous_sibling
-            if (prev_item != None) :
+            if (prev_item != None):
                 prev_break = collector.get_entity(prev_item)
-                if (prev_item.node_type == aw.NodeType.PARAGRAPH) :
+                if (prev_item.node_type == aw.NodeType.PARAGRAPH):
                     enumerator.current = collector.get_entity(prev_item) # para break
                     enumerator.move_parent()    # last line
                     stop = enumerator.current
-                elif (prev_item.node_type == aw.NodeType.TABLE) :
+                elif (prev_item.node_type == aw.NodeType.TABLE):
                     table = prev_item.as_table()
                     enumerator.current = collector.get_entity(table.last_row.last_cell.last_paragraph) # cell break
                     enumerator.move_parent()    # cell
                     enumerator.move_parent()    # row
                     stop = enumerator.current
-                else :
+                else:
                     raise RuntimeError()
 
             enumerator.current = para_break
@@ -49,14 +49,14 @@ class WorkingWithParagraph(docs_base.DocsExamplesBase):
             # We move from line to line in a paragraph.
             # When paragraph spans multiple pages the we will follow across them.
             count = 1
-            while (enumerator.current != stop) :
-                if (not enumerator.move_previous_logical()) :
+            while (enumerator.current != stop):
+                if (not enumerator.move_previous_logical()):
                     break
                 count += 1
 
             max_chars = 16
             para_text = paragraph.get_text()
-            if (len(para_text) > max_chars) :
+            if (len(para_text) > max_chars):
                 para_text = f"{paraText.substring(0, MAX_CHARS)}..."
 
             print(f"Paragraph '{paraText}' has {count} line(-s).")

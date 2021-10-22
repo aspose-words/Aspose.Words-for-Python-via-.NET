@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithMarkdown(docs_base.DocsExamplesBase):
 
-    def test_create_markdown_document(self) :
+    def test_create_markdown_document(self):
 
         #ExStart:CreateMarkdownDocument
         doc = aw.Document()
@@ -83,7 +83,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         #ExEnd:CreateMarkdownDocument
 
 
-    def test_read_markdown_document(self) :
+    def test_read_markdown_document(self):
 
         #ExStart:ReadMarkdownDocument
         doc = aw.Document(docs_base.my_dir + "Quotes.md")
@@ -96,7 +96,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         #ExEnd:ReadMarkdownDocument
 
 
-    def test_emphases(self) :
+    def test_emphases(self):
 
         #ExStart:Emphases
         doc = aw.Document()
@@ -131,7 +131,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         #ExEnd:Emphases
 
 
-    def test_headings(self) :
+    def test_headings(self):
 
         #ExStart:Headings
         doc = aw.Document()
@@ -165,7 +165,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         #ExEnd:Headings
 
 
-    def test_block_quotes(self) :
+    def test_block_quotes(self):
 
         #ExStart:BlockQuotes
         doc = aw.Document()
@@ -200,7 +200,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         #ExEnd:BlockQuotes
 
 
-    def test_horizontal_rule(self) :
+    def test_horizontal_rule(self):
 
         #ExStart:HorizontalRule
         builder = aw.DocumentBuilder()
@@ -211,7 +211,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.horizontal_rule_example.md")
         #ExEnd:HorizontalRule
 
-    def test_bold_text(self) :
+    def test_bold_text(self):
 
         #ExStart:BoldText
         # Use a document builder to add content to the document.
@@ -224,7 +224,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.bold_text_example.md")
         #ExEnd:BoldText
 
-    def test_italic_text(self) :
+    def test_italic_text(self):
 
         #ExStart:ItalicText
         # Use a document builder to add content to the document.
@@ -237,7 +237,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.italic_text_example.md")
         #ExEnd:ItalicText
 
-    def test_strikethrough_text(self) :
+    def test_strikethrough_text(self):
 
         #ExStart:Strikethrough
         # Use a document builder to add content to the document.
@@ -250,7 +250,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.strikethrough_text_example.md")
         #ExEnd:Strikethrough
 
-    def test_inline_code(self) :
+    def test_inline_code(self):
 
         #ExStart:InlineCode
         # Use a document builder to add content to the document.
@@ -269,7 +269,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.inline_code_example.md")
         #ExEnd:InlineCode
 
-    def test_autolink(self) :
+    def test_autolink(self):
 
         #ExStart:Autolink
         # Use a document builder to add content to the document.
@@ -282,7 +282,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.autolink_example.md")
         #ExEnd:Autolink
 
-    def test_link(self) :
+    def test_link(self):
 
         #ExStart:Link
         # Use a document builder to add content to the document.
@@ -294,7 +294,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.link_example.md")
         #ExEnd:Link
 
-    def test_image(self) :
+    def test_image(self):
 
         #ExStart:Image
         # Use a document builder to add content to the document.
@@ -310,7 +310,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.image_example.md")
         #ExEnd:Image
 
-    def test_setext_heading(self) :
+    def test_setext_heading(self):
 
         #ExStart:SetextHeading
         # Use a document builder to add content to the document.
@@ -346,7 +346,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.setext_heading_example.md")
         #ExEnd:SetextHeading
 
-    def test_indented_code(self) :
+    def test_indented_code(self):
 
         #ExStart:IndentedCode
         # Use a document builder to add content to the document.
@@ -359,7 +359,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.indented_code_example.md")
         #ExEnd:IndentedCode
 
-    def test_fenced_code(self) :
+    def test_fenced_code(self):
 
         #ExStart:FencedCode
         # Use a document builder to add content to the document.
@@ -376,7 +376,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.fenced_code_example.md")
         #ExEnd:FencedCode
 
-    def test_quote(self) :
+    def test_quote(self):
 
         #ExStart:Quote
         # Use a document builder to add content to the document.
@@ -396,7 +396,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.quote_example.md")
         #ExEnd:Quote
 
-    def test_bulleted_list(self) :
+    def test_bulleted_list(self):
 
         #ExStart:BulletedList
         # Use a document builder to add content to the document.
@@ -416,7 +416,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.bulleted_list_example.md")
         #ExEnd:BulletedList
 
-    def test_ordered_list(self) :
+    def test_ordered_list(self):
 
         #ExStart:OrderedList
         doc = aw.Document()
@@ -435,7 +435,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.ordered_list_example.md")
         #ExEnd:OrderedList
 
-    def test_table(self) :
+    def test_table(self):
 
         #ExStart:Table
         # Use a document builder to add content to the document.

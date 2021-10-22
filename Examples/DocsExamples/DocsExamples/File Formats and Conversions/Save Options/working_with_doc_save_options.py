@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class WorkingWithDocSaveOptions(docs_base.DocsExamplesBase):
 
-    def test_encrypt_document_with_password(self) :
+    def test_encrypt_document_with_password(self):
 
         #ExStart:EncryptDocumentWithPassword
         doc = aw.Document()
@@ -28,7 +28,7 @@ class WorkingWithDocSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:EncryptDocumentWithPassword
 
 
-    def test_do_not_compress_small_metafiles(self) :
+    def test_do_not_compress_small_metafiles(self):
 
         #ExStart:DoNotCompressSmallMetafiles
         doc = aw.Document(docs_base.my_dir + "Microsoft equation object.docx")
@@ -40,7 +40,7 @@ class WorkingWithDocSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:DoNotCompressSmallMetafiles
 
 
-    def test_do_not_save_picture_bullet(self) :
+    def test_do_not_save_picture_bullet(self):
 
         #ExStart:DoNotSavePictureBullet
         doc = aw.Document(docs_base.my_dir + "Image bullet points.docx")

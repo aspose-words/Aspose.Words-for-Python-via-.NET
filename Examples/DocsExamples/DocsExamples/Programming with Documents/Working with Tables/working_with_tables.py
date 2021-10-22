@@ -15,7 +15,7 @@ import aspose.pydrawing as drawing
 
 class WorkingWithTables(docs_base.DocsExamplesBase):
 
-    def test_remove_column(self) :
+    def test_remove_column(self):
 
         #ExStart:RemoveColumn
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -27,7 +27,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:RemoveColumn
 
 
-    def test_insert_blank_column(self) :
+    def test_insert_blank_column(self):
 
         #ExStart:InsertBlankColumn
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -44,7 +44,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         # This is the same as using the "Insert Column Before" command in Microsoft Word.
         new_column = column.insert_column_before()
 
-        for cell in new_column.get_column_cells() :
+        for cell in new_column.get_column_cells():
             cell.first_paragraph.append_child(aw.Run(doc, f"Column Text {new_column.index_of(cell)}"))
         #ExEnd:InsertBlankColumn
 
@@ -53,14 +53,14 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
     # <summary>
     # Represents a facade object for a column of a table in a Microsoft Word document.
     # </summary>
-    class Column :
+    class Column:
 
         mColumnIndex = 0
         mTable = None
 
-        def __init__(self, table : aw.tables.Table, columnIndex : int) :
+        def __init__(self, table: aw.tables.Table, columnIndex: int):
 
-            if table == None :
+            if table == None:
                 raise ValueError("table")
             self.mTable = table
             self.mColumnIndex = columnIndex
@@ -68,29 +68,29 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         # <summary>
         # Returns the index of the given cell in the column.
         # </summary>
-        def index_of(self, cell : aw.tables.Cell) :
+        def index_of(self, cell: aw.tables.Cell):
             return self.get_column_cells().index(cell)
 
 
         # <summary>
         # Inserts a brand new column before this column into the table.
         # </summary>
-        def insert_column_before(self) :
+        def insert_column_before(self):
 
             column_cells = self.get_column_cells()
 
-            if (len(column_cells) == 0) :
+            if (len(column_cells) == 0):
                 raise ValueError("Column must not be empty")
 
             # Create a clone of this column.
-            for cell in column_cells :
+            for cell in column_cells:
                 cell.parent_row.insert_before(cell.clone(False), cell)
 
             # This is the new column.
             column = self.__class__(column_cells[0].parent_row.parent_table, self.mColumnIndex)
 
             # We want to make sure that the cells are all valid to work with (have at least one paragraph).
-            for cell in column.get_column_cells() :
+            for cell in column.get_column_cells():
                 cell.ensure_minimum()
 
             # Increase the index which this column represents since there is now one extra column in front.
@@ -102,20 +102,20 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         # <summary>
         # Removes the column from the table.
         # </summary>
-        def remove(self) :
+        def remove(self):
 
-            for cell in self.get_column_cells() :
+            for cell in self.get_column_cells():
                 cell.remove()
 
 
         # <summary>
         # Returns the text of the column.
         # </summary>
-        def to_txt(self) :
+        def to_txt(self):
 
             result = ""
 
-            for cell in self.get_column_cells() :
+            for cell in self.get_column_cells():
                 result += cell.to_string(aw.SaveFormat.TEXT)
 
             return result
@@ -124,14 +124,14 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         # <summary>
         # Provides an up-to-date collection of cells which make up the column represented by this facade.
         # </summary>
-        def get_column_cells(self) :
+        def get_column_cells(self):
 
             column_cells = []
 
-            for row in self.mTable.rows :
+            for row in self.mTable.rows:
 
                 cell = row.as_row().cells[self.mColumnIndex]
-                if (cell != None) :
+                if (cell != None):
                     column_cells.append(cell)
 
             return column_cells
@@ -139,7 +139,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
 
     #ExEnd:ColumnClass
 
-    def test_auto_fit_table_to_contents(self) :
+    def test_auto_fit_table_to_contents(self):
 
         #ExStart:AutoFitTableToContents
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -151,7 +151,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:AutoFitTableToContents
 
 
-    def test_auto_fit_table_to_fixed_column_widths(self) :
+    def test_auto_fit_table_to_fixed_column_widths(self):
 
         #ExStart:AutoFitTableToFixedColumnWidths
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -164,7 +164,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:AutoFitTableToFixedColumnWidths
 
 
-    def test_auto_fit_table_to_page_width(self) :
+    def test_auto_fit_table_to_page_width(self):
 
         #ExStart:AutoFitTableToPageWidth
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -177,7 +177,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:AutoFitTableToPageWidth
 
 
-    #def test_build_table_from_data_table(self) :
+    #def test_build_table_from_data_table(self):
 
     #    #ExStart:BuildTableFromDataTable
     #    doc = aw.Document()
@@ -272,7 +272,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
 
     ##ExEnd:ImportTableFromDataTable
 
-    def test_clone_complete_table(self) :
+    def test_clone_complete_table(self):
 
         #ExStart:CloneCompleteTable
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -291,7 +291,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:CloneCompleteTable
 
 
-    def test_clone_last_row(self) :
+    def test_clone_last_row(self):
 
         #ExStart:CloneLastRow
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -300,7 +300,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
 
         cloned_row = table.last_row.clone(True).as_row()
         # Remove all content from the cloned row's cells. This makes the row ready for new content to be inserted into.
-        for cell in cloned_row.cells :
+        for cell in cloned_row.cells:
             cell = cell.as_cell()
             cell.remove_all_children()
 
@@ -310,7 +310,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:CloneLastRow
 
 
-    def test_finding_index(self) :
+    def test_finding_index(self):
 
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
 
@@ -334,7 +334,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         print(f"\nCell index is {cell_index}")
 
 
-    def test_insert_table_directly(self) :
+    def test_insert_table_directly(self):
 
         #ExStart:InsertTableDirectly
         doc = aw.Document()
@@ -375,7 +375,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:InsertTableDirectly
 
 
-    def test_insert_table_from_html(self) :
+    def test_insert_table_from_html(self):
 
         #ExStart:InsertTableFromHtml
         doc = aw.Document()
@@ -397,7 +397,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:InsertTableFromHtml
 
 
-    def test_create_simple_table(self) :
+    def test_create_simple_table(self):
 
         #ExStart:CreateSimpleTable
         doc = aw.Document()
@@ -431,7 +431,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:CreateSimpleTable
 
 
-    def test_formatted_table(self) :
+    def test_formatted_table(self):
 
         #ExStart:FormattedTable
         doc = aw.Document()
@@ -504,7 +504,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:FormattedTable
 
 
-    def test_nested_table(self) :
+    def test_nested_table(self):
 
         #ExStart:NestedTable
         doc = aw.Document()
@@ -534,7 +534,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:NestedTable
 
 
-    def test_combine_rows(self) :
+    def test_combine_rows(self):
 
         #ExStart:CombineRows
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -545,7 +545,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
 
         # Append all rows from the current table to the next tables
         # with different cell count and widths can be joined into one table.
-        while second_table.has_child_nodes :
+        while second_table.has_child_nodes:
             first_table.rows.add(second_table.first_row)
 
         second_table.remove()
@@ -554,7 +554,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:CombineRows
 
 
-    def test_split_table(self) :
+    def test_split_table(self):
 
         #ExStart:SplitTable
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -574,10 +574,10 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         first_table.parent_node.insert_after(aw.Paragraph(doc), first_table)
 
 
-        while True :
+        while True:
             current_row = first_table.last_row
             table.prepend_child(current_row)
-            if current_row == row :
+            if current_row == row:
                 break
 
 
@@ -585,7 +585,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:SplitTable
 
 
-    def test_row_format_disable_break_across_pages(self) :
+    def test_row_format_disable_break_across_pages(self):
 
         #ExStart:RowFormatDisableBreakAcrossPages
         doc = aw.Document(docs_base.my_dir + "Table spanning two pages.docx")
@@ -593,14 +593,14 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
         # Disable breaking across pages for all rows in the table.
-        for row in table.rows :
+        for row in table.rows:
             row.as_row().row_format.allow_break_across_pages = False
 
         doc.save(docs_base.artifacts_dir + "WorkingWithTables.row_format_disable_break_across_pages.docx")
         #ExEnd:RowFormatDisableBreakAcrossPages
 
 
-    def test_keep_table_together(self) :
+    def test_keep_table_together(self):
 
         #ExStart:KeepTableTogether
         doc = aw.Document(docs_base.my_dir + "Table spanning two pages.docx")
@@ -609,13 +609,13 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
 
         # We need to enable KeepWithNext for every paragraph in the table to keep it from breaking across a page,
         # except for the last paragraphs in the last row of the table.
-        for cell in table.get_child_nodes(aw.NodeType.CELL, True) :
+        for cell in table.get_child_nodes(aw.NodeType.CELL, True):
             cell = cell.as_cell()
             cell.ensure_minimum()
 
-            for para in cell.paragraphs :
+            for para in cell.paragraphs:
                 para = para.as_paragraph()
-                if (not (cell.parent_row.is_last_row and para.is_end_of_cell)) :
+                if (not (cell.parent_row.is_last_row and para.is_end_of_cell)):
                     para.paragraph_format.keep_with_next = True
 
 
@@ -623,15 +623,15 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:KeepTableTogether
 
 
-    def test_check_cells_merged(self) :
+    def test_check_cells_merged(self):
 
         #ExStart:CheckCellsMerged
         doc = aw.Document(docs_base.my_dir + "Table with merged cells.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
-        for row in table.rows :
-            for cell in row.as_row().cells :
+        for row in table.rows:
+            for cell in row.as_row().cells:
                 print(self.print_cell_merge_type(cell.as_cell()))
 
 
@@ -640,27 +640,27 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
 
     #ExStart:PrintCellMergeType
     @staticmethod
-    def print_cell_merge_type(cell : aw.tables.Cell) :
+    def print_cell_merge_type(cell: aw.tables.Cell):
 
         is_horizontally_merged = cell.cell_format.horizontal_merge != aw.tables.CellMerge.NONE
         is_vertically_merged = cell.cell_format.vertical_merge != aw.tables.CellMerge.NONE
 
         cell_location = f"R{cell.parent_row.parent_table.index_of(cell.parent_row) + 1}, C{cell.parent_row.index_of(cell) + 1}"
 
-        if is_horizontally_merged and is_vertically_merged :
+        if is_horizontally_merged and is_vertically_merged:
             return f"The cell at {cell_location} is both horizontally and vertically merged"
 
-        if is_horizontally_merged :
+        if is_horizontally_merged:
             return f"The cell at {cell_location} is horizontally merged."
 
-        if is_vertically_merged :
+        if is_vertically_merged:
             return f"The cell at {cell_location} is vertically merged"
 
         return f"The cell at {cell_location} is not merged"
 
     #ExEnd:PrintCellMergeType
 
-    def test_vertical_merge(self) :
+    def test_vertical_merge(self):
 
         #ExStart:VerticalMerge
         doc = aw.Document()
@@ -689,7 +689,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:VerticalMerge
 
 
-    def test_horizontal_merge(self) :
+    def test_horizontal_merge(self):
 
         #ExStart:HorizontalMerge
         doc = aw.Document()
@@ -717,7 +717,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:HorizontalMerge
 
 
-    def test_merge_cell_range(self) :
+    def test_merge_cell_range(self):
 
         #ExStart:MergeCellRange
         doc = aw.Document(docs_base.my_dir + "Table with merged cells.docx")
@@ -735,7 +735,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:MergeCellRange
 
 
-    def test_convert_to_horizontally_merged_cells(self) :
+    def test_convert_to_horizontally_merged_cells(self):
 
         #ExStart:ConvertToHorizontallyMergedCells
         doc = aw.Document(docs_base.my_dir + "Table with merged cells.docx")
@@ -748,7 +748,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
 
     #ExStart:MergeCells
     @staticmethod
-    def merge_cells(start_cell : aw.tables.Cell, end_cell : aw.tables.Cell) :
+    def merge_cells(start_cell: aw.tables.Cell, end_cell: aw.tables.Cell):
 
         parent_table = start_cell.parent_row.parent_table
 
@@ -762,15 +762,15 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
             min(start_cell_pos.y, end_cell_pos.y),
             abs(end_cell_pos.x - start_cell_pos.x) + 1, abs(end_cell_pos.y - start_cell_pos.y) + 1)
 
-        for row in parent_table.rows :
+        for row in parent_table.rows:
             row = row.as_row()
-            for cell in row.cells :
+            for cell in row.cells:
 
                 cell = cell.as_cell()
                 current_pos = drawing.Point(row.index_of(cell), parent_table.index_of(row))
 
                 # Check if the current cell is inside our merge range, then merge it.
-                if merge_range.contains(current_pos) :
+                if merge_range.contains(current_pos):
 
                     cell.cell_format.horizontal_merge = aw.tables.CellMerge.FIRST if (current_pos.x == merge_range.x) else aw.tables.CellMerge.PREVIOUS
 
@@ -780,7 +780,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
     #ExEnd:MergeCells
 
 
-    def test_repeat_rows_on_subsequent_pages(self) :
+    def test_repeat_rows_on_subsequent_pages(self):
 
         #ExStart:RepeatRowsOnSubsequentPages
         doc = aw.Document()
@@ -800,7 +800,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         builder.cell_format.width = 50
         builder.paragraph_format.clear_formatting()
 
-        for i in range(0, 50) :
+        for i in range(0, 50):
 
             builder.insert_cell()
             builder.row_format.heading_format = False
@@ -814,7 +814,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:RepeatRowsOnSubsequentPages
 
 
-    def test_auto_fit_to_page_width(self) :
+    def test_auto_fit_to_page_width(self):
 
         #ExStart:AutoFitToPageWidth
         doc = aw.Document()
@@ -837,7 +837,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:AutoFitToPageWidth
 
 
-    def test_preferred_width_settings(self) :
+    def test_preferred_width_settings(self):
 
         #ExStart:PreferredWidthSettings
         doc = aw.Document()
@@ -870,7 +870,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:PreferredWidthSettings
 
 
-    def test_retrieve_preferred_width_type(self) :
+    def test_retrieve_preferred_width_type(self):
 
         #ExStart:RetrievePreferredWidthType
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
@@ -886,34 +886,34 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:RetrievePreferredWidthType
 
 
-    def test_get_table_position(self) :
+    def test_get_table_position(self):
 
         #ExStart:GetTablePosition
         doc = aw.Document(docs_base.my_dir + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
-        if (table.text_wrapping == aw.tables.TextWrapping.AROUND) :
+        if (table.text_wrapping == aw.tables.TextWrapping.AROUND):
 
             print(table.relative_horizontal_alignment)
             print(table.relative_vertical_alignment)
 
-        else :
+        else:
 
             print(table.alignment)
 
         #ExEnd:GetTablePosition
 
 
-    def test_get_floating_table_position(self) :
+    def test_get_floating_table_position(self):
 
         #ExStart:GetFloatingTablePosition
         doc = aw.Document(docs_base.my_dir + "Table wrapped by text.docx")
 
-        for  table in doc.first_section.body.tables :
+        for  table in doc.first_section.body.tables:
             table = table.as_table()
             # If the table is floating type, then print its positioning properties.
-            if (table.text_wrapping == aw.tables.TextWrapping.AROUND) :
+            if (table.text_wrapping == aw.tables.TextWrapping.AROUND):
 
                 print(table.horizontal_anchor)
                 print(table.vertical_anchor)
@@ -928,7 +928,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:GetFloatingTablePosition
 
 
-    def test_floating_table_position(self) :
+    def test_floating_table_position(self):
 
         #ExStart:FloatingTablePosition
         doc = aw.Document(docs_base.my_dir + "Table wrapped by text.docx")
@@ -941,7 +941,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         #ExEnd:FloatingTablePosition
 
 
-    def test_set_relative_horizontal_or_vertical_position(self) :
+    def test_set_relative_horizontal_or_vertical_position(self):
 
         #ExStart:SetRelativeHorizontalOrVerticalPosition
         doc = aw.Document(docs_base.my_dir + "Table wrapped by text.docx")

@@ -15,7 +15,7 @@ import aspose.pydrawing as drawing
 
 class WorkingWithCharts(docs_base.DocsExamplesBase):
 
-    def test_format_number_of_data_label(self) :
+    def test_format_number_of_data_label(self):
 
         #ExStart:FormatNumberOfDataLabel
         doc = aw.Document()
@@ -45,7 +45,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         #ExEnd:FormatNumberOfDataLabel
 
 
-    def test_create_chart_using_shape(self) :
+    def test_create_chart_using_shape(self):
 
         #ExStart:CreateChartUsingShape
         doc = aw.Document()
@@ -67,7 +67,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         #ExEnd:CreateChartUsingShape
 
 
-    def test_insert_simple_column_chart(self) :
+    def test_insert_simple_column_chart(self):
 
         #ExStart:InsertSimpleColumnChart
         doc = aw.Document()
@@ -100,7 +100,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         #ExEnd:InsertSimpleColumnChart
 
 
-    def test_insert_column_chart(self) :
+    def test_insert_column_chart(self):
 
         #ExStart:InsertColumnChart
         doc = aw.Document()
@@ -115,7 +115,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         #ExEnd:InsertColumnChart
 
 
-    def test_insert_area_chart(self) :
+    def test_insert_area_chart(self):
 
         #ExStart:InsertAreaChart
         doc = aw.Document()
@@ -132,7 +132,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         #ExEnd:InsertAreaChart
 
 
-    def test_insert_bubble_chart(self) :
+    def test_insert_bubble_chart(self):
 
         #ExStart:InsertBubbleChart
         doc = aw.Document()
@@ -147,7 +147,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         #ExEnd:InsertBubbleChart
 
 
-    def test_insert_scatter_chart(self) :
+    def test_insert_scatter_chart(self):
 
         #ExStart:InsertScatterChart
         doc = aw.Document()
@@ -162,7 +162,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         #ExEnd:InsertScatterChart
 
 
-    def test_define_xy_axis_properties(self) :
+    def test_define_xy_axis_properties(self):
 
         #ExStart:DefineXYAxisProperties
         doc = aw.Document()
@@ -202,7 +202,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         #ExEnd:DefineXYAxisProperties
 
 
-    def test_date_time_values_to_axis(self) :
+    def test_date_time_values_to_axis(self):
 
         #ExStart:SetDateTimeValuesToAxis
         doc = aw.Document()
@@ -231,7 +231,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         #ExEnd:SetDateTimeValuesToAxis
 
 
-    def test_number_format_for_axis(self) :
+    def test_number_format_for_axis(self):
 
         #ExStart:SetNumberFormatForAxis
         doc = aw.Document()
@@ -253,7 +253,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         #ExEnd:SetNumberFormatForAxis
 
 
-    def test_bounds_of_axis(self) :
+    def test_bounds_of_axis(self):
 
         #ExStart:SetboundsOfAxis
         doc = aw.Document()
@@ -276,7 +276,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         #ExEnd:SetboundsOfAxis
 
 
-    def test_interval_unit_between_labels_on_axis(self) :
+    def test_interval_unit_between_labels_on_axis(self):
 
         #ExStart:SetIntervalUnitBetweenLabelsOnAxis
         doc = aw.Document()
@@ -298,7 +298,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         #ExEnd:SetIntervalUnitBetweenLabelsOnAxis
 
 
-    def test_hide_chart_axis(self) :
+    def test_hide_chart_axis(self):
 
         #ExStart:HideChartAxis
         doc = aw.Document()
@@ -320,7 +320,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         #ExEnd:HideChartAxis
 
 
-    def test_tick_multi_line_label_alignment(self) :
+    def test_tick_multi_line_label_alignment(self):
 
         #ExStart:TickMultiLineLabelAlignment
         doc = aw.Document()
@@ -336,7 +336,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         #ExEnd:TickMultiLineLabelAlignment
 
 
-    def test_chart_data_label(self) :
+    def test_chart_data_label(self):
 
         #ExStart:WorkWithChartDataLabel
         doc = aw.Document()
@@ -364,7 +364,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         #ExEnd:WorkWithChartDataLabel
 
 
-    def test_default_options_for_data_labels(self) :
+    def test_default_options_for_data_labels(self):
 
         #ExStart:DefaultOptionsForDataLabels
         doc = aw.Document()
@@ -390,7 +390,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         #ExEnd:DefaultOptionsForDataLabels
 
 
-    def test_single_chart_data_point(self) :
+    def test_single_chart_data_point(self):
 
         #ExStart:WorkWithSingleChartDataPoint
         doc = aw.Document()
@@ -422,7 +422,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         #ExEnd:WorkWithSingleChartDataPoint
 
 
-    def test_single_chart_series(self) :
+    def test_single_chart_series(self):
 
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -457,7 +457,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.single_chart_series.docx")
 
 
-    def test_set_series_color(self) :
+    def test_set_series_color(self):
 
         #ExStart:SetSeriesColor
         doc = aw.Document()
@@ -487,7 +487,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "WorkingWithCharts.set_series_color.docx")
         #ExEnd:SetSeriesColor
 
-    def test_line_color_and_weight(self) :
+    def test_line_color_and_weight(self):
 
         #ExStart:LineColorAndWeight
         doc = aw.Document()

@@ -14,7 +14,7 @@ import aspose.words as aw
 
 class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
 
-    def test_display_doc_title_in_window_titlebar(self) :
+    def test_display_doc_title_in_window_titlebar(self):
 
         #ExStart:DisplayDocTitleInWindowTitlebar
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -26,7 +26,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:DisplayDocTitleInWindowTitlebar
 
 
-    def test_digitally_signed_pdf_using_certificate_holder(self) :
+    def test_digitally_signed_pdf_using_certificate_holder(self):
 
         #ExStart:DigitallySignedPdfUsingCertificateHolder
         doc = aw.Document()
@@ -43,7 +43,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:DigitallySignedPdfUsingCertificateHolder
 
 
-    def test_embedded_all_fonts(self) :
+    def test_embedded_all_fonts(self):
 
         #ExStart:EmbeddAllFonts
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -56,7 +56,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:EmbeddAllFonts
 
 
-    def test_embedded_subset_fonts(self) :
+    def test_embedded_subset_fonts(self):
 
         #ExStart:EmbeddSubsetFonts
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -70,7 +70,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:EmbeddSubsetFonts
 
 
-    def test_disable_embed_windows_fonts(self) :
+    def test_disable_embed_windows_fonts(self):
 
         #ExStart:DisableEmbedWindowsFonts
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -83,7 +83,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:DisableEmbedWindowsFonts
 
 
-    def test_skip_embedded_arial_and_times_roman_fonts(self) :
+    def test_skip_embedded_arial_and_times_roman_fonts(self):
 
         #ExStart:SkipEmbeddedArialAndTimesRomanFonts
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -95,7 +95,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:SkipEmbeddedArialAndTimesRomanFonts
 
 
-    def test_avoid_embedding_core_fonts(self) :
+    def test_avoid_embedding_core_fonts(self):
 
         #ExStart:AvoidEmbeddingCoreFonts
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -108,7 +108,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:AvoidEmbeddingCoreFonts
 
 
-    def test_escape_uri(self) :
+    def test_escape_uri(self):
 
         #ExStart:EscapeUri
         doc = aw.Document()
@@ -122,7 +122,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:EscapeUri
 
 
-    def test_export_header_footer_bookmarks(self) :
+    def test_export_header_footer_bookmarks(self):
 
         #ExStart:ExportHeaderFooterBookmarks
         doc = aw.Document(docs_base.my_dir + "Bookmarks in headers and footers.docx")
@@ -135,7 +135,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:ExportHeaderFooterBookmarks
 
 
-    def test_scale_wmf_fonts_to_metafile_size(self) :
+    def test_scale_wmf_fonts_to_metafile_size(self):
 
         #ExStart:ScaleWmfFontsToMetafileSize
         doc = aw.Document(docs_base.my_dir + "WMF with text.docx")
@@ -153,7 +153,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:ScaleWmfFontsToMetafileSize
 
 
-    def test_additional_text_positioning(self) :
+    def test_additional_text_positioning(self):
 
         #ExStart:AdditionalTextPositioning
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -165,7 +165,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:AdditionalTextPositioning
 
 
-    def test_conversion_to_pdf_17(self) :
+    def test_conversion_to_pdf_17(self):
 
         #ExStart:ConversionToPDF17
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -177,7 +177,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:ConversionToPDF17
 
 
-    def test_downsampling_images(self) :
+    def test_downsampling_images(self):
 
         #ExStart:DownsamplingImages
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -192,7 +192,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:DownsamplingImages
 
 
-    def test_set_outline_options(self) :
+    def test_set_outline_options(self):
 
         #ExStart:SetOutlineOptions
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -205,7 +205,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:SetOutlineOptions
 
 
-    def test_custom_properties_export(self) :
+    def test_custom_properties_export(self):
 
         #ExStart:CustomPropertiesExport
         doc = aw.Document()
@@ -218,7 +218,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:CustomPropertiesExport
 
 
-    def test_export_document_structure(self) :
+    def test_export_document_structure(self):
 
         #ExStart:ExportDocumentStructure
         doc = aw.Document(docs_base.my_dir + "Paragraphs.docx")
@@ -232,7 +232,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:ExportDocumentStructure
 
 
-    def test_image_compression(self) :
+    def test_image_compression(self):
 
         #ExStart:PdfImageComppression
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -252,7 +252,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:PdfImageComppression
 
 
-    def test_update_last_printed_property(self) :
+    def test_update_last_printed_property(self):
 
         #ExStart:UpdateIfLastPrinted
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -264,7 +264,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:UpdateIfLastPrinted
 
 
-    def test_dml_3_d_effects_rendering(self) :
+    def test_dml_3_d_effects_rendering(self):
 
         #ExStart:Dml3DEffectsRendering
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -276,7 +276,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:Dml3DEffectsRendering
 
 
-    def test_interpolate_images(self) :
+    def test_interpolate_images(self):
 
         #ExStart:SetImageInterpolation
         doc = aw.Document(docs_base.my_dir + "Rendering.docx")
@@ -288,7 +288,7 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:SetImageInterpolation
 
 
-    def test_render_metafile_to_bitmap(self) :
+    def test_render_metafile_to_bitmap(self):
 
         #ExStart:RenderMetafileToBitmap
         # Load the document from disk.

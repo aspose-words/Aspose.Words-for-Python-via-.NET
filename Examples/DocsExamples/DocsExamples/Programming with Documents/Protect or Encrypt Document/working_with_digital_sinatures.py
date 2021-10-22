@@ -16,7 +16,7 @@ import aspose.words as aw
 
 class WorkingWithDigitalSinatures(docs_base.DocsExamplesBase):
 
-    def test_sign_document(self) :
+    def test_sign_document(self):
 
         #ExStart:SingDocument
         cert_holder = aw.digitalsignatures.CertificateHolder.create(docs_base.my_dir + "morzal.pfx", "aw")
@@ -25,7 +25,7 @@ class WorkingWithDigitalSinatures(docs_base.DocsExamplesBase):
         #ExEnd:SingDocument
 
 
-    def test_signing_encrypted_document(self) :
+    def test_signing_encrypted_document(self):
 
         #ExStart:SigningEncryptedDocument
         sign_options = aw.digitalsignatures.SignOptions()
@@ -38,7 +38,7 @@ class WorkingWithDigitalSinatures(docs_base.DocsExamplesBase):
         #ExEnd:SigningEncryptedDocument
 
 
-    def test_creating_and_signing_new_signature_line(self) :
+    def test_creating_and_signing_new_signature_line(self):
 
         #ExStart:CreatingAndSigningNewSignatureLine
         doc = aw.Document()
@@ -62,7 +62,7 @@ class WorkingWithDigitalSinatures(docs_base.DocsExamplesBase):
         #ExEnd:CreatingAndSigningNewSignatureLine
 
 
-    def test_signing_existing_signature_line(self) :
+    def test_signing_existing_signature_line(self):
 
         #ExStart:SigningExistingSignatureLine
         doc = aw.Document(docs_base.my_dir + "Signature line.docx")
@@ -86,7 +86,7 @@ class WorkingWithDigitalSinatures(docs_base.DocsExamplesBase):
         #ExEnd:SigningExistingSignatureLine
 
 
-    def test_set_signature_provider_id(self) :
+    def test_set_signature_provider_id(self):
 
         #ExStart:SetSignatureProviderID
         doc = aw.Document(docs_base.my_dir + "Signature line.docx")
@@ -106,7 +106,7 @@ class WorkingWithDigitalSinatures(docs_base.DocsExamplesBase):
         #ExEnd:SetSignatureProviderID
 
 
-    def test_create_new_signature_line_and_set_provider_id(self) :
+    def test_create_new_signature_line_and_set_provider_id(self):
 
         #ExStart:CreateNewSignatureLineAndSetProviderID
         doc = aw.Document()
@@ -143,12 +143,12 @@ class WorkingWithDigitalSinatures(docs_base.DocsExamplesBase):
         #ExEnd:CreateNewSignatureLineAndSetProviderID
 
 
-    def test_access_and_verify_signature(self) :
+    def test_access_and_verify_signature(self):
 
         #ExStart:AccessAndVerifySignature
         doc = aw.Document(docs_base.my_dir + "Digitally signed.docx")
 
-        for signature in doc.digital_signatures :
+        for signature in doc.digital_signatures:
 
             print("*** Signature Found ***")
             print("Is valid: " + str(signature.is_valid))

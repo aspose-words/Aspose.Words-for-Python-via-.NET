@@ -13,7 +13,7 @@ import aspose.words as aw
 
 class DocumentProtection(docs_base.DocsExamplesBase):
 
-    def test_protect(self) :
+    def test_protect(self):
 
         #ExStart:ProtectDocument
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -21,7 +21,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
         #ExEnd:ProtectDocument
 
 
-    def test_unprotect(self) :
+    def test_unprotect(self):
 
         #ExStart:UnprotectDocument
         doc = aw.Document(docs_base.my_dir + "Document.docx")
@@ -29,14 +29,14 @@ class DocumentProtection(docs_base.DocsExamplesBase):
         #ExEnd:UnprotectDocument
 
 
-    def test_get_protection_type(self) :
+    def test_get_protection_type(self):
 
         #ExStart:GetProtectionType
         doc = aw.Document(docs_base.my_dir + "Document.docx")
         protection_type = doc.protection_type
         #ExEnd:GetProtectionType
 
-    def test_read_only_protection(self) :
+    def test_read_only_protection(self):
 
         #ExStart:ReadOnlyProtection
         doc = aw.Document()
@@ -55,7 +55,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "DocumentProtection.ReadOnlyProtection.docx")
         #ExEnd:ReadOnlyProtection
 
-    def test_remove_read_only_restriction(self) :
+    def test_remove_read_only_restriction(self):
 
         #ExStart:RemoveReadOnlyRestriction
         doc = aw.Document()
@@ -71,7 +71,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "DocumentProtection.RemoveReadOnlyRestriction.docx")
         #ExEnd:RemoveReadOnlyRestriction
 
-    def test_password_protection(self) :
+    def test_password_protection(self):
 
         #ExStart:PasswordProtection
         doc = aw.Document()
@@ -82,7 +82,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "DocumentProtection.PasswordProtection.docx");
         #ExEnd:PasswordProtection
 
-    def test_allow_only_form_fields_protect(self) :
+    def test_allow_only_form_fields_protect(self):
 
         #ExStart:AllowOnlyFormFieldsProtect
         # Insert two sections with some text.
@@ -97,7 +97,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "DocumentProtection.AllowOnlyFormFieldsProtect.docx");
         #ExEnd:AllowOnlyFormFieldsProtect
 
-    def test_remove_document_protection(self) :
+    def test_remove_document_protection(self):
 
         #ExStart:RemoveDocumentProtection
         doc = aw.Document()
@@ -113,7 +113,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "DocumentProtection.RemoveDocumentProtection.docx");
         #ExEnd:RemoveDocumentProtection
 
-    def test_unrestricted_editable_regions(self) :
+    def test_unrestricted_editable_regions(self):
 
         #ExStart:UnrestrictedEditableRegions
         # Upload a document and make it as read-only.
@@ -140,7 +140,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "DocumentProtection.UnrestrictedEditableRegions.docx");
         #ExEnd:UnrestrictedEditableRegions
 
-    def test_unrestricted_section(self) :
+    def test_unrestricted_section(self):
 
         #ExStart:UnrestrictedSection
         # Insert two sections with some text.
