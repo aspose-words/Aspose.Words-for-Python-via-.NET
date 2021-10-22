@@ -75,6 +75,5 @@ class WorkingWithOoxmlSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:SetCompressionLevel
 
 
-
 if __name__ == '__main__':
     unittest.main()

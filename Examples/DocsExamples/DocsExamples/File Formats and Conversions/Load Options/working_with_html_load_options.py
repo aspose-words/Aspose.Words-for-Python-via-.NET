@@ -35,6 +35,5 @@ class WorkingWithHtmlLoadOptions(docs_base.DocsExamplesBase):
         #ExEnd:LoadHtmlElementsWithPreferredControlType
 
 
-
 if __name__ == '__main__':
     unittest.main()

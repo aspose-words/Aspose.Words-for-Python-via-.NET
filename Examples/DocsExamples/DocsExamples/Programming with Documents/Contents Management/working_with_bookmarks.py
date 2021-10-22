@@ -144,7 +144,6 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
             cur_node = cur_node.next_sibling
 
 
-
     def test_create_bookmark(self) :
 
         #ExStart:CreateBookmark
@@ -271,8 +270,6 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
             row = bookmark.bookmark_start.get_ancestor(aw.NodeType.ROW)
             if(row != None) :
                 row.remove()
-
-
 
 
 if __name__ == '__main__':

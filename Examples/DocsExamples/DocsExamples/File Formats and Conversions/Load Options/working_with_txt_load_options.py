@@ -82,7 +82,5 @@ class WorkingWithTxtLoadOptions(docs_base.DocsExamplesBase):
         #ExEnd:DocumentTextDirection
 
 
-
-
 if __name__ == '__main__':
     unittest.main()

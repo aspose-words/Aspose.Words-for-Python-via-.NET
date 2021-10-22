@@ -157,7 +157,6 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
                     print(paragraph.list_format.list_level)
 
 
-
         #ExEnd:AccessRevisedVersion
 
 
@@ -253,7 +252,6 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         self.assertTrue(shape1.is_move_from_revision)
         self.assertFalse(shape1.is_move_to_revision)
         #ExEnd:ShapeRevision
-
 
 
 if __name__ == '__main__':

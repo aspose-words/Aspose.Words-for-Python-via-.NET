@@ -261,7 +261,6 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
     #                    break
 
 
-
     #        # After we insert all the data from the current record, we can end the table row.
     #        builder.end_row()
 
@@ -778,10 +777,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
                     cell.cell_format.vertical_merge = aw.tables.CellMerge.FIRST if (current_pos.y == merge_range.y) else aw.tables.CellMerge.PREVIOUS
 
 
-
-
     #ExEnd:MergeCells
-
 
 
     def test_repeat_rows_on_subsequent_pages(self) :
@@ -956,7 +952,6 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithTables.set_floating_table_position.docx")
         #ExEnd:SetRelativeHorizontalOrVerticalPosition
-
 
 
 if __name__ == '__main__':

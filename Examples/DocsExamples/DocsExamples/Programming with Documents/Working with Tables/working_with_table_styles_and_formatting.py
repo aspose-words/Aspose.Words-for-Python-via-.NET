@@ -403,6 +403,5 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         #ExEnd:DocumentBuilderSetTableRowFormatting
 
 
-
 if __name__ == '__main__':
     unittest.main()

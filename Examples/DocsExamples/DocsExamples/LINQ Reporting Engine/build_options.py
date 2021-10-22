@@ -27,6 +27,5 @@ class BuildOptions(docs_base.DocsExamplesBase):
         #ExEnd:RemoveEmptyParagraphs
 
 
-
 if __name__ == '__main__':
     unittest.main()

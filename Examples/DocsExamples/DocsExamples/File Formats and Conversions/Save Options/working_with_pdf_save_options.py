@@ -305,6 +305,5 @@ class WorkingWithPdfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:RenderMetafileToBitmap
 
 
-
 if __name__ == '__main__':
     unittest.main()

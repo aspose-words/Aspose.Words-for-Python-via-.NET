@@ -54,6 +54,5 @@ class WorkingWithFootnotes(docs_base.DocsExamplesBase):
         #ExEnd:SetEndnoteOptions
 
 
-
 if __name__ == '__main__':
     unittest.main()

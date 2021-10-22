@@ -28,6 +28,5 @@ class WorkingWithOfficeMath(docs_base.DocsExamplesBase):
         #ExEnd:MathEquations
 
 
-
 if __name__ == '__main__':
     unittest.main()

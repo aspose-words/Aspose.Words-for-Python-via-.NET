@@ -81,6 +81,5 @@ class Charts(docs_base.DocsExamplesBase):
         #ExEnd:ScatterChart
 
 
-
 if __name__ == '__main__':
     unittest.main()

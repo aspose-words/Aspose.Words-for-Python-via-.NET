@@ -29,6 +29,5 @@ class WorkingWithRanges(docs_base.DocsExamplesBase):
         #ExEnd:RangesGetText
 
 
-
 if __name__ == '__main__':
     unittest.main()

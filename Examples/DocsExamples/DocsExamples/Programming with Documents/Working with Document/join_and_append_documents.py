@@ -146,7 +146,6 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
                         sub_document_count += 1
 
 
-
                 # The last section needs the ending bookmark to signal that it is the end of the current sub-document.
                 if (section == doc.last_section) :
 
@@ -192,8 +191,6 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
 
                         # Remove the original NUMPAGES field from the document.
                         self.remove_field(field_start)
-
-
 
 
         #ExEnd:ConvertNumPageFieldsToPageRef
@@ -583,7 +580,6 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
 
             dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.unlink_headers_footers.docx")
             #ExEnd:UnlinkHeadersFooters
-
 
 
 if __name__ == '__main__':

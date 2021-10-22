@@ -47,7 +47,6 @@ class RemoveContent(docs_base.DocsExamplesBase):
                         run.text = run.text.replace(aw.ControlChar.PAGE_BREAK, "")
 
 
-
         #ExEnd:RemovePageBreaks
 
         #ExStart:RemoveSectionBreaks

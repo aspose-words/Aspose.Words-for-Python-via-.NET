@@ -27,6 +27,5 @@ class WorkingWithOdtSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:MeasureUnit
 
 
-
 if __name__ == '__main__':
     unittest.main()

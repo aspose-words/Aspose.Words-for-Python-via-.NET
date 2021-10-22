@@ -150,6 +150,5 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
         #ExEnd:InsertOnlineVideoWithEmbedHtml
 
 
-
 if __name__ == '__main__':
     unittest.main()

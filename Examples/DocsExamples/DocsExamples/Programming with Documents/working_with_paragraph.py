@@ -63,6 +63,5 @@ class WorkingWithParagraph(docs_base.DocsExamplesBase):
         #ExEnd:CountLinesInParagraph
 
 
-
 if __name__ == '__main__':
     unittest.main()

@@ -165,6 +165,5 @@ class WorkingWithSection(docs_base.DocsExamplesBase):
         #ExEnd:SectionsAccessByIndex
 
 
-
 if __name__ == '__main__':
     unittest.main()

@@ -110,6 +110,5 @@ class WorkingWithList(docs_base.DocsExamplesBase):
         #ExEnd:RestartListNumber
 
 
-
 if __name__ == '__main__':
     unittest.main()

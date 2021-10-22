@@ -57,7 +57,5 @@ class WorkingWithMarkdownSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:SetImagesFolder
 
 
-
-
 if __name__ == '__main__':
     unittest.main()

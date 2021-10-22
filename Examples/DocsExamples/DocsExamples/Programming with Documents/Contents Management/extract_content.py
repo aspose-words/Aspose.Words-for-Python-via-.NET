@@ -308,6 +308,5 @@ class ExtractContent(docs_base.DocsExamplesBase):
         #ExEnd:ExtractImagesToFiles
 
 
-
 if __name__ == '__main__':
     unittest.main()

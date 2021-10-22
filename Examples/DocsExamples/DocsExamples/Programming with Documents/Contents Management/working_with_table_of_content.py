@@ -49,6 +49,5 @@ class WorkingWithTableOfContent(docs_base.DocsExamplesBase):
         #ExEnd:ChangeTOCTabStops
 
 
-
 if __name__ == '__main__':
     unittest.main()

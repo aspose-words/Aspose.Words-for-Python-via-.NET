@@ -92,7 +92,6 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
                 merge_field.set_name(merge_field.get_name() + "_Renamed")
 
 
-
         doc.save(docs_base.artifacts_dir + "WorkingWithFields.rename_merge_fields.doc")
         #ExEnd:RenameMergeFields
 
@@ -180,9 +179,6 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
                 next_child = cur_child.next_sibling
                 cur_child.remove()
                 cur_child = next_child
-
-
-
 
 
     #ExEnd:MergeField
@@ -343,7 +339,6 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFields.insert_include_field_without_document_builder.docx")
         #ExEnd:InsertFieldIncludeTextWithoutDocumentBuilder
-
 
 
     def test_insert_field_none(self) :
@@ -572,7 +567,6 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFields.change_locale.docx")
         #ExEnd:ChangeLocale
-
 
 
 if __name__ == '__main__':

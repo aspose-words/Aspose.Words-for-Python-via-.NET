@@ -26,6 +26,5 @@ class WorkingWithPclSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:RasterizeTransformedElements
 
 
-
 if __name__ == '__main__':
     unittest.main()

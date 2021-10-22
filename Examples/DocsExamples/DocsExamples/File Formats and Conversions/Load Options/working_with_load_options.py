@@ -113,6 +113,5 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
         #ExEnd:LoadCHM
 
 
-
 if __name__ == '__main__':
     unittest.main()

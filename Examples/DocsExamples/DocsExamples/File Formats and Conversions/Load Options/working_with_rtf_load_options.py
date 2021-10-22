@@ -25,6 +25,5 @@ class WorkingWithRtfLoadOptions(docs_base.DocsExamplesBase):
         #ExEnd:RecognizeUtf8Text
 
 
-
 if __name__ == '__main__':
     unittest.main()

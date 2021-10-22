@@ -47,7 +47,5 @@ class WorkingWithPdfLoadOptions(docs_base.DocsExamplesBase):
         #ExEnd:LoadPageRangeOfPdf
 
 
-
-
 if __name__ == '__main__':
     unittest.main()

@@ -81,7 +81,6 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
         #ExEnd:EnumerateChildNodes
 
 
-
     #ExStart:RecurseAllNodes
     def test_recurse_all_nodes(self) :
 

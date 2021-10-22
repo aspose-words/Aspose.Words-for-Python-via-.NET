@@ -260,6 +260,5 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         #ExEnd:RenderShapeImage
 
 
-
 if __name__ == '__main__':
     unittest.main()

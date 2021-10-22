@@ -52,6 +52,5 @@ class Tables(docs_base.DocsExamplesBase):
         #ExEnd:InTableWithFilteringGroupingSorting
 
 
-
 if __name__ == '__main__':
     unittest.main()

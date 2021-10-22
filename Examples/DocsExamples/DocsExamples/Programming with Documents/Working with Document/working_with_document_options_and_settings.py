@@ -152,6 +152,5 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
         #ExEnd:DocumentBuilderSetPageSetupAndSectionFormatting
 
 
-
 if __name__ == '__main__':
     unittest.main()

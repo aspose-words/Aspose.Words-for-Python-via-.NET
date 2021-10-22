@@ -96,6 +96,5 @@ class WorkingWithCleanupOptions(docs_base.DocsExamplesBase):
             #ExEnd:RemoveEmptyTableRows
 
 
-
 if __name__ == '__main__':
         unittest.main()

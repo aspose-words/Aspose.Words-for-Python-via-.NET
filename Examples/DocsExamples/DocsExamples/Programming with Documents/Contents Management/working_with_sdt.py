@@ -238,6 +238,5 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
             #ExEnd:StructuredDocumentTagRangeStartXmlMapping
 
 
-
 if __name__ == '__main__':
         unittest.main()

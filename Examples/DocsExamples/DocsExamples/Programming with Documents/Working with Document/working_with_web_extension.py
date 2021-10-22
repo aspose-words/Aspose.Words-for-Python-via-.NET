@@ -49,6 +49,5 @@ class WorkingWithWebExtension(docs_base.DocsExamplesBase):
             #ExEnd:GetListOfAddins
 
 
-
 if __name__ == '__main__':
         unittest.main()

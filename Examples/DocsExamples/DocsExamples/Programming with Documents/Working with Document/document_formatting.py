@@ -180,6 +180,5 @@ class DocumentFormatting(docs_base.DocsExamplesBase):
             #ExEnd:GetParagraphStyleSeparator
 
 
-
 if __name__ == '__main__':
         unittest.main()

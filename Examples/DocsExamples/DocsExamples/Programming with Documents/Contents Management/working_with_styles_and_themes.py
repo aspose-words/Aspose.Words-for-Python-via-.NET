@@ -96,6 +96,5 @@ class WorkingWithStylesAndThemes(docs_base.DocsExamplesBase):
             #ExEnd:InsertStyleSeparator
 
 
-
 if __name__ == '__main__':
         unittest.main()

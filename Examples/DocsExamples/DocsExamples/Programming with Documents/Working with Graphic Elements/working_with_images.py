@@ -233,6 +233,5 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
     #ExEnd:CropImage
 
 
-
 if __name__ == '__main__':
     unittest.main()

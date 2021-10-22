@@ -264,7 +264,5 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         #ExEnd:ReplaceText
 
 
-
-
 if __name__ == '__main__':
     unittest.main()

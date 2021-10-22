@@ -25,6 +25,5 @@ class WorkingWithRtfSaveOptions(docs_base.DocsExamplesBase):
         #ExEnd:SavingImagesAsWmf
 
 
-
 if __name__ == '__main__':
     unittest.main()

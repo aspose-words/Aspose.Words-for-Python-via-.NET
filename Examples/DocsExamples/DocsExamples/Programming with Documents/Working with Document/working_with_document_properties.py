@@ -129,6 +129,5 @@ class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
             #ExEnd:UseControlCharacters
 
 
-
 if __name__ == '__main__':
         unittest.main()

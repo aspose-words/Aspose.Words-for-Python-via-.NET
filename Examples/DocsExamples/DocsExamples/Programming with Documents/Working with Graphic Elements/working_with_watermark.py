@@ -138,7 +138,6 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
             self.insert_watermark_into_header(watermark_para, sect, aw.HeaderFooterType.HEADER_EVEN)
 
 
-
     def insert_watermark_into_header(self, watermark_para : aw.Paragraph, sect : aw.Section, header_type : aw.HeaderFooterType) :
 
         header = sect.headers_footers.get_by_header_footer_type(header_type)
@@ -169,7 +168,6 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
 
 
     #ExEnd:RemoveWatermark
-
 
 
 if __name__ == '__main__':
