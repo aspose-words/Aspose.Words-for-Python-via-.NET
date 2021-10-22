@@ -134,7 +134,7 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
 
         for node in comments:
             comment = node.as_comment()
-            if (comment.author == author_name):
+            if comment.author == author_name:
                 collected_comments.append(comment.author + " " + comment.date_time.strftime("%Y-%m-%d %H:%M:%S") + " " + comment.to_string(aw.SaveFormat.TEXT))
 
         return collected_comments
@@ -161,7 +161,7 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
         for i in range(comments.count, 0):
             print(i)
             comment = comments[i].as_comment()
-            if (comment.author == authorName):
+            if comment.author == authorName:
                 comment.remove()
 
 
@@ -200,7 +200,7 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
         current_node = comment_start
         is_removing = True
         while (current_node != None and is_removing):
-            if (current_node.node_type == aw.NodeType.COMMENT_RANGE_END):
+            if current_node.node_type == aw.NodeType.COMMENT_RANGE_END:
                 is_removing = False
 
             next_node = current_node.next_pre_order(doc)

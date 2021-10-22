@@ -74,7 +74,7 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
         doc.save(docs_base.artifacts_dir + "Document.text_watermark.docx")
 
         # We can remove a watermark from a document like this.
-        if (doc.watermark.type == aw.WatermarkType.TEXT):
+        if doc.watermark.type == aw.WatermarkType.TEXT:
             doc.watermark.remove()
 
         doc.save(docs_base.artifacts_dir + "WorkWithWatermark.remove_watermark_from_document.docx")
@@ -142,7 +142,7 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
 
         header = sect.headers_footers.get_by_header_footer_type(header_type)
 
-        if (header == None):
+        if header == None:
 
             # There is no header of the specified type in the current section, so we need to create it.
             header = aw.HeaderFooter(sect.document, header_type)

@@ -131,7 +131,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
             for row in self.mTable.rows:
 
                 cell = row.as_row().cells[self.mColumnIndex]
-                if (cell != None):
+                if cell != None:
                     column_cells.append(cell)
 
             return column_cells
@@ -893,7 +893,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
-        if (table.text_wrapping == aw.tables.TextWrapping.AROUND):
+        if table.text_wrapping == aw.tables.TextWrapping.AROUND:
 
             print(table.relative_horizontal_alignment)
             print(table.relative_vertical_alignment)
@@ -913,7 +913,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         for  table in doc.first_section.body.tables:
             table = table.as_table()
             # If the table is floating type, then print its positioning properties.
-            if (table.text_wrapping == aw.tables.TextWrapping.AROUND):
+            if table.text_wrapping == aw.tables.TextWrapping.AROUND:
 
                 print(table.horizontal_anchor)
                 print(table.vertical_anchor)

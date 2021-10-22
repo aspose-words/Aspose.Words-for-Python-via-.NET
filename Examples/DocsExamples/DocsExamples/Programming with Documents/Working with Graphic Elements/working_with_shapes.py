@@ -94,7 +94,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
 
         for i in range(0, 31):
 
-            if (i != 0 and i % 7 == 0):
+            if i != 0 and i % 7 == 0:
                 builder.end_row()
             builder.insert_cell()
             builder.write("Cell contents")
@@ -186,7 +186,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         count = 0
         for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True):
             shape = shape.as_shape()
-            if(shape.has_smart_art):
+            if shape.has_smart_art:
                 count += 1
 
         print("The document has 0 shapes with SmartArt.", count)
@@ -200,7 +200,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         #ExStart:UpdateSmartArtDrawing
         for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True):
             shape = shape.as_shape()
-            if (shape.has_smart_art):
+            if shape.has_smart_art:
                 shape.update_smart_art_drawing()
         #ExEnd:UpdateSmartArtDrawing
 

@@ -99,7 +99,7 @@ class SplitDocument(docs_base.DocsExamplesBase):
         for document_path in document_paths:
 
             document_path = os.path.join(docs_base.artifacts_dir, document_path)
-            if (document_path == source_document_path):
+            if document_path == source_document_path:
                 continue
 
             merged_doc_builder.move_to_document_end()

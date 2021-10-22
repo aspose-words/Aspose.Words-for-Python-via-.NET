@@ -214,10 +214,10 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         width_ratio = cropped_image.width / src_width_points
         height_ratio = cropped_image.height / src_height_points
 
-        if (width_ratio< 1):
+        if width_ratio< 1:
             cropped_image.image_data.crop_right = 1 - width_ratio
 
-        if (height_ratio< 1):
+        if height_ratio< 1:
             cropped_image.image_data.crop_bottom = 1 - height_ratio
 
         left_to_width = aw.ConvertUtil.pixel_to_point(left) / src_width_points

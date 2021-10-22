@@ -37,15 +37,15 @@ class WorkingWithTextboxes(docs_base.DocsExamplesBase):
         shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
         text_box = shape.text_box
 
-        if (text_box.next != None and text_box.previous == None):
+        if text_box.next != None and text_box.previous == None:
             print("The head of the sequence")
 
 
-        if (text_box.next != None and text_box.previous != None):
+        if text_box.next != None and text_box.previous != None:
             print("The Middle of the sequence.")
 
 
-        if (text_box.next == None and text_box.previous != None):
+        if text_box.next == None and text_box.previous != None:
             print("The Tail of the sequence.")
 
         #ExEnd:CheckSequence

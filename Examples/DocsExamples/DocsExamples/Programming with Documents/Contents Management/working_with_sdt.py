@@ -36,7 +36,7 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
         # Get the first content control from the document.
         sdt_check_box = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
 
-        if (sdt_check_box.sdt_type == aw.markup.SdtType.CHECKBOX):
+        if sdt_check_box.sdt_type == aw.markup.SdtType.CHECKBOX:
             sdt_check_box.checked = True
 
         doc.save(docs_base.artifacts_dir + "WorkingWithSdt.current_state_of_check_box.docx")
@@ -51,7 +51,7 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
         for sdt in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True):
             sdt = sdt.as_structured_document_tag()
 
-            if (sdt.sdt_type == aw.markup.SdtType.PLAIN_TEXT):
+            if sdt.sdt_type == aw.markup.SdtType.PLAIN_TEXT:
 
                 sdt.remove_all_children()
                 para = sdt.append_child(aw.Paragraph(doc)).as_paragraph()
@@ -66,7 +66,7 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
             elif (sdt.sdt_type == aw.markup.SdtType.PICTURE):
 
                 shape = sdt.get_child(NodeType.shape, 0, True).as_shape()
-                if (shape.has_image):
+                if shape.has_image:
                     shape.image_data.set_image(docs_base.images_dir + "Watermark.png")
 
         doc.save(docs_base.artifacts_dir + "WorkingWithSdt.modify_content_controls.docx")

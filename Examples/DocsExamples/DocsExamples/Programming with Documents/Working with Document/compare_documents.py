@@ -95,7 +95,7 @@ class CompareDocument(docs_base.DocsExamplesBase):
         builder.writeln("This is the edited document.")
 
         # If either document has a revision, an exception will be thrown.
-        if (doc1.revisions.count == 0 and doc2.revisions.count == 0):
+        if doc1.revisions.count == 0 and doc2.revisions.count == 0:
             doc1.compare(doc2, "authorName", datetime.today())
 
         # If doc1 and doc2 are different, doc1 now has some revisions after the comparison, which can now be viewed and processed.

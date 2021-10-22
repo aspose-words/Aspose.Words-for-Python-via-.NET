@@ -176,7 +176,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
 
         for field in doc.range.fields:
 
-            if (field.type == aw.fields.FieldType.FIELD_HYPERLINK):
+            if field.type == aw.fields.FieldType.FIELD_HYPERLINK:
 
                 hyperlink = field.as_field_hyperlink()
                 if (hyperlink.sub_address != None and hyperlink.sub_address.find("_Toc") == 0):
@@ -241,7 +241,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
 
         for paragraph in paragraphs:
             paragraph = paragraph.as_paragraph()
-            if (paragraph.paragraph_format.style.name == style_name):
+            if paragraph.paragraph_format.style.name == style_name:
                 paragraphs_with_style.append(paragraph)
 
         return paragraphs_with_style
@@ -257,7 +257,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
 
         for run in runs:
             run = run.as_run()
-            if (run.font.style.name == style_name):
+            if run.font.style.name == style_name:
                 runs_with_style.append(run)
 
         return runs_with_style
@@ -298,7 +298,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
 
         for shape in shapes:
             shape = shape.as_shape()
-            if (shape.has_image):
+            if shape.has_image:
 
                 image_file_name = f"Image.ExportImages.{imageIndex}_{aw.FileFormatUtil.image_type_to_extension(shape.image_data.image_type)}"
 

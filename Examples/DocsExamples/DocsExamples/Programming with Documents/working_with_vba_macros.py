@@ -41,7 +41,7 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
         #ExStart:ReadVbaMacros
         doc = aw.Document(docs_base.my_dir + "VBA project.docm")
 
-        if (doc.vba_project != None):
+        if doc.vba_project != None:
             for module in doc.vba_project.modules:
                 print(module.source_code)
 
@@ -101,7 +101,7 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
             reference = doc.vba_project.references.element_at(i)
 
             path = get_lib_id_path(reference)
-            if (path == broken_path):
+            if path == broken_path:
                 references.remove_at(i)
 
 
@@ -131,10 +131,10 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
     @staticmethod
     def get_lib_id_reference_path(lib_id_reference: str):
 
-        if (lib_id_reference != None):
+        if lib_id_reference != None:
 
             ref_parts = lib_id_reference.split('#')
-            if (ref_parts.length > 3):
+            if ref_parts.length > 3:
                 return ref_parts[3]
 
         return ""
@@ -149,7 +149,7 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
     @staticmethod
     def get_lib_id_project_path(lib_id_project: str):
 
-        if (lib_id_project != None):
+        if lib_id_project != None:
            return lib_id_project.substring(3)
 
         return ""

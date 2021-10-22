@@ -47,7 +47,7 @@ class CloneAndCombineDocuments(docs_base.DocsExamplesBase):
     @staticmethod
     def insert_document(insertion_destination: aw.Node, doc_to_insert: aw.Document):
 
-        if (insertion_destination.node_type == aw.NodeType.PARAGRAPH or insertion_destination.node_type == awNodeType.TABLE):
+        if insertion_destination.node_type == aw.NodeType.PARAGRAPH or insertion_destination.node_type == awNodeType.TABLE:
 
             destination_parent = insertion_destination.parent_node
 
@@ -57,10 +57,10 @@ class CloneAndCombineDocuments(docs_base.DocsExamplesBase):
             # then clone and insert every node that is not the last empty paragraph of a section.
             for src_section in doc_to_insert.sections:
                 for src_node in src_section.as_section().body.child_nodes:
-                    if (src_node.node_type == aw.NodeType.PARAGRAPH):
+                    if src_node.node_type == aw.NodeType.PARAGRAPH:
 
                         para = src_node.as_paragraph()
-                        if (para.is_end_of_section and not para.has_child_nodes):
+                        if para.is_end_of_section and not para.has_child_nodes:
                             continue
 
                     new_node = importer.import_node(src_node, True)

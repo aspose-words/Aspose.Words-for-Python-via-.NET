@@ -37,7 +37,7 @@ class RemoveContent(docs_base.DocsExamplesBase):
             para = para.as_paragraph()
 
             # If the paragraph has a page break before the set, then clear it.
-            if (para.paragraph_format.page_break_before):
+            if para.paragraph_format.page_break_before:
                 para.paragraph_format.page_break_before = False
 
             # Check all runs in the paragraph for page breaks and remove them.
@@ -75,16 +75,16 @@ class RemoveContent(docs_base.DocsExamplesBase):
             # Up to three different footers are possible in a section (for first, even and odd pages)
             # we check and delete all of them.
             footer = section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_FIRST)
-            if (footer != None):
+            if footer != None:
                 footer.remove()
 
             # Primary footer is the footer used for odd pages.
             footer = section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_PRIMARY)
-            if (footer != None):
+            if footer != None:
                 footer.remove()
 
             footer = section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_EVEN)
-            if (footer != None):
+            if footer != None:
                 footer.remove()
 
 
@@ -118,7 +118,7 @@ class RemoveContent(docs_base.DocsExamplesBase):
 
         for start in doc.get_child_nodes(aw.NodeType.FIELD_START, True):
             start = start.as_field_start()
-            if (start.field_type == aw.fields.FieldType.FIELD_TOC):
+            if start.field_type == aw.fields.FieldType.FIELD_TOC:
                 field_starts.append(start)
 
         # Ensure the TOC specified by the passed index exists.
@@ -136,10 +136,10 @@ class RemoveContent(docs_base.DocsExamplesBase):
 
             # Once we encounter a FieldEnd node of type FieldTOC,
             # we know we are at the end of the current TOC and stop here.
-            if (current_node.node_type == aw.NodeType.FIELD_END):
+            if current_node.node_type == aw.NodeType.FIELD_END:
 
                 field_end = current_node.as_field_end()
-                if (field_end.field_type == aw.fields.FieldType.FIELD_TOC):
+                if field_end.field_type == aw.fields.FieldType.FIELD_TOC:
                     is_removing = False
 
         for node in node_list:

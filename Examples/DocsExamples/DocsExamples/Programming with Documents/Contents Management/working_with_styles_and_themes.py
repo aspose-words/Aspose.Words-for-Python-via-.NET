@@ -25,7 +25,7 @@ class WorkingWithStylesAndThemes(docs_base.DocsExamplesBase):
         styles = doc.styles
         for style in styles:
 
-            if (style_name == ""):
+            if style_name == "":
                 style_name = style.name
                 print(style_name)
 

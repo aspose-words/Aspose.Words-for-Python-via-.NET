@@ -170,7 +170,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         @staticmethod
         def remove_same_parent(start_node, end_node):
 
-            if (end_node != None and start_node.parent_node != end_node.parent_node):
+            if end_node != None and start_node.parent_node != end_node.parent_node:
                 raise ValueError("Start and end nodes are expected to have the same parent.")
 
             cur_child = start_node

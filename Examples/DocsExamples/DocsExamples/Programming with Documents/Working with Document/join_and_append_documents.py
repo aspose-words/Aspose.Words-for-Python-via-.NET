@@ -125,12 +125,12 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
             section = section.as_section()
             # This section has its page numbering restarted to treat this as the start of a sub-document.
             # Any PAGENUM fields in this inner document must be converted to special PAGEREF fields to correct numbering.
-            if (section.page_setup.restart_page_numbering):
+            if section.page_setup.restart_page_numbering:
 
                 # Don't do anything if this is the first section of the document.
                 # This part of the code will insert the bookmark marking the end of the previous sub-document so,
                 # therefore, it does not apply to the first section in the document.
-                if (section != doc.first_section):
+                if section != doc.first_section:
 
                     # Get the previous section and the last node within the body of that section.
                     prev_section = section.previous_sibling.as_section()
@@ -147,7 +147,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
 
 
             # The last section needs the ending bookmark to signal that it is the end of the current sub-document.
-            if (section == doc.last_section):
+            if section == doc.last_section:
 
                 # Insert the bookmark at the end of the body of the last section.
                 # Don't increase the count this time as we are just marking the end of the document.
@@ -167,7 +167,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
             for field_start in nodes:
 
                 field_start = field_start.as_field_start()
-                if (field_start.field_type == aw.fields.FieldType.FIELD_NUM_PAGES):
+                if field_start.field_type == aw.fields.FieldType.FIELD_NUM_PAGES:
 
                     field_code = self.get_field_code(field_start)
                     # Since the NUMPAGES field does not take any additional parameters,
@@ -204,7 +204,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
         current_node = field_start
         while (current_node != None and is_removing):
 
-            if (current_node.node_type == aw.NodeType.FIELD_END):
+            if current_node.node_type == aw.NodeType.FIELD_END:
                 is_removing = False
 
             next_node = current_node.next_pre_order(current_node.document)
@@ -219,7 +219,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
 
         node = field_start
         while ((node != None) and (node.node_type != aw.NodeType.FIELD_SEPARATOR) and (node.node_type != aw.NodeType.FIELD_END)):
-            if (node.node_type == aw.NodeType.RUN):
+            if node.node_type == aw.NodeType.RUN:
                 builder += node.get_text()
             node = node.next_pre_order(node.document)
 
@@ -356,7 +356,7 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
 
         for para in src_doc.get_child_nodes(aw.NodeType.PARAGRAPH, True):
             para = para.as_paragraph()
-            if (para.is_list_item):
+            if para.is_list_item:
 
                 list_id = para.list_format.list.list_id
 
