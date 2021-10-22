@@ -102,36 +102,32 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
     #
     class MergeField:
 
-        mFieldStart = None
-        mFieldSeparator = None
-        mFieldEnd = None
+        mergefield_regex = re.compile("\\s*(MERGEFIELD\\s|)(\\s|)(\\S+)\\s+")
 
-        gRegex = re.compile("\\s*(MERGEFIELD\\s|)(\\s|)(\\S+)\\s+")
+        def __init__(self, field_start):
 
-        def __init__(self, fieldStart):
-
-            if fieldStart == None:
+            if field_start == None:
                 raise ValueError("fieldStart")
-            if fieldStart.field_type != aw.fields.FieldType.FIELD_MERGE_FIELD:
+            if field_start.field_type != aw.fields.FieldType.FIELD_MERGE_FIELD:
                 raise ValueError("Field start type must be FieldMergeField.")
 
-            self.mFieldStart = fieldStart
+            self.field_start = field_start
 
 
             # Find the field separator node.
-            self.mFieldSeparator = fieldStart.get_field().separator
-            if self.mFieldSeparator == None:
+            self.field_separator = field_start.get_field().separator
+            if self.field_separator == None:
                 raise RuntimeError("Cannot find field separator.")
 
-            self.mFieldEnd = fieldStart.get_field().end
+            self.field_end = field_start.get_field().end
 
 
         #
         # Gets the name of the merge field.
         #
         def get_name(self):
-            print(type(self.mFieldStart))
-            return self.mFieldStart.get_field().result.replace("«", "").replace("»", "")
+            print(type(self.field_start))
+            return self.field_start.get_field().result.replace("«", "").replace("»", "")
 
         #
         # Gets the name of the merge field.
@@ -140,11 +136,11 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
             # Merge field name is stored in the field result which is a Run
             # node between field separator and field end.
-            field_result = self.mFieldSeparator.next_sibling.as_run()
+            field_result = self.field_separator.next_sibling.as_run()
             field_result.text = f"«{name}»"
 
             # But sometimes the field result can consist of more than one run, delete these runs.
-            self.remove_same_parent(field_result.next_sibling, self.mFieldEnd)
+            self.remove_same_parent(field_result.next_sibling, self.field_end)
 
             self.update_field_code(name)
 
@@ -152,15 +148,15 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         def update_field_code(self, field_name: str):
 
             # Field code is stored in a Run node between field start and field separator.
-            field_code = self.mFieldStart.next_sibling.as_run()
+            field_code = self.field_start.next_sibling.as_run()
 
-            match = self.gRegex.match(self.mFieldStart.get_field().get_field_code())
+            match = self.mergefield_regex.match(self.field_start.get_field().get_field_code())
 
             new_field_code = f" {match.group(1)}{field_name} "
             field_code.text = new_field_code
 
             # But sometimes the field code can consist of more than one run, delete these runs.
-            self.remove_same_parent(field_code.next_sibling, self.mFieldSeparator)
+            self.remove_same_parent(field_code.next_sibling, self.field_separator)
 
 
         #

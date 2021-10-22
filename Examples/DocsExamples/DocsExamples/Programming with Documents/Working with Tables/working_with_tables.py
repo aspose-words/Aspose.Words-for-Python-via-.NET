@@ -55,15 +55,12 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
     # </summary>
     class Column:
 
-        mColumnIndex = 0
-        mTable = None
-
-        def __init__(self, table: aw.tables.Table, columnIndex: int):
+        def __init__(self, table: aw.tables.Table, column_index: int):
 
             if table == None:
                 raise ValueError("table")
-            self.mTable = table
-            self.mColumnIndex = columnIndex
+            self.table = table
+            self.column_index = column_index
 
         # <summary>
         # Returns the index of the given cell in the column.
@@ -87,14 +84,14 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
                 cell.parent_row.insert_before(cell.clone(False), cell)
 
             # This is the new column.
-            column = self.__class__(column_cells[0].parent_row.parent_table, self.mColumnIndex)
+            column = self.__class__(column_cells[0].parent_row.parent_table, self.column_index)
 
             # We want to make sure that the cells are all valid to work with (have at least one paragraph).
             for cell in column.get_column_cells():
                 cell.ensure_minimum()
 
             # Increase the index which this column represents since there is now one extra column in front.
-            self.mColumnIndex += 1
+            self.column_index += 1
 
             return column
 
@@ -128,9 +125,9 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
 
             column_cells = []
 
-            for row in self.mTable.rows:
+            for row in self.table.rows:
 
-                cell = row.as_row().cells[self.mColumnIndex]
+                cell = row.as_row().cells[self.column_index]
                 if cell != None:
                     column_cells.append(cell)
 
