@@ -200,7 +200,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
     @staticmethod
     def crop_image(in_path: str, out_path: str, left: int, top: int, width: int, height: int):
 
-        doc = aw.Document();
+        doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         cropped_image = builder.insert_image(in_path)

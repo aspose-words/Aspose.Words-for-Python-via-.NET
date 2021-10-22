@@ -79,7 +79,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
         # Apply document protection.
         doc.protect(aw.ProtectionType.NO_PROTECTION, "password")
 
-        doc.save(docs_base.artifacts_dir + "DocumentProtection.PasswordProtection.docx");
+        doc.save(docs_base.artifacts_dir + "DocumentProtection.PasswordProtection.docx")
         #ExEnd:PasswordProtection
 
     def test_allow_only_form_fields_protect(self):
@@ -94,7 +94,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
         doc.protect(aw.ProtectionType.ALLOW_ONLY_FORM_FIELDS, "password")
 
         # Save the protected document.
-        doc.save(docs_base.artifacts_dir + "DocumentProtection.AllowOnlyFormFieldsProtect.docx");
+        doc.save(docs_base.artifacts_dir + "DocumentProtection.AllowOnlyFormFieldsProtect.docx")
         #ExEnd:AllowOnlyFormFieldsProtect
 
     def test_remove_document_protection(self):
@@ -110,7 +110,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
         doc.protect(aw.ProtectionType.READ_ONLY, "newPassword")
         doc.unprotect("newPassword")
 
-        doc.save(docs_base.artifacts_dir + "DocumentProtection.RemoveDocumentProtection.docx");
+        doc.save(docs_base.artifacts_dir + "DocumentProtection.RemoveDocumentProtection.docx")
         #ExEnd:RemoveDocumentProtection
 
     def test_unrestricted_editable_regions(self):
@@ -135,9 +135,9 @@ class DocumentProtection(docs_base.DocsExamplesBase):
         # An editable range is well-formed if it has a start and an end.
         ed_range_end = builder.end_editable_range()
 
-        builder.writeln("This paragraph is outside any editable ranges, and cannot be edited.");
+        builder.writeln("This paragraph is outside any editable ranges, and cannot be edited.")
 
-        doc.save(docs_base.artifacts_dir + "DocumentProtection.UnrestrictedEditableRegions.docx");
+        doc.save(docs_base.artifacts_dir + "DocumentProtection.UnrestrictedEditableRegions.docx")
         #ExEnd:UnrestrictedEditableRegions
 
     def test_unrestricted_section(self):
@@ -156,11 +156,11 @@ class DocumentProtection(docs_base.DocsExamplesBase):
 
         # By default, all sections are protected, but we can selectively turn protection off.
         doc.sections[0].protected_for_forms = False
-        doc.save(docs_base.artifacts_dir + "DocumentProtection.UnrestrictedSection.docx");
+        doc.save(docs_base.artifacts_dir + "DocumentProtection.UnrestrictedSection.docx")
 
-        doc = aw.Document(docs_base.artifacts_dir + "DocumentProtection.UnrestrictedSection.docx");
+        doc = aw.Document(docs_base.artifacts_dir + "DocumentProtection.UnrestrictedSection.docx")
         self.assertFalse(doc.sections[0].protected_for_forms)
-        self.assertTrue(doc.sections[1].protected_for_forms);
+        self.assertTrue(doc.sections[1].protected_for_forms)
         #ExEnd:UnrestrictedSection
 
 

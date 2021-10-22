@@ -276,8 +276,8 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder = aw.DocumentBuilder()
 
         # Insert hyperlink.
-        builder.insert_hyperlink("https://www.aspose.com", "https://www.aspose.com", False);
-        builder.insert_hyperlink("email@aspose.com", "mailto:email@aspose.com", False);
+        builder.insert_hyperlink("https://www.aspose.com", "https://www.aspose.com", False)
+        builder.insert_hyperlink("email@aspose.com", "mailto:email@aspose.com", False)
 
         builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.autolink_example.md")
         #ExEnd:Autolink

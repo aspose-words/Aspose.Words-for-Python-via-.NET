@@ -36,7 +36,7 @@ class WorkingWithPdfLoadOptions(docs_base.DocsExamplesBase):
 
         #ExStart:LoadPageRangeOfPdf
         load_options = aw.loading.PdfLoadOptions()
-        load_options.page_index = 0;
+        load_options.page_index = 0
         load_options.page_count = 1
 
         #ExStart:LoadPDF
