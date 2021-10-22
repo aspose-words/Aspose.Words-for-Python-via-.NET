@@ -13,574 +13,574 @@ import aspose.words as aw
 
 class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
 
-        def test_simple_append_document(self) :
+    def test_simple_append_document(self) :
 
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
 
-            # Append the source document to the destination document using no extra options.
-            dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+        # Append the source document to the destination document using no extra options.
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.simple_append_document.docx")
-
-
-        def test_append_document(self) :
-
-            #ExStart:AppendDocumentManually
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
-
-            # Loop through all sections in the source document.
-            # Section nodes are immediate children of the Document node so we can just enumerate the Document.
-            for src_section in src_doc :
-
-                # Because we are copying a section from one document to another,
-                # it is required to import the Section node into the destination document.
-                # This adjusts any document-specific references to styles, lists, etc.
-                #
-                # Importing a node creates a copy of the original node, but the copy
-                # ss ready to be inserted into the destination document.
-                dst_section = dst_doc.import_node(src_section, True, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
-
-                # Now the new section node can be appended to the destination document.
-                dst_doc.append_child(dst_section)
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.simple_append_document.docx")
 
 
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.append_document.docx")
-            #ExEnd:AppendDocumentManually
+    def test_append_document(self) :
+
+        #ExStart:AppendDocumentManually
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
+
+        # Loop through all sections in the source document.
+        # Section nodes are immediate children of the Document node so we can just enumerate the Document.
+        for src_section in src_doc :
+
+            # Because we are copying a section from one document to another,
+            # it is required to import the Section node into the destination document.
+            # This adjusts any document-specific references to styles, lists, etc.
+            #
+            # Importing a node creates a copy of the original node, but the copy
+            # ss ready to be inserted into the destination document.
+            dst_section = dst_doc.import_node(src_section, True, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+
+            # Now the new section node can be appended to the destination document.
+            dst_doc.append_child(dst_section)
 
 
-        def test_append_document_to_blank(self) :
-
-            #ExStart:AppendDocumentToBlank
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document()
-
-            # The destination document is not empty, often causing a blank page to appear before the appended document.
-            # This is due to the base document having an empty section and the new document being started on the next page.
-            # Remove all content from the destination document before appending.
-            dst_doc.remove_all_children()
-            dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
-
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.append_document_to_blank.docx")
-            #ExEnd:AppendDocumentToBlank
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.append_document.docx")
+        #ExEnd:AppendDocumentManually
 
 
-        def test_append_with_import_format_options(self) :
+    def test_append_document_to_blank(self) :
 
-            #ExStart:AppendWithImportFormatOptions
-            src_doc = aw.Document(docs_base.my_dir + "Document source with list.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Document destination with list.docx")
+        #ExStart:AppendDocumentToBlank
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document()
 
-            # Specify that if numbering clashes in source and destination documents,
-            # then numbering from the source document will be used.
-            options = aw.ImportFormatOptions()
-            options.keep_source_numbering = True
+        # The destination document is not empty, often causing a blank page to appear before the appended document.
+        # This is due to the base document having an empty section and the new document being started on the next page.
+        # Remove all content from the destination document before appending.
+        dst_doc.remove_all_children()
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
-            dst_doc.append_document(src_doc, aw.ImportFormatMode.USE_DESTINATION_STYLES, options)
-            #ExEnd:AppendWithImportFormatOptions
-
-
-        def test_convert_num_page_fields(self) :
-
-            #ExStart:ConvertNumPageFields
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
-
-            # Restart the page numbering on the start of the source document.
-            src_doc.first_section.page_setup.restart_page_numbering = True
-            src_doc.first_section.page_setup.page_starting_number = 1
-
-            # Append the source document to the end of the destination document.
-            dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
-
-            # After joining the documents the NUMPAGE fields will now display the total number of pages which
-            # is undesired behavior. Call this method to fix them by replacing them with PAGEREF fields.
-            self.convert_num_page_fields_to_page_ref(dst_doc)
-
-            # This needs to be called in order to update the new fields with page numbers.
-            dst_doc.update_page_layout()
-
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.convert_num_page_fields.docx")
-            #ExEnd:ConvertNumPageFields
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.append_document_to_blank.docx")
+        #ExEnd:AppendDocumentToBlank
 
 
-        #ExStart:ConvertNumPageFieldsToPageRef
-        def convert_num_page_fields_to_page_ref(self, doc : aw.Document) :
+    def test_append_with_import_format_options(self) :
 
-            # This is the prefix for each bookmark, which signals where page numbering restarts.
-            # The underscore "_" at the start inserts this bookmark as hidden in MS Word.
-            bookmark_prefix = "_SubDocumentEnd"
-            num_pages_field_name = "NUMPAGES"
-            page_ref_field_name = "PAGEREF"
+        #ExStart:AppendWithImportFormatOptions
+        src_doc = aw.Document(docs_base.my_dir + "Document source with list.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Document destination with list.docx")
 
-            # Defines the number of page restarts encountered and, therefore,
-            # the number of "sub" documents found within this document.
-            sub_document_count = 0
+        # Specify that if numbering clashes in source and destination documents,
+        # then numbering from the source document will be used.
+        options = aw.ImportFormatOptions()
+        options.keep_source_numbering = True
 
-            builder = aw.DocumentBuilder(doc)
-
-            for section in doc.sections :
-
-                section = section.as_section()
-                # This section has its page numbering restarted to treat this as the start of a sub-document.
-                # Any PAGENUM fields in this inner document must be converted to special PAGEREF fields to correct numbering.
-                if (section.page_setup.restart_page_numbering) :
-
-                    # Don't do anything if this is the first section of the document.
-                    # This part of the code will insert the bookmark marking the end of the previous sub-document so,
-                    # therefore, it does not apply to the first section in the document.
-                    if (section != doc.first_section) :
-
-                        # Get the previous section and the last node within the body of that section.
-                        prev_section = section.previous_sibling.as_section()
-                        last_node = prev_section.body.last_child
-
-                        builder.move_to(last_node)
-
-                        # This bookmark represents the end of the sub-document.
-                        builder.start_bookmark(bookmark_prefix + str(sub_document_count))
-                        builder.end_bookmark(bookmark_prefix + str(sub_document_count))
-
-                        # Increase the sub-document count to insert the correct bookmarks.
-                        sub_document_count += 1
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.USE_DESTINATION_STYLES, options)
+        #ExEnd:AppendWithImportFormatOptions
 
 
-                # The last section needs the ending bookmark to signal that it is the end of the current sub-document.
-                if (section == doc.last_section) :
+    def test_convert_num_page_fields(self) :
 
-                    # Insert the bookmark at the end of the body of the last section.
-                    # Don't increase the count this time as we are just marking the end of the document.
-                    last_node = doc.last_section.body.last_child
+        #ExStart:ConvertNumPageFields
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
+
+        # Restart the page numbering on the start of the source document.
+        src_doc.first_section.page_setup.restart_page_numbering = True
+        src_doc.first_section.page_setup.page_starting_number = 1
+
+        # Append the source document to the end of the destination document.
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+
+        # After joining the documents the NUMPAGE fields will now display the total number of pages which
+        # is undesired behavior. Call this method to fix them by replacing them with PAGEREF fields.
+        self.convert_num_page_fields_to_page_ref(dst_doc)
+
+        # This needs to be called in order to update the new fields with page numbers.
+        dst_doc.update_page_layout()
+
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.convert_num_page_fields.docx")
+        #ExEnd:ConvertNumPageFields
+
+
+    #ExStart:ConvertNumPageFieldsToPageRef
+    def convert_num_page_fields_to_page_ref(self, doc : aw.Document) :
+
+        # This is the prefix for each bookmark, which signals where page numbering restarts.
+        # The underscore "_" at the start inserts this bookmark as hidden in MS Word.
+        bookmark_prefix = "_SubDocumentEnd"
+        num_pages_field_name = "NUMPAGES"
+        page_ref_field_name = "PAGEREF"
+
+        # Defines the number of page restarts encountered and, therefore,
+        # the number of "sub" documents found within this document.
+        sub_document_count = 0
+
+        builder = aw.DocumentBuilder(doc)
+
+        for section in doc.sections :
+
+            section = section.as_section()
+            # This section has its page numbering restarted to treat this as the start of a sub-document.
+            # Any PAGENUM fields in this inner document must be converted to special PAGEREF fields to correct numbering.
+            if (section.page_setup.restart_page_numbering) :
+
+                # Don't do anything if this is the first section of the document.
+                # This part of the code will insert the bookmark marking the end of the previous sub-document so,
+                # therefore, it does not apply to the first section in the document.
+                if (section != doc.first_section) :
+
+                    # Get the previous section and the last node within the body of that section.
+                    prev_section = section.previous_sibling.as_section()
+                    last_node = prev_section.body.last_child
 
                     builder.move_to(last_node)
+
+                    # This bookmark represents the end of the sub-document.
                     builder.start_bookmark(bookmark_prefix + str(sub_document_count))
                     builder.end_bookmark(bookmark_prefix + str(sub_document_count))
 
+                    # Increase the sub-document count to insert the correct bookmarks.
+                    sub_document_count += 1
 
-                # Iterate through each NUMPAGES field in the section and replace it with a PAGEREF field
-                # referring to the bookmark of the current sub-document. This bookmark is positioned at the end
-                # of the sub-document but does not exist yet. It is inserted when a section with restart page numbering
-                # or the last section is encountered.
-                nodes = section.get_child_nodes(aw.NodeType.FIELD_START, True).to_array()
 
-                for field_start in nodes :
+            # The last section needs the ending bookmark to signal that it is the end of the current sub-document.
+            if (section == doc.last_section) :
 
-                    field_start = field_start.as_field_start()
-                    if (field_start.field_type == aw.fields.FieldType.FIELD_NUM_PAGES) :
+                # Insert the bookmark at the end of the body of the last section.
+                # Don't increase the count this time as we are just marking the end of the document.
+                last_node = doc.last_section.body.last_child
 
-                        field_code = self.get_field_code(field_start)
-                        # Since the NUMPAGES field does not take any additional parameters,
-                        # we can assume the field's remaining part. Code after the field name is the switches.
-                        # We will use these to help recreate the NUMPAGES field as a PAGEREF field.
-                        field_switches = field_code.replace(num_pages_field_name, "").strip()
+                builder.move_to(last_node)
+                builder.start_bookmark(bookmark_prefix + str(sub_document_count))
+                builder.end_bookmark(bookmark_prefix + str(sub_document_count))
 
-                        # Inserting the new field directly at the FieldStart node of the original field will cause
-                        # the new field not to pick up the original field's formatting. To counter this,
-                        # insert the field just before the original field if a previous run cannot be found,
-                        # we are forced to use the FieldStart node.
-                        previous_node = field_start.previous_sibling if (field_start.previous_sibling != None) else field_start
 
-                        # Insert a PAGEREF field at the same position as the field.
-                        builder.move_to(previous_node)
+            # Iterate through each NUMPAGES field in the section and replace it with a PAGEREF field
+            # referring to the bookmark of the current sub-document. This bookmark is positioned at the end
+            # of the sub-document but does not exist yet. It is inserted when a section with restart page numbering
+            # or the last section is encountered.
+            nodes = section.get_child_nodes(aw.NodeType.FIELD_START, True).to_array()
 
-                        new_field = builder.insert_field(f" {page_ref_field_name} bookmarkPrefixsubDocumentCount {field_switches} ")
+            for field_start in nodes :
 
-                        # The field will be inserted before the referenced node. Move the node before the field instead.
-                        previous_node.parent_node.insert_before(previous_node, new_field.start)
+                field_start = field_start.as_field_start()
+                if (field_start.field_type == aw.fields.FieldType.FIELD_NUM_PAGES) :
 
-                        # Remove the original NUMPAGES field from the document.
-                        self.remove_field(field_start)
+                    field_code = self.get_field_code(field_start)
+                    # Since the NUMPAGES field does not take any additional parameters,
+                    # we can assume the field's remaining part. Code after the field name is the switches.
+                    # We will use these to help recreate the NUMPAGES field as a PAGEREF field.
+                    field_switches = field_code.replace(num_pages_field_name, "").strip()
 
+                    # Inserting the new field directly at the FieldStart node of the original field will cause
+                    # the new field not to pick up the original field's formatting. To counter this,
+                    # insert the field just before the original field if a previous run cannot be found,
+                    # we are forced to use the FieldStart node.
+                    previous_node = field_start.previous_sibling if (field_start.previous_sibling != None) else field_start
 
-        #ExEnd:ConvertNumPageFieldsToPageRef
+                    # Insert a PAGEREF field at the same position as the field.
+                    builder.move_to(previous_node)
 
-        #ExStart:GetRemoveField
-        @staticmethod
-        def remove_field(field_start : aw.fields.FieldStart) :
+                    new_field = builder.insert_field(f" {page_ref_field_name} bookmarkPrefixsubDocumentCount {field_switches} ")
 
-            is_removing = True
+                    # The field will be inserted before the referenced node. Move the node before the field instead.
+                    previous_node.parent_node.insert_before(previous_node, new_field.start)
 
-            current_node = field_start
-            while (current_node != None and is_removing) :
+                    # Remove the original NUMPAGES field from the document.
+                    self.remove_field(field_start)
 
-                if (current_node.node_type == aw.NodeType.FIELD_END) :
-                    is_removing = False
 
-                next_node = current_node.next_pre_order(current_node.document)
-                current_node.remove()
-                current_node = next_node
+    #ExEnd:ConvertNumPageFieldsToPageRef
 
+    #ExStart:GetRemoveField
+    @staticmethod
+    def remove_field(field_start : aw.fields.FieldStart) :
 
-        @staticmethod
-        def get_field_code(field_start : aw.fields.FieldStart) :
+        is_removing = True
 
-            builder = ""
+        current_node = field_start
+        while (current_node != None and is_removing) :
 
-            node = field_start
-            while ((node != None) and (node.node_type != aw.NodeType.FIELD_SEPARATOR) and (node.node_type != aw.NodeType.FIELD_END)) :
-                if (node.node_type == aw.NodeType.RUN) :
-                    builder += node.get_text()
-                node = node.next_pre_order(node.document)
+            if (current_node.node_type == aw.NodeType.FIELD_END) :
+                is_removing = False
 
-            return builder
+            next_node = current_node.next_pre_order(current_node.document)
+            current_node.remove()
+            current_node = next_node
 
-        #ExEnd:GetRemoveField
 
-        def test_different_page_setup(self) :
+    @staticmethod
+    def get_field_code(field_start : aw.fields.FieldStart) :
 
-            #ExStart:DifferentPageSetup
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
+        builder = ""
 
-            # Set the source document to continue straight after the end of the destination document.
-            src_doc.first_section.page_setup.section_start = aw.SectionStart.CONTINUOUS
+        node = field_start
+        while ((node != None) and (node.node_type != aw.NodeType.FIELD_SEPARATOR) and (node.node_type != aw.NodeType.FIELD_END)) :
+            if (node.node_type == aw.NodeType.RUN) :
+                builder += node.get_text()
+            node = node.next_pre_order(node.document)
 
-            # Restart the page numbering on the start of the source document.
-            src_doc.first_section.page_setup.restart_page_numbering = True
-            src_doc.first_section.page_setup.page_starting_number = 1
+        return builder
 
-            # To ensure this does not happen when the source document has different page setup settings, make sure the
-            # settings are identical between the last section of the destination document.
-            # If there are further continuous sections that follow on in the source document,
-            # this will need to be repeated for those sections.
-            src_doc.first_section.page_setup.page_width = dst_doc.last_section.page_setup.page_width
-            src_doc.first_section.page_setup.page_height = dst_doc.last_section.page_setup.page_height
-            src_doc.first_section.page_setup.orientation = dst_doc.last_section.page_setup.orientation
+    #ExEnd:GetRemoveField
 
-            # Iterate through all sections in the source document.
-            for para in src_doc.get_child_nodes(aw.NodeType.PARAGRAPH, True) :
-                para = para.as_paragraph()
-                para.paragraph_format.keep_with_next = True
+    def test_different_page_setup(self) :
 
+        #ExStart:DifferentPageSetup
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
 
-            dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+        # Set the source document to continue straight after the end of the destination document.
+        src_doc.first_section.page_setup.section_start = aw.SectionStart.CONTINUOUS
 
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.different_page_setup.docx")
-            #ExEnd:DifferentPageSetup
+        # Restart the page numbering on the start of the source document.
+        src_doc.first_section.page_setup.restart_page_numbering = True
+        src_doc.first_section.page_setup.page_starting_number = 1
 
+        # To ensure this does not happen when the source document has different page setup settings, make sure the
+        # settings are identical between the last section of the destination document.
+        # If there are further continuous sections that follow on in the source document,
+        # this will need to be repeated for those sections.
+        src_doc.first_section.page_setup.page_width = dst_doc.last_section.page_setup.page_width
+        src_doc.first_section.page_setup.page_height = dst_doc.last_section.page_setup.page_height
+        src_doc.first_section.page_setup.orientation = dst_doc.last_section.page_setup.orientation
 
-        def test_join_continuous(self) :
+        # Iterate through all sections in the source document.
+        for para in src_doc.get_child_nodes(aw.NodeType.PARAGRAPH, True) :
+            para = para.as_paragraph()
+            para.paragraph_format.keep_with_next = True
 
-            #ExStart:JoinContinuous
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
 
-            # Make the document appear straight after the destination documents content.
-            src_doc.first_section.page_setup.section_start = aw.SectionStart.CONTINUOUS
-            # Append the source document using the original styles found in the source document.
-            dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.join_continuous.docx")
-            #ExEnd:JoinContinuous
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.different_page_setup.docx")
+        #ExEnd:DifferentPageSetup
 
 
-        def test_join_new_page(self) :
+    def test_join_continuous(self) :
 
-            #ExStart:JoinNewPage
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
+        #ExStart:JoinContinuous
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
 
-            # Set the appended document to start on a new page.
-            src_doc.first_section.page_setup.section_start = aw.SectionStart.NEW_PAGE
-            # Append the source document using the original styles found in the source document.
-            dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+        # Make the document appear straight after the destination documents content.
+        src_doc.first_section.page_setup.section_start = aw.SectionStart.CONTINUOUS
+        # Append the source document using the original styles found in the source document.
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.join_new_page.docx")
-            #ExEnd:JoinNewPage
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.join_continuous.docx")
+        #ExEnd:JoinContinuous
 
 
-        def test_keep_source_formatting(self) :
+    def test_join_new_page(self) :
 
-            #ExStart:KeepSourceFormatting
-            dst_doc = aw.Document()
-            dst_doc.first_section.body.append_paragraph("Destination document text. ")
+        #ExStart:JoinNewPage
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
 
-            src_doc = aw.Document()
-            src_doc.first_section.body.append_paragraph("Source document text. ")
+        # Set the appended document to start on a new page.
+        src_doc.first_section.page_setup.section_start = aw.SectionStart.NEW_PAGE
+        # Append the source document using the original styles found in the source document.
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
-            # Append the source document to the destination document.
-            # Pass format mode to retain the original formatting of the source document when importing it.
-            dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.join_new_page.docx")
+        #ExEnd:JoinNewPage
 
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.keep_source_formatting.docx")
-            #ExEnd:KeepSourceFormatting
 
+    def test_keep_source_formatting(self) :
 
-        def test_keep_source_together(self) :
+        #ExStart:KeepSourceFormatting
+        dst_doc = aw.Document()
+        dst_doc.first_section.body.append_paragraph("Destination document text. ")
 
-            #ExStart:KeepSourceTogether
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Document destination with list.docx")
+        src_doc = aw.Document()
+        src_doc.first_section.body.append_paragraph("Source document text. ")
 
-            # Set the source document to appear straight after the destination document's content.
-            src_doc.first_section.page_setup.section_start = aw.SectionStart.CONTINUOUS
+        # Append the source document to the destination document.
+        # Pass format mode to retain the original formatting of the source document when importing it.
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
-            for para in src_doc.get_child_nodes(aw.NodeType.PARAGRAPH, True) :
-                para = para.as_paragraph()
-                para.paragraph_format.keep_with_next = True
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.keep_source_formatting.docx")
+        #ExEnd:KeepSourceFormatting
 
 
-            dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+    def test_keep_source_together(self) :
 
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.keep_source_together.docx")
-            #ExEnd:KeepSourceTogether
+        #ExStart:KeepSourceTogether
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Document destination with list.docx")
 
+        # Set the source document to appear straight after the destination document's content.
+        src_doc.first_section.page_setup.section_start = aw.SectionStart.CONTINUOUS
 
-        def test_list_keep_source_formatting(self) :
+        for para in src_doc.get_child_nodes(aw.NodeType.PARAGRAPH, True) :
+            para = para.as_paragraph()
+            para.paragraph_format.keep_with_next = True
 
-            #ExStart:ListKeepSourceFormatting
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Document destination with list.docx")
 
-            # Append the content of the document so it flows continuously.
-            src_doc.first_section.page_setup.section_start = aw.SectionStart.CONTINUOUS
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
-            dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.keep_source_together.docx")
+        #ExEnd:KeepSourceTogether
 
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.list_keep_source_formatting.docx")
-            #ExEnd:ListKeepSourceFormatting
 
+    def test_list_keep_source_formatting(self) :
 
-        def test_list_use_destination_styles(self) :
+        #ExStart:ListKeepSourceFormatting
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Document destination with list.docx")
 
-            #ExStart:ListUseDestinationStyles
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Document destination with list.docx")
+        # Append the content of the document so it flows continuously.
+        src_doc.first_section.page_setup.section_start = aw.SectionStart.CONTINUOUS
 
-            # Set the source document to continue straight after the end of the destination document.
-            src_doc.first_section.page_setup.section_start = aw.SectionStart.CONTINUOUS
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
-            # Keep track of the lists that are created.
-            new_lists = {}
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.list_keep_source_formatting.docx")
+        #ExEnd:ListKeepSourceFormatting
 
-            for para in src_doc.get_child_nodes(aw.NodeType.PARAGRAPH, True) :
-                para = para.as_paragraph()
-                if (para.is_list_item) :
 
-                    list_id = para.list_format.list.list_id
+    def test_list_use_destination_styles(self) :
 
-                    # Check if the destination document contains a list with this ID already. If it does, then this may
-                    # cause the two lists to run together. Create a copy of the list in the source document instead.
-                    if (dst_doc.lists.get_list_by_list_id(list_id) != None) :
+        #ExStart:ListUseDestinationStyles
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Document destination with list.docx")
 
-                        current_list
-                        # A newly copied list already exists for this ID, retrieve the stored list,
-                        # and use it on the current paragraph.
-                        if (new_lists.contains_key(list_id)) :
-                            current_list = new_lists[list_id]
-                        else :
-                            # Add a copy of this list to the document and store it for later reference.
-                            current_list = src_doc.lists.add_copy(para.list_format.list)
-                            new_lists.add(list_id, current_list)
+        # Set the source document to continue straight after the end of the destination document.
+        src_doc.first_section.page_setup.section_start = aw.SectionStart.CONTINUOUS
 
-                        # Set the list of this paragraph to the copied list.
-                        para.list_format.list = current_list
+        # Keep track of the lists that are created.
+        new_lists = {}
 
+        for para in src_doc.get_child_nodes(aw.NodeType.PARAGRAPH, True) :
+            para = para.as_paragraph()
+            if (para.is_list_item) :
 
-            # Append the source document to end of the destination document.
-            dst_doc.append_document(src_doc, aw.ImportFormatMode.USE_DESTINATION_STYLES)
+                list_id = para.list_format.list.list_id
 
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.list_use_destination_styles.docx")
-            #ExEnd:ListUseDestinationStyles
+                # Check if the destination document contains a list with this ID already. If it does, then this may
+                # cause the two lists to run together. Create a copy of the list in the source document instead.
+                if (dst_doc.lists.get_list_by_list_id(list_id) != None) :
 
+                    current_list
+                    # A newly copied list already exists for this ID, retrieve the stored list,
+                    # and use it on the current paragraph.
+                    if (new_lists.contains_key(list_id)) :
+                        current_list = new_lists[list_id]
+                    else :
+                        # Add a copy of this list to the document and store it for later reference.
+                        current_list = src_doc.lists.add_copy(para.list_format.list)
+                        new_lists.add(list_id, current_list)
 
-        def test_restart_page_numbering(self) :
+                    # Set the list of this paragraph to the copied list.
+                    para.list_format.list = current_list
 
-            #ExStart:RestartPageNumbering
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
 
-            src_doc.first_section.page_setup.section_start = aw.SectionStart.NEW_PAGE
-            src_doc.first_section.page_setup.restart_page_numbering = True
+        # Append the source document to end of the destination document.
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.USE_DESTINATION_STYLES)
 
-            dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.list_use_destination_styles.docx")
+        #ExEnd:ListUseDestinationStyles
 
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.restart_page_numbering.docx")
-            #ExEnd:RestartPageNumbering
 
+    def test_restart_page_numbering(self) :
 
-        def test_update_page_layout(self) :
+        #ExStart:RestartPageNumbering
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
 
-            #ExStart:UpdatePageLayout
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
+        src_doc.first_section.page_setup.section_start = aw.SectionStart.NEW_PAGE
+        src_doc.first_section.page_setup.restart_page_numbering = True
 
-            # If the destination document is rendered to PDF, image etc.
-            # or UpdatePageLayout is called before the source document. Is appended,
-            # then any changes made after will not be reflected in the rendered output
-            dst_doc.update_page_layout()
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
-            dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.restart_page_numbering.docx")
+        #ExEnd:RestartPageNumbering
 
-            # For the changes to be updated to rendered output, UpdatePageLayout must be called again.
-            # If not called again, the appended document will not appear in the output of the next rendering.
-            dst_doc.update_page_layout()
 
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.update_page_layout.docx")
-            #ExEnd:UpdatePageLayout
+    def test_update_page_layout(self) :
 
+        #ExStart:UpdatePageLayout
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
 
-        def test_use_destination_styles(self) :
+        # If the destination document is rendered to PDF, image etc.
+        # or UpdatePageLayout is called before the source document. Is appended,
+        # then any changes made after will not be reflected in the rendered output
+        dst_doc.update_page_layout()
 
-            #ExStart:UseDestinationStyles
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
-            # Append the source document using the styles of the destination document.
-            dst_doc.append_document(src_doc, aw.ImportFormatMode.USE_DESTINATION_STYLES)
+        # For the changes to be updated to rendered output, UpdatePageLayout must be called again.
+        # If not called again, the appended document will not appear in the output of the next rendering.
+        dst_doc.update_page_layout()
 
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.use_destination_styles.docx")
-            #ExEnd:UseDestinationStyles
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.update_page_layout.docx")
+        #ExEnd:UpdatePageLayout
 
 
-        def test_smart_style_behavior(self) :
+    def test_use_destination_styles(self) :
 
-            #ExStart:SmartStyleBehavior
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
-            builder = aw.DocumentBuilder(dst_doc)
+        #ExStart:UseDestinationStyles
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
 
-            builder.move_to_document_end()
-            builder.insert_break(aw.BreakType.PAGE_BREAK)
+        # Append the source document using the styles of the destination document.
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.USE_DESTINATION_STYLES)
 
-            options = aw.ImportFormatOptions()
-            options.smart_style_behavior = True
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.use_destination_styles.docx")
+        #ExEnd:UseDestinationStyles
 
-            builder.insert_document(src_doc, aw.ImportFormatMode.USE_DESTINATION_STYLES, options)
-            builder.document.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.smart_style_behavior.docx")
-            #ExEnd:SmartStyleBehavior
 
+    def test_smart_style_behavior(self) :
 
-        def test_insert_document_with_builder(self) :
+        #ExStart:SmartStyleBehavior
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
+        builder = aw.DocumentBuilder(dst_doc)
 
-            #ExStart:InsertDocumentWithBuilder
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
-            builder = aw.DocumentBuilder(dst_doc)
+        builder.move_to_document_end()
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
 
-            builder.move_to_document_end()
-            builder.insert_break(aw.BreakType.PAGE_BREAK)
+        options = aw.ImportFormatOptions()
+        options.smart_style_behavior = True
 
-            builder.insert_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
-            builder.document.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.insert_document_with_builder.docx")
-            #ExEnd:InsertDocumentWithBuilder
+        builder.insert_document(src_doc, aw.ImportFormatMode.USE_DESTINATION_STYLES, options)
+        builder.document.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.smart_style_behavior.docx")
+        #ExEnd:SmartStyleBehavior
 
 
-        def test_keep_source_numbering(self) :
+    def test_insert_document_with_builder(self) :
 
-            #ExStart:KeepSourceNumbering
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
+        #ExStart:InsertDocumentWithBuilder
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
+        builder = aw.DocumentBuilder(dst_doc)
 
-            # Keep source list formatting when importing numbered paragraphs.
-            import_format_options = aw.ImportFormatOptions()
-            import_format_options.keep_source_numbering = True
+        builder.move_to_document_end()
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
 
-            importer = aw.NodeImporter(src_doc, dst_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, import_format_options)
+        builder.insert_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+        builder.document.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.insert_document_with_builder.docx")
+        #ExEnd:InsertDocumentWithBuilder
 
-            src_paras = src_doc.first_section.body.paragraphs
 
-            for src_para in src_paras :
-                imported_node = importer.import_node(src_para, False)
-                dst_doc.first_section.body.append_child(imported_node)
+    def test_keep_source_numbering(self) :
 
+        #ExStart:KeepSourceNumbering
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
 
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.keep_source_numbering.docx")
-            #ExEnd:KeepSourceNumbering
+        # Keep source list formatting when importing numbered paragraphs.
+        import_format_options = aw.ImportFormatOptions()
+        import_format_options.keep_source_numbering = True
 
+        importer = aw.NodeImporter(src_doc, dst_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, import_format_options)
 
-        def test_ignore_text_boxes(self) :
+        src_paras = src_doc.first_section.body.paragraphs
 
-            #ExStart:IgnoreTextBoxes
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
+        for src_para in src_paras :
+            imported_node = importer.import_node(src_para, False)
+            dst_doc.first_section.body.append_child(imported_node)
 
-            # Keep the source text boxes formatting when importing.
-            import_format_options = aw.ImportFormatOptions()
-            import_format_options.ignore_text_boxes = False
 
-            importer = aw.NodeImporter(src_doc, dst_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, import_format_options)
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.keep_source_numbering.docx")
+        #ExEnd:KeepSourceNumbering
 
-            src_paras = src_doc.first_section.body.paragraphs
-            for src_para in src_paras :
-                imported_node = importer.import_node(src_para, True)
-                dst_doc.first_section.body.append_child(imported_node)
 
+    def test_ignore_text_boxes(self) :
 
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.ignore_text_boxes.docx")
-            #ExEnd:IgnoreTextBoxes
+        #ExStart:IgnoreTextBoxes
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
 
+        # Keep the source text boxes formatting when importing.
+        import_format_options = aw.ImportFormatOptions()
+        import_format_options.ignore_text_boxes = False
 
-        def test_ignore_header_footer(self) :
+        importer = aw.NodeImporter(src_doc, dst_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, import_format_options)
 
-            #ExStart:IgnoreHeaderFooter
-            src_document = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_document = aw.Document(docs_base.my_dir + "Northwind traders.docx")
+        src_paras = src_doc.first_section.body.paragraphs
+        for src_para in src_paras :
+            imported_node = importer.import_node(src_para, True)
+            dst_doc.first_section.body.append_child(imported_node)
 
-            import_format_options = aw.ImportFormatOptions()
-            import_format_options.ignore_header_footer = False
 
-            dst_document.append_document(src_document, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, import_format_options)
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.ignore_text_boxes.docx")
+        #ExEnd:IgnoreTextBoxes
 
-            dst_document.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.ignore_header_footer.docx")
-            #ExEnd:IgnoreHeaderFooter
 
+    def test_ignore_header_footer(self) :
 
-        def test_link_headers_footers(self) :
+        #ExStart:IgnoreHeaderFooter
+        src_document = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_document = aw.Document(docs_base.my_dir + "Northwind traders.docx")
 
-            #ExStart:LinkHeadersFooters
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
+        import_format_options = aw.ImportFormatOptions()
+        import_format_options.ignore_header_footer = False
 
-            # Set the appended document to appear on a new page.
-            src_doc.first_section.page_setup.section_start = aw.SectionStart.NEW_PAGE
-            # Link the headers and footers in the source document to the previous section.
-            # This will override any headers or footers already found in the source document.
-            src_doc.first_section.headers_footers.link_to_previous(True)
+        dst_document.append_document(src_document, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, import_format_options)
 
-            dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+        dst_document.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.ignore_header_footer.docx")
+        #ExEnd:IgnoreHeaderFooter
 
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.link_headers_footers.docx")
-            #ExEnd:LinkHeadersFooters
 
+    def test_link_headers_footers(self) :
 
-        def test_remove_source_headers_footers(self) :
+        #ExStart:LinkHeadersFooters
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
 
-            #ExStart:RemoveSourceHeadersFooters
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
+        # Set the appended document to appear on a new page.
+        src_doc.first_section.page_setup.section_start = aw.SectionStart.NEW_PAGE
+        # Link the headers and footers in the source document to the previous section.
+        # This will override any headers or footers already found in the source document.
+        src_doc.first_section.headers_footers.link_to_previous(True)
 
-            # Remove the headers and footers from each of the sections in the source document.
-            for section in src_doc.sections :
-                section.as_section().clear_headers_footers()
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
-            # Even after the headers and footers are cleared from the source document, the "LinkToPrevious" setting
-            # for HeadersFooters can still be set. This will cause the headers and footers to continue from the destination
-            # document. This should set to False to avoid this behavior.
-            src_doc.first_section.headers_footers.link_to_previous(False)
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.link_headers_footers.docx")
+        #ExEnd:LinkHeadersFooters
 
-            dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.remove_source_headers_footers.docx")
-            #ExEnd:RemoveSourceHeadersFooters
+    def test_remove_source_headers_footers(self) :
 
+        #ExStart:RemoveSourceHeadersFooters
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
 
-        def test_unlink_headers_footers(self) :
+        # Remove the headers and footers from each of the sections in the source document.
+        for section in src_doc.sections :
+            section.as_section().clear_headers_footers()
 
-            #ExStart:UnlinkHeadersFooters
-            src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
-            dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
+        # Even after the headers and footers are cleared from the source document, the "LinkToPrevious" setting
+        # for HeadersFooters can still be set. This will cause the headers and footers to continue from the destination
+        # document. This should set to False to avoid this behavior.
+        src_doc.first_section.headers_footers.link_to_previous(False)
 
-            # Unlink the headers and footers in the source document to stop this
-            # from continuing the destination document's headers and footers.
-            src_doc.first_section.headers_footers.link_to_previous(False)
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
-            dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.remove_source_headers_footers.docx")
+        #ExEnd:RemoveSourceHeadersFooters
 
-            dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.unlink_headers_footers.docx")
-            #ExEnd:UnlinkHeadersFooters
+
+    def test_unlink_headers_footers(self) :
+
+        #ExStart:UnlinkHeadersFooters
+        src_doc = aw.Document(docs_base.my_dir + "Document source.docx")
+        dst_doc = aw.Document(docs_base.my_dir + "Northwind traders.docx")
+
+        # Unlink the headers and footers in the source document to stop this
+        # from continuing the destination document's headers and footers.
+        src_doc.first_section.headers_footers.link_to_previous(False)
+
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+
+        dst_doc.save(docs_base.artifacts_dir + "JoinAndAppendDocuments.unlink_headers_footers.docx")
+        #ExEnd:UnlinkHeadersFooters
 
 
 if __name__ == '__main__':
-        unittest.main()
+    unittest.main()

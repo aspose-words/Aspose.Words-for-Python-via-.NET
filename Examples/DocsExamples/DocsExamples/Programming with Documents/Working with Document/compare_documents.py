@@ -14,107 +14,107 @@ import aspose.words as aw
 
 class CompareDocument(docs_base.DocsExamplesBase):
 
-        def test_compare_for_equal(self) :
+    def test_compare_for_equal(self) :
 
-            #ExStart:CompareForEqual
-            doc_a = aw.Document(docs_base.my_dir + "Document.docx")
-            doc_b = doc_a.clone().as_document()
+        #ExStart:CompareForEqual
+        doc_a = aw.Document(docs_base.my_dir + "Document.docx")
+        doc_b = doc_a.clone().as_document()
 
-            # DocA now contains changes as revisions.
-            doc_a.compare(doc_b, "user", datetime.today())
+        # DocA now contains changes as revisions.
+        doc_a.compare(doc_b, "user", datetime.today())
 
-            print("Documents are equal" if (doc_a.revisions.count == 0) else "Documents are not equal")
-            #ExEnd:CompareForEqual
-
-
-        def test_compare_options(self) :
-
-            #ExStart:CompareOptions
-            doc_a = aw.Document(docs_base.my_dir + "Document.docx")
-            doc_b = doc_a.clone()
-
-            options = aw.comparing.CompareOptions()
-
-            options.ignore_formatting = True
-            options.ignore_headers_and_footers = True
-            options.ignore_case_changes = True
-            options.ignore_tables = True
-            options.ignore_fields = True
-            options.ignore_comments = True
-            options.ignore_textboxes = True
-            options.ignore_footnotes = True
+        print("Documents are equal" if (doc_a.revisions.count == 0) else "Documents are not equal")
+        #ExEnd:CompareForEqual
 
 
-            doc_a.compare(doc_b, "user", datetime.today(), options)
+    def test_compare_options(self) :
 
-            print("Documents are equal" if (doc_a.revisions.count == 0) else "Documents are not equal")
-            #ExEnd:CompareOptions
+        #ExStart:CompareOptions
+        doc_a = aw.Document(docs_base.my_dir + "Document.docx")
+        doc_b = doc_a.clone()
 
+        options = aw.comparing.CompareOptions()
 
-        def test_comparison_target(self) :
-
-            #ExStart:ComparisonTarget
-            doc_a = aw.Document(docs_base.my_dir + "Document.docx")
-            doc_b = doc_a.clone()
-
-            # Relates to Microsoft Word "Show changes in" option in "Compare Documents" dialog box.
-            options = aw.comparing.CompareOptions()
-            options.ignore_formatting = True
-            options.target = aw.comparing.ComparisonTargetType.NEW
-
-            doc_a.compare(doc_b, "user", datetime.today(), options)
-            #ExEnd:ComparisonTarget
+        options.ignore_formatting = True
+        options.ignore_headers_and_footers = True
+        options.ignore_case_changes = True
+        options.ignore_tables = True
+        options.ignore_fields = True
+        options.ignore_comments = True
+        options.ignore_textboxes = True
+        options.ignore_footnotes = True
 
 
-        def test_comparison_granularity(self) :
+        doc_a.compare(doc_b, "user", datetime.today(), options)
 
-            #ExStart:ComparisonGranularity
-            builder_a = aw.DocumentBuilder(aw.Document())
-            builder_b = aw.DocumentBuilder(aw.Document())
+        print("Documents are equal" if (doc_a.revisions.count == 0) else "Documents are not equal")
+        #ExEnd:CompareOptions
 
-            builder_a.writeln("This is A simple word")
-            builder_b.writeln("This is B simple words")
 
-            compare_options = aw.comparing.CompareOptions()
-            compare_options.granularity = aw.comparing.Granularity.CHAR_LEVEL
+    def test_comparison_target(self) :
 
-            builder_a.document.compare(builder_b.document, "author", datetime.today(), compare_options)
-            #ExEnd:ComparisonGranularity
+        #ExStart:ComparisonTarget
+        doc_a = aw.Document(docs_base.my_dir + "Document.docx")
+        doc_b = doc_a.clone()
 
-        def test_apply_compare_two_documents(self) :
+        # Relates to Microsoft Word "Show changes in" option in "Compare Documents" dialog box.
+        options = aw.comparing.CompareOptions()
+        options.ignore_formatting = True
+        options.target = aw.comparing.ComparisonTargetType.NEW
 
-            #ExStart:ApplyCompareTwoDocuments
-            # The source document doc1.
-            doc1 = aw.Document()
-            builder = aw.DocumentBuilder(doc1)
-            builder.writeln("This is the original document.")
+        doc_a.compare(doc_b, "user", datetime.today(), options)
+        #ExEnd:ComparisonTarget
 
-            # The target document doc2.
-            doc2 = aw.Document()
-            builder = aw.DocumentBuilder(doc2)
-            builder.writeln("This is the edited document.")
 
-            # If either document has a revision, an exception will be thrown.
-            if (doc1.revisions.count == 0 and doc2.revisions.count == 0) :
-                doc1.compare(doc2, "authorName", datetime.today())
+    def test_comparison_granularity(self) :
 
-            # If doc1 and doc2 are different, doc1 now has some revisions after the comparison, which can now be viewed and processed.
-            self.assertEqual(2, doc1.revisions.count)
+        #ExStart:ComparisonGranularity
+        builder_a = aw.DocumentBuilder(aw.Document())
+        builder_b = aw.DocumentBuilder(aw.Document())
 
-            for revision in doc1.revisions :
-                print(f"Revision type: {revision.revision_type}, on a node of type \"{revision.parent_node.node_type}\"")
-                print(f"\tChanged text: \"{revision.parent_node.get_text()}\"")
+        builder_a.writeln("This is A simple word")
+        builder_b.writeln("This is B simple words")
 
-            # All the revisions in doc1 are differences between doc1 and doc2, so accepting them on doc1 transforms doc1 into doc2.
-            doc1.revisions.accept_all()
+        compare_options = aw.comparing.CompareOptions()
+        compare_options.granularity = aw.comparing.Granularity.CHAR_LEVEL
 
-            # doc1, when saved, now resembles doc2.
-            doc1.save(docs_base.artifacts_dir + "Document.Compare.docx")
-            doc1 = aw.Document(docs_base.artifacts_dir + "Document.Compare.docx")
-            self.assertEqual(0, doc1.revisions.count)
-            self.assertEqual(doc2.get_text().strip(), doc1.get_text().strip())
-            #ExEnd:ApplyCompareTwoDocuments
+        builder_a.document.compare(builder_b.document, "author", datetime.today(), compare_options)
+        #ExEnd:ComparisonGranularity
+
+    def test_apply_compare_two_documents(self) :
+
+        #ExStart:ApplyCompareTwoDocuments
+        # The source document doc1.
+        doc1 = aw.Document()
+        builder = aw.DocumentBuilder(doc1)
+        builder.writeln("This is the original document.")
+
+        # The target document doc2.
+        doc2 = aw.Document()
+        builder = aw.DocumentBuilder(doc2)
+        builder.writeln("This is the edited document.")
+
+        # If either document has a revision, an exception will be thrown.
+        if (doc1.revisions.count == 0 and doc2.revisions.count == 0) :
+            doc1.compare(doc2, "authorName", datetime.today())
+
+        # If doc1 and doc2 are different, doc1 now has some revisions after the comparison, which can now be viewed and processed.
+        self.assertEqual(2, doc1.revisions.count)
+
+        for revision in doc1.revisions :
+            print(f"Revision type: {revision.revision_type}, on a node of type \"{revision.parent_node.node_type}\"")
+            print(f"\tChanged text: \"{revision.parent_node.get_text()}\"")
+
+        # All the revisions in doc1 are differences between doc1 and doc2, so accepting them on doc1 transforms doc1 into doc2.
+        doc1.revisions.accept_all()
+
+        # doc1, when saved, now resembles doc2.
+        doc1.save(docs_base.artifacts_dir + "Document.Compare.docx")
+        doc1 = aw.Document(docs_base.artifacts_dir + "Document.Compare.docx")
+        self.assertEqual(0, doc1.revisions.count)
+        self.assertEqual(doc2.get_text().strip(), doc1.get_text().strip())
+        #ExEnd:ApplyCompareTwoDocuments
 
 
 if __name__ == '__main__':
-        unittest.main()
+    unittest.main()
