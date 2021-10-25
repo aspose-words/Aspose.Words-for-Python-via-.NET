@@ -140,7 +140,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         builder.write("Text")
 
         # Remove first paragraph with tracking revisions.
-        doc.start_track_revisions("author", DateTime.now)
+        doc.start_track_revisions("author", datetime.now())
         doc.first_section.body.first_paragraph.remove()
         doc.stop_track_revisions()
 

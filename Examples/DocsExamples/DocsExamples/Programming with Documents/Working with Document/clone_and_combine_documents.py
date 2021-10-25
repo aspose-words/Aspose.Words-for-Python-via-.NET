@@ -47,7 +47,7 @@ class CloneAndCombineDocuments(docs_base.DocsExamplesBase):
     @staticmethod
     def insert_document(insertion_destination: aw.Node, doc_to_insert: aw.Document):
 
-        if insertion_destination.node_type == aw.NodeType.PARAGRAPH or insertion_destination.node_type == awNodeType.TABLE:
+        if insertion_destination.node_type == aw.NodeType.PARAGRAPH or insertion_destination.node_type == aw.NodeType.TABLE:
 
             destination_parent = insertion_destination.parent_node
 

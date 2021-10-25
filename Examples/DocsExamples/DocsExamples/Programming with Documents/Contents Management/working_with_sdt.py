@@ -65,7 +65,7 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
 
             elif sdt.sdt_type == aw.markup.SdtType.PICTURE:
 
-                shape = sdt.get_child(NodeType.shape, 0, True).as_shape()
+                shape = sdt.get_child(aw.NodeType.shape, 0, True).as_shape()
                 if shape.has_image:
                     shape.image_data.set_image(docs_base.images_dir + "Watermark.png")
 
