@@ -222,7 +222,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        for i in range(5):
+        for _ in range(5):
             builder.insert_break(aw.BreakType.PAGE_BREAK)
 
         builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_PRIMARY)
@@ -355,7 +355,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        builder.insert_field("MERGEFIELD MyFieldName \* MERGEFORMAT")
+        builder.insert_field("MERGEFIELD MyFieldName \\* MERGEFORMAT")
 
         doc.save(docs_base.artifacts_dir + "WorkingWithFields.insert_field.docx")
         #ExEnd:InsertField

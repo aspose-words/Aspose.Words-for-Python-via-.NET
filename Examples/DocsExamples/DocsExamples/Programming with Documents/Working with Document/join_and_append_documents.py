@@ -364,7 +364,6 @@ class JoinAndAppendDocuments(docs_base.DocsExamplesBase):
                 # cause the two lists to run together. Create a copy of the list in the source document instead.
                 if dst_doc.lists.get_list_by_list_id(list_id) is not None:
 
-                    current_list
                     # A newly copied list already exists for this ID, retrieve the stored list,
                     # and use it on the current paragraph.
                     if new_lists.contains_key(list_id):

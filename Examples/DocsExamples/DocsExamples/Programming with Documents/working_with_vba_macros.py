@@ -116,10 +116,9 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
 
         if reference.type == aw.vba.VbaReferenceType.REGISTERED or reference.type == aw.vba.VbaReferenceType.ORIGINAL or reference.type == aw.vba.VbaReferenceType.CONTROL:
             return self.get_lib_id_reference_path(reference.lib_id)
-        elif reference.type == aw.vba.VbaReferenceType.PROJECT:
+        if reference.type == aw.vba.VbaReferenceType.PROJECT:
             return self.get_lib_id_project_path(reference.lib_id)
-        else:
-            raise RuntimeError()
+        raise RuntimeError()
 
 
     # <summary>
@@ -150,7 +149,7 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
     def get_lib_id_project_path(lib_id_project: str):
 
         if lib_id_project is not None:
-           return lib_id_project.substring(3)
+            return lib_id_project.substring(3)
 
         return ""
 

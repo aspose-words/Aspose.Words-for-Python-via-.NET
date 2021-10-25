@@ -354,11 +354,11 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        curNode = builder.current_node
-        curParagraph = builder.current_paragraph
+        cur_node = builder.current_node
+        cur_paragraph = builder.current_paragraph
         #ExEnd:CursorPosition
 
-        print("\nCursor move to paragraph: " + curParagraph.get_text())
+        print("\nCursor move to paragraph: " + cur_paragraph.get_text())
 
 
     def test_move_to_node(self):

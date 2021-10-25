@@ -153,7 +153,7 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
 
     #ExStart:RemoveCommentsByAuthor
     @staticmethod
-    def remove_comments_by_author(doc, authorName):
+    def remove_comments_by_author(doc, author_name):
 
         comments = doc.get_child_nodes(aw.NodeType.COMMENT, True)
 
@@ -161,7 +161,7 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
         for i in range(comments.count, 0):
             print(i)
             comment = comments[i].as_comment()
-            if comment.author == authorName:
+            if comment.author == author_name:
                 comment.remove()
 
 

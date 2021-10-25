@@ -86,7 +86,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         # The document starts with one section, insert the barcode into this existing section
         self.insert_barcode_into_footer(builder, doc.first_section, aw.HeaderFooterType.FOOTER_PRIMARY)
 
-        for i in range(1, num_pages):
+        for _ in range(1, num_pages):
 
             # Clone the first section and add it into the end of the document
             clone_section = doc.first_section.clone(False).as_section()
