@@ -192,7 +192,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        builder.insert_table_of_contents("\\o \"1-3\" \\h \\z \\u")
+        builder.insert_table_of_contents(r'\o "1-3" \h \z \u')
 
         # Start the actual document content on the second page.
         builder.insert_break(aw.BreakType.PAGE_BREAK)
@@ -297,7 +297,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        builder.insert_field("TC \"Entry Text\" \\f t")
+        builder.insert_field(r'TC "Entry Text" \f t')
 
         doc.save(docs_base.artifacts_dir + "AddContentUsingDocumentBuilder.insert_tc_field.docx")
         #ExEnd:InsertTCField

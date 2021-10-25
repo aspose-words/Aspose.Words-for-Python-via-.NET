@@ -33,7 +33,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         series1.has_data_labels = True
         series1.data_labels.show_value = True
-        series1.data_labels[0].number_format.format_code = "\"$\"#,##0.00"
+        series1.data_labels[0].number_format.format_code = '"$"#,##0.00'
         series1.data_labels[1].number_format.format_code = "dd/mm/yyyy"
         series1.data_labels[2].number_format.format_code = "0.00%"
 

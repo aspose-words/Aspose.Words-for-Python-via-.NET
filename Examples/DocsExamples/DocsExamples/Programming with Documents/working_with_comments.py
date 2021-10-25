@@ -94,7 +94,7 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
 
         # Remove comments by the "pm" author.
         self.remove_comments_by_author(doc, "pm")
-        print("Comments from \"pm\" are removed!")
+        print('Comments from "pm" are removed!')
 
         # Extract the information about the comments of the "ks" author.
         for comment in self.extract_comments_by_author(doc, "ks"):

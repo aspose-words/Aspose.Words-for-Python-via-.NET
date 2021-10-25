@@ -44,7 +44,7 @@ class WorkingWithWebExtension(docs_base.DocsExamplesBase):
         for task_pane_info in doc.web_extension_task_panes:
 
             reference = task_pane_info.web_extension.reference
-            print(f"Provider: \"{reference.store}\", version: \"{reference.version}\", catalog identifier: \"{reference.id}\"")
+            print(f'Provider: "{reference.store}", version: "{reference.version}", catalog identifier: "{reference.id}"')
 
         #ExEnd:GetListOfAddins
 

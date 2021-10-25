@@ -189,20 +189,20 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
         builder.move_to_document_end()
 
         # IF "MERGEFIELD bookmark" = "True" "" ""
-        field = builder.insert_field("IF \"", None)
+        field = builder.insert_field('IF "', None)
         builder.move_to(field.start.next_sibling)
         builder.insert_field("MERGEFIELD " + bookmark_name + "", None)
-        builder.write("\" = \"True\" ")
-        builder.write("\"")
-        builder.write("\"")
-        builder.write(" \"\"")
+        builder.write('" = "True" ')
+        builder.write('"')
+        builder.write('"')
+        builder.write(' ""')
 
         current_node = field.start
         flag = True
         while current_node is not None and flag:
 
             if current_node.node_type == aw.NodeType.RUN:
-                if current_node.to_string(aw.SaveFormat.TEXT).strip() == "\"":
+                if current_node.to_string(aw.SaveFormat.TEXT).strip() == '"':
                     flag = False
 
             next_node = current_node.next_sibling

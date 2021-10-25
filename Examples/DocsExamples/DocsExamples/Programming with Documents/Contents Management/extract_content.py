@@ -219,13 +219,13 @@ class ExtractContent(docs_base.DocsExamplesBase):
         run_style = "Intense Emphasis"
 
         paragraphs = ExtractContent.paragraphs_by_style_name(doc, para_style)
-        print(f"Paragraphs with \"{paraStyle}\" styles ({len(paragraphs)}):")
+        print(f'Paragraphs with "{paraStyle}" styles ({len(paragraphs)}):')
 
         for paragraph in paragraphs:
             print(paragraph.to_string(aw.SaveFormat.TEXT))
 
         runs = ExtractContent.runs_by_style_name(doc, run_style)
-        print(f"\nRuns with \"{runStyle}\" styles ({len(runs)}):")
+        print(f'\nRuns with "{runStyle}" styles ({len(runs)}):')
 
         for run in runs:
             print(run.range.text)

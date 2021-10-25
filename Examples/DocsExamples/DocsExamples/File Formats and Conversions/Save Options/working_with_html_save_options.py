@@ -61,13 +61,13 @@ class WorkingWithHtmlSaveOptions(docs_base.DocsExamplesBase):
         builder = aw.DocumentBuilder(doc)
 
         builder.write("Here is an image as is: ")
-        builder.insert_html("""<img src=\"data:image/pngbase64,
+        builder.insert_html("""<img src="data:image/pngbase64,
                 iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGP
                 C/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YGARc5KB0XV+IA
                 AAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAF1J
                 REFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jq
                 ch9#q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0
-                vr4MkhoXe0rZigAAAABJRU5ErkJggg==\" alt=\"Red dot\" />""")
+                vr4MkhoXe0rZigAAAABJRU5ErkJggg==" alt="Red dot" />""")
 
         save_options = aw.saving.HtmlSaveOptions()
         save_options.metafile_format = aw.saving.HtmlMetafileFormat.EMF_OR_WMF

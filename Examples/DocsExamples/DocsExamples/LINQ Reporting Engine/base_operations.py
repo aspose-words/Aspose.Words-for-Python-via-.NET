@@ -22,7 +22,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
 
         builder.write("<<[sender.name]>> says: <<[sender.message]>>")
 
-        json_data_source = aw.reporting.JsonDataSource(io.BytesIO(b"{\"Name\":\"LINQ Reporting Engine\",\"Message\":\"Hello World\"}"))
+        json_data_source = aw.reporting.JsonDataSource(io.BytesIO(b'{"Name":"LINQ Reporting Engine","Message":"Hello World"}'))
 
         engine = aw.reporting.ReportingEngine()
         engine.build_report(doc, json_data_source, "sender")

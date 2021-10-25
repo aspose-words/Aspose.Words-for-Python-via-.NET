@@ -25,9 +25,9 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         # Insert content with German locale.
         builder.font.locale_id = 1031
-        builder.insert_field("MERGEFIELD Date1 \\@ \"dddd, d MMMM yyyy\"")
+        builder.insert_field('MERGEFIELD Date1 \\@ "dddd, d MMMM yyyy"')
         builder.write(" - ")
-        builder.insert_field("MERGEFIELD Date2 \\@ \"dddd, d MMMM yyyy\"")
+        builder.insert_field('MERGEFIELD Date2 \\@ "dddd, d MMMM yyyy"')
         #ExEnd:DocumentBuilderInsertField
 
         # Shows how to specify where the culture used for date formatting during field update and mail merge is chosen from
@@ -234,7 +234,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         builder.insert_field("PAGE")
         builder.write(" <> ")
         builder.insert_field("NUMPAGES")
-        builder.write(" \"See Next Page\" \"Last Page\" ")
+        builder.write(' "See Next Page" "Last Page" ')
 
         field.update()
 

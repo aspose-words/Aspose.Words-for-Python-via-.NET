@@ -102,8 +102,8 @@ class CompareDocument(docs_base.DocsExamplesBase):
         self.assertEqual(2, doc1.revisions.count)
 
         for revision in doc1.revisions:
-            print(f"Revision type: {revision.revision_type}, on a node of type \"{revision.parent_node.node_type}\"")
-            print(f"\tChanged text: \"{revision.parent_node.get_text()}\"")
+            print(f'Revision type: {revision.revision_type}, on a node of type "{revision.parent_node.node_type}"')
+            print(f'\tChanged text: "{revision.parent_node.get_text()}"')
 
         # All the revisions in doc1 are differences between doc1 and doc2, so accepting them on doc1 transforms doc1 into doc2.
         doc1.revisions.accept_all()
