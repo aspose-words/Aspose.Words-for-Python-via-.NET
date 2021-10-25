@@ -7,16 +7,16 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR
 
 import aspose.words as aw
 
-class WorkingWithParagraph(docs_base.DocsExamplesBase):
+class WorkingWithParagraph(DocsExamplesBase):
 
     def test_count_lines_in_paragraph(self):
 
         #ExStart:CountLinesInParagraph
-        document = aw.Document(docs_base.my_dir + "Bibliography.docx")
+        document = aw.Document(MY_DIR + "Bibliography.docx")
 
         collector = aw.layout.LayoutCollector(document)
         enumerator = aw.layout.LayoutEnumerator(document)

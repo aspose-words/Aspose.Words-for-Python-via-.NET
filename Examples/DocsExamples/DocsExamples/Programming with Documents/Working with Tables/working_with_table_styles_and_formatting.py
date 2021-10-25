@@ -7,17 +7,17 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
+class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
 
     def test_get_distance_between_table_surrounding_text(self):
 
         #ExStart:GetDistancebetweenTableSurroundingText
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         print("\nGet distance between table left, right, bottom, top and the surrounding text.")
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -32,7 +32,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
     def test_apply_outline_border(self):
 
         #ExStart:ApplyOutlineBorder
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
         # Align the table to the center of the page.
@@ -49,14 +49,14 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         # Fill the cells with a light green solid color.
         table.set_shading(aw.TextureIndex.TEXTURE_SOLID, drawing.Color.light_green, drawing.Color.empty())
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTableStylesAndFormatting.apply_outline_border.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.apply_outline_border.docx")
         #ExEnd:ApplyOutlineBorder
 
 
     def test_build_table_with_borders(self):
 
         #ExStart:BuildTableWithBorders
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
@@ -66,14 +66,14 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         # Set a green border around and inside the table.
         table.set_borders(aw.LineStyle.SINGLE, 1.5, drawing.Color.green)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTableStylesAndFormatting.build_table_with_borders.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.build_table_with_borders.docx")
         #ExEnd:BuildTableWithBorders
 
 
     def test_modify_row_formatting(self):
 
         #ExStart:ModifyRowFormatting
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
@@ -109,7 +109,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         builder.end_row()
         builder.end_table()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTableStylesAndFormatting.apply_row_formatting.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.apply_row_formatting.docx")
         #ExEnd:ApplyRowFormatting
 
 
@@ -129,7 +129,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         builder.end_row()
         builder.end_table()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTableStylesAndFormatting.set_cell_padding.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.set_cell_padding.docx")
         #ExEnd:SetCellPadding
 
 
@@ -139,7 +139,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
     def test_modify_cell_formatting(self):
 
         #ExStart:ModifyCellFormatting
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
         first_cell = table.first_row.first_cell
@@ -190,14 +190,14 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         builder.cell_format.clear_formatting()
         builder.writeln("Cell #4")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTableStylesAndFormatting.format_table_and_cell_with_different_borders.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.format_table_and_cell_with_different_borders.docx")
         #ExEnd:FormatTableAndCellWithDifferentBorders
 
 
     def test_set_table_title_and_description(self):
 
         #ExStart:SetTableTitleAndDescription
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
         table.title = "Test title"
@@ -208,20 +208,20 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
 
         doc.compatibility_options.optimize_for(aw.settings.MsWordVersion.WORD2016)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTableStylesAndFormatting.set_table_title_and_description.docx", options)
+        doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.set_table_title_and_description.docx", options)
         #ExEnd:SetTableTitleAndDescription
 
 
     def test_allow_cell_spacing(self):
 
         #ExStart:AllowCellSpacing
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
         table.allow_cell_spacing = True
         table.cell_spacing = 2
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTableStylesAndFormatting.allow_cell_spacing.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.allow_cell_spacing.docx")
         #ExEnd:AllowCellSpacing
 
 
@@ -267,14 +267,14 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         builder.writeln("50")
         builder.end_row()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTableStylesAndFormatting.build_table_with_style.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.build_table_with_style.docx")
         #ExEnd:BuildTableWithStyle
 
 
     def test_expand_formatting_on_cells_and_row_from_style(self):
 
         #ExStart:ExpandFormattingOnCellsAndRowFromStyle
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         # Get the first cell of the first table in the document.
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -320,7 +320,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
 
         table.style = table_style
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTableStylesAndFormatting.create_table_style.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.create_table_style.docx")
         #ExEnd:CreateTableStyle
 
 
@@ -346,7 +346,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
 
         table.style = table_style
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTableStylesAndFormatting.define_conditional_formatting.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.define_conditional_formatting.docx")
         #ExEnd:DefineConditionalFormatting
 
 
@@ -371,7 +371,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         builder.end_row()
         builder.end_table()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTableStylesAndFormatting.document_builder_set_table_cell_formatting.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.document_builder_set_table_cell_formatting.docx")
         #ExEnd:DocumentBuilderSetTableCellFormatting
 
 
@@ -399,7 +399,7 @@ class WorkingWithTableStylesAndFormatting(docs_base.DocsExamplesBase):
         builder.end_row()
         builder.end_table()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTableStylesAndFormatting.document_builder_set_table_row_formatting.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.document_builder_set_table_row_formatting.docx")
         #ExEnd:DocumentBuilderSetTableRowFormatting
 
 

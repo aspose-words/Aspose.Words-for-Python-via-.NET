@@ -7,16 +7,16 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
 
 import aspose.words as aw
 
-class WorkingWithImages(docs_base.DocsExamplesBase):
+class WorkingWithImages(DocsExamplesBase):
 
 
     def test_add_image_to_each_page(self):
 
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
         # Create and attach collector before the document before page layout is built.
         layout_collector = aw.layout.LayoutCollector(doc)
@@ -29,14 +29,14 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
 
                 # Check if the current paragraph belongs to the target page.
                 if layout_collector.get_start_page_index(para) == page:
-                    self.add_image_to_page(paragraph, page, docs_base.images_dir)
+                    self.add_image_to_page(paragraph, page, IMAGES_DIR)
                     break
 
 
         # If we need to save the document as a PDF or image, call UpdatePageLayout() method.
         doc.update_page_layout()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithImages.add_image_to_each_page.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithImages.add_image_to_each_page.docx")
 
 
     # <summary>
@@ -53,7 +53,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         builder.move_to(para)
 
         # Insert a logo to the top left of the page to place it in front of all other text.
-        builder.insert_image(docs_base.images_dir + "Transparent background logo.png", aw.drawing.RelativeHorizontalPosition.PAGE, 60,
+        builder.insert_image(IMAGES_DIR + "Transparent background logo.png", aw.drawing.RelativeHorizontalPosition.PAGE, 60,
             aw.drawing.RelativeVerticalPosition.PAGE, 60, -1, -1, aw.drawing.WrapType.NONE)
 
         # Insert a textbox next to the image which contains some text consisting of the page number.
@@ -99,7 +99,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
 
         # Save the document as a PDF to disk
         # You can also save this directly to a stream
-        doc.save(docs_base.artifacts_dir + "InsertBarcodeImage.docx")
+        doc.save(ARTIFACTS_DIR + "InsertBarcodeImage.docx")
         #ExEnd:InsertBarcodeImage
 
 
@@ -113,7 +113,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
 
         # Insert the barcode, then move to the next line and insert the ID along with the page number.
         # Use pageId if you need to insert a different barcode on each page. 0 = First page, 1 = Second page etc.
-        builder.insert_image(docs_base.images_dir + "Barcode.png")
+        builder.insert_image(IMAGES_DIR + "Barcode.png")
         builder.writeln()
         builder.write("1234567890")
         builder.insert_field("PAGE")
@@ -136,9 +136,9 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        builder.insert_image(docs_base.images_dir + "Logo.jpg")
+        builder.insert_image(IMAGES_DIR + "Logo.jpg")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithImages.document_builder_insert_inline_image.doc")
+        doc.save(ARTIFACTS_DIR + "WorkingWithImages.document_builder_insert_inline_image.doc")
         #ExEnd:DocumentBuilderInsertInlineImage
 
     def test_document_builder_insert_floating_image(self):
@@ -147,7 +147,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        builder.insert_image(docs_base.images_dir + "Logo.jpg",
+        builder.insert_image(IMAGES_DIR + "Logo.jpg",
             aw.drawing.RelativeHorizontalPosition.MARGIN,
             100,
             aw.drawing.RelativeVerticalPosition.MARGIN,
@@ -156,7 +156,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
             100,
             aw.drawing.WrapType.SQUARE)
 
-        doc.save(docs_base.artifacts_dir+"WorkingWithImages.document_builder_insert_floating_image.doc")
+        doc.save(ARTIFACTS_DIR+"WorkingWithImages.document_builder_insert_floating_image.doc")
         #ExEnd:DocumentBuilderInsertFloatingImage
 
     def test_set_aspect_ratio_locked(self):
@@ -165,10 +165,10 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        shape = builder.insert_image(docs_base.images_dir + "Logo.jpg")
+        shape = builder.insert_image(IMAGES_DIR + "Logo.jpg")
         shape.aspect_ratio_locked = False
 
-        doc.save(docs_base.artifacts_dir+"WorkingWithImages.set_aspect_ratio_locked.doc")
+        doc.save(ARTIFACTS_DIR+"WorkingWithImages.set_aspect_ratio_locked.doc")
         #ExEnd:SetAspectRatioLocked
 
 
@@ -178,7 +178,7 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        shape = builder.insert_image(docs_base.images_dir + "Logo.jpg")
+        shape = builder.insert_image(IMAGES_DIR + "Logo.jpg")
         shape.aspect_ratio_locked = False
 
         print("\nGets the actual bounds of the shape in points.")
@@ -190,8 +190,8 @@ class WorkingWithImages(docs_base.DocsExamplesBase):
 
         #ExStart:CropImageCall
         # The path to the documents directory.
-        input_path = docs_base.images_dir + "Logo.jpg"
-        output_path = docs_base.artifacts_dir + "cropped_logo.jpg"
+        input_path = IMAGES_DIR + "Logo.jpg"
+        output_path = ARTIFACTS_DIR + "cropped_logo.jpg"
 
         self.crop_image(input_path,output_path, 100, 90, 200, 200)
         #ExEnd:CropImageCall

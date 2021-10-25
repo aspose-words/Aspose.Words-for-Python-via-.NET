@@ -7,12 +7,12 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 #import system.text
 
-class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
+class WorkingWithLoadOptions(DocsExamplesBase):
 
     def test_update_dirty_fields(self):
 
@@ -20,9 +20,9 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
         load_options = aw.loading.LoadOptions()
         load_options.update_dirty_fields = True
 
-        doc = aw.Document(docs_base.my_dir + "Dirty field.docx", load_options)
+        doc = aw.Document(MY_DIR + "Dirty field.docx", load_options)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithLoadOptions.update_dirty_fields.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithLoadOptions.update_dirty_fields.docx")
         #ExEnd:UpdateDirtyFields
 
 
@@ -30,10 +30,10 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
 
         #ExStart:LoadSaveEncryptedDoc
         #ExStart:OpenEncryptedDocument
-        doc = aw.Document(docs_base.my_dir + "Encrypted.docx", aw.loading.LoadOptions("docPassword"))
+        doc = aw.Document(MY_DIR + "Encrypted.docx", aw.loading.LoadOptions("docPassword"))
         #ExEnd:OpenEncryptedDocument
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithLoadOptions.load_and_save_encrypted_odt.odt", aw.saving.OdtSaveOptions("newPassword"))
+        doc.save(ARTIFACTS_DIR + "WorkingWithLoadOptions.load_and_save_encrypted_odt.odt", aw.saving.OdtSaveOptions("newPassword"))
         #ExEnd:LoadSaveEncryptedDoc
 
 
@@ -43,9 +43,9 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
         load_options = aw.loading.LoadOptions()
         load_options.convert_shape_to_office_math = True
 
-        doc = aw.Document(docs_base.my_dir + "Office math.docx", load_options)
+        doc = aw.Document(MY_DIR + "Office math.docx", load_options)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithLoadOptions.convert_shape_to_office_math.docx", aw.SaveFormat.DOCX)
+        doc.save(ARTIFACTS_DIR + "WorkingWithLoadOptions.convert_shape_to_office_math.docx", aw.SaveFormat.DOCX)
         #ExEnd:ConvertShapeToOfficeMath
 
 
@@ -57,9 +57,9 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
         load_options = aw.loading.LoadOptions()
         load_options.msw_version = aw.settings.MsWordVersion.WORD2010
 
-        doc = aw.Document(docs_base.my_dir + "Document.docx", load_options)
+        doc = aw.Document(MY_DIR + "Document.docx", load_options)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithLoadOptions.set_ms_word_version.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithLoadOptions.set_ms_word_version.docx")
         #ExEnd:SetMSWordVersion
 
 
@@ -67,9 +67,9 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
 
         #ExStart:UseTempFolder
         load_options = aw.loading.LoadOptions()
-        load_options.temp_folder = docs_base.artifacts_dir
+        load_options.temp_folder = ARTIFACTS_DIR
 
-        doc = aw.Document(docs_base.my_dir + "Document.docx", load_options)
+        doc = aw.Document(MY_DIR + "Document.docx", load_options)
         #ExEnd:UseTempFolder
 
 
@@ -79,7 +79,7 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
         load_options = aw.loading.LoadOptions()
         load_options.encoding = "utf-7"
 
-        doc = aw.Document(docs_base.my_dir + "Encoded in UTF-7.txt", load_options)
+        doc = aw.Document(MY_DIR + "Encoded in UTF-7.txt", load_options)
         #ExEnd:LoadWithEncoding
 
 
@@ -89,7 +89,7 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
         load_options = aw.loading.PdfLoadOptions()
         load_options.skip_pdf_images = True
 
-        doc = aw.Document(docs_base.my_dir + "Pdf Document.pdf", load_options)
+        doc = aw.Document(MY_DIR + "Pdf Document.pdf", load_options)
         #ExEnd:SkipPdfImages
 
 
@@ -99,7 +99,7 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
         load_options = aw.loading.LoadOptions()
         load_options.convert_metafiles_to_png = True
 
-        doc = aw.Document(docs_base.my_dir + "WMF with image.docx", load_options)
+        doc = aw.Document(MY_DIR + "WMF with image.docx", load_options)
         #ExEnd:ConvertMetafilesToPng
 
 
@@ -109,7 +109,7 @@ class WorkingWithLoadOptions(docs_base.DocsExamplesBase):
         load_options = aw.loading.LoadOptions()
         load_options.encoding = "windows-1251"
 
-        doc = aw.Document(docs_base.my_dir + "HTML help.chm", load_options)
+        doc = aw.Document(MY_DIR + "HTML help.chm", load_options)
         #ExEnd:LoadCHM
 
 

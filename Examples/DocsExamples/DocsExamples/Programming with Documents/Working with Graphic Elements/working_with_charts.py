@@ -8,12 +8,12 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, ARTIFACTS_DIR
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-class WorkingWithCharts(docs_base.DocsExamplesBase):
+class WorkingWithCharts(DocsExamplesBase):
 
     def test_format_number_of_data_label(self):
 
@@ -41,7 +41,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         # in this case NumberFormat will be reset to general and inherited from a source cell.
         series1.data_labels[2].number_format.is_linked_to_source = True
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.format_number_of_data_label.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.format_number_of_data_label.docx")
         #ExEnd:FormatNumberOfDataLabel
 
 
@@ -63,7 +63,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         chart.legend.position = aw.drawing.charts.LegendPosition.LEFT
         chart.legend.overlay = True
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.create_chart_using_shape.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.create_chart_using_shape.docx")
         #ExEnd:CreateChartUsingShape
 
 
@@ -96,7 +96,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         series_coll.add("Aspose Series 4", categories, [ 7, 8 ])
         series_coll.add("Aspose Series 5", categories, [ 9, 10 ])
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.insert_simple_column_chart.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.insert_simple_column_chart.docx")
         #ExEnd:InsertSimpleColumnChart
 
 
@@ -111,7 +111,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         chart = shape.chart
         chart.series.add("Aspose Series 1", [ "Category 1", "Category 2" ], [ 1, 2 ])
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.insert_column_chart.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.insert_column_chart.docx")
         #ExEnd:InsertColumnChart
 
 
@@ -128,7 +128,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
             [ date(2002, 5, 1), date(2002, 6, 1), date(2002, 7, 1), date(2002, 8, 1), date(2002, 9, 1) ],
             [ 32, 32, 28, 12, 15 ])
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.insert_area_chart.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.insert_area_chart.docx")
         #ExEnd:InsertAreaChart
 
 
@@ -143,7 +143,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         chart = shape.chart
         chart.series.add("Aspose Series 1", [ 0.7, 1.8, 2.6 ], [ 2.7, 3.2, 0.8 ], [ 10, 4, 8 ])
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.insert_bubble_chart.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.insert_bubble_chart.docx")
         #ExEnd:InsertBubbleChart
 
 
@@ -158,7 +158,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         chart = shape.chart
         chart.series.add_double("Aspose Series 1", [ 0.7, 1.8, 2.6 ], [ 2.7, 3.2, 0.8 ])
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.insert_scatter_chart.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.insert_scatter_chart.docx")
         #ExEnd:InsertScatterChart
 
 
@@ -198,7 +198,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         y_axis.scaling.minimum = aw.drawing.charts.AxisBound(100)
         y_axis.scaling.maximum = aw.drawing.charts.AxisBound(700)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.define_xy_axis_properties.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.define_xy_axis_properties.docx")
         #ExEnd:DefineXYAxisProperties
 
 
@@ -227,7 +227,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         x_axis.major_tick_mark = aw.drawing.charts.AxisTickMark.CROSS
         x_axis.minor_tick_mark = aw.drawing.charts.AxisTickMark.OUTSIDE
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.date_time_values_to_axis.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.date_time_values_to_axis.docx")
         #ExEnd:SetDateTimeValuesToAxis
 
 
@@ -249,7 +249,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         chart.axis_y.number_format.format_code = "#,##0"
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.number_format_for_axis.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.number_format_for_axis.docx")
         #ExEnd:SetNumberFormatForAxis
 
 
@@ -272,7 +272,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         chart.axis_y.scaling.minimum = aw.drawing.charts.AxisBound(0)
         chart.axis_y.scaling.maximum = aw.drawing.charts.AxisBound(6)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.bounds_of_axis.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.bounds_of_axis.docx")
         #ExEnd:SetboundsOfAxis
 
 
@@ -294,7 +294,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         chart.axis_x.tick_label_spacing = 2
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.interval_unit_between_labels_on_axis.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.interval_unit_between_labels_on_axis.docx")
         #ExEnd:SetIntervalUnitBetweenLabelsOnAxis
 
 
@@ -316,7 +316,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
 
         chart.axis_y.hidden = True
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.hide_chart_axis.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.hide_chart_axis.docx")
         #ExEnd:HideChartAxis
 
 
@@ -332,7 +332,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         # This property has effect only for multi-line labels.
         axis.tick_label_alignment = aw.ParagraphAlignment.RIGHT
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.tick_multi_line_label_alignment.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.tick_multi_line_label_alignment.docx")
         #ExEnd:TickMultiLineLabelAlignment
 
 
@@ -360,7 +360,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         labels.separator = "/"
         labels.show_value = True
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.chart_data_label.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.chart_data_label.docx")
         #ExEnd:WorkWithChartDataLabel
 
 
@@ -386,7 +386,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         labels.show_leader_lines = False
         labels.separator = " - "
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.default_options_for_data_labels.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.default_options_for_data_labels.docx")
         #ExEnd:DefaultOptionsForDataLabels
 
 
@@ -418,7 +418,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         data_point12.marker.symbol = aw.drawing.charts.MarkerSymbol.STAR
         data_point12.marker.size = 20
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.single_chart_data_point.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.single_chart_data_point.docx")
         #ExEnd:WorkWithSingleChartDataPoint
 
 
@@ -454,7 +454,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         series1.marker.size = 10
         #ExEnd:ChartDataPoint
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.single_chart_series.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.single_chart_series.docx")
 
 
     def test_set_series_color(self):
@@ -484,7 +484,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         series2.format.fill.fore_color = drawing.Color.yellow
         series3.format.fill.fore_color = drawing.Color.blue
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.set_series_color.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.set_series_color.docx")
         #ExEnd:SetSeriesColor
 
     def test_line_color_and_weight(self):
@@ -511,7 +511,7 @@ class WorkingWithCharts(docs_base.DocsExamplesBase):
         series2.format.stroke.fore_color = drawing.Color.light_green
         series2.format.stroke.weight = 5
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithCharts.line_color_and_weight.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.line_color_and_weight.docx")
         #ExEnd:LineColorAndWeight
 
 

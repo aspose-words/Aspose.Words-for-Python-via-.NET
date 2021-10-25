@@ -8,16 +8,16 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
+class WorkingWithImageSaveOptions(DocsExamplesBase):
 
     def test_expose_threshold_control_for_tiff_binarization(self):
 
         #ExStart:ExposeThresholdControlForTiffBinarization
-        doc = aw.Document(docs_base.my_dir + "Rendering.docx")
+        doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.TIFF)
 
@@ -27,16 +27,16 @@ class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
         save_options.threshold_for_floyd_steinberg_dithering = 254
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithImageSaveOptions.expose_threshold_control_for_tiff_binarization.tiff", save_options)
+        doc.save(ARTIFACTS_DIR + "WorkingWithImageSaveOptions.expose_threshold_control_for_tiff_binarization.tiff", save_options)
         #ExEnd:ExposeThresholdControlForTiffBinarization
 
 
     def test_get_tiff_page_range(self):
 
         #ExStart:GetTiffPageRange
-        doc = aw.Document(docs_base.my_dir + "Rendering.docx")
+        doc = aw.Document(MY_DIR + "Rendering.docx")
         #ExStart:SaveAsTIFF
-        doc.save(docs_base.artifacts_dir + "WorkingWithImageSaveOptions.multipage_tiff.tiff")
+        doc.save(ARTIFACTS_DIR + "WorkingWithImageSaveOptions.multipage_tiff.tiff")
         #ExEnd:SaveAsTIFF
 
         #ExStart:SaveAsTIFFUsingImageSaveOptions
@@ -46,7 +46,7 @@ class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
         #saveOptions.resolution = 160
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithImageSaveOptions.get_tiff_page_range.tiff", save_options)
+        doc.save(ARTIFACTS_DIR + "WorkingWithImageSaveOptions.get_tiff_page_range.tiff", save_options)
         #ExEnd:SaveAsTIFFUsingImageSaveOptions
         #ExEnd:GetTiffPageRange
 
@@ -54,7 +54,7 @@ class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
     def test_format_1_bpp_indexed(self):
 
         #ExStart:Format1BppIndexed
-        doc = aw.Document(docs_base.my_dir + "Rendering.docx")
+        doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
 
@@ -63,14 +63,14 @@ class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
         save_options.pixel_format = aw.saving.ImagePixelFormat.FORMAT1BPP_INDEXED
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithImageSaveOptions.format_1_bpp_indexed.png", save_options)
+        doc.save(ARTIFACTS_DIR + "WorkingWithImageSaveOptions.format_1_bpp_indexed.png", save_options)
         #ExEnd:Format1BppIndexed
 
 
     def test_get_jpeg_page_range(self):
 
         #ExStart:GetJpegPageRange
-        doc = aw.Document(docs_base.my_dir + "Rendering.docx")
+        doc = aw.Document(MY_DIR + "Rendering.docx")
 
         options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
 
@@ -86,16 +86,16 @@ class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
         # The default value for these properties is 96.0, for a resolution of 96dpi.
         options.horizontal_resolution = 72
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithImageSaveOptions.get_jpeg_page_range.jpeg", options)
+        doc.save(ARTIFACTS_DIR + "WorkingWithImageSaveOptions.get_jpeg_page_range.jpeg", options)
         #ExEnd:GetJpegPageRange
 
     def test_save_document_to_jpeg(self):
 
         #ExStart:SaveDocumentToJPEG
         # Open the document
-        doc = aw.Document(docs_base.my_dir + "Rendering.docx")
+        doc = aw.Document(MY_DIR + "Rendering.docx")
         # Save as a JPEG image file with default options
-        doc.save(docs_base.artifacts_dir + "Rendering.JpegDefaultOptions.jpg")
+        doc.save(ARTIFACTS_DIR + "Rendering.JpegDefaultOptions.jpg")
 
         # Save document to stream as a JPEG with default options
         doc_stream = io.BytesIO()
@@ -111,7 +111,7 @@ class WorkingWithImageSaveOptions(docs_base.DocsExamplesBase):
         image_options.page_index = 2
         image_options.page_count = 1
         image_options.jpeg_quality = 80
-        doc.save(docs_base.artifacts_dir + "Rendering.JpegCustomOptions.jpg", image_options)
+        doc.save(ARTIFACTS_DIR + "Rendering.JpegCustomOptions.jpg", image_options)
         #ExEnd:SaveDocumentToJPEG
 
 

@@ -7,17 +7,17 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-class WorkingWithTables(docs_base.DocsExamplesBase):
+class WorkingWithTables(DocsExamplesBase):
 
     def test_remove_column(self):
 
         #ExStart:RemoveColumn
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 1, True).as_table()
 
@@ -29,7 +29,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
     def test_insert_blank_column(self):
 
         #ExStart:InsertBlankColumn
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
@@ -138,38 +138,38 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
     def test_auto_fit_table_to_contents(self):
 
         #ExStart:AutoFitTableToContents
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
         table.auto_fit(aw.tables.AutoFitBehavior.AUTO_FIT_TO_CONTENTS)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.auto_fit_table_to_contents.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.auto_fit_table_to_contents.docx")
         #ExEnd:AutoFitTableToContents
 
 
     def test_auto_fit_table_to_fixed_column_widths(self):
 
         #ExStart:AutoFitTableToFixedColumnWidths
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
         # Disable autofitting on this table.
         table.auto_fit(aw.tables.AutoFitBehavior.FIXED_COLUMN_WIDTHS)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.auto_fit_table_to_fixed_column_widths.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.auto_fit_table_to_fixed_column_widths.docx")
         #ExEnd:AutoFitTableToFixedColumnWidths
 
 
     def test_auto_fit_table_to_page_width(self):
 
         #ExStart:AutoFitTableToPageWidth
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
         # Autofit the first table to the page width.
         table.auto_fit(aw.tables.AutoFitBehavior.AUTO_FIT_TO_WINDOW)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.auto_fit_table_to_window.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.auto_fit_table_to_window.docx")
         #ExEnd:AutoFitTableToPageWidth
 
 
@@ -184,7 +184,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
     #    doc.first_section.page_setup.orientation = Orientation.landscape
 
     #    DataSet ds = new DataSet()
-    #    ds.read_xml(docs_base.my_dir + "List of people.xml")
+    #    ds.read_xml(MY_DIR + "List of people.xml")
     #    # Retrieve the data from our data source, which is stored as a DataTable.
     #    DataTable dataTable = ds.tables[0]
 
@@ -198,7 +198,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
     #    # For our table, we want to remove the heading for the image column.
     #    table.first_row.last_cell.remove_all_children()
 
-    #    doc.save(docs_base.artifacts_dir + "WorkingWithTables.build_table_from_data_table.docx")
+    #    doc.save(ARTIFACTS_DIR + "WorkingWithTables.build_table_from_data_table.docx")
     #    #ExEnd:BuildTableFromDataTable
 
 
@@ -271,7 +271,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
     def test_clone_complete_table(self):
 
         #ExStart:CloneCompleteTable
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
@@ -283,14 +283,14 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         # or else they will be combined into one upon saving this has to do with document validation.
         table.parent_node.insert_after(aw.Paragraph(doc), table)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.clone_complete_table.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.clone_complete_table.docx")
         #ExEnd:CloneCompleteTable
 
 
     def test_clone_last_row(self):
 
         #ExStart:CloneLastRow
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
@@ -302,13 +302,13 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
 
         table.append_child(cloned_row)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.clone_last_row.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.clone_last_row.docx")
         #ExEnd:CloneLastRow
 
 
     def test_finding_index(self):
 
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         #ExStart:RetrieveTableIndex
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -367,7 +367,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         row.last_cell.append_child(aw.Paragraph(doc))
         row.last_cell.first_paragraph.append_child(aw.Run(doc, "Row 1, Cell 2 Text"))
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.insert_table_directly.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.insert_table_directly.docx")
         #ExEnd:InsertTableDirectly
 
 
@@ -389,7 +389,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
                             "</tr>" +
                             "</table>")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.insert_table_from_html.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.insert_table_from_html.docx")
         #ExEnd:InsertTableFromHtml
 
 
@@ -423,7 +423,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         # Signal that we have finished building the table.
         builder.end_table()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.create_simple_table.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.create_simple_table.docx")
         #ExEnd:CreateSimpleTable
 
 
@@ -496,7 +496,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         builder.end_row()
         builder.end_table()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.formatted_table.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.formatted_table.docx")
         #ExEnd:FormattedTable
 
 
@@ -526,14 +526,14 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         builder.writeln("Inner Table Cell 2")
         builder.end_table()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.nested_table.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.nested_table.docx")
         #ExEnd:NestedTable
 
 
     def test_combine_rows(self):
 
         #ExStart:CombineRows
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         # The rows from the second table will be appended to the end of the first table.
         first_table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -546,14 +546,14 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
 
         second_table.remove()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.combine_rows.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.combine_rows.docx")
         #ExEnd:CombineRows
 
 
     def test_split_table(self):
 
         #ExStart:SplitTable
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         first_table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
@@ -577,14 +577,14 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
                 break
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.split_table.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.split_table.docx")
         #ExEnd:SplitTable
 
 
     def test_row_format_disable_break_across_pages(self):
 
         #ExStart:RowFormatDisableBreakAcrossPages
-        doc = aw.Document(docs_base.my_dir + "Table spanning two pages.docx")
+        doc = aw.Document(MY_DIR + "Table spanning two pages.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
@@ -592,14 +592,14 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         for row in table.rows:
             row.as_row().row_format.allow_break_across_pages = False
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.row_format_disable_break_across_pages.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.row_format_disable_break_across_pages.docx")
         #ExEnd:RowFormatDisableBreakAcrossPages
 
 
     def test_keep_table_together(self):
 
         #ExStart:KeepTableTogether
-        doc = aw.Document(docs_base.my_dir + "Table spanning two pages.docx")
+        doc = aw.Document(MY_DIR + "Table spanning two pages.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
@@ -615,14 +615,14 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
                     para.paragraph_format.keep_with_next = True
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.keep_table_together.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.keep_table_together.docx")
         #ExEnd:KeepTableTogether
 
 
     def test_check_cells_merged(self):
 
         #ExStart:CheckCellsMerged
-        doc = aw.Document(docs_base.my_dir + "Table with merged cells.docx")
+        doc = aw.Document(MY_DIR + "Table with merged cells.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
@@ -681,7 +681,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         builder.end_row()
         builder.end_table()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.vertical_merge.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.vertical_merge.docx")
         #ExEnd:VerticalMerge
 
 
@@ -709,14 +709,14 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         builder.end_row()
         builder.end_table()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.horizontal_merge.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.horizontal_merge.docx")
         #ExEnd:HorizontalMerge
 
 
     def test_merge_cell_range(self):
 
         #ExStart:MergeCellRange
-        doc = aw.Document(docs_base.my_dir + "Table with merged cells.docx")
+        doc = aw.Document(MY_DIR + "Table with merged cells.docx")
 
         table = doc.first_section.body.tables[0]
 
@@ -727,14 +727,14 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         # Merge all the cells between the two specified cells into one.
         self.merge_cells(cell_start_range, cell_end_range)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.merge_cell_range.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.merge_cell_range.docx")
         #ExEnd:MergeCellRange
 
 
     def test_convert_to_horizontally_merged_cells(self):
 
         #ExStart:ConvertToHorizontallyMergedCells
-        doc = aw.Document(docs_base.my_dir + "Table with merged cells.docx")
+        doc = aw.Document(MY_DIR + "Table with merged cells.docx")
 
         table = doc.first_section.body.tables[0]
         # Now merged cells have appropriate merge flags.
@@ -806,7 +806,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
             builder.end_row()
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.repeat_rows_on_subsequent_pages.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.repeat_rows_on_subsequent_pages.docx")
         #ExEnd:RepeatRowsOnSubsequentPages
 
 
@@ -829,7 +829,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
         builder.insert_cell()
         builder.writeln("Cell #3")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.auto_fit_to_page_width.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.auto_fit_to_page_width.docx")
         #ExEnd:AutoFitToPageWidth
 
 
@@ -862,14 +862,14 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
             "Cell automatically sized. The size of this cell is calculated from the table preferred width.")
         builder.writeln("In this case the cell will fill up the rest of the available space.")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.preferred_width_settings.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.preferred_width_settings.docx")
         #ExEnd:PreferredWidthSettings
 
 
     def test_retrieve_preferred_width_type(self):
 
         #ExStart:RetrievePreferredWidthType
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
         #ExStart:AllowAutoFit
@@ -885,7 +885,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
     def test_get_table_position(self):
 
         #ExStart:GetTablePosition
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
@@ -904,7 +904,7 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
     def test_get_floating_table_position(self):
 
         #ExStart:GetFloatingTablePosition
-        doc = aw.Document(docs_base.my_dir + "Table wrapped by text.docx")
+        doc = aw.Document(MY_DIR + "Table wrapped by text.docx")
 
         for  table in doc.first_section.body.tables:
             table = table.as_table()
@@ -927,26 +927,26 @@ class WorkingWithTables(docs_base.DocsExamplesBase):
     def test_floating_table_position(self):
 
         #ExStart:FloatingTablePosition
-        doc = aw.Document(docs_base.my_dir + "Table wrapped by text.docx")
+        doc = aw.Document(MY_DIR + "Table wrapped by text.docx")
 
         table = doc.first_section.body.tables[0]
         table.absolute_horizontal_distance = 10
         table.relative_vertical_alignment = aw.drawing.VerticalAlignment.CENTER
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.floating_table_position.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.floating_table_position.docx")
         #ExEnd:FloatingTablePosition
 
 
     def test_set_relative_horizontal_or_vertical_position(self):
 
         #ExStart:SetRelativeHorizontalOrVerticalPosition
-        doc = aw.Document(docs_base.my_dir + "Table wrapped by text.docx")
+        doc = aw.Document(MY_DIR + "Table wrapped by text.docx")
 
         table = doc.first_section.body.tables[0]
         table.horizontal_anchor = aw.drawing.RelativeHorizontalPosition.COLUMN
         table.vertical_anchor = aw.drawing.RelativeVerticalPosition.PAGE
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTables.set_floating_table_position.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.set_floating_table_position.docx")
         #ExEnd:SetRelativeHorizontalOrVerticalPosition
 
 

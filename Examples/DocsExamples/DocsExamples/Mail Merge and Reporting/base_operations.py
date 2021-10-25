@@ -7,11 +7,11 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class BaseOperations(docs_base.DocsExamplesBase):
+class BaseOperations(DocsExamplesBase):
 
     def test_simple_mail_merge(self):
 
@@ -31,25 +31,25 @@ class BaseOperations(docs_base.DocsExamplesBase):
         doc.mail_merge.execute([ "CustomerName", "Item", "Quantity" ],
             [ "John Doe", "Hawaiian", "2" ])
 
-        doc.save(docs_base.artifacts_dir + "BaseOperations.simple_mail_merge.docx")
+        doc.save(ARTIFACTS_DIR + "BaseOperations.simple_mail_merge.docx")
         #ExEnd:SimpleMailMerge
 
 
     def test_use_if_else_mustache(self):
 
         #ExStart:UseOfifelseMustacheSyntax
-        doc = aw.Document(docs_base.my_dir + "Mail merge destinations - Mustache syntax.docx")
+        doc = aw.Document(MY_DIR + "Mail merge destinations - Mustache syntax.docx")
 
         doc.mail_merge.use_non_merge_fields = True
         doc.mail_merge.execute([ "GENDER" ], [ "MALE" ])
 
-        doc.save(docs_base.artifacts_dir + "BaseOperations.if_else_mustache.docx")
+        doc.save(ARTIFACTS_DIR + "BaseOperations.if_else_mustache.docx")
         #ExEnd:UseOfifelseMustacheSyntax
 
     def test_create_mail_merge_template(self):
 
         doc = self.create_mail_merge_template()
-        doc.save(docs_base.artifacts_dir + "BaseOperations.create_mail_merge_template.docx")
+        doc.save(ARTIFACTS_DIR + "BaseOperations.create_mail_merge_template.docx")
 
     #ExStart:CreateMailMergeTemplate
     @staticmethod

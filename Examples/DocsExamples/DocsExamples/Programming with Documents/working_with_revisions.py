@@ -8,11 +8,11 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class WorkingWithRevisions(docs_base.DocsExamplesBase):
+class WorkingWithRevisions(DocsExamplesBase):
 
     def test_accept_revisions(self):
 
@@ -55,14 +55,14 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         doc.stop_track_revisions()
 
         # Save the document.
-        doc.save(docs_base.artifacts_dir + "WorkingWithRevisions.accept_revisions.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithRevisions.accept_revisions.docx")
         #ExEnd:AcceptAllRevisions
 
 
     def test_get_revision_types(self):
 
         #ExStart:GetRevisionTypes
-        doc = aw.Document(docs_base.my_dir + "Revisions.docx")
+        doc = aw.Document(MY_DIR + "Revisions.docx")
 
         paragraphs = doc.first_section.body.paragraphs
         for i in range(paragraphs.count):
@@ -78,7 +78,7 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
     def test_get_revision_groups(self):
 
         #ExStart:GetRevisionGroups
-        doc = aw.Document(docs_base.my_dir + "Revisions.docx")
+        doc = aw.Document(MY_DIR + "Revisions.docx")
 
         for group in doc.revisions.groups:
 
@@ -91,12 +91,12 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
     def test_remove_comments_in_pdf(self):
 
         #ExStart:RemoveCommentsInPDF
-        doc = aw.Document(docs_base.my_dir + "Revisions.docx")
+        doc = aw.Document(MY_DIR + "Revisions.docx")
 
         # Do not render the comments in PDF.
         doc.layout_options.comment_display_mode = aw.layout.CommentDisplayMode.HIDE
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithRevisions.remove_comments_in_pdf.pdf")
+        doc.save(ARTIFACTS_DIR + "WorkingWithRevisions.remove_comments_in_pdf.pdf")
         #ExEnd:RemoveCommentsInPDF
 
 
@@ -105,7 +105,7 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         #ExStart:ShowRevisionsInBalloons
         #ExStart:SetMeasurementUnit
         #ExStart:SetRevisionBarsPosition
-        doc = aw.Document(docs_base.my_dir + "Revisions.docx")
+        doc = aw.Document(MY_DIR + "Revisions.docx")
 
         # Renders insert revisions inline, delete and format revisions in balloons.
         doc.layout_options.revision_options.show_in_balloons = aw.layout.ShowInBalloons.FORMAT_AND_DELETE
@@ -113,7 +113,7 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
         # Renders revision bars on the right side of a page.
         doc.layout_options.revision_options.revision_bars_position = aw.drawing.HorizontalAlignment.RIGHT
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithRevisions.show_revisions_in_balloons.pdf")
+        doc.save(ARTIFACTS_DIR + "WorkingWithRevisions.show_revisions_in_balloons.pdf")
         #ExEnd:SetRevisionBarsPosition
         #ExEnd:SetMeasurementUnit
         #ExEnd:ShowRevisionsInBalloons
@@ -122,7 +122,7 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
     def test_get_revision_group_details(self):
 
         #ExStart:GetRevisionGroupDetails
-        doc = aw.Document(docs_base.my_dir + "Revisions.docx")
+        doc = aw.Document(MY_DIR + "Revisions.docx")
 
         for revision in doc.revisions:
 
@@ -140,7 +140,7 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
     def test_access_revised_version(self):
 
         #ExStart:AccessRevisedVersion
-        doc = aw.Document(docs_base.my_dir + "Revisions.docx")
+        doc = aw.Document(MY_DIR + "Revisions.docx")
         doc.update_list_labels()
 
         # Switch to the revised version of the document.
@@ -193,7 +193,7 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
 
         # There are 3 additional paragraphs in the move-from range.
         print("Paragraph count: 0", body.paragraphs.count)
-        doc.save(docs_base.artifacts_dir + "WorkingWithRevisions.move_node_in_tracked_document.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithRevisions.move_node_in_tracked_document.docx")
         #ExEnd:MoveNodeInTrackedDocument
 
 
@@ -237,7 +237,7 @@ class WorkingWithRevisions(docs_base.DocsExamplesBase):
 
         # The document has one shape that was moved, but shape move revisions will have two instances of that shape.
         # One will be the shape at its arrival destination and the other will be the shape at its original location.
-        doc = aw.Document(docs_base.my_dir + "Revision shape.docx")
+        doc = aw.Document(MY_DIR + "Revision shape.docx")
 
         shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
         self.assertEqual(2, shapes.count)

@@ -8,16 +8,16 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class CompareDocument(docs_base.DocsExamplesBase):
+class CompareDocument(DocsExamplesBase):
 
     def test_compare_for_equal(self):
 
         #ExStart:CompareForEqual
-        doc_a = aw.Document(docs_base.my_dir + "Document.docx")
+        doc_a = aw.Document(MY_DIR + "Document.docx")
         doc_b = doc_a.clone().as_document()
 
         # DocA now contains changes as revisions.
@@ -30,7 +30,7 @@ class CompareDocument(docs_base.DocsExamplesBase):
     def test_compare_options(self):
 
         #ExStart:CompareOptions
-        doc_a = aw.Document(docs_base.my_dir + "Document.docx")
+        doc_a = aw.Document(MY_DIR + "Document.docx")
         doc_b = doc_a.clone()
 
         options = aw.comparing.CompareOptions()
@@ -54,7 +54,7 @@ class CompareDocument(docs_base.DocsExamplesBase):
     def test_comparison_target(self):
 
         #ExStart:ComparisonTarget
-        doc_a = aw.Document(docs_base.my_dir + "Document.docx")
+        doc_a = aw.Document(MY_DIR + "Document.docx")
         doc_b = doc_a.clone()
 
         # Relates to Microsoft Word "Show changes in" option in "Compare Documents" dialog box.
@@ -109,8 +109,8 @@ class CompareDocument(docs_base.DocsExamplesBase):
         doc1.revisions.accept_all()
 
         # doc1, when saved, now resembles doc2.
-        doc1.save(docs_base.artifacts_dir + "Document.Compare.docx")
-        doc1 = aw.Document(docs_base.artifacts_dir + "Document.Compare.docx")
+        doc1.save(ARTIFACTS_DIR + "Document.Compare.docx")
+        doc1 = aw.Document(ARTIFACTS_DIR + "Document.Compare.docx")
         self.assertEqual(0, doc1.revisions.count)
         self.assertEqual(doc2.get_text().strip(), doc1.get_text().strip())
         #ExEnd:ApplyCompareTwoDocuments

@@ -10,11 +10,11 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class WorkingWithFields(docs_base.DocsExamplesBase):
+class WorkingWithFields(DocsExamplesBase):
 
     def test_change_field_update_culture_source(self):
 
@@ -35,7 +35,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         doc.field_options.field_update_culture_source = aw.fields.FieldUpdateCultureSource.FIELD_CODE
         doc.mail_merge.execute(["Date2"], [date(2011, 1, 1)])
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithFields.change_field_update_culture_source.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.change_field_update_culture_source.docx")
         #ExEnd:ChangeFieldUpdateCultureSource
 
 
@@ -47,13 +47,13 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         field = builder.insert_field(aw.fields.FieldType.FIELD_DATE, True)
         field.locale_id = 1049
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithFields.specifylocale_at_fieldlevel.docx")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithFields.specifylocale_at_fieldlevel.docx")
         #ExEnd:SpecifylocaleAtFieldlevel
 
     def test_replace_hyperlinks(self):
 
         #ExStart:ReplaceHyperlinks
-        doc = aw.Document(docs_base.my_dir + "Hyperlinks.docx")
+        doc = aw.Document(MY_DIR + "Hyperlinks.docx")
 
         for field in doc.range.fields:
 
@@ -68,7 +68,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
                 hyperlink.address = "http:#www.aspose.com"
                 hyperlink.result = "Aspose - The .net & Java Component Publisher"
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithFields.replace_hyperlinks.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.replace_hyperlinks.docx")
         #ExEnd:ReplaceHyperlinks
 
 
@@ -92,7 +92,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
                 merge_field.set_name(merge_field.get_name() + "_Renamed")
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithFields.rename_merge_fields.doc")
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.rename_merge_fields.doc")
         #ExEnd:RenameMergeFields
 
 
@@ -182,7 +182,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
     def test_remove_field(self):
 
         #ExStart:RemoveField
-        doc = aw.Document(docs_base.my_dir + "Various fields.docx")
+        doc = aw.Document(MY_DIR + "Various fields.docx")
 
         field = doc.range.fields[0]
         field.remove()
@@ -212,7 +212,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         field_toa.update()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithFields.insert_toa_field_without_document_builder.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_toa_field_without_document_builder.docx")
         #ExEnd:InsertTOAFieldWithoutDocumentBuilder
 
 
@@ -238,7 +238,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         field.update()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithFields.insert_nested_fields.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_nested_fields.docx")
         #ExEnd:InsertNestedFields
 
 
@@ -275,7 +275,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
         # Finally update this merge field
         field.update()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithFields.insert_merge_field_using_dom.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_merge_field_using_dom.docx")
         #ExEnd:InsertMergeFieldUsingDOM
 
 
@@ -311,7 +311,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         field.update()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithFields.insert_mail_merge_address_block_field_using_dom.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_mail_merge_address_block_field_using_dom.docx")
         #ExEnd:InsertMailMergeAddressBlockFieldUsingDOM
 
 
@@ -327,13 +327,13 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         field_include_text = para.append_field(aw.fields.FieldType.FIELD_INCLUDE_TEXT, False).as_field_include_text()
         field_include_text.bookmark_name = "bookmark"
-        field_include_text.source_full_name = docs_base.my_dir + "IncludeText.docx"
+        field_include_text.source_full_name = MY_DIR + "IncludeText.docx"
 
         doc.first_section.body.append_child(para)
 
         field_include_text.update()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithFields.insert_include_field_without_document_builder.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_include_field_without_document_builder.docx")
         #ExEnd:InsertFieldIncludeTextWithoutDocumentBuilder
 
 
@@ -345,7 +345,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         field = builder.insert_field(aw.fields.FieldType.FIELD_NONE, False)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithFields.insert_field_none.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_field_none.docx")
         #ExEnd:InsertFieldNone
 
 
@@ -357,7 +357,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         builder.insert_field("MERGEFIELD MyFieldName \\* MERGEFORMAT")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithFields.insert_field.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_field.docx")
         #ExEnd:InsertField
 
 
@@ -376,7 +376,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         field.update()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithFields.insert_author_field.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_author_field.docx")
         #ExEnd:InsertAuthorField
 
 
@@ -406,7 +406,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         field.update()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithFields.insert_ask_field_with_out_document_builder.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_ask_field_with_out_document_builder.docx")
         #ExEnd:InsertASKFieldWithOutDocumentBuilder
 
 
@@ -442,7 +442,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         field.update()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithFields.insert_advance_field_with_out_document_builder.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_advance_field_with_out_document_builder.docx")
         #ExEnd:InsertAdvanceFieldWithOutDocumentBuilder
 
 
@@ -478,7 +478,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         #ExStart:FieldDisplayResults
         #ExStart:UpdateDocFields
-        document = aw.Document(docs_base.my_dir + "Various fields.docx")
+        document = aw.Document(MY_DIR + "Various fields.docx")
 
         document.update_fields()
         #ExEnd:UpdateDocFields
@@ -503,7 +503,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
     def test_convert_fields_in_paragraph(self):
 
         #ExStart:ConvertFieldsInParagraph
-        doc = aw.Document(docs_base.my_dir + "Linked fields.docx")
+        doc = aw.Document(MY_DIR + "Linked fields.docx")
 
         # Pass the appropriate parameters to convert all IF fields to text that are encountered only in the last
         # paragraph of the document.
@@ -511,14 +511,14 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
             if field.type == aw.fields.FieldType.FIELD_IF:
                 field.unlink()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithFields.test_file.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.test_file.docx")
         #ExEnd:ConvertFieldsInParagraph
 
 
     def test_convert_fields_in_document(self):
 
         #ExStart:ConvertFieldsInDocument
-        doc = aw.Document(docs_base.my_dir + "Linked fields.docx")
+        doc = aw.Document(MY_DIR + "Linked fields.docx")
 
         # Pass the appropriate parameters to convert all IF fields encountered in the document (including headers and footers) to text.
         for field in doc.range.fields:
@@ -526,21 +526,21 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
                 field.unlink()
 
         # Save the document with fields transformed to disk
-        doc.save(docs_base.artifacts_dir + "WorkingWithFields.convert_fields_in_document.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.convert_fields_in_document.docx")
         #ExEnd:ConvertFieldsInDocument
 
 
     def test_convert_fields_in_body(self):
 
         #ExStart:ConvertFieldsInBody
-        doc = aw.Document(docs_base.my_dir + "Linked fields.docx")
+        doc = aw.Document(MY_DIR + "Linked fields.docx")
 
         # Pass the appropriate parameters to convert PAGE fields encountered to text only in the body of the first section.
         for field in doc.first_section.body.range.fields:
             if field.type == aw.fields.FieldType.FIELD_PAGE:
                 field.unlink()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithFields.convert_fields_in_body.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.convert_fields_in_body.docx")
         #ExEnd:ConvertFieldsInBody
 
 
@@ -561,7 +561,7 @@ class WorkingWithFields(docs_base.DocsExamplesBase):
 
         locale.setlocale(locale.LC_ALL, loc)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithFields.change_locale.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.change_locale.docx")
         #ExEnd:ChangeLocale
 
 

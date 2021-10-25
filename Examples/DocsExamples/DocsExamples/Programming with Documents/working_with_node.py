@@ -7,12 +7,12 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-class WorkingWithNode(docs_base.DocsExamplesBase):
+class WorkingWithNode(DocsExamplesBase):
 
     def test_use_node_type(self):
 
@@ -84,7 +84,7 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
     #ExStart:RecurseAllNodes
     def test_recurse_all_nodes(self):
 
-        doc = aw.Document(docs_base.my_dir + "Paragraphs.docx")
+        doc = aw.Document(MY_DIR + "Paragraphs.docx")
 
         # Invoke the recursive function that will walk the tree.
         self.traverse_all_nodes(doc)
@@ -145,7 +145,7 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
 
     def test_change_run_color(self):
 
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
         # Get the first Run node and cast it to Run object.
         run = doc.get_child(aw.NodeType.RUN, 0, True).as_shape()
@@ -154,7 +154,7 @@ class WorkingWithNode(docs_base.DocsExamplesBase):
         run.font.color = drawing.Color.red
 
         # Save the result
-        doc.save(docs_base.artifacts_dir + "WorkingWithNode.change_run_color.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithNode.change_run_color.docx")
 
 
 if __name__ == '__main__':

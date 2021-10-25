@@ -8,11 +8,11 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class WorkingWithHtmlLoadOptions(docs_base.DocsExamplesBase):
+class WorkingWithHtmlLoadOptions(DocsExamplesBase):
 
     def test_preferred_control_type(self):
 
@@ -31,7 +31,7 @@ class WorkingWithHtmlLoadOptions(docs_base.DocsExamplesBase):
 
         doc = aw.Document(io.BytesIO(html.encode("utf-8")), load_options)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithHtmlLoadOptions.preferred_control_type.docx", aw.SaveFormat.DOCX)
+        doc.save(ARTIFACTS_DIR + "WorkingWithHtmlLoadOptions.preferred_control_type.docx", aw.SaveFormat.DOCX)
         #ExEnd:LoadHtmlElementsWithPreferredControlType
 
 

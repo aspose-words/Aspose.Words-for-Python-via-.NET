@@ -7,11 +7,11 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase
 
 import aspose.words as aw
 
-class WorkingWithTextboxes(docs_base.DocsExamplesBase):
+class WorkingWithTextboxes(DocsExamplesBase):
 
     def test_create_a_link(self):
 

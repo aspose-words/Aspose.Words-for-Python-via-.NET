@@ -8,12 +8,12 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-class WorkingWithSdt(docs_base.DocsExamplesBase):
+class WorkingWithSdt(DocsExamplesBase):
 
     def test_check_box_type_content_control(self):
 
@@ -24,14 +24,14 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
         sdt_check_box = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.CHECKBOX, aw.markup.MarkupLevel.INLINE)
         builder.insert_node(sdt_check_box)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithSdt.check_box_type_content_control.docx", aw.SaveFormat.DOCX)
+        doc.save(ARTIFACTS_DIR + "WorkingWithSdt.check_box_type_content_control.docx", aw.SaveFormat.DOCX)
         #ExEnd:CheckBoxTypeContentControl
 
 
     def test_current_state_of_check_box(self):
 
         #ExStart:SetCurrentStateOfCheckBox
-        doc = aw.Document(docs_base.my_dir + "Structured document tags.docx")
+        doc = aw.Document(MY_DIR + "Structured document tags.docx")
 
         # Get the first content control from the document.
         sdt_check_box = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
@@ -39,14 +39,14 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
         if sdt_check_box.sdt_type == aw.markup.SdtType.CHECKBOX:
             sdt_check_box.checked = True
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithSdt.current_state_of_check_box.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithSdt.current_state_of_check_box.docx")
         #ExEnd:SetCurrentStateOfCheckBox
 
 
     def test_modify_content_controls(self):
 
         #ExStart:ModifyContentControls
-        doc = aw.Document(docs_base.my_dir + "Structured document tags.docx")
+        doc = aw.Document(MY_DIR + "Structured document tags.docx")
 
         for sdt in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True):
             sdt = sdt.as_structured_document_tag()
@@ -67,9 +67,9 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
 
                 shape = sdt.get_child(aw.NodeType.shape, 0, True).as_shape()
                 if shape.has_image:
-                    shape.image_data.set_image(docs_base.images_dir + "Watermark.png")
+                    shape.image_data.set_image(IMAGES_DIR + "Watermark.png")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithSdt.modify_content_controls.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithSdt.modify_content_controls.docx")
         #ExEnd:ModifyContentControls
 
 
@@ -84,7 +84,7 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
         sdt.list_items.add(aw.markup.SdtListItem("Item 2", "2"))
         doc.first_section.body.append_child(sdt)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithSdt.combo_box_content_control.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithSdt.combo_box_content_control.docx")
         #ExEnd:ComboBoxContentControl
 
 
@@ -103,31 +103,31 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
         sdt_rich_text.child_nodes.add(para)
         doc.first_section.body.append_child(sdt_rich_text)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithSdt.rich_text_box_content_control.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithSdt.rich_text_box_content_control.docx")
         #ExEnd:RichTextBoxContentControl
 
 
     def test_set_content_control_color(self):
 
         #ExStart:SetContentControlColor
-        doc = aw.Document(docs_base.my_dir + "Structured document tags.docx")
+        doc = aw.Document(MY_DIR + "Structured document tags.docx")
 
         sdt = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
         sdt.color = drawing.Color.red
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithSdt.set_content_control_color.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithSdt.set_content_control_color.docx")
         #ExEnd:SetContentControlColor
 
 
     def test_clear_contents_control(self):
 
         #ExStart:ClearContentsControl
-        doc = aw.Document(docs_base.my_dir + "Structured document tags.docx")
+        doc = aw.Document(MY_DIR + "Structured document tags.docx")
 
         sdt = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
         sdt.clear()
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithSdt.clear_contents_control.doc")
+        doc.save(ARTIFACTS_DIR + "WorkingWithSdt.clear_contents_control.doc")
         #ExEnd:ClearContentsControl
 
 
@@ -142,20 +142,20 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
 
         sdt.xml_mapping.set_mapping(xml_part, "/root[1]/text[1]", "")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithSdt.bind_sd_tto_custom_xml_part.doc")
+        doc.save(ARTIFACTS_DIR + "WorkingWithSdt.bind_sd_tto_custom_xml_part.doc")
         #ExEnd:BindSDTtoCustomXmlPart
 
 
     def test_set_content_control_style(self):
 
         #ExStart:SetContentControlStyle
-        doc = aw.Document(docs_base.my_dir + "Structured document tags.docx")
+        doc = aw.Document(MY_DIR + "Structured document tags.docx")
 
         sdt = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
         style = doc.styles.get_by_style_identifier(aw.StyleIdentifier.QUOTE)
         sdt.style = style
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithSdt.set_content_control_style.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithSdt.set_content_control_style.docx")
         #ExEnd:SetContentControlStyle
 
 
@@ -199,14 +199,14 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
         author_sdt.xml_mapping.set_mapping(xml_part, "/books[1]/book[1]/author[1]", "")
         row.append_child(author_sdt)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithSdt.creating_table_repeating_section_mapped_to_custom_xml_part.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithSdt.creating_table_repeating_section_mapped_to_custom_xml_part.docx")
         #ExEnd:CreatingTableRepeatingSectionMappedToCustomXmlPart
 
 
     def test_multi_section(self):
 
         #ExStart:MultiSectionSDT
-        doc = aw.Document(docs_base.my_dir + "Multi-section structured document tags.docx")
+        doc = aw.Document(MY_DIR + "Multi-section structured document tags.docx")
 
         tags = doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, True)
 
@@ -218,7 +218,7 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
     def test_structured_document_tag_range_start_xml_mapping(self):
 
         #ExStart:StructuredDocumentTagRangeStartXmlMapping
-        doc = aw.Document(docs_base.my_dir + "Multi-section structured document tags.docx")
+        doc = aw.Document(MY_DIR + "Multi-section structured document tags.docx")
 
         # Construct an XML part that contains data and add it to the document's CustomXmlPart collection.
         xml_part_id = str(uuid.uuid4())
@@ -234,7 +234,7 @@ class WorkingWithSdt(docs_base.DocsExamplesBase):
         # This XPath will point to the contents second "<text>" element of the first "<root>" element of our CustomXmlPart.
         sdt_range_start.xml_mapping.set_mapping(xml_part, "/root[1]/text[2]", None)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithSdt.structured_document_tag_range_start_xml_mapping.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithSdt.structured_document_tag_range_start_xml_mapping.docx")
         #ExEnd:StructuredDocumentTagRangeStartXmlMapping
 
 

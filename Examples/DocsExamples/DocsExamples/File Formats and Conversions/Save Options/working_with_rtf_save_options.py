@@ -7,21 +7,21 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class WorkingWithRtfSaveOptions(docs_base.DocsExamplesBase):
+class WorkingWithRtfSaveOptions(DocsExamplesBase):
 
     def test_saving_images_as_wmf(self):
 
         #ExStart:SavingImagesAsWmf
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
         save_options = aw.saving.RtfSaveOptions()
         save_options.save_images_as_wmf = True
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithRtfSaveOptions.saving_images_as_wmf.rtf", save_options)
+        doc.save(ARTIFACTS_DIR + "WorkingWithRtfSaveOptions.saving_images_as_wmf.rtf", save_options)
         #ExEnd:SavingImagesAsWmf
 
 

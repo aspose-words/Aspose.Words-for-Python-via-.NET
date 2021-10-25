@@ -9,12 +9,12 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-class WorkingWithShapes(docs_base.DocsExamplesBase):
+class WorkingWithShapes(DocsExamplesBase):
 
     def test_add_group_shape(self):
 
@@ -42,7 +42,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         builder = aw.DocumentBuilder(doc)
         builder.insert_node(group_shape)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithShapes.add_group_shape.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithShapes.add_group_shape.docx")
         #ExEnd:AddGroupShape
 
 
@@ -65,7 +65,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         save_options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithShapes.insert_shape.docx", save_options)
+        doc.save(ARTIFACTS_DIR + "WorkingWithShapes.insert_shape.docx", save_options)
         #ExEnd:InsertShape
 
 
@@ -75,10 +75,10 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        shape = builder.insert_image(docs_base.images_dir + "Transparent background logo.png")
+        shape = builder.insert_image(IMAGES_DIR + "Transparent background logo.png")
         shape.aspect_ratio_locked = False
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithShapes.aspect_ratio_locked.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithShapes.aspect_ratio_locked.docx")
         #ExEnd:AspectRatioLocked
 
 
@@ -129,7 +129,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         builder.insert_node(watermark)
         doc.compatibility_options.optimize_for(aw.settings.MsWordVersion.WORD2010)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithShapes.layout_in_cell.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithShapes.layout_in_cell.docx")
         #ExEnd:LayoutInCell
 
 
@@ -144,7 +144,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         save_options = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
         save_options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithShapes.add_corners_snipped.docx", save_options)
+        doc.save(ARTIFACTS_DIR + "WorkingWithShapes.add_corners_snipped.docx", save_options)
         #ExEnd:AddCornersSnipped
 
 
@@ -154,7 +154,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        shape = builder.insert_image(docs_base.images_dir + "Transparent background logo.png")
+        shape = builder.insert_image(IMAGES_DIR + "Transparent background logo.png")
         shape.aspect_ratio_locked = False
 
         print("\nGets the actual bounds of the shape in points: ")
@@ -174,14 +174,14 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         builder.move_to(text_box.first_paragraph)
         builder.write("Textbox contents")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithShapes.vertical_anchor.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithShapes.vertical_anchor.docx")
         #ExEnd:VerticalAnchor
 
 
     def test_detect_smart_art_shape(self):
 
         #ExStart:DetectSmartArtShape
-        doc = aw.Document(docs_base.my_dir + "SmartArt.docx")
+        doc = aw.Document(MY_DIR + "SmartArt.docx")
 
         count = 0
         for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True):
@@ -195,7 +195,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
 
     def test_update_smart_art_drawing(self):
 
-        doc = aw.Document(docs_base.my_dir + "SmartArt.docx")
+        doc = aw.Document(MY_DIR + "SmartArt.docx")
 
         #ExStart:UpdateSmartArtDrawing
         for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True):
@@ -206,7 +206,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
 
     def test_render_shape_to_disk(self):
 
-        doc = aw.Document(docs_base.my_dir + "Rendering.docx")
+        doc = aw.Document(MY_DIR + "Rendering.docx")
 
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
@@ -218,12 +218,12 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         image_options.scale = 1.5
 
         # Save the rendered image to disk.
-        renderer.save(docs_base.artifacts_dir + "TestFile.RenderToDisk_out.emf", image_options)
+        renderer.save(ARTIFACTS_DIR + "TestFile.RenderToDisk_out.emf", image_options)
         #ExEnd:RenderShapeToDisk
 
     def test_render_shape_to_stream(self):
 
-        doc = aw.Document(docs_base.my_dir + "Rendering.docx")
+        doc = aw.Document(MY_DIR + "Rendering.docx")
 
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
@@ -239,7 +239,7 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
         # Reduce the brightness a bit (default is 0.5f).
         image_options.image_brightness = 0.45
 
-        stream =  io.FileIO(docs_base.artifacts_dir + "TestFile.RenderToStream_out.jpg", "w+b")
+        stream =  io.FileIO(ARTIFACTS_DIR + "TestFile.RenderToStream_out.jpg", "w+b")
 
         # Save the rendered image to the stream using different options.
         renderer.save(stream, image_options)
@@ -250,13 +250,13 @@ class WorkingWithShapes(docs_base.DocsExamplesBase):
 
     def test_render_shape_to_disk(self):
 
-        doc = aw.Document(docs_base.my_dir + "Rendering.docx")
+        doc = aw.Document(MY_DIR + "Rendering.docx")
 
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         #ExStart:RenderShapeImage
         # Save the rendered image to disk.
-        shape.get_shape_renderer().save(docs_base.artifacts_dir + "TestFile.RenderShapeImage.jpeg", None)
+        shape.get_shape_renderer().save(ARTIFACTS_DIR + "TestFile.RenderShapeImage.jpeg", None)
         #ExEnd:RenderShapeImage
 
 

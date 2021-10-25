@@ -9,19 +9,19 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class WorkingWithFileFormat(docs_base.DocsExamplesBase):
+class WorkingWithFileFormat(DocsExamplesBase):
 
     def test_detect_file_format(self):
 
         #ExStart:CheckFormatCompatibility
-        supported_dir = docs_base.artifacts_dir + "Supported"
-        unknown_dir = docs_base.artifacts_dir + "Unknown"
-        encrypted_dir = docs_base.artifacts_dir + "Encrypted"
-        pre97_dir = docs_base.artifacts_dir + "Pre97"
+        supported_dir = ARTIFACTS_DIR + "Supported"
+        unknown_dir = ARTIFACTS_DIR + "Unknown"
+        encrypted_dir = ARTIFACTS_DIR + "Encrypted"
+        pre97_dir = ARTIFACTS_DIR + "Pre97"
 
         # Create the directories if they do not already exist.
         if not os.path.exists(supported_dir):
@@ -34,14 +34,14 @@ class WorkingWithFileFormat(docs_base.DocsExamplesBase):
             os.makedirs(pre97_dir)
 
         #ExStart:GetListOfFilesInFolder
-        file_list =  (file for file in os.listdir(docs_base.my_dir)
-           if (os.path.isfile(os.path.join(docs_base.my_dir, file)) and not file.endswith("Corrupted document.docx")))
+        file_list =  (file for file in os.listdir(MY_DIR)
+           if (os.path.isfile(os.path.join(MY_DIR, file)) and not file.endswith("Corrupted document.docx")))
 
         #ExEnd:GetListOfFilesInFolder
         for file_name in file_list:
 
             name_only = file_name
-            file_name = os.path.join(docs_base.my_dir, name_only)
+            file_name = os.path.join(MY_DIR, name_only)
 
             print(name_only)
             #ExStart:DetectFileFormat
@@ -102,7 +102,7 @@ class WorkingWithFileFormat(docs_base.DocsExamplesBase):
     def test_detect_document_signatures(self):
 
         #ExStart:DetectDocumentSignatures
-        info = aw.FileFormatUtil.detect_file_format(docs_base.my_dir + "Digitally signed.docx")
+        info = aw.FileFormatUtil.detect_file_format(MY_DIR + "Digitally signed.docx")
 
         if info.has_digital_signature:
             print("Document has digital signatures, they will be lost if you open/save this document with Aspose.words.")
@@ -113,7 +113,7 @@ class WorkingWithFileFormat(docs_base.DocsExamplesBase):
     def test_verify_encrypted_document(self):
 
         #ExStart:VerifyEncryptedDocument
-        info = aw.FileFormatUtil.detect_file_format(docs_base.my_dir + "Encrypted.docx")
+        info = aw.FileFormatUtil.detect_file_format(MY_DIR + "Encrypted.docx")
         print(info.is_encrypted)
         #ExEnd:VerifyEncryptedDocument
 

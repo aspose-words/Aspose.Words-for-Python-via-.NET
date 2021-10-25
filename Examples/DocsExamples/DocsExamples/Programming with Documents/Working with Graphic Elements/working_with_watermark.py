@@ -7,17 +7,17 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-class WorkWithWatermark(docs_base.DocsExamplesBase):
+class WorkWithWatermark(DocsExamplesBase):
 
     def test_add_text_watermark_with_specific_options(self):
 
         #ExStart:AddTextWatermarkWithSpecificOptions
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
         options = aw.TextWatermarkOptions()
 
@@ -30,7 +30,7 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
 
         doc.watermark.set_text("Test", options)
 
-        doc.save(docs_base.artifacts_dir + "WorkWithWatermark.add_text_watermark_with_specific_options.docx")
+        doc.save(ARTIFACTS_DIR + "WorkWithWatermark.add_text_watermark_with_specific_options.docx")
         #ExEnd:AddTextWatermarkWithSpecificOptions
 
 
@@ -38,7 +38,7 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
     def test_add_image_watermark_with_specific_options(self):
 
         #ExStart:AddImageWatermarkWithSpecificOptions
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
         options = aw.ImageWatermarkOptions()
 
@@ -46,9 +46,9 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
         options.is_washout = False
 
 
-        doc.watermark.set_image(docs_base.images_dir + "Transparent background logo.png", options)
+        doc.watermark.set_image(IMAGES_DIR + "Transparent background logo.png", options)
 
-        doc.save(docs_base.artifacts_dir + "WorkWithWatermark.add_image_watermark.docx")
+        doc.save(ARTIFACTS_DIR + "WorkWithWatermark.add_image_watermark.docx")
         #ExEnd:AddImageWatermarkWithSpecificOptions
 
 
@@ -71,13 +71,13 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
 
         doc.watermark.set_text("Aspose Watermark", text_watermark_options)
 
-        doc.save(docs_base.artifacts_dir + "Document.text_watermark.docx")
+        doc.save(ARTIFACTS_DIR + "Document.text_watermark.docx")
 
         # We can remove a watermark from a document like this.
         if doc.watermark.type == aw.WatermarkType.TEXT:
             doc.watermark.remove()
 
-        doc.save(docs_base.artifacts_dir + "WorkWithWatermark.remove_watermark_from_document.docx")
+        doc.save(ARTIFACTS_DIR + "WorkWithWatermark.remove_watermark_from_document.docx")
         #ExEnd:RemoveWatermarkFromDocument
 
 #endif
@@ -85,13 +85,13 @@ class WorkWithWatermark(docs_base.DocsExamplesBase):
     #ExStart:AddWatermark
     def test_add_and_remove_watermark(self):
 
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
         self.insert_watermark_text(doc, "CONFIDENTIAL")
-        doc.save(docs_base.artifacts_dir + "TestFile.watermark.docx")
+        doc.save(ARTIFACTS_DIR + "TestFile.watermark.docx")
 
         self.remove_watermark_text(doc)
-        doc.save(docs_base.artifacts_dir + "WorkWithWatermark.remove_watermark.docx")
+        doc.save(ARTIFACTS_DIR + "WorkWithWatermark.remove_watermark.docx")
 
 
     # <summary>

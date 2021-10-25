@@ -7,12 +7,12 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, ARTIFACTS_DIR
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-class WorkingWithList(docs_base.DocsExamplesBase):
+class WorkingWithList(DocsExamplesBase):
 
     def test_restart_list_at_each_section(self):
 
@@ -39,7 +39,7 @@ class WorkingWithList(docs_base.DocsExamplesBase):
         options = aw.saving.OoxmlSaveOptions()
         options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithList.restart_list_at_each_section.docx", options)
+        doc.save(ARTIFACTS_DIR + "WorkingWithList.restart_list_at_each_section.docx", options)
         #ExEnd:RestartListAtEachSection
 
 
@@ -73,7 +73,7 @@ class WorkingWithList(docs_base.DocsExamplesBase):
         # This is a way to stop list formatting.
         builder.list_format.list = None
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithList.specify_list_level.docx")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithList.specify_list_level.docx")
         #ExEnd:SpecifyListLevel
 
 
@@ -106,7 +106,7 @@ class WorkingWithList(docs_base.DocsExamplesBase):
         builder.writeln("Item 2")
         builder.list_format.remove_numbers()
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithList.restart_list_number.docx")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithList.restart_list_number.docx")
         #ExEnd:RestartListNumber
 
 

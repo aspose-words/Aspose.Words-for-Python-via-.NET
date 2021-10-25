@@ -7,11 +7,11 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class WorkingWithDocSaveOptions(docs_base.DocsExamplesBase):
+class WorkingWithDocSaveOptions(DocsExamplesBase):
 
     def test_encrypt_document_with_password(self):
 
@@ -24,31 +24,31 @@ class WorkingWithDocSaveOptions(docs_base.DocsExamplesBase):
         save_options = aw.saving.DocSaveOptions()
         save_options.password = "password"
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithDocSaveOptions.encrypt_document_with_password.doc", save_options)
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocSaveOptions.encrypt_document_with_password.doc", save_options)
         #ExEnd:EncryptDocumentWithPassword
 
 
     def test_do_not_compress_small_metafiles(self):
 
         #ExStart:DoNotCompressSmallMetafiles
-        doc = aw.Document(docs_base.my_dir + "Microsoft equation object.docx")
+        doc = aw.Document(MY_DIR + "Microsoft equation object.docx")
 
         save_options = aw.saving.DocSaveOptions()
         save_options.always_compress_metafiles = False
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithDocSaveOptions.not_compress_small_metafiles.doc", save_options)
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocSaveOptions.not_compress_small_metafiles.doc", save_options)
         #ExEnd:DoNotCompressSmallMetafiles
 
 
     def test_do_not_save_picture_bullet(self):
 
         #ExStart:DoNotSavePictureBullet
-        doc = aw.Document(docs_base.my_dir + "Image bullet points.docx")
+        doc = aw.Document(MY_DIR + "Image bullet points.docx")
 
         save_options = aw.saving.DocSaveOptions()
         save_options.save_picture_bullet = False
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithDocSaveOptions.do_not_save_picture_bullet.doc", save_options)
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocSaveOptions.do_not_save_picture_bullet.doc", save_options)
         #ExEnd:DoNotSavePictureBullet
 
 if __name__ == '__main__':

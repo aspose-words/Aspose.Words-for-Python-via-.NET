@@ -7,16 +7,16 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class RemoveContent(docs_base.DocsExamplesBase):
+class RemoveContent(DocsExamplesBase):
 
     def test_remove_page_breaks(self):
 
         #ExStart:OpenFromFile
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
         #ExEnd:OpenFromFile
 
         # In Aspose.words section breaks are represented as separate Section nodes in the document.
@@ -24,7 +24,7 @@ class RemoveContent(docs_base.DocsExamplesBase):
         self.remove_page_breaks(doc)
         self.remove_section_breaks(doc)
 
-        doc.save(docs_base.artifacts_dir + "RemoveContent.remove_page_breaks.docx")
+        doc.save(ARTIFACTS_DIR + "RemoveContent.remove_page_breaks.docx")
 
 
     #ExStart:RemovePageBreaks
@@ -67,7 +67,7 @@ class RemoveContent(docs_base.DocsExamplesBase):
     def test_remove_footers(self):
 
         #ExStart:RemoveFooters
-        doc = aw.Document(docs_base.my_dir + "Header and footer types.docx")
+        doc = aw.Document(MY_DIR + "Header and footer types.docx")
 
         for section in doc:
 
@@ -88,19 +88,19 @@ class RemoveContent(docs_base.DocsExamplesBase):
                 footer.remove()
 
 
-        doc.save(docs_base.artifacts_dir + "RemoveContent.remove_footers.docx")
+        doc.save(ARTIFACTS_DIR + "RemoveContent.remove_footers.docx")
         #ExEnd:RemoveFooters
 
 
     #ExStart:RemoveTOCFromDocument
     def test_remove_toc(self):
 
-        doc = aw.Document(docs_base.my_dir + "Table of contents.docx")
+        doc = aw.Document(MY_DIR + "Table of contents.docx")
 
         # Remove the first table of contents from the document.
         self.remove_table_of_contents(doc, 0)
 
-        doc.save(docs_base.artifacts_dir + "RemoveContent.remove_toc.doc")
+        doc.save(ARTIFACTS_DIR + "RemoveContent.remove_toc.doc")
 
 
     # <summary>

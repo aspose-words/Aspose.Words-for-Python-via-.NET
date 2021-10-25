@@ -7,16 +7,16 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class WorkingWithBookmarks(docs_base.DocsExamplesBase):
+class WorkingWithBookmarks(DocsExamplesBase):
 
     def test_access_bookmarks(self):
 
         #ExStart:AccessBookmarks
-        doc = aw.Document(docs_base.my_dir + "Bookmarks.docx")
+        doc = aw.Document(MY_DIR + "Bookmarks.docx")
 
         # By index:
         bookmark1 = doc.range.bookmarks[0]
@@ -28,7 +28,7 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
     def test_update_bookmark_data(self):
 
         #ExStart:UpdateBookmarkData
-        doc = aw.Document(docs_base.my_dir + "Bookmarks.docx")
+        doc = aw.Document(MY_DIR + "Bookmarks.docx")
 
         bookmark = doc.range.bookmarks.get_by_name("MyBookmark1")
 
@@ -88,7 +88,7 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
 
     def test_copy_bookmarked_text(self):
 
-        src_doc = aw.Document(docs_base.my_dir + "Bookmarks.docx")
+        src_doc = aw.Document(MY_DIR + "Bookmarks.docx")
 
         # This is the bookmark whose content we want to copy.
         src_bookmark = src_doc.range.bookmarks.get_by_name("MyBookmark1")
@@ -104,7 +104,7 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
 
         self.append_bookmarked_text(importer, src_bookmark, dst_node)
 
-        dst_doc.save(docs_base.artifacts_dir + "WorkingWithBookmarks.copy_bookmarked_text.docx")
+        dst_doc.save(ARTIFACTS_DIR + "WorkingWithBookmarks.copy_bookmarked_text.docx")
 
 
     # <summary>
@@ -164,18 +164,18 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
         options.outline_options.bookmarks_outline_levels.add("My Bookmark", 1)
         options.outline_options.bookmarks_outline_levels.add("Nested Bookmark", 2)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithBookmarks.create_bookmark.pdf", options)
+        doc.save(ARTIFACTS_DIR + "WorkingWithBookmarks.create_bookmark.pdf", options)
         #ExEnd:CreateBookmark
 
 
     def test_show_hide_bookmarks(self):
 
         #ExStart:ShowHideBookmarks
-        doc = aw.Document(docs_base.my_dir + "Bookmarks.docx")
+        doc = aw.Document(MY_DIR + "Bookmarks.docx")
 
         self.show_hide_bookmarked_content(doc, "MyBookmark1", False)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithBookmarks.show_hide_bookmarks.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithBookmarks.show_hide_bookmarks.docx")
         #ExEnd:ShowHideBookmarks
 
 
@@ -231,7 +231,7 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
 
     def test_untangle_row_bookmarks(self):
 
-        doc = aw.Document(docs_base.my_dir + "Table column bookmarks.docx")
+        doc = aw.Document(MY_DIR + "Table column bookmarks.docx")
 
         # This performs the custom task of putting the row bookmark ends into the same row with the bookmark starts.
         self.untangle(doc)
@@ -243,7 +243,7 @@ class WorkingWithBookmarks(docs_base.DocsExamplesBase):
         if doc.range.bookmarks.get_by_name("ROW1").bookmark_end is None:
             raise RuntimeError("Wrong, the end of the bookmark was deleted.")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithBookmarks.untangle_row_bookmarks.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithBookmarks.untangle_row_bookmarks.docx")
 
 
     @staticmethod

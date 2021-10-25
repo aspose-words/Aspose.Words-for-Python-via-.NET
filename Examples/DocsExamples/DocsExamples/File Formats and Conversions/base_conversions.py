@@ -8,20 +8,20 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class BaseConversions(docs_base.DocsExamplesBase):
+class BaseConversions(DocsExamplesBase):
 
     def test_doc_to_docx(self):
 
         #ExStart:LoadAndSave
         #ExStart:OpenDocument
-        doc = aw.Document(docs_base.my_dir + "Document.doc")
+        doc = aw.Document(MY_DIR + "Document.doc")
         #ExEnd:OpenDocument
 
-        doc.save(docs_base.artifacts_dir + "BaseConversions.doc_to_docx.docx")
+        doc.save(ARTIFACTS_DIR + "BaseConversions.doc_to_docx.docx")
         #ExEnd:LoadAndSave
 
 
@@ -30,7 +30,7 @@ class BaseConversions(docs_base.DocsExamplesBase):
         #ExStart:LoadAndSaveToStream
         #ExStart:OpeningFromStream
         # Read only access is enough for Aspose.words to load a document.
-        stream = io.FileIO(docs_base.my_dir + "Document.docx")
+        stream = io.FileIO(MY_DIR + "Document.docx")
 
         doc = aw.Document(stream)
         # You can close the stream now, it is no longer needed because the document is in memory.
@@ -40,7 +40,7 @@ class BaseConversions(docs_base.DocsExamplesBase):
         # ... do something with the document.
 
         # Convert the document to a different format and save to stream.
-        dst_stream =  io.FileIO(docs_base.artifacts_dir + "BaseConversions.docx_to_rtf.rtf", "wb")
+        dst_stream =  io.FileIO(ARTIFACTS_DIR + "BaseConversions.docx_to_rtf.rtf", "wb")
         doc.save(dst_stream, aw.SaveFormat.RTF)
         dst_stream.close()
         #ExEnd:LoadAndSaveToStream
@@ -49,16 +49,16 @@ class BaseConversions(docs_base.DocsExamplesBase):
     def test_docx_to_pdf(self):
 
         #ExStart:Doc2Pdf
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
-        doc.save(docs_base.artifacts_dir + "BaseConversions.docx_to_pdf.pdf")
+        doc.save(ARTIFACTS_DIR + "BaseConversions.docx_to_pdf.pdf")
         #ExEnd:Doc2Pdf
 
 
     def test_docx_to_byte(self):
 
         #ExStart:DocxToByte
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
         out_stream = io.BytesIO()
         doc.save(out_stream, aw.SaveFormat.DOCX)
@@ -73,9 +73,9 @@ class BaseConversions(docs_base.DocsExamplesBase):
     def test_docx_to_epub(self):
 
         #ExStart:DocxToEpub
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
-        doc.save(docs_base.artifacts_dir + "BaseConversions.docx_to_epub.epub")
+        doc.save(ARTIFACTS_DIR + "BaseConversions.docx_to_epub.epub")
         #ExEnd:DocxToEpub
 
 
@@ -83,7 +83,7 @@ class BaseConversions(docs_base.DocsExamplesBase):
     def test_docx_to_mhtml_and_sending_email(self):
         print("not supported yet")
 #        #ExStart:DocxToMhtmlAndSendingEmail
-#        doc = aw.Document(docs_base.my_dir + "Document.docx")
+#        doc = aw.Document(MY_DIR + "Document.docx")
 #
 #        Stream stream = new MemoryStream()
 #        doc.save(stream, SaveFormat.mhtml)
@@ -112,16 +112,16 @@ class BaseConversions(docs_base.DocsExamplesBase):
 
         builder.writeln("Some text!")
 
-        doc.save(docs_base.artifacts_dir + "BaseConversions.docx_to_markdown.md")
+        doc.save(ARTIFACTS_DIR + "BaseConversions.docx_to_markdown.md")
         #ExEnd:SaveToMarkdownDocument
 
 
     def test_docx_to_txt(self):
 
         #ExStart:DocxToTxt
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
-        doc.save(docs_base.artifacts_dir + "BaseConversions.docx_to_txt.txt")
+        doc.save(ARTIFACTS_DIR + "BaseConversions.docx_to_txt.txt")
         #ExEnd:DocxToTxt
 
 
@@ -129,27 +129,27 @@ class BaseConversions(docs_base.DocsExamplesBase):
 
         #ExStart:TxtToDocx
         # The encoding of the text file is automatically detected.
-        doc = aw.Document(docs_base.my_dir + "English text.txt")
+        doc = aw.Document(MY_DIR + "English text.txt")
 
-        doc.save(docs_base.artifacts_dir + "BaseConversions.txt_to_docx.docx")
+        doc.save(ARTIFACTS_DIR + "BaseConversions.txt_to_docx.docx")
         #ExEnd:TxtToDocx
 
 
     def test_pdf_to_jpeg(self):
 
         #ExStart:PdfToJpeg
-        doc = aw.Document(docs_base.my_dir + "Pdf Document.pdf")
+        doc = aw.Document(MY_DIR + "Pdf Document.pdf")
 
-        doc.save(docs_base.artifacts_dir + "BaseConversions.pdf_to_jpeg.jpeg")
+        doc.save(ARTIFACTS_DIR + "BaseConversions.pdf_to_jpeg.jpeg")
         #ExEnd:PdfToJpeg
 
 
     def test_pdf_to_docx(self):
 
         #ExStart:PdfToDocx
-        doc = aw.Document(docs_base.my_dir + "Pdf Document.pdf")
+        doc = aw.Document(MY_DIR + "Pdf Document.pdf")
 
-        doc.save(docs_base.artifacts_dir + "BaseConversions.pdf_to_docx.docx")
+        doc.save(ARTIFACTS_DIR + "BaseConversions.pdf_to_docx.docx")
         #ExEnd:PdfToDocx
 
 

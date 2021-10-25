@@ -8,11 +8,11 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class WorkingWithTxtLoadOptions(docs_base.DocsExamplesBase):
+class WorkingWithTxtLoadOptions(DocsExamplesBase):
 
     def test_detect_numbering_with_whitespaces(self):
 
@@ -46,7 +46,7 @@ class WorkingWithTxtLoadOptions(docs_base.DocsExamplesBase):
         # Load the document while applying LoadOptions as a parameter and verify the result.
         doc = aw.Document(io.BytesIO(text_doc.encode("utf-8")), load_options)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTxtLoadOptions.detect_numbering_with_whitespaces.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTxtLoadOptions.detect_numbering_with_whitespaces.docx")
         #ExEnd:DetectNumberingWithWhitespaces
 
 
@@ -63,7 +63,7 @@ class WorkingWithTxtLoadOptions(docs_base.DocsExamplesBase):
 
         doc = aw.Document(stream, load_options)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTxtLoadOptions.handle_spaces_options.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTxtLoadOptions.handle_spaces_options.docx")
         #ExEnd:HandleSpacesOptions
 
 
@@ -73,12 +73,12 @@ class WorkingWithTxtLoadOptions(docs_base.DocsExamplesBase):
         load_options = aw.loading.TxtLoadOptions()
         load_options.document_direction = aw.loading.DocumentDirection.AUTO
 
-        doc = aw.Document(docs_base.my_dir + "Hebrew text.txt", load_options)
+        doc = aw.Document(MY_DIR + "Hebrew text.txt", load_options)
 
         paragraph = doc.first_section.body.first_paragraph
         print(paragraph.paragraph_format.bidi)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTxtLoadOptions.document_text_direction.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTxtLoadOptions.document_text_direction.docx")
         #ExEnd:DocumentTextDirection
 
 

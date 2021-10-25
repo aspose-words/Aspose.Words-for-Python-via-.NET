@@ -7,16 +7,16 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class DocumentProtection(docs_base.DocsExamplesBase):
+class DocumentProtection(DocsExamplesBase):
 
     def test_protect(self):
 
         #ExStart:ProtectDocument
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
         doc.protect(aw.ProtectionType.ALLOW_ONLY_FORM_FIELDS, "password")
         #ExEnd:ProtectDocument
 
@@ -24,7 +24,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
     def test_unprotect(self):
 
         #ExStart:UnprotectDocument
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
         doc.unprotect()
         #ExEnd:UnprotectDocument
 
@@ -32,7 +32,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
     def test_get_protection_type(self):
 
         #ExStart:GetProtectionType
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
         protection_type = doc.protection_type
         #ExEnd:GetProtectionType
 
@@ -52,7 +52,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
 
         # Apply write protection as read-only.
         doc.protect(aw.ProtectionType.READ_ONLY)
-        doc.save(docs_base.artifacts_dir + "DocumentProtection.ReadOnlyProtection.docx")
+        doc.save(ARTIFACTS_DIR + "DocumentProtection.ReadOnlyProtection.docx")
         #ExEnd:ReadOnlyProtection
 
     def test_remove_read_only_restriction(self):
@@ -68,7 +68,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
 
         # Apply write protection without any protection.
         doc.protect(aw.ProtectionType.NO_PROTECTION)
-        doc.save(docs_base.artifacts_dir + "DocumentProtection.RemoveReadOnlyRestriction.docx")
+        doc.save(ARTIFACTS_DIR + "DocumentProtection.RemoveReadOnlyRestriction.docx")
         #ExEnd:RemoveReadOnlyRestriction
 
     def test_password_protection(self):
@@ -79,7 +79,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
         # Apply document protection.
         doc.protect(aw.ProtectionType.NO_PROTECTION, "password")
 
-        doc.save(docs_base.artifacts_dir + "DocumentProtection.PasswordProtection.docx")
+        doc.save(ARTIFACTS_DIR + "DocumentProtection.PasswordProtection.docx")
         #ExEnd:PasswordProtection
 
     def test_allow_only_form_fields_protect(self):
@@ -94,7 +94,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
         doc.protect(aw.ProtectionType.ALLOW_ONLY_FORM_FIELDS, "password")
 
         # Save the protected document.
-        doc.save(docs_base.artifacts_dir + "DocumentProtection.AllowOnlyFormFieldsProtect.docx")
+        doc.save(ARTIFACTS_DIR + "DocumentProtection.AllowOnlyFormFieldsProtect.docx")
         #ExEnd:AllowOnlyFormFieldsProtect
 
     def test_remove_document_protection(self):
@@ -110,14 +110,14 @@ class DocumentProtection(docs_base.DocsExamplesBase):
         doc.protect(aw.ProtectionType.READ_ONLY, "newPassword")
         doc.unprotect("newPassword")
 
-        doc.save(docs_base.artifacts_dir + "DocumentProtection.RemoveDocumentProtection.docx")
+        doc.save(ARTIFACTS_DIR + "DocumentProtection.RemoveDocumentProtection.docx")
         #ExEnd:RemoveDocumentProtection
 
     def test_unrestricted_editable_regions(self):
 
         #ExStart:UnrestrictedEditableRegions
         # Upload a document and make it as read-only.
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
         builder = aw.DocumentBuilder(doc)
 
         doc.protect(aw.ProtectionType.READ_ONLY, "MyPassword")
@@ -137,7 +137,7 @@ class DocumentProtection(docs_base.DocsExamplesBase):
 
         builder.writeln("This paragraph is outside any editable ranges, and cannot be edited.")
 
-        doc.save(docs_base.artifacts_dir + "DocumentProtection.UnrestrictedEditableRegions.docx")
+        doc.save(ARTIFACTS_DIR + "DocumentProtection.UnrestrictedEditableRegions.docx")
         #ExEnd:UnrestrictedEditableRegions
 
     def test_unrestricted_section(self):
@@ -156,9 +156,9 @@ class DocumentProtection(docs_base.DocsExamplesBase):
 
         # By default, all sections are protected, but we can selectively turn protection off.
         doc.sections[0].protected_for_forms = False
-        doc.save(docs_base.artifacts_dir + "DocumentProtection.UnrestrictedSection.docx")
+        doc.save(ARTIFACTS_DIR + "DocumentProtection.UnrestrictedSection.docx")
 
-        doc = aw.Document(docs_base.artifacts_dir + "DocumentProtection.UnrestrictedSection.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "DocumentProtection.UnrestrictedSection.docx")
         self.assertFalse(doc.sections[0].protected_for_forms)
         self.assertTrue(doc.sections[1].protected_for_forms)
         #ExEnd:UnrestrictedSection

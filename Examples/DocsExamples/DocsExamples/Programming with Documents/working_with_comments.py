@@ -8,11 +8,11 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class WorkingWithComments(docs_base.DocsExamplesBase):
+class WorkingWithComments(DocsExamplesBase):
 
     def test_add_comments(self):
 
@@ -31,7 +31,7 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
         comment.paragraphs.add(aw.Paragraph(doc))
         comment.first_paragraph.runs.add(aw.Run(doc, "Comment text."))
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithComments.add_comments.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithComments.add_comments.docx")
         #ExEnd:AddComments
 
 
@@ -65,28 +65,28 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
         run3.parent_node.insert_after(comment_range_end, run3)
         comment_range_end.parent_node.insert_after(comment, comment_range_end)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithComments.anchor_comment.doc")
+        doc.save(ARTIFACTS_DIR + "WorkingWithComments.anchor_comment.doc")
         #ExEnd:AnchorComment
 
 
     def test_add_remove_comment_reply(self):
 
         #ExStart:AddRemoveCommentReply
-        doc = aw.Document(docs_base.my_dir + "Comments.docx")
+        doc = aw.Document(MY_DIR + "Comments.docx")
 
         comment = doc.get_child(aw.NodeType.COMMENT, 0, True).as_comment()
         comment.remove_reply(comment.replies[0])
 
         comment.add_reply("John Doe", "JD", datetime(2017, 9, 25, 12, 15, 0), "New reply")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithComments.add_remove_comment_reply.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithComments.add_remove_comment_reply.docx")
         #ExEnd:AddRemoveCommentReply
 
 
     def test_process_comments(self):
 
         #ExStart:ProcessComments
-        doc = aw.Document(docs_base.my_dir + "Comments.docx")
+        doc = aw.Document(MY_DIR + "Comments.docx")
 
         # Extract the information about the comments of all the authors.
         for comment in self.extract_comments(doc):
@@ -107,7 +107,7 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
         self.remove_comments(doc)
         print("All comments are removed!")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithComments.process_comments.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithComments.process_comments.docx")
         #ExEnd:ProcessComments
 
     #ExStart:ExtractComments
@@ -192,7 +192,7 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
 
         #ExStart:RemoveRegionText
         # Open the document.
-        doc = aw.Document(docs_base.my_dir + "Comments.docx")
+        doc = aw.Document(MY_DIR + "Comments.docx")
 
         comment_start = doc.get_child(aw.NodeType.COMMENT_RANGE_START, 0, True).as_comment_range_start()
         comment_end = doc.get_child(aw.NodeType.COMMENT_RANGE_END, 0, True).as_comment_range_end()
@@ -208,7 +208,7 @@ class WorkingWithComments(docs_base.DocsExamplesBase):
             current_node = next_node
 
         # Save the document.
-        doc.save(docs_base.artifacts_dir + "WorkingWithComments.remove_region_text.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithComments.remove_region_text.docx")
         #ExEnd:RemoveRegionText
 
 

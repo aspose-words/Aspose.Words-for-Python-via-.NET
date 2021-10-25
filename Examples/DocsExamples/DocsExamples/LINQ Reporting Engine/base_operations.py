@@ -8,11 +8,11 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, JSON_DIR
 
 import aspose.words as aw
 
-class BaseOperations(docs_base.DocsExamplesBase):
+class BaseOperations(DocsExamplesBase):
 
     def test_hello_world(self):
 
@@ -27,50 +27,50 @@ class BaseOperations(docs_base.DocsExamplesBase):
         engine = aw.reporting.ReportingEngine()
         engine.build_report(doc, json_data_source, "sender")
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.hello_world.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.hello_world.docx")
         #ExEnd:HelloWorld
 
 
     def test_single_row(self):
 
         #ExStart:SingleRow
-        doc = aw.Document(docs_base.my_dir + "Reporting engine template - Table row.docx")
+        doc = aw.Document(MY_DIR + "Reporting engine template - Table row.docx")
 
         engine = aw.reporting.ReportingEngine()
-        engine.build_report(doc, aw.reporting.JsonDataSource(docs_base.json_dir + "managers.json"), "Managers")
+        engine.build_report(doc, aw.reporting.JsonDataSource(JSON_DIR + "managers.json"), "Managers")
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.single_row.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.single_row.docx")
         #ExEnd:SingleRow
 
 
     def test_common_master_detail(self):
 
         #ExStart:CommonMasterDetail
-        doc = aw.Document(docs_base.my_dir + "Reporting engine template - Common master detail.docx")
+        doc = aw.Document(MY_DIR + "Reporting engine template - Common master detail.docx")
 
         engine = aw.reporting.ReportingEngine()
-        engine.build_report(doc, aw.reporting.JsonDataSource(docs_base.json_dir + "managers.json"), "managers")
+        engine.build_report(doc, aw.reporting.JsonDataSource(JSON_DIR + "managers.json"), "managers")
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.common_master_detail.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.common_master_detail.docx")
         #ExEnd:CommonMasterDetail
 
 
     def test_conditional_blocks(self):
 
         #ExStart:ConditionalBlocks
-        doc = aw.Document(docs_base.my_dir + "Reporting engine template - Table row conditional blocks.docx")
+        doc = aw.Document(MY_DIR + "Reporting engine template - Table row conditional blocks.docx")
 
         engine = aw.reporting.ReportingEngine()
-        engine.build_report(doc, aw.reporting.JsonDataSource(docs_base.json_dir + "clients.json"), "clients")
+        engine.build_report(doc, aw.reporting.JsonDataSource(JSON_DIR + "clients.json"), "clients")
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.conditional_block.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.conditional_block.docx")
         #ExEnd:ConditionalBlocks
 
 
     def test_setting_background_color(self):
 
         #ExStart:SettingBackgroundColor
-        doc = aw.Document(docs_base.my_dir + "Reporting engine template - Background color.docx")
+        doc = aw.Document(MY_DIR + "Reporting engine template - Background color.docx")
 
         json = b"""[
               {
@@ -92,7 +92,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
         engine = aw.reporting.ReportingEngine()
         engine.build_report(doc, json_data_source, "Colors")
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.back_color.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.back_color.docx")
         #ExEnd:SettingBackgroundColor
 
     def test_xml_data_source(self):
@@ -121,7 +121,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
         engine = aw.reporting.ReportingEngine()
         engine.build_report(doc, data_source)
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.xml_data_source.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.xml_data_source.docx")
 
 
     def test_xml_data_source_seq(self):
@@ -158,7 +158,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
         engine = aw.reporting.ReportingEngine()
         engine.build_report(doc, data_source, "persons")
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.xml_data_source_seq.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.xml_data_source_seq.docx")
 
     def test_xml_data_source_complex(self):
 
@@ -244,7 +244,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
         engine = aw.reporting.ReportingEngine()
         engine.build_report(doc, data_source, "managers")
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.xml_data_source_complex.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.xml_data_source_complex.docx")
 
 
     def test_json_data_source(self):
@@ -272,7 +272,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
         engine = aw.reporting.ReportingEngine()
         engine.build_report(doc, data_source)
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.json_data_source.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.json_data_source.docx")
 
 
     def test_json_data_source_seq(self):
@@ -309,7 +309,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
         engine = aw.reporting.ReportingEngine()
         engine.build_report(doc, data_source, "persons")
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.json_data_source_seq.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.json_data_source_seq.docx")
 
     def test_json_data_source_complex(self):
 
@@ -413,7 +413,7 @@ class BaseOperations(docs_base.DocsExamplesBase):
         engine = aw.reporting.ReportingEngine()
         engine.build_report(doc, data_source, "managers")
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.json_data_source_complex.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.json_data_source_complex.docx")
 
 
     def test_exact_date_time_parse_formats(self):
@@ -444,7 +444,7 @@ John Smith,51,1968-03-08 1:00:00 pm"""
         engine = aw.reporting.ReportingEngine()
         engine.build_report(doc, data_source, "persons")
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.csv_data_source_seq.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.csv_data_source_seq.docx")
 
     def test_csv_data_source_seq_column_names(self):
 
@@ -468,7 +468,7 @@ John Smith,51,1968-03-08 1:00:00 pm"""
         engine = aw.reporting.ReportingEngine()
         engine.build_report(doc, data_source, "persons")
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.csv_data_source_seq_column_names.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.csv_data_source_seq_column_names.docx")
 
     def test_csv_data_source_complex(self):
 
@@ -572,7 +572,7 @@ John Smith,51,1968-03-08 1:00:00 pm"""
         engine = aw.reporting.ReportingEngine()
         engine.build_report(doc, data_source, "managers")
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.csv_data_source_complex.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.csv_data_source_complex.docx")
 
 
 if __name__ == '__main__':

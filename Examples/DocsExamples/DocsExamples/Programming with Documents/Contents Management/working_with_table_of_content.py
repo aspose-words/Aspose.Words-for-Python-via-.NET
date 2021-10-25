@@ -7,11 +7,11 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class WorkingWithTableOfContent(docs_base.DocsExamplesBase):
+class WorkingWithTableOfContent(DocsExamplesBase):
 
     def test_change_style_of_toc_level(self):
 
@@ -25,7 +25,7 @@ class WorkingWithTableOfContent(docs_base.DocsExamplesBase):
     def test_change_toc_tab_stops(self):
 
         #ExStart:ChangeTOCTabStops
-        doc = aw.Document(docs_base.my_dir + "Table of contents.docx")
+        doc = aw.Document(MY_DIR + "Table of contents.docx")
 
         for para in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True):
             para = para.as_paragraph()
@@ -45,7 +45,7 @@ class WorkingWithTableOfContent(docs_base.DocsExamplesBase):
                 para.paragraph_format.tab_stops.add(tab.position - 50, tab.alignment, tab.leader)
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithTableOfContent.change_toc_tab_stops.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithTableOfContent.change_toc_tab_stops.docx")
         #ExEnd:ChangeTOCTabStops
 
 

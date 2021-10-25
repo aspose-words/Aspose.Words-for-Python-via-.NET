@@ -7,11 +7,11 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, ARTIFACTS_DIR, IMAGES_DIR
 
 import aspose.words as aw
 
-class WorkingWithHeadersAndFooters(docs_base.DocsExamplesBase):
+class WorkingWithHeadersAndFooters(DocsExamplesBase):
 
     def test_create_header_footer(self):
 
@@ -41,7 +41,7 @@ class WorkingWithHeadersAndFooters(docs_base.DocsExamplesBase):
 
         # Insert a positioned image into the top/left corner of the header.
         # Distance from the top/left edges of the page is set to 10 points.
-        builder.insert_image(docs_base.images_dir + "Graphics Interchange Format.gif", aw.drawing.RelativeHorizontalPosition.PAGE, 10,
+        builder.insert_image(IMAGES_DIR + "Graphics Interchange Format.gif", aw.drawing.RelativeHorizontalPosition.PAGE, 10,
             aw.drawing.RelativeVerticalPosition.PAGE, 10, 50, 50, aw.drawing.WrapType.THROUGH)
 
         builder.paragraph_format.alignment = aw.ParagraphAlignment.RIGHT
@@ -108,7 +108,7 @@ class WorkingWithHeadersAndFooters(docs_base.DocsExamplesBase):
         row.first_cell.cell_format.preferred_width = aw.tables.PreferredWidth.from_percent(100 / 3)
         row.last_cell.cell_format.preferred_width = aw.tables.PreferredWidth.from_percent(100 * 2 / 3)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithHeadersAndFooters.create_header_footer.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithHeadersAndFooters.create_header_footer.docx")
         #ExEnd:CreateHeaderFooterUsingDocBuilder
 
 

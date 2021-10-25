@@ -7,11 +7,11 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class WorkingWithVba(docs_base.DocsExamplesBase):
+class WorkingWithVba(DocsExamplesBase):
 
 
     def test_create_vba_project(self):
@@ -32,14 +32,14 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
         # Add module to the VBA project.
         doc.vba_project.modules.add(module)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithVba.create_vba_project.docm")
+        doc.save(ARTIFACTS_DIR + "WorkingWithVba.create_vba_project.docm")
         #ExEnd:CreateVbaProject
 
 
     def test_read_vba_macros(self):
 
         #ExStart:ReadVbaMacros
-        doc = aw.Document(docs_base.my_dir + "VBA project.docm")
+        doc = aw.Document(MY_DIR + "VBA project.docm")
 
         if doc.vba_project is not None:
             for module in doc.vba_project.modules:
@@ -51,7 +51,7 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
     def test_modify_vba_macros(self):
 
         #ExStart:ModifyVbaMacros
-        doc = aw.Document(docs_base.my_dir + "VBA project.docm")
+        doc = aw.Document(MY_DIR + "VBA project.docm")
 
         project = doc.vba_project
 
@@ -59,39 +59,39 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
         project.modules[0].source_code = new_source_code
         #ExEnd:ModifyVbaMacros
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithVba.modify_vba_macros.docm")
+        doc.save(ARTIFACTS_DIR + "WorkingWithVba.modify_vba_macros.docm")
         #ExEnd:ModifyVbaMacros
 
 
     def test_clone_vba_project(self):
 
         #ExStart:CloneVbaProject
-        doc = aw.Document(docs_base.my_dir + "VBA project.docm")
+        doc = aw.Document(MY_DIR + "VBA project.docm")
         dest_doc = aw.Document()
         dest_doc.vba_project = doc.vba_project.clone()
 
-        dest_doc.save(docs_base.artifacts_dir + "WorkingWithVba.clone_vba_project.docm")
+        dest_doc.save(ARTIFACTS_DIR + "WorkingWithVba.clone_vba_project.docm")
         #ExEnd:CloneVbaProject
 
 
     def test_clone_vba_module(self):
 
         #ExStart:CloneVbaModule
-        doc = aw.Document(docs_base.my_dir + "VBA project.docm")
+        doc = aw.Document(MY_DIR + "VBA project.docm")
         dest_doc = aw.Document()
         dest_doc.vba_project = aw.vba.VbaProject()
 
         copy_module = doc.vba_project.modules.get_by_name("Module1").clone()
         dest_doc.vba_project.modules.add(copy_module)
 
-        dest_doc.save(docs_base.artifacts_dir + "WorkingWithVba.clone_vba_module.docm")
+        dest_doc.save(ARTIFACTS_DIR + "WorkingWithVba.clone_vba_module.docm")
         #ExEnd:CloneVbaModule
 
 
     def test_remove_broken_ref(self):
 
         #ExStart:RemoveReferenceFromCollectionOfReferences
-        doc = aw.Document(docs_base.my_dir + "VBA project.docm")
+        doc = aw.Document(MY_DIR + "VBA project.docm")
 
         # Find and remove the reference with some LibId path.
         broken_path = "brokenPath.dll"
@@ -105,7 +105,7 @@ class WorkingWithVba(docs_base.DocsExamplesBase):
                 references.remove_at(i)
 
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithVba.remove_broken_ref.docm")
+        doc.save(ARTIFACTS_DIR + "WorkingWithVba.remove_broken_ref.docm")
         #ExEnd:RemoveReferenceFromCollectionOfReferences
 
     #ExStart:GetLibIdAndReferencePath

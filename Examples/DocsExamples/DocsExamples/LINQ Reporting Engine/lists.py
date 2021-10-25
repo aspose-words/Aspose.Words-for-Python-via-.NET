@@ -7,35 +7,35 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, JSON_DIR
 
 import aspose.words as aw
 
-class Lists(docs_base.DocsExamplesBase):
+class Lists(DocsExamplesBase):
 
     def test_create_bulleted_list(self):
 
         #ExStart:BulletedList
-        doc = aw.Document(docs_base.my_dir + "Reporting engine template - Bulleted list.docx")
+        doc = aw.Document(MY_DIR + "Reporting engine template - Bulleted list.docx")
 
         engine = aw.reporting.ReportingEngine()
-        engine.build_report(doc, aw.reporting.JsonDataSource(docs_base.json_dir + "clients.json"), "clients")
+        engine.build_report(doc, aw.reporting.JsonDataSource(JSON_DIR + "clients.json"), "clients")
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.create_bulleted_list.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.create_bulleted_list.docx")
         #ExEnd:BulletedList
 
 
     def test_common_list(self):
 
         #ExStart:CommonList
-        doc = aw.Document(docs_base.my_dir + "Reporting engine template - Common master detail.docx")
+        doc = aw.Document(MY_DIR + "Reporting engine template - Common master detail.docx")
 
         opt = aw.reporting.JsonDataLoadOptions()
         opt.always_generate_root_object = True
         engine = aw.reporting.ReportingEngine()
-        engine.build_report(doc, aw.reporting.JsonDataSource(docs_base.json_dir + "managers.json", opt), "Managers")
+        engine.build_report(doc, aw.reporting.JsonDataSource(JSON_DIR + "managers.json", opt), "Managers")
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.common_list.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.common_list.docx")
         #ExEnd:CommonList
 
 
@@ -48,45 +48,45 @@ class Lists(docs_base.DocsExamplesBase):
         builder.write("<<foreach [in clients]>><<[IndexOf() !=0 ? ”, ”:  ””]>><<[Name]>><</foreach>>")
 
         engine = aw.reporting.ReportingEngine()
-        engine.build_report(doc, aw.reporting.JsonDataSource(docs_base.json_dir + "clients.json"), "clients")
+        engine.build_report(doc, aw.reporting.JsonDataSource(JSON_DIR + "clients.json"), "clients")
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.in_paragraph_list.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.in_paragraph_list.docx")
         #ExEnd:InParagraphList
 
 
     def test_in_table_list(self):
 
         #ExStart:InTableList
-        doc = aw.Document(docs_base.my_dir + "Reporting engine template - Contextual object member access.docx")
+        doc = aw.Document(MY_DIR + "Reporting engine template - Contextual object member access.docx")
 
         engine = aw.reporting.ReportingEngine()
-        engine.build_report(doc, aw.reporting.JsonDataSource(docs_base.json_dir + "managers.json"), "Managers")
+        engine.build_report(doc, aw.reporting.JsonDataSource(JSON_DIR + "managers.json"), "Managers")
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.in_table_list.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.in_table_list.docx")
         #ExEnd:InTableList
 
 
     def test_multicolored_numbered_list(self):
 
         #ExStart:MulticoloredNumberedList
-        doc = aw.Document(docs_base.my_dir + "Reporting engine template - Multicolored numbered list.docx")
+        doc = aw.Document(MY_DIR + "Reporting engine template - Multicolored numbered list.docx")
 
         engine = aw.reporting.ReportingEngine()
-        engine.build_report(doc, aw.reporting.JsonDataSource(docs_base.json_dir + "clients.json"), "clients")
+        engine.build_report(doc, aw.reporting.JsonDataSource(JSON_DIR + "clients.json"), "clients")
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.multicolored_numbered_list.doc")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.multicolored_numbered_list.doc")
         #ExEnd:MulticoloredNumberedList
 
 
     def test_numbered_list(self):
 
         #ExStart:NumberedList
-        doc = aw.Document(docs_base.my_dir + "Reporting engine template - Numbered list.docx")
+        doc = aw.Document(MY_DIR + "Reporting engine template - Numbered list.docx")
 
         engine = aw.reporting.ReportingEngine()
-        engine.build_report(doc, aw.reporting.JsonDataSource(docs_base.json_dir + "clients.json"), "clients")
+        engine.build_report(doc, aw.reporting.JsonDataSource(JSON_DIR + "clients.json"), "clients")
 
-        doc.save(docs_base.artifacts_dir + "ReportingEngine.numbered_list.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.numbered_list.docx")
         #ExEnd:NumberedList
 
 

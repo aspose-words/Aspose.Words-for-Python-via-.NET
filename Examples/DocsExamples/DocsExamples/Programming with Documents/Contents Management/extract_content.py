@@ -7,17 +7,17 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 import extract_content_helper as helper
 
 import aspose.words as aw
 
-class ExtractContent(docs_base.DocsExamplesBase):
+class ExtractContent(DocsExamplesBase):
 
     def test_extract_content_between_block_level_nodes(self):
 
         #ExStart:ExtractContentBetweenBlockLevelNodes
-        doc = aw.Document(docs_base.my_dir + "Extract content.docx")
+        doc = aw.Document(MY_DIR + "Extract content.docx")
 
         start_para = doc.last_section.get_child(aw.NodeType.PARAGRAPH, 2, True).as_paragraph()
         end_table = doc.last_section.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -36,14 +36,14 @@ class ExtractContent(docs_base.DocsExamplesBase):
             del extracted_nodes[0]
 
 
-        doc.save(docs_base.artifacts_dir + "ExtractContent.extract_content_between_block_level_nodes.docx")
+        doc.save(ARTIFACTS_DIR + "ExtractContent.extract_content_between_block_level_nodes.docx")
         #ExEnd:ExtractContentBetweenBlockLevelNodes
 
 
     def test_extract_content_between_bookmark(self):
 
         #ExStart:ExtractContentBetweenBookmark
-        doc = aw.Document(docs_base.my_dir + "Extract content.docx")
+        doc = aw.Document(MY_DIR + "Extract content.docx")
 
         section = doc.sections[0]
         section.page_setup.left_margin = 70.85
@@ -58,20 +58,20 @@ class ExtractContent(docs_base.DocsExamplesBase):
         extracted_nodes_inclusive = helper.ExtractContentHelper.extract_content(bookmark_start, bookmark_end, True)
 
         dst_doc = helper.ExtractContentHelper.generate_document(doc, extracted_nodes_inclusive)
-        dst_doc.save(docs_base.artifacts_dir + "ExtractContent.extract_content_between_bookmark.including_bookmark.docx")
+        dst_doc.save(ARTIFACTS_DIR + "ExtractContent.extract_content_between_bookmark.including_bookmark.docx")
 
         # Secondly, extract the content between these nodes this time without including the bookmark.
         extracted_nodes_exclusive = helper.ExtractContentHelper.extract_content(bookmark_start, bookmark_end, False)
 
         dst_doc = helper.ExtractContentHelper.generate_document(doc, extracted_nodes_exclusive)
-        dst_doc.save(docs_base.artifacts_dir + "ExtractContent.extract_content_between_bookmark.without_bookmark.docx")
+        dst_doc.save(ARTIFACTS_DIR + "ExtractContent.extract_content_between_bookmark.without_bookmark.docx")
         #ExEnd:ExtractContentBetweenBookmark
 
 
     def test_extract_content_between_comment_range(self):
 
         #ExStart:ExtractContentBetweenCommentRange
-        doc = aw.Document(docs_base.my_dir + "Extract content.docx")
+        doc = aw.Document(MY_DIR + "Extract content.docx")
 
         # This is a quick way of getting both comment nodes.
         # Your code should have a proper method of retrieving each corresponding start and end node.
@@ -82,20 +82,20 @@ class ExtractContent(docs_base.DocsExamplesBase):
         extracted_nodes_inclusive = helper.ExtractContentHelper.extract_content(comment_start, comment_end, True)
 
         dst_doc = helper.ExtractContentHelper.generate_document(doc, extracted_nodes_inclusive)
-        dst_doc.save(docs_base.artifacts_dir + "ExtractContent.extract_content_between_comment_range.including_comment.docx")
+        dst_doc.save(ARTIFACTS_DIR + "ExtractContent.extract_content_between_comment_range.including_comment.docx")
 
         # Secondly, extract the content between these nodes without the comment.
         extracted_nodes_exclusive = helper.ExtractContentHelper.extract_content(comment_start, comment_end, False)
 
         dst_doc = helper.ExtractContentHelper.generate_document(doc, extracted_nodes_exclusive)
-        dst_doc.save(docs_base.artifacts_dir + "ExtractContent.extract_content_between_comment_range.without_comment.docx")
+        dst_doc.save(ARTIFACTS_DIR + "ExtractContent.extract_content_between_comment_range.without_comment.docx")
         #ExEnd:ExtractContentBetweenCommentRange
 
 
     def test_extract_content_between_paragraphs(self):
 
         #ExStart:ExtractContentBetweenParagraphs
-        doc = aw.Document(docs_base.my_dir + "Extract content.docx")
+        doc = aw.Document(MY_DIR + "Extract content.docx")
 
         start_para = doc.first_section.body.get_child(aw.NodeType.PARAGRAPH, 6, True).as_paragraph()
         end_para = doc.first_section.body.get_child(aw.NodeType.PARAGRAPH, 10, True).as_paragraph()
@@ -104,14 +104,14 @@ class ExtractContent(docs_base.DocsExamplesBase):
         extracted_nodes = helper.ExtractContentHelper.extract_content(start_para, end_para, True)
 
         dst_doc = helper.ExtractContentHelper.generate_document(doc, extracted_nodes)
-        dst_doc.save(docs_base.artifacts_dir + "ExtractContent.extract_content_between_paragraphs.docx")
+        dst_doc.save(ARTIFACTS_DIR + "ExtractContent.extract_content_between_paragraphs.docx")
         #ExEnd:ExtractContentBetweenParagraphs
 
 
     def test_extract_content_between_paragraph_styles(self):
 
         #ExStart:ExtractContentBetweenParagraphStyles
-        doc = aw.Document(docs_base.my_dir + "Extract content.docx")
+        doc = aw.Document(MY_DIR + "Extract content.docx")
 
         # Gather a list of the paragraphs using the respective heading styles.
         paras_style_heading1 = helper.ExtractContentHelper.paragraphs_by_style_name(doc, "Heading 1")
@@ -125,14 +125,14 @@ class ExtractContent(docs_base.DocsExamplesBase):
         extracted_nodes = helper.ExtractContentHelper.extract_content(start_para1, end_para1, False)
 
         dst_doc = helper.ExtractContentHelper.generate_document(doc, extracted_nodes)
-        dst_doc.save(docs_base.artifacts_dir + "ExtractContent.extract_content_between_paragraph_styles.docx")
+        dst_doc.save(ARTIFACTS_DIR + "ExtractContent.extract_content_between_paragraph_styles.docx")
         #ExEnd:ExtractContentBetweenParagraphStyles
 
 
     def test_extract_content_between_runs(self):
 
         #ExStart:ExtractContentBetweenRuns
-        doc = aw.Document(docs_base.my_dir + "Extract content.docx")
+        doc = aw.Document(MY_DIR + "Extract content.docx")
 
         para = doc.get_child(aw.NodeType.PARAGRAPH, 7, True).as_paragraph()
 
@@ -150,7 +150,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
     def test_extract_content_using_field(self):
 
         #ExStart:ExtractContentUsingField
-        doc = aw.Document(docs_base.my_dir + "Extract content.docx")
+        doc = aw.Document(MY_DIR + "Extract content.docx")
         builder = aw.DocumentBuilder(doc)
 
         # Pass the first boolean parameter to get the DocumentBuilder to move to the FieldStart of the field.
@@ -165,14 +165,14 @@ class ExtractContent(docs_base.DocsExamplesBase):
         extracted_nodes = helper.ExtractContentHelper.extract_content(start_field, end_para, False)
 
         dst_doc = helper.ExtractContentHelper.generate_document(doc, extracted_nodes)
-        dst_doc.save(docs_base.artifacts_dir + "ExtractContent.extract_content_using_field.docx")
+        dst_doc.save(ARTIFACTS_DIR + "ExtractContent.extract_content_using_field.docx")
         #ExEnd:ExtractContentUsingField
 
 
     def test_extract_table_of_contents(self):
 
         #ExStart:ExtractTableOfContents
-        doc = aw.Document(docs_base.my_dir + "Table of contents.docx")
+        doc = aw.Document(MY_DIR + "Table of contents.docx")
 
         for field in doc.range.fields:
 
@@ -213,7 +213,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
     def test_extract_content_based_on_styles(self):
 
         #ExStart:ExtractContentBasedOnStyles
-        doc = aw.Document(docs_base.my_dir + "Styles.docx")
+        doc = aw.Document(MY_DIR + "Styles.docx")
 
         para_style = "Heading 1"
         run_style = "Intense Emphasis"
@@ -267,7 +267,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
     def test_extract_print_text(self):
 
         #ExStart:ExtractText
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -291,7 +291,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
     def test_extract_images_to_files(self):
 
         #ExStart:ExtractImagesToFiles
-        doc = aw.Document(docs_base.my_dir + "Images.docx")
+        doc = aw.Document(MY_DIR + "Images.docx")
 
         shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
         image_index = 0
@@ -302,7 +302,7 @@ class ExtractContent(docs_base.DocsExamplesBase):
 
                 image_file_name = f"Image.ExportImages.{image_index}_{aw.FileFormatUtil.image_type_to_extension(shape.image_data.image_type)}"
 
-                shape.image_data.save(docs_base.artifacts_dir + image_file_name)
+                shape.image_data.save(ARTIFACTS_DIR + image_file_name)
                 image_index += 1
 
         #ExEnd:ExtractImagesToFiles

@@ -7,12 +7,12 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
+class AddContentUsingDocumentBuilder(DocsExamplesBase):
 
     def test_document_builder_insert_bookmark(self):
 
@@ -24,7 +24,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         builder.writeln("This is just a fine bookmark.")
         builder.end_bookmark("FineBookmark")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithBookmarks.document_builder_insert_bookmark.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithBookmarks.document_builder_insert_bookmark.docx")
         #ExEnd:DocumentBuilderInsertBookmark
 
 
@@ -60,7 +60,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         builder.end_row()
         builder.end_table()
 
-        doc.save(docs_base.artifacts_dir + "AddContentUsingDocumentBuilder.build_table.docx")
+        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.build_table.docx")
         #ExEnd:BuildTable
 
 
@@ -73,7 +73,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         builder.writeln("Insert a horizontal rule shape into the document.")
         builder.insert_horizontal_rule()
 
-        doc.save(docs_base.artifacts_dir + "AddContentUsingDocumentBuilder.insert_horizontal_rule.docx")
+        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_horizontal_rule.docx")
         #ExEnd:InsertHorizontalRule
 
 
@@ -91,7 +91,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         horizontal_rule_format.color = drawing.Color.blue
         horizontal_rule_format.no_shade = True
 
-        builder.document.save(docs_base.artifacts_dir + "AddContentUsingDocumentBuilder.horizontal_rule_format.docx")
+        builder.document.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.horizontal_rule_format.docx")
         #ExEnd:HorizontalRuleFormat
 
 
@@ -109,7 +109,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
 
         builder.writeln("This is page 3.")
 
-        doc.save(docs_base.artifacts_dir + "AddContentUsingDocumentBuilder.insert_break.docx")
+        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_break.docx")
         #ExEnd:InsertBreak
 
 
@@ -121,7 +121,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
 
         builder.insert_text_input("TextInput", aw.fields.TextFormFieldType.REGULAR, "", "Hello", 0)
 
-        doc.save(docs_base.artifacts_dir + "AddContentUsingDocumentBuilder.insert_text_input_form_field.docx")
+        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_text_input_form_field.docx")
         #ExEnd:InsertTextInputFormField
 
 
@@ -133,7 +133,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
 
         builder.insert_check_box("CheckBox", True, True, 0)
 
-        doc.save(docs_base.artifacts_dir + "AddContentUsingDocumentBuilder.insert_check_box_form_field.docx")
+        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_check_box_form_field.docx")
         #ExEnd:InsertCheckBoxFormField
 
 
@@ -147,7 +147,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
 
         builder.insert_combo_box("DropDown", items, 0)
 
-        doc.save(docs_base.artifacts_dir + "AddContentUsingDocumentBuilder.insert_combo_box_form_field.docx")
+        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_combo_box_form_field.docx")
         #ExEnd:InsertComboBoxFormField
 
 
@@ -163,7 +163,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
             "<div align='center'>Div center</div>" +
             "<h1 align='left'>Heading 1 left.</h1>")
 
-        doc.save(docs_base.artifacts_dir + "AddContentUsingDocumentBuilder.insert_html.docx")
+        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_html.docx")
         #ExEnd:InsertHtml
 
 
@@ -182,7 +182,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         builder.font.clear_formatting()
         builder.write(" for more information.")
 
-        doc.save(docs_base.artifacts_dir + "AddContentUsingDocumentBuilder.insert_hyperlink.docx")
+        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_hyperlink.docx")
         #ExEnd:InsertHyperlink
 
 
@@ -232,7 +232,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         doc.update_fields()
         #ExEnd:UpdateFields
 
-        doc.save(docs_base.artifacts_dir + "AddContentUsingDocumentBuilder.insert_table_of_contents.docx")
+        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_table_of_contents.docx")
         #ExEnd:InsertTableOfContents
 
 
@@ -242,9 +242,9 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        builder.insert_image(docs_base.images_dir + "Transparent background logo.png")
+        builder.insert_image(IMAGES_DIR + "Transparent background logo.png")
 
-        doc.save(docs_base.artifacts_dir + "AddContentUsingDocumentBuilder.insert_inline_image.docx")
+        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_inline_image.docx")
         #ExEnd:InsertInlineImage
 
 
@@ -254,7 +254,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        builder.insert_image(docs_base.images_dir + "Transparent background logo.png",
+        builder.insert_image(IMAGES_DIR + "Transparent background logo.png",
             aw.drawing.RelativeHorizontalPosition.MARGIN,
             100,
             aw.drawing.RelativeVerticalPosition.MARGIN,
@@ -263,7 +263,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
             100,
             aw.drawing.WrapType.SQUARE)
 
-        doc.save(docs_base.artifacts_dir + "AddContentUsingDocumentBuilder.insert_floating_image.docx")
+        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_floating_image.docx")
         #ExEnd:InsertFloatingImage
 
 
@@ -287,7 +287,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
 
         builder.writeln("A whole paragraph.")
 
-        doc.save(docs_base.artifacts_dir + "AddContentUsingDocumentBuilder.insert_paragraph.docx")
+        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_paragraph.docx")
         #ExEnd:InsertParagraph
 
 
@@ -299,7 +299,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
 
         builder.insert_field(r'TC "Entry Text" \f t')
 
-        doc.save(docs_base.artifacts_dir + "AddContentUsingDocumentBuilder.insert_tc_field.docx")
+        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_tc_field.docx")
         #ExEnd:InsertTCField
 
 
@@ -426,7 +426,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         builder.writeln("Text added to the 2nd section.")
 
         # Create document with paragraphs.
-        doc = aw.Document(docs_base.my_dir + "Paragraphs.docx")
+        doc = aw.Document(MY_DIR + "Paragraphs.docx")
         paragraphs = doc.first_section.body.paragraphs
         self.assertEqual(22, paragraphs.count)
 
@@ -467,14 +467,14 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
         builder.insert_break(aw.BreakType.PAGE_BREAK)
         builder.writeln("Page2")
 
-        doc.save(docs_base.artifacts_dir + "AddContentUsingDocumentBuilder.move_to_headers_footers.docx")
+        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.move_to_headers_footers.docx")
         #ExEnd:MoveToHeadersFooters
 
 
     def test_move_to_paragraph(self):
 
         #ExStart:MoveToParagraph
-        doc = aw.Document(docs_base.my_dir + "Paragraphs.docx")
+        doc = aw.Document(MY_DIR + "Paragraphs.docx")
         builder = aw.DocumentBuilder(doc)
 
         builder.move_to_paragraph(2, 0)
@@ -485,7 +485,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
     def test_move_to_table_cell(self):
 
         #ExStart:MoveToTableCell
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
         builder = aw.DocumentBuilder(doc)
 
         # Move the builder to row 3, cell 4 of the first table.
@@ -501,7 +501,7 @@ class AddContentUsingDocumentBuilder(docs_base.DocsExamplesBase):
     def test_move_to_bookmark_end(self):
 
         #ExStart:MoveToBookmarkEnd
-        doc = aw.Document(docs_base.my_dir + "Bookmarks.docx")
+        doc = aw.Document(MY_DIR + "Bookmarks.docx")
         builder = aw.DocumentBuilder(doc)
 
         builder.move_to_bookmark("MyBookmark1", False, True)

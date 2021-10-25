@@ -7,11 +7,11 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class WorkingWithSection(docs_base.DocsExamplesBase):
+class WorkingWithSection(DocsExamplesBase):
 
     def test_add_section(self):
 
@@ -87,7 +87,7 @@ class WorkingWithSection(docs_base.DocsExamplesBase):
     def test_clone_section(self):
 
         #ExStart:CloneSection
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
         clone_section = doc.sections[0].clone()
         #ExEnd:CloneSection
 
@@ -95,21 +95,21 @@ class WorkingWithSection(docs_base.DocsExamplesBase):
     def test_copy_section(self):
 
         #ExStart:CopySection
-        src_doc = aw.Document(docs_base.my_dir + "Document.docx")
+        src_doc = aw.Document(MY_DIR + "Document.docx")
         dst_doc = aw.Document()
 
         source_section = src_doc.sections[0]
         new_section = dst_doc.import_node(source_section, True).as_section()
         dst_doc.sections.add(new_section)
 
-        dst_doc.save(docs_base.artifacts_dir + "WorkingWithSection.copy_section.docx")
+        dst_doc.save(ARTIFACTS_DIR + "WorkingWithSection.copy_section.docx")
         #ExEnd:CopySection
 
 
     def test_delete_header_footer_content(self):
 
         #ExStart:DeleteHeaderFooterContent
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
         section = doc.sections[0]
         section.clear_headers_footers()
@@ -119,7 +119,7 @@ class WorkingWithSection(docs_base.DocsExamplesBase):
     def test_delete_section_content(self):
 
         #ExStart:DeleteSectionContent
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
         section = doc.sections[0]
         section.clear_content()
@@ -145,14 +145,14 @@ class WorkingWithSection(docs_base.DocsExamplesBase):
         for child in doc:
             child.as_section().page_setup.paper_size = aw.PaperSize.LETTER
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithSection.modify_page_setup_in_all_sections.doc")
+        doc.save(ARTIFACTS_DIR + "WorkingWithSection.modify_page_setup_in_all_sections.doc")
         #ExEnd:ModifyPageSetupInAllSections
 
 
     def test_sections_access_by_index(self):
 
         #ExStart:SectionsAccessByIndex
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
         section = doc.sections[0]
         section.page_setup.left_margin = 90 # 3.17 cm

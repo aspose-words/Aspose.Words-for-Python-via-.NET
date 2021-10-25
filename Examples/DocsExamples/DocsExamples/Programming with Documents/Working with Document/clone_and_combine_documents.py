@@ -7,32 +7,32 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class CloneAndCombineDocuments(docs_base.DocsExamplesBase):
+class CloneAndCombineDocuments(DocsExamplesBase):
 
     def test_cloning_document(self):
 
         #ExStart:CloningDocument
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
         clone = doc.clone().as_document()
-        clone.save(docs_base.artifacts_dir + "CloneAndCombineDocuments.cloning_document.docx")
+        clone.save(ARTIFACTS_DIR + "CloneAndCombineDocuments.cloning_document.docx")
         #ExEnd:CloningDocument
 
 
     def test_insert_document_at_bookmark(self):
 
         #ExStart:InsertDocumentAtBookmark
-        main_doc = aw.Document(docs_base.my_dir + "Document insertion 1.docx")
-        sub_doc = aw.Document(docs_base.my_dir + "Document insertion 2.docx")
+        main_doc = aw.Document(MY_DIR + "Document insertion 1.docx")
+        sub_doc = aw.Document(MY_DIR + "Document insertion 2.docx")
 
         bookmark = main_doc.range.bookmarks.get_by_name("insertionPlace")
         self.insert_document(bookmark.bookmark_start.parent_node, sub_doc)
 
-        main_doc.save(docs_base.artifacts_dir + "CloneAndCombineDocuments.insert_document_at_bookmark.docx")
+        main_doc.save(ARTIFACTS_DIR + "CloneAndCombineDocuments.insert_document_at_bookmark.docx")
         #ExEnd:InsertDocumentAtBookmark
 
 

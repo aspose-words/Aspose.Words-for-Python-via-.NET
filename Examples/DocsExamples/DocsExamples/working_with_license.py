@@ -8,11 +8,11 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR
 
 import aspose.words as aw
 
-class WorkingWithLicense(docs_base.DocsExamplesBase):
+class WorkingWithLicense(DocsExamplesBase):
 
     def test_apply_license_from_file(self):
 
@@ -53,7 +53,7 @@ class WorkingWithLicense(docs_base.DocsExamplesBase):
         metered.set_metered_key("*****", "*****")
 
         # Load the document from disk.
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
         #Get the page count of document
         print(doc.page_count)
         #ExEnd:ApplyMeteredLicense

@@ -7,11 +7,11 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class WorkingWithWebExtension(docs_base.DocsExamplesBase):
+class WorkingWithWebExtension(DocsExamplesBase):
 
     def test_using_web_extension_task_panes(self):
 
@@ -33,11 +33,11 @@ class WorkingWithWebExtension(docs_base.DocsExamplesBase):
         task_pane.web_extension.bindings.add(aw.webextensions.WebExtensionBinding("UnnamedBinding_0_1506535429545",
             aw.webextensions.WebExtensionBindingType.TEXT, "194740422"))
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithWebExtension.using_web_extension_task_panes.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithWebExtension.using_web_extension_task_panes.docx")
         #ExEnd:UsingWebExtensionTaskPanes
 
         #ExStart:GetListOfAddins
-        doc = aw.Document(docs_base.artifacts_dir + "WorkingWithWebExtension.using_web_extension_task_panes.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "WorkingWithWebExtension.using_web_extension_task_panes.docx")
 
         print("Task panes sources:\n")
 

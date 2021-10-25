@@ -7,42 +7,42 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class SplitDocument(docs_base.DocsExamplesBase):
+class SplitDocument(DocsExamplesBase):
 
     def test_by_headings_html(self):
 
         #ExStart:SplitDocumentByHeadingsHtml
-        doc = aw.Document(docs_base.my_dir + "Rendering.docx")
+        doc = aw.Document(MY_DIR + "Rendering.docx")
 
         options = aw.saving.HtmlSaveOptions()
 
         # Split a document into smaller parts, in this instance split by heading.
         options.document_split_criteria = aw.saving.DocumentSplitCriteria.HEADING_PARAGRAPH
 
-        doc.save(docs_base.artifacts_dir + "SplitDocument.by_headings_html.html", options)
+        doc.save(ARTIFACTS_DIR + "SplitDocument.by_headings_html.html", options)
         #ExEnd:SplitDocumentByHeadingsHtml
 
 
     def test_by_sections_html(self):
 
-        doc = aw.Document(docs_base.my_dir + "Rendering.docx")
+        doc = aw.Document(MY_DIR + "Rendering.docx")
 
         #ExStart:SplitDocumentBySectionsHtml
         options = aw.saving.HtmlSaveOptions()
         options.document_split_criteria = aw.saving.DocumentSplitCriteria.SECTION_BREAK
         #ExEnd:SplitDocumentBySectionsHtml
 
-        doc.save(docs_base.artifacts_dir + "SplitDocument.by_sections_html.html", options)
+        doc.save(ARTIFACTS_DIR + "SplitDocument.by_sections_html.html", options)
 
 
     def test_by_sections(self):
 
         #ExStart:SplitDocumentBySections
-        doc = aw.Document(docs_base.my_dir + "Big document.docx")
+        doc = aw.Document(MY_DIR + "Big document.docx")
 
         for i in range(doc.sections.count):
 
@@ -56,7 +56,7 @@ class SplitDocument(docs_base.DocsExamplesBase):
             new_doc.sections.add(new_section)
 
             # Save each section as a separate document.
-            new_doc.save(docs_base.artifacts_dir + f"SplitDocument.by_sections_{i}.docx")
+            new_doc.save(ARTIFACTS_DIR + f"SplitDocument.by_sections_{i}.docx")
 
         #ExEnd:SplitDocumentBySections
 
@@ -64,7 +64,7 @@ class SplitDocument(docs_base.DocsExamplesBase):
     def test_page_by_page(self):
 
         #ExStart:SplitDocumentPageByPage
-        doc = aw.Document(docs_base.my_dir + "Big document.docx")
+        doc = aw.Document(MY_DIR + "Big document.docx")
 
         page_count = doc.page_count
 
@@ -72,7 +72,7 @@ class SplitDocument(docs_base.DocsExamplesBase):
 
             # Save each page as a separate document.
             extracted_page = doc.extract_pages(page, 1)
-            extracted_page.save(docs_base.artifacts_dir + f"SplitDocument.page_by_page_{page + 1}.docx")
+            extracted_page.save(ARTIFACTS_DIR + f"SplitDocument.page_by_page_{page + 1}.docx")
 
         #ExEnd:SplitDocumentPageByPage
 
@@ -84,9 +84,9 @@ class SplitDocument(docs_base.DocsExamplesBase):
     def merge_documents():
 
         # Find documents using for merge.
-        document_paths = [f for f in os.listdir(docs_base.artifacts_dir) if (os.path.isfile(os.path.join(docs_base.artifacts_dir, f)) and f.find("SplitDocument.page_by_page_") >= 0)]
+        document_paths = [f for f in os.listdir(ARTIFACTS_DIR) if (os.path.isfile(os.path.join(ARTIFACTS_DIR, f)) and f.find("SplitDocument.page_by_page_") >= 0)]
 
-        source_document_path = os.path.join(docs_base.artifacts_dir, document_paths[0])
+        source_document_path = os.path.join(ARTIFACTS_DIR, document_paths[0])
 
         # Open the first part of the resulting document.
         source_doc = aw.Document(source_document_path)
@@ -98,7 +98,7 @@ class SplitDocument(docs_base.DocsExamplesBase):
         # Merge document parts one by one.
         for document_path in document_paths:
 
-            document_path = os.path.join(docs_base.artifacts_dir, document_path)
+            document_path = os.path.join(ARTIFACTS_DIR, document_path)
             if document_path == source_document_path:
                 continue
 
@@ -107,18 +107,18 @@ class SplitDocument(docs_base.DocsExamplesBase):
             source_doc = aw.Document(document_path)
 
 
-        merged_doc.save(docs_base.artifacts_dir + "SplitDocument.merge_documents.docx")
+        merged_doc.save(ARTIFACTS_DIR + "SplitDocument.merge_documents.docx")
 
     #ExEnd:MergeSplitDocuments
 
     def test_by_page_range(self):
 
         #ExStart:SplitDocumentByPageRange
-        doc = aw.Document(docs_base.my_dir + "Big document.docx")
+        doc = aw.Document(MY_DIR + "Big document.docx")
 
         # Get part of the document.
         extracted_pages = doc.extract_pages(3, 6)
-        extracted_pages.save(docs_base.artifacts_dir + "SplitDocument.by_page_range.docx")
+        extracted_pages.save(ARTIFACTS_DIR + "SplitDocument.by_page_range.docx")
         #ExEnd:SplitDocumentByPageRange
 
 

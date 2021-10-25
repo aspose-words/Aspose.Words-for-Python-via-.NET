@@ -8,12 +8,12 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-class FindAndReplace(docs_base.DocsExamplesBase):
+class FindAndReplace(DocsExamplesBase):
 
     def test_simple_find_replace(self):
 
@@ -29,14 +29,14 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         print("Document text after replace: " + doc.range.text)
 
         # Save the modified document
-        doc.save(docs_base.artifacts_dir + "FindAndReplace.simple_find_replace.docx")
+        doc.save(ARTIFACTS_DIR + "FindAndReplace.simple_find_replace.docx")
         #ExEnd:SimpleFindReplace
 
 
     def test_find_and_highlight(self):
 
         #ExStart:FindAndHighlight
-        doc = aw.Document(docs_base.my_dir + "Find and highlight.docx")
+        doc = aw.Document(MY_DIR + "Find and highlight.docx")
 
         options = aw.replacing.FindReplaceOptions()
         options.direction = aw.replacing.FindReplaceDirection.BACKWARD
@@ -45,7 +45,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         text = "your document"
         doc.range.replace(text, text, options)
 
-        doc.save(docs_base.artifacts_dir + "FindAndReplace.find_and_highlight.docx")
+        doc.save(ARTIFACTS_DIR + "FindAndReplace.find_and_highlight.docx")
         #ExEnd:FindAndHighlight
 
 
@@ -74,7 +74,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
 
         doc.range.replace("This is Line 1&mThis is Line 2", "Page break is replaced with new text.")
 
-        doc.save(docs_base.artifacts_dir + "FindAndReplace.meta_characters_in_search_pattern.docx")
+        doc.save(ARTIFACTS_DIR + "FindAndReplace.meta_characters_in_search_pattern.docx")
         #ExEnd:MetaCharactersInSearchPattern
 
 
@@ -101,7 +101,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
         # Insert section break instead of custom text tag.
         count = doc.range.replace("insert-section", "&b", find_replace_options)
 
-        doc.save(docs_base.artifacts_dir + "FindAndReplace.replace_text_containing_meta_characters.docx")
+        doc.save(ARTIFACTS_DIR + "FindAndReplace.replace_text_containing_meta_characters.docx")
         #ExEnd:ReplaceTextContainingMetaCharacters
 
 
@@ -189,7 +189,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
     def test_replace_text_in_footer(self):
 
         #ExStart:ReplaceTextInFooter
-        doc = aw.Document(docs_base.my_dir + "Footer.docx")
+        doc = aw.Document(MY_DIR + "Footer.docx")
 
         headers_footers = doc.first_section.headers_footers
         footer = headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_PRIMARY)
@@ -200,7 +200,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
 
         footer.range.replace("(C) 2006 Aspose Pty Ltd.", "Copyright (C) 2020 by Aspose Pty Ltd.", options)
 
-        doc.save(docs_base.artifacts_dir + "FindAndReplace.replace_text_in_footer.docx")
+        doc.save(ARTIFACTS_DIR + "FindAndReplace.replace_text_in_footer.docx")
         #ExEnd:ReplaceTextInFooter
 
 
@@ -217,7 +217,7 @@ class FindAndReplace(docs_base.DocsExamplesBase):
 
         doc.range.replace_regex("[s|m]ad", "bad", options)
 
-        doc.save(docs_base.artifacts_dir + "FindAndReplace.replace_with_regex.docx")
+        doc.save(ARTIFACTS_DIR + "FindAndReplace.replace_with_regex.docx")
         #ExEnd:ReplaceWithRegex
 
 
@@ -246,21 +246,21 @@ class FindAndReplace(docs_base.DocsExamplesBase):
 
         doc.range.replace("sad", "bad", aw.replacing.FindReplaceOptions(aw.replacing.FindReplaceDirection.FORWARD))
 
-        doc.save(docs_base.artifacts_dir + "FindAndReplace.replace_with_string.docx")
+        doc.save(ARTIFACTS_DIR + "FindAndReplace.replace_with_string.docx")
         #ExEnd:ReplaceWithString
 
 
     def test_replace_text_in_table(self):
 
         #ExStart:ReplaceText
-        doc = aw.Document(docs_base.my_dir + "Tables.docx")
+        doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
         table.range.replace("Carrots", "Eggs", aw.replacing.FindReplaceOptions(aw.replacing.FindReplaceDirection.FORWARD))
         table.last_row.last_cell.range.replace("50", "20", aw.replacing.FindReplaceOptions(aw.replacing.FindReplaceDirection.FORWARD))
 
-        doc.save(docs_base.artifacts_dir + "FindAndReplace.replace_text_in_table.docx")
+        doc.save(ARTIFACTS_DIR + "FindAndReplace.replace_text_in_table.docx")
         #ExEnd:ReplaceText
 
 

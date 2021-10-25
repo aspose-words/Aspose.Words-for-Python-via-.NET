@@ -7,12 +7,12 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-class WorkingWithStylesAndThemes(docs_base.DocsExamplesBase):
+class WorkingWithStylesAndThemes(DocsExamplesBase):
 
     def test_access_styles(self):
 
@@ -40,11 +40,11 @@ class WorkingWithStylesAndThemes(docs_base.DocsExamplesBase):
 
         #ExStart:CopyStyles
         doc = aw.Document()
-        target = aw.Document(docs_base.my_dir + "Rendering.docx")
+        target = aw.Document(MY_DIR + "Rendering.docx")
 
         target.copy_styles_from_template(doc)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithStylesAndThemes.copy_styles.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithStylesAndThemes.copy_styles.docx")
         #ExEnd:CopyStyles
 
 
@@ -92,7 +92,7 @@ class WorkingWithStylesAndThemes(docs_base.DocsExamplesBase):
         builder.paragraph_format.style_name = para_style.name
         builder.write("This is text with some other formatting ")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithStylesAndThemes.insert_style_separator.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithStylesAndThemes.insert_style_separator.docx")
         #ExEnd:InsertStyleSeparator
 
 

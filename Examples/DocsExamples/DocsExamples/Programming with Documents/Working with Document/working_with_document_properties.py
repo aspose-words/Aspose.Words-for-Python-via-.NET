@@ -8,16 +8,16 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
+class DocumentPropertiesAndVariables(DocsExamplesBase):
 
     def test_get_variables(self):
 
         #ExStart:GetVariables
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
         doc.variables.add("my_var", "test")
 
@@ -29,7 +29,7 @@ class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
     def test_enumerate_properties(self):
 
         #ExStart:EnumerateProperties
-        doc = aw.Document(docs_base.my_dir + "Properties.docx")
+        doc = aw.Document(MY_DIR + "Properties.docx")
 
         print("1. Document name: 0", doc.original_file_name)
         print("2. Built-in Properties")
@@ -47,7 +47,7 @@ class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
     def test_add_custom_document_properties(self):
 
         #ExStart:AddCustomDocumentProperties
-        doc = aw.Document(docs_base.my_dir + "Properties.docx")
+        doc = aw.Document(MY_DIR + "Properties.docx")
 
         custom_document_properties = doc.custom_document_properties
 
@@ -65,7 +65,7 @@ class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
     def test_remove_custom_document_properties(self):
 
         #ExStart:CustomRemove
-        doc = aw.Document(docs_base.my_dir + "Properties.docx")
+        doc = aw.Document(MY_DIR + "Properties.docx")
         doc.custom_document_properties.remove("Authorized Date")
         #ExEnd:CustomRemove
 
@@ -73,10 +73,10 @@ class DocumentPropertiesAndVariables(docs_base.DocsExamplesBase):
     def test_remove_personal_information(self):
 
         #ExStart:RemovePersonalInformation
-        doc = aw.Document(docs_base.my_dir + "Properties.docx")
+        doc = aw.Document(MY_DIR + "Properties.docx")
         doc.remove_personal_information = True
 
-        doc.save(docs_base.artifacts_dir + "DocumentPropertiesAndVariables.remove_personal_information.docx")
+        doc.save(ARTIFACTS_DIR + "DocumentPropertiesAndVariables.remove_personal_information.docx")
         #ExEnd:RemovePersonalInformation
 
 

@@ -8,11 +8,11 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
 
 import aspose.words as aw
 
-class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
+class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
 
     def test_insert_ole_object(self):
 
@@ -22,7 +22,7 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
 
         builder.insert_ole_object("http://www.aspose.com", "htmlfile", True, True, None)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithOleObjectsAndActiveX.insert_ole_object.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_ole_object.docx")
         #ExEnd:DocumentBuilderInsertOleObject
 
 
@@ -32,14 +32,14 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        stream = io.FileIO(docs_base.my_dir + "Zip file.zip")
+        stream = io.FileIO(MY_DIR + "Zip file.zip")
 
         shape = builder.insert_ole_object(stream, "Package", True, None)
         ole_package = shape.ole_format.ole_package
         ole_package.file_name = "filename.zip"
         ole_package.display_name = "displayname.zip"
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithOleObjectsAndActiveX.insert_ole_object_with_ole_package.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_ole_object_with_ole_package.docx")
 
         stream.close()
         #ExEnd:InsertOleObjectwithOlePackage
@@ -56,9 +56,9 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        builder.insert_ole_object_as_icon(docs_base.my_dir + "Presentation.pptx", False, docs_base.images_dir + "Logo icon.ico", "My embedded file")
+        builder.insert_ole_object_as_icon(MY_DIR + "Presentation.pptx", False, IMAGES_DIR + "Logo icon.ico", "My embedded file")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithOleObjectsAndActiveX.insert_ole_object_as_icon.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_ole_object_as_icon.docx")
         #ExEnd:InsertOLEObjectAsIcon
 
 
@@ -68,10 +68,10 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        stream = io.FileIO(docs_base.my_dir + "Presentation.pptx")
-        builder.insert_ole_object_as_icon(stream, "Package", docs_base.images_dir + "Logo icon.ico", "My embedded file")
+        stream = io.FileIO(MY_DIR + "Presentation.pptx")
+        builder.insert_ole_object_as_icon(stream, "Package", IMAGES_DIR + "Logo icon.ico", "My embedded file")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithOleObjectsAndActiveX.insert_ole_object_as_icon_using_stream.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_ole_object_as_icon_using_stream.docx")
 
         stream.close()
         #ExEnd:InsertOLEObjectAsIconUsingStream
@@ -79,7 +79,7 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
 
     def test_read_active_x_control_properties(self):
 
-        doc = aw.Document(docs_base.my_dir + "ActiveX controls.docx")
+        doc = aw.Document(MY_DIR + "ActiveX controls.docx")
 
         properties = ""
         for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True):
@@ -120,7 +120,7 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
 
         shape = builder.insert_online_video(url, width, height)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithOleObjectsAndActiveX.insert_online_video.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_online_video.docx")
         #ExEnd:InsertOnlineVideo
 
     def test_insert_online_video_with_embed_html(self):
@@ -134,7 +134,7 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
         height = 270
 
         # Poster frame image.
-        image = open(docs_base.images_dir + "Logo.jpg", "rb")
+        image = open(IMAGES_DIR + "Logo.jpg", "rb")
         image_bytes = image.read()
         image.close()
 
@@ -146,7 +146,7 @@ class WorkingWithOleObjectsAndActiveX(docs_base.DocsExamplesBase):
 
         builder.insert_online_video(vimeo_video_url, vimeo_embed_code, image_bytes, width, height)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithOleObjectsAndActiveX.insert_online_video_with_embed_html.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_online_video_with_embed_html.docx")
         #ExEnd:InsertOnlineVideoWithEmbedHtml
 
 

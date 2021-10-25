@@ -7,11 +7,11 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class WorkingWithMarkdown(docs_base.DocsExamplesBase):
+class WorkingWithMarkdown(DocsExamplesBase):
 
     def test_create_markdown_document(self):
 
@@ -79,20 +79,20 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.end_table()
 
         # Save your document as a Markdown file.
-        doc.save(docs_base.artifacts_dir + "WorkingWithMarkdown.create_markdown_document.md")
+        doc.save(ARTIFACTS_DIR + "WorkingWithMarkdown.create_markdown_document.md")
         #ExEnd:CreateMarkdownDocument
 
 
     def test_read_markdown_document(self):
 
         #ExStart:ReadMarkdownDocument
-        doc = aw.Document(docs_base.my_dir + "Quotes.md")
+        doc = aw.Document(MY_DIR + "Quotes.md")
 
         # Let's remove Heading formatting from a Quote in the very last paragraph.
         paragraph = doc.first_section.body.last_paragraph
         paragraph.paragraph_format.style = doc.styles.get_by_name("Quote")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithMarkdown.read_markdown_document.md")
+        doc.save(ARTIFACTS_DIR + "WorkingWithMarkdown.read_markdown_document.md")
         #ExEnd:ReadMarkdownDocument
 
 
@@ -127,7 +127,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.font.italic = False
         builder.write("text.")
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.emphases.md")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithMarkdown.emphases.md")
         #ExEnd:Emphases
 
 
@@ -161,7 +161,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.paragraph_format.style = doc.styles.get_by_name("Heading 1")
         builder.writeln("Bold Heading1")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithMarkdown.headings.md")
+        doc.save(ARTIFACTS_DIR + "WorkingWithMarkdown.headings.md")
         #ExEnd:Headings
 
 
@@ -196,7 +196,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.paragraph_format.style = quote_level1_with_heading
         builder.write("Headings are allowed inside Quotes")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithMarkdown.block_quotes.md")
+        doc.save(ARTIFACTS_DIR + "WorkingWithMarkdown.block_quotes.md")
         #ExEnd:BlockQuotes
 
 
@@ -208,7 +208,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.writeln("We support Horizontal rules (Thematic breaks) in Markdown:")
         builder.insert_horizontal_rule()
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.horizontal_rule_example.md")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithMarkdown.horizontal_rule_example.md")
         #ExEnd:HorizontalRule
 
     def test_bold_text(self):
@@ -221,7 +221,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.font.bold = True
         builder.writeln("This text will be Bold")
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.bold_text_example.md")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithMarkdown.bold_text_example.md")
         #ExEnd:BoldText
 
     def test_italic_text(self):
@@ -234,7 +234,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.font.italic = True
         builder.writeln("This text will be Italic")
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.italic_text_example.md")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithMarkdown.italic_text_example.md")
         #ExEnd:ItalicText
 
     def test_strikethrough_text(self):
@@ -247,7 +247,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.font.strike_through = True
         builder.writeln("This text will be Strikethrough")
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.strikethrough_text_example.md")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithMarkdown.strikethrough_text_example.md")
         #ExEnd:Strikethrough
 
     def test_inline_code(self):
@@ -266,7 +266,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.font.style = inline_code3_back_ticks
         builder.writeln("Text with InlineCode style with 3 backtick")
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.inline_code_example.md")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithMarkdown.inline_code_example.md")
         #ExEnd:InlineCode
 
     def test_autolink(self):
@@ -279,7 +279,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.insert_hyperlink("https://www.aspose.com", "https://www.aspose.com", False)
         builder.insert_hyperlink("email@aspose.com", "mailto:email@aspose.com", False)
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.autolink_example.md")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithMarkdown.autolink_example.md")
         #ExEnd:Autolink
 
     def test_link(self):
@@ -291,7 +291,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         # Insert hyperlink.
         builder.insert_hyperlink("Aspose", "https://www.aspose.com", False)
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.link_example.md")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithMarkdown.link_example.md")
         #ExEnd:Link
 
     def test_image(self):
@@ -307,7 +307,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         shape.image_data.title = "title"
         builder.insert_node(shape)
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.image_example.md")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithMarkdown.image_example.md")
         #ExEnd:Image
 
     def test_setext_heading(self):
@@ -343,7 +343,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         # Setex heading level will be reset to 2 if the base paragraph has a Heading level greater than 2.
         builder.writeln("Setex Heading level 2")
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.setext_heading_example.md")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithMarkdown.setext_heading_example.md")
         #ExEnd:SetextHeading
 
     def test_indented_code(self):
@@ -356,7 +356,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.paragraph_format.style = indented_code
         builder.writeln("This is an indented code")
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.indented_code_example.md")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithMarkdown.indented_code_example.md")
         #ExEnd:IndentedCode
 
     def test_fenced_code(self):
@@ -373,7 +373,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.paragraph_format.style = fenced_code_with_info
         builder.writeln("This is a fenced code with info string")
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.fenced_code_example.md")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithMarkdown.fenced_code_example.md")
         #ExEnd:FencedCode
 
     def test_quote(self):
@@ -393,7 +393,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         doc.styles.get_by_name("Quote1").base_style_name = "Quote"
         builder.writeln("1. Nested blockquote")
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.quote_example.md")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithMarkdown.quote_example.md")
         #ExEnd:Quote
 
     def test_bulleted_list(self):
@@ -413,7 +413,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.writeln("Item 2a")
         builder.writeln("Item 2b")
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.bulleted_list_example.md")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithMarkdown.bulleted_list_example.md")
         #ExEnd:BulletedList
 
     def test_ordered_list(self):
@@ -432,7 +432,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.writeln("Item 2a")
         builder.write("Item 2b")
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.ordered_list_example.md")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithMarkdown.ordered_list_example.md")
         #ExEnd:OrderedList
 
     def test_table(self):
@@ -455,7 +455,7 @@ class WorkingWithMarkdown(docs_base.DocsExamplesBase):
         builder.writeln("d")
         builder.end_table()
 
-        builder.document.save(docs_base.artifacts_dir + "WorkingWithMarkdown.ordered_list_table.md")
+        builder.document.save(ARTIFACTS_DIR + "WorkingWithMarkdown.ordered_list_table.md")
         #ExEnd:Table
 
 

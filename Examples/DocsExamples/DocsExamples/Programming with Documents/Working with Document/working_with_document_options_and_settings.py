@@ -7,39 +7,39 @@ base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
 base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
 sys.path.insert(0, base_dir)
 
-import docs_examples_base as docs_base
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
 
-class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
+class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
 
     def test_optimize_for_ms_word(self):
 
         #ExStart:OptimizeForMsWord
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
         doc.compatibility_options.optimize_for(aw.settings.MsWordVersion.WORD2016)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithDocumentOptionsAndSettings.optimize_for_ms_word.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.optimize_for_ms_word.docx")
         #ExEnd:OptimizeForMsWord
 
 
     def test_show_grammatical_and_spelling_errors(self):
 
         #ExStart:ShowGrammaticalAndSpellingErrors
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
         doc.show_grammatical_errors = True
         doc.show_spelling_errors = True
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithDocumentOptionsAndSettings.show_grammatical_and_spelling_errors.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.show_grammatical_and_spelling_errors.docx")
         #ExEnd:ShowGrammaticalAndSpellingErrors
 
 
     def test_cleanup_unused_styles_and_lists(self):
 
         #ExStart:CleanupUnusedStylesandLists
-        doc = aw.Document(docs_base.my_dir + "Unused styles.docx")
+        doc = aw.Document(MY_DIR + "Unused styles.docx")
 
         # Combined with the built-in styles, the document now has eight styles.
         # A custom style is marked as "used" while there is any text within the document
@@ -56,14 +56,14 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
         print(f"Count of styles after Cleanup was decreased: {doc.styles.count}\n" +
                             f"Count of lists after Cleanup is the same: {doc.lists.count}")
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithDocumentOptionsAndSettings.cleanup_unused_styles_and_lists.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.cleanup_unused_styles_and_lists.docx")
         #ExEnd:CleanupUnusedStylesandLists
 
 
     def test_cleanup_duplicate_style(self):
 
         #ExStart:CleanupDuplicateStyle
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
         # Count of styles before Cleanup.
         print(doc.styles.count)
@@ -76,26 +76,26 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
         # Count of styles after Cleanup was decreased.
         print(doc.styles.count)
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithDocumentOptionsAndSettings.cleanup_duplicate_style.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.cleanup_duplicate_style.docx")
         #ExEnd:CleanupDuplicateStyle
 
 
     def test_view_options(self):
 
         #ExStart:SetViewOption
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
         doc.view_options.view_type = aw.settings.ViewType.PAGE_LAYOUT
         doc.view_options.zoom_percent = 50
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithDocumentOptionsAndSettings.view_options.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.view_options.docx")
         #ExEnd:SetViewOption
 
 
     def test_document_page_setup(self):
 
         #ExStart:DocumentPageSetup
-        doc = aw.Document(docs_base.my_dir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
 
         # Set the layout mode for a section allowing to define the document grid behavior.
         # Note that the Document Grid tab becomes visible in the Page Setup dialog of MS Word
@@ -104,7 +104,7 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
         doc.first_section.page_setup.characters_per_line = 30
         doc.first_section.page_setup.lines_per_page = 10
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithDocumentOptionsAndSettings.document_page_setup.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.document_page_setup.docx")
         #ExEnd:DocumentPageSetup
 
 
@@ -117,7 +117,7 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
         load_options.language_preferences.add_editing_language(aw.loading.EditingLanguage.JAPANESE)
         #ExEnd:AddJapaneseAsEditinglanguages
 
-        doc = aw.Document(docs_base.my_dir + "No default editing language.docx", load_options)
+        doc = aw.Document(MY_DIR + "No default editing language.docx", load_options)
 
         locale_id_far_east = doc.styles.default_font.locale_id_far_east
         print("The document either has no any FarEast language set in defaults or it was set to Japanese originally." if (locale_id_far_east == aw.loading.EditingLanguage.JAPANESE)
@@ -130,7 +130,7 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
         load_options = aw.loading.LoadOptions()
         load_options.language_preferences.default_editing_language = aw.loading.EditingLanguage.RUSSIAN
 
-        doc = aw.Document(docs_base.my_dir + "No default editing language.docx", load_options)
+        doc = aw.Document(MY_DIR + "No default editing language.docx", load_options)
 
         locale_id = doc.styles.default_font.locale_id
         print("The document either has no any language set in defaults or it was set to Russian originally." if (locale_id == aw.loading.EditingLanguage.RUSSIAN)
@@ -148,7 +148,7 @@ class WorkingWithDocumentOptionsAndSettings(docs_base.DocsExamplesBase):
         builder.page_setup.left_margin = 50
         builder.page_setup.paper_size = aw.PaperSize.PAPER10X14
 
-        doc.save(docs_base.artifacts_dir + "WorkingWithDocumentOptionsAndSettings.set_page_setup_and_section_formatting.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.set_page_setup_and_section_formatting.docx")
         #ExEnd:DocumentBuilderSetPageSetupAndSectionFormatting
 
 
