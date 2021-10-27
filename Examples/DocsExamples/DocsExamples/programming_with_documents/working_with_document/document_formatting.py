@@ -26,10 +26,10 @@ class DocumentFormatting(DocsExamplesBase):
         #ExStart:AsianTypographyLineBreakGroup
         doc = aw.Document(MY_DIR + "Asian typography.docx")
 
-        format = doc.first_section.body.paragraphs[0].paragraph_format
-        format.far_east_line_break_control = False
-        format.word_wrap = True
-        format.hanging_punctuation = False
+        paragraph_format = doc.first_section.body.paragraphs[0].paragraph_format
+        paragraph_format.far_east_line_break_control = False
+        paragraph_format.word_wrap = True
+        paragraph_format.hanging_punctuation = False
 
         doc.save(ARTIFACTS_DIR + "DocumentFormatting.asian_typography_line_break_group.docx")
         #ExEnd:AsianTypographyLineBreakGroup

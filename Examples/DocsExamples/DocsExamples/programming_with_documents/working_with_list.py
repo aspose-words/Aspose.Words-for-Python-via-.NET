@@ -12,11 +12,11 @@ class WorkingWithList(DocsExamplesBase):
 
         doc.lists.add(aw.lists.ListTemplate.NUMBER_DEFAULT)
 
-        list = doc.lists[0]
-        list.is_restart_at_each_section = True
+        list_ = doc.lists[0]
+        list_.is_restart_at_each_section = True
 
         builder = aw.DocumentBuilder(doc)
-        builder.list_format.list = list
+        builder.list_format.list = list_
 
         for i in range(1, 45):
             builder.writeln(f"List Item {i}")

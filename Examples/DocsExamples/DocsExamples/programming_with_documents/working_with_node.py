@@ -10,7 +10,7 @@ class WorkingWithNode(DocsExamplesBase):
         #ExStart:UseNodeType
         doc = aw.Document()
 
-        type = doc.node_type
+        node_type = doc.node_type
         #ExEnd:UseNodeType
 
     def test_get_parent_node(self):

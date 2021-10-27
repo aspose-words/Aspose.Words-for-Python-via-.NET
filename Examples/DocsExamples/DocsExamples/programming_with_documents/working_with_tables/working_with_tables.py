@@ -807,7 +807,7 @@ class WorkingWithTables(DocsExamplesBase):
         #ExEnd:AllowAutoFit
 
         first_cell = table.first_row.first_cell
-        type = first_cell.cell_format.preferred_width.type
+        type_ = first_cell.cell_format.preferred_width.type
         value = first_cell.cell_format.preferred_width.value
         #ExEnd:RetrievePreferredWidthType
 

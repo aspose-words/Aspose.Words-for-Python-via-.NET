@@ -9,11 +9,11 @@ class WorkingWithLicense(DocsExamplesBase):
     def test_apply_license_from_file(self):
 
         #ExStart:ApplyLicenseFromFile
-        license = aw.License()
+        lic = aw.License()
 
         # Try to set license from the folder with the python script.
         try:
-            license.set_license("Aspose.Words.Python.NET.lic")
+            lic.set_license("Aspose.Words.Python.NET.lic")
             print("License set successfully.")
         except RuntimeError as err:
             # We do not ship any license with this example, visit the Aspose site to obtain either a temporary or permanent license.
@@ -23,12 +23,12 @@ class WorkingWithLicense(DocsExamplesBase):
     def test_apply_license_from_stream(self):
 
         #ExStart:ApplyLicenseFromStream
-        license = aw.License()
+        lic = aw.License()
 
         # Try to set license from the stream.
         try:
             with io.FileIO("C:\\Temp\\Aspose.Words.Python.NET.lic") as stream:
-                license.set_license(stream)
+                lic.set_license(stream)
             print("License set successfully.")
         except RuntimeError as err:
             # We do not ship any license with this example, visit the Aspose site to obtain either a temporary or permanent license.

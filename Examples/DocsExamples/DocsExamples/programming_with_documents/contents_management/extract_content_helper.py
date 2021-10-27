@@ -237,14 +237,14 @@ class ExtractContentHelper():
     @staticmethod
     def fill_self_and_parents(node: aw.Node, till_node: aw.Node):
 
-        list = []
+        nodes = []
         current_node = node
 
         while current_node != till_node:
-            list.append(current_node)
+            nodes.append(current_node)
             current_node = current_node.parent_node
 
-        return list
+        return nodes
 
     @staticmethod
     def include_next_paragraph(node: aw.Node, nodes):

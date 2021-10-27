@@ -21,7 +21,7 @@ class DocsExamplesBase(unittest.TestCase):
 
     def setUp(self):
         if os.path.exists(LECIENSE_PATH):
-            license = aw.License()
-            license.set_license(LECIENSE_PATH)
+            lic = aw.License()
+            lic.set_license(LECIENSE_PATH)
         if not os.path.exists(ARTIFACTS_DIR):
             os.makedirs(ARTIFACTS_DIR)
