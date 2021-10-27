@@ -94,10 +94,10 @@ class WorkingWithBookmarks(DocsExamplesBase):
     def append_bookmarked_text(importer: aw.NodeImporter, src_bookmark: aw.Bookmark, dst_node: aw.CompositeNode):
         """Copies content of the bookmark and adds it to the end of the specified node.
         The destination node can be in a different document.
-        
-        :param importer: Maintains the import context.
-        :param src_bookmark: The input bookmark.
-        :param dst_node: Must be a node that can contain paragraphs (such as a Story).
+
+       :param importer: Maintains the import context.
+       :param src_bookmark: The input bookmark.
+       :param dst_node: Must be a node that can contain paragraphs (such as a Story).
         """
 
         # This is the paragraph that contains the beginning of the bookmark.

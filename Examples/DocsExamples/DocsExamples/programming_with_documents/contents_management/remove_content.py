@@ -35,7 +35,7 @@ class RemoveContent(DocsExamplesBase):
                 run = run.as_run()
                 if run.text.find(aw.ControlChar.PAGE_BREAK) >= 0:
                     run.text = run.text.replace(aw.ControlChar.PAGE_BREAK, "")
-    
+
     #ExEnd:RemovePageBreaks
 
     #ExStart:RemoveSectionBreaks
@@ -90,9 +90,9 @@ class RemoveContent(DocsExamplesBase):
     @staticmethod
     def remove_table_of_contents(doc: aw.Document, index: int):
         """Removes the specified table of contents field from the document.
-        
-        :param doc: The document to remove the field from.
-        :param index: The zero-based index of the TOC to remove.
+
+       :param doc: The document to remove the field from.
+       :param index: The zero-based index of the TOC to remove.
         """
 
         # Store the FieldStart nodes of TOC fields in the document for quick access.

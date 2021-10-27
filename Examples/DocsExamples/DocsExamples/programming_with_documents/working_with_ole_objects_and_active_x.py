@@ -25,7 +25,7 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
 
         with io.FileIO(MY_DIR + "Zip file.zip") as stream:
             shape = builder.insert_ole_object(stream, "Package", True, None)
-        
+
         ole_package = shape.ole_format.ole_package
         ole_package.file_name = "filename.zip"
         ole_package.display_name = "displayname.zip"

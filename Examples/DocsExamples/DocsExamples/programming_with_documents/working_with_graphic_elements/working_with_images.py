@@ -30,9 +30,9 @@ class WorkingWithImages(DocsExamplesBase):
     @staticmethod
     def add_image_to_page(para: aw.Paragraph, page: int, images_dir: str):
         """Adds an image to a page using the supplied paragraph.
-        
-        :param para: The paragraph to an an image to.
-        :param page: The page number the paragraph appears on.
+
+       :param para: The paragraph to an an image to.
+       :param page: The page number the paragraph appears on.
         """
 
         doc = para.document.as_document()

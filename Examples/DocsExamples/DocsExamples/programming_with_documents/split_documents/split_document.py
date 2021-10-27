@@ -71,7 +71,7 @@ class SplitDocument(DocsExamplesBase):
     def merge_documents():
 
         # Find documents using for merge.
-        document_paths = [f for f in os.listdir(ARTIFACTS_DIR) 
+        document_paths = [f for f in os.listdir(ARTIFACTS_DIR)
                           if (os.path.isfile(os.path.join(ARTIFACTS_DIR, f)) and f.startswith("SplitDocument.page_by_page_"))]
 
         source_document_path = os.path.join(ARTIFACTS_DIR, document_paths[0])

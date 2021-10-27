@@ -50,7 +50,7 @@ class FindAndReplace(DocsExamplesBase):
 
         run.rext = run.text[:position]
         run.parent_node.insert_after(after_run, run);
-            
+
         return after_run
     #ExEnd:SplitRun
 

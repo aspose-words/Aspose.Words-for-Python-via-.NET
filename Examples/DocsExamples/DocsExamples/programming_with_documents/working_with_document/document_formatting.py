@@ -20,7 +20,7 @@ class DocumentFormatting(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "DocumentFormatting.space_between_asian_and_latin_text.docx")
         #ExEnd:SpaceBetweenAsianAndLatinText
-    
+
     def test_asian_typography_line_break_group(self):
 
         #ExStart:AsianTypographyLineBreakGroup

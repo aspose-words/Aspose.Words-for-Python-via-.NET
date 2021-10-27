@@ -79,9 +79,9 @@ class WorkWithWatermark(DocsExamplesBase):
 
     def insert_watermark_text(self, doc: aw.Document, watermark_text: str):
         """Inserts a watermark into a document.
-        
-        :param doc: The input document.
-        :param watermark_text: Text of the watermark.
+
+       :param doc: The input document.
+       :param watermark_text: Text of the watermark.
         """
 
         # Create a watermark shape, this will be a WordArt shape.

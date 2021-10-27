@@ -101,7 +101,7 @@ class WorkingWithVba(DocsExamplesBase):
     @staticmethod
     def get_lib_id_reference_path(lib_id_reference: str):
         """Returns path from a specified identifier of an Automation type library.
-        
+
         Please see details for the syntax at [MS-OVBA], 2.1.1.8 LibidReference.
         """
 
@@ -115,7 +115,7 @@ class WorkingWithVba(DocsExamplesBase):
     @staticmethod
     def get_lib_id_project_path(lib_id_project: str):
         """Returns path from a specified identifier of an Automation type library.
-        
+
         Please see details for the syntax at [MS-OVBA], 2.1.1.12 ProjectReference.
         """
 

@@ -106,7 +106,7 @@ class JoinAndAppendDocuments(DocsExamplesBase):
 
         for section in doc.sections:
             section = section.as_section()
-            
+
             # This section has its page numbering restarted to treat this as the start of a sub-document.
             # Any PAGENUM fields in this inner document must be converted to special PAGEREF fields to correct numbering.
             if section.page_setup.restart_page_numbering:
@@ -145,10 +145,10 @@ class JoinAndAppendDocuments(DocsExamplesBase):
 
             for field_start in nodes:
                 field_start = field_start.as_field_start()
-                
+
                 if field_start.field_type == aw.fields.FieldType.FIELD_NUM_PAGES:
                     field_code = self.get_field_code(field_start)
-                    
+
                     # Since the NUMPAGES field does not take any additional parameters,
                     # we can assume the field's remaining part. Code after the field name is the switches.
                     # We will use these to help recreate the NUMPAGES field as a PAGEREF field.

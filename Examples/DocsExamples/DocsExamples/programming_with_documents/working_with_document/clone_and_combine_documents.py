@@ -31,14 +31,14 @@ class CloneAndCombineDocuments(DocsExamplesBase):
         """Inserts content of the external document after the specified node.
         Section breaks and section formatting of the inserted document are ignored.
 
-        :param insertion_destination: Node in the destination document after which the content
+       :param insertion_destination: Node in the destination document after which the content
             Should be inserted. This node should be a block level node (paragraph or table).
-        :param doc_to_insert: The document to insert.
+       :param doc_to_insert: The document to insert.
         """
 
         if insertion_destination.node_type not in (aw.NodeType.PARAGRAPH, aw.NodeType.TABLE):
             raise ValueError("The destination node should be either a paragraph or table.")
-            
+
         destination_parent = insertion_destination.parent_node
 
         importer = aw.NodeImporter(doc_to_insert, insertion_destination.document, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
@@ -63,10 +63,10 @@ class CloneAndCombineDocuments(DocsExamplesBase):
     @staticmethod
     def insert_document_with_section_formatting(insert_after_node: aw.Node, src_doc: aw.Document):
         """Inserts content of the external document after the specified node.
-        
-        :param insert_after_node: Node in the destination document after which the content
+
+       :param insert_after_node: Node in the destination document after which the content
             Should be inserted. This node should be a block level node (paragraph or table).
-        :param src_doc: The document to insert."""
+       :param src_doc: The document to insert."""
 
         if insert_after_node.node_type not in (aw.NodeType.PARAGRAPH, aw.NodeType.TABLE):
             raise ValueError("The destination node should be either a paragraph or table.")

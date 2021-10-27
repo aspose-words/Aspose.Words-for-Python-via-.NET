@@ -139,7 +139,7 @@ class BaseConversions(DocsExamplesBase):
         #ExEnd:PdfToDocx
 
     def test_images_to_pdf(self):
-        
+
         #ExStart:ImageToPdf
         self.convert_image_to_pdf(IMAGES_DIR + "Logo.jpg",
                                   ARTIFACTS_DIR + "BaseConversions.JpgToPdf.pdf");
@@ -156,9 +156,9 @@ class BaseConversions(DocsExamplesBase):
     @staticmethod
     def convert_image_to_pdf(input_file_name: str, output_file_name: str):
         """Converts an image to PDF using Aspose.Words for .NET.
-        
-        :param input_file_name: File name of input image file.
-        :param output_file_name: Output PDF file name.
+
+       :param input_file_name: File name of input image file.
+       :param output_file_name: Output PDF file name.
         """
         print(f"Converting {input_file_name} to PDF ....")
 
@@ -168,7 +168,7 @@ class BaseConversions(DocsExamplesBase):
 
         # Read the image from file
         with drawing.Image.from_file(input_file_name) as image:
-            # Find which dimension the frames in this image represent. For example 
+            # Find which dimension the frames in this image represent. For example
             # the frames of a BMP or TIFF are "page dimension" whereas frames of a GIF image are "time dimension".
             dimension = drawing.imaging.FrameDimension(image.frame_dimensions_list[0])
 

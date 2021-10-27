@@ -21,7 +21,7 @@ class WorkingWithMarkdownSaveOptions(DocsExamplesBase):
 
         # Makes all paragraphs inside the table to be aligned.
         save_options = aw.saving.MarkdownSaveOptions()
-        
+
         save_options.table_content_alignment = aw.saving.TableContentAlignment.LEFT
         doc.save(ARTIFACTS_DIR + "WorkingWithMarkdownSaveOptions.left_table_content_alignment.md", save_options)
 
