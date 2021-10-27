@@ -26,7 +26,6 @@ class SplitDocument(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "SplitDocument.by_headings_html.html", options)
         #ExEnd:SplitDocumentByHeadingsHtml
 
-
     def test_by_sections_html(self):
 
         doc = aw.Document(MY_DIR + "Rendering.docx")
@@ -38,14 +37,12 @@ class SplitDocument(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "SplitDocument.by_sections_html.html", options)
 
-
     def test_by_sections(self):
 
         #ExStart:SplitDocumentBySections
         doc = aw.Document(MY_DIR + "Big document.docx")
 
         for i in range(doc.sections.count):
-
             # Split a document into smaller parts, in this instance, split by section.
             section = doc.sections[i].clone()
 
@@ -60,7 +57,6 @@ class SplitDocument(DocsExamplesBase):
 
         #ExEnd:SplitDocumentBySections
 
-
     def test_page_by_page(self):
 
         #ExStart:SplitDocumentPageByPage
@@ -69,7 +65,6 @@ class SplitDocument(DocsExamplesBase):
         page_count = doc.page_count
 
         for page in range(page_count):
-
             # Save each page as a separate document.
             extracted_page = doc.extract_pages(page, 1)
             extracted_page.save(ARTIFACTS_DIR + f"SplitDocument.page_by_page_{page + 1}.docx")
@@ -78,13 +73,13 @@ class SplitDocument(DocsExamplesBase):
 
         self.merge_documents()
 
-
     #ExStart:MergeSplitDocuments
     @staticmethod
     def merge_documents():
 
         # Find documents using for merge.
-        document_paths = [f for f in os.listdir(ARTIFACTS_DIR) if (os.path.isfile(os.path.join(ARTIFACTS_DIR, f)) and f.find("SplitDocument.page_by_page_") >= 0)]
+        document_paths = [f for f in os.listdir(ARTIFACTS_DIR) 
+                          if (os.path.isfile(os.path.join(ARTIFACTS_DIR, f)) and f.startswith("SplitDocument.page_by_page_"))]
 
         source_document_path = os.path.join(ARTIFACTS_DIR, document_paths[0])
 
@@ -97,7 +92,6 @@ class SplitDocument(DocsExamplesBase):
 
         # Merge document parts one by one.
         for document_path in document_paths:
-
             document_path = os.path.join(ARTIFACTS_DIR, document_path)
             if document_path == source_document_path:
                 continue
@@ -105,7 +99,6 @@ class SplitDocument(DocsExamplesBase):
             merged_doc_builder.move_to_document_end()
             merged_doc_builder.insert_document(source_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
             source_doc = aw.Document(document_path)
-
 
         merged_doc.save(ARTIFACTS_DIR + "SplitDocument.merge_documents.docx")
 

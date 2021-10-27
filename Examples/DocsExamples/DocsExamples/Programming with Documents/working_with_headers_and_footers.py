@@ -111,16 +111,12 @@ class WorkingWithHeadersAndFooters(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithHeadersAndFooters.create_header_footer.docx")
         #ExEnd:CreateHeaderFooterUsingDocBuilder
 
-
     #ExStart:CopyHeadersFootersFromPreviousSection
-    # <summary>
-    # Clones and copies headers/footers form the previous section to the specified section.
-    # </summary>
     @staticmethod
     def copy_headers_footers_from_previous_section(section):
+        """Clones and copies headers/footers form the previous section to the specified section."""
 
         previous_section = section.previous_sibling.as_section()
-
         if previous_section is None:
             return
 

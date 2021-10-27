@@ -25,7 +25,6 @@ class WorkingWithLoadOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithLoadOptions.update_dirty_fields.docx")
         #ExEnd:UpdateDirtyFields
 
-
     def test_load_encrypted_document(self):
 
         #ExStart:LoadSaveEncryptedDoc
@@ -35,7 +34,6 @@ class WorkingWithLoadOptions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithLoadOptions.load_and_save_encrypted_odt.odt", aw.saving.OdtSaveOptions("newPassword"))
         #ExEnd:LoadSaveEncryptedDoc
-
 
     def test_convert_shape_to_office_math(self):
 
@@ -47,7 +45,6 @@ class WorkingWithLoadOptions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithLoadOptions.convert_shape_to_office_math.docx", aw.SaveFormat.DOCX)
         #ExEnd:ConvertShapeToOfficeMath
-
 
     def test_set_ms_word_version(self):
 
@@ -62,7 +59,6 @@ class WorkingWithLoadOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithLoadOptions.set_ms_word_version.docx")
         #ExEnd:SetMSWordVersion
 
-
     def test_use_temp_folder(self):
 
         #ExStart:UseTempFolder
@@ -71,7 +67,6 @@ class WorkingWithLoadOptions(DocsExamplesBase):
 
         doc = aw.Document(MY_DIR + "Document.docx", load_options)
         #ExEnd:UseTempFolder
-
 
     def test_load_with_encoding(self):
 
@@ -82,7 +77,6 @@ class WorkingWithLoadOptions(DocsExamplesBase):
         doc = aw.Document(MY_DIR + "Encoded in UTF-7.txt", load_options)
         #ExEnd:LoadWithEncoding
 
-
     def test_skip_pdf_images(self):
 
         #ExStart:SkipPdfImages
@@ -92,7 +86,6 @@ class WorkingWithLoadOptions(DocsExamplesBase):
         doc = aw.Document(MY_DIR + "Pdf Document.pdf", load_options)
         #ExEnd:SkipPdfImages
 
-
     def test_convert_metafiles_to_png(self):
 
         #ExStart:ConvertMetafilesToPng
@@ -101,7 +94,6 @@ class WorkingWithLoadOptions(DocsExamplesBase):
 
         doc = aw.Document(MY_DIR + "WMF with image.docx", load_options)
         #ExEnd:ConvertMetafilesToPng
-
 
     def test_load_chm(self):
 

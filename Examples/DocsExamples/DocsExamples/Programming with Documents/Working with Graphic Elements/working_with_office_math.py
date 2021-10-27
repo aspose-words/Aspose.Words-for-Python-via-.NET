@@ -13,7 +13,6 @@ import aspose.words as aw
 
 class WorkingWithOfficeMath(DocsExamplesBase):
 
-
     def test_math_equations(self):
 
         #ExStart:MathEquations

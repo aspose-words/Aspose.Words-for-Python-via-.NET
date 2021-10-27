@@ -29,8 +29,10 @@ class WorkingWithWebExtension(DocsExamplesBase):
         task_pane.web_extension.reference.version = "1.0.0.0"
         task_pane.web_extension.reference.store_type = aw.webextensions.WebExtensionStoreType.OMEX
         task_pane.web_extension.reference.store = "th-TH"
-        task_pane.web_extension.properties.add(aw.webextensions.WebExtensionProperty("mailchimpCampaign", "mailchimpCampaign"))
-        task_pane.web_extension.bindings.add(aw.webextensions.WebExtensionBinding("UnnamedBinding_0_1506535429545",
+        task_pane.web_extension.properties.add(
+            aw.webextensions.WebExtensionProperty("mailchimpCampaign", "mailchimpCampaign"))
+        task_pane.web_extension.bindings.add(
+            aw.webextensions.WebExtensionBinding("UnnamedBinding_0_1506535429545",
             aw.webextensions.WebExtensionBindingType.TEXT, "194740422"))
 
         doc.save(ARTIFACTS_DIR + "WorkingWithWebExtension.using_web_extension_task_panes.docx")
@@ -42,10 +44,8 @@ class WorkingWithWebExtension(DocsExamplesBase):
         print("Task panes sources:\n")
 
         for task_pane_info in doc.web_extension_task_panes:
-
             reference = task_pane_info.web_extension.reference
             print(f'Provider: "{reference.store}", version: "{reference.version}", catalog identifier: "{reference.id}"')
-
         #ExEnd:GetListOfAddins
 
 

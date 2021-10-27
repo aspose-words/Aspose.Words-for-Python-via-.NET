@@ -14,6 +14,18 @@ import aspose.pydrawing as drawing
 
 class AddContentUsingDocumentBuilder(DocsExamplesBase):
 
+    def test_create_new_document(self):
+
+        #ExStart:CreateNewDocument
+        doc = aw.Document()
+
+        # Use a document builder to add content to the document.
+        builder = aw.DocumentBuilder(doc)
+        builder.writeln("Hello World!")
+
+        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.create_new_document.docx");
+        #ExEnd:CreateNewDocument
+
     def test_document_builder_insert_bookmark(self):
 
         #ExStart:DocumentBuilderInsertBookmark
@@ -24,9 +36,8 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         builder.writeln("This is just a fine bookmark.")
         builder.end_bookmark("FineBookmark")
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithBookmarks.document_builder_insert_bookmark.docx")
+        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.document_builder_insert_bookmark.docx")
         #ExEnd:DocumentBuilderInsertBookmark
-
 
     def test_build_table(self):
 
@@ -63,7 +74,6 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.build_table.docx")
         #ExEnd:BuildTable
 
-
     def test_insert_horizontal_rule(self):
 
         #ExStart:InsertHorizontalRule
@@ -75,7 +85,6 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_horizontal_rule.docx")
         #ExEnd:InsertHorizontalRule
-
 
     def test_horizontal_rule_format(self):
 
@@ -94,7 +103,6 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         builder.document.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.horizontal_rule_format.docx")
         #ExEnd:HorizontalRuleFormat
 
-
     def test_insert_break(self):
 
         #ExStart:InsertBreak
@@ -112,7 +120,6 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_break.docx")
         #ExEnd:InsertBreak
 
-
     def test_insert_text_input_form_field(self):
 
         #ExStart:InsertTextInputFormField
@@ -123,7 +130,6 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_text_input_form_field.docx")
         #ExEnd:InsertTextInputFormField
-
 
     def test_insert_check_box_form_field(self):
 
@@ -136,11 +142,10 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_check_box_form_field.docx")
         #ExEnd:InsertCheckBoxFormField
 
-
     def test_insert_combo_box_form_field(self):
 
         #ExStart:InsertComboBoxFormField
-        items =  [ "One", "Two", "Three" ]
+        items = ["One", "Two", "Three"]
 
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -149,7 +154,6 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_combo_box_form_field.docx")
         #ExEnd:InsertComboBoxFormField
-
 
     def test_insert_html(self):
 
@@ -166,7 +170,6 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_html.docx")
         #ExEnd:InsertHtml
 
-
     def test_insert_hyperlink(self):
 
         #ExStart:InsertHyperlink
@@ -177,14 +180,13 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         builder.font.color = drawing.Color.blue
         builder.font.underline = aw.Underline.SINGLE
 
-        builder.insert_hyperlink("Aspose Website", "http:#www.aspose.com", False)
+        builder.insert_hyperlink("Aspose Website", "http://www.aspose.com", False)
 
         builder.font.clear_formatting()
         builder.write(" for more information.")
 
         doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_hyperlink.docx")
         #ExEnd:InsertHyperlink
-
 
     def test_insert_table_of_contents(self):
 
@@ -235,7 +237,6 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_table_of_contents.docx")
         #ExEnd:InsertTableOfContents
 
-
     def test_insert_inline_image(self):
 
         #ExStart:InsertInlineImage
@@ -246,7 +247,6 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_inline_image.docx")
         #ExEnd:InsertInlineImage
-
 
     def test_insert_floating_image(self):
 
@@ -265,7 +265,6 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_floating_image.docx")
         #ExEnd:InsertFloatingImage
-
 
     def test_insert_paragraph(self):
 
@@ -289,7 +288,6 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_paragraph.docx")
         #ExEnd:InsertParagraph
-
 
     def test_insert_tc_field(self):
 
@@ -360,7 +358,6 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
 
         print("\nCursor move to paragraph: " + cur_paragraph.get_text())
 
-
     def test_move_to_node(self):
 
         #ExStart:MoveToNode
@@ -393,10 +390,10 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         # A shorter way of moving the very start/end of a document is with these methods.
         builder.move_to_document_end()
         self.assertTrue(builder.is_at_end_of_paragraph)
+
         builder.move_to_document_start()
         self.assertTrue(builder.is_at_start_of_paragraph)
         #ExEnd:MoveToNode
-
 
     def test_move_to_document_start_end(self):
 
@@ -412,7 +409,6 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         builder.move_to_document_end()
         print("\nThis is the end of the document.")
         #ExEnd:MoveToDocumentStartEnd
-
 
     def test_move_to_section(self):
 
@@ -438,10 +434,10 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         # You can move the cursor to any position in a paragraph.
         builder.move_to_paragraph(2, 10)
         self.assertEqual(2, paragraphs.index_of(builder.current_paragraph))
+
         builder.writeln("This is a new third paragraph. ")
         self.assertEqual(3, paragraphs.index_of(builder.current_paragraph))
         #ExEnd:MoveToSection
-
 
     def test_move_to_headers_footers(self):
 
@@ -470,7 +466,6 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.move_to_headers_footers.docx")
         #ExEnd:MoveToHeadersFooters
 
-
     def test_move_to_paragraph(self):
 
         #ExStart:MoveToParagraph
@@ -480,7 +475,6 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         builder.move_to_paragraph(2, 0)
         builder.writeln("This is the 3rd paragraph.")
         #ExEnd:MoveToParagraph
-
 
     def test_move_to_table_cell(self):
 
@@ -497,7 +491,6 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         self.assertEqual("Cell contents added by DocumentBuilderCell 3 contents\a", table.rows[2].cells[3].get_text().strip())
         #ExEnd:MoveToTableCell
 
-
     def test_move_to_bookmark_end(self):
 
         #ExStart:MoveToBookmarkEnd
@@ -507,7 +500,6 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         builder.move_to_bookmark("MyBookmark1", False, True)
         builder.writeln("This is a bookmark.")
         #ExEnd:MoveToBookmarkEnd
-
 
     def test_move_to_merge_field(self):
 

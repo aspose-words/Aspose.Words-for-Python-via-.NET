@@ -21,7 +21,6 @@ class WorkingWithPdfLoadOptions(DocsExamplesBase):
         save_options = aw.saving.PdfSaveOptions()
         save_options.encryption_details = aw.saving.PdfEncryptionDetails("Aspose", None, aw.saving.PdfEncryptionAlgorithm.RC4_40)
 
-
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfLoadOptions.load_encrypted_pdf.pdf", save_options)
 
         load_options = aw.loading.PdfLoadOptions()
@@ -30,7 +29,6 @@ class WorkingWithPdfLoadOptions(DocsExamplesBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "WorkingWithPdfLoadOptions.load_encrypted_pdf.pdf", load_options)
         #ExEnd:LoadEncryptedPdf
-
 
     def test_load_page_range_of_pdf(self):
 

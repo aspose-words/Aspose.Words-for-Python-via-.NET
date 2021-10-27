@@ -45,15 +45,21 @@ class WorkingWithShapes(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithShapes.add_group_shape.docx")
         #ExEnd:AddGroupShape
 
-
     def test_insert_shape(self):
 
         #ExStart:InsertShape
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        shape = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, aw.drawing.RelativeHorizontalPosition.PAGE, 100,
-            aw.drawing.RelativeVerticalPosition.PAGE, 100, 50, 50, aw.drawing.WrapType.NONE)
+        shape = builder.insert_shape(
+            aw.drawing.ShapeType.TEXT_BOX,
+            aw.drawing.RelativeHorizontalPosition.PAGE,
+            100,
+            aw.drawing.RelativeVerticalPosition.PAGE,
+            100,
+            50,
+            50,
+            aw.drawing.WrapType.NONE)
         shape.rotation = 30.0
 
         builder.writeln()
@@ -64,10 +70,8 @@ class WorkingWithShapes(DocsExamplesBase):
         save_options = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
         save_options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
 
-
         doc.save(ARTIFACTS_DIR + "WorkingWithShapes.insert_shape.docx", save_options)
         #ExEnd:InsertShape
-
 
     def test_aspect_ratio_locked(self):
 
@@ -81,7 +85,6 @@ class WorkingWithShapes(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithShapes.aspect_ratio_locked.docx")
         #ExEnd:AspectRatioLocked
 
-
     def test_layout_in_cell(self):
 
         #ExStart:LayoutInCell
@@ -93,12 +96,10 @@ class WorkingWithShapes(DocsExamplesBase):
         builder.row_format.height_rule = aw.HeightRule.EXACTLY
 
         for i in range(31):
-
             if i != 0 and i % 7 == 0:
                 builder.end_row()
             builder.insert_cell()
             builder.write("Cell contents")
-
 
         builder.end_table()
 
@@ -112,7 +113,6 @@ class WorkingWithShapes(DocsExamplesBase):
         watermark.horizontal_alignment = aw.drawing.HorizontalAlignment.CENTER
         watermark.vertical_alignment = aw.drawing.VerticalAlignment.CENTER
         watermark.rotation = -40
-
 
         watermark.fill_color = drawing.Color.gray
         watermark.stroke_color = drawing.Color.gray
@@ -132,7 +132,6 @@ class WorkingWithShapes(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithShapes.layout_in_cell.docx")
         #ExEnd:LayoutInCell
 
-
     def test_add_corners_snipped(self):
 
         #ExStart:AddCornersSnipped
@@ -147,7 +146,6 @@ class WorkingWithShapes(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithShapes.add_corners_snipped.docx", save_options)
         #ExEnd:AddCornersSnipped
 
-
     def test_get_actual_shape_bounds_points(self):
 
         #ExStart:GetActualShapeBoundsPoints
@@ -160,7 +158,6 @@ class WorkingWithShapes(DocsExamplesBase):
         print("\nGets the actual bounds of the shape in points: ")
         print(shape.get_shape_renderer().bounds_in_points)
         #ExEnd:GetActualShapeBoundsPoints
-
 
     def test_vertical_anchor(self):
 
@@ -177,7 +174,6 @@ class WorkingWithShapes(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithShapes.vertical_anchor.docx")
         #ExEnd:VerticalAnchor
 
-
     def test_detect_smart_art_shape(self):
 
         #ExStart:DetectSmartArtShape
@@ -191,7 +187,6 @@ class WorkingWithShapes(DocsExamplesBase):
 
         print("The document has 0 shapes with SmartArt.", count)
         #ExEnd:DetectSmartArtShape
-
 
     def test_update_smart_art_drawing(self):
 
@@ -239,7 +234,7 @@ class WorkingWithShapes(DocsExamplesBase):
         # Reduce the brightness a bit (default is 0.5f).
         image_options.image_brightness = 0.45
 
-        stream =  io.FileIO(ARTIFACTS_DIR + "TestFile.RenderToStream_out.jpg", "w+b")
+        stream = io.FileIO(ARTIFACTS_DIR + "TestFile.RenderToStream_out.jpg", "w+b")
 
         # Save the rendered image to the stream using different options.
         renderer.save(stream, image_options)

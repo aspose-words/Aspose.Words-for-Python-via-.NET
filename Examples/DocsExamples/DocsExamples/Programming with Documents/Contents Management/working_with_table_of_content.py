@@ -21,7 +21,6 @@ class WorkingWithTableOfContent(DocsExamplesBase):
         doc.styles.get_by_style_identifier(aw.StyleIdentifier.TOC1).font.bold = True
         #ExEnd:ChangeStyleOfTOCLevel
 
-
     def test_change_toc_tab_stops(self):
 
         #ExStart:ChangeTOCTabStops
@@ -43,7 +42,6 @@ class WorkingWithTableOfContent(DocsExamplesBase):
                 # Insert a new tab using the same properties but at a modified position.
                 # We could also change the separators used (dots) by passing a different Leader type.
                 para.paragraph_format.tab_stops.add(tab.position - 50, tab.alignment, tab.leader)
-
 
         doc.save(ARTIFACTS_DIR + "WorkingWithTableOfContent.change_toc_tab_stops.docx")
         #ExEnd:ChangeTOCTabStops

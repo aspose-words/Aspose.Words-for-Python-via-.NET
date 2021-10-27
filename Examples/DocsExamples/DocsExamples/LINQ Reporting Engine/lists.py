@@ -24,7 +24,6 @@ class Lists(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "ReportingEngine.create_bulleted_list.docx")
         #ExEnd:BulletedList
 
-
     def test_common_list(self):
 
         #ExStart:CommonList
@@ -32,12 +31,12 @@ class Lists(DocsExamplesBase):
 
         opt = aw.reporting.JsonDataLoadOptions()
         opt.always_generate_root_object = True
+
         engine = aw.reporting.ReportingEngine()
         engine.build_report(doc, aw.reporting.JsonDataSource(JSON_DIR + "managers.json", opt), "Managers")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.common_list.docx")
         #ExEnd:CommonList
-
 
     def test_in_paragraph_list(self):
 
@@ -53,7 +52,6 @@ class Lists(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "ReportingEngine.in_paragraph_list.docx")
         #ExEnd:InParagraphList
 
-
     def test_in_table_list(self):
 
         #ExStart:InTableList
@@ -65,7 +63,6 @@ class Lists(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "ReportingEngine.in_table_list.docx")
         #ExEnd:InTableList
 
-
     def test_multicolored_numbered_list(self):
 
         #ExStart:MulticoloredNumberedList
@@ -76,7 +73,6 @@ class Lists(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.multicolored_numbered_list.doc")
         #ExEnd:MulticoloredNumberedList
-
 
     def test_numbered_list(self):
 

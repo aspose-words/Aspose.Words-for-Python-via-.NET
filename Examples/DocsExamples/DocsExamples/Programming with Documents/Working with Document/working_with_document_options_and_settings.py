@@ -23,7 +23,6 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.optimize_for_ms_word.docx")
         #ExEnd:OptimizeForMsWord
 
-
     def test_show_grammatical_and_spelling_errors(self):
 
         #ExStart:ShowGrammaticalAndSpellingErrors
@@ -34,7 +33,6 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.show_grammatical_and_spelling_errors.docx")
         #ExEnd:ShowGrammaticalAndSpellingErrors
-
 
     def test_cleanup_unused_styles_and_lists(self):
 
@@ -59,7 +57,6 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.cleanup_unused_styles_and_lists.docx")
         #ExEnd:CleanupUnusedStylesandLists
 
-
     def test_cleanup_duplicate_style(self):
 
         #ExStart:CleanupDuplicateStyle
@@ -79,7 +76,6 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.cleanup_duplicate_style.docx")
         #ExEnd:CleanupDuplicateStyle
 
-
     def test_view_options(self):
 
         #ExStart:SetViewOption
@@ -90,7 +86,6 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.view_options.docx")
         #ExEnd:SetViewOption
-
 
     def test_document_page_setup(self):
 
@@ -107,7 +102,6 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.document_page_setup.docx")
         #ExEnd:DocumentPageSetup
 
-
     def test_add_japanese_as_editing_languages(self):
 
         #ExStart:AddJapaneseAsEditinglanguages
@@ -120,9 +114,10 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
         doc = aw.Document(MY_DIR + "No default editing language.docx", load_options)
 
         locale_id_far_east = doc.styles.default_font.locale_id_far_east
-        print("The document either has no any FarEast language set in defaults or it was set to Japanese originally." if (locale_id_far_east == aw.loading.EditingLanguage.JAPANESE)
-                else "The document default FarEast language was set to another than Japanese language originally, so it is not overridden.")
-
+        if locale_id_far_east == aw.loading.EditingLanguage.JAPANESE:
+            print("The document either has no any FarEast language set in defaults or it was set to Japanese originally.")
+        else:
+            print("The document default FarEast language was set to another than Japanese language originally, so it is not overridden.")
 
     def test_set_russian_as_default_editing_language(self):
 
@@ -133,10 +128,11 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
         doc = aw.Document(MY_DIR + "No default editing language.docx", load_options)
 
         locale_id = doc.styles.default_font.locale_id
-        print("The document either has no any language set in defaults or it was set to Russian originally." if (locale_id == aw.loading.EditingLanguage.RUSSIAN)
-                else "The document default language was set to another than Russian language originally, so it is not overridden.")
+        if locale_id == aw.loading.EditingLanguage.RUSSIAN:
+            print("The document either has no any language set in defaults or it was set to Russian originally.")
+        else:
+            print("The document default language was set to another than Russian language originally, so it is not overridden.")
         #ExEnd:SetRussianAsDefaultEditingLanguage
-
 
     def test_set_page_setup_and_section_formatting(self):
 

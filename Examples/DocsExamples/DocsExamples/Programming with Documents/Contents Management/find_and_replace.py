@@ -24,14 +24,14 @@ class FindAndReplace(DocsExamplesBase):
         builder.writeln("Hello _CustomerName_,")
         print("Original document text: " + doc.range.text)
 
-        doc.range.replace("_CustomerName_", "James Bond", aw.replacing.FindReplaceOptions(aw.replacing.FindReplaceDirection.FORWARD))
+        doc.range.replace("_CustomerName_", "James Bond",
+                          aw.replacing.FindReplaceOptions(aw.replacing.FindReplaceDirection.FORWARD))
 
         print("Document text after replace: " + doc.range.text)
 
         # Save the modified document
         doc.save(ARTIFACTS_DIR + "FindAndReplace.simple_find_replace.docx")
         #ExEnd:SimpleFindReplace
-
 
     def test_find_and_highlight(self):
 
@@ -48,6 +48,18 @@ class FindAndReplace(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "FindAndReplace.find_and_highlight.docx")
         #ExEnd:FindAndHighlight
 
+    #ExStart:SplitRun
+    def split_run(run: aw.Run, position: int) -> aw.Run:
+        """Splits text of the specified run into two runs.
+        Inserts the new run just after the specified run."""
+        after_run = run.clone(true).as_run()
+        after_run.rext = run.text[position:]
+
+        run.rext = run.text[:position]
+        run.parent_node.insert_after(after_run, run);
+            
+        return after_run
+    #ExEnd:SplitRun
 
     def test_meta_characters_in_search_pattern(self):
 
@@ -56,7 +68,6 @@ class FindAndReplace(DocsExamplesBase):
         # &b - section break
         # &m - page break
         # &l - manual line break
-
 
         #ExStart:MetaCharactersInSearchPattern
         doc = aw.Document()
@@ -76,7 +87,6 @@ class FindAndReplace(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "FindAndReplace.meta_characters_in_search_pattern.docx")
         #ExEnd:MetaCharactersInSearchPattern
-
 
     def test_replace_text_containing_meta_characters(self):
 
@@ -104,7 +114,6 @@ class FindAndReplace(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "FindAndReplace.replace_text_containing_meta_characters.docx")
         #ExEnd:ReplaceTextContainingMetaCharacters
 
-
     def test_ignore_text_inside_fields(self):
 
         #ExStart:IgnoreTextInsideFields
@@ -126,7 +135,6 @@ class FindAndReplace(DocsExamplesBase):
 
         print(doc.get_text())
         #ExEnd:IgnoreTextInsideFields
-
 
     @unittest.skip("Regular expressions is not supported yet.")
     def test_ignore_text_inside_delete_revisions(self):
@@ -157,7 +165,6 @@ class FindAndReplace(DocsExamplesBase):
         print(doc.get_text())
         #ExEnd:IgnoreTextInsideDeleteRevisions
 
-
     def test_ignore_text_inside_insert_revisions(self):
 
         #ExStart:IgnoreTextInsideInsertRevisions
@@ -185,7 +192,6 @@ class FindAndReplace(DocsExamplesBase):
         print(doc.get_text())
         #ExEnd:IgnoreTextInsideInsertRevisions
 
-
     def test_replace_text_in_footer(self):
 
         #ExStart:ReplaceTextInFooter
@@ -203,7 +209,6 @@ class FindAndReplace(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "FindAndReplace.replace_text_in_footer.docx")
         #ExEnd:ReplaceTextInFooter
 
-
     @unittest.skip("Regular expressions is not supported yet.")
     def test_replace_with_regex(self):
 
@@ -220,7 +225,6 @@ class FindAndReplace(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "FindAndReplace.replace_with_regex.docx")
         #ExEnd:ReplaceWithRegex
 
-
     def test_recognize_and_substitutions_within_replacement_patterns(self):
 
         #ExStart:RecognizeAndSubstitutionsWithinReplacementPatterns
@@ -235,7 +239,6 @@ class FindAndReplace(DocsExamplesBase):
         doc.range.replace_regex("([A-z]+) give money to ([A-z]+)", "$2 take money from $1", options)
         #ExEnd:RecognizeAndSubstitutionsWithinReplacementPatterns
 
-
     def test_replace_with_string(self):
 
         #ExStart:ReplaceWithString
@@ -248,7 +251,6 @@ class FindAndReplace(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "FindAndReplace.replace_with_string.docx")
         #ExEnd:ReplaceWithString
-
 
     def test_replace_text_in_table(self):
 

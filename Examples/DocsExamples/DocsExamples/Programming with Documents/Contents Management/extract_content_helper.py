@@ -15,7 +15,6 @@ class ExtractContentHelper():
         # If either marker is part of a comment, including the comment itself, we need to move the pointer
         # forward to the Comment Node found after the CommentRangeEnd node.
         if end_node.node_type == aw.NodeType.COMMENT_RANGE_END and is_inclusive:
-
             node = ExtractContentHelper.find_next_node(aw.NodeType.COMMENT, end_node.next_sibling)
             if node is not None:
                 end_node = node
@@ -57,7 +56,6 @@ class ExtractContentHelper():
                 if is_starting_node:
                     ExtractContentHelper.process_marker(clone_node, nodes, original_start_node, curr_node, is_inclusive, True, True, False)
                     is_starting_node = False
-
             else:
                 # Node is not a start or end marker, simply add the copy to the list.
                 nodes.append(clone_node)
@@ -68,7 +66,6 @@ class ExtractContentHelper():
                 # Move to the next section.
                 next_section = curr_node.get_ancestor(aw.NodeType.SECTION).next_sibling.as_section()
                 curr_node = next_section.body.first_child
-
             else:
                 # Move to the next node in the body.
                 curr_node = curr_node.next_sibling
@@ -97,7 +94,6 @@ class ExtractContentHelper():
 
         return paragraphs_with_style
 
-
     #ExStart:CommonGenerateDocument
     @staticmethod
     def generate_document(src_doc: aw.Document, nodes):
@@ -114,7 +110,6 @@ class ExtractContentHelper():
             dst_doc.first_section.body.append_child(import_node)
 
         return dst_doc
-
     #ExEnd:CommonGenerateDocument
 
     #ExStart:CommonExtractContentHelperMethods
@@ -151,7 +146,6 @@ class ExtractContentHelper():
         elif start_index > end_index:
             raise ValueError("The section of end node must be after the section start node")
 
-
     @staticmethod
     def find_next_node(node_type: aw.NodeType, from_node: aw.Node):
 
@@ -166,7 +160,6 @@ class ExtractContentHelper():
 
         return ExtractContentHelper.find_next_node(node_type, from_node.next_sibling)
 
-
     @staticmethod
     def is_inline(node: aw.Node):
 
@@ -174,7 +167,6 @@ class ExtractContentHelper():
         # or a table a paragraph inside a comment class that is decent of a paragraph is possible.
         return ((node.get_ancestor(aw.NodeType.PARAGRAPH) is not None or node.get_ancestor(aw.NodeType.TABLE) is not None) and
                 not (node.node_type == aw.NodeType.PARAGRAPH or node.node_type == aw.NodeType.TABLE))
-
 
     @staticmethod
     def process_marker(clone_node: aw.Node, nodes, node: aw.Node, block_level_ancestor: aw.Node,
@@ -186,10 +178,9 @@ class ExtractContentHelper():
                 nodes.append(clone_node)
             return
 
-
         # cloneNode is a clone of blockLevelNode. If node != blockLevelNode, blockLevelAncestor
         # is the node's ancestor that means it is a composite node.
-        #assert(cloneNode.is_composite)
+        assert clone_node.is_composite
 
         # If a marker is a FieldStart node check if it's to be included or not.
         # We assume for simplicity that the FieldStart and FieldEnd appear in the same paragraph.
@@ -201,11 +192,11 @@ class ExtractContentHelper():
                     node = node.next_sibling
 
         # Support a case if the marker node is on the third level of the document body or lower.
-        node_branch =  ExtractContentHelper.fill_self_and_parents(node, block_level_ancestor)
+        node_branch = ExtractContentHelper.fill_self_and_parents(node, block_level_ancestor)
 
         # Process the corresponding node in our cloned node by index.
         current_clone_node = clone_node
-        for i in range(len(node_branch) - 1, 0):
+        for i in range(len(node_branch) - 1, -1):
 
             current_node = node_branch[i]
             node_index = current_node.parent_node.index_of(current_node)
@@ -213,11 +204,9 @@ class ExtractContentHelper():
 
             ExtractContentHelper.remove_nodes_outside_of_range(current_clone_node, is_inclusive or (i > 0), is_start_marker)
 
-
         # After processing, the composite node may become empty if it has doesn't include it.
         if can_add and (force_add or clone_node.as_composite_node().has_child_nodes):
             nodes.append(clone_node)
-
 
     @staticmethod
     def remove_nodes_outside_of_range(marker_node: aw.Node, is_inclusive: bool, is_start_marker: bool):
@@ -245,7 +234,6 @@ class ExtractContentHelper():
             if is_removing and not is_skip:
                 current_node.remove()
 
-
     @staticmethod
     def fill_self_and_parents(node: aw.Node, till_node: aw.Node):
 
@@ -270,7 +258,6 @@ class ExtractContentHelper():
 
             ExtractContentHelper.process_marker(root_node.clone(True), nodes, marker_node, root_node,
                 marker_node == paragraph, False, True, True)
-
 
     @staticmethod
     def get_ancestor_in_body(start_node: aw.Node):

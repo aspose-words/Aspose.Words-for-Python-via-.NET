@@ -20,7 +20,6 @@ class WorkingWithRanges(DocsExamplesBase):
         doc.sections[0].range.delete()
         #ExEnd:RangesDeleteText
 
-
     def test_ranges_get_text(self):
 
         #ExStart:RangesGetText

@@ -38,7 +38,6 @@ class WorkingWithFields(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.change_field_update_culture_source.docx")
         #ExEnd:ChangeFieldUpdateCultureSource
 
-
     def test_specify_locale_at_field_level(self):
 
         #ExStart:SpecifylocaleAtFieldlevel
@@ -56,21 +55,18 @@ class WorkingWithFields(DocsExamplesBase):
         doc = aw.Document(MY_DIR + "Hyperlinks.docx")
 
         for field in doc.range.fields:
-
             if field.type == aw.fields.FieldType.FIELD_HYPERLINK:
-
                 hyperlink = field.as_field_hyperlink()
 
                 # Some hyperlinks can be local (links to bookmarks inside the document), ignore these.
                 if hyperlink.sub_address is not None:
                     continue
 
-                hyperlink.address = "http:#www.aspose.com"
+                hyperlink.address = "http://www.aspose.com"
                 hyperlink.result = "Aspose - The .net & Java Component Publisher"
 
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.replace_hyperlinks.docx")
         #ExEnd:ReplaceHyperlinks
-
 
     def test_rename_merge_fields(self):
 
@@ -84,23 +80,18 @@ class WorkingWithFields(DocsExamplesBase):
         # Select all field start nodes so we can find the merge fields.
         field_starts = doc.get_child_nodes(aw.NodeType.FIELD_START, True)
         for start in field_starts:
-
             field_start = start.as_field_start()
             if field_start.field_type == aw.fields.FieldType.FIELD_MERGE_FIELD:
-
                 merge_field = self.MergeField(field_start)
                 merge_field.set_name(merge_field.get_name() + "_Renamed")
-
 
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.rename_merge_fields.doc")
         #ExEnd:RenameMergeFields
 
 
     #ExStart:MergeField
-    #
-    # Represents a facade object for a merge field in a Microsoft Word document.
-    #
     class MergeField:
+        """Represents a facade object for a merge field in a Microsoft Word document."""
 
         mergefield_regex = re.compile("\\s*(MERGEFIELD\\s|)(\\s|)(\\S+)\\s+")
 
@@ -113,7 +104,6 @@ class WorkingWithFields(DocsExamplesBase):
 
             self.field_start = field_start
 
-
             # Find the field separator node.
             self.field_separator = field_start.get_field().separator
             if self.field_separator is None:
@@ -121,18 +111,13 @@ class WorkingWithFields(DocsExamplesBase):
 
             self.field_end = field_start.get_field().end
 
-
-        #
-        # Gets the name of the merge field.
-        #
-        def get_name(self):
+        def get_name(self) -> str:
+            """Gets the name of the merge field."""
             print(type(self.field_start))
             return self.field_start.get_field().result.replace("«", "").replace("»", "")
 
-        #
-        # Gets the name of the merge field.
-        #
         def set_name(self, name: str):
+            """Sets the name of the merge field."""
 
             # Merge field name is stored in the field result which is a Run
             # node between field separator and field end.
@@ -143,7 +128,6 @@ class WorkingWithFields(DocsExamplesBase):
             self.remove_same_parent(field_result.next_sibling, self.field_end)
 
             self.update_field_code(name)
-
 
         def update_field_code(self, field_name: str):
 
@@ -158,24 +142,19 @@ class WorkingWithFields(DocsExamplesBase):
             # But sometimes the field code can consist of more than one run, delete these runs.
             self.remove_same_parent(field_code.next_sibling, self.field_separator)
 
-
-        #
-        # Removes nodes from start up to but not including the end node.
-        # Start and end are assumed to have the same parent.
-        #
         @staticmethod
         def remove_same_parent(start_node, end_node):
+            """Removes nodes from start up to but not including the end node.
+            Start and end are assumed to have the same parent."""
 
             if end_node is not None and start_node.parent_node != end_node.parent_node:
                 raise ValueError("Start and end nodes are expected to have the same parent.")
 
             cur_child = start_node
             while cur_child is not None and cur_child != end_node:
-
                 next_child = cur_child.next_sibling
                 cur_child.remove()
                 cur_child = next_child
-
 
     #ExEnd:MergeField
 
@@ -195,8 +174,8 @@ class WorkingWithFields(DocsExamplesBase):
         para = aw.Paragraph(doc)
 
         # We want to insert TA and TOA fields like this:
-        #  TA  \c 1 \l "Value 0"
-        #  TOA  \c 1
+        #  { TA  \c 1 \l "Value 0" }
+        #  { TOA  \c 1 }
 
         field_ta = para.append_field(aw.fields.FieldType.FIELD_TOAENTRY, False).as_field_ta()
         field_ta.entry_category = "1"
@@ -214,7 +193,6 @@ class WorkingWithFields(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_toa_field_without_document_builder.docx")
         #ExEnd:InsertTOAFieldWithoutDocumentBuilder
-
 
     def test_insert_nested_fields(self):
 
@@ -241,7 +219,6 @@ class WorkingWithFields(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_nested_fields.docx")
         #ExEnd:InsertNestedFields
 
-
     def test_insert_merge_field_using_dom(self):
 
         #ExStart:InsertMergeFieldUsingDOM
@@ -253,23 +230,23 @@ class WorkingWithFields(DocsExamplesBase):
         builder.move_to(para)
 
         # We want to insert a merge field like this:
-        #  " MERGEFIELD Test1 \\b Test2 \\f Test3 \\m \\v"
+        #  { " MERGEFIELD Test1 \\b Test2 \\f Test3 \\m \\v" }
 
         field = builder.insert_field(aw.fields.FieldType.FIELD_MERGE_FIELD, False).as_field_merge_field()
 
-        #  " MERGEFIELD Test1"
+        #  { " MERGEFIELD Test1" }
         field.field_name = "Test1"
 
-        #  " MERGEFIELD Test1 \\b Test2"
+        #  { " MERGEFIELD Test1 \\b Test2" }
         field.text_before = "Test2"
 
-        #  " MERGEFIELD Test1 \\b Test2 \\f Test3
+        #  { " MERGEFIELD Test1 \\b Test2 \\f Test3 }
         field.text_after = "Test3"
 
-        #  " MERGEFIELD Test1 \\b Test2 \\f Test3 \\m"
+        #  { " MERGEFIELD Test1 \\b Test2 \\f Test3 \\m" }
         field.is_mapped = True
 
-        #  " MERGEFIELD Test1 \\b Test2 \\f Test3 \\m \\v"
+        #  { " MERGEFIELD Test1 \\b Test2 \\f Test3 \\m \\v" }
         field.is_vertical_formatting = True
 
         # Finally update this merge field
@@ -277,7 +254,6 @@ class WorkingWithFields(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_merge_field_using_dom.docx")
         #ExEnd:InsertMergeFieldUsingDOM
-
 
     def test_insert_mail_merge_address_block_field_using_dom(self):
 
@@ -290,30 +266,29 @@ class WorkingWithFields(DocsExamplesBase):
         builder.move_to(para)
 
         # We want to insert a mail merge address block like this:
-        #  ADDRESSBLOCK \\c 1 \\d \\e Test2 \\f Test3 \\l \"Test 4\"
+        #  { ADDRESSBLOCK \\c 1 \\d \\e Test2 \\f Test3 \\l \"Test 4\" }
 
         field = builder.insert_field(aw.fields.FieldType.FIELD_ADDRESS_BLOCK, False).as_field_address_block()
 
-        #  ADDRESSBLOCK \\c 1"
+        #  { ADDRESSBLOCK \\c 1" }
         field.include_country_or_region_name = "1"
 
-        #  ADDRESSBLOCK \\c 1 \\d"
+        #  { ADDRESSBLOCK \\c 1 \\d" }
         field.format_address_on_country_or_region = True
 
-        #  ADDRESSBLOCK \\c 1 \\d \\e Test2
+        #  { ADDRESSBLOCK \\c 1 \\d \\e Test2 }
         field.excluded_country_or_region_name = "Test2"
 
-        #  ADDRESSBLOCK \\c 1 \\d \\e Test2 \\f Test3
+        #  { ADDRESSBLOCK \\c 1 \\d \\e Test2 \\f Test3 }
         field.name_and_address_format = "Test3"
 
-        #  ADDRESSBLOCK \\c 1 \\d \\e Test2 \\f Test3 \\l \"Test 4\"
+        #  { ADDRESSBLOCK \\c 1 \\d \\e Test2 \\f Test3 \\l \"Test 4\" }
         field.language_id = "Test 4"
 
         field.update()
 
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_mail_merge_address_block_field_using_dom.docx")
         #ExEnd:InsertMailMergeAddressBlockFieldUsingDOM
-
 
     def test_insert_field_include_text_without_document_builder(self):
 
@@ -323,7 +298,7 @@ class WorkingWithFields(DocsExamplesBase):
         para = aw.Paragraph(doc)
 
         # We want to insert an INCLUDETEXT field like this:
-        #  INCLUDETEXT  "file path"
+        #  { INCLUDETEXT  "file path" }
 
         field_include_text = para.append_field(aw.fields.FieldType.FIELD_INCLUDE_TEXT, False).as_field_include_text()
         field_include_text.bookmark_name = "bookmark"
@@ -336,7 +311,6 @@ class WorkingWithFields(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_include_field_without_document_builder.docx")
         #ExEnd:InsertFieldIncludeTextWithoutDocumentBuilder
 
-
     def test_insert_field_none(self):
 
         #ExStart:InsertFieldNone
@@ -348,18 +322,16 @@ class WorkingWithFields(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_field_none.docx")
         #ExEnd:InsertFieldNone
 
-
     def test_insert_field(self):
 
         #ExStart:InsertField
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        builder.insert_field("MERGEFIELD MyFieldName \\* MERGEFORMAT")
+        builder.insert_field(r"MERGEFIELD MyFieldName \* MERGEFORMAT")
 
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_field.docx")
         #ExEnd:InsertField
-
 
     def test_insert_author_field(self):
 
@@ -369,16 +341,15 @@ class WorkingWithFields(DocsExamplesBase):
         para = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)[0].as_paragraph()
 
         # We want to insert an AUTHOR field like this:
-        #  AUTHOR Test1
+        #  { AUTHOR Test1 }
 
         field = para.append_field(aw.fields.FieldType.FIELD_AUTHOR, False).as_field_author()
-        field.author_name = "Test1" #  AUTHOR Test1
+        field.author_name = "Test1" # { AUTHOR Test1 }
 
         field.update()
 
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_author_field.docx")
         #ExEnd:InsertAuthorField
-
 
     def test_insert_ask_field_with_out_document_builder(self):
 
@@ -388,27 +359,26 @@ class WorkingWithFields(DocsExamplesBase):
         para = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)[0].as_paragraph()
 
         # We want to insert an Ask field like this:
-        #  ASK \"Test 1\" Test2 \\d Test3 \\o
+        #  { ASK \"Test 1\" Test2 \\d Test3 \\o }
 
         field = para.append_field(aw.fields.FieldType.FIELD_ASK, False).as_field_ask()
 
-        #  ASK \"Test 1\" "
+        #  { ASK \"Test 1\" " }
         field.bookmark_name = "Test 1"
 
-        #  ASK \"Test 1\" Test2
+        #  { ASK \"Test 1\" Test2 }
         field.prompt_text = "Test2"
 
-        #  ASK \"Test 1\" Test2 \\d Test3
+        #  { ASK \"Test 1\" Test2 \\d Test3 }
         field.default_response = "Test3"
 
-        #  ASK \"Test 1\" Test2 \\d Test3 \\o
+        #  { ASK \"Test 1\" Test2 \\d Test3 \\o }
         field.prompt_once_on_mail_merge = True
 
         field.update()
 
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_ask_field_with_out_document_builder.docx")
         #ExEnd:InsertASKFieldWithOutDocumentBuilder
-
 
     def test_insert_advance_field_with_out_document_builder(self):
 
@@ -418,33 +388,32 @@ class WorkingWithFields(DocsExamplesBase):
         para = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)[0].as_paragraph()
 
         # We want to insert an Advance field like this:
-        #  ADVANCE \\d 10 \\l 10 \\r -3.3 \\u 0 \\x 100 \\y 100
+        #  { ADVANCE \\d 10 \\l 10 \\r -3.3 \\u 0 \\x 100 \\y 100 }
 
         field = para.append_field(aw.fields.FieldType.FIELD_ADVANCE, False).as_field_advance()
 
-        #  ADVANCE \\d 10 "
+        #  { ADVANCE \\d 10 " }
         field.down_offset = "10"
 
-        #  ADVANCE \\d 10 \\l 10
+        #  { ADVANCE \\d 10 \\l 10 }
         field.left_offset = "10"
 
-        #  ADVANCE \\d 10 \\l 10 \\r -3.3
+        #  { ADVANCE \\d 10 \\l 10 \\r -3.3 }
         field.right_offset = "-3.3"
 
-        #  ADVANCE \\d 10 \\l 10 \\r -3.3 \\u 0
+        #  { ADVANCE \\d 10 \\l 10 \\r -3.3 \\u 0 }
         field.up_offset = "0"
 
-        #  ADVANCE \\d 10 \\l 10 \\r -3.3 \\u 0 \\x 100
+        #  { ADVANCE \\d 10 \\l 10 \\r -3.3 \\u 0 \\x 100 }
         field.horizontal_position = "100"
 
-        #  ADVANCE \\d 10 \\l 10 \\r -3.3 \\u 0 \\x 100 \\y 100
+        #  { ADVANCE \\d 10 \\l 10 \\r -3.3 \\u 0 \\x 100 \\y 100 }
         field.vertical_position = "100"
 
         field.update()
 
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_advance_field_with_out_document_builder.docx")
         #ExEnd:InsertAdvanceFieldWithOutDocumentBuilder
-
 
     def test_get_mail_merge_field_names(self):
 
@@ -455,7 +424,6 @@ class WorkingWithFields(DocsExamplesBase):
         #ExEnd:GetFieldNames
         print(f"\nDocument have {len(field_names)} fields.")
 
-
     def test_mapped_data_fields(self):
 
         #ExStart:MappedDataFields
@@ -464,7 +432,6 @@ class WorkingWithFields(DocsExamplesBase):
         doc.mail_merge.mapped_data_fields.add("MyFieldName_InDocument", "MyFieldName_InDataSource")
         #ExEnd:MappedDataFields
 
-
     def test_delete_fields(self):
 
         #ExStart:DeleteFields
@@ -472,7 +439,6 @@ class WorkingWithFields(DocsExamplesBase):
 
         doc.mail_merge.delete_fields()
         #ExEnd:DeleteFields
-
 
     def test_field_display_results(self):
 
@@ -487,7 +453,6 @@ class WorkingWithFields(DocsExamplesBase):
             print(field.display_result)
         #ExEnd:FieldDisplayResults
 
-
     def test_evaluate_if_condition(self):
 
         #ExStart:EvaluateIFCondition
@@ -498,7 +463,6 @@ class WorkingWithFields(DocsExamplesBase):
 
         print(actual_result)
         #ExEnd:EvaluateIFCondition
-
 
     def test_convert_fields_in_paragraph(self):
 
@@ -514,7 +478,6 @@ class WorkingWithFields(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.test_file.docx")
         #ExEnd:ConvertFieldsInParagraph
 
-
     def test_convert_fields_in_document(self):
 
         #ExStart:ConvertFieldsInDocument
@@ -529,7 +492,6 @@ class WorkingWithFields(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.convert_fields_in_document.docx")
         #ExEnd:ConvertFieldsInDocument
 
-
     def test_convert_fields_in_body(self):
 
         #ExStart:ConvertFieldsInBody
@@ -542,7 +504,6 @@ class WorkingWithFields(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.convert_fields_in_body.docx")
         #ExEnd:ConvertFieldsInBody
-
 
     def test_change_locale(self):
 
@@ -557,7 +518,7 @@ class WorkingWithFields(DocsExamplesBase):
         # Set to German language so dates and numbers are formatted using this culture during mail merge.
         locale.setlocale(locale.LC_ALL, 'de_DE')
 
-        doc.mail_merge.execute(["Date"], [datetime.today()] )
+        doc.mail_merge.execute(["Date"], [datetime.now()] )
 
         locale.setlocale(locale.LC_ALL, loc)
 

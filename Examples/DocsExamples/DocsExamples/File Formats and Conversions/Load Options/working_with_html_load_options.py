@@ -26,6 +26,8 @@ class WorkingWithHtmlLoadOptions(DocsExamplesBase):
             </html>
         """
 
+        print(html)
+
         load_options = aw.loading.HtmlLoadOptions()
         load_options.preferred_control_type = aw.loading.HtmlControlType.STRUCTURED_DOCUMENT_TAG
 

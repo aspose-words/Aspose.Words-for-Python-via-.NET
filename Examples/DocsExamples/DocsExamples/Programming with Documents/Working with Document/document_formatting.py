@@ -29,8 +29,7 @@ class DocumentFormatting(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "DocumentFormatting.space_between_asian_and_latin_text.docx")
         #ExEnd:SpaceBetweenAsianAndLatinText
-
-
+    
     def test_asian_typography_line_break_group(self):
 
         #ExStart:AsianTypographyLineBreakGroup
@@ -43,7 +42,6 @@ class DocumentFormatting(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "DocumentFormatting.asian_typography_line_break_group.docx")
         #ExEnd:AsianTypographyLineBreakGroup
-
 
     def test_paragraph_formatting(self):
 
@@ -64,7 +62,6 @@ class DocumentFormatting(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "DocumentFormatting.paragraph_formatting.docx")
         #ExEnd:ParagraphFormatting
-
 
     def test_multilevel_list_formatting(self):
 
@@ -95,7 +92,6 @@ class DocumentFormatting(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "DocumentFormatting.multilevel_list_formatting.docx")
         #ExEnd:MultilevelListFormatting
 
-
     def test_apply_paragraph_style(self):
 
         #ExStart:ApplyParagraphStyle
@@ -107,7 +103,6 @@ class DocumentFormatting(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "DocumentFormatting.apply_paragraph_style.docx")
         #ExEnd:ApplyParagraphStyle
-
 
     def test_apply_borders_and_shading_to_paragraph(self):
 
@@ -132,7 +127,6 @@ class DocumentFormatting(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "DocumentFormatting.apply_borders_and_shading_to_paragraph.doc")
         #ExEnd:ApplyBordersAndShadingToParagraph
 
-
     def test_change_asian_paragraph_spacing_and_indents(self):
 
         #ExStart:ChangeAsianParagraphSpacingAndIndents
@@ -141,13 +135,12 @@ class DocumentFormatting(DocsExamplesBase):
         format = doc.first_section.body.first_paragraph.paragraph_format
         format.character_unit_left_indent = 10       # ParagraphFormat.left_indent will be updated
         format.character_unit_right_indent = 10      # ParagraphFormat.right_indent will be updated
-        format.character_unit_first_line_indent = 20  # ParagraphFormat.first_line_indent will be updated
-        format.line_unit_before = 5                 # ParagraphFormat.space_before will be updated
-        format.line_unit_after = 10                 # ParagraphFormat.space_after will be updated
+        format.character_unit_first_line_indent = 20 # ParagraphFormat.first_line_indent will be updated
+        format.line_unit_before = 5                  # ParagraphFormat.space_before will be updated
+        format.line_unit_after = 10                  # ParagraphFormat.space_after will be updated
 
         doc.save(ARTIFACTS_DIR + "DocumentFormatting.change_asian_paragraph_spacing_and_indents.doc")
         #ExEnd:ChangeAsianParagraphSpacingAndIndents
-
 
     def test_snap_to_grid(self):
 
@@ -166,7 +159,6 @@ class DocumentFormatting(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "Paragraph.snap_to_grid.docx")
         #ExEnd:SetSnapToGrid
-
 
     def test_get_paragraph_style_separator(self):
 

@@ -13,7 +13,6 @@ import aspose.words as aw
 
 class WorkingWithVba(DocsExamplesBase):
 
-
     def test_create_vba_project(self):
 
         #ExStart:CreateVbaProject
@@ -35,7 +34,6 @@ class WorkingWithVba(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithVba.create_vba_project.docm")
         #ExEnd:CreateVbaProject
 
-
     def test_read_vba_macros(self):
 
         #ExStart:ReadVbaMacros
@@ -44,9 +42,7 @@ class WorkingWithVba(DocsExamplesBase):
         if doc.vba_project is not None:
             for module in doc.vba_project.modules:
                 print(module.source_code)
-
         #ExEnd:ReadVbaMacros
-
 
     def test_modify_vba_macros(self):
 
@@ -60,8 +56,6 @@ class WorkingWithVba(DocsExamplesBase):
         #ExEnd:ModifyVbaMacros
 
         doc.save(ARTIFACTS_DIR + "WorkingWithVba.modify_vba_macros.docm")
-        #ExEnd:ModifyVbaMacros
-
 
     def test_clone_vba_project(self):
 
@@ -72,7 +66,6 @@ class WorkingWithVba(DocsExamplesBase):
 
         dest_doc.save(ARTIFACTS_DIR + "WorkingWithVba.clone_vba_project.docm")
         #ExEnd:CloneVbaProject
-
 
     def test_clone_vba_module(self):
 
@@ -87,7 +80,6 @@ class WorkingWithVba(DocsExamplesBase):
         dest_doc.save(ARTIFACTS_DIR + "WorkingWithVba.clone_vba_module.docm")
         #ExEnd:CloneVbaModule
 
-
     def test_remove_broken_ref(self):
 
         #ExStart:RemoveReferenceFromCollectionOfReferences
@@ -96,57 +88,45 @@ class WorkingWithVba(DocsExamplesBase):
         # Find and remove the reference with some LibId path.
         broken_path = "brokenPath.dll"
         references = doc.vba_project.references
-        for i in range(references.count - 1, 0):
-
+        for i in range(references.count - 1, -1):
             reference = doc.vba_project.references.element_at(i)
-
             path = get_lib_id_path(reference)
             if path == broken_path:
                 references.remove_at(i)
-
 
         doc.save(ARTIFACTS_DIR + "WorkingWithVba.remove_broken_ref.docm")
         #ExEnd:RemoveReferenceFromCollectionOfReferences
 
     #ExStart:GetLibIdAndReferencePath
-    # <summary>
-    # Returns string representing LibId path of a specified reference.
-    # </summary>
     def get_lib_id_path(self, reference):
+        """Returns string representing LibId path of a specified reference."""
 
-        if reference.type == aw.vba.VbaReferenceType.REGISTERED or reference.type == aw.vba.VbaReferenceType.ORIGINAL or reference.type == aw.vba.VbaReferenceType.CONTROL:
+        if reference.type in (aw.vba.VbaReferenceType.REGISTERED, aw.vba.VbaReferenceType.ORIGINAL, aw.vba.VbaReferenceType.CONTROL):
             return self.get_lib_id_reference_path(reference.lib_id)
         if reference.type == aw.vba.VbaReferenceType.PROJECT:
             return self.get_lib_id_project_path(reference.lib_id)
         raise RuntimeError()
 
-
-    # <summary>
-    # Returns path from a specified identifier of an Automation type library.
-    # </summary>
-    # <remarks>
-    # Please see details for the syntax at [MS-OVBA], 2.1.1.8 LibidReference.
-    # </remarks>
     @staticmethod
     def get_lib_id_reference_path(lib_id_reference: str):
+        """Returns path from a specified identifier of an Automation type library.
+        
+        Please see details for the syntax at [MS-OVBA], 2.1.1.8 LibidReference.
+        """
 
         if lib_id_reference is not None:
-
             ref_parts = lib_id_reference.split('#')
             if ref_parts.length > 3:
                 return ref_parts[3]
 
         return ""
 
-
-    # <summary>
-    # Returns path from a specified identifier of an Automation type library.
-    # </summary>
-    # <remarks>
-    # Please see details for the syntax at [MS-OVBA], 2.1.1.12 ProjectReference.
-    # </remarks>
     @staticmethod
     def get_lib_id_project_path(lib_id_project: str):
+        """Returns path from a specified identifier of an Automation type library.
+        
+        Please see details for the syntax at [MS-OVBA], 2.1.1.12 ProjectReference.
+        """
 
         if lib_id_project is not None:
             return lib_id_project.substring(3)

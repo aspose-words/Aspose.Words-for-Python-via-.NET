@@ -22,7 +22,6 @@ class WorkingWithNode(DocsExamplesBase):
         type = doc.node_type
         #ExEnd:UseNodeType
 
-
     def test_get_parent_node(self):
 
         #ExStart:GetParentNode
@@ -34,7 +33,6 @@ class WorkingWithNode(DocsExamplesBase):
         # The section's parent node is the document.
         print(f"Section parent is the document: {doc == section.parent_node}")
         #ExEnd:GetParentNode
-
 
     def test_owner_document(self):
 
@@ -61,7 +59,6 @@ class WorkingWithNode(DocsExamplesBase):
         print(f"Paragraph has a parent node: {para.parent_node is not None}")
         #ExEnd:OwnerDocument
 
-
     def test_enumerate_child_nodes(self):
 
         #ExStart:EnumerateChildNodes
@@ -70,16 +67,11 @@ class WorkingWithNode(DocsExamplesBase):
 
         children = paragraph.child_nodes
         for child in children:
-
             # A paragraph may contain children of various types such as runs, shapes, and others.
             if child.node_type == aw.NodeType.RUN:
-
                 run = child.as_run()
                 print(run.text)
-
-
         #ExEnd:EnumerateChildNodes
-
 
     #ExStart:RecurseAllNodes
     def test_recurse_all_nodes(self):
@@ -89,22 +81,17 @@ class WorkingWithNode(DocsExamplesBase):
         # Invoke the recursive function that will walk the tree.
         self.traverse_all_nodes(doc)
 
-
-    # <summary>
-    # A simple function that will walk through all children of a specified node recursively
-    # and print the type of each node to the screen.
-    # </summary>
     def traverse_all_nodes(self, parent_node):
+        """A simple function that will walk through all children of a specified node recursively
+        and print the type of each node to the screen."""
 
         # This is the most efficient way to loop through immediate children of a node.
         for child_node in parent_node.child_nodes:
-
             print(aw.Node.node_type_to_string(child_node.node_type))
 
             # Recurse into the node if it is a composite node.
             if child_node.is_composite:
                 self.traverse_all_nodes(child_node.as_composite_node())
-
 
     #ExEnd:RecurseAllNodes
 
@@ -120,7 +107,6 @@ class WorkingWithNode(DocsExamplesBase):
         tables = body.tables
 
         for table in tables:
-
             # Quick typed access to the first row of the table.
             if table.first_row is not None:
                 table.first_row.remove()
@@ -130,7 +116,6 @@ class WorkingWithNode(DocsExamplesBase):
                 table.last_row.remove()
 
         #ExEnd:TypedAccess
-
 
     def test_create_and_add_paragraph_node(self):
 
@@ -148,7 +133,7 @@ class WorkingWithNode(DocsExamplesBase):
         doc = aw.Document(MY_DIR + "Document.docx")
 
         # Get the first Run node and cast it to Run object.
-        run = doc.get_child(aw.NodeType.RUN, 0, True).as_shape()
+        run = doc.get_child(aw.NodeType.RUN, 0, True).as_run()
 
         # Make changes to the run
         run.font.color = drawing.Color.red

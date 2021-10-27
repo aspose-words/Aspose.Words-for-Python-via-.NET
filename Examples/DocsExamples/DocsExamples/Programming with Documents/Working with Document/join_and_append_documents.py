@@ -23,7 +23,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
 
         dst_doc.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.simple_append_document.docx")
 
-
     def test_append_document(self):
 
         #ExStart:AppendDocumentManually
@@ -33,7 +32,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
         # Loop through all sections in the source document.
         # Section nodes are immediate children of the Document node so we can just enumerate the Document.
         for src_section in src_doc:
-
             # Because we are copying a section from one document to another,
             # it is required to import the Section node into the destination document.
             # This adjusts any document-specific references to styles, lists, etc.
@@ -45,10 +43,8 @@ class JoinAndAppendDocuments(DocsExamplesBase):
             # Now the new section node can be appended to the destination document.
             dst_doc.append_child(dst_section)
 
-
         dst_doc.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.append_document.docx")
         #ExEnd:AppendDocumentManually
-
 
     def test_append_document_to_blank(self):
 
@@ -65,7 +61,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
         dst_doc.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.append_document_to_blank.docx")
         #ExEnd:AppendDocumentToBlank
 
-
     def test_append_with_import_format_options(self):
 
         #ExStart:AppendWithImportFormatOptions
@@ -79,7 +74,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
 
         dst_doc.append_document(src_doc, aw.ImportFormatMode.USE_DESTINATION_STYLES, options)
         #ExEnd:AppendWithImportFormatOptions
-
 
     def test_convert_num_page_fields(self):
 
@@ -104,7 +98,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
         dst_doc.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.convert_num_page_fields.docx")
         #ExEnd:ConvertNumPageFields
 
-
     #ExStart:ConvertNumPageFieldsToPageRef
     def convert_num_page_fields_to_page_ref(self, doc: aw.Document):
 
@@ -121,17 +114,15 @@ class JoinAndAppendDocuments(DocsExamplesBase):
         builder = aw.DocumentBuilder(doc)
 
         for section in doc.sections:
-
             section = section.as_section()
+            
             # This section has its page numbering restarted to treat this as the start of a sub-document.
             # Any PAGENUM fields in this inner document must be converted to special PAGEREF fields to correct numbering.
             if section.page_setup.restart_page_numbering:
-
                 # Don't do anything if this is the first section of the document.
                 # This part of the code will insert the bookmark marking the end of the previous sub-document so,
                 # therefore, it does not apply to the first section in the document.
                 if section != doc.first_section:
-
                     # Get the previous section and the last node within the body of that section.
                     prev_section = section.previous_sibling.as_section()
                     last_node = prev_section.body.last_child
@@ -145,10 +136,8 @@ class JoinAndAppendDocuments(DocsExamplesBase):
                     # Increase the sub-document count to insert the correct bookmarks.
                     sub_document_count += 1
 
-
             # The last section needs the ending bookmark to signal that it is the end of the current sub-document.
             if section == doc.last_section:
-
                 # Insert the bookmark at the end of the body of the last section.
                 # Don't increase the count this time as we are just marking the end of the document.
                 last_node = doc.last_section.body.last_child
@@ -157,7 +146,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
                 builder.start_bookmark(bookmark_prefix + str(sub_document_count))
                 builder.end_bookmark(bookmark_prefix + str(sub_document_count))
 
-
             # Iterate through each NUMPAGES field in the section and replace it with a PAGEREF field
             # referring to the bookmark of the current sub-document. This bookmark is positioned at the end
             # of the sub-document but does not exist yet. It is inserted when a section with restart page numbering
@@ -165,11 +153,11 @@ class JoinAndAppendDocuments(DocsExamplesBase):
             nodes = section.get_child_nodes(aw.NodeType.FIELD_START, True).to_array()
 
             for field_start in nodes:
-
                 field_start = field_start.as_field_start()
+                
                 if field_start.field_type == aw.fields.FieldType.FIELD_NUM_PAGES:
-
                     field_code = self.get_field_code(field_start)
+                    
                     # Since the NUMPAGES field does not take any additional parameters,
                     # we can assume the field's remaining part. Code after the field name is the switches.
                     # We will use these to help recreate the NUMPAGES field as a PAGEREF field.
@@ -192,7 +180,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
                     # Remove the original NUMPAGES field from the document.
                     self.remove_field(field_start)
 
-
     #ExEnd:ConvertNumPageFieldsToPageRef
 
     #ExStart:GetRemoveField
@@ -203,7 +190,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
 
         current_node = field_start
         while current_node is not None and is_removing:
-
             if current_node.node_type == aw.NodeType.FIELD_END:
                 is_removing = False
 
@@ -211,14 +197,13 @@ class JoinAndAppendDocuments(DocsExamplesBase):
             current_node.remove()
             current_node = next_node
 
-
     @staticmethod
     def get_field_code(field_start: aw.fields.FieldStart):
 
         builder = ""
 
         node = field_start
-        while ((node is not None) and (node.node_type != aw.NodeType.FIELD_SEPARATOR) and (node.node_type != aw.NodeType.FIELD_END)):
+        while node is not None and node.node_type not in (aw.NodeType.FIELD_SEPARATOR, aw.NodeType.FIELD_END):
             if node.node_type == aw.NodeType.RUN:
                 builder += node.get_text()
             node = node.next_pre_order(node.document)
@@ -253,12 +238,10 @@ class JoinAndAppendDocuments(DocsExamplesBase):
             para = para.as_paragraph()
             para.paragraph_format.keep_with_next = True
 
-
         dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
         dst_doc.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.different_page_setup.docx")
         #ExEnd:DifferentPageSetup
-
 
     def test_join_continuous(self):
 
@@ -274,7 +257,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
         dst_doc.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.join_continuous.docx")
         #ExEnd:JoinContinuous
 
-
     def test_join_new_page(self):
 
         #ExStart:JoinNewPage
@@ -288,7 +270,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
 
         dst_doc.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.join_new_page.docx")
         #ExEnd:JoinNewPage
-
 
     def test_keep_source_formatting(self):
 
@@ -306,7 +287,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
         dst_doc.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.keep_source_formatting.docx")
         #ExEnd:KeepSourceFormatting
 
-
     def test_keep_source_together(self):
 
         #ExStart:KeepSourceTogether
@@ -320,12 +300,10 @@ class JoinAndAppendDocuments(DocsExamplesBase):
             para = para.as_paragraph()
             para.paragraph_format.keep_with_next = True
 
-
         dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
         dst_doc.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.keep_source_together.docx")
         #ExEnd:KeepSourceTogether
-
 
     def test_list_keep_source_formatting(self):
 
@@ -340,7 +318,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
 
         dst_doc.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.list_keep_source_formatting.docx")
         #ExEnd:ListKeepSourceFormatting
-
 
     def test_list_use_destination_styles(self):
 
@@ -357,32 +334,28 @@ class JoinAndAppendDocuments(DocsExamplesBase):
         for para in src_doc.get_child_nodes(aw.NodeType.PARAGRAPH, True):
             para = para.as_paragraph()
             if para.is_list_item:
-
                 list_id = para.list_format.list.list_id
 
                 # Check if the destination document contains a list with this ID already. If it does, then this may
                 # cause the two lists to run together. Create a copy of the list in the source document instead.
                 if dst_doc.lists.get_list_by_list_id(list_id) is not None:
-
                     # A newly copied list already exists for this ID, retrieve the stored list,
                     # and use it on the current paragraph.
-                    if new_lists.contains_key(list_id):
+                    if list_id in new_lists:
                         current_list = new_lists[list_id]
                     else:
                         # Add a copy of this list to the document and store it for later reference.
                         current_list = src_doc.lists.add_copy(para.list_format.list)
-                        new_lists.add(list_id, current_list)
+                        new_lists[list_id] = current_list
 
                     # Set the list of this paragraph to the copied list.
                     para.list_format.list = current_list
-
 
         # Append the source document to end of the destination document.
         dst_doc.append_document(src_doc, aw.ImportFormatMode.USE_DESTINATION_STYLES)
 
         dst_doc.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.list_use_destination_styles.docx")
         #ExEnd:ListUseDestinationStyles
-
 
     def test_restart_page_numbering(self):
 
@@ -397,7 +370,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
 
         dst_doc.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.restart_page_numbering.docx")
         #ExEnd:RestartPageNumbering
-
 
     def test_update_page_layout(self):
 
@@ -419,7 +391,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
         dst_doc.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.update_page_layout.docx")
         #ExEnd:UpdatePageLayout
 
-
     def test_use_destination_styles(self):
 
         #ExStart:UseDestinationStyles
@@ -431,7 +402,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
 
         dst_doc.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.use_destination_styles.docx")
         #ExEnd:UseDestinationStyles
-
 
     def test_smart_style_behavior(self):
 
@@ -450,7 +420,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
         builder.document.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.smart_style_behavior.docx")
         #ExEnd:SmartStyleBehavior
 
-
     def test_insert_document_with_builder(self):
 
         #ExStart:InsertDocumentWithBuilder
@@ -464,7 +433,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
         builder.insert_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
         builder.document.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.insert_document_with_builder.docx")
         #ExEnd:InsertDocumentWithBuilder
-
 
     def test_keep_source_numbering(self):
 
@@ -484,10 +452,8 @@ class JoinAndAppendDocuments(DocsExamplesBase):
             imported_node = importer.import_node(src_para, False)
             dst_doc.first_section.body.append_child(imported_node)
 
-
         dst_doc.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.keep_source_numbering.docx")
         #ExEnd:KeepSourceNumbering
-
 
     def test_ignore_text_boxes(self):
 
@@ -506,10 +472,8 @@ class JoinAndAppendDocuments(DocsExamplesBase):
             imported_node = importer.import_node(src_para, True)
             dst_doc.first_section.body.append_child(imported_node)
 
-
         dst_doc.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.ignore_text_boxes.docx")
         #ExEnd:IgnoreTextBoxes
-
 
     def test_ignore_header_footer(self):
 
@@ -524,7 +488,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
 
         dst_document.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.ignore_header_footer.docx")
         #ExEnd:IgnoreHeaderFooter
-
 
     def test_link_headers_footers(self):
 
@@ -542,7 +505,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
 
         dst_doc.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.link_headers_footers.docx")
         #ExEnd:LinkHeadersFooters
-
 
     def test_remove_source_headers_footers(self):
 
@@ -563,7 +525,6 @@ class JoinAndAppendDocuments(DocsExamplesBase):
 
         dst_doc.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.remove_source_headers_footers.docx")
         #ExEnd:RemoveSourceHeadersFooters
-
 
     def test_unlink_headers_footers(self):
 

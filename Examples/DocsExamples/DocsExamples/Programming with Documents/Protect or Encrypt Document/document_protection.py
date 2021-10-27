@@ -20,14 +20,12 @@ class DocumentProtection(DocsExamplesBase):
         doc.protect(aw.ProtectionType.ALLOW_ONLY_FORM_FIELDS, "password")
         #ExEnd:ProtectDocument
 
-
     def test_unprotect(self):
 
         #ExStart:UnprotectDocument
         doc = aw.Document(MY_DIR + "Document.docx")
         doc.unprotect()
         #ExEnd:UnprotectDocument
-
 
     def test_get_protection_type(self):
 

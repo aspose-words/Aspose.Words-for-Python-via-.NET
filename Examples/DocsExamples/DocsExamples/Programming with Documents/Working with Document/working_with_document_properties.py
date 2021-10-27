@@ -25,24 +25,22 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
 
         #ExEnd:GetVariables
 
-
     def test_enumerate_properties(self):
 
         #ExStart:EnumerateProperties
         doc = aw.Document(MY_DIR + "Properties.docx")
 
-        print("1. Document name: 0", doc.original_file_name)
+        print("1. Document name:", doc.original_file_name)
         print("2. Built-in Properties")
 
         for prop in doc.built_in_document_properties:
-            print("0: 1", prop.name, prop.value)
+            print(f"{prop.name}: {prop.value}")
 
         print("3. Custom Properties")
 
         for prop in doc.custom_document_properties:
-            print("0: 1", prop.name, prop.value)
+            print(f"{prop.name}: {prop.value}")
         #ExEnd:EnumerateProperties
-
 
     def test_add_custom_document_properties(self):
 
@@ -56,11 +54,10 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
 
         custom_document_properties.add("Authorized", True)
         custom_document_properties.add("Authorized By", "John Smith")
-        custom_document_properties.add("Authorized Date", datetime.today())
+        custom_document_properties.add("Authorized Date", datetime.now())
         custom_document_properties.add("Authorized Revision", doc.built_in_document_properties.revision_number)
         custom_document_properties.add("Authorized Amount", 123.45)
         #ExEnd:AddCustomDocumentProperties
-
 
     def test_remove_custom_document_properties(self):
 
@@ -68,7 +65,6 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
         doc = aw.Document(MY_DIR + "Properties.docx")
         doc.custom_document_properties.remove("Authorized Date")
         #ExEnd:CustomRemove
-
 
     def test_remove_personal_information(self):
 
@@ -78,7 +74,6 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "DocumentPropertiesAndVariables.remove_personal_information.docx")
         #ExEnd:RemovePersonalInformation
-
 
     def test_configuring_link_to_content(self):
 
@@ -103,7 +98,6 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
         custom_property_value = custom_property.value
         #ExEnd:ConfiguringLinkToContent
 
-
     def test_convert_between_measurement_units(self):
 
         #ExStart:ConvertBetweenMeasurementUnits
@@ -118,7 +112,6 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
         page_setup.header_distance = aw.ConvertUtil.inch_to_point(0.2)
         page_setup.footer_distance = aw.ConvertUtil.inch_to_point(0.2)
         #ExEnd:ConvertBetweenMeasurementUnits
-
 
     def test_use_control_characters(self):
 

@@ -24,7 +24,6 @@ class WorkingWithHtmlFixedSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithHtmlFixedSaveOptions.use_font_from_target_machine.html", save_options)
         #ExEnd:UseFontFromTargetMachine
 
-
     def test_write_all_css_rules_in_single_file(self):
 
         #ExStart:WriteAllCssRulesInSingleFile

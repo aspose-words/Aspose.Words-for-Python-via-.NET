@@ -24,7 +24,6 @@ class WorkingWithBookmarks(DocsExamplesBase):
         bookmark2 = doc.range.bookmarks.get_by_name("MyBookmark3")
         #ExEnd:AccessBookmarks
 
-
     def test_update_bookmark_data(self):
 
         #ExStart:UpdateBookmarkData
@@ -38,7 +37,6 @@ class WorkingWithBookmarks(DocsExamplesBase):
         bookmark.name = "RenamedBookmark"
         bookmark.text = "This is a new bookmarked text."
         #ExEnd:UpdateBookmarkData
-
 
     def test_bookmark_table_columns(self):
 
@@ -73,18 +71,13 @@ class WorkingWithBookmarks(DocsExamplesBase):
 
         #ExStart:BookmarkTableColumns
         for bookmark in doc.range.bookmarks:
-
             print("Bookmark: " + bookmark.name + " (Column)" if bookmark.is_column else "")
 
             if bookmark.is_column:
-
                 row = bookmark.bookmark_start.get_ancestor(aw.NodeType.ROW).as_row()
                 if bookmark.first_column < row.cells.count:
                     print(row.cells[bookmark.first_column].get_text().trim_end(aw.ControlChar.CELL_CHAR))
-
-
         #ExEnd:BookmarkTableColumns
-
 
     def test_copy_bookmarked_text(self):
 
@@ -106,16 +99,15 @@ class WorkingWithBookmarks(DocsExamplesBase):
 
         dst_doc.save(ARTIFACTS_DIR + "WorkingWithBookmarks.copy_bookmarked_text.docx")
 
-
-    # <summary>
-    # Copies content of the bookmark and adds it to the end of the specified node.
-    # The destination node can be in a different document.
-    # </summary>
-    # <param name="importer">Maintains the import context.</param>
-    # <param name="srcBookmark">The input bookmark.</param>
-    # <param name="dstNode">Must be a node that can contain paragraphs (such as a Story).</param>
     @staticmethod
     def append_bookmarked_text(importer: aw.NodeImporter, src_bookmark: aw.Bookmark, dst_node: aw.CompositeNode):
+        """Copies content of the bookmark and adds it to the end of the specified node.
+        The destination node can be in a different document.
+        
+        :param importer: Maintains the import context.
+        :param src_bookmark: The input bookmark.
+        :param dst_node: Must be a node that can contain paragraphs (such as a Story).
+        """
 
         # This is the paragraph that contains the beginning of the bookmark.
         start_para = src_bookmark.bookmark_start.parent_node.as_paragraph()
@@ -136,13 +128,11 @@ class WorkingWithBookmarks(DocsExamplesBase):
 
         cur_node = start_para
         while cur_node != end_node:
-
             # This creates a copy of the current node and imports it (makes it valid) in the context
             # of the destination document. Importing means adjusting styles and list identifiers correctly.
             new_node = importer.import_node(cur_node, True)
             dst_node.append_child(new_node)
             cur_node = cur_node.next_sibling
-
 
     def test_create_bookmark(self):
 
@@ -167,7 +157,6 @@ class WorkingWithBookmarks(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithBookmarks.create_bookmark.pdf", options)
         #ExEnd:CreateBookmark
 
-
     def test_show_hide_bookmarks(self):
 
         #ExStart:ShowHideBookmarks
@@ -178,7 +167,6 @@ class WorkingWithBookmarks(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithBookmarks.show_hide_bookmarks.docx")
         #ExEnd:ShowHideBookmarks
 
-
     #ExStart:ShowHideBookmarkedContent
     @staticmethod
     def show_hide_bookmarked_content(doc: aw.Document, bookmark_name: str, show_hide: bool):
@@ -188,7 +176,7 @@ class WorkingWithBookmarks(DocsExamplesBase):
         builder = aw.DocumentBuilder(doc)
         builder.move_to_document_end()
 
-        # IF "MERGEFIELD bookmark" = "True" "" ""
+        # {IF "MERGEFIELD bookmark" = "True" "" ""}
         field = builder.insert_field('IF "', None)
         builder.move_to(field.start.next_sibling)
         builder.insert_field("MERGEFIELD " + bookmark_name + "", None)
@@ -200,7 +188,6 @@ class WorkingWithBookmarks(DocsExamplesBase):
         current_node = field.start
         flag = True
         while current_node is not None and flag:
-
             if current_node.node_type == aw.NodeType.RUN:
                 if current_node.to_string(aw.SaveFormat.TEXT).strip() == '"':
                     flag = False
@@ -210,11 +197,9 @@ class WorkingWithBookmarks(DocsExamplesBase):
             bookmark.bookmark_start.parent_node.insert_before(current_node, bookmark.bookmark_start)
             current_node = next_node
 
-
         end_node = bookmark.bookmark_end
         flag = True
         while current_node is not None and flag:
-
             if current_node.node_type == aw.NodeType.FIELD_END:
                 flag = False
 
@@ -224,8 +209,7 @@ class WorkingWithBookmarks(DocsExamplesBase):
             end_node = current_node
             current_node = next_node
 
-
-        doc.mail_merge.execute([ bookmark_name ], [ show_hide ])
+        doc.mail_merge.execute([bookmark_name], [show_hide])
 
     #ExEnd:ShowHideBookmarkedContent
 
@@ -245,7 +229,6 @@ class WorkingWithBookmarks(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithBookmarks.untangle_row_bookmarks.docx")
 
-
     @staticmethod
     def untangle(doc: aw.Document):
 
@@ -259,7 +242,6 @@ class WorkingWithBookmarks(DocsExamplesBase):
             # move the bookmark end node to the end of the last paragraph in the top row's last cell.
             if row1 is not None and row2 is not None and row1.next_sibling == row2:
                 row1.as_row().last_cell.last_paragraph.append_child(bookmark.bookmark_end)
-
 
     @staticmethod
     def delete_row_by_bookmark(doc: aw.Document, bookmark_name: str):

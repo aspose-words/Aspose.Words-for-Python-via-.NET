@@ -34,7 +34,6 @@ class WorkingWithComments(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithComments.add_comments.docx")
         #ExEnd:AddComments
 
-
     def test_anchor_comment(self):
 
         #ExStart:AnchorComment
@@ -68,7 +67,6 @@ class WorkingWithComments(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithComments.anchor_comment.doc")
         #ExEnd:AnchorComment
 
-
     def test_add_remove_comment_reply(self):
 
         #ExStart:AddRemoveCommentReply
@@ -81,7 +79,6 @@ class WorkingWithComments(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithComments.add_remove_comment_reply.docx")
         #ExEnd:AddRemoveCommentReply
-
 
     def test_process_comments(self):
 
@@ -112,7 +109,7 @@ class WorkingWithComments(DocsExamplesBase):
 
     #ExStart:ExtractComments
     @staticmethod
-    def extract_comments(doc):
+    def extract_comments(doc: aw.Document):
 
         collected_comments = []
         comments = doc.get_child_nodes(aw.NodeType.COMMENT, True)
@@ -127,7 +124,7 @@ class WorkingWithComments(DocsExamplesBase):
 
     #ExStart:ExtractCommentsByAuthor
     @staticmethod
-    def extract_comments_by_author(doc, author_name):
+    def extract_comments_by_author(doc: aw.Document, author_name: str):
 
         collected_comments = []
         comments = doc.get_child_nodes(aw.NodeType.COMMENT, True)
@@ -143,17 +140,16 @@ class WorkingWithComments(DocsExamplesBase):
 
     #ExStart:RemoveComments
     @staticmethod
-    def remove_comments(doc):
+    def remove_comments(doc: aw.Document):
 
         comments = doc.get_child_nodes(aw.NodeType.COMMENT, True)
-
         comments.clear()
 
     #ExEnd:RemoveComments
 
     #ExStart:RemoveCommentsByAuthor
     @staticmethod
-    def remove_comments_by_author(doc, author_name):
+    def remove_comments_by_author(doc: aw.Document, author_name: str):
 
         comments = doc.get_child_nodes(aw.NodeType.COMMENT, True)
 
@@ -164,9 +160,7 @@ class WorkingWithComments(DocsExamplesBase):
             if comment.author == author_name:
                 comment.remove()
 
-
     #ExEnd:RemoveCommentsByAuthor
-
 
     #ExStart:CommentResolvedandReplies
     @staticmethod
@@ -176,7 +170,6 @@ class WorkingWithComments(DocsExamplesBase):
 
         parent_comment = comments[0].as_comment()
         for child in parent_comment.replies:
-
             child_comment = child.as_comment()
             # Get comment parent and status.
             print(child_comment.ancestor.id)
@@ -184,7 +177,6 @@ class WorkingWithComments(DocsExamplesBase):
 
             # And update comment Done mark.
             child_comment.done = True
-
 
     #ExEnd:CommentResolvedandReplies
 

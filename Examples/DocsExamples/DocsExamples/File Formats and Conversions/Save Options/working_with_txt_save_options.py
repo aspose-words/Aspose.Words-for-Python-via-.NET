@@ -30,7 +30,6 @@ class WorkingWithTxtSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithTxtSaveOptions.add_bidi_marks.txt", save_options)
         #ExEnd:AddBidiMarks
 
-
     def test_use_tab_character_per_level_for_list_indentation(self):
 
         #ExStart:UseTabCharacterPerLevelForListIndentation
@@ -47,11 +46,10 @@ class WorkingWithTxtSaveOptions(DocsExamplesBase):
 
         save_options = aw.saving.TxtSaveOptions()
         save_options.list_indentation.count = 1
-        #saveOptions.list_indentation.character = '\t'
+        save_options.list_indentation.character = '\t'
 
         doc.save(ARTIFACTS_DIR + "WorkingWithTxtSaveOptions.use_tab_character_per_level_for_list_indentation.txt", save_options)
         #ExEnd:UseTabCharacterPerLevelForListIndentation
-
 
     def test_use_space_character_per_level_for_list_indentation(self):
 
@@ -69,7 +67,7 @@ class WorkingWithTxtSaveOptions(DocsExamplesBase):
 
         save_options = aw.saving.TxtSaveOptions()
         save_options.list_indentation.count = 3
-        #saveOptions.list_indentation.character = ' '
+        save_options.list_indentation.character = ' '
 
         doc.save(ARTIFACTS_DIR + "WorkingWithTxtSaveOptions.use_space_character_per_level_for_list_indentation.txt", save_options)
         #ExEnd:UseSpaceCharacterPerLevelForListIndentation

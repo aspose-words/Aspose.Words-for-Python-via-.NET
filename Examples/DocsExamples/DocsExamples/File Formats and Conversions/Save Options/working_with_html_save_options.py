@@ -24,7 +24,6 @@ class WorkingWithHtmlSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithHtmlSaveOptions.export_roundtrip_information.html", save_options)
         #ExEnd:ExportRoundtripInformation
 
-
     def test_export_fonts_as_base_64(self):
 
         #ExStart:ExportFontsAsBase64
@@ -36,7 +35,6 @@ class WorkingWithHtmlSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithHtmlSaveOptions.export_fonts_as_base64.html", save_options)
         #ExEnd:ExportFontsAsBase64
 
-
     def test_export_resources(self):
 
         #ExStart:ExportResources
@@ -47,12 +45,10 @@ class WorkingWithHtmlSaveOptions(DocsExamplesBase):
         save_options.css_style_sheet_type = aw.saving.CssStyleSheetType.EXTERNAL
         save_options.export_font_resources = True
         save_options.resource_folder = ARTIFACTS_DIR + "Resources"
-        save_options.resource_folder_alias = "http:#example.com/resources"
-
+        save_options.resource_folder_alias = "http://example.com/resources"
 
         doc.save(ARTIFACTS_DIR + "WorkingWithHtmlSaveOptions.export_resources.html", save_options)
         #ExEnd:ExportResources
-
 
     def test_convert_metafiles_to_emf_or_wmf(self):
 
@@ -62,19 +58,18 @@ class WorkingWithHtmlSaveOptions(DocsExamplesBase):
 
         builder.write("Here is an image as is: ")
         builder.insert_html("""<img src="data:image/pngbase64,
-                iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGP
-                C/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YGARc5KB0XV+IA
-                AAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAF1J
-                REFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jq
-                ch9#q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0
-                vr4MkhoXe0rZigAAAABJRU5ErkJggg==" alt="Red dot" />""")
+            iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGP
+            C/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YGARc5KB0XV+IA
+            AAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAF1J
+            REFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jq
+            ch9#q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0
+            vr4MkhoXe0rZigAAAABJRU5ErkJggg==" alt="Red dot" />""")
 
         save_options = aw.saving.HtmlSaveOptions()
         save_options.metafile_format = aw.saving.HtmlMetafileFormat.EMF_OR_WMF
 
         doc.save(ARTIFACTS_DIR + "WorkingWithHtmlSaveOptions.convert_metafiles_to_emf_or_wmf.html", save_options)
         #ExEnd:ConvertMetafilesToEmfOrWmf
-
 
     def test_convert_metafiles_to_svg(self):
 
@@ -83,17 +78,17 @@ class WorkingWithHtmlSaveOptions(DocsExamplesBase):
         builder = aw.DocumentBuilder(doc)
 
         builder.write("Here is an SVG image: ")
-        builder.insert_html("""<svg height='210' width='500'>
-            <polygon points='100,10 40,198 190,78 10,78 160,198'
-                style='fill:limestroke:purplestroke-width:5fill-rule:evenodd' />
-            </svg> """)
+        builder.insert_html("""
+            <svg height='210' width='500'>
+                <polygon points='100,10 40,198 190,78 10,78 160,198'
+                    style='fill:limestroke:purplestroke-width:5fill-rule:evenodd' />
+            </svg>""")
 
         save_options = aw.saving.HtmlSaveOptions()
         save_options.metafile_format = aw.saving.HtmlMetafileFormat.SVG
 
         doc.save(ARTIFACTS_DIR + "WorkingWithHtmlSaveOptions.convert_metafiles_to_svg.html", save_options)
         #ExEnd:ConvertMetafilesToSvg
-
 
     def test_add_css_class_name_prefix(self):
 
@@ -104,10 +99,8 @@ class WorkingWithHtmlSaveOptions(DocsExamplesBase):
         save_options.css_style_sheet_type = aw.saving.CssStyleSheetType.EXTERNAL
         save_options.css_class_name_prefix = "pfx_"
 
-
         doc.save(ARTIFACTS_DIR + "WorkingWithHtmlSaveOptions.add_css_class_name_prefix.html", save_options)
         #ExEnd:AddCssClassNamePrefix
-
 
     def test_export_cid_urls_for_mhtml_resources(self):
 
@@ -118,10 +111,8 @@ class WorkingWithHtmlSaveOptions(DocsExamplesBase):
         save_options.pretty_format = True
         save_options.export_cid_urls_for_mhtml_resources = True
 
-
         doc.save(ARTIFACTS_DIR + "WorkingWithHtmlSaveOptions.export_cid_urls_for_mhtml_resources.mhtml", save_options)
         #ExEnd:ExportCidUrlsForMhtmlResources
-
 
     def test_resolve_font_names(self):
 
@@ -132,10 +123,8 @@ class WorkingWithHtmlSaveOptions(DocsExamplesBase):
         save_options.pretty_format = True
         save_options.resolve_font_names = True
 
-
         doc.save(ARTIFACTS_DIR + "WorkingWithHtmlSaveOptions.resolve_font_names.html", save_options)
         #ExEnd:ResolveFontNames
-
 
     def test_export_text_input_form_field_as_text(self):
 
@@ -154,7 +143,6 @@ class WorkingWithHtmlSaveOptions(DocsExamplesBase):
         save_options = aw.saving.HtmlSaveOptions(aw.SaveFormat.HTML)
         save_options.export_text_input_form_field_as_text = True
         save_options.images_folder = images_dir
-
 
         doc.save(ARTIFACTS_DIR + "WorkingWithHtmlSaveOptions.export_text_input_form_field_as_text.html", save_options)
         #ExEnd:ExportTextInputFormFieldAsText

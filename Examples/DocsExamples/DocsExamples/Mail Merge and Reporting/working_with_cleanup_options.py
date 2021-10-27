@@ -13,7 +13,6 @@ import aspose.words as aw
 
 class WorkingWithCleanupOptions(DocsExamplesBase):
 
-
     def test_cleanup_paragraphs_with_punctuation_marks(self):
 
         #ExStart:CleanupParagraphsWithPunctuationMarks
@@ -34,11 +33,10 @@ class WorkingWithCleanupOptions(DocsExamplesBase):
         # If you rely on the old behavior can revert it by setting the option to False.
         doc.mail_merge.cleanup_paragraphs_with_punctuation_marks = True
 
-        doc.mail_merge.execute([ "Option_1", "Option_2" ], [ None, None ])
+        doc.mail_merge.execute(["Option_1", "Option_2"], [None, None])
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCleanupOptions.cleanup_paragraphs_with_punctuation_marks.docx")
         #ExEnd:CleanupParagraphsWithPunctuationMarks
-
 
     def test_remove_empty_paragraphs(self):
 
@@ -47,12 +45,12 @@ class WorkingWithCleanupOptions(DocsExamplesBase):
 
         doc.mail_merge.cleanup_options = aw.mailmerging.MailMergeCleanupOptions.REMOVE_EMPTY_PARAGRAPHS
 
-        doc.mail_merge.execute([ "FullName", "Company", "Address", "Address2", "City" ],
-            [ "James Bond", "MI5 Headquarters", "Milbank", "", "London" ])
+        doc.mail_merge.execute(
+            ["FullName", "Company", "Address", "Address2", "City"],
+            ["James Bond", "MI5 Headquarters", "Milbank", "", "London"])
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCleanupOptions.remove_empty_paragraphs.docx")
         #ExEnd:RemoveEmptyParagraphs
-
 
     def test_remove_unused_fields(self):
 
@@ -61,12 +59,12 @@ class WorkingWithCleanupOptions(DocsExamplesBase):
 
         doc.mail_merge.cleanup_options = aw.mailmerging.MailMergeCleanupOptions.REMOVE_UNUSED_FIELDS
 
-        doc.mail_merge.execute([ "FullName", "Company", "Address", "Address2", "City" ],
-            [ "James Bond", "MI5 Headquarters", "Milbank", "", "London" ])
+        doc.mail_merge.execute(
+            ["FullName", "Company", "Address", "Address2", "City"],
+            ["James Bond", "MI5 Headquarters", "Milbank", "", "London"])
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCleanupOptions.remove_unused_fields.docx")
         #ExEnd:RemoveUnusedFields
-
 
     def test_remove_containing_fields(self):
 
@@ -75,12 +73,12 @@ class WorkingWithCleanupOptions(DocsExamplesBase):
 
         doc.mail_merge.cleanup_options = aw.mailmerging.MailMergeCleanupOptions.REMOVE_CONTAINING_FIELDS
 
-        doc.mail_merge.execute([ "FullName", "Company", "Address", "Address2", "City" ],
-            [ "James Bond", "MI5 Headquarters", "Milbank", "", "London" ])
+        doc.mail_merge.execute(
+            ["FullName", "Company", "Address", "Address2", "City"],
+            ["James Bond", "MI5 Headquarters", "Milbank", "", "London"])
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCleanupOptions.remove_containing_fields.docx")
         #ExEnd:RemoveContainingFields
-
 
     def test_remove_empty_table_rows(self):
 
@@ -89,8 +87,9 @@ class WorkingWithCleanupOptions(DocsExamplesBase):
 
         doc.mail_merge.cleanup_options = aw.mailmerging.MailMergeCleanupOptions.REMOVE_EMPTY_TABLE_ROWS
 
-        doc.mail_merge.execute([ "FullName", "Company", "Address", "Address2", "City" ],
-            [ "James Bond", "MI5 Headquarters", "Milbank", "", "London" ])
+        doc.mail_merge.execute(
+            ["FullName", "Company", "Address", "Address2", "City"],
+            ["James Bond", "MI5 Headquarters", "Milbank", "", "London"])
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCleanupOptions.remove_empty_table_rows.docx")
         #ExEnd:RemoveEmptyTableRows

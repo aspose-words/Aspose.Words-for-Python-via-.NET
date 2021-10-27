@@ -23,9 +23,8 @@ class CompareDocument(DocsExamplesBase):
         # DocA now contains changes as revisions.
         doc_a.compare(doc_b, "user", datetime.today())
 
-        print("Documents are equal" if (doc_a.revisions.count == 0) else "Documents are not equal")
+        print("Documents are equal" if doc_a.revisions.count == 0 else "Documents are not equal")
         #ExEnd:CompareForEqual
-
 
     def test_compare_options(self):
 
@@ -44,12 +43,10 @@ class CompareDocument(DocsExamplesBase):
         options.ignore_textboxes = True
         options.ignore_footnotes = True
 
+        doc_a.compare(doc_b, "user", datetime.now(), options)
 
-        doc_a.compare(doc_b, "user", datetime.today(), options)
-
-        print("Documents are equal" if (doc_a.revisions.count == 0) else "Documents are not equal")
+        print("Documents are equal" if doc_a.revisions.count == 0 else "Documents are not equal")
         #ExEnd:CompareOptions
-
 
     def test_comparison_target(self):
 
@@ -62,9 +59,8 @@ class CompareDocument(DocsExamplesBase):
         options.ignore_formatting = True
         options.target = aw.comparing.ComparisonTargetType.NEW
 
-        doc_a.compare(doc_b, "user", datetime.today(), options)
+        doc_a.compare(doc_b, "user", datetime.now(), options)
         #ExEnd:ComparisonTarget
-
 
     def test_comparison_granularity(self):
 
@@ -78,7 +74,7 @@ class CompareDocument(DocsExamplesBase):
         compare_options = aw.comparing.CompareOptions()
         compare_options.granularity = aw.comparing.Granularity.CHAR_LEVEL
 
-        builder_a.document.compare(builder_b.document, "author", datetime.today(), compare_options)
+        builder_a.document.compare(builder_b.document, "author", datetime.now(), compare_options)
         #ExEnd:ComparisonGranularity
 
     def test_apply_compare_two_documents(self):
@@ -96,7 +92,7 @@ class CompareDocument(DocsExamplesBase):
 
         # If either document has a revision, an exception will be thrown.
         if doc1.revisions.count == 0 and doc2.revisions.count == 0:
-            doc1.compare(doc2, "authorName", datetime.today())
+            doc1.compare(doc2, "authorName", datetime.now())
 
         # If doc1 and doc2 are different, doc1 now has some revisions after the comparison, which can now be viewed and processed.
         self.assertEqual(2, doc1.revisions.count)

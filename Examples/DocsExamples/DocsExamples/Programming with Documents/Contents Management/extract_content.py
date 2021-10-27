@@ -29,16 +29,13 @@ class ExtractContent(DocsExamplesBase):
         extracted_nodes.reverse()
 
         while len(extracted_nodes) > 0:
-
             # Insert the last node from the reversed list.
             end_table.parent_node.insert_after(extracted_nodes[0], end_table)
             # Remove this node from the list after insertion.
             del extracted_nodes[0]
 
-
         doc.save(ARTIFACTS_DIR + "ExtractContent.extract_content_between_block_level_nodes.docx")
         #ExEnd:ExtractContentBetweenBlockLevelNodes
-
 
     def test_extract_content_between_bookmark(self):
 
@@ -67,7 +64,6 @@ class ExtractContent(DocsExamplesBase):
         dst_doc.save(ARTIFACTS_DIR + "ExtractContent.extract_content_between_bookmark.without_bookmark.docx")
         #ExEnd:ExtractContentBetweenBookmark
 
-
     def test_extract_content_between_comment_range(self):
 
         #ExStart:ExtractContentBetweenCommentRange
@@ -91,7 +87,6 @@ class ExtractContent(DocsExamplesBase):
         dst_doc.save(ARTIFACTS_DIR + "ExtractContent.extract_content_between_comment_range.without_comment.docx")
         #ExEnd:ExtractContentBetweenCommentRange
 
-
     def test_extract_content_between_paragraphs(self):
 
         #ExStart:ExtractContentBetweenParagraphs
@@ -106,7 +101,6 @@ class ExtractContent(DocsExamplesBase):
         dst_doc = helper.ExtractContentHelper.generate_document(doc, extracted_nodes)
         dst_doc.save(ARTIFACTS_DIR + "ExtractContent.extract_content_between_paragraphs.docx")
         #ExEnd:ExtractContentBetweenParagraphs
-
 
     def test_extract_content_between_paragraph_styles(self):
 
@@ -128,7 +122,6 @@ class ExtractContent(DocsExamplesBase):
         dst_doc.save(ARTIFACTS_DIR + "ExtractContent.extract_content_between_paragraph_styles.docx")
         #ExEnd:ExtractContentBetweenParagraphStyles
 
-
     def test_extract_content_between_runs(self):
 
         #ExStart:ExtractContentBetweenRuns
@@ -145,7 +138,6 @@ class ExtractContent(DocsExamplesBase):
         node = extracted_nodes[0]
         print(node.to_string(aw.SaveFormat.TEXT))
         #ExEnd:ExtractContentBetweenRuns
-
 
     def test_extract_content_using_field(self):
 
@@ -168,19 +160,15 @@ class ExtractContent(DocsExamplesBase):
         dst_doc.save(ARTIFACTS_DIR + "ExtractContent.extract_content_using_field.docx")
         #ExEnd:ExtractContentUsingField
 
-
     def test_extract_table_of_contents(self):
 
         #ExStart:ExtractTableOfContents
         doc = aw.Document(MY_DIR + "Table of contents.docx")
 
         for field in doc.range.fields:
-
             if field.type == aw.fields.FieldType.FIELD_HYPERLINK:
-
                 hyperlink = field.as_field_hyperlink()
-                if (hyperlink.sub_address is not None and hyperlink.sub_address.find("_Toc") == 0):
-
+                if hyperlink.sub_address is not None and "_Toc" not in hyperlink.sub_address:
                     toc_item = field.start.get_ancestor(aw.NodeType.PARAGRAPH).as_paragraph()
 
                     print(toc_item.to_string(aw.SaveFormat.TEXT).strip())
@@ -191,7 +179,6 @@ class ExtractContent(DocsExamplesBase):
 
                     print(pointer.to_string(aw.SaveFormat.TEXT))
         #ExEnd:ExtractTableOfContents
-
 
     def test_extract_text_only(self):
 
@@ -208,7 +195,6 @@ class ExtractContent(DocsExamplesBase):
         # This is the same as "viewing" the document as if it was opened in a text editor.
         print("ToString() Result: " + doc.to_string(aw.SaveFormat.TEXT))
         #ExEnd:ExtractTextOnly
-
 
     def test_extract_content_based_on_styles(self):
 
@@ -269,7 +255,6 @@ class ExtractContent(DocsExamplesBase):
         #ExStart:ExtractText
         doc = aw.Document(MY_DIR + "Tables.docx")
 
-
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
         # The range text will include control characters such as "\a" for a cell.
@@ -287,7 +272,6 @@ class ExtractContent(DocsExamplesBase):
         print(table.last_row.last_cell.range.text)
         #ExEnd:PrintTextRangeOFRowAndTable
 
-
     def test_extract_images_to_files(self):
 
         #ExStart:ExtractImagesToFiles
@@ -299,7 +283,6 @@ class ExtractContent(DocsExamplesBase):
         for shape in shapes:
             shape = shape.as_shape()
             if shape.has_image:
-
                 image_file_name = f"Image.ExportImages.{image_index}_{aw.FileFormatUtil.image_type_to_extension(shape.image_data.image_type)}"
 
                 shape.image_data.save(ARTIFACTS_DIR + image_file_name)

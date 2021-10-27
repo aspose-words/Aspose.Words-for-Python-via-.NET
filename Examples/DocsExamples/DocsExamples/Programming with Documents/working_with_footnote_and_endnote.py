@@ -24,7 +24,6 @@ class WorkingWithFootnotes(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithFootnotes.set_foot_note_columns.docx")
         #ExEnd:SetFootNoteColumns
 
-
     def test_set_footnote_and_end_note_position(self):
 
         #ExStart:SetFootnoteAndEndNotePosition
@@ -35,7 +34,6 @@ class WorkingWithFootnotes(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithFootnotes.set_footnote_and_end_note_position.docx")
         #ExEnd:SetFootnoteAndEndNotePosition
-
 
     def test_set_endnote_options(self):
 

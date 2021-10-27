@@ -26,7 +26,6 @@ class WorkingWithSection(DocsExamplesBase):
         doc.sections.add(section_to_add)
         #ExEnd:AddSection
 
-
     def test_delete_section(self):
 
         #ExStart:DeleteSection
@@ -41,7 +40,6 @@ class WorkingWithSection(DocsExamplesBase):
         doc.sections.remove_at(0)
         #ExEnd:DeleteSection
 
-
     def test_delete_all_sections(self):
 
         #ExStart:DeleteAllSections
@@ -55,7 +53,6 @@ class WorkingWithSection(DocsExamplesBase):
 
         doc.sections.clear()
         #ExEnd:DeleteAllSections
-
 
     def test_append_section_content(self):
 
@@ -83,14 +80,12 @@ class WorkingWithSection(DocsExamplesBase):
         section.append_content(section_to_append)
         #ExEnd:AppendSectionContent
 
-
     def test_clone_section(self):
 
         #ExStart:CloneSection
         doc = aw.Document(MY_DIR + "Document.docx")
         clone_section = doc.sections[0].clone()
         #ExEnd:CloneSection
-
 
     def test_copy_section(self):
 
@@ -105,7 +100,6 @@ class WorkingWithSection(DocsExamplesBase):
         dst_doc.save(ARTIFACTS_DIR + "WorkingWithSection.copy_section.docx")
         #ExEnd:CopySection
 
-
     def test_delete_header_footer_content(self):
 
         #ExStart:DeleteHeaderFooterContent
@@ -115,7 +109,6 @@ class WorkingWithSection(DocsExamplesBase):
         section.clear_headers_footers()
         #ExEnd:DeleteHeaderFooterContent
 
-
     def test_delete_section_content(self):
 
         #ExStart:DeleteSectionContent
@@ -124,7 +117,6 @@ class WorkingWithSection(DocsExamplesBase):
         section = doc.sections[0]
         section.clear_content()
         #ExEnd:DeleteSectionContent
-
 
     def test_modify_page_setup_in_all_sections(self):
 
@@ -147,7 +139,6 @@ class WorkingWithSection(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithSection.modify_page_setup_in_all_sections.doc")
         #ExEnd:ModifyPageSetupInAllSections
-
 
     def test_sections_access_by_index(self):
 

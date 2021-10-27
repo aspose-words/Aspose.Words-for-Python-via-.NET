@@ -20,12 +20,12 @@ class Tables(DocsExamplesBase):
 
         opt = aw.reporting.JsonDataLoadOptions()
         opt.always_generate_root_object = True
+
         engine = aw.reporting.ReportingEngine()
         engine.build_report(doc, aw.reporting.JsonDataSource(JSON_DIR + "contracts.json", opt), "contracts")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.in_table_alternate_content.docx")
         #ExEnd:InTableAlternateContent
-
 
     def test_in_table_master_detail(self):
 
@@ -37,7 +37,6 @@ class Tables(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.in_table_master_detail.docx")
         #ExEnd:InTableMasterDetail
-
 
     def test_in_table_with_filtering_grouping_sorting(self):
 

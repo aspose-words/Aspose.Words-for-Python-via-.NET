@@ -28,12 +28,9 @@ class WorkingWithList(DocsExamplesBase):
         builder.list_format.list = list
 
         for i in range(1, 45):
-
             builder.writeln(f"List Item {i}")
-
             if i == 15:
                 builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
-
 
         # IsRestartAtEachSection will be written only if compliance is higher then OoxmlComplianceCore.ecma_376.
         options = aw.saving.OoxmlSaveOptions()
@@ -41,7 +38,6 @@ class WorkingWithList(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithList.restart_list_at_each_section.docx", options)
         #ExEnd:RestartListAtEachSection
-
 
     def test_specify_list_level(self):
 
@@ -55,27 +51,22 @@ class WorkingWithList(DocsExamplesBase):
 
         # There are nine levels in this list, let's try them all.
         for i in range(9):
-
             builder.list_format.list_level_number = i
             builder.writeln(f"Level {i}")
-
 
         # Create a bulleted list based on one of the Microsoft Word list templates
         # and apply it to the document builder's current paragraph.
         builder.list_format.list = doc.lists.add(aw.lists.ListTemplate.BULLET_DIAMONDS)
 
         for i in range(9):
-
             builder.list_format.list_level_number = i
             builder.writeln(f"Level {i}")
-
 
         # This is a way to stop list formatting.
         builder.list_format.list = None
 
         builder.document.save(ARTIFACTS_DIR + "WorkingWithList.specify_list_level.docx")
         #ExEnd:SpecifyListLevel
-
 
     def test_restart_list_number(self):
 

@@ -58,7 +58,6 @@ class WorkingWithRevisions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithRevisions.accept_revisions.docx")
         #ExEnd:AcceptAllRevisions
 
-
     def test_get_revision_types(self):
 
         #ExStart:GetRevisionTypes
@@ -66,14 +65,12 @@ class WorkingWithRevisions(DocsExamplesBase):
 
         paragraphs = doc.first_section.body.paragraphs
         for i in range(paragraphs.count):
-
             if paragraphs[i].is_move_from_revision:
                 print(f"The paragraph {i} has been moved (deleted).")
             if paragraphs[i].is_move_to_revision:
                 print(f"The paragraph {i} has been moved (inserted).")
 
         #ExEnd:GetRevisionTypes
-
 
     def test_get_revision_groups(self):
 
@@ -87,7 +84,6 @@ class WorkingWithRevisions(DocsExamplesBase):
 
         #ExEnd:GetRevisionGroups
 
-
     def test_remove_comments_in_pdf(self):
 
         #ExStart:RemoveCommentsInPDF
@@ -98,7 +94,6 @@ class WorkingWithRevisions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithRevisions.remove_comments_in_pdf.pdf")
         #ExEnd:RemoveCommentsInPDF
-
 
     def test_show_revisions_in_balloons(self):
 
@@ -118,15 +113,13 @@ class WorkingWithRevisions(DocsExamplesBase):
         #ExEnd:SetMeasurementUnit
         #ExEnd:ShowRevisionsInBalloons
 
-
     def test_get_revision_group_details(self):
 
         #ExStart:GetRevisionGroupDetails
         doc = aw.Document(MY_DIR + "Revisions.docx")
 
         for revision in doc.revisions:
-
-            group_text = "Revision group text: " + revision.group.text if revision.group is not None else "Revision has no group"
+            group_text = "Revision group text: " + (revision.group.text if revision.group is not None else "Revision has no group")
 
             print(f"Type: {revision.revision_type}")
             print(f"Author: {revision.author}")
@@ -135,7 +128,6 @@ class WorkingWithRevisions(DocsExamplesBase):
             print(group_text)
 
         #ExEnd:GetRevisionGroupDetails
-
 
     def test_access_revised_version(self):
 
@@ -147,18 +139,12 @@ class WorkingWithRevisions(DocsExamplesBase):
         doc.revisions_view = aw.RevisionsView.FINAL
 
         for revision in doc.revisions:
-
             if revision.parent_node.node_type == aw.NodeType.PARAGRAPH:
-
                 paragraph = revision.parent_node.as_paragraph()
                 if paragraph.is_list_item:
-
                     print(paragraph.list_label.label_string)
                     print(paragraph.list_format.list_level)
-
-
         #ExEnd:AccessRevisedVersion
-
 
     def test_move_node_in_tracked_document(self):
 
@@ -172,7 +158,7 @@ class WorkingWithRevisions(DocsExamplesBase):
         builder.writeln("Paragraph 5")
         builder.writeln("Paragraph 6")
         body = doc.first_section.body
-        print(f"Paragraph count: {body.paragraphs.count}")
+        print("Paragraph count:", body.paragraphs.count)
 
         # Start tracking revisions.
         doc.start_track_revisions("Author", datetime(2020, 12, 23, 14, 0, 0))
@@ -182,20 +168,17 @@ class WorkingWithRevisions(DocsExamplesBase):
         end_node = body.paragraphs[5].next_sibling
         reference_node = body.paragraphs[0]
         while node != end_node:
-
             next_node = node.next_sibling
             body.insert_before(node, reference_node)
             node = next_node
-
 
         # Stop the process of tracking revisions.
         doc.stop_track_revisions()
 
         # There are 3 additional paragraphs in the move-from range.
-        print("Paragraph count: 0", body.paragraphs.count)
+        print("Paragraph count:", body.paragraphs.count)
         doc.save(ARTIFACTS_DIR + "WorkingWithRevisions.move_node_in_tracked_document.docx")
         #ExEnd:MoveNodeInTrackedDocument
-
 
     def test_shape_revision(self):
 

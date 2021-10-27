@@ -28,7 +28,6 @@ class WorkingWithTextboxes(DocsExamplesBase):
             text_box1.next = text_box2
         #ExEnd:CreateALink
 
-
     def test_check_sequence(self):
 
         #ExStart:CheckSequence
@@ -40,16 +39,12 @@ class WorkingWithTextboxes(DocsExamplesBase):
         if text_box.next is not None and text_box.previous is None:
             print("The head of the sequence")
 
-
         if text_box.next is not None and text_box.previous is not None:
             print("The Middle of the sequence.")
 
-
         if text_box.next is None and text_box.previous is not None:
             print("The Tail of the sequence.")
-
         #ExEnd:CheckSequence
-
 
     def test_break_a_link(self):
 

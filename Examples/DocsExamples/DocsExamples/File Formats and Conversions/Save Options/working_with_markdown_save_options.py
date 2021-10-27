@@ -1,6 +1,7 @@
 import unittest
 import os
 import sys
+import io
 
 base_dir = os.path.abspath(os.curdir) + "/"
 base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
@@ -28,9 +29,8 @@ class WorkingWithMarkdownSaveOptions(DocsExamplesBase):
 
         # Makes all paragraphs inside the table to be aligned.
         save_options = aw.saving.MarkdownSaveOptions()
-
+        
         save_options.table_content_alignment = aw.saving.TableContentAlignment.LEFT
-
         doc.save(ARTIFACTS_DIR + "WorkingWithMarkdownSaveOptions.left_table_content_alignment.md", save_options)
 
         save_options.table_content_alignment = aw.saving.TableContentAlignment.RIGHT
@@ -44,7 +44,6 @@ class WorkingWithMarkdownSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithMarkdownSaveOptions.auto_table_content_alignment.md", save_options)
         #ExEnd:ExportIntoMarkdownWithTableContentAlignment
 
-
     def test_set_images_folder(self):
 
         #ExStart:SetImagesFolder
@@ -53,7 +52,8 @@ class WorkingWithMarkdownSaveOptions(DocsExamplesBase):
         save_options = aw.saving.MarkdownSaveOptions()
         save_options.images_folder = ARTIFACTS_DIR + "Images"
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithMarkdownSaveOptions.set_images_folder.md", save_options)
+        with io.BytesIO() as stream:
+            doc.save(stream, save_options)
         #ExEnd:SetImagesFolder
 
 

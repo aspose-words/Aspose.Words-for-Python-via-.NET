@@ -26,10 +26,8 @@ class WorkingWithImageSaveOptions(DocsExamplesBase):
         save_options.tiff_binarization_method = aw.saving.ImageBinarizationMethod.FLOYD_STEINBERG_DITHERING
         save_options.threshold_for_floyd_steinberg_dithering = 254
 
-
         doc.save(ARTIFACTS_DIR + "WorkingWithImageSaveOptions.expose_threshold_control_for_tiff_binarization.tiff", save_options)
         #ExEnd:ExposeThresholdControlForTiffBinarization
-
 
     def test_get_tiff_page_range(self):
 
@@ -43,13 +41,12 @@ class WorkingWithImageSaveOptions(DocsExamplesBase):
         save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.TIFF)
         save_options.page_set = aw.saving.PageSet([0, 1])
         save_options.tiff_compression = aw.saving.TiffCompression.CCITT4
-        #saveOptions.resolution = 160
-
+        save_options.vertical_resolution = 160
+        save_options.horizontal_resolution = 160
 
         doc.save(ARTIFACTS_DIR + "WorkingWithImageSaveOptions.get_tiff_page_range.tiff", save_options)
         #ExEnd:SaveAsTIFFUsingImageSaveOptions
         #ExEnd:GetTiffPageRange
-
 
     def test_format_1_bpp_indexed(self):
 
@@ -62,10 +59,8 @@ class WorkingWithImageSaveOptions(DocsExamplesBase):
         save_options.image_color_mode = aw.saving.ImageColorMode.BLACK_AND_WHITE
         save_options.pixel_format = aw.saving.ImagePixelFormat.FORMAT1BPP_INDEXED
 
-
         doc.save(ARTIFACTS_DIR + "WorkingWithImageSaveOptions.format_1_bpp_indexed.png", save_options)
         #ExEnd:Format1BppIndexed
-
 
     def test_get_jpeg_page_range(self):
 

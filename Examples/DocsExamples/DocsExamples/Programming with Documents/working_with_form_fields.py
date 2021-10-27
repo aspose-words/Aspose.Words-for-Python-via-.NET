@@ -10,6 +10,7 @@ sys.path.insert(0, base_dir)
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
+import aspose.pydrawing as drawing
 
 class WorkingWithFormFields(DocsExamplesBase):
 
@@ -19,7 +20,7 @@ class WorkingWithFormFields(DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        items =  ["One", "Two", "Three"]
+        items = ["One", "Two", "Three"]
         builder.insert_combo_box("DropDown", items, 0)
         #ExEnd:InsertFormFields
 
@@ -67,7 +68,6 @@ class WorkingWithFormFields(DocsExamplesBase):
             form_field.result = "My name is " + form_field.name
         #ExEnd:FormFieldsWorkWithProperties
 
-
     def test_form_fields_get_form_fields_collection(self):
 
         #ExStart:FormFieldsGetFormFieldsCollection
@@ -75,7 +75,6 @@ class WorkingWithFormFields(DocsExamplesBase):
 
         form_fields = doc.range.form_fields
         #ExEnd:FormFieldsGetFormFieldsCollection
-
 
     def test_form_fields_get_by_name(self):
 
@@ -86,11 +85,11 @@ class WorkingWithFormFields(DocsExamplesBase):
         document_form_fields = doc.range.form_fields
 
         form_field1 = document_form_fields[3]
-        #formField2 = documentFormFields["Text2"]
+        form_field2 = document_form_fields.get_by_name("Text2")
         #ExEnd:FormFieldsGetByName
 
         form_field1.font.size = 20
-        #formField2.font.color = Color.red
+        form_field2.font.color = drawing.Color.red
         #ExEnd:FormFieldsFontFormatting
 
 

@@ -25,7 +25,6 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.display_doc_title_in_window_titlebar.pdf", save_options)
         #ExEnd:DisplayDocTitleInWindowTitlebar
 
-
     def test_digitally_signed_pdf_using_certificate_holder(self):
 
         #ExStart:DigitallySignedPdfUsingCertificateHolder
@@ -34,14 +33,14 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
 
         builder.writeln("Test Signed PDF.")
 
+        certificate = aw.digitalsignatures.CertificateHolder.create(MY_DIR + "morzal.pfx", "aw")
+
         save_options = aw.saving.PdfSaveOptions()
         save_options.digital_signature_details = aw.saving.PdfDigitalSignatureDetails(
-                aw.digitalsignatures.CertificateHolder.create(MY_DIR + "morzal.pfx", "aw"), "reason", "location", datetime.today())
-
+                certificate, "reason", "location", datetime.now())
 
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.digitally_signed_pdf_using_certificate_holder.pdf", save_options)
         #ExEnd:DigitallySignedPdfUsingCertificateHolder
-
 
     def test_embedded_all_fonts(self):
 
@@ -54,7 +53,6 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.embedded_fonts_in_pdf.pdf", save_options)
         #ExEnd:EmbeddAllFonts
-
 
     def test_embedded_subset_fonts(self):
 
@@ -69,7 +67,6 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.embedd_subset_fonts.pdf", save_options)
         #ExEnd:EmbeddSubsetFonts
 
-
     def test_disable_embed_windows_fonts(self):
 
         #ExStart:DisableEmbedWindowsFonts
@@ -82,7 +79,6 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.disable_embed_windows_fonts.pdf", save_options)
         #ExEnd:DisableEmbedWindowsFonts
 
-
     def test_skip_embedded_arial_and_times_roman_fonts(self):
 
         #ExStart:SkipEmbeddedArialAndTimesRomanFonts
@@ -93,7 +89,6 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.skip_embedded_arial_and_times_roman_fonts.pdf", save_options)
         #ExEnd:SkipEmbeddedArialAndTimesRomanFonts
-
 
     def test_avoid_embedding_core_fonts(self):
 
@@ -107,20 +102,20 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.avoid_embedding_core_fonts.pdf", save_options)
         #ExEnd:AvoidEmbeddingCoreFonts
 
-
     def test_escape_uri(self):
 
         #ExStart:EscapeUri
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        builder.insert_hyperlink("Testlink", "https:#www.google.com/search?q=%2Fthe%20test", False)
+        builder.insert_hyperlink("Testlink",
+                                 "https://www.google.com/search?q=%2Fthe%20test", False)
         builder.writeln()
-        builder.insert_hyperlink("https:#www.google.com/search?q=%2Fthe%20test", "https:#www.google.com/search?q=%2Fthe%20test", False)
+        builder.insert_hyperlink("https://www.google.com/search?q=%2Fthe%20test",
+                                 "https://www.google.com/search?q=%2Fthe%20test", False)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.escape_uri.pdf")
         #ExEnd:EscapeUri
-
 
     def test_export_header_footer_bookmarks(self):
 
@@ -134,7 +129,6 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.export_header_footer_bookmarks.pdf", save_options)
         #ExEnd:ExportHeaderFooterBookmarks
 
-
     def test_scale_wmf_fonts_to_metafile_size(self):
 
         #ExStart:ScaleWmfFontsToMetafileSize
@@ -143,15 +137,13 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         metafile_rendering_options = aw.saving.MetafileRenderingOptions()
         metafile_rendering_options.scale_wmf_fonts_to_metafile_size = False
 
-
-        # If Aspose.words cannot correctly render some of the metafile records to vector graphics
-        # then Aspose.words renders this metafile to a bitmap.
+        # If Aspose.Words cannot correctly render some of the metafile records to vector graphics
+        # then Aspose.Words renders this metafile to a bitmap.
         save_options = aw.saving.PdfSaveOptions()
         save_options.metafile_rendering_options = metafile_rendering_options
 
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.scale_wmf_fonts_to_metafile_size.pdf", save_options)
         #ExEnd:ScaleWmfFontsToMetafileSize
-
 
     def test_additional_text_positioning(self):
 
@@ -164,7 +156,6 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.additional_text_positioning.pdf", save_options)
         #ExEnd:AdditionalTextPositioning
 
-
     def test_conversion_to_pdf_17(self):
 
         #ExStart:ConversionToPDF17
@@ -175,7 +166,6 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.conversion_to_pdf_17.pdf", save_options)
         #ExEnd:ConversionToPDF17
-
 
     def test_downsampling_images(self):
 
@@ -191,7 +181,6 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.downsampling_images.pdf", save_options)
         #ExEnd:DownsamplingImages
 
-
     def test_set_outline_options(self):
 
         #ExStart:SetOutlineOptions
@@ -203,7 +192,6 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.set_outline_options.pdf", save_options)
         #ExEnd:SetOutlineOptions
-
 
     def test_custom_properties_export(self):
 
@@ -217,7 +205,6 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.custom_properties_export.pdf", save_options)
         #ExEnd:CustomPropertiesExport
 
-
     def test_export_document_structure(self):
 
         #ExStart:ExportDocumentStructure
@@ -230,7 +217,6 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.export_document_structure.pdf", save_options)
         #ExEnd:ExportDocumentStructure
-
 
     def test_image_compression(self):
 
@@ -251,7 +237,6 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.pdf_image_compression__a_2u.pdf", save_options_a2u)
         #ExEnd:PdfImageComppression
 
-
     def test_update_last_printed_property(self):
 
         #ExStart:UpdateIfLastPrinted
@@ -263,8 +248,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.update_if_last_printed.pdf", save_options)
         #ExEnd:UpdateIfLastPrinted
 
-
-    def test_dml_3_d_effects_rendering(self):
+    def test_dml3d_effects_rendering(self):
 
         #ExStart:Dml3DEffectsRendering
         doc = aw.Document(MY_DIR + "Rendering.docx")
@@ -274,7 +258,6 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.dml_3_d_effects_rendering.pdf", save_options)
         #ExEnd:Dml3DEffectsRendering
-
 
     def test_interpolate_images(self):
 
@@ -287,12 +270,11 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.interpolate_images.pdf", save_options)
         #ExEnd:SetImageInterpolation
 
-
     def test_render_metafile_to_bitmap(self):
 
         #ExStart:RenderMetafileToBitmap
         # Load the document from disk.
-        doc = aw.Document(MY_DIR +  "Rendering.docx")
+        doc = aw.Document(MY_DIR + "Rendering.docx")
 
         metafile_rendering_options = aw.saving.MetafileRenderingOptions()
         metafile_rendering_options.emulate_raster_operations = False
@@ -301,7 +283,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         save_options = aw.saving.PdfSaveOptions()
         save_options.metafile_rendering_options = metafile_rendering_options
 
-        doc.save(ARTIFACTS_DIR +"PdfSaveOptions.HandleRasterWarnings.pdf", save_options)
+        doc.save(ARTIFACTS_DIR + "PdfSaveOptions.HandleRasterWarnings.pdf", save_options)
         #ExEnd:RenderMetafileToBitmap
 
 

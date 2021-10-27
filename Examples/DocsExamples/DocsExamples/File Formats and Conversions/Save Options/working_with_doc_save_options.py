@@ -27,7 +27,6 @@ class WorkingWithDocSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithDocSaveOptions.encrypt_document_with_password.doc", save_options)
         #ExEnd:EncryptDocumentWithPassword
 
-
     def test_do_not_compress_small_metafiles(self):
 
         #ExStart:DoNotCompressSmallMetafiles
@@ -39,7 +38,6 @@ class WorkingWithDocSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithDocSaveOptions.not_compress_small_metafiles.doc", save_options)
         #ExEnd:DoNotCompressSmallMetafiles
 
-
     def test_do_not_save_picture_bullet(self):
 
         #ExStart:DoNotSavePictureBullet
@@ -50,6 +48,7 @@ class WorkingWithDocSaveOptions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithDocSaveOptions.do_not_save_picture_bullet.doc", save_options)
         #ExEnd:DoNotSavePictureBullet
+
 
 if __name__ == '__main__':
     unittest.main()

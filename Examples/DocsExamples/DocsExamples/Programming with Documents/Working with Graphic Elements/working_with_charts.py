@@ -29,7 +29,7 @@ class WorkingWithCharts(DocsExamplesBase):
         # Delete default generated series.
         chart.series.clear()
 
-        series1 = chart.series.add("Aspose Series 1", [ "Category 1", "Category 2", "Category 3" ], [ 2.5, 1.5, 3.5 ])
+        series1 = chart.series.add("Aspose Series 1", ["Category 1", "Category 2", "Category 3"], [2.5, 1.5, 3.5])
 
         series1.has_data_labels = True
         series1.data_labels.show_value = True
@@ -43,7 +43,6 @@ class WorkingWithCharts(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.format_number_of_data_label.docx")
         #ExEnd:FormatNumberOfDataLabel
-
 
     def test_create_chart_using_shape(self):
 
@@ -66,7 +65,6 @@ class WorkingWithCharts(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.create_chart_using_shape.docx")
         #ExEnd:CreateChartUsingShape
 
-
     def test_insert_simple_column_chart(self):
 
         #ExStart:InsertSimpleColumnChart
@@ -87,18 +85,17 @@ class WorkingWithCharts(DocsExamplesBase):
         series_coll.clear()
 
         # Create category names array, in this example we have two categories.
-        categories = [ "Category 1", "Category 2" ]
+        categories = ["Category 1", "Category 2"]
 
         # Please note, data arrays must not be empty and arrays must be the same size.
-        series_coll.add("Aspose Series 1", categories, [ 1, 2 ])
-        series_coll.add("Aspose Series 2", categories, [ 3, 4 ])
-        series_coll.add("Aspose Series 3", categories, [ 5, 6 ])
-        series_coll.add("Aspose Series 4", categories, [ 7, 8 ])
-        series_coll.add("Aspose Series 5", categories, [ 9, 10 ])
+        series_coll.add("Aspose Series 1", categories, [1, 2])
+        series_coll.add("Aspose Series 2", categories, [3, 4])
+        series_coll.add("Aspose Series 3", categories, [5, 6])
+        series_coll.add("Aspose Series 4", categories, [7, 8])
+        series_coll.add("Aspose Series 5", categories, [9, 10])
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.insert_simple_column_chart.docx")
         #ExEnd:InsertSimpleColumnChart
-
 
     def test_insert_column_chart(self):
 
@@ -109,11 +106,10 @@ class WorkingWithCharts(DocsExamplesBase):
         shape = builder.insert_chart(aw.drawing.charts.ChartType.COLUMN, 432, 252)
 
         chart = shape.chart
-        chart.series.add("Aspose Series 1", [ "Category 1", "Category 2" ], [ 1, 2 ])
+        chart.series.add("Aspose Series 1", ["Category 1", "Category 2"], [1, 2])
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.insert_column_chart.docx")
         #ExEnd:InsertColumnChart
-
 
     def test_insert_area_chart(self):
 
@@ -125,12 +121,11 @@ class WorkingWithCharts(DocsExamplesBase):
 
         chart = shape.chart
         chart.series.add_date("Aspose Series 1",
-            [ date(2002, 5, 1), date(2002, 6, 1), date(2002, 7, 1), date(2002, 8, 1), date(2002, 9, 1) ],
-            [ 32, 32, 28, 12, 15 ])
+            [date(2002, 5, 1), date(2002, 6, 1), date(2002, 7, 1), date(2002, 8, 1), date(2002, 9, 1)],
+            [32, 32, 28, 12, 15])
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.insert_area_chart.docx")
         #ExEnd:InsertAreaChart
-
 
     def test_insert_bubble_chart(self):
 
@@ -141,11 +136,10 @@ class WorkingWithCharts(DocsExamplesBase):
         shape = builder.insert_chart(aw.drawing.charts.ChartType.BUBBLE, 432, 252)
 
         chart = shape.chart
-        chart.series.add("Aspose Series 1", [ 0.7, 1.8, 2.6 ], [ 2.7, 3.2, 0.8 ], [ 10, 4, 8 ])
+        chart.series.add("Aspose Series 1", [0.7, 1.8, 2.6], [2.7, 3.2, 0.8], [10, 4, 8])
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.insert_bubble_chart.docx")
         #ExEnd:InsertBubbleChart
-
 
     def test_insert_scatter_chart(self):
 
@@ -156,11 +150,10 @@ class WorkingWithCharts(DocsExamplesBase):
         shape = builder.insert_chart(aw.drawing.charts.ChartType.SCATTER, 432, 252)
 
         chart = shape.chart
-        chart.series.add_double("Aspose Series 1", [ 0.7, 1.8, 2.6 ], [ 2.7, 3.2, 0.8 ])
+        chart.series.add_double("Aspose Series 1", [0.7, 1.8, 2.6], [2.7, 3.2, 0.8])
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.insert_scatter_chart.docx")
         #ExEnd:InsertScatterChart
-
 
     def test_define_xy_axis_properties(self):
 
@@ -176,8 +169,8 @@ class WorkingWithCharts(DocsExamplesBase):
         chart.series.clear()
 
         chart.series.add_date("Aspose Series 1",
-            [ date(2002, 1, 1), date(2002, 6, 1), date(2002, 7, 1), date(2002, 8, 1), date(2002, 9, 1) ],
-            [ 640, 320, 280, 120, 150 ])
+            [date(2002, 1, 1), date(2002, 6, 1), date(2002, 7, 1), date(2002, 8, 1), date(2002, 9, 1)],
+            [640, 320, 280, 120, 150])
 
         x_axis = chart.axis_x
         y_axis = chart.axis_y
@@ -201,7 +194,6 @@ class WorkingWithCharts(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.define_xy_axis_properties.docx")
         #ExEnd:DefineXYAxisProperties
 
-
     def test_date_time_values_to_axis(self):
 
         #ExStart:SetDateTimeValuesToAxis
@@ -214,8 +206,8 @@ class WorkingWithCharts(DocsExamplesBase):
         chart.series.clear()
 
         chart.series.add_date("Aspose Series 1",
-            [ date(2017, 11, 6), date(2017, 11, 9), date(2017, 11, 15), date(2017, 11, 21), date(2017, 11, 25), date(2017, 11, 29) ],
-            [ 1.2, 0.3, 2.1, 2.9, 4.2, 5.3 ])
+            [date(2017, 11, 6), date(2017, 11, 9), date(2017, 11, 15), date(2017, 11, 21), date(2017, 11, 25), date(2017, 11, 29)],
+            [1.2, 0.3, 2.1, 2.9, 4.2, 5.3])
 
         x_axis = chart.axis_x
         x_axis.scaling.minimum = aw.drawing.charts.AxisBound(date(2017, 11, 5))
@@ -230,7 +222,6 @@ class WorkingWithCharts(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.date_time_values_to_axis.docx")
         #ExEnd:SetDateTimeValuesToAxis
 
-
     def test_number_format_for_axis(self):
 
         #ExStart:SetNumberFormatForAxis
@@ -244,14 +235,13 @@ class WorkingWithCharts(DocsExamplesBase):
         chart.series.clear()
 
         chart.series.add("Aspose Series 1",
-            [ "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" ],
-            [ 1900000, 850000, 2100000, 600000, 1500000 ])
+            ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
+            [1900000, 850000, 2100000, 600000, 1500000])
 
         chart.axis_y.number_format.format_code = "#,##0"
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.number_format_for_axis.docx")
         #ExEnd:SetNumberFormatForAxis
-
 
     def test_bounds_of_axis(self):
 
@@ -266,15 +256,14 @@ class WorkingWithCharts(DocsExamplesBase):
         chart.series.clear()
 
         chart.series.add("Aspose Series 1",
-            [ "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" ],
-            [ 1.2, 0.3, 2.1, 2.9, 4.2 ])
+            ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
+            [1.2, 0.3, 2.1, 2.9, 4.2])
 
         chart.axis_y.scaling.minimum = aw.drawing.charts.AxisBound(0)
         chart.axis_y.scaling.maximum = aw.drawing.charts.AxisBound(6)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.bounds_of_axis.docx")
         #ExEnd:SetboundsOfAxis
-
 
     def test_interval_unit_between_labels_on_axis(self):
 
@@ -289,14 +278,13 @@ class WorkingWithCharts(DocsExamplesBase):
         chart.series.clear()
 
         chart.series.add("Aspose Series 1",
-            [ "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" ],
-            [ 1.2, 0.3, 2.1, 2.9, 4.2 ])
+            ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
+            [1.2, 0.3, 2.1, 2.9, 4.2])
 
         chart.axis_x.tick_label_spacing = 2
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.interval_unit_between_labels_on_axis.docx")
         #ExEnd:SetIntervalUnitBetweenLabelsOnAxis
-
 
     def test_hide_chart_axis(self):
 
@@ -311,14 +299,13 @@ class WorkingWithCharts(DocsExamplesBase):
         chart.series.clear()
 
         chart.series.add("Aspose Series 1",
-            [ "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" ],
-            [ 1.2, 0.3, 2.1, 2.9, 4.2 ])
+            ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
+            [1.2, 0.3, 2.1, 2.9, 4.2])
 
         chart.axis_y.hidden = True
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.hide_chart_axis.docx")
         #ExEnd:HideChartAxis
-
 
     def test_tick_multi_line_label_alignment(self):
 
@@ -334,7 +321,6 @@ class WorkingWithCharts(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.tick_multi_line_label_alignment.docx")
         #ExEnd:TickMultiLineLabelAlignment
-
 
     def test_chart_data_label(self):
 
@@ -363,7 +349,6 @@ class WorkingWithCharts(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.chart_data_label.docx")
         #ExEnd:WorkWithChartDataLabel
 
-
     def test_default_options_for_data_labels(self):
 
         #ExStart:DefaultOptionsForDataLabels
@@ -377,8 +362,8 @@ class WorkingWithCharts(DocsExamplesBase):
         chart.series.clear()
 
         series = chart.series.add("Aspose Series 1",
-            [ "Category 1", "Category 2", "Category 3" ],
-            [ 2.7, 3.2, 0.8 ])
+            ["Category 1", "Category 2", "Category 3"],
+            [2.7, 3.2, 0.8])
 
         labels = series.data_labels
         labels.show_percentage = True
@@ -388,7 +373,6 @@ class WorkingWithCharts(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.default_options_for_data_labels.docx")
         #ExEnd:DefaultOptionsForDataLabels
-
 
     def test_single_chart_data_point(self):
 
@@ -420,7 +404,6 @@ class WorkingWithCharts(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.single_chart_data_point.docx")
         #ExEnd:WorkWithSingleChartDataPoint
-
 
     def test_single_chart_series(self):
 
@@ -456,7 +439,6 @@ class WorkingWithCharts(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.single_chart_series.docx")
 
-
     def test_set_series_color(self):
 
         #ExStart:SetSeriesColor
@@ -472,12 +454,12 @@ class WorkingWithCharts(DocsExamplesBase):
         series_coll.clear()
 
         # Create category names array.
-        categories = [ "AW Category 1", "AW Category 2" ]
+        categories = ["AW Category 1", "AW Category 2"]
 
         # Adding new series. Value and category arrays must be the same size.
-        series1 = series_coll.add("AW Series 1", categories, [ 1, 2 ])
-        series2 = series_coll.add("AW Series 2", categories, [ 3, 4 ])
-        series3 = series_coll.add("AW Series 3", categories, [ 5, 6 ])
+        series1 = series_coll.add("AW Series 1", categories, [1, 2])
+        series2 = series_coll.add("AW Series 2", categories, [3, 4])
+        series3 = series_coll.add("AW Series 3", categories, [5, 6])
 
         # Set series color.
         series1.format.fill.fore_color = drawing.Color.red
@@ -502,8 +484,8 @@ class WorkingWithCharts(DocsExamplesBase):
         series_coll.clear()
 
         # Adding new series.
-        series1 = series_coll.add_double("AW Series 1", [ 0.7, 1.8, 2.6 ], [ 2.7, 3.2, 0.8 ])
-        series2 = series_coll.add_double("AW Series 2", [ 0.5, 1.5, 2.5 ], [ 3, 1, 2 ])
+        series1 = series_coll.add_double("AW Series 1", [0.7, 1.8, 2.6], [2.7, 3.2, 0.8])
+        series2 = series_coll.add_double("AW Series 2", [0.5, 1.5, 2.5], [3, 1, 2])
 
         # Set series color.
         series1.format.stroke.fore_color = drawing.Color.red

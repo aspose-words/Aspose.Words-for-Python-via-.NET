@@ -32,7 +32,7 @@ class WorkingWithParagraph(DocsExamplesBase):
                 prev_break = collector.get_entity(prev_item)
                 if prev_item.node_type == aw.NodeType.PARAGRAPH:
                     enumerator.current = collector.get_entity(prev_item) # para break
-                    enumerator.move_parent()    # last line
+                    enumerator.move_parent() # last line
                     stop = enumerator.current
                 elif prev_item.node_type == aw.NodeType.TABLE:
                     table = prev_item.as_table()
@@ -57,9 +57,9 @@ class WorkingWithParagraph(DocsExamplesBase):
             max_chars = 16
             para_text = paragraph.get_text()
             if len(para_text) > max_chars:
-                para_text = f"{paraText.substring(0, MAX_CHARS)}..."
+                para_text = f"{para_text[:max_chars]}..."
 
-            print(f"Paragraph '{paraText}' has {count} line(-s).")
+            print(f"Paragraph '{para_text}' has {count} line(-s).")
         #ExEnd:CountLinesInParagraph
 
 

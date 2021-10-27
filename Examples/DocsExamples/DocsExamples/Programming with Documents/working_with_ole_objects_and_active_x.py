@@ -25,30 +25,26 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_ole_object.docx")
         #ExEnd:DocumentBuilderInsertOleObject
 
-
     def test_insert_ole_object_with_ole_package(self):
 
         #ExStart:InsertOleObjectwithOlePackage
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        stream = io.FileIO(MY_DIR + "Zip file.zip")
-
-        shape = builder.insert_ole_object(stream, "Package", True, None)
+        with io.FileIO(MY_DIR + "Zip file.zip") as stream:
+            shape = builder.insert_ole_object(stream, "Package", True, None)
+        
         ole_package = shape.ole_format.ole_package
         ole_package.file_name = "filename.zip"
         ole_package.display_name = "displayname.zip"
 
         doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_ole_object_with_ole_package.docx")
-
-        stream.close()
         #ExEnd:InsertOleObjectwithOlePackage
 
         #ExStart:GetAccessToOLEObjectRawData
         ole_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
         ole_raw_data = ole_shape.ole_format.get_raw_data()
         #ExEnd:GetAccessToOLEObjectRawData
-
 
     def test_insert_ole_object_as_icon(self):
 
@@ -61,21 +57,17 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_ole_object_as_icon.docx")
         #ExEnd:InsertOLEObjectAsIcon
 
-
     def test_insert_ole_object_as_icon_using_stream(self):
 
         #ExStart:InsertOLEObjectAsIconUsingStream
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        stream = io.FileIO(MY_DIR + "Presentation.pptx")
-        builder.insert_ole_object_as_icon(stream, "Package", IMAGES_DIR + "Logo icon.ico", "My embedded file")
+        with io.FileIO(MY_DIR + "Presentation.pptx") as stream:
+            builder.insert_ole_object_as_icon(stream, "Package", IMAGES_DIR + "Logo icon.ico", "My embedded file")
 
         doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_ole_object_as_icon_using_stream.docx")
-
-        stream.close()
         #ExEnd:InsertOLEObjectAsIconUsingStream
-
 
     def test_read_active_x_control_properties(self):
 
@@ -83,15 +75,12 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
 
         properties = ""
         for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True):
-
             shape = shape.as_shape()
-
             if shape.ole_format is None:
                 break
 
             ole_control = shape.ole_format.ole_control
             if ole_control.is_forms2_ole_control:
-
                 check_box =  ole_control.as_forms2_ole_control()
                 properties = properties + "\nCaption: " + check_box.caption
                 properties = properties + "\nValue: " + check_box.value
@@ -134,9 +123,7 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
         height = 270
 
         # Poster frame image.
-        image = open(IMAGES_DIR + "Logo.jpg", "rb")
-        image_bytes = image.read()
-        image.close()
+        image_bytes = open(IMAGES_DIR + "Logo.jpg", "rb").read()
 
         # Visible url
         vimeo_video_url = "https://vimeo.com/52477838"

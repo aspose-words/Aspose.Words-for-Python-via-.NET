@@ -20,7 +20,7 @@ class BuildOptions(DocsExamplesBase):
 
         engine = aw.reporting.ReportingEngine()
         engine.options = aw.reporting.ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS
-        engine.build_report(doc,  aw.reporting.JsonDataSource(JSON_DIR + "managers.json"), "Managers")
+        engine.build_report(doc, aw.reporting.JsonDataSource(JSON_DIR + "managers.json"), "Managers")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.remove_empty_paragraphs.docx")
         #ExEnd:RemoveEmptyParagraphs

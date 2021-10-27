@@ -20,22 +20,26 @@ class WorkingWithTxtLoadOptions(DocsExamplesBase):
         # Create a plaintext document in the form of a string with parts that may be interpreted as lists.
         # Upon loading, the first three lists will always be detected by Aspose.words,
         # and List objects will be created for them after loading.
-        text_doc = """Full stop delimiters:\n
-                    1. First list item 1\n
-                    2. First list item 2\n
-                    3. First list item 3\n\n
-                    Right bracket delimiters:\n
-                    1) Second list item 1\n
-                    2) Second list item 2\n
-                    3) Second list item 3\n\n
-                    Bullet delimiters:\n
-                    • Third list item 1\n
-                    • Third list item 2\n
-                    • Third list item 3\n\n
-                    Whitespace delimiters:\n
-                    1 Fourth list item 1\n
-                    2 Fourth list item 2\n
-                    3 Fourth list item 3"""
+        text_doc = """
+            Full stop delimiters:
+            1. First list item 1
+            2. First list item 2
+            3. First list item 3
+
+            Right bracket delimiters:
+            1) Second list item 1
+            2) Second list item 2
+            3) Second list item 3
+
+            Bullet delimiters:
+            • Third list item 1
+            • Third list item 2
+            • Third list item 3
+
+            Whitespace delimiters:
+            1 Fourth list item 1
+            2 Fourth list item 2
+            3 Fourth list item 3"""
 
         # The fourth list, with whitespace inbetween the list number and list item contents,
         # will only be detected as a list if "DetectNumberingWithWhitespaces" in a LoadOptions object is set to true,
@@ -49,23 +53,19 @@ class WorkingWithTxtLoadOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithTxtLoadOptions.detect_numbering_with_whitespaces.docx")
         #ExEnd:DetectNumberingWithWhitespaces
 
-
     def test_handle_spaces_options(self):
 
         #ExStart:HandleSpacesOptions
-        text_doc = "      Line 1 \n" + "    Line 2   \n" +  " Line 3       "
+        text_doc = "      Line 1 \n    Line 2   \n Line 3       "
 
         load_options = aw.loading.TxtLoadOptions()
         load_options.leading_spaces_options = aw.loading.TxtLeadingSpacesOptions.TRIM
         load_options.trailing_spaces_options = aw.loading.TxtTrailingSpacesOptions.TRIM
 
-        stream = io.BytesIO(text_doc.encode("utf-8"))
-
-        doc = aw.Document(stream, load_options)
+        doc = aw.Document(io.BytesIO(text_doc.encode("utf-8")), load_options)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithTxtLoadOptions.handle_spaces_options.docx")
         #ExEnd:HandleSpacesOptions
-
 
     def test_document_text_direction(self):
 

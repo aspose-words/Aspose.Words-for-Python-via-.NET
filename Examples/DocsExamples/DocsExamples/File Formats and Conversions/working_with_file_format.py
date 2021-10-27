@@ -24,26 +24,18 @@ class WorkingWithFileFormat(DocsExamplesBase):
         pre97_dir = ARTIFACTS_DIR + "Pre97"
 
         # Create the directories if they do not already exist.
-        if not os.path.exists(supported_dir):
-            os.makedirs(supported_dir)
-        if not os.path.exists(unknown_dir):
-            os.makedirs(unknown_dir)
-        if not os.path.exists(encrypted_dir):
-            os.makedirs(encrypted_dir)
-        if not os.path.exists(pre97_dir):
-            os.makedirs(pre97_dir)
+        for dirname in (supported_dir, unknown_dir, encrypted_dir, pre97_dir):
+            os.makedirs(dirname, exist_ok=True)
 
         #ExStart:GetListOfFilesInFolder
-        file_list =  (file for file in os.listdir(MY_DIR)
-           if (os.path.isfile(os.path.join(MY_DIR, file)) and not file.endswith("Corrupted document.docx")))
-
+        file_list = [file for file in os.listdir(MY_DIR)
+                     if os.path.isfile(os.path.join(MY_DIR, file) and not file.endswith("Corrupted document.docx"))]
         #ExEnd:GetListOfFilesInFolder
-        for file_name in file_list:
 
-            name_only = file_name
+        for name_only in file_list:
             file_name = os.path.join(MY_DIR, name_only)
-
             print(name_only)
+
             #ExStart:DetectFileFormat
             info = aw.FileFormatUtil.detect_file_format(file_name)
 
@@ -53,7 +45,7 @@ class WorkingWithFileFormat(DocsExamplesBase):
                 print("\tMicrosoft Word 97-2003 document.")
             elif load_format == aw.LoadFormat.DOT:
                 print("\tMicrosoft Word 97-2003 template.")
-            elif load_format ==  aw.LoadFormat.DOCX:
+            elif load_format == aw.LoadFormat.DOCX:
                 print("\tOffice Open XML WordprocessingML Macro-Free Document.")
             elif load_format == aw.LoadFormat.DOCM:
                 print("\tOffice Open XML WordprocessingML Macro-Enabled Document.")
@@ -79,25 +71,19 @@ class WorkingWithFileFormat(DocsExamplesBase):
                 print("\tMS Word 6 or Word 95 format.")
             elif load_format == aw.LoadFormat.UNKNOWN:
                 print("\tUnknown format.")
-
             #ExEnd:DetectFileFormat
 
             if info.is_encrypted:
-
                 print("\tAn encrypted document.")
                 shutil.copyfile(file_name, os.path.join(encrypted_dir, name_only))
-
+            elif load_format == aw.LoadFormat.DOC_PRE_WORD60:
+                shutil.copyfile(file_name, os.path.join(pre97_dir, name_only))
+            elif load_format == aw.LoadFormat.UNKNOWN:
+                shutil.copyfile(file_name, os.path.join(unknown_dir, name_only))
             else:
-
-                if load_format == aw.LoadFormat.DOC_PRE_WORD60:
-                    shutil.copyfile(file_name, os.path.join(pre97_dir, name_only))
-                elif load_format == aw.LoadFormat.UNKNOWN:
-                    shutil.copyfile(file_name, os.path.join(unknown_dir, name_only))
-                else:
-                    shutil.copyfile(file_name, os.path.join(supported_dir, name_only))
+                shutil.copyfile(file_name, os.path.join(supported_dir, name_only))
 
         #ExEnd:CheckFormatCompatibility
-
 
     def test_detect_document_signatures(self):
 
@@ -108,7 +94,6 @@ class WorkingWithFileFormat(DocsExamplesBase):
             print("Document has digital signatures, they will be lost if you open/save this document with Aspose.words.")
 
         #ExEnd:DetectDocumentSignatures
-
 
     def test_verify_encrypted_document(self):
 

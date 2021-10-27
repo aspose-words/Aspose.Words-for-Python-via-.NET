@@ -28,12 +28,11 @@ class BaseOperations(DocsExamplesBase):
         builder.insert_field(" MERGEFIELD Quantity ")
 
         # Fill the fields in the document with user data.
-        doc.mail_merge.execute([ "CustomerName", "Item", "Quantity" ],
-            [ "John Doe", "Hawaiian", "2" ])
+        doc.mail_merge.execute(["CustomerName", "Item", "Quantity"],
+            ["John Doe", "Hawaiian", "2"])
 
         doc.save(ARTIFACTS_DIR + "BaseOperations.simple_mail_merge.docx")
         #ExEnd:SimpleMailMerge
-
 
     def test_use_if_else_mustache(self):
 
@@ -41,7 +40,7 @@ class BaseOperations(DocsExamplesBase):
         doc = aw.Document(MY_DIR + "Mail merge destinations - Mustache syntax.docx")
 
         doc.mail_merge.use_non_merge_fields = True
-        doc.mail_merge.execute([ "GENDER" ], [ "MALE" ])
+        doc.mail_merge.execute(["GENDER"], ["MALE"])
 
         doc.save(ARTIFACTS_DIR + "BaseOperations.if_else_mustache.docx")
         #ExEnd:UseOfifelseMustacheSyntax

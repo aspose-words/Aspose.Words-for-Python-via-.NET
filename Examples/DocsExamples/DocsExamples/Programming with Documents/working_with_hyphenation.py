@@ -25,18 +25,15 @@ class WorkingWithHyphenation(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithHyphenation.hyphenate_words_of_languages.pdf")
         #ExEnd:HyphenateWordsOfLanguages
 
-
     def test_load_hyphenation_dictionary_for_language(self):
 
         #ExStart:LoadHyphenationDictionaryForLanguage
         doc = aw.Document(MY_DIR + "German text.docx")
 
-        stream = io.FileIO(MY_DIR + "hyph_de_CH.dic")
-        aw.Hyphenation.register_dictionary("de-CH", stream)
+        with io.FileIO(MY_DIR + "hyph_de_CH.dic") as stream:
+            aw.Hyphenation.register_dictionary("de-CH", stream)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithHyphenation.load_hyphenation_dictionary_for_language.pdf")
-
-        stream.close()
         #ExEnd:LoadHyphenationDictionaryForLanguage
 
 

@@ -82,7 +82,6 @@ class WorkingWithMarkdown(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithMarkdown.create_markdown_document.md")
         #ExEnd:CreateMarkdownDocument
 
-
     def test_read_markdown_document(self):
 
         #ExStart:ReadMarkdownDocument
@@ -94,7 +93,6 @@ class WorkingWithMarkdown(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithMarkdown.read_markdown_document.md")
         #ExEnd:ReadMarkdownDocument
-
 
     def test_emphases(self):
 
@@ -130,7 +128,6 @@ class WorkingWithMarkdown(DocsExamplesBase):
         builder.document.save(ARTIFACTS_DIR + "WorkingWithMarkdown.emphases.md")
         #ExEnd:Emphases
 
-
     def test_headings(self):
 
         #ExStart:Headings
@@ -163,7 +160,6 @@ class WorkingWithMarkdown(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithMarkdown.headings.md")
         #ExEnd:Headings
-
 
     def test_block_quotes(self):
 
@@ -198,7 +194,6 @@ class WorkingWithMarkdown(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithMarkdown.block_quotes.md")
         #ExEnd:BlockQuotes
-
 
     def test_horizontal_rule(self):
 

@@ -24,7 +24,6 @@ class WorkingWithOoxmlSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithOoxmlSaveOptions.encrypt_docx_with_password.docx", save_options)
         #ExEnd:EncryptDocxWithPassword
 
-
     def test_ooxml_compliance_iso_29500_2008_strict(self):
 
         #ExStart:OoxmlComplianceIso29500_2008_Strict
@@ -38,7 +37,6 @@ class WorkingWithOoxmlSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithOoxmlSaveOptions.ooxml_compliance_iso_29500_2008_strict.docx", save_options)
         #ExEnd:OoxmlComplianceIso29500_2008_Strict
 
-
     def test_update_last_saved_time_property(self):
 
         #ExStart:UpdateLastSavedTimeProperty
@@ -50,7 +48,6 @@ class WorkingWithOoxmlSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithOoxmlSaveOptions.update_last_saved_time_property.docx", save_options)
         #ExEnd:UpdateLastSavedTimeProperty
 
-
     def test_keep_legacy_control_chars(self):
 
         #ExStart:KeepLegacyControlChars
@@ -61,7 +58,6 @@ class WorkingWithOoxmlSaveOptions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithOoxmlSaveOptions.keep_legacy_control_chars.docx", save_options)
         #ExEnd:KeepLegacyControlChars
-
 
     def test_set_compression_level(self):
 

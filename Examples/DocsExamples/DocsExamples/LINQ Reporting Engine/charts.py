@@ -13,7 +13,6 @@ import aspose.words as aw
 
 class Charts(DocsExamplesBase):
 
-
     def test_create_bubble_chart(self):
 
         #ExStart:BubbleChart
@@ -21,12 +20,12 @@ class Charts(DocsExamplesBase):
 
         opt = aw.reporting.JsonDataLoadOptions()
         opt.always_generate_root_object = True
+
         engine = aw.reporting.ReportingEngine()
         engine.build_report(doc, aw.reporting.JsonDataSource(JSON_DIR + "managers.json", opt), "Managers")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.create_bubble_chart.docx")
         #ExEnd:BubbleChart
-
 
     def test_set_chart_series_name_dynamically(self):
 
@@ -35,12 +34,12 @@ class Charts(DocsExamplesBase):
 
         opt = aw.reporting.JsonDataLoadOptions()
         opt.always_generate_root_object = True
+
         engine = aw.reporting.ReportingEngine()
         engine.build_report(doc, aw.reporting.JsonDataSource(JSON_DIR + "managers.json", opt), "Managers")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.set_chart_series_name_dynamically.docx")
         #ExEnd:SetChartSeriesNameDynamically
-
 
     def test_chart_with_filtering_grouping_ordering(self):
 
@@ -53,7 +52,6 @@ class Charts(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "ReportingEngine.chart_with_filtering_grouping_ordering.docx")
         #ExEnd:ChartWithFilteringGroupingOrdering
 
-
     def test_pie_chart(self):
 
         #ExStart:PieChart
@@ -61,12 +59,12 @@ class Charts(DocsExamplesBase):
 
         opt = aw.reporting.JsonDataLoadOptions()
         opt.always_generate_root_object = True
+
         engine = aw.reporting.ReportingEngine()
         engine.build_report(doc, aw.reporting.JsonDataSource(JSON_DIR + "managers.json", opt), "Managers")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.pie_chart.docx")
         #ExEnd:PieChart
-
 
     def test_scatter_chart(self):
 

@@ -24,17 +24,14 @@ class WorkingWithStylesAndThemes(DocsExamplesBase):
         # Get styles collection from the document.
         styles = doc.styles
         for style in styles:
-
             if style_name == "":
                 style_name = style.name
                 print(style_name)
-
             else:
                 style_name = style_name + ", " + style.name
                 print(style_name)
 
         #ExEnd:AccessStyles
-
 
     def test_copy_styles(self):
 
@@ -46,7 +43,6 @@ class WorkingWithStylesAndThemes(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithStylesAndThemes.copy_styles.docx")
         #ExEnd:CopyStyles
-
 
     def test_get_theme_properties(self):
 
@@ -60,7 +56,6 @@ class WorkingWithStylesAndThemes(DocsExamplesBase):
         print(theme.colors.accent1)
         #ExEnd:GetThemeProperties
 
-
     def test_set_theme_properties(self):
 
         #ExStart:SetThemeProperties
@@ -70,7 +65,6 @@ class WorkingWithStylesAndThemes(DocsExamplesBase):
         theme.minor_fonts.latin = "Times New Roman"
         theme.colors.hyperlink = drawing.Color.gold
         #ExEnd:SetThemeProperties
-
 
     def test_insert_style_separator(self):
 

@@ -17,31 +17,30 @@ class WorkingWithLicense(DocsExamplesBase):
     def test_apply_license_from_file(self):
 
         #ExStart:ApplyLicenseFromFile
-        lic = aw.License()
+        license = aw.License()
 
         # Try to set license from the folder with the python script.
         try:
-            lic.set_license("Aspose.Words.Python.NET.lic")
+            license.set_license("Aspose.Words.Python.NET.lic")
             print("License set successfully.")
         except RuntimeError as err:
             # We do not ship any license with this example, visit the Aspose site to obtain either a temporary or permanent license.
-            print("\nThere was an error setting the license: {0}".format(err))
+            print("\nThere was an error setting the license:", err)
         #ExEnd:ApplyLicenseFromFile
 
     def test_apply_license_from_stream(self):
 
         #ExStart:ApplyLicenseFromStream
-        lic = aw.License()
+        license = aw.License()
 
         # Try to set license from the stream.
         try:
-            lic_stream = io.FileIO("C:\\Temp\\Aspose.Words.Python.NET.lic")
-            lic.set_license(lic_stream)
-            lic_stream.close()
+            with io.FileIO("C:\\Temp\\Aspose.Words.Python.NET.lic") as stream:
+                license.set_license(stream)
             print("License set successfully.")
         except RuntimeError as err:
             # We do not ship any license with this example, visit the Aspose site to obtain either a temporary or permanent license.
-            print("\nThere was an error setting the license: {0}".format(err))
+            print("\nThere was an error setting the license:", err)
         #ExEnd:ApplyLicenseFromStream
 
     def test_apply_metered_license(self):

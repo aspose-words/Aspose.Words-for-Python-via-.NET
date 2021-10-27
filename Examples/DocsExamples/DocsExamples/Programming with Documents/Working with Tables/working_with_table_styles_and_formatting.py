@@ -28,7 +28,6 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
         print(table.distance_left)
         #ExEnd:GetDistancebetweenTableSurroundingText
 
-
     def test_apply_outline_border(self):
 
         #ExStart:ApplyOutlineBorder
@@ -52,7 +51,6 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.apply_outline_border.docx")
         #ExEnd:ApplyOutlineBorder
 
-
     def test_build_table_with_borders(self):
 
         #ExStart:BuildTableWithBorders
@@ -69,7 +67,6 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.build_table_with_borders.docx")
         #ExEnd:BuildTableWithBorders
 
-
     def test_modify_row_formatting(self):
 
         #ExStart:ModifyRowFormatting
@@ -83,7 +80,6 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
         first_row.row_format.height_rule = aw.HeightRule.AUTO
         first_row.row_format.allow_break_across_pages = True
         #ExEnd:ModifyRowFormatting
-
 
     def test_apply_row_formatting(self):
 
@@ -112,7 +108,6 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.apply_row_formatting.docx")
         #ExEnd:ApplyRowFormatting
 
-
     def test_set_cell_padding(self):
 
         #ExStart:SetCellPadding
@@ -132,11 +127,8 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.set_cell_padding.docx")
         #ExEnd:SetCellPadding
 
-
-    # <summary>
-    # Shows how to modify formatting of a table cell.
-    # </summary>
     def test_modify_cell_formatting(self):
+        """Shows how to modify formatting of a table cell."""
 
         #ExStart:ModifyCellFormatting
         doc = aw.Document(MY_DIR + "Tables.docx")
@@ -147,7 +139,6 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
         first_cell.cell_format.orientation = aw.TextOrientation.DOWNWARD
         first_cell.cell_format.shading.foreground_pattern_color = drawing.Color.light_green
         #ExEnd:ModifyCellFormatting
-
 
     def test_format_table_and_cell_with_different_borders(self):
 
@@ -193,7 +184,6 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.format_table_and_cell_with_different_borders.docx")
         #ExEnd:FormatTableAndCellWithDifferentBorders
 
-
     def test_set_table_title_and_description(self):
 
         #ExStart:SetTableTitleAndDescription
@@ -211,7 +201,6 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.set_table_title_and_description.docx", options)
         #ExEnd:SetTableTitleAndDescription
 
-
     def test_allow_cell_spacing(self):
 
         #ExStart:AllowCellSpacing
@@ -223,7 +212,6 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.allow_cell_spacing.docx")
         #ExEnd:AllowCellSpacing
-
 
     def test_build_table_with_style(self):
 
@@ -270,7 +258,6 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.build_table_with_style.docx")
         #ExEnd:BuildTableWithStyle
 
-
     def test_expand_formatting_on_cells_and_row_from_style(self):
 
         #ExStart:ExpandFormattingOnCellsAndRowFromStyle
@@ -292,7 +279,6 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
         cell_shading_after = first_cell.cell_format.shading.background_pattern_color
         print(f"Cell shading after style expansion: {cell_shading_after}")
         #ExEnd:ExpandFormattingOnCellsAndRowFromStyle
-
 
     def test_create_table_style(self):
 
@@ -323,7 +309,6 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.create_table_style.docx")
         #ExEnd:CreateTableStyle
 
-
     def test_define_conditional_formatting(self):
 
         #ExStart:DefineConditionalFormatting
@@ -349,7 +334,6 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.define_conditional_formatting.docx")
         #ExEnd:DefineConditionalFormatting
 
-
     def test_set_table_cell_formatting(self):
 
         #ExStart:DocumentBuilderSetTableCellFormatting
@@ -373,7 +357,6 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.document_builder_set_table_cell_formatting.docx")
         #ExEnd:DocumentBuilderSetTableCellFormatting
-
 
     def test_set_table_row_formatting(self):
 
