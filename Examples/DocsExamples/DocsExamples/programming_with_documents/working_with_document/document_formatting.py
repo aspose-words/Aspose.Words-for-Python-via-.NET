@@ -123,12 +123,12 @@ class DocumentFormatting(DocsExamplesBase):
         #ExStart:ChangeAsianParagraphSpacingAndIndents
         doc = aw.Document(MY_DIR + "Asian typography.docx")
 
-        format = doc.first_section.body.first_paragraph.paragraph_format
-        format.character_unit_left_indent = 10       # ParagraphFormat.left_indent will be updated
-        format.character_unit_right_indent = 10      # ParagraphFormat.right_indent will be updated
-        format.character_unit_first_line_indent = 20 # ParagraphFormat.first_line_indent will be updated
-        format.line_unit_before = 5                  # ParagraphFormat.space_before will be updated
-        format.line_unit_after = 10                  # ParagraphFormat.space_after will be updated
+        paragraph_format = doc.first_section.body.first_paragraph.paragraph_format
+        paragraph_format.character_unit_left_indent = 10       # ParagraphFormat.left_indent will be updated
+        paragraph_format.character_unit_right_indent = 10      # ParagraphFormat.right_indent will be updated
+        paragraph_format.character_unit_first_line_indent = 20 # ParagraphFormat.first_line_indent will be updated
+        paragraph_format.line_unit_before = 5                  # ParagraphFormat.space_before will be updated
+        paragraph_format.line_unit_after = 10                  # ParagraphFormat.space_after will be updated
 
         doc.save(ARTIFACTS_DIR + "DocumentFormatting.change_asian_paragraph_spacing_and_indents.doc")
         #ExEnd:ChangeAsianParagraphSpacingAndIndents
