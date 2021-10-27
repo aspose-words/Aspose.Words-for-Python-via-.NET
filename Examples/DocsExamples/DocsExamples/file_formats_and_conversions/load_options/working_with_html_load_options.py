@@ -1,6 +1,3 @@
-import unittest
-import os
-import sys
 import io
 
 from docs_examples_base import DocsExamplesBase, ARTIFACTS_DIR

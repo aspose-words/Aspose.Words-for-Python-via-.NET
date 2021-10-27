@@ -1,7 +1,5 @@
-import unittest
 import os
 import shutil
-import sys
 
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 

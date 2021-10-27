@@ -1,10 +1,8 @@
 import unittest
-import os
-import sys
 import io
 
 import aspose.words as aw
-import aspose.pydrawing as pydrawing
+import aspose.pydrawing as drawing
 
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
 
@@ -169,10 +167,10 @@ class BaseConversions(DocsExamplesBase):
         builder = aw.DocumentBuilder(doc);
 
         # Read the image from file
-        with pydrawing.Image.from_file(input_file_name) as image:
+        with drawing.Image.from_file(input_file_name) as image:
             # Find which dimension the frames in this image represent. For example 
             # the frames of a BMP or TIFF are "page dimension" whereas frames of a GIF image are "time dimension".
-            dimension = pydrawing.imaging.FrameDimension(image.frame_dimensions_list[0])
+            dimension = drawing.imaging.FrameDimension(image.frame_dimensions_list[0])
 
             frames_count = image.get_frame_count(dimension);
 

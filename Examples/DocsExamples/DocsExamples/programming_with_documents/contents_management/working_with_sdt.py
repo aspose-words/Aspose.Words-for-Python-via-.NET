@@ -1,6 +1,3 @@
-import unittest
-import os
-import sys
 import uuid
 
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR

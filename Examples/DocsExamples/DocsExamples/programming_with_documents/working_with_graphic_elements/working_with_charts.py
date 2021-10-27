@@ -1,6 +1,3 @@
-import unittest
-import os
-import sys
 from datetime import date
 
 from docs_examples_base import DocsExamplesBase, ARTIFACTS_DIR

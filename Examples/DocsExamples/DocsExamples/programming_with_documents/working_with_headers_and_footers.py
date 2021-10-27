@@ -1,7 +1,3 @@
-import unittest
-import os
-import sys
-
 from docs_examples_base import DocsExamplesBase, ARTIFACTS_DIR, IMAGES_DIR
 
 import aspose.words as aw
