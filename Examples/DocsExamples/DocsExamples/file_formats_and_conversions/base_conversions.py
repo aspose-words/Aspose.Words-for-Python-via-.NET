@@ -142,15 +142,15 @@ class BaseConversions(DocsExamplesBase):
 
         #ExStart:ImageToPdf
         self.convert_image_to_pdf(IMAGES_DIR + "Logo.jpg",
-                                  ARTIFACTS_DIR + "BaseConversions.JpgToPdf.pdf");
+                                  ARTIFACTS_DIR + "BaseConversions.JpgToPdf.pdf")
         self.convert_image_to_pdf(IMAGES_DIR + "Transparent background logo.png",
-                                  ARTIFACTS_DIR + "BaseConversions.PngToPdf.pdf");
+                                  ARTIFACTS_DIR + "BaseConversions.PngToPdf.pdf")
         self.convert_image_to_pdf(IMAGES_DIR + "Windows MetaFile.wmf",
-                                  ARTIFACTS_DIR + "BaseConversions.WmfToPdf.pdf");
+                                  ARTIFACTS_DIR + "BaseConversions.WmfToPdf.pdf")
         self.convert_image_to_pdf(IMAGES_DIR + "Tagged Image File Format.tiff",
-                                  ARTIFACTS_DIR + "BaseConversions.TiffToPdf.pdf");
+                                  ARTIFACTS_DIR + "BaseConversions.TiffToPdf.pdf")
         self.convert_image_to_pdf(IMAGES_DIR + "Graphics Interchange Format.gif",
-                                  ARTIFACTS_DIR + "BaseConversions.GifToPdf.pdf");
+                                  ARTIFACTS_DIR + "BaseConversions.GifToPdf.pdf")
         #ExEnd:ImageToPdf
 
     @staticmethod
@@ -163,8 +163,8 @@ class BaseConversions(DocsExamplesBase):
         print(f"Converting {input_file_name} to PDF ....")
 
         #ExStart:ConvertImageToPdf
-        doc = aw.Document();
-        builder = aw.DocumentBuilder(doc);
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
 
         # Read the image from file
         with drawing.Image.from_file(input_file_name) as image:
@@ -172,20 +172,20 @@ class BaseConversions(DocsExamplesBase):
             # the frames of a BMP or TIFF are "page dimension" whereas frames of a GIF image are "time dimension".
             dimension = drawing.imaging.FrameDimension(image.frame_dimensions_list[0])
 
-            frames_count = image.get_frame_count(dimension);
+            frames_count = image.get_frame_count(dimension)
 
             for frame_idx in range(frames_count):
                 # Insert a section break before each new page, in case of a multi-frame TIFF.
                 if frame_idx != 0:
                     builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
 
-                image.select_active_frame(dimension, frame_idx);
+                image.select_active_frame(dimension, frame_idx)
 
                 # We want the size of the page to be the same as the size of the image.
                 # Convert pixels to points to size the page to the actual image size.
                 page_setup = builder.page_setup
-                page_setup.page_width = aw.ConvertUtil.pixel_to_point(image.width, image.horizontal_resolution);
-                page_setup.page_height = aw.ConvertUtil.pixel_to_point(image.height, image.vertical_resolution);
+                page_setup.page_width = aw.ConvertUtil.pixel_to_point(image.width, image.horizontal_resolution)
+                page_setup.page_height = aw.ConvertUtil.pixel_to_point(image.height, image.vertical_resolution)
 
                 # Insert the image into the document and position it at the top left corner of the page.
                 builder.insert_image(

@@ -14,7 +14,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         builder = aw.DocumentBuilder(doc)
         builder.writeln("Hello World!")
 
-        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.create_new_document.docx");
+        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.create_new_document.docx")
         #ExEnd:CreateNewDocument
 
     def test_document_builder_insert_bookmark(self):
