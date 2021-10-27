@@ -81,7 +81,7 @@ class WorkingWithVba(DocsExamplesBase):
         references = doc.vba_project.references
         for i in range(references.count - 1, -1):
             reference = doc.vba_project.references.element_at(i)
-            path = get_lib_id_path(reference)
+            path = self.get_lib_id_path(reference)
             if path == broken_path:
                 references.remove_at(i)
 

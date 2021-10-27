@@ -19,7 +19,7 @@ class WorkingWithImages(DocsExamplesBase):
 
                 # Check if the current paragraph belongs to the target page.
                 if layout_collector.get_start_page_index(para) == page:
-                    self.add_image_to_page(paragraph, page, IMAGES_DIR)
+                    self.add_image_to_page(para, page, IMAGES_DIR)
                     break
 
         # If we need to save the document as a PDF or image, call UpdatePageLayout() method.
@@ -41,7 +41,7 @@ class WorkingWithImages(DocsExamplesBase):
         builder.move_to(para)
 
         # Insert a logo to the top left of the page to place it in front of all other text.
-        builder.insert_image(IMAGES_DIR + "Transparent background logo.png", aw.drawing.RelativeHorizontalPosition.PAGE, 60,
+        builder.insert_image(images_dir + "Transparent background logo.png", aw.drawing.RelativeHorizontalPosition.PAGE, 60,
             aw.drawing.RelativeVerticalPosition.PAGE, 60, -1, -1, aw.drawing.WrapType.NONE)
 
         # Insert a textbox next to the image which contains some text consisting of the page number.

@@ -235,7 +235,7 @@ class WorkingWithShapes(DocsExamplesBase):
         stream.close()
         #ExEnd:RenderShapeToStream
 
-    def test_render_shape_to_disk(self):
+    def test_render_shape_image(self):
 
         doc = aw.Document(MY_DIR + "Rendering.docx")
 

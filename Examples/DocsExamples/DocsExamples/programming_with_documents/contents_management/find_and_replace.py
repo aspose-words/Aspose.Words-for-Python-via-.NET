@@ -42,13 +42,14 @@ class FindAndReplace(DocsExamplesBase):
         #ExEnd:FindAndHighlight
 
     #ExStart:SplitRun
+    @staticmethod
     def split_run(run: aw.Run, position: int) -> aw.Run:
         """Splits text of the specified run into two runs.
         Inserts the new run just after the specified run."""
-        after_run = run.clone(true).as_run()
-        after_run.rext = run.text[position:]
+        after_run = run.clone(True).as_run()
+        after_run.text = run.text[position:]
 
-        run.rext = run.text[:position]
+        run.text = run.text[:position]
         run.parent_node.insert_after(after_run, run)
 
         return after_run
