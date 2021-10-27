@@ -3,11 +3,6 @@ import os
 import sys
 import io
 
-base_dir = os.path.abspath(os.curdir) + "/"
-base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
-base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
-sys.path.insert(0, base_dir)
-
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, JSON_DIR
 
 import aspose.words as aw
@@ -578,7 +573,3 @@ John Smith,51,1968-03-08 1:00:00 pm"""
         engine.build_report(doc, data_source, "managers")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.csv_data_source_complex.docx")
-
-
-if __name__ == '__main__':
-    unittest.main()

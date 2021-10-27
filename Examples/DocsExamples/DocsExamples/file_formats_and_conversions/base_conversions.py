@@ -3,15 +3,10 @@ import os
 import sys
 import io
 
-base_dir = os.path.abspath(os.curdir) + "/"
-base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
-base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
-sys.path.insert(0, base_dir)
-
-from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
-
 import aspose.words as aw
 import aspose.pydrawing as pydrawing
+
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
 
 class BaseConversions(DocsExamplesBase):
 
@@ -207,7 +202,3 @@ class BaseConversions(DocsExamplesBase):
 
         doc.save(output_file_name)
         #ExEnd:ConvertImageToPdf
-
-
-if __name__ == '__main__':
-    unittest.main()

@@ -2,11 +2,6 @@ import unittest
 import os
 import sys
 
-base_dir = os.path.abspath(os.curdir) + "/"
-base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
-base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
-sys.path.insert(0, base_dir)
-
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 import aspose.words as aw
@@ -36,7 +31,3 @@ class WorkingWithHtmlFixedSaveOptions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithHtmlFixedSaveOptions.write_all_css_rules_in_single_file.html", save_options)
         #ExEnd:WriteAllCssRulesInSingleFile
-
-
-if __name__ == '__main__':
-    unittest.main()

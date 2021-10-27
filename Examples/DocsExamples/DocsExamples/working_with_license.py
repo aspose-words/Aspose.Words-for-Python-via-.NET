@@ -1,12 +1,6 @@
-import unittest
 import os
 import sys
 import io
-
-base_dir = os.path.abspath(os.curdir) + "/"
-base_dir = base_dir[:base_dir.find("Aspose.Words-for-Python-via-.NET")]
-base_dir = base_dir + "Aspose.Words-for-Python-via-.NET/Examples/DocsExamples/DocsExamples"
-sys.path.insert(0, base_dir)
 
 from docs_examples_base import DocsExamplesBase, MY_DIR
 
@@ -56,7 +50,3 @@ class WorkingWithLicense(DocsExamplesBase):
         #Get the page count of document
         print(doc.page_count)
         #ExEnd:ApplyMeteredLicense
-
-
-if __name__ == '__main__':
-    unittest.main()
