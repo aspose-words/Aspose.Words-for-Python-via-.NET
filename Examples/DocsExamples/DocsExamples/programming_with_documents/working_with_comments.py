@@ -194,4 +194,3 @@ class WorkingWithComments(DocsExamplesBase):
         # Save the document.
         doc.save(ARTIFACTS_DIR + "WorkingWithComments.remove_region_text.docx")
         #ExEnd:RemoveRegionText
-
