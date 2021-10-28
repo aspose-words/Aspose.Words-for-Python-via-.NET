@@ -1,8 +1,7 @@
 import io
 
-from docs_examples_base import DocsExamplesBase, ARTIFACTS_DIR
-
 import aspose.words as aw
+from docs_examples_base import DocsExamplesBase, ARTIFACTS_DIR
 
 class WorkingWithHtmlLoadOptions(DocsExamplesBase):
 

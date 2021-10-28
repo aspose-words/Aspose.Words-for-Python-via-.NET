@@ -1,10 +1,9 @@
-import uuid
 import io
-
-from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
+import uuid
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
 
 class WorkingWithShapes(DocsExamplesBase):
 

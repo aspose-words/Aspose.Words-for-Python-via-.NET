@@ -1,5 +1,5 @@
-import unittest
 import io
+import unittest
 
 import aspose.words as aw
 import aspose.pydrawing as drawing

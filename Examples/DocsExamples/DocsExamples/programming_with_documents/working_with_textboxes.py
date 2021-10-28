@@ -1,6 +1,5 @@
-from docs_examples_base import DocsExamplesBase
-
 import aspose.words as aw
+from docs_examples_base import DocsExamplesBase
 
 class WorkingWithTextboxes(DocsExamplesBase):
 

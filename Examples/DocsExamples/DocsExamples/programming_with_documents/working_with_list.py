@@ -1,7 +1,6 @@
-from docs_examples_base import DocsExamplesBase, ARTIFACTS_DIR
-
 import aspose.words as aw
 import aspose.pydrawing as drawing
+from docs_examples_base import DocsExamplesBase, ARTIFACTS_DIR
 
 class WorkingWithList(DocsExamplesBase):
 

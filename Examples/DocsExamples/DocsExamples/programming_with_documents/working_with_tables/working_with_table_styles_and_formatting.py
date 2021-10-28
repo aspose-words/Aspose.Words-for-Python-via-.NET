@@ -1,7 +1,6 @@
-from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
-
 import aspose.words as aw
 import aspose.pydrawing as drawing
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
 

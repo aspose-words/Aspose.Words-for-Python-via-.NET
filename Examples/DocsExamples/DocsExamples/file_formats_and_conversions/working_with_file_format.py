@@ -1,9 +1,8 @@
 import os
 import shutil
 
-from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
-
 import aspose.words as aw
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithFileFormat(DocsExamplesBase):
 

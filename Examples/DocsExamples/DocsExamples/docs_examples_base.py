@@ -1,6 +1,7 @@
-import unittest
-import aspose.words as aw
 import os
+import unittest
+
+import aspose.words as aw
 
 # root_dir =  "X:/" if platform.system() == "Windows" else "/X/"
 ROOT_DIR = os.path.abspath(os.curdir) + "/"

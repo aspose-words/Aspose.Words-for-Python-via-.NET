@@ -1,8 +1,7 @@
 import io
 
-from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
-
 import aspose.words as aw
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
 
 class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
 
