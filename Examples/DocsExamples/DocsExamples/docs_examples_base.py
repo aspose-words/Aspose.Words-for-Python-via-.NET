@@ -1,28 +1,28 @@
-import unittest
-import aspose.words as aw
 import os
-import platform
+import unittest
+
+import aspose.words as aw
 
 # root_dir =  "X:/" if platform.system() == "Windows" else "/X/"
-root_dir = os.path.abspath(os.curdir) + "/"
-root_dir = root_dir[:root_dir.find("Aspose.Words-for-Python-via-.NET")]
-api_examples_root = root_dir + "Aspose.Words-for-Python-via-.NET/Examples/"
-license_path = root_dir + "Aspose.Words-for-Python-via-.NET/Temp/Aspose.Words.Python.NET.lic"
-my_dir = api_examples_root + "Data/"
-artifacts_dir = my_dir + "Artifacts/"
-temp_dir = my_dir + "Temp/"
-images_dir = my_dir + "Images/"
-fonts_dir = my_dir + "MyFonts/"
-database_dir = my_dir + "Database/"
-json_dir = my_dir + "JSON/"
-aspose_logo_url = "https://www.aspose.cloud/templates/aspose/App_Themes/V3/images/words/header/aspose_words-for-net.png"
+ROOT_DIR = os.path.abspath(os.curdir) + "/"
+ROOT_DIR = ROOT_DIR[:ROOT_DIR.find("Aspose.Words-for-Python-via-.NET")]
+API_EXAMPLES_ROOT = ROOT_DIR + "Aspose.Words-for-Python-via-.NET/Examples/"
+LICENSE_PATH = os.getenv("ASPOSE_WORDS_PYTHON_LICENSE", "Aspose.Words.Python.NET.lic")
+MY_DIR = API_EXAMPLES_ROOT + "Data/"
+ARTIFACTS_DIR = MY_DIR + "Artifacts/"
+TEMP_DIR = MY_DIR + "Temp/"
+IMAGES_DIR = MY_DIR + "Images/"
+FONTS_DIR = MY_DIR + "MyFonts/"
+DATABASE_DIR = MY_DIR + "Database/"
+JSON_DIR = MY_DIR + "JSON/"
+ASPOSE_LOGO_URL = "https://www.aspose.cloud/templates/aspose/App_Themes/V3/images/words/header/aspose_words-for-net.png"
 
 
 class DocsExamplesBase(unittest.TestCase):
 
     def setUp(self):
-        if os.path.exists(artifacts_dir):
-            l = aw.License()
-            l.set_license(license_path)
-        if not os.path.exists(artifacts_dir):
-            os.makedirs(artifacts_dir)
+        if os.path.exists(LICENSE_PATH):
+            lic = aw.License()
+            lic.set_license(LICENSE_PATH)
+        if not os.path.exists(ARTIFACTS_DIR):
+            os.makedirs(ARTIFACTS_DIR)
