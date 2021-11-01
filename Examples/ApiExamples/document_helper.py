@@ -212,8 +212,9 @@ class DocumentHelper(aeb.ApiExampleBase):
     # </summary>
     # <param name="doc">Current document</param>
     # <param name="secIndex">Section number from collection</param>
-    #    def GetSectionText(doc, secIndex) -> str :
-    #        return doc.sections[secIndex].get_text()
+    @staticmethod
+    def get_section_text(doc, sec_index):
+        return doc.sections[sec_index].get_text()
 
     # <summary>
     # Get paragraph of the current document

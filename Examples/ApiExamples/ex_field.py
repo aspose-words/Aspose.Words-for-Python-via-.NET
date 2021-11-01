@@ -1,3 +1,4 @@
+import io
 import unittest
 
 import api_example_base as aeb
@@ -192,49 +193,47 @@ class ExField(aeb.ApiExampleBase):
         # Insert a TC field at the current document builder position.
         builder.insert_field("TC \"Entry Text\" \\f t")
 
-    #     def test_insert_tc_fields_at_text(self) :
+    # def test_insert_tc_fields_at_text(self) :
     #
-    #         doc = aw.Document()
+    #     doc = aw.Document()
     #
-    #         FindReplaceOptions options = new FindReplaceOptions()
-    #         options.replacing_callback = new InsertTcFieldHandler("Chapter 1", "\\l 1")
+    #     options = aw.replacing.FindReplaceOptions()
+    #     options.replacing_callback = InsertTcFieldHandler("Chapter 1", "\\l 1")
     #
-    #         # Insert a TC field which displays "Chapter 1" just before the text "The Beginning" in the document.
-    #         doc.range.replace(new Regex("The Beginning"), "", options)
-    #
-    #
-    #     private class InsertTcFieldHandler : IReplacingCallback
-    #
-    #         # Store the text and switches to be used for the TC fields.
-    #         private readonly string mFieldText
-    #         private readonly string mFieldSwitches
-    #
-    #         # <summary>
-    #         # The display text and switches to use for each TC field. Display name can be an empty String or null.
-    #         # </summary>
-    #         public InsertTcFieldHandler(string text, string switches)
-    #
-    #             mFieldText = text
-    #             mFieldSwitches = switches
+    #     # Insert a TC field which displays "Chapter 1" just before the text "The Beginning" in the document.
+    #     doc.range.replace(new Regex("The Beginning"), "", options)
     #
     #
-    #         ReplaceAction IReplacingCallback.replacing(ReplacingArgs args)
+    # class _InsertTcFieldHandler(aw.Irepla):
     #
-    #             DocumentBuilder builder = new DocumentBuilder((Document)args.match_node.document)
-    #             builder.move_to(args.match_node)
+    #     # Store the text and switches to be used for the TC fields.
+    #     _mFieldText = ""
+    #     _mFieldSwitches = ""
     #
-    #             # If the user-specified text is used in the field as display text, use that, otherwise
-    #             # use the match String as the display text.
-    #             string insertText = !string.is_null_or_empty(mFieldText) ? mFieldText : args.match.value
+    #     # <summary>
+    #     # The display text and switches to use for each TC field. Display name can be an empty String or null.
+    #     # </summary>
+    #     public InsertTcFieldHandler(string text, string switches)
     #
-    #             # Insert the TC field before this node using the specified String
-    #             # as the display text and user-defined switches.
-    #             builder.insert_field($"TC \"insertText\" mFieldSwitches")
-    #
-    #             return ReplaceAction.skip
-    #
+    #         mFieldText = text
+    #         mFieldSwitches = switches
     #
     #
+    #     ReplaceAction IReplacingCallback.replacing(ReplacingArgs args)
+    #
+    #         DocumentBuilder builder = new DocumentBuilder((Document)args.match_node.document)
+    #         builder.move_to(args.match_node)
+    #
+    #         # If the user-specified text is used in the field as display text, use that, otherwise
+    #         # use the match String as the display text.
+    #         string insertText = !string.is_null_or_empty(mFieldText) ? mFieldText : args.match.value
+    #
+    #         # Insert the TC field before this node using the specified String
+    #         # as the display text and user-defined switches.
+    #         builder.insert_field($"TC \"insertText\" mFieldSwitches")
+    #
+    #         return ReplaceAction.skip
+
     @unittest.skip('Working with CultureInfo ??? ')
     def test_field_locale(self):
         # ExStart
@@ -270,15 +269,13 @@ class ExField(aeb.ApiExampleBase):
         # TestUtil.verify_field(FieldType.field_date, "DATE", DateTime.now.to_string(de.date_time_format.short_date_pattern), field)
         self.assertEqual(CultureInfo("de-DE").lcid, field.locale_id)
 
-
-
     @unittest.skip("WORDSNET-16037")
     def test_update_dirty_fields(self):
 
-        #ExStart
-        #ExFor:Field.is_dirty
-        #ExFor:LoadOptions.update_dirty_fields
-        #ExSummary:Shows how to use special property for updating field result.
+        # ExStart
+        # ExFor:Field.is_dirty
+        # ExFor:LoadOptions.update_dirty_fields
+        # ExSummary:Shows how to use special property for updating field result.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -298,38 +295,38 @@ class ExField(aeb.ApiExampleBase):
         # This value will stay out of date until we update the field manually with the Field.update() method.
         field.is_dirty = True
 
-        # using (MemoryStream docStream = new MemoryStream())
+        # docStream = io.BytesIO()
         #
-        #     # If we save without calling an update method,
-        #     # the field will keep displaying the out of date value in the output document.
-        #     doc.save(docStream, SaveFormat.docx)
+        # # If we save without calling an update method,
+        # # the field will keep displaying the out of date value in the output document.
+        # doc.save(docStream, aw.saving.SaveFormat.DOCX)
         #
-        #     # The LoadOptions object has an option to update all fields
-        #     # marked as "dirty" when loading the document.
-        #     LoadOptions options = new LoadOptions()
-        #     options.update_dirty_fields = updateDirtyFields
-        #     doc = new Document(docStream, options)
+        # # The LoadOptions object has an option to update all fields
+        # # marked as "dirty" when loading the document.
+        # options = aw.loading.LoadOptions()
+        # options.update_dirty_fields = updateDirtyFields
+        # doc = new Document(docStream, options)
         #
-        #     self.assertEqual("John & Jane Doe", doc.built_in_document_properties.author)
+        # self.assertEqual("John & Jane Doe", doc.built_in_document_properties.author)
         #
-        #     field = (FieldAuthor)doc.range.fields[0]
+        # field = (FieldAuthor)doc.range.fields[0]
         #
-        #     # Updating dirty fields like this automatically set their "IsDirty" flag to false.
-        #     if (updateDirtyFields)
+        # # Updating dirty fields like this automatically set their "IsDirty" flag to false.
+        # if (updateDirtyFields)
         #
-        #         self.assertEqual("John & Jane Doe", field.result)
-        #         self.assertFalse(field.is_dirty)
+        #     self.assertEqual("John & Jane Doe", field.result)
+        #     self.assertFalse(field.is_dirty)
         #
-        #     else
+        # else
         #
-        #         self.assertEqual("John Doe", field.result)
-        #         self.assertTrue(field.is_dirty)
+        #     self.assertEqual("John Doe", field.result)
+        #     self.assertTrue(field.is_dirty)
         #
         #
         # #ExEnd
 
     @unittest.skip("raise ArgumentException ???")
-    def test_insert_field_with_field_builder_exception(self) :
+    def test_insert_field_with_field_builder_exception(self):
 
         doc = aw.Document()
 
@@ -345,65 +342,64 @@ class ExField(aeb.ApiExampleBase):
         # self.assertRaises(RuntimeError, field_builder.add_argument(argument_builder).add_argument("=").add_argument("BestField").add_argument(10).add_argument(20.0).build_and_insert(run))
         # field_builder.add_argument(argument_builder).add_argument("=").add_argument("BestField").add_argument(10).add_argument(20.0).build_and_insert(run)
 
-
-# #if NET462 || JAVA
-#     def test_bar_code_word_2_pdf(self) :
-#
-#         Document doc = new Document(aeb.my_dir + "Field sample - BARCODE.docx")
-#
-#         doc.field_options.barcode_generator = new CustomBarcodeGenerator()
-#
-#         doc.save(aeb.artifacts_dir + "Field.bar_code_word_2_pdf.pdf")
-#
-#         using (BarCodeReader barCodeReader = BarCodeReaderPdf(aeb.artifacts_dir + "Field.bar_code_word_2_pdf.pdf"))
-#
-#             self.assertEqual("QR", barCodeReader.found_bar_codes[0].code_type_name)
-#
-#
-#
-#     private BarCodeReader BarCodeReaderPdf(string filename)
-#
-#         # Set license for Aspose.bar_code.
-#         Aspose.bar_code.license licenceBarCode = new Aspose.bar_code.license()
-#         licenceBarCode.set_license(LicenseDir + "Aspose.total.net.lic")
-#
-#         Aspose.pdf.facades.pdf_extractor pdfExtractor = new Aspose.pdf.facades.pdf_extractor()
-#         pdfExtractor.bind_pdf(filename)
-#
-#         # Set page range for image extraction.
-#         pdfExtractor.start_page = 1
-#         pdfExtractor.end_page = 1
-#
-#         pdfExtractor.extract_image()
-#
-#         MemoryStream imageStream = new MemoryStream()
-#         pdfExtractor.get_next_image(imageStream)
-#         imageStream.position = 0
-#
-#         # Recognize the barcode from the image stream above.
-#         BarCodeReader barcodeReader = new BarCodeReader(imageStream, DecodeType.qr)
-#
-#         foreach (BarCodeResult result in barcodeReader.read_bar_codes())
-#             print("Codetext found: " + result.code_text + ", Symbology: " + result.code_type_name)
-#
-#         return barcodeReader
-#
-#
+    # #if NET462 || JAVA
+    #     def test_bar_code_word_2_pdf(self) :
+    #
+    #         Document doc = new Document(aeb.my_dir + "Field sample - BARCODE.docx")
+    #
+    #         doc.field_options.barcode_generator = new CustomBarcodeGenerator()
+    #
+    #         doc.save(aeb.artifacts_dir + "Field.bar_code_word_2_pdf.pdf")
+    #
+    #         using (BarCodeReader barCodeReader = BarCodeReaderPdf(aeb.artifacts_dir + "Field.bar_code_word_2_pdf.pdf"))
+    #
+    #             self.assertEqual("QR", barCodeReader.found_bar_codes[0].code_type_name)
+    #
+    #
+    #
+    #     private BarCodeReader BarCodeReaderPdf(string filename)
+    #
+    #         # Set license for Aspose.bar_code.
+    #         Aspose.bar_code.license licenceBarCode = new Aspose.bar_code.license()
+    #         licenceBarCode.set_license(LicenseDir + "Aspose.total.net.lic")
+    #
+    #         Aspose.pdf.facades.pdf_extractor pdfExtractor = new Aspose.pdf.facades.pdf_extractor()
+    #         pdfExtractor.bind_pdf(filename)
+    #
+    #         # Set page range for image extraction.
+    #         pdfExtractor.start_page = 1
+    #         pdfExtractor.end_page = 1
+    #
+    #         pdfExtractor.extract_image()
+    #
+    #         MemoryStream imageStream = new MemoryStream()
+    #         pdfExtractor.get_next_image(imageStream)
+    #         imageStream.position = 0
+    #
+    #         # Recognize the barcode from the image stream above.
+    #         BarCodeReader barcodeReader = new BarCodeReader(imageStream, DecodeType.qr)
+    #
+    #         foreach (BarCodeResult result in barcodeReader.read_bar_codes())
+    #             print("Codetext found: " + result.code_text + ", Symbology: " + result.code_type_name)
+    #
+    #         return barcodeReader
+    #
+    #
     @unittest.skip("WORDSNET-13854")
     def def_field_database(self):
 
-        #ExStart
-        #ExFor:FieldDatabase
-        #ExFor:FieldDatabase.connection
-        #ExFor:FieldDatabase.file_name
-        #ExFor:FieldDatabase.first_record
-        #ExFor:FieldDatabase.format_attributes
-        #ExFor:FieldDatabase.insert_headings
-        #ExFor:FieldDatabase.insert_once_on_mail_merge
-        #ExFor:FieldDatabase.last_record
-        #ExFor:FieldDatabase.query
-        #ExFor:FieldDatabase.table_format
-        #ExSummary:Shows how to extract data from a database and insert it as a field into a document.
+        # ExStart
+        # ExFor:FieldDatabase
+        # ExFor:FieldDatabase.connection
+        # ExFor:FieldDatabase.file_name
+        # ExFor:FieldDatabase.first_record
+        # ExFor:FieldDatabase.format_attributes
+        # ExFor:FieldDatabase.insert_headings
+        # ExFor:FieldDatabase.insert_once_on_mail_merge
+        # ExFor:FieldDatabase.last_record
+        # ExFor:FieldDatabase.query
+        # ExFor:FieldDatabase.table_format
+        # ExSummary:Shows how to extract data from a database and insert it as a field into a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -483,27 +479,29 @@ class ExField(aeb.ApiExampleBase):
         # table.rows[0].remove()
         #
         # TestUtil.table_matches_query_result(table, DatabaseDir + "Northwind.mdb", field.query.insert(7, " TOP 10 "))
-#
-# #endif
 
+    #
+    # #endif
 
     def test_preserve_include_picture(self):
 
-        #ExStart
-        #ExFor:Field.update(bool)
-        #ExFor:LoadOptions.preserve_include_picture_field
-        #ExSummary:Shows how to preserve or discard INCLUDEPICTURE fields when loading a document.
+        # ExStart
+        # ExFor:Field.update(bool)
+        # ExFor:LoadOptions.preserve_include_picture_field
+        # ExSummary:Shows how to preserve or discard INCLUDEPICTURE fields when loading a document.
 
         for preserve_include_picture_field in (False, True):
             with self.subTest(preserve_include_picture_field=preserve_include_picture_field):
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
 
-                include_picture = builder.insert_field(aw.fields.FieldType.FIELD_INCLUDE_PICTURE, True).as_field_include_picture()
+                include_picture = builder.insert_field(aw.fields.FieldType.FIELD_INCLUDE_PICTURE,
+                                                       True).as_field_include_picture()
                 include_picture.source_full_name = aeb.image_dir + "Transparent background logo.png"
                 include_picture.update(True)
 
-                doc.save(aeb.artifacts_dir + "Fields.preserve_include_picture.docx", aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX))
+                doc.save(aeb.artifacts_dir + "Fields.preserve_include_picture.docx",
+                         aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX))
 
                 # We can set a flag in a LoadOptions object to decide whether to convert all INCLUDEPICTURE fields
                 # into image shapes when loading a document that contains them.
@@ -514,751 +512,746 @@ class ExField(aeb.ApiExampleBase):
 
                 if preserve_include_picture_field:
 
-                    self.assertTrue(any(f for f in doc.range.fields if f.type == aw.fields.FieldType.FIELD_INCLUDE_PICTURE))
+                    self.assertTrue(
+                        any(f for f in doc.range.fields if f.type == aw.fields.FieldType.FIELD_INCLUDE_PICTURE))
 
                     doc.update_fields()
                     doc.save(aeb.artifacts_dir + "Field.preserve_include_picture.docx")
 
                 else:
 
-                    self.assertFalse(any(f for f in doc.range.fields if f.type == aw.fields.FieldType.FIELD_INCLUDE_PICTURE))
+                    self.assertFalse(
+                        any(f for f in doc.range.fields if f.type == aw.fields.FieldType.FIELD_INCLUDE_PICTURE))
+
+        # ExEnd
+
+    def test_field_format(self):
+
+        # ExStart
+        # ExFor:Field.format
+        # ExFor:Field.update
+        # ExFor:FieldFormat
+        # ExFor:FieldFormat.date_time_format
+        # ExFor:FieldFormat.numeric_format
+        # ExFor:FieldFormat.general_formats
+        # ExFor:GeneralFormat
+        # ExFor:GeneralFormatCollection
+        # ExFor:GeneralFormatCollection.add(GeneralFormat)
+        # ExFor:GeneralFormatCollection.count
+        # ExFor:GeneralFormatCollection.item(Int32)
+        # ExFor:GeneralFormatCollection.remove(GeneralFormat)
+        # ExFor:GeneralFormatCollection.remove_at(Int32)
+        # ExFor:GeneralFormatCollection.get_enumerator
+        # ExSummary:Shows how to format field results.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        # Use a document builder to insert a field that displays a result with no format applied.
+        field = builder.insert_field("= 2 + 3")
+
+        self.assertEqual("= 2 + 3", field.get_field_code())
+        self.assertEqual("5", field.result)
+
+        # We can apply a format to a field's result using the field's properties.
+        # Below are three types of formats that we can apply to a field's result.
+        # 1 -  Numeric format:
+        format = field.format
+        format.numeric_format = "$###.00"
+        field.update()
+
+        self.assertEqual("= 2 + 3 \\# $###.00", field.get_field_code())
+        self.assertEqual("$  5.00", field.result)
+
+        # 2 -  Date/time format:
+        field = builder.insert_field("DATE")
+        format = field.format
+        format.date_time_format = "dddd, MMMM dd, yyyy"
+        field.update()
+
+        self.assertEqual("DATE \\@ \"dddd, MMMM dd, yyyy\"", field.get_field_code())
+        print("Today's date, in format.date_time_format format:\n\tfield.result")
+
+        # 3 -  General format:
+        field = builder.insert_field("= 25 + 33")
+        format = field.format
+        format.general_formats.add(aw.fields.GeneralFormat.LOWERCASE_ROMAN)
+        format.general_formats.add(aw.fields.GeneralFormat.UPPER)
+        field.update()
+
+        index = 0
+        for general_format_enumerator in format.general_formats:
+            print("General format index " + str(index + 1) + ": " + str(general_format_enumerator))
+            index += 1
+
+        self.assertEqual("= 25 + 33 \\* roman \\* Upper", field.get_field_code())
+        self.assertEqual("LVIII", field.result)
+        self.assertEqual(2, format.general_formats.count)
+        self.assertEqual(aw.fields.GeneralFormat.LOWERCASE_ROMAN, format.general_formats[0])
+
+        # We can remove our formats to revert the field's result to its original form.
+        format.general_formats.remove(aw.fields.GeneralFormat.LOWERCASE_ROMAN)
+        format.general_formats.remove_at(0)
+        self.assertEqual(0, format.general_formats.count)
+        field.update()
+
+        self.assertEqual("= 25 + 33  ", field.get_field_code())
+        self.assertEqual("58", field.result)
+        self.assertEqual(0, format.general_formats.count)
+        # ExEnd
+
+    def test_unlink(self):
+
+        # ExStart
+        # ExFor:Document.unlink_fields
+        # ExSummary:Shows how to unlink all fields in the document.
+        doc = aw.Document(aeb.my_dir + "Linked fields.docx")
+
+        doc.unlink_fields()
+        # ExEnd
+
+        doc = DocumentHelper.save_open(doc)
+        para_with_fields = DocumentHelper.get_paragraph_text(doc, 0)
+
+        self.assertEqual("Fields.Docx   Элементы указателя не найдены.     1.\r", para_with_fields)
+
+    def test_unlink_all_fields_in_range(self):
+
+        # ExStart
+        # ExFor:Range.unlink_fields
+        # ExSummary:Shows how to unlink all fields in a range.
+        doc = aw.Document(aeb.my_dir + "Linked fields.docx")
+
+        new_section = doc.sections[0].clone(True).as_section()
+        doc.sections.add(new_section)
+
+        doc.sections[1].range.unlink_fields()
+        # ExEnd
+
+        doc = DocumentHelper.save_open(doc)
+        sec_with_fields = DocumentHelper.get_section_text(doc, 1)
+
+        print(sec_with_fields.strip())
+        self.assertTrue(sec_with_fields.strip().endswith(
+            "Fields.docx   Элементы указателя не найдены.     3.\rОшибка! Не указана последовательность.    Fields.Docx   Элементы указателя не найдены.     4."))
+
+    def test_unlink_single_field(self):
+
+        # ExStart
+        # ExFor:Field.unlink
+        # ExSummary:Shows how to unlink a field.
+        doc = aw.Document(aeb.my_dir + "Linked fields.docx")
+        doc.range.fields[1].unlink()
+        # ExEnd
+
+        doc = DocumentHelper.save_open(doc)
+        para_with_fields = DocumentHelper.get_paragraph_text(doc, 0)
+
+        print(para_with_fields.strip())
+        self.assertTrue(para_with_fields.strip().endswith(
+            "FILENAME  \\* Caps  \\* MERGEFORMAT \u0014Fields.docx\u0015   Элементы указателя не найдены.     \u0013 LISTNUM  LegalDefault \u0015"))
+
+    #     def test_update_toc_page_numbers(self) :
+    #
+    #         Document doc = new Document(aeb.my_dir + "Field sample - TOC.docx")
+    #
+    #         Node startNode = DocumentHelper.get_paragraph(doc, 2)
+    #         Node endNode = null
+    #
+    #         NodeCollection paragraphCollection = doc.get_child_nodes(NodeType.paragraph, true)
+    #
+    #         foreach (Paragraph para in paragraphCollection.of_type<Paragraph>())
+    #
+    #             foreach (Run run in para.runs.of_type<Run>())
+    #
+    #                 if (run.text.contains(ControlChar.page_break))
+    #
+    #                     endNode = run
+    #                     break
+    #
+    #
+    #
+    #
+    #         if (startNode != null && endNode != null)
+    #
+    #             RemoveSequence(startNode, endNode)
+    #
+    #             startNode.remove()
+    #             endNode.remove()
+    #
+    #
+    #         NodeCollection fStart = doc.get_child_nodes(NodeType.field_start, true)
+    #
+    #         foreach (FieldStart field in fStart.of_type<FieldStart>())
+    #
+    #             FieldType fType = field.field_type
+    #             if (fType == FieldType.field_toc)
+    #
+    #                 Paragraph para = (Paragraph)field.get_ancestor(NodeType.paragraph)
+    #                 para.range.update_fields()
+    #                 break
+    #
+    #
+    #
+    #         doc.save(aeb.artifacts_dir + "Field.update_toc_page_numbers.docx")
+    #
+    #
+    #     private static void RemoveSequence(Node start, Node end)
+    #
+    #         Node curNode = start.next_pre_order(start.document)
+    #         while (curNode != null && !curNode.equals(end))
+    #
+    #             Node nextNode = curNode.next_pre_order(start.document)
+    #
+    #             if (curNode.is_composite)
+    #
+    #                 CompositeNode curComposite = (CompositeNode)curNode
+    #                 if (!curComposite.get_child_nodes(NodeType.any, true).contains(end) &&
+    #                     !curComposite.get_child_nodes(NodeType.any, true).contains(start))
+    #
+    #                     nextNode = curNode.next_sibling
+    #                     curNode.remove()
+    #
+    #
+    #             else
+    #
+    #                 curNode.remove()
+    #
+    #
+    #             curNode = nextNode
+    #
+    #
+    #
+    #     #ExStart
+    #     #ExFor:Fields.field_ask
+    #     #ExFor:Fields.field_ask.bookmark_name
+    #     #ExFor:Fields.field_ask.default_response
+    #     #ExFor:Fields.field_ask.prompt_once_on_mail_merge
+    #     #ExFor:Fields.field_ask.prompt_text
+    #     #ExFor:FieldOptions.user_prompt_respondent
+    #     #ExFor:IFieldUserPromptRespondent
+    #     #ExFor:IFieldUserPromptRespondent.respond(String,String)
+    #     #ExSummary:Shows how to create an ASK field, and set its properties.
+    #     def test_field_ask(self) :
+    #
+    #         doc = aw.Document()
+    #         builder = aw.DocumentBuilder(doc)
+    #
+    #         # Place a field where the response to our ASK field will be placed.
+    #         FieldRef fieldRef = (FieldRef)builder.insert_field(FieldType.field_ref, true)
+    #         fieldRef.bookmark_name = "MyAskField"
+    #         builder.writeln()
+    #
+    #         self.assertEqual(" REF  MyAskField", fieldRef.get_field_code())
+    #
+    #         # Insert the ASK field and edit its properties to reference our REF field by bookmark name.
+    #         FieldAsk fieldAsk = (FieldAsk)builder.insert_field(FieldType.field_ask, true)
+    #         fieldAsk.bookmark_name = "MyAskField"
+    #         fieldAsk.prompt_text = "Please provide a response for this ASK field"
+    #         fieldAsk.default_response = "Response from within the field."
+    #         fieldAsk.prompt_once_on_mail_merge = true
+    #         builder.writeln()
+    #
+    #         self.assertEqual(
+    #             " ASK  MyAskField \"Please provide a response for this ASK field\" \\d \"Response from within the field.\" \\o",
+    #             fieldAsk.get_field_code())
+    #
+    #         # ASK fields apply the default response to their respective REF fields during a mail merge.
+    #         DataTable table = new DataTable("My Table")
+    #         table.columns.add("Column 1")
+    #         table.rows.add("Row 1")
+    #         table.rows.add("Row 2")
+    #
+    #         FieldMergeField fieldMergeField = (FieldMergeField)builder.insert_field(FieldType.field_merge_field, true)
+    #         fieldMergeField.field_name = "Column 1"
+    #
+    #         # We can modify or override the default response in our ASK fields with a custom prompt responder,
+    #         # which will occur during a mail merge.
+    #         doc.field_options.user_prompt_respondent = new MyPromptRespondent()
+    #         doc.mail_merge.execute(table)
+    #
+    #         doc.update_fields()
+    #         doc.save(aeb.artifacts_dir + "Field.ask.docx")
+    #         TestFieldAsk(table, doc) #ExSkip
+    #
+    #
+    #     # <summary>
+    #     # Prepends text to the default response of an ASK field during a mail merge.
+    #     # </summary>
+    #     private class MyPromptRespondent : IFieldUserPromptRespondent
+    #
+    #         public string Respond(string promptText, string defaultResponse)
+    #
+    #             return "Response from MyPromptRespondent. " + defaultResponse
+    #
+    #
+    #     #ExEnd
+    #
+    #     private void TestFieldAsk(DataTable dataTable, Document doc)
+    #
+    #         doc = DocumentHelper.save_open(doc)
+    #
+    #         FieldRef fieldRef = (FieldRef)doc.range.fields.first(f => f.type == FieldType.field_ref)
+    #         TestUtil.verify_field(FieldType.field_ref,
+    #             " REF  MyAskField", "Response from MyPromptRespondent. Response from within the field.", fieldRef)
+    #
+    #         FieldAsk fieldAsk = (FieldAsk)doc.range.fields.first(f => f.type == FieldType.field_ask)
+    #         TestUtil.verify_field(FieldType.field_ask,
+    #             " ASK  MyAskField \"Please provide a response for this ASK field\" \\d \"Response from within the field.\" \\o",
+    #             "Response from MyPromptRespondent. Response from within the field.", fieldAsk)
+    #
+    #         self.assertEqual("MyAskField", fieldAsk.bookmark_name)
+    #         self.assertEqual("Please provide a response for this ASK field", fieldAsk.prompt_text)
+    #         self.assertEqual("Response from within the field.", fieldAsk.default_response)
+    #         self.assertEqual(true, fieldAsk.prompt_once_on_mail_merge)
+    #
+    #         TestUtil.mail_merge_matches_data_table(dataTable, doc, true)
+    #
+    #
+    def test_field_advance(self):
+
+        # ExStart
+        # ExFor:Fields.field_advance
+        # ExFor:Fields.field_advance.down_offset
+        # ExFor:Fields.field_advance.horizontal_position
+        # ExFor:Fields.field_advance.left_offset
+        # ExFor:Fields.field_advance.right_offset
+        # ExFor:Fields.field_advance.up_offset
+        # ExFor:Fields.field_advance.vertical_position
+        # ExSummary:Shows how to insert an ADVANCE field, and edit its properties.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        builder.write("This text is in its normal place.")
+
+        # Below are two ways of using the ADVANCE field to adjust the position of text that follows it.
+        # The effects of an ADVANCE field continue to be applied until the paragraph ends,
+        # or another ADVANCE field updates the offset/coordinate values.
+        # 1 -  Specify a directional offset:
+        field = builder.insert_field(aw.fields.FieldType.FIELD_ADVANCE, True).as_field_advance()
+        self.assertEqual(aw.fields.FieldType.FIELD_ADVANCE, field.type)  # ExSkip
+        self.assertEqual(" ADVANCE ", field.get_field_code())  # ExSkip
+        field.right_offset = "5"
+        field.up_offset = "5"
+
+        self.assertEqual(" ADVANCE  \\r 5 \\u 5", field.get_field_code())
+
+        builder.write("This text will be moved up and to the right.")
+
+        field = builder.insert_field(aw.fields.FieldType.FIELD_ADVANCE, True).as_field_advance()
+        field.down_offset = "5"
+        field.left_offset = "100"
+
+        self.assertEqual(" ADVANCE  \\d 5 \\l 100", field.get_field_code())
+
+        builder.writeln("This text is moved down and to the left, overlapping the previous text.")
+
+        # 2 -  Move text to a position specified by coordinates:
+        field = builder.insert_field(aw.fields.FieldType.FIELD_ADVANCE, True).as_field_advance()
+        field.horizontal_position = "-100"
+        field.vertical_position = "200"
+
+        self.assertEqual(" ADVANCE  \\x -100 \\y 200", field.get_field_code())
+
+        builder.write("This text is in a custom position.")
+
+        doc.save(aeb.artifacts_dir + "Field.advance.docx")
+        # ExEnd
+
+        doc = aw.Document(aeb.artifacts_dir + "Field.advance.docx")
+
+        field = doc.range.fields[0].as_field_advance()
+
+        # TestUtil.verify_field(FieldType.field_advance, " ADVANCE  \\r 5 \\u 5", string.empty, field)
+        self.assertEqual("5", field.right_offset)
+        self.assertEqual("5", field.up_offset)
+
+        field = doc.range.fields[1].as_field_advance()
+
+        # TestUtil.verify_field(FieldType.field_advance, " ADVANCE  \\d 5 \\l 100", string.empty, field)
+        self.assertEqual("5", field.down_offset)
+        self.assertEqual("100", field.left_offset)
+
+        field = doc.range.fields[2].as_field_advance()
+
+        # TestUtil.verify_field(FieldType.field_advance, " ADVANCE  \\x -100 \\y 200", string.empty, field)
+        self.assertEqual("-100", field.horizontal_position)
+        self.assertEqual("200", field.vertical_position)
+
+    @unittest.skip("Working with CultureInfo ??? ")
+    def test_field_address_block(self):
+
+        # ExStart
+        # ExFor:Fields.field_address_block.excluded_country_or_region_name
+        # ExFor:Fields.field_address_block.format_address_on_country_or_region
+        # ExFor:Fields.field_address_block.include_country_or_region_name
+        # ExFor:Fields.field_address_block.language_id
+        # ExFor:Fields.field_address_block.name_and_address_format
+        # ExSummary:Shows how to insert an ADDRESSBLOCK field.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        field = builder.insert_field(aw.fields.FieldType.FIELD_ADDRESS_BLOCK, True).as_field_address_block()
+
+        self.assertEqual(" ADDRESSBLOCK ", field.get_field_code())
+
+        # Setting this to "2" will include all countries and regions,
+        # unless it is the one specified in the ExcludedCountryOrRegionName property.
+        field.include_country_or_region_name = "2"
+        field.format_address_on_country_or_region = True
+        field.excluded_country_or_region_name = "United States"
+        field.name_and_address_format = "<Title> <Forename> <Surname> <Address Line 1> <Region> <Postcode> <Country>"
+
+        # By default, this property will contain the language ID of the first character of the document.
+        # We can set a different culture for the field to format the result with like this.
+        field.language_id = CultureInfo("en-US").lcid.to_string()
+
+        self.assertEqual(
+            " ADDRESSBLOCK  \\c 2 \\d \\e \"United States\" \\f \"<Title> <Forename> <Surname> <Address Line 1> <Region> <Postcode> <Country>\" \\l 1033",
+            field.get_field_code())
+        # ExEnd
+
+        doc = DocumentHelper.save_open(doc)
+        field = doc.range.fields[0].as_field_address_block()
+
+        # TestUtil.verify_field(FieldType.field_address_block,
+        #     " ADDRESSBLOCK  \\c 2 \\d \\e \"United States\" \\f \"<Title> <Forename> <Surname> <Address Line 1> <Region> <Postcode> <Country>\" \\l 1033",
+        #     "«AddressBlock»", field)
+        self.assertEqual("2", field.include_country_or_region_name)
+        self.assertEqual(True, field.format_address_on_country_or_region)
+        self.assertEqual("United States", field.excluded_country_or_region_name)
+        self.assertEqual("<Title> <Forename> <Surname> <Address Line 1> <Region> <Postcode> <Country>",
+                         field.name_and_address_format)
+        self.assertEqual("1033", field.language_id)
+
+    #     #ExStart
+    #     #ExFor:FieldCollection
+    #     #ExFor:FieldCollection.count
+    #     #ExFor:FieldCollection.get_enumerator
+    #     #ExFor:FieldStart
+    #     #ExFor:FieldStart.accept(DocumentVisitor)
+    #     #ExFor:FieldSeparator
+    #     #ExFor:FieldSeparator.accept(DocumentVisitor)
+    #     #ExFor:FieldEnd
+    #     #ExFor:FieldEnd.accept(DocumentVisitor)
+    #     #ExFor:FieldEnd.has_separator
+    #     #ExFor:Field.end
+    #     #ExFor:Field.separator
+    #     #ExFor:Field.start
+    #     #ExSummary:Shows how to work with a collection of fields.
+    #     def test_field_collection(self) :
+    #
+    #         doc = aw.Document()
+    #         builder = aw.DocumentBuilder(doc)
+    #
+    #         builder.insert_field(" DATE \\@ \"dddd, d MMMM yyyy\" ")
+    #         builder.insert_field(" TIME ")
+    #         builder.insert_field(" REVNUM ")
+    #         builder.insert_field(" AUTHOR  \"John Doe\" ")
+    #         builder.insert_field(" SUBJECT \"My Subject\" ")
+    #         builder.insert_field(" QUOTE \"Hello world!\" ")
+    #         doc.update_fields()
+    #
+    #         FieldCollection fields = doc.range.fields
+    #
+    #         self.assertEqual(6, fields.count)
+    #
+    #         # Iterate over the field collection, and print contents and type
+    #         # of every field using a custom visitor implementation.
+    #         FieldVisitor fieldVisitor = new FieldVisitor()
+    #
+    #         using (IEnumerator<Field> fieldEnumerator = fields.get_enumerator())
+    #
+    #             while (fieldEnumerator.move_next())
+    #
+    #                 if (fieldEnumerator.current != null)
+    #
+    #                     fieldEnumerator.current.start.accept(fieldVisitor)
+    #                     fieldEnumerator.current.separator?.accept(fieldVisitor)
+    #                     fieldEnumerator.current.end.accept(fieldVisitor)
+    #
+    #                 else
+    #
+    #                     print("There are no fields in the document.")
+    #
+    #
+    #
+    #
+    #         print(fieldVisitor.get_text())
+    #         TestFieldCollection(fieldVisitor.get_text()) #ExSkip
+    #
+    #
+    #     # <summary>
+    #     # Document visitor implementation that prints field info.
+    #     # </summary>
+    #     public class FieldVisitor : DocumentVisitor
+    #
+    #         public FieldVisitor()
+    #
+    #             mBuilder = new StringBuilder()
+    #
+    #
+    #         # <summary>
+    #         # Gets the plain text of the document that was accumulated by the visitor.
+    #         # </summary>
+    #         public string GetText()
+    #
+    #             return mBuilder.to_string()
+    #
+    #
+    #         # <summary>
+    #         # Called when a FieldStart node is encountered in the document.
+    #         # </summary>
+    #         public override VisitorAction VisitFieldStart(FieldStart fieldStart)
+    #
+    #             mBuilder.append_line("Found field: " + fieldStart.field_type)
+    #             mBuilder.append_line("\tField code: " + fieldStart.get_field().get_field_code())
+    #             mBuilder.append_line("\tDisplayed as: " + fieldStart.get_field().result)
+    #
+    #             return VisitorAction.continue
+    #
+    #
+    #         # <summary>
+    #         # Called when a FieldSeparator node is encountered in the document.
+    #         # </summary>
+    #         public override VisitorAction VisitFieldSeparator(FieldSeparator fieldSeparator)
+    #
+    #             mBuilder.append_line("\tFound separator: " + fieldSeparator.get_text())
+    #
+    #             return VisitorAction.continue
+    #
+    #
+    #         # <summary>
+    #         # Called when a FieldEnd node is encountered in the document.
+    #         # </summary>
+    #         public override VisitorAction VisitFieldEnd(FieldEnd fieldEnd)
+    #
+    #             mBuilder.append_line("End of field: " + fieldEnd.field_type)
+    #
+    #             return VisitorAction.continue
+    #
+    #
+    #         private readonly StringBuilder mBuilder
+    #
+    #     #ExEnd
+    #
+    #     private void TestFieldCollection(string fieldVisitorText)
+    #
+    #         self.assertTrue(fieldVisitorText.contains("Found field: FieldDate"))
+    #         self.assertTrue(fieldVisitorText.contains("Found field: FieldTime"))
+    #         self.assertTrue(fieldVisitorText.contains("Found field: FieldRevisionNum"))
+    #         self.assertTrue(fieldVisitorText.contains("Found field: FieldAuthor"))
+    #         self.assertTrue(fieldVisitorText.contains("Found field: FieldSubject"))
+    #         self.assertTrue(fieldVisitorText.contains("Found field: FieldQuote"))
+    #
+    #
+    def test_remove_fields(self):
+
+        # ExStart
+        # ExFor:FieldCollection
+        # ExFor:FieldCollection.count
+        # ExFor:FieldCollection.clear
+        # ExFor:FieldCollection.item(Int32)
+        # ExFor:FieldCollection.remove(Field)
+        # ExFor:FieldCollection.remove_at(Int32)
+        # ExFor:Field.remove
+        # ExSummary:Shows how to remove fields from a field collection.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        builder.insert_field(" DATE \\@ \"dddd, d MMMM yyyy\" ")
+        builder.insert_field(" TIME ")
+        builder.insert_field(" REVNUM ")
+        builder.insert_field(" AUTHOR  \"John Doe\" ")
+        builder.insert_field(" SUBJECT \"My Subject\" ")
+        builder.insert_field(" QUOTE \"Hello world!\" ")
+        doc.update_fields()
+
+        fields = doc.range.fields
+
+        self.assertEqual(6, fields.count)
+
+        # Below are four ways of removing fields from a field collection.
+        # 1 -  Get a field to remove itself:
+        fields[0].remove()
+        self.assertEqual(5, fields.count)
+
+        # 2 -  Get the collection to remove a field that we pass to its removal method:
+        last_field = fields[3]
+        fields.remove(last_field)
+        self.assertEqual(4, fields.count)
+
+        # 3 -  Remove a field from a collection at an index:
+        fields.remove_at(2)
+        self.assertEqual(3, fields.count)
+
+        # 4 -  Remove all the fields from the collection at once:
+        fields.clear()
+        self.assertEqual(0, fields.count)
+        # ExEnd
+
+    def test_field_compare(self):
+
+        # ExStart
+        # ExFor:FieldCompare
+        # ExFor:FieldCompare.comparison_operator
+        # ExFor:FieldCompare.left_expression
+        # ExFor:FieldCompare.right_expression
+        # ExSummary:Shows how to compare expressions using a COMPARE field.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        field = builder.insert_field(aw.fields.FieldType.FIELD_COMPARE, True).as_field_compare()
+        field.left_expression = "3"
+        field.comparison_operator = "<"
+        field.right_expression = "2"
+        field.update()
+
+        # The COMPARE field displays a "0" or a "1", depending on its statement's truth.
+        # The result of this statement is false so that this field will display a "0".
+        self.assertEqual(" COMPARE  3 < 2", field.get_field_code())
+        self.assertEqual("0", field.result)
+
+        builder.writeln()
+
+        field = builder.insert_field(aw.fields.FieldType.FIELD_COMPARE, True).as_field_compare()
+        field.left_expression = "5"
+        field.comparison_operator = "="
+        field.right_expression = "2 + 3"
+        field.update()
+
+        # This field displays a "1" since the statement is true.
+        self.assertEqual(" COMPARE  5 = \"2 + 3\"", field.get_field_code())
+        self.assertEqual("1", field.result)
+
+        doc.update_fields()
+        doc.save(aeb.artifacts_dir + "Field.compare.docx")
+        # ExEnd
+
+        doc = aw.Document(aeb.artifacts_dir + "Field.compare.docx")
+
+        field = doc.range.fields[0].as_field_compare()
+
+        # TestUtil.verify_field(FieldType.field_compare, " COMPARE  3 < 2", "0", field)
+        self.assertEqual("3", field.left_expression)
+        self.assertEqual("<", field.comparison_operator)
+        self.assertEqual("2", field.right_expression)
+
+        field = doc.range.fields[1].as_field_compare()
+
+        # TestUtil.verify_field(FieldType.field_compare, " COMPARE  5 = \"2 + 3\"", "1", field)
+        self.assertEqual("5", field.left_expression)
+        self.assertEqual("=", field.comparison_operator)
+        self.assertEqual("\"2 + 3\"", field.right_expression)
+
+    def test_field_if(self):
+
+        # ExStart
+        # ExFor:FieldIf
+        # ExFor:FieldIf.comparison_operator
+        # ExFor:FieldIf.evaluate_condition
+        # ExFor:FieldIf.false_text
+        # ExFor:FieldIf.left_expression
+        # ExFor:FieldIf.right_expression
+        # ExFor:FieldIf.true_text
+        # ExFor:FieldIfComparisonResult
+        # ExSummary:Shows how to insert an IF field.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        builder.write("Statement 1: ")
+        field = builder.insert_field(aw.fields.FieldType.FIELD_IF, True).as_field_if()
+        field.left_expression = "0"
+        field.comparison_operator = "="
+        field.right_expression = "1"
+
+        # The IF field will display a string from either its "TrueText" property,
+        # or its "FalseText" property, depending on the truth of the statement that we have constructed.
+        field.true_text = "True"
+        field.false_text = "False"
+        field.update()
+
+        # In this case, "0 = 1" is incorrect, so the displayed result will be "False".
+        self.assertEqual(" IF  0 = 1 True False", field.get_field_code())
+        self.assertEqual(aw.fields.FieldIfComparisonResult.FALSE, field.evaluate_condition())
+        self.assertEqual("False", field.result)
+
+        builder.write("\nStatement 2: ")
+        field = builder.insert_field(aw.fields.FieldType.FIELD_IF, True).as_field_if()
+        field.left_expression = "5"
+        field.comparison_operator = "="
+        field.right_expression = "2 + 3"
+        field.true_text = "True"
+        field.false_text = "False"
+        field.update()
+
+        # This time the statement is correct, so the displayed result will be "True".
+        self.assertEqual(" IF  5 = \"2 + 3\" True False", field.get_field_code())
+        self.assertEqual(aw.fields.FieldIfComparisonResult.TRUE, field.evaluate_condition())
+        self.assertEqual("True", field.result)
+
+        doc.update_fields()
+        doc.save(aeb.artifacts_dir + "Field.if.docx")
+        # ExEnd
+
+        doc = aw.Document(aeb.artifacts_dir + "Field.if.docx")
+        field = doc.range.fields[0].as_field_if()
+
+        # TestUtil.verify_field(FieldType.field_if, " IF  0 = 1 True False", "False", field)
+        self.assertEqual("0", field.left_expression)
+        self.assertEqual("=", field.comparison_operator)
+        self.assertEqual("1", field.right_expression)
+        self.assertEqual("True", field.true_text)
+        self.assertEqual("False", field.false_text)
+
+        field = doc.range.fields[1].as_field_if()
+
+        # TestUtil.verify_field(FieldType.field_if, " IF  5 = \"2 + 3\" True False", "True", field)
+        self.assertEqual("5", field.left_expression)
+        self.assertEqual("=", field.comparison_operator)
+        self.assertEqual("\"2 + 3\"", field.right_expression)
+        self.assertEqual("True", field.true_text)
+        self.assertEqual("False", field.false_text)
 
 
+    def test_field_auto_num(self) :
+
+        #ExStart
+        #ExFor:FieldAutoNum
+        #ExFor:FieldAutoNum.separator_character
+        #ExSummary:Shows how to number paragraphs using autonum fields.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        # Each AUTONUM field displays the current value of a running count of AUTONUM fields,
+        # allowing us to automatically number items like a numbered list.
+        # This field will display a number "1.".
+        field = builder.insert_field(aw.fields.FieldType.FIELD_AUTO_NUM, True).as_field_auto_num()
+        builder.writeln("\tParagraph 1.")
+
+        self.assertEqual(" AUTONUM ", field.get_field_code())
+
+        field = builder.insert_field(aw.fields.FieldType.FIELD_AUTO_NUM, True).as_field_auto_num()
+        builder.writeln("\tParagraph 2.")
+
+        # The separator character, which appears in the field result immediately after the number,is a full stop by default.
+        # If we leave this property null, our second AUTONUM field will display "2." in the document.
+        self.assertIsNone(field.separator_character)
+
+        # We can set this property to apply the first character of its string as the new separator character.
+        # In this case, our AUTONUM field will now display "2:".
+        field.separator_character = ":"
+
+        self.assertEqual(" AUTONUM  \\s :", field.get_field_code())
+
+        doc.save(aeb.artifacts_dir + "Field.autonum.docx")
         #ExEnd
 
+        doc = aw.Document(aeb.artifacts_dir + "Field.autonum.docx")
 
-#     def test_field_format(self) :
-#
-#         #ExStart
-#         #ExFor:Field.format
-#         #ExFor:Field.update
-#         #ExFor:FieldFormat
-#         #ExFor:FieldFormat.date_time_format
-#         #ExFor:FieldFormat.numeric_format
-#         #ExFor:FieldFormat.general_formats
-#         #ExFor:GeneralFormat
-#         #ExFor:GeneralFormatCollection
-#         #ExFor:GeneralFormatCollection.add(GeneralFormat)
-#         #ExFor:GeneralFormatCollection.count
-#         #ExFor:GeneralFormatCollection.item(Int32)
-#         #ExFor:GeneralFormatCollection.remove(GeneralFormat)
-#         #ExFor:GeneralFormatCollection.remove_at(Int32)
-#         #ExFor:GeneralFormatCollection.get_enumerator
-#         #ExSummary:Shows how to format field results.
-#         doc = aw.Document()
-#         builder = aw.DocumentBuilder(doc)
-#
-#         # Use a document builder to insert a field that displays a result with no format applied.
-#         Field field = builder.insert_field("= 2 + 3")
-#
-#         self.assertEqual("= 2 + 3", field.get_field_code())
-#         self.assertEqual("5", field.result)
-#
-#         # We can apply a format to a field's result using the field's properties.
-#         # Below are three types of formats that we can apply to a field's result.
-#         # 1 -  Numeric format:
-#         FieldFormat format = field.format
-#         format.numeric_format = "$###.00"
-#         field.update()
-#
-#         self.assertEqual("= 2 + 3 \\# $###.00", field.get_field_code())
-#         self.assertEqual("$  5.00", field.result)
-#
-#         # 2 -  Date/time format:
-#         field = builder.insert_field("DATE")
-#         format = field.format
-#         format.date_time_format = "dddd, MMMM dd, yyyy"
-#         field.update()
-#
-#         self.assertEqual("DATE \\@ \"dddd, MMMM dd, yyyy\"", field.get_field_code())
-#         print($"Today's date, in format.date_time_format format:\n\tfield.result")
-#
-#         # 3 -  General format:
-#         field = builder.insert_field("= 25 + 33")
-#         format = field.format
-#         format.general_formats.add(GeneralFormat.lowercase_roman)
-#         format.general_formats.add(GeneralFormat.upper)
-#         field.update()
-#
-#         int index = 0
-#         using (IEnumerator<GeneralFormat> generalFormatEnumerator = format.general_formats.get_enumerator())
-#             while (generalFormatEnumerator.move_next())
-#                 print($"General format index index++: generalFormatEnumerator.current")
-#
-#         self.assertEqual("= 25 + 33 \\* roman \\* Upper", field.get_field_code())
-#         self.assertEqual("LVIII", field.result)
-#         self.assertEqual(2, format.general_formats.count)
-#         self.assertEqual(GeneralFormat.lowercase_roman, format.general_formats[0])
-#
-#         # We can remove our formats to revert the field's result to its original form.
-#         format.general_formats.remove(GeneralFormat.lowercase_roman)
-#         format.general_formats.remove_at(0)
-#         self.assertEqual(0, format.general_formats.count)
-#         field.update()
-#
-#         self.assertEqual("= 25 + 33  ", field.get_field_code())
-#         self.assertEqual("58", field.result)
-#         self.assertEqual(0, format.general_formats.count)
-#         #ExEnd
-#
-#
-#     def test_unlink(self) :
-#
-#         #ExStart
-#         #ExFor:Document.unlink_fields
-#         #ExSummary:Shows how to unlink all fields in the document.
-#         Document doc = new Document(aeb.my_dir + "Linked fields.docx")
-#
-#         doc.unlink_fields()
-#         #ExEnd
-#
-#         doc = DocumentHelper.save_open(doc)
-#         string paraWithFields = DocumentHelper.get_paragraph_text(doc, 0)
-#
-#         self.assertEqual("Fields.docx   Элементы указателя не найдены.     1.\r", paraWithFields)
-#
-#
-#     def test_unlink_all_fields_in_range(self) :
-#
-#         #ExStart
-#         #ExFor:Range.unlink_fields
-#         #ExSummary:Shows how to unlink all fields in a range.
-#         Document doc = new Document(aeb.my_dir + "Linked fields.docx")
-#
-#         Section newSection = (Section)doc.sections[0].clone(true)
-#         doc.sections.add(newSection)
-#
-#         doc.sections[1].range.unlink_fields()
-#         #ExEnd
-#
-#         doc = DocumentHelper.save_open(doc)
-#         string secWithFields = DocumentHelper.get_section_text(doc, 1)
-#
-#         self.assertTrue(secWithFields.strip().ends_with(
-#             "Fields.docx   Элементы указателя не найдены.     3.\rОшибка! Не указана последовательность.    Fields.docx   Элементы указателя не найдены.     4."))
-#
-#
-#     def test_unlink_single_field(self) :
-#
-#         #ExStart
-#         #ExFor:Field.unlink
-#         #ExSummary:Shows how to unlink a field.
-#         Document doc = new Document(aeb.my_dir + "Linked fields.docx")
-#         doc.range.fields[1].unlink()
-#         #ExEnd
-#
-#         doc = DocumentHelper.save_open(doc)
-#         string paraWithFields = DocumentHelper.get_paragraph_text(doc, 0)
-#
-#         self.assertTrue(paraWithFields.strip().ends_with(
-#             "FILENAME  \\* Caps  \\* MERGEFORMAT \u0014Fields.docx\u0015   Элементы указателя не найдены.     \u0013 LISTNUM  LegalDefault \u0015"))
-#
-#
-#     def test_update_toc_page_numbers(self) :
-#
-#         Document doc = new Document(aeb.my_dir + "Field sample - TOC.docx")
-#
-#         Node startNode = DocumentHelper.get_paragraph(doc, 2)
-#         Node endNode = null
-#
-#         NodeCollection paragraphCollection = doc.get_child_nodes(NodeType.paragraph, true)
-#
-#         foreach (Paragraph para in paragraphCollection.of_type<Paragraph>())
-#
-#             foreach (Run run in para.runs.of_type<Run>())
-#
-#                 if (run.text.contains(ControlChar.page_break))
-#
-#                     endNode = run
-#                     break
-#
-#
-#
-#
-#         if (startNode != null && endNode != null)
-#
-#             RemoveSequence(startNode, endNode)
-#
-#             startNode.remove()
-#             endNode.remove()
-#
-#
-#         NodeCollection fStart = doc.get_child_nodes(NodeType.field_start, true)
-#
-#         foreach (FieldStart field in fStart.of_type<FieldStart>())
-#
-#             FieldType fType = field.field_type
-#             if (fType == FieldType.field_toc)
-#
-#                 Paragraph para = (Paragraph)field.get_ancestor(NodeType.paragraph)
-#                 para.range.update_fields()
-#                 break
-#
-#
-#
-#         doc.save(aeb.artifacts_dir + "Field.update_toc_page_numbers.docx")
-#
-#
-#     private static void RemoveSequence(Node start, Node end)
-#
-#         Node curNode = start.next_pre_order(start.document)
-#         while (curNode != null && !curNode.equals(end))
-#
-#             Node nextNode = curNode.next_pre_order(start.document)
-#
-#             if (curNode.is_composite)
-#
-#                 CompositeNode curComposite = (CompositeNode)curNode
-#                 if (!curComposite.get_child_nodes(NodeType.any, true).contains(end) &&
-#                     !curComposite.get_child_nodes(NodeType.any, true).contains(start))
-#
-#                     nextNode = curNode.next_sibling
-#                     curNode.remove()
-#
-#
-#             else
-#
-#                 curNode.remove()
-#
-#
-#             curNode = nextNode
-#
-#
-#
-#     #ExStart
-#     #ExFor:Fields.field_ask
-#     #ExFor:Fields.field_ask.bookmark_name
-#     #ExFor:Fields.field_ask.default_response
-#     #ExFor:Fields.field_ask.prompt_once_on_mail_merge
-#     #ExFor:Fields.field_ask.prompt_text
-#     #ExFor:FieldOptions.user_prompt_respondent
-#     #ExFor:IFieldUserPromptRespondent
-#     #ExFor:IFieldUserPromptRespondent.respond(String,String)
-#     #ExSummary:Shows how to create an ASK field, and set its properties.
-#     def test_field_ask(self) :
-#
-#         doc = aw.Document()
-#         builder = aw.DocumentBuilder(doc)
-#
-#         # Place a field where the response to our ASK field will be placed.
-#         FieldRef fieldRef = (FieldRef)builder.insert_field(FieldType.field_ref, true)
-#         fieldRef.bookmark_name = "MyAskField"
-#         builder.writeln()
-#
-#         self.assertEqual(" REF  MyAskField", fieldRef.get_field_code())
-#
-#         # Insert the ASK field and edit its properties to reference our REF field by bookmark name.
-#         FieldAsk fieldAsk = (FieldAsk)builder.insert_field(FieldType.field_ask, true)
-#         fieldAsk.bookmark_name = "MyAskField"
-#         fieldAsk.prompt_text = "Please provide a response for this ASK field"
-#         fieldAsk.default_response = "Response from within the field."
-#         fieldAsk.prompt_once_on_mail_merge = true
-#         builder.writeln()
-#
-#         self.assertEqual(
-#             " ASK  MyAskField \"Please provide a response for this ASK field\" \\d \"Response from within the field.\" \\o",
-#             fieldAsk.get_field_code())
-#
-#         # ASK fields apply the default response to their respective REF fields during a mail merge.
-#         DataTable table = new DataTable("My Table")
-#         table.columns.add("Column 1")
-#         table.rows.add("Row 1")
-#         table.rows.add("Row 2")
-#
-#         FieldMergeField fieldMergeField = (FieldMergeField)builder.insert_field(FieldType.field_merge_field, true)
-#         fieldMergeField.field_name = "Column 1"
-#
-#         # We can modify or override the default response in our ASK fields with a custom prompt responder,
-#         # which will occur during a mail merge.
-#         doc.field_options.user_prompt_respondent = new MyPromptRespondent()
-#         doc.mail_merge.execute(table)
-#
-#         doc.update_fields()
-#         doc.save(aeb.artifacts_dir + "Field.ask.docx")
-#         TestFieldAsk(table, doc) #ExSkip
-#
-#
-#     # <summary>
-#     # Prepends text to the default response of an ASK field during a mail merge.
-#     # </summary>
-#     private class MyPromptRespondent : IFieldUserPromptRespondent
-#
-#         public string Respond(string promptText, string defaultResponse)
-#
-#             return "Response from MyPromptRespondent. " + defaultResponse
-#
-#
-#     #ExEnd
-#
-#     private void TestFieldAsk(DataTable dataTable, Document doc)
-#
-#         doc = DocumentHelper.save_open(doc)
-#
-#         FieldRef fieldRef = (FieldRef)doc.range.fields.first(f => f.type == FieldType.field_ref)
-#         TestUtil.verify_field(FieldType.field_ref,
-#             " REF  MyAskField", "Response from MyPromptRespondent. Response from within the field.", fieldRef)
-#
-#         FieldAsk fieldAsk = (FieldAsk)doc.range.fields.first(f => f.type == FieldType.field_ask)
-#         TestUtil.verify_field(FieldType.field_ask,
-#             " ASK  MyAskField \"Please provide a response for this ASK field\" \\d \"Response from within the field.\" \\o",
-#             "Response from MyPromptRespondent. Response from within the field.", fieldAsk)
-#
-#         self.assertEqual("MyAskField", fieldAsk.bookmark_name)
-#         self.assertEqual("Please provide a response for this ASK field", fieldAsk.prompt_text)
-#         self.assertEqual("Response from within the field.", fieldAsk.default_response)
-#         self.assertEqual(true, fieldAsk.prompt_once_on_mail_merge)
-#
-#         TestUtil.mail_merge_matches_data_table(dataTable, doc, true)
-#
-#
-#     def test_field_advance(self) :
-#
-#         #ExStart
-#         #ExFor:Fields.field_advance
-#         #ExFor:Fields.field_advance.down_offset
-#         #ExFor:Fields.field_advance.horizontal_position
-#         #ExFor:Fields.field_advance.left_offset
-#         #ExFor:Fields.field_advance.right_offset
-#         #ExFor:Fields.field_advance.up_offset
-#         #ExFor:Fields.field_advance.vertical_position
-#         #ExSummary:Shows how to insert an ADVANCE field, and edit its properties.
-#         doc = aw.Document()
-#         builder = aw.DocumentBuilder(doc)
-#
-#         builder.write("This text is in its normal place.")
-#
-#         # Below are two ways of using the ADVANCE field to adjust the position of text that follows it.
-#         # The effects of an ADVANCE field continue to be applied until the paragraph ends,
-#         # or another ADVANCE field updates the offset/coordinate values.
-#         # 1 -  Specify a directional offset:
-#         FieldAdvance field = (FieldAdvance)builder.insert_field(FieldType.field_advance, true)
-#         self.assertEqual(FieldType.field_advance, field.type) #ExSkip
-#         self.assertEqual(" ADVANCE ", field.get_field_code()) #ExSkip
-#         field.right_offset = "5"
-#         field.up_offset = "5"
-#
-#         self.assertEqual(" ADVANCE  \\r 5 \\u 5", field.get_field_code())
-#
-#         builder.write("This text will be moved up and to the right.")
-#
-#         field = (FieldAdvance)builder.insert_field(FieldType.field_advance, true)
-#         field.down_offset = "5"
-#         field.left_offset = "100"
-#
-#         self.assertEqual(" ADVANCE  \\d 5 \\l 100", field.get_field_code())
-#
-#         builder.writeln("This text is moved down and to the left, overlapping the previous text.")
-#
-#         # 2 -  Move text to a position specified by coordinates:
-#         field = (FieldAdvance)builder.insert_field(FieldType.field_advance, true)
-#         field.horizontal_position = "-100"
-#         field.vertical_position = "200"
-#
-#         self.assertEqual(" ADVANCE  \\x -100 \\y 200", field.get_field_code())
-#
-#         builder.write("This text is in a custom position.")
-#
-#         doc.save(aeb.artifacts_dir + "Field.advance.docx")
-#         #ExEnd
-#
-#         doc = new Document(aeb.artifacts_dir + "Field.advance.docx")
-#
-#         field = (FieldAdvance)doc.range.fields[0]
-#
-#         TestUtil.verify_field(FieldType.field_advance, " ADVANCE  \\r 5 \\u 5", string.empty, field)
-#         self.assertEqual("5", field.right_offset)
-#         self.assertEqual("5", field.up_offset)
-#
-#         field = (FieldAdvance)doc.range.fields[1]
-#
-#         TestUtil.verify_field(FieldType.field_advance, " ADVANCE  \\d 5 \\l 100", string.empty, field)
-#         self.assertEqual("5", field.down_offset)
-#         self.assertEqual("100", field.left_offset)
-#
-#         field = (FieldAdvance)doc.range.fields[2]
-#
-#         TestUtil.verify_field(FieldType.field_advance, " ADVANCE  \\x -100 \\y 200", string.empty, field)
-#         self.assertEqual("-100", field.horizontal_position)
-#         self.assertEqual("200", field.vertical_position)
-#
-#
-#     def test_field_address_block(self) :
-#
-#         #ExStart
-#         #ExFor:Fields.field_address_block.excluded_country_or_region_name
-#         #ExFor:Fields.field_address_block.format_address_on_country_or_region
-#         #ExFor:Fields.field_address_block.include_country_or_region_name
-#         #ExFor:Fields.field_address_block.language_id
-#         #ExFor:Fields.field_address_block.name_and_address_format
-#         #ExSummary:Shows how to insert an ADDRESSBLOCK field.
-#         doc = aw.Document()
-#         builder = aw.DocumentBuilder(doc)
-#
-#         FieldAddressBlock field = (FieldAddressBlock)builder.insert_field(FieldType.field_address_block, true)
-#
-#         self.assertEqual(" ADDRESSBLOCK ", field.get_field_code())
-#
-#         # Setting this to "2" will include all countries and regions,
-#         # unless it is the one specified in the ExcludedCountryOrRegionName property.
-#         field.include_country_or_region_name = "2"
-#         field.format_address_on_country_or_region = true
-#         field.excluded_country_or_region_name = "United States"
-#         field.name_and_address_format = "<Title> <Forename> <Surname> <Address Line 1> <Region> <Postcode> <Country>"
-#
-#         # By default, this property will contain the language ID of the first character of the document.
-#         # We can set a different culture for the field to format the result with like this.
-#         field.language_id = new CultureInfo("en-US").lcid.to_string()
-#
-#         self.assertEqual(
-#             " ADDRESSBLOCK  \\c 2 \\d \\e \"United States\" \\f \"<Title> <Forename> <Surname> <Address Line 1> <Region> <Postcode> <Country>\" \\l 1033",
-#             field.get_field_code())
-#         #ExEnd
-#
-#         doc = DocumentHelper.save_open(doc)
-#         field = (FieldAddressBlock)doc.range.fields[0]
-#
-#         TestUtil.verify_field(FieldType.field_address_block,
-#             " ADDRESSBLOCK  \\c 2 \\d \\e \"United States\" \\f \"<Title> <Forename> <Surname> <Address Line 1> <Region> <Postcode> <Country>\" \\l 1033",
-#             "«AddressBlock»", field)
-#         self.assertEqual("2", field.include_country_or_region_name)
-#         self.assertEqual(true, field.format_address_on_country_or_region)
-#         self.assertEqual("United States", field.excluded_country_or_region_name)
-#         self.assertEqual("<Title> <Forename> <Surname> <Address Line 1> <Region> <Postcode> <Country>",
-#             field.name_and_address_format)
-#         self.assertEqual("1033", field.language_id)
-#
-#
-#     #ExStart
-#     #ExFor:FieldCollection
-#     #ExFor:FieldCollection.count
-#     #ExFor:FieldCollection.get_enumerator
-#     #ExFor:FieldStart
-#     #ExFor:FieldStart.accept(DocumentVisitor)
-#     #ExFor:FieldSeparator
-#     #ExFor:FieldSeparator.accept(DocumentVisitor)
-#     #ExFor:FieldEnd
-#     #ExFor:FieldEnd.accept(DocumentVisitor)
-#     #ExFor:FieldEnd.has_separator
-#     #ExFor:Field.end
-#     #ExFor:Field.separator
-#     #ExFor:Field.start
-#     #ExSummary:Shows how to work with a collection of fields.
-#     def test_field_collection(self) :
-#
-#         doc = aw.Document()
-#         builder = aw.DocumentBuilder(doc)
-#
-#         builder.insert_field(" DATE \\@ \"dddd, d MMMM yyyy\" ")
-#         builder.insert_field(" TIME ")
-#         builder.insert_field(" REVNUM ")
-#         builder.insert_field(" AUTHOR  \"John Doe\" ")
-#         builder.insert_field(" SUBJECT \"My Subject\" ")
-#         builder.insert_field(" QUOTE \"Hello world!\" ")
-#         doc.update_fields()
-#
-#         FieldCollection fields = doc.range.fields
-#
-#         self.assertEqual(6, fields.count)
-#
-#         # Iterate over the field collection, and print contents and type
-#         # of every field using a custom visitor implementation.
-#         FieldVisitor fieldVisitor = new FieldVisitor()
-#
-#         using (IEnumerator<Field> fieldEnumerator = fields.get_enumerator())
-#
-#             while (fieldEnumerator.move_next())
-#
-#                 if (fieldEnumerator.current != null)
-#
-#                     fieldEnumerator.current.start.accept(fieldVisitor)
-#                     fieldEnumerator.current.separator?.accept(fieldVisitor)
-#                     fieldEnumerator.current.end.accept(fieldVisitor)
-#
-#                 else
-#
-#                     print("There are no fields in the document.")
-#
-#
-#
-#
-#         print(fieldVisitor.get_text())
-#         TestFieldCollection(fieldVisitor.get_text()) #ExSkip
-#
-#
-#     # <summary>
-#     # Document visitor implementation that prints field info.
-#     # </summary>
-#     public class FieldVisitor : DocumentVisitor
-#
-#         public FieldVisitor()
-#
-#             mBuilder = new StringBuilder()
-#
-#
-#         # <summary>
-#         # Gets the plain text of the document that was accumulated by the visitor.
-#         # </summary>
-#         public string GetText()
-#
-#             return mBuilder.to_string()
-#
-#
-#         # <summary>
-#         # Called when a FieldStart node is encountered in the document.
-#         # </summary>
-#         public override VisitorAction VisitFieldStart(FieldStart fieldStart)
-#
-#             mBuilder.append_line("Found field: " + fieldStart.field_type)
-#             mBuilder.append_line("\tField code: " + fieldStart.get_field().get_field_code())
-#             mBuilder.append_line("\tDisplayed as: " + fieldStart.get_field().result)
-#
-#             return VisitorAction.continue
-#
-#
-#         # <summary>
-#         # Called when a FieldSeparator node is encountered in the document.
-#         # </summary>
-#         public override VisitorAction VisitFieldSeparator(FieldSeparator fieldSeparator)
-#
-#             mBuilder.append_line("\tFound separator: " + fieldSeparator.get_text())
-#
-#             return VisitorAction.continue
-#
-#
-#         # <summary>
-#         # Called when a FieldEnd node is encountered in the document.
-#         # </summary>
-#         public override VisitorAction VisitFieldEnd(FieldEnd fieldEnd)
-#
-#             mBuilder.append_line("End of field: " + fieldEnd.field_type)
-#
-#             return VisitorAction.continue
-#
-#
-#         private readonly StringBuilder mBuilder
-#
-#     #ExEnd
-#
-#     private void TestFieldCollection(string fieldVisitorText)
-#
-#         self.assertTrue(fieldVisitorText.contains("Found field: FieldDate"))
-#         self.assertTrue(fieldVisitorText.contains("Found field: FieldTime"))
-#         self.assertTrue(fieldVisitorText.contains("Found field: FieldRevisionNum"))
-#         self.assertTrue(fieldVisitorText.contains("Found field: FieldAuthor"))
-#         self.assertTrue(fieldVisitorText.contains("Found field: FieldSubject"))
-#         self.assertTrue(fieldVisitorText.contains("Found field: FieldQuote"))
-#
-#
-#     def test_remove_fields(self) :
-#
-#         #ExStart
-#         #ExFor:FieldCollection
-#         #ExFor:FieldCollection.count
-#         #ExFor:FieldCollection.clear
-#         #ExFor:FieldCollection.item(Int32)
-#         #ExFor:FieldCollection.remove(Field)
-#         #ExFor:FieldCollection.remove_at(Int32)
-#         #ExFor:Field.remove
-#         #ExSummary:Shows how to remove fields from a field collection.
-#         doc = aw.Document()
-#         builder = aw.DocumentBuilder(doc)
-#
-#         builder.insert_field(" DATE \\@ \"dddd, d MMMM yyyy\" ")
-#         builder.insert_field(" TIME ")
-#         builder.insert_field(" REVNUM ")
-#         builder.insert_field(" AUTHOR  \"John Doe\" ")
-#         builder.insert_field(" SUBJECT \"My Subject\" ")
-#         builder.insert_field(" QUOTE \"Hello world!\" ")
-#         doc.update_fields()
-#
-#         FieldCollection fields = doc.range.fields
-#
-#         self.assertEqual(6, fields.count)
-#
-#         # Below are four ways of removing fields from a field collection.
-#         # 1 -  Get a field to remove itself:
-#         fields[0].remove()
-#         self.assertEqual(5, fields.count)
-#
-#         # 2 -  Get the collection to remove a field that we pass to its removal method:
-#         Field lastField = fields[3]
-#         fields.remove(lastField)
-#         self.assertEqual(4, fields.count)
-#
-#         # 3 -  Remove a field from a collection at an index:
-#         fields.remove_at(2)
-#         self.assertEqual(3, fields.count)
-#
-#         # 4 -  Remove all the fields from the collection at once:
-#         fields.clear()
-#         self.assertEqual(0, fields.count)
-#         #ExEnd
-#
-#
-#     def test_field_compare(self) :
-#
-#         #ExStart
-#         #ExFor:FieldCompare
-#         #ExFor:FieldCompare.comparison_operator
-#         #ExFor:FieldCompare.left_expression
-#         #ExFor:FieldCompare.right_expression
-#         #ExSummary:Shows how to compare expressions using a COMPARE field.
-#         doc = aw.Document()
-#         builder = aw.DocumentBuilder(doc)
-#
-#         FieldCompare field = (FieldCompare)builder.insert_field(FieldType.field_compare, true)
-#         field.left_expression = "3"
-#         field.comparison_operator = "<"
-#         field.right_expression = "2"
-#         field.update()
-#
-#         # The COMPARE field displays a "0" or a "1", depending on its statement's truth.
-#         # The result of this statement is false so that this field will display a "0".
-#         self.assertEqual(" COMPARE  3 < 2", field.get_field_code())
-#         self.assertEqual("0", field.result)
-#
-#         builder.writeln()
-#
-#         field = (FieldCompare)builder.insert_field(FieldType.field_compare, true)
-#         field.left_expression = "5"
-#         field.comparison_operator = "="
-#         field.right_expression = "2 + 3"
-#         field.update()
-#
-#         # This field displays a "1" since the statement is true.
-#         self.assertEqual(" COMPARE  5 = \"2 + 3\"", field.get_field_code())
-#         self.assertEqual("1", field.result)
-#
-#         doc.update_fields()
-#         doc.save(aeb.artifacts_dir + "Field.compare.docx")
-#         #ExEnd
-#
-#         doc = new Document(aeb.artifacts_dir + "Field.compare.docx")
-#
-#         field = (FieldCompare)doc.range.fields[0]
-#
-#         TestUtil.verify_field(FieldType.field_compare, " COMPARE  3 < 2", "0", field)
-#         self.assertEqual("3", field.left_expression)
-#         self.assertEqual("<", field.comparison_operator)
-#         self.assertEqual("2", field.right_expression)
-#
-#         field = (FieldCompare)doc.range.fields[1]
-#
-#         TestUtil.verify_field(FieldType.field_compare, " COMPARE  5 = \"2 + 3\"", "1", field)
-#         self.assertEqual("5", field.left_expression)
-#         self.assertEqual("=", field.comparison_operator)
-#         self.assertEqual("\"2 + 3\"", field.right_expression)
-#
-#
-#     def test_field_if(self) :
-#
-#         #ExStart
-#         #ExFor:FieldIf
-#         #ExFor:FieldIf.comparison_operator
-#         #ExFor:FieldIf.evaluate_condition
-#         #ExFor:FieldIf.false_text
-#         #ExFor:FieldIf.left_expression
-#         #ExFor:FieldIf.right_expression
-#         #ExFor:FieldIf.true_text
-#         #ExFor:FieldIfComparisonResult
-#         #ExSummary:Shows how to insert an IF field.
-#         doc = aw.Document()
-#         builder = aw.DocumentBuilder(doc)
-#
-#         builder.write("Statement 1: ")
-#         FieldIf field = (FieldIf)builder.insert_field(FieldType.field_if, true)
-#         field.left_expression = "0"
-#         field.comparison_operator = "="
-#         field.right_expression = "1"
-#
-#         # The IF field will display a string from either its "TrueText" property,
-#         # or its "FalseText" property, depending on the truth of the statement that we have constructed.
-#         field.true_text = "True"
-#         field.false_text = "False"
-#         field.update()
-#
-#         # In this case, "0 = 1" is incorrect, so the displayed result will be "False".
-#         self.assertEqual(" IF  0 = 1 True False", field.get_field_code())
-#         self.assertEqual(FieldIfComparisonResult.false, field.evaluate_condition())
-#         self.assertEqual("False", field.result)
-#
-#         builder.write("\nStatement 2: ")
-#         field = (FieldIf)builder.insert_field(FieldType.field_if, true)
-#         field.left_expression = "5"
-#         field.comparison_operator = "="
-#         field.right_expression = "2 + 3"
-#         field.true_text = "True"
-#         field.false_text = "False"
-#         field.update()
-#
-#         # This time the statement is correct, so the displayed result will be "True".
-#         self.assertEqual(" IF  5 = \"2 + 3\" True False", field.get_field_code())
-#         self.assertEqual(FieldIfComparisonResult.true, field.evaluate_condition())
-#         self.assertEqual("True", field.result)
-#
-#         doc.update_fields()
-#         doc.save(aeb.artifacts_dir + "Field.if.docx")
-#         #ExEnd
-#
-#         doc = new Document(aeb.artifacts_dir + "Field.if.docx")
-#         field = (FieldIf)doc.range.fields[0]
-#
-#         TestUtil.verify_field(FieldType.field_if, " IF  0 = 1 True False", "False", field)
-#         self.assertEqual("0", field.left_expression)
-#         self.assertEqual("=", field.comparison_operator)
-#         self.assertEqual("1", field.right_expression)
-#         self.assertEqual("True", field.true_text)
-#         self.assertEqual("False", field.false_text)
-#
-#         field = (FieldIf)doc.range.fields[1]
-#
-#         TestUtil.verify_field(FieldType.field_if, " IF  5 = \"2 + 3\" True False", "True", field)
-#         self.assertEqual("5", field.left_expression)
-#         self.assertEqual("=", field.comparison_operator)
-#         self.assertEqual("\"2 + 3\"", field.right_expression)
-#         self.assertEqual("True", field.true_text)
-#         self.assertEqual("False", field.false_text)
-#
-#
-#     def test_field_auto_num(self) :
-#
-#         #ExStart
-#         #ExFor:FieldAutoNum
-#         #ExFor:FieldAutoNum.separator_character
-#         #ExSummary:Shows how to number paragraphs using autonum fields.
-#         doc = aw.Document()
-#         builder = aw.DocumentBuilder(doc)
-#
-#         # Each AUTONUM field displays the current value of a running count of AUTONUM fields,
-#         # allowing us to automatically number items like a numbered list.
-#         # This field will display a number "1.".
-#         FieldAutoNum field = (FieldAutoNum)builder.insert_field(FieldType.field_auto_num, true)
-#         builder.writeln("\tParagraph 1.")
-#
-#         self.assertEqual(" AUTONUM ", field.get_field_code())
-#
-#         field = (FieldAutoNum)builder.insert_field(FieldType.field_auto_num, true)
-#         builder.writeln("\tParagraph 2.")
-#
-#         # The separator character, which appears in the field result immediately after the number,is a full stop by default.
-#         # If we leave this property null, our second AUTONUM field will display "2." in the document.
-#         Assert.is_null(field.separator_character)
-#
-#         # We can set this property to apply the first character of its string as the new separator character.
-#         # In this case, our AUTONUM field will now display "2:".
-#         field.separator_character = ":"
-#
-#         self.assertEqual(" AUTONUM  \\s :", field.get_field_code())
-#
-#         doc.save(aeb.artifacts_dir + "Field.autonum.docx")
-#         #ExEnd
-#
-#         doc = new Document(aeb.artifacts_dir + "Field.autonum.docx")
-#
-#         TestUtil.verify_field(FieldType.field_auto_num, " AUTONUM ", string.empty, doc.range.fields[0])
-#         TestUtil.verify_field(FieldType.field_auto_num, " AUTONUM  \\s :", string.empty, doc.range.fields[1])
-#
-#
+        # TestUtil.verify_field(FieldType.field_auto_num, " AUTONUM ", string.empty, doc.range.fields[0])
+        # TestUtil.verify_field(FieldType.field_auto_num, " AUTONUM  \\s :", string.empty, doc.range.fields[1])
+
+
 #     #ExStart
 #     #ExFor:FieldAutoNumLgl
 #     #ExFor:FieldAutoNumLgl.remove_trailing_period
