@@ -1212,13 +1212,12 @@ class ExField(aeb.ApiExampleBase):
         self.assertEqual("True", field.true_text)
         self.assertEqual("False", field.false_text)
 
+    def test_field_auto_num(self):
 
-    def test_field_auto_num(self) :
-
-        #ExStart
-        #ExFor:FieldAutoNum
-        #ExFor:FieldAutoNum.separator_character
-        #ExSummary:Shows how to number paragraphs using autonum fields.
+        # ExStart
+        # ExFor:FieldAutoNum
+        # ExFor:FieldAutoNum.separator_character
+        # ExSummary:Shows how to number paragraphs using autonum fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -1244,200 +1243,199 @@ class ExField(aeb.ApiExampleBase):
         self.assertEqual(" AUTONUM  \\s :", field.get_field_code())
 
         doc.save(aeb.artifacts_dir + "Field.autonum.docx")
-        #ExEnd
+        # ExEnd
 
         doc = aw.Document(aeb.artifacts_dir + "Field.autonum.docx")
 
         # TestUtil.verify_field(FieldType.field_auto_num, " AUTONUM ", string.empty, doc.range.fields[0])
         # TestUtil.verify_field(FieldType.field_auto_num, " AUTONUM  \\s :", string.empty, doc.range.fields[1])
 
+    #     #ExStart
+    #     #ExFor:FieldAutoNumLgl
+    #     #ExFor:FieldAutoNumLgl.remove_trailing_period
+    #     #ExFor:FieldAutoNumLgl.separator_character
+    #     #ExSummary:Shows how to organize a document using AUTONUMLGL fields.
+    #     def test_field_auto_num_lgl(self) :
+    #
+    #         doc = aw.Document()
+    #         builder = aw.DocumentBuilder(doc)
+    #
+    #         const string fillerText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
+    #                                   "\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+    #
+    #         # AUTONUMLGL fields display a number that increments at each AUTONUMLGL field within its current heading level.
+    #         # These fields maintain a separate count for each heading level,
+    #         # and each field also displays the AUTONUMLGL field counts for all heading levels below its own.
+    #         # Changing the count for any heading level resets the counts for all levels above that level to 1.
+    #         # This allows us to organize our document in the form of an outline list.
+    #         # This is the first AUTONUMLGL field at a heading level of 1, displaying "1." in the document.
+    #         InsertNumberedClause(builder, "\tHeading 1", fillerText, StyleIdentifier.heading_1)
+    #
+    #         # This is the second AUTONUMLGL field at a heading level of 1, so it will display "2.".
+    #         InsertNumberedClause(builder, "\tHeading 2", fillerText, StyleIdentifier.heading_1)
+    #
+    #         # This is the first AUTONUMLGL field at a heading level of 2,
+    #         # and the AUTONUMLGL count for the heading level below it is "2", so it will display "2.1.".
+    #         InsertNumberedClause(builder, "\tHeading 3", fillerText, StyleIdentifier.heading_2)
+    #
+    #         # This is the first AUTONUMLGL field at a heading level of 3.
+    #         # Working in the same way as the field above, it will display "2.1.1.".
+    #         InsertNumberedClause(builder, "\tHeading 4", fillerText, StyleIdentifier.heading_3)
+    #
+    #         # This field is at a heading level of 2, and its respective AUTONUMLGL count is at 2, so the field will display "2.2.".
+    #         InsertNumberedClause(builder, "\tHeading 5", fillerText, StyleIdentifier.heading_2)
+    #
+    #         # Incrementing the AUTONUMLGL count for a heading level below this one
+    #         # has reset the count for this level so that this field will display "2.2.1.".
+    #         InsertNumberedClause(builder, "\tHeading 6", fillerText, StyleIdentifier.heading_3)
+    #
+    #         foreach (FieldAutoNumLgl field in doc.range.fields.where(f => f.type == FieldType.field_auto_num_legal))
+    #
+    #             # The separator character, which appears in the field result immediately after the number,
+    #             # is a full stop by default. If we leave this property null,
+    #             # our last AUTONUMLGL field will display "2.2.1." in the document.
+    #             Assert.is_null(field.separator_character)
+    #
+    #             # Setting a custom separator character and removing the trailing period
+    #             # will change that field's appearance from "2.2.1." to "2:2:1".
+    #             # We will apply this to all the fields that we have created.
+    #             field.separator_character = ":"
+    #             field.remove_trailing_period = true
+    #             self.assertEqual(" AUTONUMLGL  \\s : \\e", field.get_field_code())
+    #
+    #
+    #         doc.save(aeb.artifacts_dir + "Field.autonumlgl.docx")
+    #         TestFieldAutoNumLgl(doc) #ExSkip
+    #
+    #
+    #     # <summary>
+    #     # Uses a document builder to insert a clause numbered by an AUTONUMLGL field.
+    #     # </summary>
+    #     private static void InsertNumberedClause(DocumentBuilder builder, string heading, string contents, StyleIdentifier headingStyle)
+    #
+    #         builder.insert_field(FieldType.field_auto_num_legal, true)
+    #         builder.current_paragraph.paragraph_format.style_identifier = headingStyle
+    #         builder.writeln(heading)
+    #
+    #         # This text will belong to the auto num legal field above it.
+    #         # It will collapse when we click the arrow next to the corresponding AUTONUMLGL field in Microsoft Word.
+    #         builder.current_paragraph.paragraph_format.style_identifier = StyleIdentifier.body_text
+    #         builder.writeln(contents)
+    #
+    #     #ExEnd
+    #
+    #     private void TestFieldAutoNumLgl(Document doc)
+    #
+    #         doc = DocumentHelper.save_open(doc)
+    #
+    #         foreach (FieldAutoNumLgl field in doc.range.fields.where(f => f.type == FieldType.field_auto_num_legal))
+    #
+    #             TestUtil.verify_field(FieldType.field_auto_num_legal, " AUTONUMLGL  \\s : \\e", string.empty, field)
+    #
+    #             self.assertEqual(":", field.separator_character)
+    #             self.assertTrue(field.remove_trailing_period)
+    #
 
-#     #ExStart
-#     #ExFor:FieldAutoNumLgl
-#     #ExFor:FieldAutoNumLgl.remove_trailing_period
-#     #ExFor:FieldAutoNumLgl.separator_character
-#     #ExSummary:Shows how to organize a document using AUTONUMLGL fields.
-#     def test_field_auto_num_lgl(self) :
-#
-#         doc = aw.Document()
-#         builder = aw.DocumentBuilder(doc)
-#
-#         const string fillerText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
-#                                   "\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
-#
-#         # AUTONUMLGL fields display a number that increments at each AUTONUMLGL field within its current heading level.
-#         # These fields maintain a separate count for each heading level,
-#         # and each field also displays the AUTONUMLGL field counts for all heading levels below its own.
-#         # Changing the count for any heading level resets the counts for all levels above that level to 1.
-#         # This allows us to organize our document in the form of an outline list.
-#         # This is the first AUTONUMLGL field at a heading level of 1, displaying "1." in the document.
-#         InsertNumberedClause(builder, "\tHeading 1", fillerText, StyleIdentifier.heading_1)
-#
-#         # This is the second AUTONUMLGL field at a heading level of 1, so it will display "2.".
-#         InsertNumberedClause(builder, "\tHeading 2", fillerText, StyleIdentifier.heading_1)
-#
-#         # This is the first AUTONUMLGL field at a heading level of 2,
-#         # and the AUTONUMLGL count for the heading level below it is "2", so it will display "2.1.".
-#         InsertNumberedClause(builder, "\tHeading 3", fillerText, StyleIdentifier.heading_2)
-#
-#         # This is the first AUTONUMLGL field at a heading level of 3.
-#         # Working in the same way as the field above, it will display "2.1.1.".
-#         InsertNumberedClause(builder, "\tHeading 4", fillerText, StyleIdentifier.heading_3)
-#
-#         # This field is at a heading level of 2, and its respective AUTONUMLGL count is at 2, so the field will display "2.2.".
-#         InsertNumberedClause(builder, "\tHeading 5", fillerText, StyleIdentifier.heading_2)
-#
-#         # Incrementing the AUTONUMLGL count for a heading level below this one
-#         # has reset the count for this level so that this field will display "2.2.1.".
-#         InsertNumberedClause(builder, "\tHeading 6", fillerText, StyleIdentifier.heading_3)
-#
-#         foreach (FieldAutoNumLgl field in doc.range.fields.where(f => f.type == FieldType.field_auto_num_legal))
-#
-#             # The separator character, which appears in the field result immediately after the number,
-#             # is a full stop by default. If we leave this property null,
-#             # our last AUTONUMLGL field will display "2.2.1." in the document.
-#             Assert.is_null(field.separator_character)
-#
-#             # Setting a custom separator character and removing the trailing period
-#             # will change that field's appearance from "2.2.1." to "2:2:1".
-#             # We will apply this to all the fields that we have created.
-#             field.separator_character = ":"
-#             field.remove_trailing_period = true
-#             self.assertEqual(" AUTONUMLGL  \\s : \\e", field.get_field_code())
-#
-#
-#         doc.save(aeb.artifacts_dir + "Field.autonumlgl.docx")
-#         TestFieldAutoNumLgl(doc) #ExSkip
-#
-#
-#     # <summary>
-#     # Uses a document builder to insert a clause numbered by an AUTONUMLGL field.
-#     # </summary>
-#     private static void InsertNumberedClause(DocumentBuilder builder, string heading, string contents, StyleIdentifier headingStyle)
-#
-#         builder.insert_field(FieldType.field_auto_num_legal, true)
-#         builder.current_paragraph.paragraph_format.style_identifier = headingStyle
-#         builder.writeln(heading)
-#
-#         # This text will belong to the auto num legal field above it.
-#         # It will collapse when we click the arrow next to the corresponding AUTONUMLGL field in Microsoft Word.
-#         builder.current_paragraph.paragraph_format.style_identifier = StyleIdentifier.body_text
-#         builder.writeln(contents)
-#
-#     #ExEnd
-#
-#     private void TestFieldAutoNumLgl(Document doc)
-#
-#         doc = DocumentHelper.save_open(doc)
-#
-#         foreach (FieldAutoNumLgl field in doc.range.fields.where(f => f.type == FieldType.field_auto_num_legal))
-#
-#             TestUtil.verify_field(FieldType.field_auto_num_legal, " AUTONUMLGL  \\s : \\e", string.empty, field)
-#
-#             self.assertEqual(":", field.separator_character)
-#             self.assertTrue(field.remove_trailing_period)
-#
-#
-#
-#     def test_field_auto_num_out(self) :
-#
-#         #ExStart
-#         #ExFor:FieldAutoNumOut
-#         #ExSummary:Shows how to number paragraphs using AUTONUMOUT fields.
-#         doc = aw.Document()
-#         builder = aw.DocumentBuilder(doc)
-#
-#         # AUTONUMOUT fields display a number that increments at each AUTONUMOUT field.
-#         # Unlike AUTONUM fields, AUTONUMOUT fields use the outline numbering scheme,
-#         # which we can define in Microsoft Word via Format -> Bullets & Numbering -> "Outline Numbered".
-#         # This allows us to automatically number items like a numbered list.
-#         # LISTNUM fields are a newer alternative to AUTONUMOUT fields.
-#         # This field will display "1.".
-#         builder.insert_field(FieldType.field_auto_num_outline, true)
-#         builder.writeln("\tParagraph 1.")
-#
-#         # This field will display "2.".
-#         builder.insert_field(FieldType.field_auto_num_outline, true)
-#         builder.writeln("\tParagraph 2.")
-#
-#         foreach (FieldAutoNumOut field in doc.range.fields.where(f => f.type == FieldType.field_auto_num_outline))
-#             self.assertEqual(" AUTONUMOUT ", field.get_field_code())
-#
-#         doc.save(aeb.artifacts_dir + "Field.autonumout.docx")
-#         #ExEnd
-#
-#         doc = new Document(aeb.artifacts_dir + "Field.autonumout.docx")
-#
-#         foreach (Field field in doc.range.fields)
-#             TestUtil.verify_field(FieldType.field_auto_num_outline, " AUTONUMOUT ", string.empty, field)
-#
-#
-#     def test_field_auto_text(self) :
-#
-#         #ExStart
-#         #ExFor:Fields.field_auto_text
-#         #ExFor:FieldAutoText.entry_name
-#         #ExFor:FieldOptions.built_in_templates_paths
-#         #ExFor:FieldGlossary
-#         #ExFor:FieldGlossary.entry_name
-#         #ExSummary:Shows how to display a building block with AUTOTEXT and GLOSSARY fields.
-#         doc = aw.Document()
-#
-#         # Create a glossary document and add an AutoText building block to it.
-#         doc.glossary_document = new GlossaryDocument()
-#         BuildingBlock buildingBlock = new BuildingBlock(doc.glossary_document)
-#         buildingBlock.name = "MyBlock"
-#         buildingBlock.gallery = BuildingBlockGallery.auto_text
-#         buildingBlock.category = "General"
-#         buildingBlock.description = "MyBlock description"
-#         buildingBlock.behavior = BuildingBlockBehavior.paragraph
-#         doc.glossary_document.append_child(buildingBlock)
-#
-#         # Create a source and add it as text to our building block.
-#         Document buildingBlockSource = new Document()
-#         DocumentBuilder buildingBlockSourceBuilder = new DocumentBuilder(buildingBlockSource)
-#         buildingBlockSourceBuilder.writeln("Hello World!")
-#
-#         Node buildingBlockContent = doc.glossary_document.import_node(buildingBlockSource.first_section, true)
-#         buildingBlock.append_child(buildingBlockContent)
-#
-#         # Set a file which contains parts that our document, or its attached template may not contain.
-#         doc.field_options.built_in_templates_paths = new[]  aeb.my_dir + "Busniess brochure.dotx"
-#
-#         builder = aw.DocumentBuilder(doc)
-#
-#         # Below are two ways to use fields to display the contents of our building block.
-#         # 1 -  Using an AUTOTEXT field:
-#         FieldAutoText fieldAutoText = (FieldAutoText)builder.insert_field(FieldType.field_auto_text, true)
-#         fieldAutoText.entry_name = "MyBlock"
-#
-#         self.assertEqual(" AUTOTEXT  MyBlock", fieldAutoText.get_field_code())
-#
-#         # 2 -  Using a GLOSSARY field:
-#         FieldGlossary fieldGlossary = (FieldGlossary)builder.insert_field(FieldType.field_glossary, true)
-#         fieldGlossary.entry_name = "MyBlock"
-#
-#         self.assertEqual(" GLOSSARY  MyBlock", fieldGlossary.get_field_code())
-#
-#         doc.update_fields()
-#         doc.save(aeb.artifacts_dir + "Field.autotext.glossary.dotx")
-#         #ExEnd
-#
-#         doc = new Document(aeb.artifacts_dir + "Field.autotext.glossary.dotx")
-#
-#         Assert.that(doc.field_options.built_in_templates_paths, Is.empty)
-#
-#         fieldAutoText = (FieldAutoText)doc.range.fields[0]
-#
-#         TestUtil.verify_field(FieldType.field_auto_text, " AUTOTEXT  MyBlock", "Hello World!\r", fieldAutoText)
-#         self.assertEqual("MyBlock", fieldAutoText.entry_name)
-#
-#         fieldGlossary = (FieldGlossary)doc.range.fields[1]
-#
-#         TestUtil.verify_field(FieldType.field_glossary, " GLOSSARY  MyBlock", "Hello World!\r", fieldGlossary)
-#         self.assertEqual("MyBlock", fieldGlossary.entry_name)
-#
-#
+    def test_field_auto_num_out(self):
+
+        # ExStart
+        # ExFor:FieldAutoNumOut
+        # ExSummary:Shows how to number paragraphs using AUTONUMOUT fields.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        # AUTONUMOUT fields display a number that increments at each AUTONUMOUT field.
+        # Unlike AUTONUM fields, AUTONUMOUT fields use the outline numbering scheme,
+        # which we can define in Microsoft Word via Format -> Bullets & Numbering -> "Outline Numbered".
+        # This allows us to automatically number items like a numbered list.
+        # LISTNUM fields are a newer alternative to AUTONUMOUT fields.
+        # This field will display "1.".
+        builder.insert_field(aw.fields.FieldType.FIELD_AUTO_NUM_OUTLINE, True)
+        builder.writeln("\tParagraph 1.")
+
+        # This field will display "2.".
+        builder.insert_field(aw.fields.FieldType.FIELD_AUTO_NUM_OUTLINE, True)
+        builder.writeln("\tParagraph 2.")
+
+        for field in doc.range.fields:
+            if field.type == aw.fields.FieldType.FIELD_AUTO_NUM_OUTLINE:
+                self.assertEqual(" AUTONUMOUT ", field.get_field_code())
+
+        doc.save(aeb.artifacts_dir + "Field.autonumout.docx")
+        # ExEnd
+
+        doc = aw.Document(aeb.artifacts_dir + "Field.autonumout.docx")
+
+        # for field in doc.range.fields:
+        #     TestUtil.verify_field(FieldType.field_auto_num_outline, " AUTONUMOUT ", string.empty, field)
+
+
+    def test_field_auto_text(self) :
+
+        #ExStart
+        #ExFor:Fields.field_auto_text
+        #ExFor:FieldAutoText.entry_name
+        #ExFor:FieldOptions.built_in_templates_paths
+        #ExFor:FieldGlossary
+        #ExFor:FieldGlossary.entry_name
+        #ExSummary:Shows how to display a building block with AUTOTEXT and GLOSSARY fields.
+        doc = aw.Document()
+
+        # Create a glossary document and add an AutoText building block to it.
+        doc.glossary_document = aw.buildingblocks.GlossaryDocument()
+        buildingBlock = aw.buildingblocks.BuildingBlock(doc.glossary_document)
+        buildingBlock.name = "MyBlock"
+        buildingBlock.gallery = aw.buildingblocks.BuildingBlockGallery.AUTO_TEXT
+        buildingBlock.category = "General"
+        buildingBlock.description = "MyBlock description"
+        buildingBlock.behavior = aw.buildingblocks.BuildingBlockBehavior.PARAGRAPH
+        doc.glossary_document.append_child(buildingBlock)
+
+        # Create a source and add it as text to our building block.
+        buildingBlockSource = aw.Document()
+        buildingBlockSourceBuilder = aw.DocumentBuilder(buildingBlockSource)
+        buildingBlockSourceBuilder.writeln("Hello World!")
+
+        buildingBlockContent = doc.glossary_document.import_node(buildingBlockSource.first_section, True)
+        buildingBlock.append_child(buildingBlockContent)
+
+        # Set a file which contains parts that our document, or its attached template may not contain.
+        doc.field_options.built_in_templates_paths = aeb.my_dir + "Busniess brochure.dotx"
+
+        builder = aw.DocumentBuilder(doc)
+
+        # Below are two ways to use fields to display the contents of our building block.
+        # 1 -  Using an AUTOTEXT field:
+        fieldAutoText = builder.insert_field(aw.fields.FieldType.FIELD_AUTO_TEXT, True).as_field_auto_text()
+        fieldAutoText.entry_name = "MyBlock"
+
+        self.assertEqual(" AUTOTEXT  MyBlock", fieldAutoText.get_field_code())
+
+        # 2 -  Using a GLOSSARY field:
+        fieldGlossary = builder.insert_field(aw.fields.FieldType.FIELD_GLOSSARY, True).as_field_glossary()
+        fieldGlossary.entry_name = "MyBlock"
+
+        self.assertEqual(" GLOSSARY  MyBlock", fieldGlossary.get_field_code())
+
+        doc.update_fields()
+        doc.save(aeb.artifacts_dir + "Field.autotext.glossary.dotx")
+        #ExEnd
+
+        doc = aw.Document(aeb.artifacts_dir + "Field.autotext.glossary.dotx")
+
+        # Assert.That(doc.FieldOptions.BuiltInTemplatesPaths, Is.Empty);
+
+        fieldAutoText = doc.range.fields[0].as_field_auto_text()
+
+        # TestUtil.verify_field(FieldType.field_auto_text, " AUTOTEXT  MyBlock", "Hello World!\r", fieldAutoText)
+        self.assertEqual("MyBlock", fieldAutoText.entry_name)
+
+        fieldGlossary = doc.range.fields[1].as_field_glossary()
+
+        # TestUtil.verify_field(FieldType.field_glossary, " GLOSSARY  MyBlock", "Hello World!\r", fieldGlossary)
+        self.assertEqual("MyBlock", fieldGlossary.entry_name)
+
+
 #     #ExStart
 #     #ExFor:Fields.field_auto_text_list
 #     #ExFor:Fields.field_auto_text_list.entry_name
