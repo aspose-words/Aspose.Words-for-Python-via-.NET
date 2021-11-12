@@ -94,8 +94,7 @@ class WorkingWithImageSaveOptions(DocsExamplesBase):
         # In this case we need to pass the desired SaveFormat to the ImageSaveOptions constructor
         # to signal what type of image to save as.
         image_options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
-        image_options.page_index = 2
-        image_options.page_count = 1
+        image_options.page_set = aw.saving.PageSet(2)
         image_options.jpeg_quality = 80
         doc.save(ARTIFACTS_DIR + "Rendering.JpegCustomOptions.jpg", image_options)
         #ExEnd:SaveDocumentToJPEG

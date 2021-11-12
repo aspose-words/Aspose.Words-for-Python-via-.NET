@@ -1,8 +1,10 @@
+import unittest
 import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR
 
 class WorkingWithParagraph(DocsExamplesBase):
 
+    @unittest.skip("LayoutCollector does nto work correctly. Skip for now.")
     def test_count_lines_in_paragraph(self):
 
         #ExStart:CountLinesInParagraph

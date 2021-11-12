@@ -181,6 +181,9 @@ class BaseConversions(DocsExamplesBase):
 
                 image.select_active_frame(dimension, frame_idx)
 
+                frame_stream = io.BytesIO()
+                image.save(frame_stream, drawing.imaging.ImageFormat.png)
+
                 # We want the size of the page to be the same as the size of the image.
                 # Convert pixels to points to size the page to the actual image size.
                 page_setup = builder.page_setup
@@ -189,7 +192,7 @@ class BaseConversions(DocsExamplesBase):
 
                 # Insert the image into the document and position it at the top left corner of the page.
                 builder.insert_image(
-                    image,
+                    frame_stream,
                     aw.drawing.RelativeHorizontalPosition.PAGE,
                     0,
                     aw.drawing.RelativeVerticalPosition.PAGE,

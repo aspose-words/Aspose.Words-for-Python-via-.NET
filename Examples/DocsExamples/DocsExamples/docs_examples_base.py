@@ -6,7 +6,7 @@ import aspose.words as aw
 # root_dir =  "X:/" if platform.system() == "Windows" else "/X/"
 ROOT_DIR = os.path.abspath(os.curdir) + "/"
 ROOT_DIR = ROOT_DIR[:ROOT_DIR.find("Aspose.Words-for-Python-via-.NET")]
-API_EXAMPLES_ROOT = ROOT_DIR + "Aspose.Words-for-Python-via-.NET/Examples/"
+API_EXAMPLES_ROOT = os.path.join(ROOT_DIR, "Aspose.Words-for-Python-via-.NET/Examples/")
 LICENSE_PATH = os.getenv("ASPOSE_WORDS_PYTHON_LICENSE", "Aspose.Words.Python.NET.lic")
 MY_DIR = API_EXAMPLES_ROOT + "Data/"
 ARTIFACTS_DIR = MY_DIR + "Artifacts/"
@@ -20,6 +20,8 @@ ASPOSE_LOGO_URL = "https://www.aspose.cloud/templates/aspose/App_Themes/V3/image
 
 class DocsExamplesBase(unittest.TestCase):
 
+    print(LICENSE_PATH)
+    print(ROOT_DIR)
     def setUp(self):
         if os.path.exists(LICENSE_PATH):
             lic = aw.License()

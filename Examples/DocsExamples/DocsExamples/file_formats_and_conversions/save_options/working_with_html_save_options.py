@@ -1,4 +1,5 @@
 import os
+import shutil
 
 import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
@@ -127,7 +128,7 @@ class WorkingWithHtmlSaveOptions(DocsExamplesBase):
 
         # The folder specified needs to exist and should be empty.
         if os.path.exists(images_dir):
-            os.rmdir(images_dir)
+            shutil.rmtree(images_dir)
 
         os.makedirs(images_dir)
 
