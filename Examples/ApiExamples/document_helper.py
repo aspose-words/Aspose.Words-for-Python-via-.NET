@@ -114,15 +114,15 @@ class DocumentHelper(aeb.ApiExampleBase):
     # <param name="doc">Current document</param>
     # <param name="text">Custom text</param>
     # <param name="paraIndex">Paragraph index</param>
-    #    def InsertNewRun(doc : aw.Document, text : str, paraIndex : int) -> aw.Run :
-    #        para = GetParagraph(doc, paraIndex)
+    def insert_new_run(self, doc, text, para_index):
+        para = self.get_paragraph(doc, para_index)
 
-    #        run = aw.Run(doc)
-    #        run.text = text
+        run = aw.Run(doc)
+        run.text = text
 
-    #        para.append_child(run)
+        para.append_child(run)
 
-    #        return run
+        return run
 
     # <summary>
     # Insert text into the current document
@@ -138,14 +138,16 @@ class DocumentHelper(aeb.ApiExampleBase):
     # </summary>
     # <param name="doc">Current document</param>
     # <param name="paraIndex">Paragraph number from collection</param>
-    #    def GetParagraphText(doc, paraIndex) -> str :
-    #        return doc.first_section.body.paragraphs[paraIndex].get_text()
+    @staticmethod
+    def get_paragraph_text(doc, para_index):
+        return doc.first_section.body.paragraphs[para_index].get_text()
 
     # <summary>
     # Insert new table in the document
     # </summary>
     # <param name="builder">Current document builder</param>
-    def insert_table(self, builder):
+    @staticmethod
+    def insert_table(builder):
         # Start creating a new table
         table = builder.start_table()
 
@@ -182,7 +184,8 @@ class DocumentHelper(aeb.ApiExampleBase):
     # <param name="builder">
     # The builder.
     # </param>
-    def insert_toc(self, builder):
+    @staticmethod
+    def insert_toc(builder):
         # Creating TOC entries
         builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING1
 
@@ -209,16 +212,18 @@ class DocumentHelper(aeb.ApiExampleBase):
     # </summary>
     # <param name="doc">Current document</param>
     # <param name="secIndex">Section number from collection</param>
-    #    def GetSectionText(doc, secIndex) -> str :
-    #        return doc.sections[secIndex].get_text()
+    @staticmethod
+    def get_section_text(doc, sec_index):
+        return doc.sections[sec_index].get_text()
 
     # <summary>
     # Get paragraph of the current document
     # </summary>
     # <param name="doc">Current document</param>
     # <param name="paraIndex">Paragraph number from collection</param>
-    #    def GetParagraph(doc, paraIndex) -> aw.Paragraph :
-    #        return doc.first_section.body.paragraphs[paraIndex]
+    @staticmethod
+    def get_paragraph(doc, para_index):
+        return doc.first_section.body.paragraphs[para_index]
 
     # <summary>
     # Save the document to a file, immediately re-open it and return the newly opened version
