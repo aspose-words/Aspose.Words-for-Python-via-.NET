@@ -4,45 +4,42 @@ import aspose.words as aw
 
 class DocumentHelper(aeb.ApiExampleBase):
 
-    # <summary>
-    # Create simple document without run in the paragraph
-    # </summary>
-    #    def CreateDocumentWithoutDummyText() -> aw.Document :
-    #        doc = aw.Document()
+    def create_document_without_dummy_text() -> aw.Document:
+        """Create simple document without run in the paragraph"""
+        doc = aw.Document()
 
-    # Remove the previous changes of the document
-    #        doc.remove_all_children()
+        # Remove the previous changes of the document
+        doc.remove_all_children()
 
-    # Set the document author
-    #        doc.built_in_document_properties.author = "Test Author"
+        # Set the document author
+        doc.built_in_document_properties.author = "Test Author"
 
-    # Create paragraph without run
-    #        builder = aw.DocumentBuilder(doc)
-    #        builder.writeln()
+        # Create paragraph without run
+        builder = aw.DocumentBuilder(doc)
+        builder.writeln()
 
-    #        return doc
+        return doc
 
 
-    #    def FindTextInFile(path : str, expression : str) :
-    #        with open(str) as f:
-    #            if expression in f.read():
-    #                print("true")
+    @staticmethod
+    def find_text_in_file(path: str, expression: str):
+        with open(path, "rt", encoding="utf-8") as file:
+            if expression in file.read():
+                print("true")
 
-    # <summary>
-    # Create new document template for reporting engine
-    # </summary>
-    #    def CreateSimpleDocument(string templateText) -> Document :
-    #        doc = aw.Document()
-    #        builder = aw.DocumentBuilder(doc)
+    @staticmethod
+    def create_simple_document(template_text: str) -> aw.Document:
+        """Create new document template for reporting engine"""
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
 
-    #        builder.write(templateText)
+        builder.write(template_text)
 
-    #        return doc
+        return doc
 
-    # <summary>
-    # Create new document with text
-    # </summary>
-    def create_document_fill_with_dummy_text(self):
+    @staticmethod
+    def create_document_fill_with_dummy_text():
+        """Create new document with text."""
         doc = aw.Document()
 
         # Remove the previous changes of the document
@@ -59,7 +56,7 @@ class DocumentHelper(aeb.ApiExampleBase):
         builder.insert_field("NUMPAGES", "")
 
         # Insert new table with two rows and two cells
-        self.insert_table(builder)
+        DocumentHelper.insert_table(builder)
 
         builder.writeln("Hello World!")
 
@@ -67,31 +64,30 @@ class DocumentHelper(aeb.ApiExampleBase):
         builder.insert_break(aw.BreakType.PAGE_BREAK)
 
         # Insert TOC entries
-        self.insert_toc(builder)
+        DocumentHelper.insert_toc(builder)
 
         return doc
 
-    # <summary>
-    # Create new document with textbox shape and some query
-    # </summary>
-    #    def CreateTemplateDocumentWithDrawObjects(templateText : str, shapeType : awd.ShapeType) -> aw.Document :
-    #        doc = aw.Document()
+    @staticmethod
+    def create_template_document_with_draw_objects(template_text: str, shape_type: aw.drawing.ShapeType) -> aw.Document:
+        """Create new document with textbox shape and some query."""
+        doc = aw.Document()
 
-    #  Create textbox shape.
-    #        shape = awd.Shape(doc, shapeType)
-    #        shape.width = 431.5
-    #        shape.height = 346.35
+        # Create textbox shape.
+        shape = aw.drawing.Shape(doc, shape_type)
+        shape.width = 431.5
+        shape.height = 346.35
 
-    #        paragraph = aw.Paragraph(doc)
-    #        paragraph.append_child(aw.Run(doc, templateText))
+        paragraph = aw.Paragraph(doc)
+        paragraph.append_child(aw.Run(doc, template_text))
 
-    #  Insert paragraph into the textbox.
-    #        shape.append_child(paragraph)
+        # Insert paragraph into the textbox.
+        shape.append_child(paragraph)
 
-    #  Insert textbox into the document.
-    #        doc.first_section.body.first_paragraph.append_child(shape)
+        # Insert textbox into the document.
+        doc.first_section.body.first_paragraph.append_child(shape)
 
-    #        return doc
+        return doc
 
     @staticmethod
     def compare_docs(file_path_doc_1: str, file_path_doc_2: str):
@@ -108,14 +104,13 @@ class DocumentHelper(aeb.ApiExampleBase):
 
         return doc1.get_text() == doc2.get_text()
 
-    # <summary>
-    # Insert run into the current document
-    # </summary>
-    # <param name="doc">Current document</param>
-    # <param name="text">Custom text</param>
-    # <param name="paraIndex">Paragraph index</param>
-    def insert_new_run(self, doc, text, para_index):
-        para = self.get_paragraph(doc, para_index)
+    def insert_new_run(doc: aw.Document, text: str, para_index: int) -> aw.Run:
+        """Insert run into the current document.
+        
+        :param doc: Current document.
+        :param text: Custom text.
+        :param para_index: Paragraph index."""
+        para = DocumentHelper.get_paragraph(doc, para_index)
 
         run = aw.Run(doc)
         run.text = text
@@ -124,30 +119,28 @@ class DocumentHelper(aeb.ApiExampleBase):
 
         return run
 
-    # <summary>
-    # Insert text into the current document
-    # </summary>
-    # <param name="builder">Current document builder</param>
-    # <param name="textStrings">Custom text</param>
-    #    def InsertBuilderText(builder, textStrings) :
-    #        for  textString in textStrings :
-    #            builder.writeln(textString)
-
-    # <summary>
-    # Get paragraph text of the current document
-    # </summary>
-    # <param name="doc">Current document</param>
-    # <param name="paraIndex">Paragraph number from collection</param>
     @staticmethod
-    def get_paragraph_text(doc, para_index):
+    def insert_builder_text(builder: aw.DocumentBuilder, text_strings):
+        """Insert text into the current document.
+        
+        :param builder: Current document builder.
+        :param text_strings: Custom text."""
+        for text_string in text_strings :
+            builder.writeln(text_string)
+
+    @staticmethod
+    def get_paragraph_text(doc: aw.Document, para_index: int) -> str:
+        """Get paragraph text of the current document.
+        
+        :param doc: Current document.
+        :param para_index: Paragraph number from collection."""
         return doc.first_section.body.paragraphs[para_index].get_text()
 
-    # <summary>
-    # Insert new table in the document
-    # </summary>
-    # <param name="builder">Current document builder</param>
     @staticmethod
-    def insert_table(builder):
+    def insert_table(builder: aw.DocumentBuilder):
+        """Insert new table in the document.
+        
+        :param builder: Current document builder."""
         # Start creating a new table
         table = builder.start_table()
 
@@ -178,14 +171,11 @@ class DocumentHelper(aeb.ApiExampleBase):
 
         return table
 
-    # <summary>
-    # Insert TOC entries in the document
-    # </summary>
-    # <param name="builder">
-    # The builder.
-    # </param>
     @staticmethod
-    def insert_toc(builder):
+    def insert_toc(builder: aw.DocumentBuilder):
+        """Insert TOC entries in the document.
+        
+        :param builder: The builder."""
         # Creating TOC entries
         builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING1
 
@@ -207,22 +197,19 @@ class DocumentHelper(aeb.ApiExampleBase):
 
         builder.writeln("Heading 1.1.1.1.1.1.1.1.1")
 
-    # <summary>
-    # Get section text of the current document
-    # </summary>
-    # <param name="doc">Current document</param>
-    # <param name="secIndex">Section number from collection</param>
-    @staticmethod
-    def get_section_text(doc, sec_index):
+    def get_section_text(doc: aw.Document, sec_index: int) -> str:
+        """Get section text of the current document.
+        
+        :param doc: Current document.
+        :param sec_index: Section number from collection."""
         return doc.sections[sec_index].get_text()
 
-    # <summary>
-    # Get paragraph of the current document
-    # </summary>
-    # <param name="doc">Current document</param>
-    # <param name="paraIndex">Paragraph number from collection</param>
     @staticmethod
-    def get_paragraph(doc, para_index):
+    def get_paragraph(doc: aw.Document, para_index: int) -> aw.Paragraph:
+        """Get paragraph of the current document.
+        
+        :param doc: Current document.
+        :param para_index: Paragraph number from collection."""
         return doc.first_section.body.paragraphs[para_index]
 
     # <summary>

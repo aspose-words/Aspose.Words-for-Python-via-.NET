@@ -7,7 +7,7 @@ import platform
 root_dir = os.path.abspath(os.curdir) + "/"
 root_dir = root_dir[:root_dir.find("Aspose.Words-for-Python-via-.NET")]
 api_examples_root = root_dir + "Aspose.Words-for-Python-via-.NET/Examples/"
-license_path = root_dir + "Aspose.Words-for-Python-via-.NET/Temp/Aspose.Words.Python.NET.lic"
+license_path = os.getenv("ASPOSE_WORDS_PYTHON_LICENSE", "Aspose.Words.Python.NET.lic")
 my_dir = api_examples_root + "Data/"
 artifacts_dir = my_dir + "Artifacts/"
 golds_dir = my_dir + "Golds/"
