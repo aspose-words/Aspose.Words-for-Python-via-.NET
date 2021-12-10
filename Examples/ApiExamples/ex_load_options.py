@@ -205,8 +205,7 @@ class ExLoadOptions(ApiExampleBase):
         options.temp_folder = ARTIFACTS_DIR + "TempFiles"
 
         # The specified temporary folder must exist in the local file system before the load operation.
-        if not os.path.exists(options.temp_folder):
-            os.mkdir(options.temp_folder)
+        os.makedirs(options.temp_folder, exist_ok=True)
 
         doc = aw.Document(MY_DIR + "Document.docx", options)
 

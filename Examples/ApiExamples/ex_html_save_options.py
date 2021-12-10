@@ -1616,7 +1616,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         if os.path.exists(images_dir):
             shutil.rmtree(images_dir)
 
-        os.mkdir(images_dir)
+        os.makedirs(images_dir)
 
         # Set an option to export form fields as plain text instead of HTML input elements.
         options = aw.saving.HtmlSaveOptions(aw.SaveFormat.HTML)
