@@ -615,7 +615,7 @@ class ExPageSetup(ApiExampleBase):
         page_setup.border_distance_from = aw.PageBorderDistanceFrom.PAGE_EDGE
         page_setup.border_applies_to = aw.PageBorderAppliesTo.FIRST_PAGE
 
-        border = page_setup.borders[aw.BorderType.TOP]
+        border = page_setup.borders.top
         border.line_style = aw.LineStyle.SINGLE
         border.line_width = 30
         border.color = drawing.Color.blue
@@ -631,7 +631,7 @@ class ExPageSetup(ApiExampleBase):
         self.assertEqual(aw.PageBorderDistanceFrom.PAGE_EDGE, page_setup.border_distance_from)
         self.assertEqual(aw.PageBorderAppliesTo.FIRST_PAGE, page_setup.border_applies_to)
 
-        border = page_setup.borders[aw.BorderType.TOP]
+        border = page_setup.borders.top
 
         self.assertEqual(aw.LineStyle.SINGLE, border.line_style)
         self.assertEqual(30.0, border.line_width)

@@ -116,7 +116,7 @@ class ExTable(ApiExampleBase):
         # of the contents of all cells in this row.
         row_format = table.first_row.row_format
         row_format.height = 25
-        row_format.borders[aw.BorderType.BOTTOM].color = drawing.Color.red
+        row_format.borders.bottom.color = drawing.Color.red
 
         # Use the "cell_format" property of the first cell in the last row to modify the formatting of that cell's contents.
         cell_format = table.last_row.first_cell.cell_format
@@ -134,7 +134,7 @@ class ExTable(ApiExampleBase):
         row_format = table.first_row.row_format
 
         self.assertEqual(25.0, row_format.height)
-        self.assertEqual(drawing.Color.red.to_argb(), row_format.borders[aw.BorderType.BOTTOM].color.to_argb())
+        self.assertEqual(drawing.Color.red.to_argb(), row_format.borders.bottom.color.to_argb())
 
         cell_format = table.last_row.first_cell.cell_format
 
@@ -489,7 +489,7 @@ class ExTable(ApiExampleBase):
         builder.end_table()
 
         # Modify the color and thickness of the top border.
-        top_border = table.first_row.row_format.borders[aw.BorderType.TOP]
+        top_border = table.first_row.row_format.borders.top
         table.set_border(aw.BorderType.TOP, aw.LineStyle.DOUBLE, 1.5, drawing.Color.red, True)
 
         self.assertEqual(1.5, top_border.line_width)
@@ -504,7 +504,7 @@ class ExTable(ApiExampleBase):
         # Verify the values of the table's properties after re-opening the document.
         doc = aw.Document(ARTIFACTS_DIR + "Table.ClearBorders.docx")
         table = doc.first_section.body.tables[0]
-        top_border = table.first_row.row_format.borders[aw.BorderType.TOP]
+        top_border = table.first_row.row_format.borders.top
 
         self.assertEqual(0.0, top_border.line_width)
         self.assertEqual(drawing.Color.empty().to_argb(), top_border.color.to_argb())
