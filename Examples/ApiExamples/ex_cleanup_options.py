@@ -1,22 +1,25 @@
 import unittest
+import io
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-import api_example_base as aeb
+from api_example_base import ApiExampleBase, my_dir, artifacts_dir
 
+MY_DIR = my_dir
+ARTIFACTS_DIR = artifacts_dir
 
-class ExCleanupOptions(aeb.ApiExampleBase):
+class ExCleanupOptions(ApiExampleBase):
 
-    @unittest.skip("Item properties can use only int (lines 33, 36)")
     def test_remove_unused_resources(self):
-        # ExStart
-        # ExFor:Document.cleanup(CleanupOptions)
-        # ExFor:CleanupOptions
-        # ExFor:CleanupOptions.unused_lists
-        # ExFor:CleanupOptions.unused_styles
-        # ExFor:CleanupOptions.unused_builtin_styles
-        # ExSummary:Shows how to remove all unused custom styles from a document.
+
+        #ExStart
+        #ExFor:Document.Cleanup(CleanupOptions)
+        #ExFor:CleanupOptions
+        #ExFor:CleanupOptions.UnusedLists
+        #ExFor:CleanupOptions.UnusedStyles
+        #ExFor:CleanupOptions.UnusedBuiltinStyles
+        #ExSummary:Shows how to remove all unused custom styles from a document.
         doc = aw.Document()
 
         doc.styles.add(aw.StyleType.LIST, "MyListStyle1")
@@ -31,38 +34,38 @@ class ExCleanupOptions(aeb.ApiExampleBase):
 
         # Apply a custom character style, and then a custom list style. Doing so will mark them as "used".
         builder = aw.DocumentBuilder(doc)
-        builder.font.style = doc.styles["MyParagraphStyle1"]
+        builder.font.style = doc.styles.get_by_name("MyParagraphStyle1")
         builder.writeln("Hello world!")
 
-        list = doc.lists.add(doc.styles["MyListStyle1"])
-        builder.list_format.list = list
+        builder.list_format.list = doc.lists.add(doc.styles.get_by_name("MyListStyle1"))
         builder.writeln("Item 1")
         builder.writeln("Item 2")
 
         # Now, there is one unused character style and one unused list style.
-        # The Cleanup() method, when configured with a CleanupOptions object, can target unused styles and remove them.
-        cleanup_options = aw.CleanupOptions(UnusedLists=True, UnusedStyles=True, UnusedBuiltinStyles=True)
+        # The cleanup() method, when configured with a CleanupOptions object, can target unused styles and remove them.
+        cleanup_options = aw.CleanupOptions()
+        cleanup_options.unused_lists = True
+        cleanup_options.unused_styles = True
+        cleanup_options.unused_builtin_styles = True
 
         doc.cleanup(cleanup_options)
 
         self.assertEqual(4, doc.styles.count)
 
         # Removing every node that a custom style is applied to marks it as "unused" again.
-        # Rerun the Cleanup method to remove them.
+        # Rerun the cleanup method to remove them.
         doc.first_section.body.remove_all_children()
         doc.cleanup(cleanup_options)
 
         self.assertEqual(2, doc.styles.count)
-        # ExEnd
+        #ExEnd
 
     def test_remove_duplicate_styles(self):
 
         #ExStart
-        #ExFor:CleanupOptions.duplicate_style
+        #ExFor:CleanupOptions.DuplicateStyle
         #ExSummary:Shows how to remove duplicated styles from the document.
         doc = aw.Document()
-
-        print("Color is not available (commented all lines with color)")
 
         # Add two styles to the document with identical properties,
         # but different names. The second style is considered a duplicate of the first.
@@ -91,7 +94,7 @@ class ExCleanupOptions(aeb.ApiExampleBase):
         self.assertEqual(my_style, paragraphs[0].paragraph_format.style)
         self.assertEqual(duplicate_style, paragraphs[1].paragraph_format.style)
 
-        # Configure a CleanOptions object, then call the Cleanup method to substitute all duplicate styles
+        # Configure a CleanOptions object, then call the cleanup method to substitute all duplicate styles
         # with the original and remove the duplicates from the document.
         cleanup_options = aw.CleanupOptions()
         cleanup_options.duplicate_style = True
@@ -102,7 +105,3 @@ class ExCleanupOptions(aeb.ApiExampleBase):
         self.assertEqual(my_style, paragraphs[0].paragraph_format.style)
         self.assertEqual(my_style, paragraphs[1].paragraph_format.style)
         #ExEnd
-
-
-if __name__ == '__main__':
-    unittest.main()
