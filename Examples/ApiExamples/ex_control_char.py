@@ -1,18 +1,22 @@
 import unittest
-
-import api_example_base as aeb
-from document_helper import DocumentHelper
+import io
 
 import aspose.words as aw
+import aspose.pydrawing as drawing
 
-class ExControlChar(aeb.ApiExampleBase):
-    
-    def test_carriage_return(self) :
-        
+from api_example_base import ApiExampleBase, my_dir, artifacts_dir
+
+MY_DIR = my_dir
+ARTIFACTS_DIR = artifacts_dir
+
+class ExControlChar(ApiExampleBase):
+
+    def test_carriage_return(self):
+
         #ExStart
         #ExFor:ControlChar
-        #ExFor:ControlChar.CR
-        #ExFor:Node.get_text
+        #ExFor:ControlChar.Cr
+        #ExFor:Node.GetText
         #ExSummary:Shows how to use control characters.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -32,42 +36,41 @@ class ExControlChar(aeb.ApiExampleBase):
         self.assertEqual(f"Hello world!{aw.ControlChar.CR}" +
                         "Hello again!", doc.get_text().strip())
         #ExEnd
-        
 
-    def test_insert_control_chars(self) :
-        
+    def test_insert_control_chars(self):
+
         #ExStart
-        #ExFor:.ControlChar.CELL
-        #ExFor:.ControlChar.COLUMN_BREAK
-        #ExFor:ControlChar.CR_LF
-        #ExFor:ControlChar.LF
-        #ExFor:ControlChar.LINE_BREAK
-        #ExFor:ControlChar.LINE_FEED
-        #ExFor:ControlChar.NON_BREAKING_SPACE
-        #ExFor:.ControlChar.PAGE_BREAK
-        #ExFor:ControlChar.PARAGRAPH_BREAK
-        #ExFor:ControlChar.SECTION_BREAK
-        #ExFor:ControlChar.cell_char
-        #ExFor:ControlChar.column_break_char
-        #ExFor:ControlChar.default_text_input_char
-        #ExFor:ControlChar.field_end_char
-        #ExFor:ControlChar.field_start_char
-        #ExFor:ControlChar.field_separator_char
-        #ExFor:ControlChar.line_break_char
-        #ExFor:ControlChar.line_feed_char
-        #ExFor:ControlChar.non_breaking_hyphen_char
-        #ExFor:ControlChar.non_breaking_space_char
-        #ExFor:ControlChar.optional_hyphen_char
-        #ExFor:.ControlChar.PAGE_BREAK_char
-        #ExFor:ControlChar.paragraph_break_char
-        #ExFor:ControlChar.section_break_char
-        #ExFor:ControlChar.space_char
+        #ExFor:ControlChar.Cell
+        #ExFor:ControlChar.ColumnBreak
+        #ExFor:ControlChar.CrLf
+        #ExFor:ControlChar.Lf
+        #ExFor:ControlChar.LineBreak
+        #ExFor:ControlChar.LineFeed
+        #ExFor:ControlChar.NonBreakingSpace
+        #ExFor:ControlChar.PageBreak
+        #ExFor:ControlChar.ParagraphBreak
+        #ExFor:ControlChar.SectionBreak
+        #ExFor:ControlChar.CellChar
+        #ExFor:ControlChar.ColumnBreakChar
+        #ExFor:ControlChar.DefaultTextInputChar
+        #ExFor:ControlChar.FieldEndChar
+        #ExFor:ControlChar.FieldStartChar
+        #ExFor:ControlChar.FieldSeparatorChar
+        #ExFor:ControlChar.LineBreakChar
+        #ExFor:ControlChar.LineFeedChar
+        #ExFor:ControlChar.NonBreakingHyphenChar
+        #ExFor:ControlChar.NonBreakingSpaceChar
+        #ExFor:ControlChar.OptionalHyphenChar
+        #ExFor:ControlChar.PageBreakChar
+        #ExFor:ControlChar.ParagraphBreakChar
+        #ExFor:ControlChar.SectionBreakChar
+        #ExFor:ControlChar.SpaceChar
         #ExSummary:Shows how to add various control characters to a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # Add a regular space.
-#        builder.write("Before space." + aw.ControlChar.SPACE_CHAR + "After space.")
+        builder.write("Before space." + aw.ControlChar.SPACE_CHAR + "After space.")
 
         # Add an NBSP, which is a non-breaking space.
         # Unlike the regular space, this space cannot have an automatic line break at its position.
@@ -113,20 +116,16 @@ class ExControlChar(aeb.ApiExampleBase):
         # We can use a control character to mark the point where text moves to the next column.
         builder.write("Text at end of column 1." + aw.ControlChar.COLUMN_BREAK + "Text at beginning of column 2.")
 
-        doc.save(aeb.artifacts_dir + "ControlChar.insert_control_chars.docx")
+        doc.save(ARTIFACTS_DIR + "ControlChar.insert_control_chars.docx")
 
         # There are char and string counterparts for most characters.
-#        self.assertEqual(Convert.to_char(.ControlChar.CELL), ControlChar.cell_char)
-#        self.assertEqual(Convert.to_char(ControlChar.NON_BREAKING_SPACE), ControlChar.non_breaking_space_char)
-#        self.assertEqual(Convert.to_char(ControlChar.tab), ControlChar.tab_char)
-#        self.assertEqual(Convert.to_char(ControlChar.LINE_BREAK), ControlChar.line_break_char)
-#        self.assertEqual(Convert.to_char(ControlChar.LINE_FEED), ControlChar.line_feed_char)
-#        self.assertEqual(Convert.to_char(ControlChar.PARAGRAPH_BREAK), ControlChar.paragraph_break_char)
-#        self.assertEqual(Convert.to_char(ControlChar.SECTION_BREAK), ControlChar.section_break_char)
-#        self.assertEqual(Convert.to_char(.ControlChar.PAGE_BREAK), ControlChar.section_break_char)
-#        self.assertEqual(Convert.to_char(.ControlChar.COLUMN_BREAK), ControlChar.column_break_char)
+        self.assertEqual(aw.ControlChar.CELL, aw.ControlChar.CELL_CHAR)
+        self.assertEqual(aw.ControlChar.NON_BREAKING_SPACE, aw.ControlChar.NON_BREAKING_SPACE_CHAR)
+        self.assertEqual(aw.ControlChar.TAB, aw.ControlChar.TAB_CHAR)
+        self.assertEqual(aw.ControlChar.LINE_BREAK, aw.ControlChar.LINE_BREAK_CHAR)
+        self.assertEqual(aw.ControlChar.LINE_FEED, aw.ControlChar.LINE_FEED_CHAR)
+        self.assertEqual(aw.ControlChar.PARAGRAPH_BREAK, aw.ControlChar.PARAGRAPH_BREAK_CHAR)
+        self.assertEqual(aw.ControlChar.SECTION_BREAK, aw.ControlChar.SECTION_BREAK_CHAR)
+        self.assertEqual(aw.ControlChar.PAGE_BREAK, aw.ControlChar.SECTION_BREAK_CHAR)
+        self.assertEqual(aw.ControlChar.COLUMN_BREAK, aw.ControlChar.COLUMN_BREAK_CHAR)
         #ExEnd
-        
-    
-if __name__ == '__main__':
-    unittest.main()    
