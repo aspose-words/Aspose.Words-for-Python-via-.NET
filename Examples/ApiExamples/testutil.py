@@ -470,21 +470,24 @@ class TestUtil(ApiExampleBase):
         testcase.assertEqual(margin_left, text_box.internal_margin_left)
         testcase.assertEqual(margin_right, text_box.internal_margin_right)
 
+    @staticmethod
+    def verify_editable_range(testcase: unittest.TestCase,
+                              expected_id: int,
+                              expected_editor_user: str,
+                              expected_editor_group: aw.EditorType,
+                              editable_range: aw.EditableRange):
+        """Checks whether values of properties of an editable range are equal to their expected values."""
 
-    ## <summary>
-    ## Checks whether values of properties of an editable range are equal to their expected values.
-    ## </summary>
-    #internal static void VerifyEditableRange(int expectedId, string expectedEditorUser, EditorType expectedEditorGroup, EditableRange editableRange)
+        testcase.assertEqual(expected_id, editable_range.id)
+        testcase.assertEqual(expected_editor_user, editable_range.single_user)
+        testcase.assertEqual(expected_editor_group, editable_range.editor_group)
 
-    ##if NET48 || NET5_0 || JAVA
-    #    Assert.multiple(() =>
-
-    #        self.assertEqual(expectedId, editableRange.Id)
-    #        self.assertEqual(expectedEditorUser, editableRange.SingleUser)
-    #        self.assertEqual(expectedEditorGroup, editableRange.EditorGroup)
-    #    })
-    ##elif __MOBILE__
-    #    self.assertEqual(expectedId, editableRange.Id)
-    #    self.assertEqual(expectedEditorUser, editableRange.SingleUser)
-    #    self.assertEqual(expectedEditorGroup, editableRange.EditorGroup)
-    ##endif
+    @staticmethod
+    def verify_date(testcase: unittest.TestCase, expected: datetime, actual: datetime, delta: timedelta):
+        """Checks whether a DateTime matches an expected value, with a margin of error.
+            
+        :param expected: The date/time that we expect the result to be.</param>
+        :param actual: The DateTime object being tested.</param>
+        :param delta: Margin of error for expectedResult.</param>"""
+        
+        testcase.assertAlmostEqual(expected, actual, delta=delta)
