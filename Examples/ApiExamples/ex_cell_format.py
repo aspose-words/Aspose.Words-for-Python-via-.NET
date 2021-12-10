@@ -1,18 +1,22 @@
 import unittest
-
-import api_example_base as aeb
-from document_helper import DocumentHelper
+import io
 
 import aspose.words as aw
+import aspose.pydrawing as drawing
 
-class ExCellFormat(aeb.ApiExampleBase):
-    
-    def test_vertical_merge(self) :
-        
+from api_example_base import ApiExampleBase, my_dir, artifacts_dir
+
+MY_DIR = my_dir
+ARTIFACTS_DIR = artifacts_dir
+
+class ExCellFormat(ApiExampleBase):
+
+    def test_vertical_merge(self):
+
         #ExStart
-        #ExFor:DocumentBuilder.end_row
+        #ExFor:DocumentBuilder.EndRow
         #ExFor:CellMerge
-        #ExFor:CellFormat.vertical_merge
+        #ExFor:CellFormat.VerticalMerge
         #ExSummary:Shows how to merge table cells vertically.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -30,7 +34,7 @@ class ExCellFormat(aeb.ApiExampleBase):
         builder.write("Text in unmerged cell.")
         builder.end_row()
 
-        # Insert a cell into the first column of the second row. 
+        # Insert a cell into the first column of the second row.
         # Instead of adding text contents, we will merge this cell with the first cell that we added directly above.
         builder.insert_cell()
         builder.cell_format.vertical_merge = aw.tables.CellMerge.PREVIOUS
@@ -42,23 +46,22 @@ class ExCellFormat(aeb.ApiExampleBase):
         builder.end_row()
         builder.end_table()
 
-        doc.save(aeb.artifacts_dir + "CellFormat.vertical_merge.docx")
+        doc.save(ARTIFACTS_DIR + "CellFormat.vertical_merge.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.artifacts_dir + "CellFormat.vertical_merge.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "CellFormat.vertical_merge.docx")
         table = doc.first_section.body.tables[0]
 
         self.assertEqual(aw.tables.CellMerge.FIRST, table.rows[0].cells[0].cell_format.vertical_merge)
         self.assertEqual(aw.tables.CellMerge.PREVIOUS, table.rows[1].cells[0].cell_format.vertical_merge)
-        self.assertEqual("Text in merged cells.", table.rows[0].cells[0].get_text().strip("\a"))
+        self.assertEqual("Text in merged cells.", table.rows[0].cells[0].get_text().strip('\a'))
         self.assertNotEqual(table.rows[0].cells[0].get_text(), table.rows[1].cells[0].get_text())
-        
 
-    def test_horizontal_merge(self) :
-        
+    def test_horizontal_merge(self):
+
         #ExStart
         #ExFor:CellMerge
-        #ExFor:CellFormat.horizontal_merge
+        #ExFor:CellFormat.HorizontalMerge
         #ExSummary:Shows how to merge table cells horizontally.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -84,39 +87,38 @@ class ExCellFormat(aeb.ApiExampleBase):
         builder.end_row()
         builder.end_table()
 
-        doc.save(aeb.artifacts_dir + "CellFormat.horizontal_merge.docx")
+        doc.save(ARTIFACTS_DIR + "CellFormat.horizontal_merge.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.artifacts_dir + "CellFormat.horizontal_merge.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "CellFormat.horizontal_merge.docx")
         table = doc.first_section.body.tables[0]
 
         self.assertEqual(1, table.rows[0].cells.count)
         self.assertEqual(aw.tables.CellMerge.NONE, table.rows[0].cells[0].cell_format.horizontal_merge)
         self.assertEqual("Text in merged cells.", table.rows[0].cells[0].get_text().strip('\a'))
-        
 
-    def test_padding(self) :
-        
+    def test_padding(self):
+
         #ExStart
-        #ExFor:CellFormat.set_paddings
+        #ExFor:CellFormat.SetPaddings
         #ExSummary:Shows how to pad the contents of a cell with whitespace.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # Set a padding distance (in points) between the border and the text contents
-        # of each table cell we create with the document builder. 
+        # of each table cell we create with the document builder.
         builder.cell_format.set_paddings(5, 10, 40, 50)
 
         # Create a table with one cell whose contents will have whitespace padding.
         builder.start_table()
         builder.insert_cell()
         builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
-                        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")
+                      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")
 
-        doc.save(aeb.artifacts_dir + "CellFormat.padding.docx")
+        doc.save(ARTIFACTS_DIR + "CellFormat.padding.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.artifacts_dir + "CellFormat.padding.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "CellFormat.padding.docx")
 
         table = doc.first_section.body.tables[0]
         cell = table.rows[0].cells[0]
@@ -125,7 +127,3 @@ class ExCellFormat(aeb.ApiExampleBase):
         self.assertEqual(10, cell.cell_format.top_padding)
         self.assertEqual(40, cell.cell_format.right_padding)
         self.assertEqual(50, cell.cell_format.bottom_padding)
-        
-    
-if __name__ == '__main__':
-    unittest.main()    
