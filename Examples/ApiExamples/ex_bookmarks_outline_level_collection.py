@@ -1,26 +1,30 @@
 import unittest
-
-import api_example_base as aeb
-from document_helper import DocumentHelper
+import io
 
 import aspose.words as aw
+import aspose.pydrawing as drawing
 
-class ExBookmarksOutlineLevelCollection(aeb.ApiExampleBase):
-    
-    def test_bookmark_levels(self) :
-        
+from api_example_base import ApiExampleBase, my_dir, artifacts_dir
+
+MY_DIR = my_dir
+ARTIFACTS_DIR = artifacts_dir
+
+class ExBookmarksOutlineLevelCollection(ApiExampleBase):
+
+    def test_bookmark_levels(self):
+
         #ExStart
         #ExFor:BookmarksOutlineLevelCollection
-        #ExFor:BookmarksOutlineLevelCollection.add(String, Int32)
-        #ExFor:BookmarksOutlineLevelCollection.clear
-        #ExFor:BookmarksOutlineLevelCollection.contains(System.string)
-        #ExFor:BookmarksOutlineLevelCollection.count
-        #ExFor:BookmarksOutlineLevelCollection.index_of_key(System.string)
-        #ExFor:BookmarksOutlineLevelCollection.item(System.int_32)
-        #ExFor:BookmarksOutlineLevelCollection.item(System.string)
-        #ExFor:BookmarksOutlineLevelCollection.remove(System.string)
-        #ExFor:BookmarksOutlineLevelCollection.remove_at(System.int_32)
-        #ExFor:OutlineOptions.bookmarks_outline_levels
+        #ExFor:BookmarksOutlineLevelCollection.Add(String, Int32)
+        #ExFor:BookmarksOutlineLevelCollection.Clear
+        #ExFor:BookmarksOutlineLevelCollection.Contains(System.String)
+        #ExFor:BookmarksOutlineLevelCollection.Count
+        #ExFor:BookmarksOutlineLevelCollection.IndexOfKey(System.String)
+        #ExFor:BookmarksOutlineLevelCollection.Item(System.Int32)
+        #ExFor:BookmarksOutlineLevelCollection.Item(System.String)
+        #ExFor:BookmarksOutlineLevelCollection.Remove(System.String)
+        #ExFor:BookmarksOutlineLevelCollection.RemoveAt(System.Int32)
+        #ExFor:OutlineOptions.BookmarksOutlineLevels
         #ExSummary:Shows how to set outline levels for bookmarks.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -44,34 +48,41 @@ class ExBookmarksOutlineLevelCollection(aeb.ApiExampleBase):
         # When saving to .pdf, bookmarks can be accessed via a drop-down menu and used as anchors by most readers.
         # Bookmarks can also have numeric values for outline levels,
         # enabling lower level outline entries to hide higher-level child entries when collapsed in the reader.
-        pdfSaveOptions = aw.saving.PdfSaveOptions()
-        outlineLevels = pdfSaveOptions.outline_options.bookmarks_outline_levels
+        pdf_save_options = aw.saving.PdfSaveOptions()
+        outline_levels = pdf_save_options.outline_options.bookmarks_outline_levels
 
-        outlineLevels.add("Bookmark 1", 1)
-        outlineLevels.add("Bookmark 2", 2)
-        outlineLevels.add("Bookmark 3", 3)
+        outline_levels.add("Bookmark 1", 1)
+        outline_levels.add("Bookmark 2", 2)
+        outline_levels.add("Bookmark 3", 3)
 
-        self.assertEqual(3, outlineLevels.count)
-        self.assertTrue(outlineLevels.contains("Bookmark 1"))
-        self.assertEqual(1, outlineLevels[0])
-        self.assertEqual(2, outlineLevels[outlineLevels.index_of_key("Bookmark 2")])
-        self.assertEqual(2, outlineLevels.index_of_key("Bookmark 3"))
+        self.assertEqual(3, outline_levels.count)
+        self.assertTrue(outline_levels.contains("Bookmark 1"))
+        self.assertEqual(1, outline_levels[0])
+        self.assertEqual(2, outline_levels.get_by_name("Bookmark 2"))
+        self.assertEqual(2, outline_levels.index_of_key("Bookmark 3"))
 
         # We can remove two elements so that only the outline level designation for "Bookmark 1" is left.
-        outlineLevels.remove_at(2)
-        outlineLevels.remove("Bookmark 2")
+        outline_levels.remove_at(2)
+        outline_levels.remove("Bookmark 2")
 
         # There are nine outline levels. Their numbering will be optimized during the save operation.
         # In this case, levels "5" and "9" will become "2" and "3".
-        outlineLevels.add("Bookmark 2", 5)
-        outlineLevels.add("Bookmark 3", 9)
+        outline_levels.add("Bookmark 2", 5)
+        outline_levels.add("Bookmark 3", 9)
 
-        doc.save(aeb.artifacts_dir + "BookmarksOutlineLevelCollection.bookmark_levels.pdf", pdfSaveOptions)
+        doc.save(ARTIFACTS_DIR + "BookmarksOutlineLevelCollection.bookmark_levels.pdf", pdf_save_options)
 
         # Emptying this collection will preserve the bookmarks and put them all on the same outline level.
-        outlineLevels.clear()
+        outline_levels.clear()
         #ExEnd
-        
-    
-if __name__ == '__main__':
-    unittest.main()    
+
+        #bookmark_editor = aspose.pdf.facades.PdfBookmarkEditor()
+        #bookmark_editor.bind_pdf(ARTIFACTS_DIR + "BookmarksOutlineLevelCollection.bookmark_levels.pdf")
+
+        #bookmarks = bookmark_editor.extract_bookmarks()
+
+        #self.assertEqual(3, bookmarks.count)
+        #self.assertEqual("Bookmark 1", bookmarks[0].title)
+        #self.assertEqual("Bookmark 2", bookmarks[1].title)
+        #self.assertEqual("Bookmark 3", bookmarks[2].title)
+
