@@ -1182,10 +1182,10 @@ class ExField(ApiExampleBase):
 
         self.assertEqual(" AUTONUM  \\s :", field.get_field_code())
 
-        doc.save(ARTIFACTS_DIR + "Field.a_u_t_o_n_u_m.docx")
+        doc.save(ARTIFACTS_DIR + "Field.autonum.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.a_u_t_o_n_u_m.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.autonum.docx")
 
         TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTO_NUM, " AUTONUM ", "", doc.range.fields[0])
         TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTO_NUM, " AUTONUM  \\s :", "", doc.range.fields[1])
