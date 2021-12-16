@@ -11,12 +11,9 @@ from datetime import datetime, date, timedelta
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 from document_helper import DocumentHelper
 from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
 
 class ExParagraph(ApiExampleBase):
 

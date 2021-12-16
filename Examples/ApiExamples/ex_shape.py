@@ -11,14 +11,9 @@ import os
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, golds_dir, image_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, IMAGE_DIR
 from document_helper import DocumentHelper
 from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-GOLDS_DIR = golds_dir
-IMAGE_DIR = image_dir
 
 class ExShape(ApiExampleBase):
     """Examples using shapes in documents."""

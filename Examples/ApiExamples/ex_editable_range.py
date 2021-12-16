@@ -7,12 +7,9 @@
 import unittest
 
 import aspose.words as aw
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 from document_helper import DocumentHelper
 from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
 
 class ExEditableRange(ApiExampleBase):
 

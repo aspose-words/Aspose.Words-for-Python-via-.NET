@@ -10,10 +10,7 @@ import io
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExAbsolutePositionTab(ApiExampleBase):
 
@@ -59,7 +56,6 @@ class ExAbsolutePositionTab(ApiExampleBase):
 
     #        self.builder.write("\t")
     #        return aw.VisitorAction.CONTINUE
-
 
     #    def get_text(self) -> str:
     #        """Plain text of the document that was accumulated by the visitor."""

@@ -6,8 +6,6 @@
 
 import aspose.words as aw
 
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
 
 class ExMossRtf2Docx:
 

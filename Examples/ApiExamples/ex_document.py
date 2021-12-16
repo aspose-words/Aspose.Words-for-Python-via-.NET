@@ -14,15 +14,9 @@ from datetime import datetime, timedelta, timezone
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, image_dir, fonts_dir, golds_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, FONTS_DIR, GOLDS_DIR
 from document_helper import DocumentHelper
 from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-IMAGE_DIR = image_dir
-FONTS_DIR = fonts_dir
-GOLDS_DIR = golds_dir
 
 class ExDocument(ApiExampleBase):
 
@@ -345,7 +339,6 @@ class ExDocument(ApiExampleBase):
 
     #    print(callback.get_log())
     #    self._test_font_change_via_callback(callback.get_log()) #ExSkip
-
 
     #class HandleNodeChangingFontChanger(aw.INodeChangingCallback):
     #    """Logs the date and time of each node insertion and removal.

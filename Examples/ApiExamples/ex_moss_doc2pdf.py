@@ -13,8 +13,6 @@ from typing import List, NamedTuple
 
 import aspose.words as aw
 
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
 
 class Options(NamedTuple):
     in_file_name: str

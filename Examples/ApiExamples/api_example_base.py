@@ -9,25 +9,24 @@ import aspose.words as aw
 import os
 import platform
 
-# root_dir =  "X:/" if platform.system() == "Windows" else "/X/"
-root_dir = os.path.abspath(os.curdir) + "/"
-root_dir = root_dir[:root_dir.find("Aspose.Words-for-Python-via-.NET")]
-api_examples_root = root_dir + "Aspose.Words-for-Python-via-.NET/Examples/"
-license_path = os.getenv("ASPOSE_WORDS_PYTHON_LICENSE", "Aspose.Words.Python.NET.lic")
-my_dir = api_examples_root + "Data/"
-artifacts_dir = my_dir + "Artifacts/"
-golds_dir = my_dir + "Golds/"
-temp_dir = my_dir + "Temp/"
-image_dir = my_dir + "Images/"
-fonts_dir = my_dir + "MyFonts/"
-aspose_logo_url = "https://www.aspose.cloud/templates/aspose/App_Themes/V3/images/words/header/aspose_words-for-net.png"
+ROOT_DIR = os.path.abspath(os.curdir) + "/"
+ROOT_DIR = ROOT_DIR[:ROOT_DIR.find("Aspose.Words-for-Python-via-.NET")]
+API_EXAMPLES_ROOT = ROOT_DIR + "Aspose.Words-for-Python-via-.NET/Examples/"
+LICENSE_PATH = os.getenv("ASPOSE_WORDS_PYTHON_LICENSE", "Aspose.Words.Python.NET.lic")
+MY_DIR = API_EXAMPLES_ROOT + "Data/"
+ARTIFACTS_DIR = MY_DIR + "Artifacts/"
+GOLDS_DIR = MY_DIR + "Golds/"
+TEMP_DIR = MY_DIR + "Temp/"
+IMAGE_DIR = MY_DIR + "Images/"
+FONTS_DIR = MY_DIR + "MyFonts/"
+ASPOSE_LOGO_URL = "https://www.aspose.cloud/templates/aspose/App_Themes/V3/images/words/header/aspose_words-for-net.png"
 
 
 class ApiExampleBase(unittest.TestCase):
 
     def setUp(self):
-        if os.path.exists(artifacts_dir):
+        if os.path.exists(ARTIFACTS_DIR):
             l = aw.License()
-            l.set_license(license_path)
-        if not os.path.exists(artifacts_dir):
-            os.makedirs(artifacts_dir)
+            l.set_license(LICENSE_PATH)
+        if not os.path.exists(ARTIFACTS_DIR):
+            os.makedirs(ARTIFACTS_DIR)

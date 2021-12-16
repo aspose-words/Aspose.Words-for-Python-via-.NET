@@ -14,15 +14,9 @@ from datetime import datetime, timedelta, timezone
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, image_dir, golds_dir, aspose_logo_url
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, GOLDS_DIR, ASPOSE_LOGO_URL
 from document_helper import DocumentHelper
 from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-IMAGE_DIR = image_dir
-GOLDS_DIR = golds_dir
-ASPOSE_LOGO_URL = aspose_logo_url
 
 class ExDocumentBuilder(ApiExampleBase):
 

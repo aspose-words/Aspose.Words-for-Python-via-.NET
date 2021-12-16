@@ -12,14 +12,9 @@ from typing import List, Optional
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, image_dir, golds_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, GOLDS_DIR
 from document_helper import DocumentHelper
 from testdata import Common, ClientTestClass, ColorItemTestClass, DocumentTestClass, ImageTestClass, MessageTestClass, NumericTestClass
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-IMAGE_DIR = image_dir
-GOLDS_DIR = golds_dir
 
 class ExReportingEngine(ApiExampleBase):
 

@@ -12,12 +12,8 @@ from datetime import datetime
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, golds_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR
 from document_helper import DocumentHelper
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-GOLDS_DIR = golds_dir
 
 class ExStructuredDocumentTag(ApiExampleBase):
 

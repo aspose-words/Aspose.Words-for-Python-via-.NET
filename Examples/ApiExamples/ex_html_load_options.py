@@ -11,13 +11,8 @@ from datetime import datetime
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, aspose_logo_url, image_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, ASPOSE_LOGO_URL, IMAGE_DIR
 from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-IMAGE_DIR = image_dir
-ASPOSE_LOGO_URL = aspose_logo_url
 
 class ExHtmlLoadOptions(ApiExampleBase):
 

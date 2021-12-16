@@ -12,14 +12,8 @@ from datetime import datetime, timedelta, timezone
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, image_dir, fonts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, FONTS_DIR
 from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-IMAGE_DIR = image_dir
-FONTS_DIR = fonts_dir
-
 
 class ExPdfSaveOptions(ApiExampleBase):
 
@@ -2011,7 +2005,6 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                 #elif numeral_format == aw.saving.NumeralFormat.EASTERN_ARABIC_INDIC:
                 #    self.assertEqual("۱۰۰ ,۵۰ ,۱۰ ,۹ ,۸ ,۷ ,۶ ,۵ ,۴ ,۳ ,۲ ,۱", text_absorber.text)
-
 
     def test_export_page_set(self):
 

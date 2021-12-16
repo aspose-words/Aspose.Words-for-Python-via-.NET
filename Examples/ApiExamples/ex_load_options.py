@@ -12,13 +12,8 @@ from typing import List
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, fonts_dir, image_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, FONTS_DIR, IMAGE_DIR
 from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-FONTS_DIR = fonts_dir
-IMAGE_DIR = image_dir
 
 class ExLoadOptions(ApiExampleBase):
 
