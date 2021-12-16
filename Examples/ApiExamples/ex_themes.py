@@ -14,28 +14,28 @@ class ExThemes(ApiExampleBase):
     def test_custom_colors_and_fonts(self):
 
         #ExStart
-        #ExFor:Document.Theme
+        #ExFor:Document.theme
         #ExFor:Theme
-        #ExFor:Theme.Colors
+        #ExFor:Theme.colors
         #ExFor:Theme.major_fonts
         #ExFor:Theme.minor_fonts
-        #ExFor:Themes.ThemeColors
-        #ExFor:Themes.ThemeColors.Accent1
-        #ExFor:Themes.ThemeColors.Accent2
-        #ExFor:Themes.ThemeColors.Accent3
-        #ExFor:Themes.ThemeColors.Accent4
-        #ExFor:Themes.ThemeColors.Accent5
-        #ExFor:Themes.ThemeColors.Accent6
-        #ExFor:Themes.ThemeColors.Dark1
-        #ExFor:Themes.ThemeColors.Dark2
-        #ExFor:Themes.ThemeColors.FollowedHyperlink
-        #ExFor:Themes.ThemeColors.Hyperlink
-        #ExFor:Themes.ThemeColors.Light1
-        #ExFor:Themes.ThemeColors.Light2
-        #ExFor:Themes.ThemeFonts
-        #ExFor:Themes.ThemeFonts.ComplexScript
-        #ExFor:Themes.ThemeFonts.EastAsian
-        #ExFor:Themes.ThemeFonts.Latin
+        #ExFor:ThemeColors
+        #ExFor:ThemeColors.accent1
+        #ExFor:ThemeColors.accent2
+        #ExFor:ThemeColors.accent3
+        #ExFor:ThemeColors.accent4
+        #ExFor:ThemeColors.accent5
+        #ExFor:ThemeColors.accent6
+        #ExFor:ThemeColors.dark1
+        #ExFor:ThemeColors.dark2
+        #ExFor:ThemeColors.followed_hyperlink
+        #ExFor:ThemeColors.hyperlink
+        #ExFor:ThemeColors.light1
+        #ExFor:ThemeColors.light2
+        #ExFor:ThemeFonts
+        #ExFor:ThemeFonts.complex_script
+        #ExFor:ThemeFonts.east_asian
+        #ExFor:ThemeFonts.latin
         #ExSummary:Shows how to set custom colors and fonts for themes.
         doc = aw.Document(MY_DIR + "Theme colors.docx")
 

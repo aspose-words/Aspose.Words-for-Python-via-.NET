@@ -14,10 +14,10 @@ class ExXamlFixedSaveOptions(ApiExampleBase):
 
     #ExStart
     #ExFor:XamlFixedSaveOptions
-    #ExFor:XamlFixedSaveOptions.ResourceSavingCallback
-    #ExFor:XamlFixedSaveOptions.ResourcesFolder
-    #ExFor:XamlFixedSaveOptions.ResourcesFolderAlias
-    #ExFor:XamlFixedSaveOptions.SaveFormat
+    #ExFor:XamlFixedSaveOptions.resource_saving_callback
+    #ExFor:XamlFixedSaveOptions.resources_folder
+    #ExFor:XamlFixedSaveOptions.resources_folder_alias
+    #ExFor:XamlFixedSaveOptions.save_format
     #ExSummary:Shows how to print the URIs of linked resources created while converting a document to fixed-form .xaml.
     def test_resource_folder(self):
 

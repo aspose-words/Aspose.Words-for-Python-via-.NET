@@ -20,9 +20,9 @@ class ExMailMerge(ApiExampleBase):
         response = None
 
         #ExStart
-        #ExFor:MailMerge.Execute(String[], Object[])
+        #ExFor:MailMerge.execute(List[str],List[object])
         #ExFor:ContentDisposition
-        #ExFor:Document.Save(HttpResponse,String,ContentDisposition,SaveOptions)
+        #ExFor:Document.save(HttpResponse,str,ContentDisposition,SaveOptions)
         #ExSummary:Shows how to perform a mail merge, and then save the document to the client browser.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -55,7 +55,7 @@ class ExMailMerge(ApiExampleBase):
     def test_execute_data_reader(self):
 
         #ExStart
-        #ExFor:MailMerge.Execute(IDataReader)
+        #ExFor:MailMerge.execute(IDataReader)
         #ExSummary:Shows how to run a mail merge using data from a data reader.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -102,7 +102,7 @@ class ExMailMerge(ApiExampleBase):
         TestUtil.mail_merge_matches_query_result(DATABASE_DIR + "Northwind.mdb", query, doc, True)
 
     #ExStart
-    #ExFor:MailMerge.ExecuteADO(Object)
+    #ExFor:MailMerge.execute_ado(object)
     #ExSummary:Shows how to run a mail merge with data from an ADO dataset.
     def test_execute_ado(self):
 
@@ -149,7 +149,7 @@ class ExMailMerge(ApiExampleBase):
     #ExEnd
 
     #ExStart
-    #ExFor:MailMerge.ExecuteWithRegionsADO(Object,String)
+    #ExFor:MailMerge.execute_with_regions_ado(object,str)
     #ExSummary:Shows how to run a mail merge with multiple regions, compiled with data from an ADO dataset.
     def test_execute_with_regions_ado(self):
 
@@ -161,7 +161,7 @@ class ExMailMerge(ApiExampleBase):
 
         # Create a connection string that points to the "Northwind" database file
         # in our local file system and open a connection.
-        connection_string = r"Provider=Microsoft.jet.o_l_e_d_b.4.0;Data Source=" + DATABASE_DIR + "Northwind.mdb"
+        connection_string = r"Provider=Microsoft.jet.oledb.4.0;Data Source=" + DATABASE_DIR + "Northwind.mdb"
         connection.open(connection_string)
 
         # Populate our DataSet by running an SQL command on our database.
@@ -220,9 +220,9 @@ class ExMailMerge(ApiExampleBase):
     #ExStart
     #ExFor:Document
     #ExFor:MailMerge
-    #ExFor:MailMerge.Execute(DataTable)
-    #ExFor:MailMerge.Execute(DataRow)
-    #ExFor:Document.MailMerge
+    #ExFor:MailMerge.execute(DataTable)
+    #ExFor:MailMerge.execute(DataRow)
+    #ExFor:Document.mail_merge
     #ExSummary:Shows how to execute a mail merge with data from a DataTable.
     def test_execute_data_table(self):
 
@@ -276,7 +276,7 @@ class ExMailMerge(ApiExampleBase):
     def test_execute_data_view(self):
 
         #ExStart
-        #ExFor:MailMerge.Execute(DataView)
+        #ExFor:MailMerge.execute(DataView)
         #ExSummary:Shows how to edit mail merge data with a DataView.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -310,7 +310,7 @@ class ExMailMerge(ApiExampleBase):
         TestUtil.mail_merge_matches_data_table(view.to_table(), aw.Document(ARTIFACTS_DIR + "MailMerge.execute_data_view.docx"), True)
 
     #ExStart
-    #ExFor:MailMerge.ExecuteWithRegions(DataSet)
+    #ExFor:MailMerge.execute_with_regions(DataSet)
     #ExSummary:Shows how to execute a nested mail merge with two merge regions and two data tables.
     def test_execute_with_regions_nested(self):
 
@@ -390,8 +390,8 @@ class ExMailMerge(ApiExampleBase):
     def test_execute_with_regions_concurrent(self):
 
         #ExStart
-        #ExFor:MailMerge.ExecuteWithRegions(DataTable)
-        #ExFor:MailMerge.ExecuteWithRegions(DataView)
+        #ExFor:MailMerge.execute_with_regions(DataTable)
+        #ExFor:MailMerge.execute_with_regions(DataView)
         #ExSummary:Shows how to use regions to execute two separate mail merges in one document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -451,12 +451,12 @@ class ExMailMerge(ApiExampleBase):
     def test_mail_merge_region_info(self):
 
         #ExStart
-        #ExFor:MailMerge.GetFieldNamesForRegion(System.String)
-        #ExFor:MailMerge.GetFieldNamesForRegion(System.String,System.Int32)
-        #ExFor:MailMerge.GetRegionsByName(System.String)
-        #ExFor:MailMerge.RegionEndTag
-        #ExFor:MailMerge.RegionStartTag
-        #ExFor:MailMergeRegionInfo.ParentRegion
+        #ExFor:MailMerge.get_field_names_for_region(str)
+        #ExFor:MailMerge.get_field_names_for_region(str,int)
+        #ExFor:MailMerge.get_regions_by_name(str)
+        #ExFor:MailMerge.region_end_tag
+        #ExFor:MailMerge.region_start_tag
+        #ExFor:MailMergeRegionInfo.parent_region
         #ExSummary:Shows how to create, list, and read mail merge regions.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -506,7 +506,7 @@ class ExMailMerge(ApiExampleBase):
         #ExEnd
 
     #ExStart
-    #ExFor:MailMerge.MergeDuplicateRegions
+    #ExFor:MailMerge.merge_duplicate_regions
     #ExSummary:Shows how to work with duplicate mail merge regions.
     def test_merge_duplicate_regions(self):
 
@@ -568,8 +568,8 @@ class ExMailMerge(ApiExampleBase):
             TestUtil.mail_merge_matches_data_table(data_table, doc, True)
 
     #ExStart
-    #ExFor:MailMerge.PreserveUnusedTags
-    #ExFor:MailMerge.UseNonMergeFields
+    #ExFor:MailMerge.preserve_unused_tags
+    #ExFor:MailMerge.use_non_merge_fields
     #ExSummary:Shows how to preserve the appearance of alternative mail merge tags that go unused during a mail merge.
     def test_preserve_unused_tags(self):
 
@@ -590,7 +590,7 @@ class ExMailMerge(ApiExampleBase):
                 doc.save(ARTIFACTS_DIR + "MailMerge.preserve_unused_tags.docx")
 
                 # Our document has a tag for a column named "Column2", which does not exist in the table.
-                # If we set the "PreserveUnusedTags" flag to "False", then the mail merge will convert this tag into a MERGEFIELD.
+                # If we set the "preserve_unused_tags" flag to "False", then the mail merge will convert this tag into a MERGEFIELD.
                 self.assertEqual(doc.get_text().contains("{{ Column2 }}"), preserve_unused_tags)
 
                 if preserve_unused_tags:
@@ -627,7 +627,7 @@ class ExMailMerge(ApiExampleBase):
     #ExEnd
 
     #ExStart
-    #ExFor:MailMerge.MergeWholeDocument
+    #ExFor:MailMerge.merge_whole_document
     #ExSummary:Shows the relationship between mail merges with regions, and field updating.
     def test_merge_whole_document(self):
 
@@ -644,7 +644,7 @@ class ExMailMerge(ApiExampleBase):
                 doc.mail_merge.execute_with_regions(data_table)
 
                 # The mail merge will only update the QUOTE field outside of the mail merge region
-                # if we set the "MergeWholeDocument" flag to "True".
+                # if we set the "merge_whole_document" flag to "True".
                 doc.save(ARTIFACTS_DIR + "MailMerge.merge_whole_document.docx")
 
                 self.assertTrue(doc.get_text().contains("This QUOTE field is inside the \"MyTable\" merge region."))
@@ -688,7 +688,7 @@ class ExMailMerge(ApiExampleBase):
     #ExEnd
 
     #ExStart
-    #ExFor:MailMerge.UseWholeParagraphAsRegion
+    #ExFor:MailMerge.use_whole_paragraph_as_region
     #ExSummary:Shows the relationship between mail merge regions and paragraphs.
     def test_use_whole_paragraph_as_region(self):
 
@@ -755,7 +755,7 @@ class ExMailMerge(ApiExampleBase):
         for trim_whitespaces in (False, True):
             with self.subTest(trim_whitespaces=trim_whitespaces):
                 #ExStart
-                #ExFor:MailMerge.TrimWhitespaces
+                #ExFor:MailMerge.trim_whitespaces
                 #ExSummary:Shows how to trim whitespaces from values of a data source while executing a mail merge.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -771,7 +771,7 @@ class ExMailMerge(ApiExampleBase):
     def test_mail_merge_get_field_names(self):
 
         #ExStart
-        #ExFor:MailMerge.GetFieldNames
+        #ExFor:MailMerge.get_field_names
         #ExSummary:Shows how to get names of all merge fields in a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -806,7 +806,7 @@ class ExMailMerge(ApiExampleBase):
     def test_delete_fields(self):
 
         #ExStart
-        #ExFor:MailMerge.DeleteFields
+        #ExFor:MailMerge.delete_fields
         #ExSummary:Shows how to delete all MERGEFIELDs from a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -838,7 +838,7 @@ class ExMailMerge(ApiExampleBase):
                                            aw.mailmerging.MailMergeCleanupOptions.REMOVE_UNUSED_REGIONS):
             with self.subTest(mail_merge_cleanup_option=mail_merge_cleanup_options):
                 #ExStart
-                #ExFor:MailMerge.CleanupOptions
+                #ExFor:MailMerge.cleanup_options
                 #ExFor:MailMergeCleanupOptions
                 #ExSummary:Shows how to automatically remove MERGEFIELDs that go unused during mail merge.
                 doc = aw.Document()
@@ -885,7 +885,7 @@ class ExMailMerge(ApiExampleBase):
                                            aw.mailmerging.MailMergeCleanupOptions.REMOVE_UNUSED_REGIONS):
             with self.subTest(mail_merge_cleanup_options=mail_merge_cleanup_options):
                 #ExStart
-                #ExFor:MailMerge.CleanupOptions
+                #ExFor:MailMerge.cleanup_options
                 #ExFor:MailMergeCleanupOptions
                 #ExSummary:Shows how to remove empty paragraphs that a mail merge may create from the merge output document.
                 doc = aw.Document()
@@ -947,7 +947,7 @@ class ExMailMerge(ApiExampleBase):
                               cleanup_paragraphs_with_punctuation_marks=cleanup_paragraphs_with_punctuation_marks,
                               result_text=result_text):
                 #ExStart
-                #ExFor:MailMerge.CleanupParagraphsWithPunctuationMarks
+                #ExFor:MailMerge.cleanup_paragraphs_with_punctuation_marks
                 #ExSummary:Shows how to remove paragraphs with punctuation marks after a mail merge operation.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -978,16 +978,16 @@ class ExMailMerge(ApiExampleBase):
                 self.assertEqual(result_text, doc.get_text())
 
     #ExStart
-    #ExFor:MailMerge.MappedDataFields
+    #ExFor:MailMerge.mapped_data_fields
     #ExFor:MappedDataFieldCollection
-    #ExFor:MappedDataFieldCollection.Add
-    #ExFor:MappedDataFieldCollection.Clear
-    #ExFor:MappedDataFieldCollection.ContainsKey(String)
-    #ExFor:MappedDataFieldCollection.ContainsValue(String)
-    #ExFor:MappedDataFieldCollection.Count
-    #ExFor:MappedDataFieldCollection.GetEnumerator
-    #ExFor:MappedDataFieldCollection.Item(String)
-    #ExFor:MappedDataFieldCollection.Remove(String)
+    #ExFor:MappedDataFieldCollection.add
+    #ExFor:MappedDataFieldCollection.clear
+    #ExFor:MappedDataFieldCollection.contains_key(str)
+    #ExFor:MappedDataFieldCollection.contains_value(str)
+    #ExFor:MappedDataFieldCollection.count
+    #ExFor:MappedDataFieldCollection.__iter__
+    #ExFor:MappedDataFieldCollection.__getitem__(str)
+    #ExFor:MappedDataFieldCollection.remove(str)
     #ExSummary:Shows how to map data columns and MERGEFIELDs with different names so the data is transferred between them during a mail merge.
     def test_mapped_data_field_collection(self):
 
@@ -1065,7 +1065,7 @@ class ExMailMerge(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldAddressBlock
-        #ExFor:FieldAddressBlock.GetFieldNames
+        #ExFor:FieldAddressBlock.get_field_names
         #ExSummary:Shows how to get mail merge field names used by a field.
         doc = aw.Document(MY_DIR + "Field sample - ADDRESSBLOCK.docx")
 
@@ -1133,14 +1133,14 @@ class ExMailMerge(ApiExampleBase):
     def test_test_mail_merge_get_regions_hierarchy(self):
 
         #ExStart
-        #ExFor:MailMerge.GetRegionsHierarchy
+        #ExFor:MailMerge.get_regions_hierarchy
         #ExFor:MailMergeRegionInfo
-        #ExFor:MailMergeRegionInfo.Regions
-        #ExFor:MailMergeRegionInfo.Name
-        #ExFor:MailMergeRegionInfo.Fields
-        #ExFor:MailMergeRegionInfo.StartField
-        #ExFor:MailMergeRegionInfo.EndField
-        #ExFor:MailMergeRegionInfo.Level
+        #ExFor:MailMergeRegionInfo.regions
+        #ExFor:MailMergeRegionInfo.name
+        #ExFor:MailMergeRegionInfo.fields
+        #ExFor:MailMergeRegionInfo.start_field
+        #ExFor:MailMergeRegionInfo.end_field
+        #ExFor:MailMergeRegionInfo.level
         #ExSummary:Shows how to verify mail merge regions.
         doc = aw.Document(MY_DIR + "Mail merge regions.docx")
 
@@ -1180,9 +1180,9 @@ class ExMailMerge(ApiExampleBase):
         #ExEnd
 
     #ExStart
-    #ExFor:MailMerge.MailMergeCallback
+    #ExFor:MailMerge.mail_merge_callback
     #ExFor:IMailMergeCallback
-    #ExFor:IMailMergeCallback.TagsReplaced
+    #ExFor:IMailMergeCallback.tags_replaced
     #ExSummary:Shows how to define custom logic for handling events during mail merge.
     def test_callback(self):
 
@@ -1288,7 +1288,7 @@ class ExMailMerge(ApiExampleBase):
         for count_all_merge_fields in (False, True):
             with self.subTest(count_all_merge_fields=count_all_merge_fields):
                 #ExStart
-                #ExFor:MailMerge.UnconditionalMergeFieldsAndRegions
+                #ExFor:MailMerge.unconditional_merge_fields_and_regions
                 #ExSummary:Shows how to merge fields or regions regardless of the parent IF field's condition.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -1358,28 +1358,28 @@ class ExMailMerge(ApiExampleBase):
     def test_mail_merge_settings(self):
 
         #ExStart
-        #ExFor:Document.MailMergeSettings
+        #ExFor:Document.mail_merge_settings
         #ExFor:MailMergeCheckErrors
         #ExFor:MailMergeDataType
         #ExFor:MailMergeDestination
         #ExFor:MailMergeMainDocumentType
         #ExFor:MailMergeSettings
-        #ExFor:MailMergeSettings.CheckErrors
-        #ExFor:MailMergeSettings.Clone
-        #ExFor:MailMergeSettings.Destination
-        #ExFor:MailMergeSettings.DataType
-        #ExFor:MailMergeSettings.DoNotSupressBlankLines
-        #ExFor:MailMergeSettings.LinkToQuery
-        #ExFor:MailMergeSettings.MainDocumentType
-        #ExFor:MailMergeSettings.Odso
-        #ExFor:MailMergeSettings.Query
-        #ExFor:MailMergeSettings.ViewMergedData
+        #ExFor:MailMergeSettings.check_errors
+        #ExFor:MailMergeSettings.clone
+        #ExFor:MailMergeSettings.destination
+        #ExFor:MailMergeSettings.data_type
+        #ExFor:MailMergeSettings.do_not_supress_blank_lines
+        #ExFor:MailMergeSettings.link_to_query
+        #ExFor:MailMergeSettings.main_document_type
+        #ExFor:MailMergeSettings.odso
+        #ExFor:MailMergeSettings.query
+        #ExFor:MailMergeSettings.view_merged_data
         #ExFor:Odso
-        #ExFor:Odso.Clone
-        #ExFor:Odso.ColumnDelimiter
-        #ExFor:Odso.DataSource
+        #ExFor:Odso.clone
+        #ExFor:Odso.column_delimiter
+        #ExFor:Odso.data_source
         #ExFor:Odso.data_source_type
-        #ExFor:Odso.FirstRowContainsColumnNames
+        #ExFor:Odso.first_row_contains_column_names
         #ExFor:OdsoDataSourceType
         #ExSummary:Shows how to execute a mail merge with data from an Office Data Source Object.
         doc = aw.Document()
@@ -1450,11 +1450,11 @@ class ExMailMerge(ApiExampleBase):
         #ExStart
         #ExFor:MailMergeSettings.active_record
         #ExFor:MailMergeSettings.address_field_name
-        #ExFor:MailMergeSettings.ConnectString
+        #ExFor:MailMergeSettings.connect_string
         #ExFor:MailMergeSettings.mail_as_attachment
         #ExFor:MailMergeSettings.mail_subject
-        #ExFor:MailMergeSettings.Clear
-        #ExFor:Odso.TableName
+        #ExFor:MailMergeSettings.clear
+        #ExFor:Odso.table_name
         #ExFor:Odso.udl_connect_string
         #ExSummary:Shows how to execute a mail merge while connecting to an external data source.
         doc = aw.Document(MY_DIR + "Odso data.docx")
@@ -1505,8 +1505,8 @@ class ExMailMerge(ApiExampleBase):
     def test_mailing_label_merge(self):
 
         #ExStart
-        #ExFor:MailMergeSettings.DataSource
-        #ExFor:MailMergeSettings.HeaderSource
+        #ExFor:MailMergeSettings.data_source
+        #ExFor:MailMergeSettings.header_source
         #ExSummary:Shows how to construct a data source for a mail merge from a header source and a data source.
         # Create a mailing label merge header file, which will consist of a table with one row.
         doc = aw.Document()
@@ -1590,20 +1590,20 @@ class ExMailMerge(ApiExampleBase):
     def test_odso_field_map_data_collection(self):
 
         #ExStart
-        #ExFor:Odso.FieldMapDatas
+        #ExFor:Odso.field_map_datas
         #ExFor:OdsoFieldMapData
-        #ExFor:OdsoFieldMapData.Clone
-        #ExFor:OdsoFieldMapData.Column
-        #ExFor:OdsoFieldMapData.MappedName
-        #ExFor:OdsoFieldMapData.Name
-        #ExFor:OdsoFieldMapData.Type
+        #ExFor:OdsoFieldMapData.clone
+        #ExFor:OdsoFieldMapData.column
+        #ExFor:OdsoFieldMapData.mapped_name
+        #ExFor:OdsoFieldMapData.name
+        #ExFor:OdsoFieldMapData.type
         #ExFor:OdsoFieldMapDataCollection
-        #ExFor:OdsoFieldMapDataCollection.Add(OdsoFieldMapData)
-        #ExFor:OdsoFieldMapDataCollection.Clear
-        #ExFor:OdsoFieldMapDataCollection.Count
-        #ExFor:OdsoFieldMapDataCollection.GetEnumerator
-        #ExFor:OdsoFieldMapDataCollection.Item(Int32)
-        #ExFor:OdsoFieldMapDataCollection.RemoveAt(Int32)
+        #ExFor:OdsoFieldMapDataCollection.add(OdsoFieldMapData)
+        #ExFor:OdsoFieldMapDataCollection.clear
+        #ExFor:OdsoFieldMapDataCollection.count
+        #ExFor:OdsoFieldMapDataCollection.__iter__
+        #ExFor:OdsoFieldMapDataCollection.__getitem__(int)
+        #ExFor:OdsoFieldMapDataCollection.remove_at(int)
         #ExFor:OdsoFieldMappingType
         #ExSummary:Shows how to access the collection of data that maps data source columns to merge fields.
         doc = aw.Document(MY_DIR + "Odso data.docx")
@@ -1638,20 +1638,20 @@ class ExMailMerge(ApiExampleBase):
     def test_odso_recipient_data_collection(self):
 
         #ExStart
-        #ExFor:Odso.RecipientDatas
+        #ExFor:Odso.recipient_datas
         #ExFor:OdsoRecipientData
-        #ExFor:OdsoRecipientData.Active
-        #ExFor:OdsoRecipientData.Clone
-        #ExFor:OdsoRecipientData.Column
-        #ExFor:OdsoRecipientData.Hash
-        #ExFor:OdsoRecipientData.UniqueTag
+        #ExFor:OdsoRecipientData.active
+        #ExFor:OdsoRecipientData.clone
+        #ExFor:OdsoRecipientData.column
+        #ExFor:OdsoRecipientData.hash
+        #ExFor:OdsoRecipientData.unique_tag
         #ExFor:OdsoRecipientDataCollection
-        #ExFor:OdsoRecipientDataCollection.Add(OdsoRecipientData)
-        #ExFor:OdsoRecipientDataCollection.Clear
-        #ExFor:OdsoRecipientDataCollection.Count
-        #ExFor:OdsoRecipientDataCollection.GetEnumerator
-        #ExFor:OdsoRecipientDataCollection.Item(Int32)
-        #ExFor:OdsoRecipientDataCollection.RemoveAt(Int32)
+        #ExFor:OdsoRecipientDataCollection.add(OdsoRecipientData)
+        #ExFor:OdsoRecipientDataCollection.clear
+        #ExFor:OdsoRecipientDataCollection.count
+        #ExFor:OdsoRecipientDataCollection.__iter__
+        #ExFor:OdsoRecipientDataCollection.__getitem__(int)
+        #ExFor:OdsoRecipientDataCollection.remove_at(int)
         #ExSummary:Shows how to access the collection of data that designates which merge data source records a mail merge will exclude.
         doc = aw.Document(MY_DIR + "Odso data.docx")
 
@@ -1681,9 +1681,9 @@ class ExMailMerge(ApiExampleBase):
     def test_change_field_update_culture_source(self):
 
         #ExStart
-        #ExFor:Document.FieldOptions
+        #ExFor:Document.field_options
         #ExFor:FieldOptions
-        #ExFor:FieldOptions.FieldUpdateCultureSource
+        #ExFor:FieldOptions.field_update_culture_source
         #ExFor:FieldUpdateCultureSource
         #ExSummary:Shows how to specify the source of the culture used for date formatting during a field update or mail merge.
         doc = aw.Document()
@@ -1716,7 +1716,7 @@ class ExMailMerge(ApiExampleBase):
     def test_restart_lists_at_each_section(self):
 
         #ExStart
-        #ExFor:MailMerge.RestartListsAtEachSection
+        #ExFor:MailMerge.restart_lists_at_each_section
         #ExSummary:Shows how to control whether or not list numbering is restarted at each section when mail merge is performed.
         doc = aw.Document(MY_DIR + "Section breaks with numbering.docx")
 
@@ -1729,7 +1729,7 @@ class ExMailMerge(ApiExampleBase):
     def test_remove_last_empty_paragraph(self):
 
         #ExStart
-        #ExFor:DocumentBuilder.InsertHtml(String, HtmlInsertOptions)
+        #ExFor:DocumentBuilder.insert_html(str,HtmlInsertOptions)
         #ExSummary:Shows how to use options while inserting html.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

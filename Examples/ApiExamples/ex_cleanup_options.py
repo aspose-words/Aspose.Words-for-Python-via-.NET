@@ -14,11 +14,11 @@ class ExCleanupOptions(ApiExampleBase):
     def test_remove_unused_resources(self):
 
         #ExStart
-        #ExFor:Document.Cleanup(CleanupOptions)
+        #ExFor:Document.cleanup(CleanupOptions)
         #ExFor:CleanupOptions
-        #ExFor:CleanupOptions.UnusedLists
-        #ExFor:CleanupOptions.UnusedStyles
-        #ExFor:CleanupOptions.UnusedBuiltinStyles
+        #ExFor:CleanupOptions.unused_lists
+        #ExFor:CleanupOptions.unused_styles
+        #ExFor:CleanupOptions.unused_builtin_styles
         #ExSummary:Shows how to remove all unused custom styles from a document.
         doc = aw.Document()
 
@@ -42,7 +42,7 @@ class ExCleanupOptions(ApiExampleBase):
         builder.writeln("Item 2")
 
         # Now, there is one unused character style and one unused list style.
-        # The cleanup() method, when configured with a CleanupOptions object, can target unused styles and remove them.
+        # The "cleanup" method, when configured with a CleanupOptions object, can target unused styles and remove them.
         cleanup_options = aw.CleanupOptions()
         cleanup_options.unused_lists = True
         cleanup_options.unused_styles = True
@@ -53,7 +53,7 @@ class ExCleanupOptions(ApiExampleBase):
         self.assertEqual(4, doc.styles.count)
 
         # Removing every node that a custom style is applied to marks it as "unused" again.
-        # Rerun the cleanup method to remove them.
+        # Rerun the "cleanup" method to remove them.
         doc.first_section.body.remove_all_children()
         doc.cleanup(cleanup_options)
 
@@ -63,7 +63,7 @@ class ExCleanupOptions(ApiExampleBase):
     def test_remove_duplicate_styles(self):
 
         #ExStart
-        #ExFor:CleanupOptions.DuplicateStyle
+        #ExFor:CleanupOptions.duplicate_style
         #ExSummary:Shows how to remove duplicated styles from the document.
         doc = aw.Document()
 
@@ -94,7 +94,7 @@ class ExCleanupOptions(ApiExampleBase):
         self.assertEqual(my_style, paragraphs[0].paragraph_format.style)
         self.assertEqual(duplicate_style, paragraphs[1].paragraph_format.style)
 
-        # Configure a CleanOptions object, then call the cleanup method to substitute all duplicate styles
+        # Configure a CleanOptions object, then call the "cleanup" method to substitute all duplicate styles
         # with the original and remove the duplicates from the document.
         cleanup_options = aw.CleanupOptions()
         cleanup_options.duplicate_style = True

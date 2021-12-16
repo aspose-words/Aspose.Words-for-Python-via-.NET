@@ -18,8 +18,8 @@ class ExOdtSaveOptions(ApiExampleBase):
             with self.subTest(export_to_odt11_specs=export_to_odt11_specs):
                 #ExStart
                 #ExFor:OdtSaveOptions
-                #ExFor:OdtSaveOptions.#ctor
-                #ExFor:OdtSaveOptions.IsStrictSchema11
+                #ExFor:OdtSaveOptions.__init__
+                #ExFor:OdtSaveOptions.is_strict_schema11
                 #ExSummary:Shows how to make a saved document conform to an older ODT schema.
                 doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -51,7 +51,7 @@ class ExOdtSaveOptions(ApiExampleBase):
             with self.subTest(odt_save_measure_unit=odt_save_measure_unit):
                 #ExStart
                 #ExFor:OdtSaveOptions
-                #ExFor:OdtSaveOptions.MeasureUnit
+                #ExFor:OdtSaveOptions.measure_unit
                 #ExFor:OdtSaveMeasureUnit
                 #ExSummary:Shows how to use different measurement units to define style parameters of a saved ODT document.
                 doc = aw.Document(MY_DIR + "Rendering.docx")
@@ -82,9 +82,9 @@ class ExOdtSaveOptions(ApiExampleBase):
         for save_format in (aw.SaveFormat.ODT, aw.SaveFormat.OTT):
             with self.subTest(save_format=save_format):
                 #ExStart
-                #ExFor:OdtSaveOptions.#ctor(SaveFormat)
-                #ExFor:OdtSaveOptions.Password
-                #ExFor:OdtSaveOptions.SaveFormat
+                #ExFor:OdtSaveOptions.__init__(SaveFormat)
+                #ExFor:OdtSaveOptions.password
+                #ExFor:OdtSaveOptions.save_format
                 #ExSummary:Shows how to encrypt a saved ODT/OTT document with a password, and then load it using Aspose.Words.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)

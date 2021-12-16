@@ -19,8 +19,8 @@ class ExLicense(ApiExampleBase):
 
         #ExStart
         #ExFor:License
-        #ExFor:License.#ctor
-        #ExFor:License.SetLicense(String)
+        #ExFor:License.__init__
+        #ExFor:License.set_license(str)
         #ExSummary:Shows how initialize a license for Aspose.Words using a license file in the local file system.
         # Set the license for our Aspose.Words product by passing the local file system filename of a valid license file.
         license_file_name = os.path.join(LICENSE_DIR, "Aspose.Words.Python.lic")
@@ -44,10 +44,10 @@ class ExLicense(ApiExampleBase):
     def test_license_from_stream(self):
 
         #ExStart
-        #ExFor:License.SetLicense(Stream)
+        #ExFor:License.set_license(BytesIO)
         #ExSummary:Shows how to initialize a license for Aspose.Words from a stream.
         # Set the license for our Aspose.Words product by passing a stream for a valid license file in our local file system.
-        with open(os.path.join(LICENSE_DIR, "Aspose.words.n_e_t.lic", "rb")) as my_stream:
+        with open(os.path.join(LICENSE_DIR, "Aspose.Words.net.lic", "rb")) as my_stream:
             license = aw.License()
             license.set_license(my_stream)
 

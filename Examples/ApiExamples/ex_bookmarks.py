@@ -15,7 +15,7 @@ class ExBookmarks(ApiExampleBase):
     def test_insert(self):
 
         #ExStart
-        #ExFor:Bookmark.Name
+        #ExFor:Bookmark.name
         #ExSummary:Shows how to insert a bookmark.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -40,27 +40,27 @@ class ExBookmarks(ApiExampleBase):
 
     ##ExStart
     ##ExFor:Bookmark
-    ##ExFor:Bookmark.Name
-    ##ExFor:Bookmark.Text
-    ##ExFor:Bookmark.BookmarkStart
-    ##ExFor:Bookmark.BookmarkEnd
+    ##ExFor:Bookmark.name
+    ##ExFor:Bookmark.text
+    ##ExFor:Bookmark.bookmark_start
+    ##ExFor:Bookmark.bookmark_end
     ##ExFor:BookmarkStart
-    ##ExFor:BookmarkStart.#ctor
+    ##ExFor:BookmarkStart.__init__
     ##ExFor:BookmarkEnd
-    ##ExFor:BookmarkEnd.#ctor
-    ##ExFor:BookmarkStart.Accept(DocumentVisitor)
-    ##ExFor:BookmarkEnd.Accept(DocumentVisitor)
-    ##ExFor:BookmarkStart.Bookmark
-    ##ExFor:BookmarkStart.GetText
-    ##ExFor:BookmarkStart.Name
-    ##ExFor:BookmarkEnd.Name
+    ##ExFor:BookmarkEnd.__init__
+    ##ExFor:BookmarkStart.accept(DocumentVisitor)
+    ##ExFor:BookmarkEnd.accept(DocumentVisitor)
+    ##ExFor:BookmarkStart.bookmark
+    ##ExFor:BookmarkStart.get_text
+    ##ExFor:BookmarkStart.name
+    ##ExFor:BookmarkEnd.name
     ##ExFor:BookmarkCollection
-    ##ExFor:BookmarkCollection.Item(Int32)
-    ##ExFor:BookmarkCollection.Item(String)
-    ##ExFor:BookmarkCollection.GetEnumerator
-    ##ExFor:Range.Bookmarks
-    ##ExFor:DocumentVisitor.VisitBookmarkStart
-    ##ExFor:DocumentVisitor.VisitBookmarkEnd
+    ##ExFor:BookmarkCollection.__getitem__(int)
+    ##ExFor:BookmarkCollection.__getitem__(str)
+    ##ExFor:BookmarkCollection.__iter__
+    ##ExFor:Range.bookmarks
+    ##ExFor:DocumentVisitor.visit_bookmark_start
+    ##ExFor:DocumentVisitor.visit_bookmark_end
     ##ExSummary:Shows how to add bookmarks and update their contents.
     #def test_create_update_and_print_bookmarks(self):
 
@@ -127,15 +127,15 @@ class ExBookmarks(ApiExampleBase):
     def test_table_column_bookmarks(self):
 
         #ExStart
-        #ExFor:Bookmark.IsColumn
-        #ExFor:Bookmark.FirstColumn
-        #ExFor:Bookmark.LastColumn
+        #ExFor:Bookmark.is_column
+        #ExFor:Bookmark.first_column
+        #ExFor:Bookmark.last_column
         #ExSummary:Shows how to get information about table column bookmarks.
         doc = aw.Document(MY_DIR + "Table column bookmarks.doc")
 
         for bookmark in doc.range.bookmarks:
 
-            # If a bookmark encloses columns of a table, it is a table column bookmark, and its IsColumn flag set to true.
+            # If a bookmark encloses columns of a table, it is a table column bookmark, and its "is_column" flag set to true.
             print(f"Bookmark: {bookmark.name}{' (Column)' if bookmark.is_column else ''}")
             if bookmark.is_column:
                 row = bookmark.bookmark_start.get_ancestor(aw.NodeType.ROW)
@@ -162,12 +162,12 @@ class ExBookmarks(ApiExampleBase):
     def test_remove(self):
 
         #ExStart
-        #ExFor:BookmarkCollection.Clear
-        #ExFor:BookmarkCollection.Count
-        #ExFor:BookmarkCollection.Remove(Bookmark)
-        #ExFor:BookmarkCollection.Remove(String)
-        #ExFor:BookmarkCollection.RemoveAt
-        #ExFor:Bookmark.Remove
+        #ExFor:BookmarkCollection.clear
+        #ExFor:BookmarkCollection.count
+        #ExFor:BookmarkCollection.remove(Bookmark)
+        #ExFor:BookmarkCollection.remove(str)
+        #ExFor:BookmarkCollection.remove_at
+        #ExFor:Bookmark.remove
         #ExSummary:Shows how to remove bookmarks from a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -187,12 +187,12 @@ class ExBookmarks(ApiExampleBase):
         self.assertEqual(5, bookmarks.count)
 
         # There are several ways of removing bookmarks.
-        # 1 -  Calling the bookmark's remove method:
+        # 1 -  Calling the bookmark's "remove" method:
         bookmarks.get_by_name("MyBookmark_1").remove()
 
         self.assertFalse(any(b for b in bookmarks if b.name == "MyBookmark_1"))
 
-        # 2 -  Passing the bookmark to the collection's remove method:
+        # 2 -  Passing the bookmark to the collection's "remove" method:
         bookmark = doc.range.bookmarks[0]
         doc.range.bookmarks.remove(bookmark)
 

@@ -16,13 +16,13 @@ class ExFieldOptions(ApiExampleBase):
     def test_current_user(self):
 
         #ExStart
-        #ExFor:Document.UpdateFields
-        #ExFor:FieldOptions.CurrentUser
+        #ExFor:Document.update_fields
+        #ExFor:FieldOptions.current_user
         #ExFor:UserInformation
-        #ExFor:UserInformation.Name
-        #ExFor:UserInformation.Initials
-        #ExFor:UserInformation.Address
-        #ExFor:UserInformation.DefaultUser
+        #ExFor:UserInformation.name
+        #ExFor:UserInformation.initials
+        #ExFor:UserInformation.address
+        #ExFor:UserInformation.default_user
         #ExSummary:Shows how to set user details, and display them using fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -77,9 +77,9 @@ class ExFieldOptions(ApiExampleBase):
     def test_file_name(self):
 
         #ExStart
-        #ExFor:FieldOptions.FileName
+        #ExFor:FieldOptions.file_name
         #ExFor:FieldFileName
-        #ExFor:FieldFileName.IncludeFullPath
+        #ExFor:FieldFileName.include_full_path
         #ExSummary:Shows how to use FieldOptions to override the default value for the FILENAME field.
         doc = aw.Document(MY_DIR + "Document.docx")
         builder = aw.DocumentBuilder(doc)
@@ -124,7 +124,7 @@ class ExFieldOptions(ApiExampleBase):
     def test_bidi(self):
 
         #ExStart
-        #ExFor:FieldOptions.IsBidiTextSupportedOnUpdate
+        #ExFor:FieldOptions.is_bidi_text_supported_on_update
         #ExSummary:Shows how to use FieldOptions to ensure that field updating fully supports bi-directional text.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -151,7 +151,7 @@ class ExFieldOptions(ApiExampleBase):
     def test_legacy_number_format(self):
 
         #ExStart
-        #ExFor:FieldOptions.LegacyNumberFormat
+        #ExFor:FieldOptions.legacy_number_format
         #ExSummary:Shows how enable legacy number formatting for fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -174,7 +174,7 @@ class ExFieldOptions(ApiExampleBase):
     def test_pre_process_culture(self):
 
         #ExStart
-        #ExFor:FieldOptions.PreProcessCulture
+        #ExFor:FieldOptions.pre_process_culture
         #ExSummary:Shows how to set the preprocess culture.
         doc = aw.Document(MY_DIR + "Document.docx")
         builder = aw.DocumentBuilder(doc)
@@ -203,10 +203,10 @@ class ExFieldOptions(ApiExampleBase):
     def test_table_of_authority_categories(self):
 
         #ExStart
-        #ExFor:FieldOptions.ToaCategories
+        #ExFor:FieldOptions.toa_categories
         #ExFor:ToaCategories
-        #ExFor:ToaCategories.Item(Int32)
-        #ExFor:ToaCategories.DefaultCategories
+        #ExFor:ToaCategories.__getitem__(int)
+        #ExFor:ToaCategories.default_categories
         #ExSummary:Shows how to specify a set of categories for TOA fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -261,7 +261,7 @@ class ExFieldOptions(ApiExampleBase):
     def test_use_invariant_culture_number_format(self):
 
         #ExStart
-        #ExFor:FieldOptions.UseInvariantCultureNumberFormat
+        #ExFor:FieldOptions.use_invariant_culture_number_format
         #ExSummary:Shows how to format numbers according to the invariant culture.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -289,9 +289,9 @@ class ExFieldOptions(ApiExampleBase):
         TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FORMULA, " = 1234567,89 \\# $#,###,###.##", "$1.234.567,89", doc.range.fields[0])
 
     ##ExStart
-    ##ExFor:FieldOptions.FieldUpdateCultureProvider
+    ##ExFor:FieldOptions.field_update_culture_provider
     ##ExFor:IFieldUpdateCultureProvider
-    ##ExFor:IFieldUpdateCultureProvider.GetCulture(string, Field)
+    ##ExFor:IFieldUpdateCultureProvider.get_culture(string,Field)
     ##ExSummary:Shows how to specify a culture which parses date/time formatting for each field.
 
     #def test_define_date_time_formatting(self):
@@ -353,27 +353,27 @@ class ExFieldOptions(ApiExampleBase):
 
     #    #ExStart
     #    #ExFor:BarcodeParameters
-    #    #ExFor:BarcodeParameters.AddStartStopChar
-    #    #ExFor:BarcodeParameters.BackgroundColor
-    #    #ExFor:BarcodeParameters.BarcodeType
-    #    #ExFor:BarcodeParameters.BarcodeValue
-    #    #ExFor:BarcodeParameters.CaseCodeStyle
-    #    #ExFor:BarcodeParameters.DisplayText
-    #    #ExFor:BarcodeParameters.ErrorCorrectionLevel
-    #    #ExFor:BarcodeParameters.FacingIdentificationMark
-    #    #ExFor:BarcodeParameters.FixCheckDigit
-    #    #ExFor:BarcodeParameters.ForegroundColor
-    #    #ExFor:BarcodeParameters.IsBookmark
-    #    #ExFor:BarcodeParameters.IsUSPostalAddress
-    #    #ExFor:BarcodeParameters.PosCodeStyle
-    #    #ExFor:BarcodeParameters.PostalAddress
-    #    #ExFor:BarcodeParameters.ScalingFactor
-    #    #ExFor:BarcodeParameters.SymbolHeight
-    #    #ExFor:BarcodeParameters.SymbolRotation
+    #    #ExFor:BarcodeParameters.add_start_stop_char
+    #    #ExFor:BarcodeParameters.background_color
+    #    #ExFor:BarcodeParameters.barcode_type
+    #    #ExFor:BarcodeParameters.barcode_value
+    #    #ExFor:BarcodeParameters.case_code_style
+    #    #ExFor:BarcodeParameters.display_text
+    #    #ExFor:BarcodeParameters.error_correction_level
+    #    #ExFor:BarcodeParameters.facing_identification_mark
+    #    #ExFor:BarcodeParameters.fix_check_digit
+    #    #ExFor:BarcodeParameters.foreground_color
+    #    #ExFor:BarcodeParameters.is_bookmark
+    #    #ExFor:BarcodeParameters.is_u_s_postal_address
+    #    #ExFor:BarcodeParameters.pos_code_style
+    #    #ExFor:BarcodeParameters.postal_address
+    #    #ExFor:BarcodeParameters.scaling_factor
+    #    #ExFor:BarcodeParameters.symbol_height
+    #    #ExFor:BarcodeParameters.symbol_rotation
     #    #ExFor:IBarcodeGenerator
-    #    #ExFor:IBarcodeGenerator.GetBarcodeImage(BarcodeParameters)
-    #    #ExFor:IBarcodeGenerator.GetOldBarcodeImage(BarcodeParameters)
-    #    #ExFor:FieldOptions.BarcodeGenerator
+    #    #ExFor:IBarcodeGenerator.get_barcode_image(BarcodeParameters)
+    #    #ExFor:IBarcodeGenerator.get_old_barcode_image(BarcodeParameters)
+    #    #ExFor:FieldOptions.barcode_generator
     #    #ExSummary:Shows how to use a barcode generator.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)

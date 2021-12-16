@@ -17,7 +17,7 @@ class ExWordML2003SaveOptions(ApiExampleBase):
             with self.subTest(pretty_format=pretty_format):
                 #ExStart
                 #ExFor:WordML2003SaveOptions
-                #ExFor:WordML2003SaveOptions.SaveFormat
+                #ExFor:WordML2003SaveOptions.save_format
                 #ExSummary:Shows how to manage output document's raw content.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)

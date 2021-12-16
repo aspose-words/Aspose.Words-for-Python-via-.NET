@@ -15,9 +15,9 @@ class ExComHelper(ApiExampleBase):
 
         #ExStart
         #ExFor:ComHelper
-        #ExFor:ComHelper.#ctor
-        #ExFor:ComHelper.Open(Stream)
-        #ExFor:ComHelper.Open(String)
+        #ExFor:ComHelper.__init__
+        #ExFor:ComHelper.open(BytesIO)
+        #ExFor:ComHelper.open(str)
         #ExSummary:Shows how to open documents using the ComHelper class.
         # The ComHelper class allows us to load documents from within COM clients.
         com_helper = aw.ComHelper()

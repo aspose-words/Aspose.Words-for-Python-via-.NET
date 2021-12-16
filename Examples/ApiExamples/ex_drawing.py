@@ -18,26 +18,26 @@ class ExDrawing(ApiExampleBase):
     def test_various_shapes(self):
 
         #ExStart
-        #ExFor:Drawing.ArrowLength
-        #ExFor:Drawing.ArrowType
-        #ExFor:Drawing.ArrowWidth
-        #ExFor:Drawing.DashStyle
-        #ExFor:Drawing.EndCap
-        #ExFor:Drawing.Fill.ForeColor
-        #ExFor:Drawing.Fill.ImageBytes
-        #ExFor:Drawing.Fill.Visible
-        #ExFor:Drawing.JoinStyle
-        #ExFor:Shape.Stroke
-        #ExFor:Stroke.Color
-        #ExFor:Stroke.StartArrowLength
-        #ExFor:Stroke.StartArrowType
-        #ExFor:Stroke.StartArrowWidth
-        #ExFor:Stroke.EndArrowLength
-        #ExFor:Stroke.EndArrowWidth
-        #ExFor:Stroke.DashStyle
-        #ExFor:Stroke.EndArrowType
-        #ExFor:Stroke.EndCap
-        #ExFor:Stroke.Opacity
+        #ExFor:ArrowLength
+        #ExFor:ArrowType
+        #ExFor:ArrowWidth
+        #ExFor:DashStyle
+        #ExFor:EndCap
+        #ExFor:Fill.fore_color
+        #ExFor:Fill.image_bytes
+        #ExFor:Fill.visible
+        #ExFor:join_style
+        #ExFor:Shape.stroke
+        #ExFor:Stroke.color
+        #ExFor:Stroke.start_arrow_length
+        #ExFor:Stroke.start_arrow_type
+        #ExFor:Stroke.start_arrow_width
+        #ExFor:Stroke.end_arrow_length
+        #ExFor:Stroke.end_arrow_width
+        #ExFor:Stroke.dash_style
+        #ExFor:Stroke.end_arrow_type
+        #ExFor:Stroke.end_cap
+        #ExFor:Stroke.opacity
         #ExSummary:Shows to create a variety of shapes.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -150,7 +150,7 @@ class ExDrawing(ApiExampleBase):
     def test_type_of_image(self):
 
         #ExStart
-        #ExFor:Drawing.ImageType
+        #ExFor:ImageType
         #ExSummary:Shows how to add an image to a shape and check its type.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -168,15 +168,15 @@ class ExDrawing(ApiExampleBase):
     def test_fill_solid(self):
 
         #ExStart
-        #ExFor:Fill.Color()
-        #ExFor:Fill.Solid(Color)
+        #ExFor:Fill.color()
+        #ExFor:Fill.solid(Color)
         #ExSummary:Shows how to convert any of the fills back to solid fill.
         doc = aw.Document(MY_DIR + "Two color gradient.docx")
 
         # Get Fill object for Font of the first Run.
         fill = doc.first_section.body.paragraphs[0].runs[0].font.fill
 
-        # Check Fill properties of the Font.
+        # Check "fill" properties of the Font.
         print("The type of the fill is: {0}", fill.fill_type)
         print("The foreground color of the fill is: {0}", fill.fore_color)
         print("The fill is transparent at {0}%", fill.transparency * 100)
@@ -194,9 +194,9 @@ class ExDrawing(ApiExampleBase):
     def test_save_all_images(self):
 
         #ExStart
-        #ExFor:ImageData.HasImage
-        #ExFor:ImageData.ToImage
-        #ExFor:ImageData.Save(Stream)
+        #ExFor:ImageData.has_image
+        #ExFor:ImageData.to_image
+        #ExFor:ImageData.save(BytesIO)
         #ExSummary:Shows how to save all images from a document to the file system.
         img_source_doc = aw.Document(MY_DIR + "Images.docx")
 
@@ -241,8 +241,8 @@ class ExDrawing(ApiExampleBase):
     def test_import_image(self):
 
         #ExStart
-        #ExFor:ImageData.SetImage(Image)
-        #ExFor:ImageData.SetImage(Stream)
+        #ExFor:ImageData.set_image(Image)
+        #ExFor:ImageData.set_image(BytesIO)
         #ExSummary:Shows how to display images from the local file system in a document.
         doc = aw.Document()
 
@@ -293,8 +293,8 @@ class ExDrawing(ApiExampleBase):
     def test_stroke_pattern(self):
 
         #ExStart
-        #ExFor:Stroke.Color2
-        #ExFor:Stroke.ImageBytes
+        #ExFor:Stroke.color2
+        #ExFor:Stroke.image_bytes
         #ExSummary:Shows how to process shape stroke features.
         doc = aw.Document(MY_DIR + "Shape stroke pattern border.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
@@ -314,15 +314,15 @@ class ExDrawing(ApiExampleBase):
         TestUtil.verify_image(self, 8, 8, ARTIFACTS_DIR + "Drawing.stroke_pattern.png")
 
     ##ExStart
-    ##ExFor:DocumentVisitor.VisitShapeEnd(Shape)
-    ##ExFor:DocumentVisitor.VisitShapeStart(Shape)
-    ##ExFor:DocumentVisitor.VisitGroupShapeEnd(GroupShape)
-    ##ExFor:DocumentVisitor.VisitGroupShapeStart(GroupShape)
-    ##ExFor:Drawing.GroupShape
-    ##ExFor:Drawing.GroupShape.#ctor(DocumentBase)
-    ##ExFor:Drawing.GroupShape.Accept(DocumentVisitor)
-    ##ExFor:ShapeBase.IsGroup
-    ##ExFor:ShapeBase.ShapeType
+    ##ExFor:DocumentVisitor.visit_shape_end(Shape)
+    ##ExFor:DocumentVisitor.visit_shape_start(Shape)
+    ##ExFor:DocumentVisitor.visit_group_shape_end(GroupShape)
+    ##ExFor:DocumentVisitor.visit_group_shape_start(GroupShape)
+    ##ExFor:GroupShape
+    ##ExFor:GroupShape.__init__(DocumentBase)
+    ##ExFor:GroupShape.accept(DocumentVisitor)
+    ##ExFor:ShapeBase.is_group
+    ##ExFor:ShapeBase.shape_type
     ##ExSummary:Shows how to create a group of shapes, and print its contents using a document visitor.
     #def test_group_of_shapes(self):
 
@@ -417,7 +417,7 @@ class ExDrawing(ApiExampleBase):
     def test_text_box(self):
 
         #ExStart
-        #ExFor:Drawing.LayoutFlow
+        #ExFor:LayoutFlow
         #ExSummary:Shows how to add text to a text box, and change its orientation
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -448,9 +448,9 @@ class ExDrawing(ApiExampleBase):
     def test_get_data_from_image(self):
 
         #ExStart
-        #ExFor:ImageData.ImageBytes
-        #ExFor:ImageData.ToByteArray
-        #ExFor:ImageData.ToStream
+        #ExFor:ImageData.image_bytes
+        #ExFor:ImageData.to_byte_array
+        #ExFor:ImageData.to_stream
         #ExSummary:Shows how to create an image file from a shape's raw image data.
         img_source_doc = aw.Document(MY_DIR + "Images.docx")
         self.assertEqual(10, img_source_doc.get_child_nodes(aw.NodeType.SHAPE, True).count) #ExSkip
@@ -459,7 +459,7 @@ class ExDrawing(ApiExampleBase):
 
         self.assertTrue(img_shape.has_image)
 
-        # ToByteArray() returns the array stored in the ImageBytes property.
+        # to_byte_array() returns the array stored in the "image_bytes" property.
         self.assertEqual(img_shape.image_data.image_bytes, img_shape.image_data.to_byte_array())
 
         # Save the shape's image data to an image file in the local file system.
@@ -475,19 +475,19 @@ class ExDrawing(ApiExampleBase):
     def test_image_data(self):
 
         #ExStart
-        #ExFor:ImageData.BiLevel
-        #ExFor:ImageData.Borders
-        #ExFor:ImageData.Brightness
-        #ExFor:ImageData.ChromaKey
-        #ExFor:ImageData.Contrast
-        #ExFor:ImageData.CropBottom
-        #ExFor:ImageData.CropLeft
-        #ExFor:ImageData.CropRight
-        #ExFor:ImageData.CropTop
-        #ExFor:ImageData.GrayScale
-        #ExFor:ImageData.IsLink
-        #ExFor:ImageData.IsLinkOnly
-        #ExFor:ImageData.Title
+        #ExFor:ImageData.bi_level
+        #ExFor:ImageData.borders
+        #ExFor:ImageData.brightness
+        #ExFor:ImageData.chroma_key
+        #ExFor:ImageData.contrast
+        #ExFor:ImageData.crop_bottom
+        #ExFor:ImageData.crop_left
+        #ExFor:ImageData.crop_right
+        #ExFor:ImageData.crop_top
+        #ExFor:ImageData.gray_scale
+        #ExFor:ImageData.is_link
+        #ExFor:ImageData.is_link_only
+        #ExFor:ImageData.title
         #ExSummary:Shows how to edit a shape's image data.
         img_source_doc = aw.Document(MY_DIR + "Images.docx")
         source_shape = img_source_doc.get_child_nodes(aw.NodeType.SHAPE, True)[0].as_shape()
@@ -504,7 +504,7 @@ class ExDrawing(ApiExampleBase):
 
         self.assertTrue(image_data.has_image)
 
-        # If an image has no borders, its ImageData object will define the border color as empty.
+        # If an image has no borders, its "image_data" object will define the border color as empty.
         self.assertEqual(4, image_data.borders.count)
         self.assertEqual(drawing.Color.empty(), image_data.borders[0].color)
 
@@ -527,8 +527,8 @@ class ExDrawing(ApiExampleBase):
 
         imported_shape.image_data.gray_scale = True
 
-        # Import the source shape again to create a third image and set it to BiLevel.
-        # BiLevel sets every pixel to either black or white, whichever is closer to the original color.
+        # Import the source shape again to create a third image and set it to "bi_level".
+        # "bi_level" sets every pixel to either black or white, whichever is closer to the original color.
         imported_shape = dst_doc.import_node(source_shape, True).as_shape()
         dst_doc.first_section.body.first_paragraph.append_child(imported_shape)
 
@@ -570,10 +570,10 @@ class ExDrawing(ApiExampleBase):
     def test_image_size(self):
 
         #ExStart
-        #ExFor:ImageSize.HeightPixels
-        #ExFor:ImageSize.HorizontalResolution
-        #ExFor:ImageSize.VerticalResolution
-        #ExFor:ImageSize.WidthPixels
+        #ExFor:ImageSize.height_pixels
+        #ExFor:ImageSize.horizontal_resolution
+        #ExFor:ImageSize.vertical_resolution
+        #ExFor:ImageSize.width_pixels
         #ExSummary:Shows how to read the properties of an image in a shape.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -581,7 +581,7 @@ class ExDrawing(ApiExampleBase):
         # Insert a shape into the document which contains an image taken from our local file system.
         shape = builder.insert_image(IMAGE_DIR + "Logo.jpg")
 
-        # If the shape contains an image, its ImageData property will be valid,
+        # If the shape contains an image, its "image_data" property will be valid,
         # and it will contain an ImageSize object.
         image_size = shape.image_data.image_size
 

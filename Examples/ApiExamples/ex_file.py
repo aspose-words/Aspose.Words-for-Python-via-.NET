@@ -20,13 +20,10 @@ class ExFile(ApiExampleBase):
         #ExFor:FileCorruptedException
         #ExSummary:Shows how to catch a FileCorruptedException.
         try:
-
             # If we get an "Unreadable content" error message when trying to open a document using Microsoft Word,
             # chances are that we will get an exception thrown when trying to load that document using Aspose.Words.
             doc = aw.Document(MY_DIR + "Corrupted document.docx")
-
         except Exception as e:
-
             print(e)
 
         #ExEnd
@@ -34,7 +31,7 @@ class ExFile(ApiExampleBase):
     def test_detect_encoding(self):
 
         #ExStart
-        #ExFor:FileFormatInfo.Encoding
+        #ExFor:FileFormatInfo.encoding
         #ExFor:FileFormatUtil
         #ExSummary:Shows how to detect encoding in an html file.
         info = aw.FileFormatUtil.detect_file_format(MY_DIR + "Document.html")
@@ -53,10 +50,10 @@ class ExFile(ApiExampleBase):
     def test_file_format_to_string(self):
 
         #ExStart
-        #ExFor:FileFormatUtil.ContentTypeToLoadFormat(String)
-        #ExFor:FileFormatUtil.ContentTypeToSaveFormat(String)
+        #ExFor:FileFormatUtil.content_type_to_load_format(str)
+        #ExFor:FileFormatUtil.content_type_to_save_format(str)
         #ExSummary:Shows how to find the corresponding Aspose load/save format from each media type string.
-        # The ContentTypeToSaveFormat/ContentTypeToLoadFormat methods only accept official IANA media type names, also known as MIME types.
+        # The content_type_to_save_format/content_type_to_load_format methods only accept official IANA media type names, also known as MIME types.
         # All valid media types are listed here: https://www.iana.org/assignments/media-types/media-types.xhtml.
 
         # Trying to associate a SaveFormat with a partial media type string will not work.
@@ -108,10 +105,10 @@ class ExFile(ApiExampleBase):
     def test_detect_document_encryption(self):
 
         #ExStart
-        #ExFor:FileFormatUtil.DetectFileFormat(String)
+        #ExFor:FileFormatUtil.detect_file_format(str)
         #ExFor:FileFormatInfo
-        #ExFor:FileFormatInfo.LoadFormat
-        #ExFor:FileFormatInfo.IsEncrypted
+        #ExFor:FileFormatInfo.load_format
+        #ExFor:FileFormatInfo.is_encrypted
         #ExSummary:Shows how to use the aw.FileFormatUtil class to detect the document format and encryption.
         doc = aw.Document()
 
@@ -132,10 +129,10 @@ class ExFile(ApiExampleBase):
     def test_detect_digital_signatures(self):
 
         #ExStart
-        #ExFor:FileFormatUtil.DetectFileFormat(String)
+        #ExFor:FileFormatUtil.detect_file_format(str)
         #ExFor:FileFormatInfo
-        #ExFor:FileFormatInfo.LoadFormat
-        #ExFor:FileFormatInfo.HasDigitalSignature
+        #ExFor:FileFormatInfo.load_format
+        #ExFor:FileFormatInfo.has_digital_signature
         #ExSummary:Shows how to use the aw.FileFormatUtil class to detect the document format and presence of digital signatures.
         # Use a FileFormatInfo instance to verify that a document is not digitally signed.
         info = aw.FileFormatUtil.detect_file_format(MY_DIR + "Document.docx")
@@ -162,13 +159,13 @@ class ExFile(ApiExampleBase):
     def test_save_to_detected_file_format(self):
 
         #ExStart
-        #ExFor:FileFormatUtil.DetectFileFormat(Stream)
-        #ExFor:FileFormatUtil.LoadFormatToExtension(LoadFormat)
-        #ExFor:FileFormatUtil.ExtensionToSaveFormat(String)
-        #ExFor:FileFormatUtil.SaveFormatToExtension(SaveFormat)
-        #ExFor:FileFormatUtil.LoadFormatToSaveFormat(LoadFormat)
-        #ExFor:Document.OriginalFileName
-        #ExFor:FileFormatInfo.LoadFormat
+        #ExFor:FileFormatUtil.detect_file_format(BytesIO)
+        #ExFor:FileFormatUtil.load_format_to_extension(LoadFormat)
+        #ExFor:FileFormatUtil.extension_to_save_format(str)
+        #ExFor:FileFormatUtil.save_format_to_extension(SaveFormat)
+        #ExFor:FileFormatUtil.load_format_to_save_format(LoadFormat)
+        #ExFor:Document.original_file_name
+        #ExFor:FileFormatInfo.load_format
         #ExFor:LoadFormat
         #ExSummary:Shows how to use the aw.FileFormatUtil methods to detect the format of a document.
         # Load a document from a file that is missing a file extension, and then detect its file format.
@@ -199,7 +196,7 @@ class ExFile(ApiExampleBase):
     def test_detect_file_format__save_format_to_load_format(self):
 
         #ExStart
-        #ExFor:FileFormatUtil.SaveFormatToLoadFormat(SaveFormat)
+        #ExFor:FileFormatUtil.save_format_to_load_format(SaveFormat)
         #ExSummary:Shows how to convert a save format to its corresponding load format.
         self.assertEqual(aw.LoadFormat.HTML, aw.FileFormatUtil.save_format_to_load_format(aw.SaveFormat.HTML))
 
@@ -213,13 +210,13 @@ class ExFile(ApiExampleBase):
 
         #ExStart
         #ExFor:Shape
-        #ExFor:Shape.ImageData
-        #ExFor:Shape.HasImage
+        #ExFor:Shape.image_data
+        #ExFor:Shape.has_image
         #ExFor:ImageData
-        #ExFor:FileFormatUtil.ImageTypeToExtension(ImageType)
-        #ExFor:ImageData.ImageType
-        #ExFor:ImageData.Save(String)
-        #ExFor:CompositeNode.GetChildNodes(NodeType, bool)
+        #ExFor:FileFormatUtil.image_type_to_extension(ImageType)
+        #ExFor:ImageData.image_type
+        #ExFor:ImageData.save(str)
+        #ExFor:CompositeNode.get_child_nodes(NodeType,bool)
         #ExSummary:Shows how to extract images from a document, and save them to the local file system as individual files.
         doc = aw.Document(MY_DIR + "Images.docx")
 

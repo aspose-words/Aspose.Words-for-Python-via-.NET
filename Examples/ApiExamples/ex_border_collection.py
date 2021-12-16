@@ -14,7 +14,7 @@ class ExBorderCollection(ApiExampleBase):
     def test_get_borders_enumerator(self):
 
         #ExStart
-        #ExFor:BorderCollection.GetEnumerator
+        #ExFor:BorderCollection.__iter__
         #ExSummary:Shows how to iterate over and edit all of the borders in a paragraph format object.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -43,7 +43,7 @@ class ExBorderCollection(ApiExampleBase):
     def test_remove_all_borders(self):
 
         #ExStart
-        #ExFor:BorderCollection.ClearFormatting
+        #ExFor:BorderCollection.clear_formatting
         #ExSummary:Shows how to remove all borders from all paragraphs in a document.
         doc = aw.Document(MY_DIR + "Borders.docx")
 

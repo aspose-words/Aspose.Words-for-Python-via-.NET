@@ -14,8 +14,8 @@ class ExTabStop(ApiExampleBase):
     def test_add_tab_stops(self):
 
         #ExStart
-        #ExFor:TabStopCollection.Add(TabStop)
-        #ExFor:TabStopCollection.Add(Double, TabAlignment, TabLeader)
+        #ExFor:TabStopCollection.add(TabStop)
+        #ExFor:TabStopCollection.add(float,TabAlignment,TabLeader)
         #ExSummary:Shows how to add custom tab stops to a document.
         doc = aw.Document()
         paragraph = doc.get_child(aw.NodeType.PARAGRAPH, 0, True).as_paragraph()
@@ -52,21 +52,21 @@ class ExTabStop(ApiExampleBase):
     def test_tab_stop_collection(self):
 
         #ExStart
-        #ExFor:TabStop.#ctor
-        #ExFor:TabStop.#ctor(Double)
-        #ExFor:TabStop.#ctor(Double,TabAlignment,TabLeader)
-        #ExFor:TabStop.Equals(TabStop)
-        #ExFor:TabStop.IsClear
+        #ExFor:TabStop.__init__
+        #ExFor:TabStop.__init__(float)
+        #ExFor:TabStop.__init__(float,TabAlignment,TabLeader)
+        #ExFor:TabStop.__eq__(TabStop)
+        #ExFor:TabStop.is_clear
         #ExFor:TabStopCollection
-        #ExFor:TabStopCollection.After(Double)
-        #ExFor:TabStopCollection.Before(Double)
-        #ExFor:TabStopCollection.Clear
-        #ExFor:TabStopCollection.Count
-        #ExFor:TabStopCollection.Equals(TabStopCollection)
-        #ExFor:TabStopCollection.Equals(Object)
-        #ExFor:TabStopCollection.GetHashCode
-        #ExFor:TabStopCollection.Item(Double)
-        #ExFor:TabStopCollection.Item(Int32)
+        #ExFor:TabStopCollection.after(float)
+        #ExFor:TabStopCollection.before(float)
+        #ExFor:TabStopCollection.clear
+        #ExFor:TabStopCollection.count
+        #ExFor:TabStopCollection.__eq__(TabStopCollection)
+        #ExFor:TabStopCollection.__eq__(object)
+        #ExFor:TabStopCollection.get_hash_code
+        #ExFor:TabStopCollection.__getitem__(float)
+        #ExFor:TabStopCollection.__getitem__(int)
         #ExSummary:Shows how to work with a document's collection of tab stops.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -118,7 +118,7 @@ class ExTabStop(ApiExampleBase):
     def test_remove_by_index(self):
 
         #ExStart
-        #ExFor:TabStopCollection.RemoveByIndex
+        #ExFor:TabStopCollection.remove_by_index
         #ExSummary:Shows how to select a tab stop in a document by its index and remove it.
         doc = aw.Document()
         tab_stops = doc.first_section.body.paragraphs[0].paragraph_format.tab_stops
@@ -143,7 +143,7 @@ class ExTabStop(ApiExampleBase):
     def test_get_position_by_index(self):
 
         #ExStart
-        #ExFor:TabStopCollection.GetPositionByIndex
+        #ExFor:TabStopCollection.get_position_by_index
         #ExSummary:Shows how to find a tab, stop by its index and verify its position.
         doc = aw.Document()
         tab_stops = doc.first_section.body.paragraphs[0].paragraph_format.tab_stops
@@ -158,7 +158,7 @@ class ExTabStop(ApiExampleBase):
     def test_get_index_by_position(self):
 
         #ExStart
-        #ExFor:TabStopCollection.GetIndexByPosition
+        #ExFor:TabStopCollection.get_index_by_position
         #ExSummary:Shows how to look up a position to see if a tab stop exists there and obtain its index.
         doc = aw.Document()
         tab_stops = doc.first_section.body.paragraphs[0].paragraph_format.tab_stops
@@ -166,11 +166,11 @@ class ExTabStop(ApiExampleBase):
         # Add a tab stop at a position of 30mm.
         tab_stops.add(aw.ConvertUtil.millimeter_to_point(30), aw.TabAlignment.LEFT, aw.TabLeader.DASHES)
 
-        # A result of "0" returned by "GetIndexByPosition" confirms that a tab stop
+        # A result of "0" returned by "get_index_by_position" confirms that a tab stop
         # at 30mm exists in this collection, and it is at index 0.
         self.assertEqual(0, tab_stops.get_index_by_position(aw.ConvertUtil.millimeter_to_point(30)))
 
-        # A "-1" returned by "GetIndexByPosition" confirms that
+        # A "-1" returned by "get_index_by_position" confirms that
         # there is no tab stop in this collection with a position of 60mm.
         self.assertEqual(-1, tab_stops.get_index_by_position(aw.ConvertUtil.millimeter_to_point(60)))
         #ExEnd

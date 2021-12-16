@@ -16,8 +16,8 @@ class ExComment(ApiExampleBase):
 
         #ExStart
         #ExFor:Comment
-        #ExFor:Comment.SetText(String)
-        #ExFor:Comment.AddReply(String, String, DateTime, String)
+        #ExFor:Comment.set_text(str)
+        #ExFor:Comment.add_reply(str,str,datetime,str)
         #ExSummary:Shows how to add a comment to a document, and then reply to it.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -57,10 +57,10 @@ class ExComment(ApiExampleBase):
     def test_print_all_comments(self):
 
         #ExStart
-        #ExFor:Comment.Ancestor
-        #ExFor:Comment.Author
-        #ExFor:Comment.Replies
-        #ExFor:CompositeNode.GetChildNodes(NodeType, Boolean)
+        #ExFor:Comment.ancestor
+        #ExFor:Comment.author
+        #ExFor:Comment.replies
+        #ExFor:CompositeNode.get_child_nodes(NodeType,bool)
         #ExSummary:Shows how to print all of a document's comments and their replies.
         doc = aw.Document(MY_DIR + "Comments.docx")
 
@@ -85,9 +85,9 @@ class ExComment(ApiExampleBase):
     def test_remove_comment_replies(self):
 
         #ExStart
-        #ExFor:Comment.RemoveAllReplies
-        #ExFor:Comment.RemoveReply(Comment)
-        #ExFor:CommentCollection.Item(Int32)
+        #ExFor:Comment.remove_all_replies
+        #ExFor:Comment.remove_reply(Comment)
+        #ExFor:CommentCollection.__getitem__(int)
         #ExSummary:Shows how to remove comment replies.
         doc = aw.Document()
 
@@ -116,7 +116,7 @@ class ExComment(ApiExampleBase):
     def test_done(self):
 
         #ExStart
-        #ExFor:Comment.Done
+        #ExFor:Comment.done
         #ExFor:CommentCollection
         #ExSummary:Shows how to mark a comment as "done".
         doc = aw.Document()
@@ -130,7 +130,7 @@ class ExComment(ApiExampleBase):
 
         # Comments have a "done" flag, which is set to "False" by default.
         # If a comment suggests that we make a change within the document,
-        # we can apply the change, and then also set the "Done" flag afterwards to indicate the correction.
+        # we can apply the change, and then also set the "done" flag afterwards to indicate the correction.
         self.assertFalse(comment.done)
 
         doc.first_section.body.first_paragraph.runs[0].text = "Hello world!"
@@ -153,20 +153,20 @@ class ExComment(ApiExampleBase):
         self.assertEqual("Hello world!", doc.first_section.body.first_paragraph.runs[0].text)
 
     ##ExStart
-    ##ExFor:Comment.Done
-    ##ExFor:Comment.#ctor(DocumentBase)
-    ##ExFor:Comment.Accept(DocumentVisitor)
-    ##ExFor:Comment.DateTime
-    ##ExFor:Comment.Id
-    ##ExFor:Comment.Initial
+    ##ExFor:Comment.done
+    ##ExFor:Comment.__init__(DocumentBase)
+    ##ExFor:Comment.accept(DocumentVisitor)
+    ##ExFor:Comment.date_time
+    ##ExFor:Comment.id
+    ##ExFor:Comment.initial
     ##ExFor:CommentRangeEnd
-    ##ExFor:CommentRangeEnd.#ctor(DocumentBase,Int32)
-    ##ExFor:CommentRangeEnd.Accept(DocumentVisitor)
-    ##ExFor:CommentRangeEnd.Id
+    ##ExFor:CommentRangeEnd.__init__(DocumentBase,int)
+    ##ExFor:CommentRangeEnd.accept(DocumentVisitor)
+    ##ExFor:CommentRangeEnd.id
     ##ExFor:CommentRangeStart
-    ##ExFor:CommentRangeStart.#ctor(DocumentBase,Int32)
-    ##ExFor:CommentRangeStart.Accept(DocumentVisitor)
-    ##ExFor:CommentRangeStart.Id
+    ##ExFor:CommentRangeStart.__init__(DocumentBase,int)
+    ##ExFor:CommentRangeStart.accept(DocumentVisitor)
+    ##ExFor:CommentRangeStart.id
     ##ExSummary:Shows how print the contents of all comments and their comment ranges using a document visitor.
     #def test_create_comments_and_print_all_info(self):
 

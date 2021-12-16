@@ -17,7 +17,7 @@ class ExPsSaveOptions(ApiExampleBase):
             with self.subTest(render_text_as_book_fold=render_text_as_book_fold):
                 #ExStart
                 #ExFor:PsSaveOptions
-                #ExFor:PsSaveOptions.SaveFormat
+                #ExFor:PsSaveOptions.save_format
                 #ExFor:PsSaveOptions.use_book_fold_printing_settings
                 #ExSummary:Shows how to save a document to the Postscript format in the form of a book fold.
                 doc = aw.Document(MY_DIR + "Paragraphs.docx")

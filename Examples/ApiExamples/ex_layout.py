@@ -14,20 +14,20 @@ class ExLayout(ApiExampleBase):
     def test_layout_collector(self):
 
         #ExStart
-        #ExFor:Layout.LayoutCollector
-        #ExFor:Layout.LayoutCollector.#ctor(Document)
-        #ExFor:Layout.LayoutCollector.Clear
-        #ExFor:Layout.LayoutCollector.Document
-        #ExFor:Layout.LayoutCollector.GetEndPageIndex(Node)
-        #ExFor:Layout.LayoutCollector.GetEntity(Node)
-        #ExFor:Layout.LayoutCollector.GetNumPagesSpanned(Node)
-        #ExFor:Layout.LayoutCollector.GetStartPageIndex(Node)
-        #ExFor:Layout.LayoutEnumerator.Current
+        #ExFor:Layout.layout_collector
+        #ExFor:Layout.LayoutCollector.__init__(Document)
+        #ExFor:Layout.LayoutCollector.clear
+        #ExFor:Layout.LayoutCollector.document
+        #ExFor:Layout.LayoutCollector.get_end_page_index(Node)
+        #ExFor:Layout.LayoutCollector.get_entity(Node)
+        #ExFor:Layout.LayoutCollector.get_num_pages_spanned(Node)
+        #ExFor:Layout.LayoutCollector.get_start_page_index(Node)
+        #ExFor:Layout.LayoutEnumerator.current
         #ExSummary:Shows how to see the the ranges of pages that a node spans.
         doc = aw.Document()
         layout_collector = aw.layout.LayoutCollector(doc)
 
-        # Call the "GetNumPagesSpanned" method to count how many pages the content of our document spans.
+        # Call the "get_num_pages_spanned" method to count how many pages the content of our document spans.
         # Since the document is empty, that number of pages is currently zero.
         self.assertEqual(doc, layout_collector.document)
         self.assertEqual(0, layout_collector.get_num_pages_spanned(doc))
@@ -73,24 +73,24 @@ class ExLayout(ApiExampleBase):
         #ExEnd
 
     #ExStart
-    #ExFor:Layout.LayoutEntityType
-    #ExFor:Layout.LayoutEnumerator
-    #ExFor:Layout.LayoutEnumerator.#ctor(Document)
-    #ExFor:Layout.LayoutEnumerator.Document
-    #ExFor:Layout.LayoutEnumerator.Kind
-    #ExFor:Layout.LayoutEnumerator.MoveFirstChild
-    #ExFor:Layout.LayoutEnumerator.MoveLastChild
-    #ExFor:Layout.LayoutEnumerator.MoveNext
-    #ExFor:Layout.LayoutEnumerator.MoveNextLogical
-    #ExFor:Layout.LayoutEnumerator.MoveParent
-    #ExFor:Layout.LayoutEnumerator.MoveParent(Layout.LayoutEntityType)
-    #ExFor:Layout.LayoutEnumerator.MovePrevious
-    #ExFor:Layout.LayoutEnumerator.MovePreviousLogical
-    #ExFor:Layout.LayoutEnumerator.PageIndex
-    #ExFor:Layout.LayoutEnumerator.Rectangle
-    #ExFor:Layout.LayoutEnumerator.Reset
-    #ExFor:Layout.LayoutEnumerator.Text
-    #ExFor:Layout.LayoutEnumerator.Type
+    #ExFor:LayoutEntityType
+    #ExFor:LayoutEnumerator
+    #ExFor:LayoutEnumerator.__init__(Document)
+    #ExFor:LayoutEnumerator.document
+    #ExFor:LayoutEnumerator.kind
+    #ExFor:LayoutEnumerator.move_first_child
+    #ExFor:LayoutEnumerator.move_last_child
+    #ExFor:LayoutEnumerator.move_next
+    #ExFor:LayoutEnumerator.move_next_logical
+    #ExFor:LayoutEnumerator.move_parent
+    #ExFor:LayoutEnumerator.move_parent(LayoutEntityType)
+    #ExFor:LayoutEnumerator.move_previous
+    #ExFor:LayoutEnumerator.move_previous_logical
+    #ExFor:LayoutEnumerator.page_index
+    #ExFor:LayoutEnumerator.rectangle
+    #ExFor:LayoutEnumerator.reset
+    #ExFor:LayoutEnumerator.text
+    #ExFor:LayoutEnumerator.type
     #ExSummary:Shows ways of traversing a document's layout entities.
     def test_layout_enumerator(self):
 
@@ -219,10 +219,10 @@ class ExLayout(ApiExampleBase):
 
     ##ExStart
     ##ExFor:IPageLayoutCallback
-    ##ExFor:IPageLayoutCallback.Notify(PageLayoutCallbackArgs)
-    ##ExFor:PageLayoutCallbackArgs.Event
-    ##ExFor:PageLayoutCallbackArgs.Document
-    ##ExFor:PageLayoutCallbackArgs.PageIndex
+    ##ExFor:IPageLayoutCallback.notify(PageLayoutCallbackArgs)
+    ##ExFor:PageLayoutCallbackArgs.event
+    ##ExFor:PageLayoutCallbackArgs.document
+    ##ExFor:PageLayoutCallbackArgs.page_index
     ##ExFor:PageLayoutEvent
     ##ExSummary:Shows how to track layout changes with a layout callback.
 
@@ -276,7 +276,7 @@ class ExLayout(ApiExampleBase):
     def test_restart_page_numbering_in_continuous_section(self):
 
         #ExStart
-        #ExFor:LayoutOptions.ContinuousSectionPageNumberingRestart
+        #ExFor:LayoutOptions.continuous_section_page_numbering_restart
         #ExFor:ContinuousSectionRestart
         #ExSummary:Shows how to control page numbering in a continuous section.
         doc = aw.Document(MY_DIR + "Continuous section page numbering.docx")

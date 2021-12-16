@@ -17,7 +17,7 @@ class ExTxtLoadOptions(ApiExampleBase):
         for detect_numbering_with_whitespaces in (False, True):
             with self.subTest(detect_numbering_with_whitespaces=detect_numbering_with_whitespaces):
                 #ExStart
-                #ExFor:TxtLoadOptions.DetectNumberingWithWhitespaces
+                #ExFor:TxtLoadOptions.detect_numbering_with_whitespaces
                 #ExSummary:Shows how to detect lists when loading plaintext documents.
                 # Create a plaintext document in a string with four separate parts that we may interpret as lists,
                 # with different delimiters. Upon loading the plaintext document into a "Document" object,
@@ -77,8 +77,8 @@ class ExTxtLoadOptions(ApiExampleBase):
         for txt_leading_spaces_options, txt_trailing_spaces_options in parameters:
             with self.subTest(txt_leading_spaces_options=txt_leading_spaces_options, txt_trailing_spaces_options=txt_trailing_spaces_options):
                 #ExStart
-                #ExFor:TxtLoadOptions.TrailingSpacesOptions
-                #ExFor:TxtLoadOptions.LeadingSpacesOptions
+                #ExFor:TxtLoadOptions.trailing_spaces_options
+                #ExFor:TxtLoadOptions.leading_spaces_options
                 #ExFor:TxtTrailingSpacesOptions
                 #ExFor:TxtLeadingSpacesOptions
                 #ExSummary:Shows how to trim whitespace when loading plaintext documents.
@@ -148,8 +148,8 @@ class ExTxtLoadOptions(ApiExampleBase):
     def test_detect_document_direction(self):
 
         #ExStart
-        #ExFor:TxtLoadOptions.DocumentDirection
-        #ExFor:ParagraphFormat.Bidi
+        #ExFor:TxtLoadOptions.document_direction
+        #ExFor:ParagraphFormat.bidi
         #ExSummary:Shows how to detect plaintext document text direction.
         # Create a "TxtLoadOptions" object, which we can pass to a document's constructor
         # to modify how we load a plaintext document.

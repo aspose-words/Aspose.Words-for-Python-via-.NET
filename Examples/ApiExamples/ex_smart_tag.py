@@ -12,17 +12,17 @@ ARTIFACTS_DIR = artifacts_dir
 class ExSmartTag(ApiExampleBase):
 
     #ExStart
-    #ExFor:CompositeNode.RemoveSmartTags
+    #ExFor:CompositeNode.remove_smart_tags
     #ExFor:CustomXmlProperty
-    #ExFor:CustomXmlProperty.#ctor(String,String,String)
-    #ExFor:CustomXmlProperty.Name
-    #ExFor:CustomXmlProperty.Value
-    #ExFor:Markup.SmartTag
-    #ExFor:Markup.SmartTag.#ctor(DocumentBase)
-    #ExFor:Markup.SmartTag.Accept(DocumentVisitor)
-    #ExFor:Markup.SmartTag.element
-    #ExFor:Markup.SmartTag.properties
-    #ExFor:Markup.SmartTag.Uri
+    #ExFor:CustomXmlProperty.__init__(str,str,str)
+    #ExFor:CustomXmlProperty.name
+    #ExFor:CustomXmlProperty.value
+    #ExFor:SmartTag
+    #ExFor:SmartTag.__init__(DocumentBase)
+    #ExFor:SmartTag.accept(DocumentVisitor)
+    #ExFor:SmartTag.element
+    #ExFor:SmartTag.properties
+    #ExFor:SmartTag.uri
     #ExSummary:Shows how to create smart tags.
     def test_create(self):
 
@@ -135,18 +135,18 @@ class ExSmartTag(ApiExampleBase):
     def test_properties(self):
 
         #ExStart
-        #ExFor:CustomXmlProperty.Uri
+        #ExFor:CustomXmlProperty.uri
         #ExFor:CustomXmlPropertyCollection
-        #ExFor:CustomXmlPropertyCollection.Add(CustomXmlProperty)
-        #ExFor:CustomXmlPropertyCollection.Clear
-        #ExFor:CustomXmlPropertyCollection.Contains(String)
-        #ExFor:CustomXmlPropertyCollection.Count
-        #ExFor:CustomXmlPropertyCollection.GetEnumerator
-        #ExFor:CustomXmlPropertyCollection.IndexOfKey(String)
-        #ExFor:CustomXmlPropertyCollection.Item(Int32)
-        #ExFor:CustomXmlPropertyCollection.Item(String)
-        #ExFor:CustomXmlPropertyCollection.Remove(String)
-        #ExFor:CustomXmlPropertyCollection.RemoveAt(Int32)
+        #ExFor:CustomXmlPropertyCollection.add(CustomXmlProperty)
+        #ExFor:CustomXmlPropertyCollection.clear
+        #ExFor:CustomXmlPropertyCollection.contains(str)
+        #ExFor:CustomXmlPropertyCollection.count
+        #ExFor:CustomXmlPropertyCollection.__iter__
+        #ExFor:CustomXmlPropertyCollection.index_of_key(str)
+        #ExFor:CustomXmlPropertyCollection.__getitem__(int)
+        #ExFor:CustomXmlPropertyCollection.__getitem__(str)
+        #ExFor:CustomXmlPropertyCollection.remove(str)
+        #ExFor:CustomXmlPropertyCollection.remove_at(int)
         #ExSummary:Shows how to work with smart tag properties to get in depth information about smart tags.
         doc = aw.Document(MY_DIR + "Smart tags.doc")
 

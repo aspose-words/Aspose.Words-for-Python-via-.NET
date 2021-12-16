@@ -16,7 +16,7 @@ class ExTxtSaveOptions(ApiExampleBase):
         for force_page_breaks in (False, True):
             with self.subTest(force_page_breaks=force_page_breaks):
                 #ExStart
-                #ExFor:TxtSaveOptionsBase.ForcePageBreaks
+                #ExFor:TxtSaveOptionsBase.force_page_breaks
                 #ExSummary:Shows how to specify whether to preserve page breaks when exporting a document to plaintext.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -55,7 +55,7 @@ class ExTxtSaveOptions(ApiExampleBase):
         for add_bidi_marks in (False, True):
             with self.subTest(add_bidi_marks=add_bidi_marks):
                 #ExStart
-                #ExFor:TxtSaveOptions.AddBidiMarks
+                #ExFor:TxtSaveOptions.add_bidi_marks
                 #ExSummary:Shows how to insert Unicode Character 'RIGHT-TO-LEFT MARK' (U+200F) before each bi-directional Run in text.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -97,7 +97,7 @@ class ExTxtSaveOptions(ApiExampleBase):
                                                 aw.saving.TxtExportHeadersFootersMode.NONE):
             with self.subTest(txt_export_headers_footers_mode=txt_export_headers_footers_mode):
                 #ExStart
-                #ExFor:TxtSaveOptionsBase.ExportHeadersFootersMode
+                #ExFor:TxtSaveOptionsBase.export_headers_footers_mode
                 #ExFor:TxtExportHeadersFootersMode
                 #ExSummary:Shows how to specify how to export headers and footers to plain text format.
                 doc = aw.Document()
@@ -166,9 +166,9 @@ class ExTxtSaveOptions(ApiExampleBase):
 
         #ExStart
         #ExFor:TxtListIndentation
-        #ExFor:TxtListIndentation.Count
-        #ExFor:TxtListIndentation.Character
-        #ExFor:TxtSaveOptions.ListIndentation
+        #ExFor:TxtListIndentation.count
+        #ExFor:TxtListIndentation.character
+        #ExFor:TxtSaveOptions.list_indentation
         #ExSummary:Shows how to configure list indenting when saving a document to plaintext.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -209,7 +209,7 @@ class ExTxtSaveOptions(ApiExampleBase):
         for simplify_list_labels in (False, True):
             with self.subTest(simplify_list_labels=simplify_list_labels):
                 #ExStart
-                #ExFor:TxtSaveOptions.SimplifyListLabels
+                #ExFor:TxtSaveOptions.simplify_list_labels
                 #ExSummary:Shows how to change the appearance of lists when saving a document to plaintext.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -260,9 +260,9 @@ class ExTxtSaveOptions(ApiExampleBase):
 
         #ExStart
         #ExFor:TxtSaveOptions
-        #ExFor:TxtSaveOptions.SaveFormat
+        #ExFor:TxtSaveOptions.save_format
         #ExFor:TxtSaveOptionsBase
-        #ExFor:TxtSaveOptionsBase.ParagraphBreak
+        #ExFor:TxtSaveOptionsBase.paragraph_break
         #ExSummary:Shows how to save a .txt document with a custom paragraph break.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -294,7 +294,7 @@ class ExTxtSaveOptions(ApiExampleBase):
     def test_encoding(self):
 
         #ExStart
-        #ExFor:TxtSaveOptionsBase.Encoding
+        #ExFor:TxtSaveOptionsBase.encoding
         #ExSummary:Shows how to set encoding for a .txt output document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -331,7 +331,7 @@ class ExTxtSaveOptions(ApiExampleBase):
         for preserve_table_layout in (False, True):
             with self.subTest(preserve_table_layout=preserve_table_layout):
                 #ExStart
-                #ExFor:TxtSaveOptions.PreserveTableLayout
+                #ExFor:TxtSaveOptions.preserve_table_layout
                 #ExSummary:Shows how to preserve the layout of tables when converting to plaintext.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -378,7 +378,7 @@ class ExTxtSaveOptions(ApiExampleBase):
     def test_max_characters_per_line(self):
 
         #ExStart
-        #ExFor:TxtSaveOptions.MaxCharactersPerLine
+        #ExFor:TxtSaveOptions.max_characters_per_line
         #ExSummary:Shows how to set maximum number of characters per line.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

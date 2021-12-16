@@ -19,7 +19,7 @@ class ExOoxmlSaveOptions(ApiExampleBase):
     def test_password(self):
 
         #ExStart
-        #ExFor:OoxmlSaveOptions.Password
+        #ExFor:OoxmlSaveOptions.password
         #ExSummary:Shows how to create a password encrypted Office Open XML document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -45,12 +45,12 @@ class ExOoxmlSaveOptions(ApiExampleBase):
 
         #ExStart
         #ExFor:CompatibilityOptions
-        #ExFor:CompatibilityOptions.OptimizeFor(MsWordVersion)
+        #ExFor:CompatibilityOptions.optimize_for(MsWordVersion)
         #ExFor:OoxmlSaveOptions
-        #ExFor:OoxmlSaveOptions.#ctor
-        #ExFor:OoxmlSaveOptions.SaveFormat
+        #ExFor:OoxmlSaveOptions.__init__
+        #ExFor:OoxmlSaveOptions.save_format
         #ExFor:OoxmlCompliance
-        #ExFor:OoxmlSaveOptions.Compliance
+        #ExFor:OoxmlSaveOptions.compliance
         #ExFor:ShapeMarkupLanguage
         #ExSummary:Shows how to set an OOXML compliance specification for a saved document to adhere to.
         doc = aw.Document()
@@ -83,9 +83,9 @@ class ExOoxmlSaveOptions(ApiExampleBase):
         for restart_list_at_each_section in (False, True):
             with self.subTest(restart_list_at_each_section=restart_list_at_each_section):
                 #ExStart
-                #ExFor:List.IsRestartAtEachSection
+                #ExFor:List.is_restart_at_each_section
                 #ExFor:OoxmlCompliance
-                #ExFor:OoxmlSaveOptions.Compliance
+                #ExFor:OoxmlSaveOptions.compliance
                 #ExSummary:Shows how to configure a list to restart numbering at each section.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -96,7 +96,7 @@ class ExOoxmlSaveOptions(ApiExampleBase):
                 list.is_restart_at_each_section = restart_list_at_each_section
 
                 # The "is_restart_at_each_section" property will only be applicable when
-                # the document's OOXML compliance level is to a standard that is newer than "OoxmlComplianceCore.Ecma376".
+                # the document's OOXML compliance level is to a standard that is newer than "OoxmlComplianceCore.ECMA376".
                 options = aw.saving.OoxmlSaveOptions()
                 options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
 
@@ -120,7 +120,7 @@ class ExOoxmlSaveOptions(ApiExampleBase):
         for update_last_saved_time_property in (False, True):
             with self.subTest(update_last_saved_time_property=update_last_saved_time_property):
                 #ExStart
-                #ExFor:SaveOptions.UpdateLastSavedTimeProperty
+                #ExFor:SaveOptions.update_last_saved_time_property
                 #ExSummary:Shows how to determine whether to preserve the document's "Last saved time" property when saving.
                 doc = aw.Document(MY_DIR + "Document.docx")
 
@@ -152,8 +152,8 @@ class ExOoxmlSaveOptions(ApiExampleBase):
         for keep_legacy_control_chars in (False, True):
             with self.subTest(keep_legacy_control_chars=keep_legacy_control_chars):
                 #ExStart
-                #ExFor:OoxmlSaveOptions.KeepLegacyControlChars
-                #ExFor:OoxmlSaveOptions.#ctor(SaveFormat)
+                #ExFor:OoxmlSaveOptions.keep_legacy_control_chars
+                #ExFor:OoxmlSaveOptions.__init__(SaveFormat)
                 #ExSummary:Shows how to support legacy control characters when converting to .docx.
                 doc = aw.Document(MY_DIR + "Legacy control character.doc")
 
@@ -183,7 +183,7 @@ class ExOoxmlSaveOptions(ApiExampleBase):
                                   aw.saving.CompressionLevel.SUPER_FAST):
             with self.subTest(compression_level=compression_level):
                 #ExStart
-                #ExFor:OoxmlSaveOptions.CompressionLevel
+                #ExFor:OoxmlSaveOptions.compression_level
                 #ExFor:CompressionLevel
                 #ExSummary:Shows how to specify the compression level to use while saving an OOXML document.
                 doc = aw.Document(MY_DIR + "Big document.docx")
@@ -261,7 +261,7 @@ class ExOoxmlSaveOptions(ApiExampleBase):
     def test_export_generator_name(self):
 
         #ExStart
-        #ExFor:SaveOptions.ExportGeneratorName
+        #ExFor:SaveOptions.export_generator_name
         #ExSummary:Shows how to disable adding name and version of Aspose.Words into produced files.
         doc = aw.Document()
 

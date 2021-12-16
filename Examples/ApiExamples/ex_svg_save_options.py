@@ -15,9 +15,9 @@ class ExSvgSaveOptions(ApiExampleBase):
     def test_save_like_image(self):
 
         #ExStart
-        #ExFor:SvgSaveOptions.FitToViewPort
-        #ExFor:SvgSaveOptions.ShowPageBorder
-        #ExFor:SvgSaveOptions.TextOutputMode
+        #ExFor:SvgSaveOptions.fit_to_view_port
+        #ExFor:SvgSaveOptions.show_page_border
+        #ExFor:SvgSaveOptions.text_output_mode
         #ExFor:SvgTextOutputMode
         #ExSummary:Shows how to mimic the properties of images when converting a .docx document to .svg.
         doc = aw.Document(MY_DIR + "Document.docx")
@@ -33,11 +33,11 @@ class ExSvgSaveOptions(ApiExampleBase):
 
     #ExStart
     #ExFor:SvgSaveOptions
-    #ExFor:SvgSaveOptions.ExportEmbeddedImages
-    #ExFor:SvgSaveOptions.ResourceSavingCallback
-    #ExFor:SvgSaveOptions.ResourcesFolder
-    #ExFor:SvgSaveOptions.ResourcesFolderAlias
-    #ExFor:SvgSaveOptions.SaveFormat
+    #ExFor:SvgSaveOptions.export_embedded_images
+    #ExFor:SvgSaveOptions.resource_saving_callback
+    #ExFor:SvgSaveOptions.resources_folder
+    #ExFor:SvgSaveOptions.resources_folder_alias
+    #ExFor:SvgSaveOptions.save_format
     #ExSummary:Shows how to manipulate and print the URIs of linked resources created while converting a document to .svg.
     #def test_svg_resource_folder(self):
 

@@ -64,7 +64,7 @@ class ExShape(ApiExampleBase):
         for hide_shape in (False, True):
             with self.subTest(hide_shape=hide_shape):
                 #ExStart
-                #ExFor:ShapeBase.Font
+                #ExFor:ShapeBase.font
                 #ExFor:ShapeBase.parent_paragraph
                 #ExSummary:Shows how to insert a text box, and set the font of its contents.
                 doc = aw.Document()
@@ -314,7 +314,7 @@ class ExShape(ApiExampleBase):
     def test_is_top_level(self):
 
         #ExStart
-        #ExFor:ShapeBase.IsTopLevel
+        #ExFor:ShapeBase.is_top_level
         #ExSummary:Shows how to tell whether a shape is a part of a group shape.
         doc = aw.Document()
 
@@ -338,7 +338,7 @@ class ExShape(ApiExampleBase):
         #ExStart
         #ExFor:ShapeBase.coord_origin
         #ExFor:ShapeBase.coord_size
-        #ExFor:ShapeBase.LocalToParent(PointF)
+        #ExFor:ShapeBase.local_to_parent(PointF)
         #ExSummary:Shows how to translate the x and y coordinate location on a shape's coordinate plane to a location on the parent shape's coordinate plane.
         doc = aw.Document()
 
@@ -347,7 +347,7 @@ class ExShape(ApiExampleBase):
         group = aw.drawing.GroupShape(doc)
         group.bounds = drawing.RectangleF(100, 100, 500, 500)
 
-        # Use the "LocalToParent" method to determine that (0, 0) on the group's internal x and y coordinates
+        # Use the "local_to_parent" method to determine that (0, 0) on the group's internal x and y coordinates
         # lies on (100, 100) of its parent shape's coordinate system. The group shape's parent is the document itself.
         self.assertEqual(drawing.PointF(100, 100), group.local_to_parent(drawing.PointF(0, 0)))
 
@@ -398,7 +398,7 @@ class ExShape(ApiExampleBase):
         for anchor_locked in (False, True):
             with self.subTest(anchor_locked=anchor_locked):
                 #ExStart
-                #ExFor:ShapeBase.AnchorLocked
+                #ExFor:ShapeBase.anchor_locked
                 #ExSummary:Shows how to lock or unlock a shape's paragraph anchor.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -475,7 +475,7 @@ class ExShape(ApiExampleBase):
     def test_is_inline(self):
 
         #ExStart
-        #ExFor:ShapeBase.IsInline
+        #ExFor:ShapeBase.is_inline
         #ExSummary:Shows how to determine whether a shape is inline or floating.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -677,7 +677,7 @@ class ExShape(ApiExampleBase):
     def test_fill(self):
 
         #ExStart
-        #ExFor:ShapeBase.Fill
+        #ExFor:ShapeBase.fill
         #ExFor:Shape.fill_color
         #ExFor:Shape.stroke_color
         #ExFor:Fill
@@ -753,8 +753,8 @@ class ExShape(ApiExampleBase):
         #ExFor:WrapSide
         #ExFor:ShapeBase.wrap_side
         #ExFor:NodeCollection
-        #ExFor:CompositeNode.InsertAfter(Node, Node)
-        #ExFor:NodeCollection.ToArray
+        #ExFor:CompositeNode.insert_after(Node,Node)
+        #ExFor:NodeCollection.to_array
         #ExSummary:Shows how to replace all textbox shapes with image shapes.
         doc = aw.Document(MY_DIR + "Textboxes in drawing canvas.docx")
 
@@ -797,7 +797,7 @@ class ExShape(ApiExampleBase):
     def test_create_text_box(self):
 
         #ExStart
-        #ExFor:Shape.#ctor(DocumentBase, ShapeType)
+        #ExFor:Shape.__init__(DocumentBase,ShapeType)
         #ExFor:Story.first_paragraph
         #ExFor:Shape.first_paragraph
         #ExFor:ShapeBase.wrap_type
@@ -839,7 +839,7 @@ class ExShape(ApiExampleBase):
     def test_z_order(self):
 
         #ExStart
-        #ExFor:ShapeBase.ZOrder
+        #ExFor:ShapeBase.z_order
         #ExSummary:Shows how to manipulate the order of shapes.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -879,15 +879,15 @@ class ExShape(ApiExampleBase):
 
         #ExStart
         #ExFor:OleControl
-        #ExFor:Ole.ole_control.IsForms2OleControl
-        #ExFor:Ole.ole_control.name
+        #ExFor:OleControl.is_forms2_ole_control
+        #ExFor:OleControl.name
         #ExFor:OleFormat.ole_control
         #ExFor:Forms2OleControl
-        #ExFor:Forms2OleControl.Caption
-        #ExFor:Forms2OleControl.Value
-        #ExFor:Forms2OleControl.Enabled
-        #ExFor:Forms2OleControl.Type
-        #ExFor:Forms2OleControl.ChildNodes
+        #ExFor:Forms2OleControl.caption
+        #ExFor:Forms2OleControl.value
+        #ExFor:Forms2OleControl.enabled
+        #ExFor:Forms2OleControl.type
+        #ExFor:Forms2OleControl.child_nodes
         #ExSummary:Shows how to verify the properties of an ActiveX control.
         doc = aw.Document(MY_DIR + "ActiveX controls.docx")
 
@@ -910,7 +910,7 @@ class ExShape(ApiExampleBase):
     def test_get_ole_object_raw_data(self):
 
         #ExStart
-        #ExFor:OleFormat.GetRawData
+        #ExFor:OleFormat.get_raw_data
         #ExSummary:Shows how to access the raw data of an embedded OLE object.
         doc = aw.Document(MY_DIR + "OLE objects.docx")
 
@@ -929,11 +929,11 @@ class ExShape(ApiExampleBase):
         #ExStart
         #ExFor:OleFormat
         #ExFor:OleFormat.auto_update
-        #ExFor:OleFormat.IsLocked
+        #ExFor:OleFormat.is_locked
         #ExFor:OleFormat.prog_id
-        #ExFor:OleFormat.Save(Stream)
-        #ExFor:OleFormat.Save(String)
-        #ExFor:OleFormat.SuggestedExtension
+        #ExFor:OleFormat.save(BytesIO)
+        #ExFor:OleFormat.save(str)
+        #ExFor:OleFormat.suggested_extension
         #ExSummary:Shows how to extract embedded OLE objects into files.
         doc = aw.Document(MY_DIR + "OLE spreadsheet.docm")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
@@ -966,12 +966,12 @@ class ExShape(ApiExampleBase):
     def test_ole_links(self):
 
         #ExStart
-        #ExFor:OleFormat.IconCaption
-        #ExFor:OleFormat.GetOleEntry(String)
-        #ExFor:OleFormat.IsLink
-        #ExFor:OleFormat.OleIcon
-        #ExFor:OleFormat.SourceFullName
-        #ExFor:OleFormat.SourceItem
+        #ExFor:OleFormat.icon_caption
+        #ExFor:OleFormat.get_ole_entry(str)
+        #ExFor:OleFormat.is_link
+        #ExFor:OleFormat.ole_icon
+        #ExFor:OleFormat.source_full_name
+        #ExFor:OleFormat.source_item
         #ExSummary:Shows how to insert linked and unlinked OLE objects.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1017,10 +1017,10 @@ class ExShape(ApiExampleBase):
     def test_ole_control_collection(self):
 
         #ExStart
-        #ExFor:OleFormat.Clsid
-        #ExFor:Ole.Forms2OleControlCollection
-        #ExFor:Ole.Forms2OleControlCollection.Count
-        #ExFor:Ole.Forms2OleControlCollection.Item(Int32)
+        #ExFor:OleFormat.clsid
+        #ExFor:Forms2OleControlCollection
+        #ExFor:Forms2OleControlCollection.count
+        #ExFor:Forms2OleControlCollection.__getitem__(int)
         #ExSummary:Shows how to access an OLE control embedded in a document and its child controls.
         doc = aw.Document(MY_DIR + "OLE ActiveX controls.docm")
 
@@ -1049,7 +1049,7 @@ class ExShape(ApiExampleBase):
     def test_suggested_file_name(self):
 
         #ExStart
-        #ExFor:OleFormat.SuggestedFileName
+        #ExFor:OleFormat.suggested_file_name
         #ExSummary:Shows how to get an OLE object's suggested file name.
         doc = aw.Document(MY_DIR + "OLE shape.rtf")
 
@@ -1083,9 +1083,9 @@ class ExShape(ApiExampleBase):
     def test_render_office_math(self):
 
         #ExStart
-        #ExFor:ImageSaveOptions.Scale
-        #ExFor:OfficeMath.GetMathRenderer
-        #ExFor:NodeRendererBase.Save(String, ImageSaveOptions)
+        #ExFor:ImageSaveOptions.scale
+        #ExFor:OfficeMath.get_math_renderer
+        #ExFor:NodeRendererBase.save(str,ImageSaveOptions)
         #ExSummary:Shows how to render an Office Math object into an image file in the local file system.
         doc = aw.Document(MY_DIR + "Office math.docx")
 
@@ -1129,7 +1129,7 @@ class ExShape(ApiExampleBase):
         #ExFor:OfficeMath.display_type
         #ExFor:OfficeMath.equation_xml_encoding
         #ExFor:OfficeMath.justification
-        #ExFor:OfficeMath.NodeType
+        #ExFor:OfficeMath.node_type
         #ExFor:OfficeMath.parent_paragraph
         #ExFor:OfficeMathDisplayType
         #ExFor:OfficeMathJustification
@@ -1144,7 +1144,7 @@ class ExShape(ApiExampleBase):
         self.assertEqual(aw.NodeType.OFFICE_MATH, office_math.node_type)
         self.assertEqual(office_math.parent_node, office_math.parent_paragraph)
 
-        # OOXML and WML formats use the "EquationXmlEncoding" property.
+        # OOXML and WML formats use the "equation_xml_encoding" property.
         self.assertIsNone(office_math.equation_xml_encoding)
 
         # Change the location and display type of the OfficeMath node.
@@ -1233,7 +1233,7 @@ class ExShape(ApiExampleBase):
     def test_markup_language_by_default(self):
 
         #ExStart
-        #ExFor:ShapeBase.MarkupLanguage
+        #ExFor:ShapeBase.markup_language
         #ExFor:ShapeBase.size_in_points
         #ExSummary:Shows how to verify a shape's size and markup language.
         doc = aw.Document()
@@ -1325,7 +1325,7 @@ class ExShape(ApiExampleBase):
 
     #    #ExStart
     #    #ExFor:OlePackage
-    #    #ExFor:OleFormat.OlePackage
+    #    #ExFor:OleFormat.ole_package
     #    #ExFor:OlePackage.file_name
     #    #ExFor:OlePackage.display_name
     #    #ExSummary:Shows how insert an OLE object into a document.
@@ -1470,7 +1470,7 @@ class ExShape(ApiExampleBase):
                 # and the shape will not respond to any re-sizing of its cell.
                 shape.is_layout_in_cell = is_layout_in_cell
 
-                # We can only apply the "IsLayoutInCell" property to floating shapes.
+                # We can only apply the "is_layout_in_cell" property to floating shapes.
                 shape.wrap_type = aw.drawing.WrapType.NONE
 
                 doc.save(ARTIFACTS_DIR + "Shape.LayoutInTableCell.docx")
@@ -1485,10 +1485,10 @@ class ExShape(ApiExampleBase):
     def test_shape_insertion(self):
 
         #ExStart
-        #ExFor:DocumentBuilder.InsertShape(ShapeType, RelativeHorizontalPosition, double, RelativeVerticalPosition, double, double, double, WrapType)
-        #ExFor:DocumentBuilder.InsertShape(ShapeType, double, double)
+        #ExFor:DocumentBuilder.insert_shape(ShapeType,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)
+        #ExFor:DocumentBuilder.insert_shape(ShapeType,float,float)
         #ExFor:OoxmlCompliance
-        #ExFor:OoxmlSaveOptions.Compliance
+        #ExFor:OoxmlSaveOptions.compliance
         #ExSummary:Shows how to insert DML shapes into a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1517,14 +1517,14 @@ class ExShape(ApiExampleBase):
         TestUtil.verify_shape(self, aw.drawing.ShapeType.DIAGONAL_CORNERS_ROUNDED, "DiagonalCornersRounded 100004", 50.0, 50.0, 0.0, 0.0, shapes[1])
 
     ##ExStart
-    ##ExFor:Shape.Accept(DocumentVisitor)
-    ##ExFor:Shape.Chart
-    ##ExFor:Shape.ExtrusionEnabled
-    ##ExFor:Shape.Filled
+    ##ExFor:Shape.accept(DocumentVisitor)
+    ##ExFor:Shape.chart
+    ##ExFor:Shape.extrusion_enabled
+    ##ExFor:Shape.filled
     ##ExFor:Shape.has_chart
     ##ExFor:Shape.ole_format
     ##ExFor:Shape.shadow_enabled
-    ##ExFor:Shape.StoryType
+    ##ExFor:Shape.story_type
     ##ExFor:Shape.stroke_color
     ##ExFor:Shape.stroked
     ##ExFor:Shape.stroke_weight
@@ -1621,8 +1621,8 @@ class ExShape(ApiExampleBase):
     def test_signature_line(self):
 
         #ExStart
-        #ExFor:Shape.SignatureLine
-        #ExFor:ShapeBase.IsSignatureLine
+        #ExFor:Shape.signature_line
+        #ExFor:ShapeBase.is_signature_line
         #ExFor:SignatureLine
         #ExFor:SignatureLine.allow_comments
         #ExFor:SignatureLine.default_instructions
@@ -1698,10 +1698,10 @@ class ExShape(ApiExampleBase):
         for layout_flow in layouts:
             with self.subTest(layout_flow=layout_flow):
                 #ExStart
-                #ExFor:Shape.TextBox
+                #ExFor:Shape.text_box
                 #ExFor:Shape.last_paragraph
                 #ExFor:TextBox
-                #ExFor:TextBox.LayoutFlow
+                #ExFor:TextBox.layout_flow
                 #ExSummary:Shows how to set the orientation of text inside a text box.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -1801,7 +1801,7 @@ class ExShape(ApiExampleBase):
         for text_box_wrap_mode in (aw.drawing.TextBoxWrapMode.NONE, aw.drawing.TextBoxWrapMode.SQUARE):
             with self.subTest(text_box_wrap_mode=text_box_wrap_mode):
                 #ExStart
-                #ExFor:TextBox.TextBoxWrapMode
+                #ExFor:TextBox.text_box_wrap_mode
                 #ExFor:TextBoxWrapMode
                 #ExSummary:Shows how to set a wrapping mode for the contents of a text box.
                 doc = aw.Document()
@@ -1852,9 +1852,9 @@ class ExShape(ApiExampleBase):
 
         #ExStart
         #ExFor:TextBox.is_valid_link_target(TextBox)
-        #ExFor:TextBox.Next
-        #ExFor:TextBox.Previous
-        #ExFor:TextBox.BreakForwardLink
+        #ExFor:TextBox.next
+        #ExFor:TextBox.previous
+        #ExFor:TextBox.break_forward_link
         #ExSummary:Shows how to link text boxes.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1932,9 +1932,9 @@ class ExShape(ApiExampleBase):
             with self.subTest(vertical_anchor=vertical_anchor):
                 #ExStart
                 #ExFor:CompatibilityOptions
-                #ExFor:CompatibilityOptions.OptimizeFor(MsWordVersion)
+                #ExFor:CompatibilityOptions.optimize_for(MsWordVersion)
                 #ExFor:TextBoxAnchor
-                #ExFor:TextBox.VerticalAnchor
+                #ExFor:TextBox.vertical_anchor
                 #ExSummary:Shows how to vertically align the text contents of a text box.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -1966,28 +1966,28 @@ class ExShape(ApiExampleBase):
                 self.assertEqual("Hello world!", shape.get_text().strip())
 
     #ExStart
-    #ExFor:Shape.TextPath
-    #ExFor:ShapeBase.IsWordArt
+    #ExFor:Shape.text_path
+    #ExFor:ShapeBase.is_word_art
     #ExFor:TextPath
-    #ExFor:TextPath.Bold
-    #ExFor:TextPath.FitPath
-    #ExFor:TextPath.FitShape
+    #ExFor:TextPath.bold
+    #ExFor:TextPath.fit_path
+    #ExFor:TextPath.fit_shape
     #ExFor:TextPath.font_family
-    #ExFor:TextPath.Italic
-    #ExFor:TextPath.Kerning
+    #ExFor:TextPath.italic
+    #ExFor:TextPath.kerning
     #ExFor:TextPath.on
-    #ExFor:TextPath.ReverseRows
-    #ExFor:TextPath.RotateLetters
-    #ExFor:TextPath.SameLetterHeights
-    #ExFor:TextPath.Shadow
-    #ExFor:TextPath.SmallCaps
-    #ExFor:TextPath.Spacing
-    #ExFor:TextPath.StrikeThrough
-    #ExFor:TextPath.Text
-    #ExFor:TextPath.TextPathAlignment
-    #ExFor:TextPath.Trim
+    #ExFor:TextPath.reverse_rows
+    #ExFor:TextPath.rotate_letters
+    #ExFor:TextPath.same_letter_heights
+    #ExFor:TextPath.shadow
+    #ExFor:TextPath.small_caps
+    #ExFor:TextPath.spacing
+    #ExFor:TextPath.strike_through
+    #ExFor:TextPath.text
+    #ExFor:TextPath.text_path_alignment
+    #ExFor:TextPath.trim
     #ExFor:TextPath.underline
-    #ExFor:TextPath.XScale
+    #ExFor:TextPath.x_scale
     #ExFor:TextPathAlignment
     #ExSummary:Shows how to work with WordArt.
     def test_insert_text_paths(self):
@@ -2123,8 +2123,8 @@ class ExShape(ApiExampleBase):
     def test_shape_revision(self):
 
         #ExStart
-        #ExFor:ShapeBase.IsDeleteRevision
-        #ExFor:ShapeBase.IsInsertRevision
+        #ExFor:ShapeBase.is_delete_revision
+        #ExFor:ShapeBase.is_insert_revision
         #ExSummary:Shows how to work with revision shapes.
         doc = aw.Document()
 
@@ -2198,8 +2198,8 @@ class ExShape(ApiExampleBase):
     def test_adjust_with_effects(self):
 
         #ExStart
-        #ExFor:ShapeBase.AdjustWithEffects(RectangleF)
-        #ExFor:ShapeBase.boundsWithEffects
+        #ExFor:ShapeBase.adjust_with_effects(RectangleF)
+        #ExFor:ShapeBase.bounds_with_effects
         #ExSummary:Shows how to check how a shape's bounds are affected by shape effects.
         doc = aw.Document(MY_DIR + "Shape shadow effect.docx")
 
@@ -2265,8 +2265,8 @@ class ExShape(ApiExampleBase):
     def test_render_all_shapes(self):
 
         #ExStart
-        #ExFor:ShapeBase.GetShapeRenderer
-        #ExFor:NodeRendererBase.Save(Stream, ImageSaveOptions)
+        #ExFor:ShapeBase.get_shape_renderer
+        #ExFor:NodeRendererBase.save(BytesIO,ImageSaveOptions)
         #ExSummary:Shows how to use a shape renderer to export shapes to files in the local file system.
         doc = aw.Document(MY_DIR + "Various shapes.docx")
         shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
@@ -2288,7 +2288,7 @@ class ExShape(ApiExampleBase):
     def test_document_has_smart_art_object(self):
 
         #ExStart
-        #ExFor:Shape.HasSmartArt
+        #ExFor:Shape.has_smart_art
         #ExSummary:Shows how to count the number of shapes in a document with SmartArt objects.
         doc = aw.Document(MY_DIR + "SmartArt.docx")
 
@@ -2302,16 +2302,16 @@ class ExShape(ApiExampleBase):
         #ExStart
         #ExFor:NodeRendererBase
         #ExFor:NodeRendererBase.bounds_in_points
-        #ExFor:NodeRendererBase.GetBoundsInPixels(Single, Single)
-        #ExFor:NodeRendererBase.GetBoundsInPixels(Single, Single, Single)
-        #ExFor:NodeRendererBase.GetOpaqueBoundsInPixels(Single, Single)
-        #ExFor:NodeRendererBase.GetOpaqueBoundsInPixels(Single, Single, Single)
-        #ExFor:NodeRendererBase.GetSizeInPixels(Single, Single)
-        #ExFor:NodeRendererBase.GetSizeInPixels(Single, Single, Single)
+        #ExFor:NodeRendererBase.get_bounds_in_pixels(float,float)
+        #ExFor:NodeRendererBase.get_bounds_in_pixels(float,float,float)
+        #ExFor:NodeRendererBase.get_opaque_bounds_in_pixels(float,float)
+        #ExFor:NodeRendererBase.get_opaque_bounds_in_pixels(float,float,float)
+        #ExFor:NodeRendererBase.get_size_in_pixels(float,float)
+        #ExFor:NodeRendererBase.get_size_in_pixels(float,float,float)
         #ExFor:NodeRendererBase.opaque_bounds_in_points
         #ExFor:NodeRendererBase.size_in_points
         #ExFor:OfficeMathRenderer
-        #ExFor:OfficeMathRenderer.#ctor(Math.OfficeMath)
+        #ExFor:OfficeMathRenderer.__init__(OfficeMath)
         #ExSummary:Shows how to measure and scale shapes.
         doc = aw.Document(MY_DIR + "Office math.docx")
 

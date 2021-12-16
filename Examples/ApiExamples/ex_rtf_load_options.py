@@ -17,8 +17,8 @@ class ExRtfLoadOptions(ApiExampleBase):
             with self.subTest(recognize_utf8_text=recognize_utf8_text):
                 #ExStart
                 #ExFor:RtfLoadOptions
-                #ExFor:RtfLoadOptions.#ctor
-                #ExFor:RtfLoadOptions.RecognizeUtf8Text
+                #ExFor:RtfLoadOptions.__init__
+                #ExFor:RtfLoadOptions.recognize_utf8_text
                 #ExSummary:Shows how to detect UTF-8 characters while loading an RTF document.
                 # Create an "RtfLoadOptions" object to modify how we load an RTF document.
                 load_options = aw.loading.RtfLoadOptions()

@@ -15,16 +15,16 @@ class ExBookmarksOutlineLevelCollection(ApiExampleBase):
 
         #ExStart
         #ExFor:BookmarksOutlineLevelCollection
-        #ExFor:BookmarksOutlineLevelCollection.Add(String, Int32)
-        #ExFor:BookmarksOutlineLevelCollection.Clear
-        #ExFor:BookmarksOutlineLevelCollection.Contains(System.String)
-        #ExFor:BookmarksOutlineLevelCollection.Count
-        #ExFor:BookmarksOutlineLevelCollection.IndexOfKey(System.String)
-        #ExFor:BookmarksOutlineLevelCollection.Item(System.Int32)
-        #ExFor:BookmarksOutlineLevelCollection.Item(System.String)
-        #ExFor:BookmarksOutlineLevelCollection.Remove(System.String)
-        #ExFor:BookmarksOutlineLevelCollection.RemoveAt(System.Int32)
-        #ExFor:OutlineOptions.BookmarksOutlineLevels
+        #ExFor:BookmarksOutlineLevelCollection.add(str,int)
+        #ExFor:BookmarksOutlineLevelCollection.clear
+        #ExFor:BookmarksOutlineLevelCollection.contains(str)
+        #ExFor:BookmarksOutlineLevelCollection.count
+        #ExFor:BookmarksOutlineLevelCollection.index_of_key(str)
+        #ExFor:BookmarksOutlineLevelCollection.__getitem__(int)
+        #ExFor:BookmarksOutlineLevelCollection.__getitem__(str)
+        #ExFor:BookmarksOutlineLevelCollection.remove(str)
+        #ExFor:BookmarksOutlineLevelCollection.remove_at(int)
+        #ExFor:OutlineOptions.bookmarks_outline_levels
         #ExSummary:Shows how to set outline levels for bookmarks.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

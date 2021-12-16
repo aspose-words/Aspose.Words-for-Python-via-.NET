@@ -14,13 +14,13 @@ class ExVbaProject(ApiExampleBase):
     def test_create_new_vba_project(self):
 
         #ExStart
-        #ExFor:VbaProject.#ctor
-        #ExFor:VbaProject.Name
-        #ExFor:VbaModule.#ctor
-        #ExFor:VbaModule.Name
-        #ExFor:VbaModule.Type
-        #ExFor:VbaModule.SourceCode
-        #ExFor:VbaModuleCollection.Add(VbaModule)
+        #ExFor:VbaProject.__init__
+        #ExFor:VbaProject.name
+        #ExFor:VbaModule.__init__
+        #ExFor:VbaModule.name
+        #ExFor:VbaModule.type
+        #ExFor:VbaModule.source_code
+        #ExFor:VbaModuleCollection.add(VbaModule)
         #ExFor:VbaModuleType
         #ExSummary:Shows how to create a VBA project using macros.
         doc = aw.Document()
@@ -61,8 +61,8 @@ class ExVbaProject(ApiExampleBase):
     def test_clone_vba_project(self):
 
         #ExStart
-        #ExFor:VbaProject.Clone
-        #ExFor:VbaModule.Clone
+        #ExFor:VbaProject.clone
+        #ExFor:VbaModule.clone
         #ExSummary:Shows how to deep clone a VBA project and module.
         doc = aw.Document(MY_DIR + "VBA project.docm")
         dest_doc = aw.Document()
@@ -94,11 +94,11 @@ class ExVbaProject(ApiExampleBase):
 
     #ExStart
     #ExFor:VbaReference
-    #ExFor:VbaReference.LibId
+    #ExFor:VbaReference.lib_id
     #ExFor:VbaReferenceCollection
-    #ExFor:VbaReferenceCollection.Count
-    #ExFor:VbaReferenceCollection.RemoveAt(int)
-    #ExFor:VbaReferenceCollection.Remove(VbaReference)
+    #ExFor:VbaReferenceCollection.count
+    #ExFor:VbaReferenceCollection.remove_at(int)
+    #ExFor:VbaReferenceCollection.remove(VbaReference)
     #ExFor:VbaReferenceType
     #ExSummary:Shows how to get/remove an element from the VBA reference collection.
 

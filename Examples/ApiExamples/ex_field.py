@@ -22,11 +22,11 @@ class ExField(ApiExampleBase):
         #ExStart
         #ExFor:FieldType
         #ExFor:FieldChar
-        #ExFor:FieldChar.FieldType
-        #ExFor:FieldChar.IsDirty
-        #ExFor:FieldChar.IsLocked
-        #ExFor:FieldChar.GetField
-        #ExFor:Field.IsLocked
+        #ExFor:FieldChar.field_type
+        #ExFor:FieldChar.is_dirty
+        #ExFor:FieldChar.is_locked
+        #ExFor:FieldChar.get_field
+        #ExFor:Field.is_locked
         #ExSummary:Shows how to work with a FieldStart node.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -58,8 +58,8 @@ class ExField(ApiExampleBase):
     def test_get_field_code(self):
 
         #ExStart
-        #ExFor:Field.GetFieldCode
-        #ExFor:Field.GetFieldCode(bool)
+        #ExFor:Field.get_field_code
+        #ExFor:Field.get_field_code(bool)
         #ExSummary:Shows how to get a field's field code.
         # Open a document which contains a MERGEFIELD inside an IF field.
         doc = aw.Document(MY_DIR + "Nested fields.docx")
@@ -73,14 +73,14 @@ class ExField(ApiExampleBase):
         self.assertEqual(f" IF \u0013 MERGEFIELD NetIncome \u0014\u0015 > 0 \" (surplus of \u0013 MERGEFIELD  NetIncome \\f $ \u0014\u0015) \" \"\" ",
             field_if.get_field_code(True))
 
-        # By default, the GetFieldCode method displays inner fields.
+        # By default, the "get_field_code" method displays inner fields.
         self.assertEqual(field_if.get_field_code(), field_if.get_field_code(True))
         #ExEnd
 
     def test_display_result(self):
 
         #ExStart
-        #ExFor:Field.DisplayResult
+        #ExFor:Field.display_result
         #ExSummary:Shows how to get the real text that a field displays in the document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -89,7 +89,7 @@ class ExField(ApiExampleBase):
         field_author = builder.insert_field(aw.fields.FieldType.FIELD_AUTHOR, True).as_field_author()
         field_author.author_name = "John Doe"
 
-        # We can use the DisplayResult property to verify what exact text
+        # We can use the "display_result" property to verify what exact text
         # a field would display in its place in the document.
         self.assertEqual("", field_author.display_result)
 
@@ -110,8 +110,8 @@ class ExField(ApiExampleBase):
     def test_create_with_field_builder(self):
 
         #ExStart
-        #ExFor:FieldBuilder.#ctor(FieldType)
-        #ExFor:FieldBuilder.BuildAndInsert(Inline)
+        #ExFor:FieldBuilder.__init__(FieldType)
+        #ExFor:FieldBuilder.build_and_insert(Inline)
         #ExSummary:Shows how to create and insert a field using a field builder.
         doc = aw.Document()
 
@@ -144,7 +144,7 @@ class ExField(ApiExampleBase):
     def test_rev_num(self):
 
         #ExStart
-        #ExFor:BuiltInDocumentProperties.RevisionNumber
+        #ExFor:BuiltInDocumentProperties.revision_number
         #ExFor:FieldRevNum
         #ExSummary:Shows how to work with REVNUM fields.
         doc = aw.Document()
@@ -242,7 +242,7 @@ class ExField(ApiExampleBase):
     def test_field_locale(self):
 
         #ExStart
-        #ExFor:Field.LocaleId
+        #ExFor:Field.locale_id
         #ExSummary:Shows how to insert a field and work with its locale.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -278,13 +278,13 @@ class ExField(ApiExampleBase):
         for update_dirty_fields in (True, False):
             with self.subTest(update_dirty_fields=update_dirty_fields):
                 #ExStart
-                #ExFor:Field.IsDirty
-                #ExFor:LoadOptions.UpdateDirtyFields
+                #ExFor:Field.is_dirty
+                #ExFor:LoadOptions.update_dirty_fields
                 #ExSummary:Shows how to use special property for updating field result.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
 
-                # Give the document's built-in "Author" property value, and then display it with a field.
+                # Give the document's built-in "author" property value, and then display it with a field.
                 doc.built_in_document_properties.author = "John Doe"
                 field = builder.insert_field(aw.fields.FieldType.FIELD_AUTHOR, True).as_field_author()
 
@@ -385,15 +385,15 @@ class ExField(ApiExampleBase):
 
     #    #ExStart
     #    #ExFor:FieldDatabase
-    #    #ExFor:FieldDatabase.Connection
-    #    #ExFor:FieldDatabase.FileName
-    #    #ExFor:FieldDatabase.FirstRecord
-    #    #ExFor:FieldDatabase.FormatAttributes
-    #    #ExFor:FieldDatabase.InsertHeadings
-    #    #ExFor:FieldDatabase.InsertOnceOnMailMerge
-    #    #ExFor:FieldDatabase.LastRecord
-    #    #ExFor:FieldDatabase.Query
-    #    #ExFor:FieldDatabase.TableFormat
+    #    #ExFor:FieldDatabase.connection
+    #    #ExFor:FieldDatabase.file_name
+    #    #ExFor:FieldDatabase.first_record
+    #    #ExFor:FieldDatabase.format_attributes
+    #    #ExFor:FieldDatabase.insert_headings
+    #    #ExFor:FieldDatabase.insert_once_on_mail_merge
+    #    #ExFor:FieldDatabase.last_record
+    #    #ExFor:FieldDatabase.query
+    #    #ExFor:FieldDatabase.table_format
     #    #ExSummary:Shows how to extract data from a database and insert it as a field into a document.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -482,7 +482,7 @@ class ExField(ApiExampleBase):
         for preserve_include_picture_field in (False, True):
             with self.subTest(preserve_include_picture_field=preserve_include_picture_field):
                 #ExStart
-                #ExFor:Field.Update(bool)
+                #ExFor:Field.update(bool)
                 #ExFor:LoadOptions.preserve_include_picture_field
                 #ExSummary:Shows how to preserve or discard INCLUDEPICTURE fields when loading a document.
                 doc = aw.Document()
@@ -516,20 +516,20 @@ class ExField(ApiExampleBase):
     def test_field_format(self):
 
         #ExStart
-        #ExFor:Field.Format
-        #ExFor:Field.Update
+        #ExFor:Field.format
+        #ExFor:Field.update
         #ExFor:FieldFormat
-        #ExFor:FieldFormat.DateTimeFormat
-        #ExFor:FieldFormat.NumericFormat
-        #ExFor:FieldFormat.GeneralFormats
+        #ExFor:FieldFormat.date_time_format
+        #ExFor:FieldFormat.numeric_format
+        #ExFor:FieldFormat.general_formats
         #ExFor:GeneralFormat
         #ExFor:GeneralFormatCollection
-        #ExFor:GeneralFormatCollection.Add(GeneralFormat)
-        #ExFor:GeneralFormatCollection.Count
-        #ExFor:GeneralFormatCollection.Item(Int32)
-        #ExFor:GeneralFormatCollection.Remove(GeneralFormat)
-        #ExFor:GeneralFormatCollection.RemoveAt(Int32)
-        #ExFor:GeneralFormatCollection.GetEnumerator
+        #ExFor:GeneralFormatCollection.add(GeneralFormat)
+        #ExFor:GeneralFormatCollection.count
+        #ExFor:GeneralFormatCollection.__getitem__(int)
+        #ExFor:GeneralFormatCollection.remove(GeneralFormat)
+        #ExFor:GeneralFormatCollection.remove_at(int)
+        #ExFor:GeneralFormatCollection.__iter__
         #ExSummary:Shows how to format field results.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -588,7 +588,7 @@ class ExField(ApiExampleBase):
     def test_unlink(self):
 
         #ExStart
-        #ExFor:Document.UnlinkFields
+        #ExFor:Document.unlink_fields
         #ExSummary:Shows how to unlink all fields in the document.
         doc = aw.Document(MY_DIR + "Linked fields.docx")
 
@@ -603,7 +603,7 @@ class ExField(ApiExampleBase):
     def test_unlink_all_fields_in_range(self):
 
         #ExStart
-        #ExFor:Range.UnlinkFields
+        #ExFor:Range.unlink_fields
         #ExSummary:Shows how to unlink all fields in a range.
         doc = aw.Document(MY_DIR + "Linked fields.docx")
 
@@ -622,7 +622,7 @@ class ExField(ApiExampleBase):
     def test_unlink_single_field(self):
 
         #ExStart
-        #ExFor:Field.Unlink
+        #ExFor:Field.unlink
         #ExSummary:Shows how to unlink a field.
         doc = aw.Document(MY_DIR + "Linked fields.docx")
         doc.range.fields[1].unlink()
@@ -687,14 +687,14 @@ class ExField(ApiExampleBase):
             cur_node = next_node
 
     ##ExStart
-    ##ExFor:Fields.FieldAsk
-    ##ExFor:Fields.FieldAsk.BookmarkName
-    ##ExFor:Fields.FieldAsk.DefaultResponse
-    ##ExFor:Fields.FieldAsk.PromptOnceOnMailMerge
-    ##ExFor:Fields.FieldAsk.PromptText
-    ##ExFor:FieldOptions.UserPromptRespondent
+    ##ExFor:Fields.field_ask
+    ##ExFor:Fields.FieldAsk.bookmark_name
+    ##ExFor:Fields.FieldAsk.default_response
+    ##ExFor:Fields.FieldAsk.prompt_once_on_mail_merge
+    ##ExFor:Fields.FieldAsk.prompt_text
+    ##ExFor:FieldOptions.user_prompt_respondent
     ##ExFor:IFieldUserPromptRespondent
-    ##ExFor:IFieldUserPromptRespondent.Respond(String,String)
+    ##ExFor:IFieldUserPromptRespondent.respond(str,str)
     ##ExSummary:Shows how to create an ASK field, and set its properties.
     #def test_field_ask(self):
 
@@ -778,13 +778,13 @@ class ExField(ApiExampleBase):
     def test_field_advance(self):
 
         #ExStart
-        #ExFor:Fields.FieldAdvance
-        #ExFor:Fields.FieldAdvance.DownOffset
-        #ExFor:Fields.FieldAdvance.HorizontalPosition
-        #ExFor:Fields.FieldAdvance.LeftOffset
-        #ExFor:Fields.FieldAdvance.RightOffset
-        #ExFor:Fields.FieldAdvance.UpOffset
-        #ExFor:Fields.FieldAdvance.VerticalPosition
+        #ExFor:Fields.field_advance
+        #ExFor:Fields.FieldAdvance.down_offset
+        #ExFor:Fields.FieldAdvance.horizontal_position
+        #ExFor:Fields.FieldAdvance.left_offset
+        #ExFor:Fields.FieldAdvance.right_offset
+        #ExFor:Fields.FieldAdvance.up_offset
+        #ExFor:Fields.FieldAdvance.vertical_position
         #ExSummary:Shows how to insert an ADVANCE field, and edit its properties.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -848,11 +848,11 @@ class ExField(ApiExampleBase):
     def test_field_address_block(self):
 
         #ExStart
-        #ExFor:Fields.FieldAddressBlock.ExcludedCountryOrRegionName
-        #ExFor:Fields.FieldAddressBlock.FormatAddressOnCountryOrRegion
-        #ExFor:Fields.FieldAddressBlock.IncludeCountryOrRegionName
-        #ExFor:Fields.FieldAddressBlock.LanguageId
-        #ExFor:Fields.FieldAddressBlock.NameAndAddressFormat
+        #ExFor:FieldAddressBlock.excluded_country_or_region_name
+        #ExFor:FieldAddressBlock.format_address_on_country_or_region
+        #ExFor:FieldAddressBlock.include_country_or_region_name
+        #ExFor:FieldAddressBlock.language_id
+        #ExFor:FieldAddressBlock.name_and_address_format
         #ExSummary:Shows how to insert an ADDRESSBLOCK field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -862,7 +862,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(" ADDRESSBLOCK ", field.get_field_code())
 
         # Setting this to "2" will include all countries and regions,
-        # unless it is the one specified in the excluded_country_or_region_name property.
+        # unless it is the one specified in the "excluded_country_or_region_name" property.
         field.include_country_or_region_name = "2"
         field.format_address_on_country_or_region = True
         field.excluded_country_or_region_name = "United States"
@@ -892,18 +892,18 @@ class ExField(ApiExampleBase):
 
     ##ExStart
     ##ExFor:FieldCollection
-    ##ExFor:FieldCollection.Count
-    ##ExFor:FieldCollection.GetEnumerator
+    ##ExFor:FieldCollection.count
+    ##ExFor:FieldCollection.__iter__
     ##ExFor:FieldStart
-    ##ExFor:FieldStart.Accept(DocumentVisitor)
+    ##ExFor:FieldStart.accept(DocumentVisitor)
     ##ExFor:FieldSeparator
-    ##ExFor:FieldSeparator.Accept(DocumentVisitor)
+    ##ExFor:FieldSeparator.accept(DocumentVisitor)
     ##ExFor:FieldEnd
-    ##ExFor:FieldEnd.Accept(DocumentVisitor)
-    ##ExFor:FieldEnd.HasSeparator
-    ##ExFor:Field.End
-    ##ExFor:Field.Separator
-    ##ExFor:Field.Start
+    ##ExFor:FieldEnd.accept(DocumentVisitor)
+    ##ExFor:FieldEnd.has_separator
+    ##ExFor:Field.end
+    ##ExFor:Field.separator
+    ##ExFor:Field.start
     ##ExSummary:Shows how to work with a collection of fields.
     #def test_field_collection(self):
 
@@ -988,12 +988,12 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldCollection
-        #ExFor:FieldCollection.Count
-        #ExFor:FieldCollection.Clear
-        #ExFor:FieldCollection.Item(Int32)
-        #ExFor:FieldCollection.Remove(Field)
-        #ExFor:FieldCollection.RemoveAt(Int32)
-        #ExFor:Field.Remove
+        #ExFor:FieldCollection.count
+        #ExFor:FieldCollection.clear
+        #ExFor:FieldCollection.__getitem__(int)
+        #ExFor:FieldCollection.remove(Field)
+        #ExFor:FieldCollection.remove_at(int)
+        #ExFor:Field.remove
         #ExSummary:Shows how to remove fields from a field collection.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1033,9 +1033,9 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldCompare
-        #ExFor:FieldCompare.ComparisonOperator
-        #ExFor:FieldCompare.LeftExpression
-        #ExFor:FieldCompare.RightExpression
+        #ExFor:FieldCompare.comparison_operator
+        #ExFor:FieldCompare.left_expression
+        #ExFor:FieldCompare.right_expression
         #ExSummary:Shows how to compare expressions using a COMPARE field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1087,11 +1087,11 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldIf
-        #ExFor:FieldIf.ComparisonOperator
-        #ExFor:FieldIf.EvaluateCondition
+        #ExFor:FieldIf.comparison_operator
+        #ExFor:FieldIf.evaluate_condition
         #ExFor:FieldIf.false_text
-        #ExFor:FieldIf.LeftExpression
-        #ExFor:FieldIf.RightExpression
+        #ExFor:FieldIf.left_expression
+        #ExFor:FieldIf.right_expression
         #ExFor:FieldIf.true_text
         #ExFor:FieldIfComparisonResult
         #ExSummary:Shows how to insert an IF field.
@@ -1156,7 +1156,7 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldAutoNum
-        #ExFor:FieldAutoNum.SeparatorCharacter
+        #ExFor:FieldAutoNum.separator_character
         #ExSummary:Shows how to number paragraphs using autonum fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1172,7 +1172,7 @@ class ExField(ApiExampleBase):
         field = builder.insert_field(aw.fields.FieldType.FIELD_AUTO_NUM, True).as_field_auto_num()
         builder.writeln("\tParagraph 2.")
 
-        # The separator character, which appears in the field result immediately after the number,is a full stop by default.
+        # The separator character, which appears in the field result immediately after the number, is a full stop by default.
         # If we leave this property null, our second AUTONUM field will display "2." in the document.
         self.assertIsNone(field.separator_character)
 
@@ -1192,8 +1192,8 @@ class ExField(ApiExampleBase):
 
     #ExStart
     #ExFor:FieldAutoNumLgl
-    #ExFor:FieldAutoNumLgl.RemoveTrailingPeriod
-    #ExFor:FieldAutoNumLgl.SeparatorCharacter
+    #ExFor:FieldAutoNumLgl.remove_trailing_period
+    #ExFor:FieldAutoNumLgl.separator_character
     #ExSummary:Shows how to organize a document using AUTONUMLGL fields.
     def test_field_auto_num_lgl(self):
 
@@ -1245,7 +1245,7 @@ class ExField(ApiExampleBase):
                 field.remove_trailing_period = True
                 self.assertEqual(" AUTONUMLGL  \\s : \\e", field.get_field_code())
 
-        doc.save(ARTIFACTS_DIR + "Field.a_u_t_o_n_u_m_l_g_l.docx")
+        doc.save(ARTIFACTS_DIR + "Field.auto_num_lgl.docx")
         self._test_field_auto_num_lgl(doc) #ExSkip
 
     @staticmethod
@@ -1301,10 +1301,10 @@ class ExField(ApiExampleBase):
                 field = field.as_field_auto_num_out()
                 self.assertEqual(" AUTONUMOUT ", field.get_field_code())
 
-        doc.save(ARTIFACTS_DIR + "Field.autonumout.docx")
+        doc.save(ARTIFACTS_DIR + "Field.auto_num_out.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.autonumout.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.auto_num_out.docx")
 
         for field in doc.range.fields:
             TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTO_NUM_OUTLINE, " AUTONUMOUT ", "", field)
@@ -1312,11 +1312,11 @@ class ExField(ApiExampleBase):
     def test_field_auto_text(self):
 
         #ExStart
-        #ExFor:Fields.FieldAutoText
-        #ExFor:FieldAutoText.EntryName
-        #ExFor:FieldOptions.BuiltInTemplatesPaths
+        #ExFor:Fields.field_auto_text
+        #ExFor:FieldAutoText.entry_name
+        #ExFor:FieldOptions.built_in_templates_paths
         #ExFor:FieldGlossary
-        #ExFor:FieldGlossary.EntryName
+        #ExFor:FieldGlossary.entry_name
         #ExSummary:Shows how to display a building block with AUTOTEXT and GLOSSARY fields.
         doc = aw.Document()
 
@@ -1375,10 +1375,10 @@ class ExField(ApiExampleBase):
         self.assertEqual("MyBlock", field_glossary.entry_name)
 
     #ExStart
-    #ExFor:Fields.FieldAutoTextList
-    #ExFor:Fields.FieldAutoTextList.EntryName
-    #ExFor:Fields.FieldAutoTextList.ListStyle
-    #ExFor:Fields.FieldAutoTextList.ScreenTip
+    #ExFor:FieldAutoTextList
+    #ExFor:FieldAutoTextList.entry_name
+    #ExFor:FieldAutoTextList.list_style
+    #ExFor:FieldAutoTextList.screen_tip
     #ExSummary:Shows how to use an AUTOTEXTLIST field to select from a list of AutoText entries.
     def test_field_auto_text_list(self):
 
@@ -1451,10 +1451,10 @@ class ExField(ApiExampleBase):
 
     #    #ExStart
     #    #ExFor:FieldGreetingLine
-    #    #ExFor:FieldGreetingLine.AlternateText
-    #    #ExFor:FieldGreetingLine.GetFieldNames
-    #    #ExFor:FieldGreetingLine.LanguageId
-    #    #ExFor:FieldGreetingLine.NameFormat
+    #    #ExFor:FieldGreetingLine.alternate_text
+    #    #ExFor:FieldGreetingLine.get_field_names
+    #    #ExFor:FieldGreetingLine.language_id
+    #    #ExFor:FieldGreetingLine.name_format
     #    #ExSummary:Shows how to insert a GREETINGLINE field.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -1512,10 +1512,10 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldListNum
-        #ExFor:FieldListNum.HasListName
-        #ExFor:FieldListNum.ListLevel
-        #ExFor:FieldListNum.ListName
-        #ExFor:FieldListNum.StartingNumber
+        #ExFor:FieldListNum.has_list_name
+        #ExFor:FieldListNum.list_level
+        #ExFor:FieldListNum.list_name
+        #ExFor:FieldListNum.starting_number
         #ExSummary:Shows how to number paragraphs with LISTNUM fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1548,7 +1548,7 @@ class ExField(ApiExampleBase):
 
         # The next LISTNUM field that we insert will continue the count at the list level
         # that the previous LISTNUM field was on.
-        # We can use the "ListLevel" property to jump to a different list level.
+        # We can use the "list_level" property to jump to a different list level.
         # If this LISTNUM field stayed on list level 3, it would display "ii)",
         # but, since we have moved it to list level 2, it carries on the count at that level and displays "b)".
         field = builder.insert_field(aw.fields.FieldType.FIELD_LIST_NUM, True).as_field_list_num()
@@ -1576,10 +1576,10 @@ class ExField(ApiExampleBase):
         builder.writeln("Paragraph 5")
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.listnum.docx")
+        doc.save(ARTIFACTS_DIR + "Field.list_num.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.listnum.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.list_num.docx")
 
         self.assertEqual(7, doc.range.fields.count)
 
@@ -1621,12 +1621,12 @@ class ExField(ApiExampleBase):
 
     #    #ExStart
     #    #ExFor:FieldMergeField
-    #    #ExFor:FieldMergeField.FieldName
-    #    #ExFor:FieldMergeField.FieldNameNoPrefix
-    #    #ExFor:FieldMergeField.IsMapped
-    #    #ExFor:FieldMergeField.IsVerticalFormatting
-    #    #ExFor:FieldMergeField.TextAfter
-    #    #ExFor:FieldMergeField.TextBefore
+    #    #ExFor:FieldMergeField.field_name
+    #    #ExFor:FieldMergeField.field_name_no_prefix
+    #    #ExFor:FieldMergeField.is_mapped
+    #    #ExFor:FieldMergeField.is_vertical_formatting
+    #    #ExFor:FieldMergeField.text_after
+    #    #ExFor:FieldMergeField.text_before
     #    #ExSummary:Shows how to use MERGEFIELD fields to perform a mail merge.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -1666,18 +1666,18 @@ class ExField(ApiExampleBase):
 
     #ExStart
     #ExFor:FieldToc
-    #ExFor:FieldToc.BookmarkName
-    #ExFor:FieldToc.CustomStyles
-    #ExFor:FieldToc.EntrySeparator
-    #ExFor:FieldToc.HeadingLevelRange
-    #ExFor:FieldToc.HideInWebLayout
-    #ExFor:FieldToc.InsertHyperlinks
-    #ExFor:FieldToc.PageNumberOmittingLevelRange
-    #ExFor:FieldToc.PreserveLineBreaks
-    #ExFor:FieldToc.PreserveTabs
-    #ExFor:FieldToc.UpdatePageNumbers
-    #ExFor:FieldToc.UseParagraphOutlineLevel
-    #ExFor:FieldOptions.CustomTocStyleSeparator
+    #ExFor:FieldToc.bookmark_name
+    #ExFor:FieldToc.custom_styles
+    #ExFor:FieldToc.entry_separator
+    #ExFor:FieldToc.heading_level_range
+    #ExFor:FieldToc.hide_in_web_layout
+    #ExFor:FieldToc.insert_hyperlinks
+    #ExFor:FieldToc.page_number_omitting_level_range
+    #ExFor:FieldToc.preserve_line_breaks
+    #ExFor:FieldToc.preserve_tabs
+    #ExFor:FieldToc.update_page_numbers
+    #ExFor:FieldToc.use_paragraph_outline_level
+    #ExFor:FieldOptions.custom_toc_style_separator
     #ExSummary:Shows how to insert a TOC, and populate it with entries based on heading styles.
     def test_field_toc(self):
 
@@ -1691,7 +1691,7 @@ class ExField(ApiExampleBase):
         # and the page the heading appears on to the right.
         field = builder.insert_field(aw.fields.FieldType.FIELD_TOC, True).as_field_toc()
 
-        # Use the bookmark_name property to only list headings
+        # Use the "bookmark_name" property to only list headings
         # that appear within the bounds of a bookmark with the "MyBookmark" name.
         field.bookmark_name = "MyBookmark"
 
@@ -1699,7 +1699,7 @@ class ExField(ApiExampleBase):
         # We can name additional styles to be picked up as headings by the TOC in this property and their TOC levels.
         field.custom_styles = "Quote; 6; Intense Quote; 7"
 
-        # By default, Styles/TOC levels are separated in the CustomStyles property by a comma,
+        # By default, Styles/TOC levels are separated in the "custom_styles" property by a comma,
         # but we can set a custom delimiter in this property.
         doc.field_options.custom_toc_style_separator = ";"
 
@@ -1780,13 +1780,13 @@ class ExField(ApiExampleBase):
                         "\u0013 HYPERLINK \\l \"_Toc256000006\" \u0014Sixth entry\u0015\r", field.result)
 
     #ExStart
-    #ExFor:FieldToc.EntryIdentifier
-    #ExFor:FieldToc.EntryLevelRange
+    #ExFor:FieldToc.entry_identifier
+    #ExFor:FieldToc.entry_level_range
     #ExFor:FieldTC
-    #ExFor:FieldTC.OmitPageNumber
-    #ExFor:FieldTC.Text
-    #ExFor:FieldTC.TypeIdentifier
-    #ExFor:FieldTC.EntryLevel
+    #ExFor:FieldTC.omit_page_number
+    #ExFor:FieldTC.text
+    #ExFor:FieldTC.type_identifier
+    #ExFor:FieldTC.entry_level
     #ExSummary:Shows how to insert a TOC field, and filter which TC fields end up as entries.
     def test_field_toc_entry_identifier(self):
 
@@ -1876,11 +1876,11 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldToc
-        #ExFor:FieldToc.TableOfFiguresLabel
-        #ExFor:FieldToc.PrefixedSequenceIdentifier
-        #ExFor:FieldToc.SequenceSeparator
+        #ExFor:FieldToc.table_of_figures_label
+        #ExFor:FieldToc.prefixed_sequence_identifier
+        #ExFor:FieldToc.sequence_separator
         #ExFor:FieldSeq
-        #ExFor:FieldSeq.SequenceIdentifier
+        #ExFor:FieldSeq.sequence_identifier
         #ExSummary:Shows how to populate a TOC field with entries using SEQ fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1892,7 +1892,7 @@ class ExField(ApiExampleBase):
         # SEQ fields display a count that increments at each SEQ field.
         # These fields also maintain separate counts for each unique named sequence
         # identified by the SEQ field's "sequence_identifier" property.
-        # Use the "TableOfFiguresLabel" property to name a main sequence for the TOC.
+        # Use the "table_of_figures_label" property to name a main sequence for the TOC.
         # Now, this TOC will only create entries out of SEQ fields with their "sequence_identifier" set to "MySequence".
         field_toc.table_of_figures_label = "MySequence"
 
@@ -1915,7 +1915,7 @@ class ExField(ApiExampleBase):
         # 1 -  Inserting a SEQ field that belongs to the TOC's prefix sequence:
         # This field will increment the SEQ sequence count for the "PrefixSequence" by 1.
         # Since this field does not belong to the main sequence identified
-        # by the "TableOfFiguresLabel" property of the TOC, it will not appear as an entry.
+        # by the "table_of_figures_label" property of the TOC, it will not appear as an entry.
         field_seq = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
         field_seq.sequence_identifier = "PrefixSequence"
         builder.insert_paragraph()
@@ -1926,7 +1926,7 @@ class ExField(ApiExampleBase):
         # This SEQ field will create an entry in the TOC.
         # The TOC entry will contain the paragraph that the SEQ field is in and the number of the page that it appears on.
         # This entry will also display the count that the prefix sequence is currently at,
-        # separated from the page number by the value in the TOC's SeqenceSeparator property.
+        # separated from the page number by the value in the TOC's "seqence_separator" property.
         # The "PrefixSequence" count is at 1, this main sequence SEQ field is on page 2,
         # and the separator is ">", so entry will display "1>2".
         builder.write("First TOC entry, MySequence #")
@@ -2011,10 +2011,10 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldSeq
-        #ExFor:FieldSeq.InsertNextNumber
-        #ExFor:FieldSeq.ResetHeadingLevel
-        #ExFor:FieldSeq.ResetNumber
-        #ExFor:FieldSeq.SequenceIdentifier
+        #ExFor:FieldSeq.insert_next_number
+        #ExFor:FieldSeq.reset_heading_level
+        #ExFor:FieldSeq.reset_number
+        #ExFor:FieldSeq.sequence_identifier
         #ExSummary:Shows create numbering using SEQ fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -2101,7 +2101,7 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldSeq
-        #ExFor:FieldSeq.BookmarkName
+        #ExFor:FieldSeq.bookmark_name
         #ExSummary:Shows how to combine table of contents and sequence fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -2111,7 +2111,7 @@ class ExField(ApiExampleBase):
         # and the number of the page that the field appears on.
         field_toc = builder.insert_field(aw.fields.FieldType.FIELD_TOC, True).as_field_toc()
 
-        # Configure this TOC field to have a SequenceIdentifier property with a value of "MySequence".
+        # Configure this TOC field to have a "sequence_identifier" property with a value of "MySequence".
         field_toc.table_of_figures_label = "MySequence"
 
         # Configure this TOC field to only pick up SEQ fields that are within the bounds of a bookmark
@@ -2125,7 +2125,7 @@ class ExField(ApiExampleBase):
         # These fields also maintain separate counts for each unique named sequence
         # identified by the SEQ field's "sequence_identifier" property.
         # Insert a SEQ field that has a sequence identifier that matches the TOC's
-        # TableOfFiguresLabel property. This field will not create an entry in the TOC since it is outside
+        # "table_of_figures_label" property. This field will not create an entry in the TOC since it is outside
         # the bookmark's bounds designated by "BookmarkName".
         builder.write("MySequence #")
         field_seq = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
@@ -2134,21 +2134,21 @@ class ExField(ApiExampleBase):
 
         builder.start_bookmark("TOCBookmark")
 
-        # This SEQ field's sequence matches the TOC's "TableOfFiguresLabel" property and is within the bookmark's bounds.
+        # This SEQ field's sequence matches the TOC's "table_of_figures_label" property and is within the bookmark's bounds.
         # The paragraph that contains this field will show up in the TOC as an entry.
         builder.write("MySequence #")
         field_seq = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
         field_seq.sequence_identifier = "MySequence"
         builder.writeln(", will show up in the TOC next to the entry for the above caption.")
 
-        # This SEQ field's sequence does not match the TOC's "TableOfFiguresLabel" property,
+        # This SEQ field's sequence does not match the TOC's "table_of_figures_label" property,
         # and is within the bounds of the bookmark. Its paragraph will not show up in the TOC as an entry.
         builder.write("MySequence #")
         field_seq = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
         field_seq.sequence_identifier = "OtherSequence"
         builder.writeln(", will not show up in the TOC because it's from a different sequence identifier.")
 
-        # This SEQ field's sequence matches the TOC's "TableOfFiguresLabel" property and is within the bounds of the bookmark.
+        # This SEQ field's sequence matches the TOC's "table_of_figures_label" property and is within the bounds of the bookmark.
         # This field also references another bookmark. The contents of that bookmark will appear in the TOC entry for this SEQ field.
         # The SEQ field itself will not display the contents of that bookmark.
         field_seq = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
@@ -2168,10 +2168,10 @@ class ExField(ApiExampleBase):
         builder.end_bookmark("TOCBookmark")
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.s_e_q.bookmark.docx")
+        doc.save(ARTIFACTS_DIR + "Field.seq.bookmark.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.s_e_q.bookmark.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.seq.bookmark.docx")
 
         self.assertEqual(8, doc.range.fields.count)
 
@@ -2225,18 +2225,18 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldCitation
-        #ExFor:FieldCitation.AnotherSourceTag
-        #ExFor:FieldCitation.FormatLanguageId
-        #ExFor:FieldCitation.PageNumber
-        #ExFor:FieldCitation.Prefix
-        #ExFor:FieldCitation.SourceTag
-        #ExFor:FieldCitation.Suffix
-        #ExFor:FieldCitation.SuppressAuthor
-        #ExFor:FieldCitation.SuppressTitle
-        #ExFor:FieldCitation.SuppressYear
-        #ExFor:FieldCitation.VolumeNumber
+        #ExFor:FieldCitation.another_source_tag
+        #ExFor:FieldCitation.format_language_id
+        #ExFor:FieldCitation.page_number
+        #ExFor:FieldCitation.prefix
+        #ExFor:FieldCitation.source_tag
+        #ExFor:FieldCitation.suffix
+        #ExFor:FieldCitation.suppress_author
+        #ExFor:FieldCitation.suppress_title
+        #ExFor:FieldCitation.suppress_year
+        #ExFor:FieldCitation.volume_number
         #ExFor:FieldBibliography
-        #ExFor:FieldBibliography.FormatLanguageId
+        #ExFor:FieldBibliography.format_language_id
         #ExSummary:Shows how to work with CITATION and BIBLIOGRAPHY fields.
         # Open a document containing bibliographical sources that we can find in
         # Microsoft Word via References -> Citations & Bibliography -> Manage Sources.
@@ -2350,10 +2350,10 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldInclude
-        #ExFor:FieldInclude.BookmarkName
-        #ExFor:FieldInclude.LockFields
-        #ExFor:FieldInclude.SourceFullName
-        #ExFor:FieldInclude.TextConverter
+        #ExFor:FieldInclude.bookmark_name
+        #ExFor:FieldInclude.lock_fields
+        #ExFor:FieldInclude.source_full_name
+        #ExFor:FieldInclude.text_converter
         #ExSummary:Shows how to create an INCLUDE field, and set its properties.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -2388,15 +2388,15 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldIncludePicture
-        #ExFor:FieldIncludePicture.GraphicFilter
-        #ExFor:FieldIncludePicture.IsLinked
-        #ExFor:FieldIncludePicture.ResizeHorizontally
-        #ExFor:FieldIncludePicture.ResizeVertically
-        #ExFor:FieldIncludePicture.SourceFullName
+        #ExFor:FieldIncludePicture.graphic_filter
+        #ExFor:FieldIncludePicture.is_linked
+        #ExFor:FieldIncludePicture.resize_horizontally
+        #ExFor:FieldIncludePicture.resize_vertically
+        #ExFor:FieldIncludePicture.source_full_name
         #ExFor:FieldImport
-        #ExFor:FieldImport.GraphicFilter
-        #ExFor:FieldImport.IsLinked
-        #ExFor:FieldImport.SourceFullName
+        #ExFor:FieldImport.graphic_filter
+        #ExFor:FieldImport.is_linked
+        #ExFor:FieldImport.source_full_name
         #ExSummary:Shows how to insert images using IMPORT and INCLUDEPICTURE fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -2456,15 +2456,15 @@ class ExField(ApiExampleBase):
 
     #ExStart
     #ExFor:FieldIncludeText
-    #ExFor:FieldIncludeText.BookmarkName
-    #ExFor:FieldIncludeText.Encoding
-    #ExFor:FieldIncludeText.LockFields
-    #ExFor:FieldIncludeText.MimeType
-    #ExFor:FieldIncludeText.NamespaceMappings
-    #ExFor:FieldIncludeText.SourceFullName
-    #ExFor:FieldIncludeText.TextConverter
-    #ExFor:FieldIncludeText.XPath
-    #ExFor:FieldIncludeText.XslTransformation
+    #ExFor:FieldIncludeText.bookmark_name
+    #ExFor:FieldIncludeText.encoding
+    #ExFor:FieldIncludeText.lock_fields
+    #ExFor:FieldIncludeText.mime_type
+    #ExFor:FieldIncludeText.namespace_mappings
+    #ExFor:FieldIncludeText.source_full_name
+    #ExFor:FieldIncludeText.text_converter
+    #ExFor:FieldIncludeText.xpath
+    #ExFor:FieldIncludeText.xsl_transformation
     #ExSummary:Shows how to create an INCLUDETEXT field, and set its properties.
     @unittest.skip("WORDSNET-17543") #ExSkip
     def test_field_include_text(self):
@@ -2574,12 +2574,12 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldHyperlink
-        #ExFor:FieldHyperlink.Address
-        #ExFor:FieldHyperlink.IsImageMap
-        #ExFor:FieldHyperlink.OpenInNewWindow
-        #ExFor:FieldHyperlink.ScreenTip
-        #ExFor:FieldHyperlink.SubAddress
-        #ExFor:FieldHyperlink.Target
+        #ExFor:FieldHyperlink.address
+        #ExFor:FieldHyperlink.is_image_map
+        #ExFor:FieldHyperlink.open_in_new_window
+        #ExFor:FieldHyperlink.screen_tip
+        #ExFor:FieldHyperlink.sub_address
+        #ExFor:FieldHyperlink.target
         #ExSummary:Shows how to use HYPERLINK fields to link to documents in the local file system.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -2629,16 +2629,16 @@ class ExField(ApiExampleBase):
 
     ##ExStart
     ##ExFor:MergeFieldImageDimension
-    ##ExFor:MergeFieldImageDimension.#ctor
-    ##ExFor:MergeFieldImageDimension.#ctor(Double)
-    ##ExFor:MergeFieldImageDimension.#ctor(Double,MergeFieldImageDimensionUnit)
-    ##ExFor:MergeFieldImageDimension.Unit
-    ##ExFor:MergeFieldImageDimension.Value
+    ##ExFor:MergeFieldImageDimension.__init__
+    ##ExFor:MergeFieldImageDimension.__init__(float)
+    ##ExFor:MergeFieldImageDimension.__init__(float,MergeFieldImageDimensionUnit)
+    ##ExFor:MergeFieldImageDimension.unit
+    ##ExFor:MergeFieldImageDimension.value
     ##ExFor:MergeFieldImageDimensionUnit
     ##ExFor:ImageFieldMergingArgs
-    ##ExFor:ImageFieldMergingArgs.ImageFileName
-    ##ExFor:ImageFieldMergingArgs.ImageWidth
-    ##ExFor:ImageFieldMergingArgs.ImageHeight
+    ##ExFor:ImageFieldMergingArgs.image_file_name
+    ##ExFor:ImageFieldMergingArgs.image_width
+    ##ExFor:ImageFieldMergingArgs.image_height
     ##ExSummary:Shows how to set the dimensions of images as MERGEFIELDS accepts them during a mail merge.
     #def test_merge_field_image_dimension(self):
 
@@ -2719,7 +2719,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(200.0, shape.height)
 
     ##ExStart
-    ##ExFor:ImageFieldMergingArgs.Image
+    ##ExFor:ImageFieldMergingArgs.image
     ##ExSummary:Shows how to use a callback to customize image merging logic.
     #def test_merge_field_images(self):
 
@@ -2797,11 +2797,11 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldIndex
-        #ExFor:FieldIndex.BookmarkName
-        #ExFor:FieldIndex.EntryType
+        #ExFor:FieldIndex.bookmark_name
+        #ExFor:FieldIndex.entry_type
         #ExFor:FieldXE
-        #ExFor:FieldXE.EntryType
-        #ExFor:FieldXE.Text
+        #ExFor:FieldXE.entry_type
+        #ExFor:FieldXE.text
         #ExSummary:Shows how to create an INDEX field, and then use XE fields to populate it with entries.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -2822,7 +2822,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(" INDEX  \\b MainBookmark \\f A", index.get_field_code())
 
         # On a new page, start the bookmark with a name that matches the value
-        # of the INDEX field's "BookmarkName" property.
+        # of the INDEX field's "bookmark_name" property.
         builder.insert_break(aw.BreakType.PAGE_BREAK)
         builder.start_bookmark("MainBookmark")
 
@@ -2883,14 +2883,14 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldIndex
-        #ExFor:FieldIndex.Heading
-        #ExFor:FieldIndex.NumberOfColumns
-        #ExFor:FieldIndex.LanguageId
-        #ExFor:FieldIndex.LetterRange
+        #ExFor:FieldIndex.heading
+        #ExFor:FieldIndex.number_of_columns
+        #ExFor:FieldIndex.language_id
+        #ExFor:FieldIndex.letter_range
         #ExFor:FieldXE
-        #ExFor:FieldXE.IsBold
-        #ExFor:FieldXE.IsItalic
-        #ExFor:FieldXE.Text
+        #ExFor:FieldXE.is_bold
+        #ExFor:FieldXE.is_italic
+        #ExFor:FieldXE.text
         #ExSummary:Shows how to populate an INDEX field with entries using XE fields, and also modify its appearance.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -2898,7 +2898,7 @@ class ExField(ApiExampleBase):
         # Create an INDEX field which will display an entry for each XE field found in the document.
         # Each entry will display the XE field's Text property value on the left side,
         # and the number of the page that contains the XE field on the right.
-        # If the XE fields have the same value in their "Text" property,
+        # If the XE fields have the same value in their "text" property,
         # the INDEX field will group them into one entry.
         index = builder.insert_field(aw.fields.FieldType.FIELD_INDEX, True).as_field_index()
         index.language_id = "1033" # en-US
@@ -3018,9 +3018,9 @@ class ExField(ApiExampleBase):
     def test_field_index_sequence(self):
 
         #ExStart
-        #ExFor:FieldIndex.HasSequenceName
-        #ExFor:FieldIndex.SequenceName
-        #ExFor:FieldIndex.SequenceSeparator
+        #ExFor:FieldIndex.has_sequence_name
+        #ExFor:FieldIndex.sequence_name
+        #ExFor:FieldIndex.sequence_separator
         #ExSummary:Shows how to split a document into portions by combining INDEX and SEQ fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -3038,7 +3038,7 @@ class ExField(ApiExampleBase):
 
         # Set text that will around the sequence and page numbers to explain their meaning to the user.
         # An entry created with this configuration will display something like "MySequence at 1 on page 1" at its page number.
-        # page_number_separator and sequence_separator cannot be longer than 15 characters.
+        # "page_number_separator" and "sequence_separator" cannot be longer than 15 characters.
         index.page_number_separator = "\tMySequence at "
         index.sequence_separator = " on page "
         self.assertTrue(index.has_sequence_name)
@@ -3071,7 +3071,7 @@ class ExField(ApiExampleBase):
         sequence_field = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
         sequence_field.sequence_identifier = "MySequence"
 
-        # Insert an XE field with the same Text property as the one above.
+        # Insert an XE field with the same "text" property as the one above.
         # The INDEX entry will group XE fields with matching values in the "text" property
         # into one entry as opposed to making an entry for each XE field.
         # Since we are on page 2 with "MySequence" at 3, ", 3 on page 3" will be appended to the same INDEX entry as above.
@@ -3079,7 +3079,7 @@ class ExField(ApiExampleBase):
         index_entry = builder.insert_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, True).as_field_xe()
         index_entry.text = "Cat"
 
-        # Insert an XE field with a new and unique Text property value.
+        # Insert an XE field with a new and unique "text" property value.
         # This will add a new entry, with MySequence at 3 on page 4.
         builder.insert_break(aw.BreakType.PAGE_BREAK)
         index_entry = builder.insert_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, True).as_field_xe()
@@ -3106,17 +3106,17 @@ class ExField(ApiExampleBase):
     def test_field_index_page_number_separator(self):
 
         #ExStart
-        #ExFor:FieldIndex.HasPageNumberSeparator
-        #ExFor:FieldIndex.PageNumberSeparator
-        #ExFor:FieldIndex.PageNumberListSeparator
+        #ExFor:FieldIndex.has_page_number_separator
+        #ExFor:FieldIndex.page_number_separator
+        #ExFor:FieldIndex.page_number_list_separator
         #ExSummary:Shows how to edit the page number separator in an INDEX field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # Create an INDEX field which will display an entry for each XE field found in the document.
-        # Each entry will display the XE field's Text property value on the left side,
+        # Each entry will display the XE field's "text" property value on the left side,
         # and the number of the page that contains the XE field on the right.
-        # The INDEX entry will group XE fields with matching values in the "Text" property
+        # The INDEX entry will group XE fields with matching values in the "text" property
         # into one entry as opposed to making an entry for each XE field.
         index = builder.insert_field(aw.fields.FieldType.FIELD_INDEX, True).as_field_index()
 
@@ -3160,17 +3160,17 @@ class ExField(ApiExampleBase):
     def test_field_index_page_range_bookmark(self):
 
         #ExStart
-        #ExFor:FieldIndex.PageRangeSeparator
-        #ExFor:FieldXE.HasPageRangeBookmarkName
-        #ExFor:FieldXE.PageRangeBookmarkName
+        #ExFor:FieldIndex.page_range_separator
+        #ExFor:FieldXE.has_page_range_bookmark_name
+        #ExFor:FieldXE.page_range_bookmark_name
         #ExSummary:Shows how to specify a bookmark's spanned pages as a page range for an INDEX field entry.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # Create an INDEX field which will display an entry for each XE field found in the document.
-        # Each entry will display the XE field's Text property value on the left side,
+        # Each entry will display the XE field's "text" property value on the left side,
         # and the number of the page that contains the XE field on the right.
-        # The INDEX entry will collect all XE fields with matching values in the "Text" property
+        # The INDEX entry will collect all XE fields with matching values in the "text" property
         # into one entry as opposed to making an entry for each XE field.
         index = builder.insert_field(aw.fields.FieldType.FIELD_INDEX, True).as_field_index()
 
@@ -3226,14 +3226,14 @@ class ExField(ApiExampleBase):
     def test_field_index_cross_reference_separator(self):
 
         #ExStart
-        #ExFor:FieldIndex.CrossReferenceSeparator
-        #ExFor:FieldXE.PageNumberReplacement
+        #ExFor:FieldIndex.cross_reference_separator
+        #ExFor:FieldXE.page_number_replacement
         #ExSummary:Shows how to define cross references in an INDEX field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # Create an INDEX field which will display an entry for each XE field found in the document.
-        # Each entry will display the XE field's Text property value on the left side,
+        # Each entry will display the XE field's "text" property value on the left side,
         # and the number of the page that contains the XE field on the right.
         # The INDEX entry will collect all XE fields with matching values in the "text" property
         # into one entry as opposed to making an entry for each XE field.
@@ -3241,7 +3241,7 @@ class ExField(ApiExampleBase):
 
         # We can configure an XE field to get its INDEX entry to display a string instead of a page number.
         # First, for entries that substitute a page number with a string,
-        # specify a custom separator between the XE field's Text property value and the string.
+        # specify a custom separator between the XE field's "text" property value and the string.
         index.cross_reference_separator = ", see: "
 
         self.assertEqual(" INDEX  \\k \", see: \"", index.get_field_code())
@@ -3255,7 +3255,7 @@ class ExField(ApiExampleBase):
 
         self.assertEqual(" XE  Apple", index_entry.get_field_code())
 
-        # Insert another XE field on page 3 and set a value for the page_number_replacement property.
+        # Insert another XE field on page 3 and set a value for the "page_number_replacement" property.
         # This value will show up instead of the number of the page that this field is on,
         # and the INDEX field's CrossReferenceSeparator value will appear in front of it.
         # The entry for this XE field will display "Banana, see: Tropical fruit".
@@ -3296,13 +3296,13 @@ class ExField(ApiExampleBase):
         for run_subentries_on_the_same_line in (True, False):
             with self.subTest(run_subentries_on_the_same_line=run_subentries_on_the_same_line):
                 #ExStart
-                #ExFor:FieldIndex.RunSubentriesOnSameLine
+                #ExFor:FieldIndex.run_subentries_on_same_line
                 #ExSummary:Shows how to work with subentries in an INDEX field.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
 
                 # Create an INDEX field which will display an entry for each XE field found in the document.
-                # Each entry will display the XE field's Text property value on the left side,
+                # Each entry will display the XE field's "text" property value on the left side,
                 # and the number of the page that contains the XE field on the right.
                 # The INDEX entry will collect all XE fields with matching values in the "text" property
                 # into one entry as opposed to making an entry for each XE field.
@@ -3310,15 +3310,15 @@ class ExField(ApiExampleBase):
                 index.page_number_separator = ", see page "
                 index.heading = "A"
 
-                # XE fields that have a Text property whose value becomes the heading of the INDEX entry.
+                # XE fields that have a "text" property whose value becomes the heading of the INDEX entry.
                 # If this value contains two string segments split by a colon (the INDEX entry will treat :) delimiter,
                 # the first segment is heading, and the second segment will become the subheading.
                 # The INDEX field first groups entries alphabetically, then, if there are multiple XE fields with the same
                 # headings, the INDEX field will further subgroup them by the values of these headings.
                 # There can be multiple subgrouping layers, depending on how many times
-                # the Text properties of XE fields get segmented like this.
+                # the "text" properties of XE fields get segmented like this.
                 # By default, an INDEX field entry group will create a new line for every subheading within this group.
-                # We can set the RunSubentriesOnSameLine flag to true to keep the heading,
+                # We can set the "run_subentries_on_same_line" flag to "True" to keep the heading,
                 # and every subheading for the group on one line instead, which will make the INDEX field more compact.
                 index.run_subentries_on_same_line = run_subentries_on_the_same_line
 
@@ -3329,9 +3329,9 @@ class ExField(ApiExampleBase):
 
                 # Insert two XE fields, each on a new page, and with the same heading named "Heading 1",
                 # which the INDEX field will use to group them.
-                # If run_subentries_on_same_line is false, then the INDEX table will create three lines:
+                # If "run_subentries_on_same_line" is "False", then the INDEX table will create three lines:
                 # one line for the grouping heading "Heading 1", and one more line for each subheading.
-                # If run_subentries_on_same_line is true, then the INDEX table will create a one-line
+                # If "run_subentries_on_same_line" is "True", then the INDEX table will create a one-line
                 # entry that encompasses the heading and every subheading.
                 builder.insert_break(aw.BreakType.PAGE_BREAK)
                 index_entry = builder.insert_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, True).as_field_xe()
@@ -3355,9 +3355,7 @@ class ExField(ApiExampleBase):
                         "H\r" +
                         "Heading 1: Subheading 1, see page 2; Subheading 2, see page 3\r", index)
                     self.assertTrue(index.run_subentries_on_same_line)
-
                 else:
-
                     TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX, " INDEX  \\e \", see page \" \\h A",
                         "H\r" +
                         "Heading 1\r" +
@@ -3381,20 +3379,20 @@ class ExField(ApiExampleBase):
         for sort_entries_using_yomi in (True, False):
             with self.subTest(sort_entries_using_yomi=sort_entries_using_yomi):
                 #ExStart
-                #ExFor:FieldIndex.UseYomi
-                #ExFor:FieldXE.Yomi
+                #ExFor:FieldIndex.use_yomi
+                #ExFor:FieldXE.yomi
                 #ExSummary:Shows how to sort INDEX field entries phonetically.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
 
                 # Create an INDEX field which will display an entry for each XE field found in the document.
-                # Each entry will display the XE field's Text property value on the left side,
+                # Each entry will display the XE field's "text" property value on the left side,
                 # and the number of the page that contains the XE field on the right.
                 # The INDEX entry will collect all XE fields with matching values in the "text" property
                 # into one entry as opposed to making an entry for each XE field.
                 index = builder.insert_field(aw.fields.FieldType.FIELD_INDEX, True).as_field_index()
 
-                # The INDEX table automatically sorts its entries by the values of their Text properties in alphabetic order.
+                # The INDEX table automatically sorts its entries by the values of their "text" properties in alphabetic order.
                 # Set the INDEX table to sort entries phonetically using Hiragana instead.
                 index.use_yomi = sort_entries_using_yomi
 
@@ -3404,10 +3402,10 @@ class ExField(ApiExampleBase):
                     self.assertEqual(" INDEX ", index.get_field_code())
 
                 # Insert 4 XE fields, which would show up as entries in the INDEX field's table of contents.
-                # The "Text" property may contain a word's spelling in Kanji, whose pronunciation may be ambiguous,
+                # The "text" property may contain a word's spelling in Kanji, whose pronunciation may be ambiguous,
                 # while the "Yomi" version of the word will spell exactly how it is pronounced using Hiragana.
                 # If we set our INDEX field to use Yomi, it will sort these entries
-                # by the value of their Yomi properties, instead of their Text values.
+                # by the value of their "yomi" properties, instead of their "text" values.
                 builder.insert_break(aw.BreakType.PAGE_BREAK)
                 index_entry = builder.insert_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, True).as_field_xe()
                 index_entry.text = "愛子"
@@ -3441,16 +3439,16 @@ class ExField(ApiExampleBase):
                     self.assertTrue(index.use_yomi)
                     self.assertEqual(" INDEX  \\y", index.get_field_code())
                     self.assertEqual("愛子, 2\r" +
-                                    "明美, 3\r" +
-                                    "恵美, 4\r" +
-                                    "愛美, 5\r", index.result)
+                                     "明美, 3\r" +
+                                     "恵美, 4\r" +
+                                     "愛美, 5\r", index.result)
                 else:
                     self.assertFalse(index.use_yomi)
                     self.assertEqual(" INDEX ", index.get_field_code())
                     self.assertEqual("恵美, 4\r" +
-                                    "愛子, 2\r" +
-                                    "愛美, 5\r" +
-                                    "明美, 3\r", index.result)
+                                     "愛子, 2\r" +
+                                     "愛美, 5\r" +
+                                     "明美, 3\r", index.result)
 
                 index_entry = doc.range.fields[1].as_field_xe()
 
@@ -3480,10 +3478,10 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldBarcode
-        #ExFor:FieldBarcode.FacingIdentificationMark
-        #ExFor:FieldBarcode.IsBookmark
-        #ExFor:FieldBarcode.IsUSPostalAddress
-        #ExFor:FieldBarcode.PostalAddress
+        #ExFor:FieldBarcode.facing_identification_mark
+        #ExFor:FieldBarcode.is_bookmark
+        #ExFor:FieldBarcode.is_us_postal_address
+        #ExFor:FieldBarcode.postal_address
         #ExSummary:Shows how to use the BARCODE field to display U.S. ZIP codes in the form of a barcode.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -3510,7 +3508,7 @@ class ExField(ApiExampleBase):
 
         self.assertEqual(" BARCODE  BarcodeBookmark \\b", field.get_field_code())
 
-        # The bookmark that the BARCODE field references in its postal_address property
+        # The bookmark that the BARCODE field references in its "postal_address" property
         # need to contain nothing besides the valid ZIP code.
         builder.insert_break(aw.BreakType.PAGE_BREAK)
         builder.start_bookmark("BarcodeBookmark")
@@ -3541,19 +3539,19 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldDisplayBarcode
-        #ExFor:FieldDisplayBarcode.AddStartStopChar
-        #ExFor:FieldDisplayBarcode.BackgroundColor
-        #ExFor:FieldDisplayBarcode.BarcodeType
-        #ExFor:FieldDisplayBarcode.BarcodeValue
-        #ExFor:FieldDisplayBarcode.CaseCodeStyle
-        #ExFor:FieldDisplayBarcode.DisplayText
-        #ExFor:FieldDisplayBarcode.ErrorCorrectionLevel
-        #ExFor:FieldDisplayBarcode.FixCheckDigit
-        #ExFor:FieldDisplayBarcode.ForegroundColor
-        #ExFor:FieldDisplayBarcode.PosCodeStyle
-        #ExFor:FieldDisplayBarcode.ScalingFactor
-        #ExFor:FieldDisplayBarcode.SymbolHeight
-        #ExFor:FieldDisplayBarcode.SymbolRotation
+        #ExFor:FieldDisplayBarcode.add_start_stop_char
+        #ExFor:FieldDisplayBarcode.background_color
+        #ExFor:FieldDisplayBarcode.barcode_type
+        #ExFor:FieldDisplayBarcode.barcode_value
+        #ExFor:FieldDisplayBarcode.case_code_style
+        #ExFor:FieldDisplayBarcode.display_text
+        #ExFor:FieldDisplayBarcode.error_correction_level
+        #ExFor:FieldDisplayBarcode.fix_check_digit
+        #ExFor:FieldDisplayBarcode.foreground_color
+        #ExFor:FieldDisplayBarcode.pos_code_style
+        #ExFor:FieldDisplayBarcode.scaling_factor
+        #ExFor:FieldDisplayBarcode.symbol_height
+        #ExFor:FieldDisplayBarcode.symbol_rotation
         #ExSummary:Shows how to insert a DISPLAYBARCODE field, and set its properties.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -3649,14 +3647,14 @@ class ExField(ApiExampleBase):
     #    #ExStart
     #    #ExFor:FieldDisplayBarcode
     #    #ExFor:FieldMergeBarcode
-    #    #ExFor:FieldMergeBarcode.BackgroundColor
-    #    #ExFor:FieldMergeBarcode.BarcodeType
-    #    #ExFor:FieldMergeBarcode.BarcodeValue
-    #    #ExFor:FieldMergeBarcode.ErrorCorrectionLevel
-    #    #ExFor:FieldMergeBarcode.ForegroundColor
-    #    #ExFor:FieldMergeBarcode.ScalingFactor
-    #    #ExFor:FieldMergeBarcode.SymbolHeight
-    #    #ExFor:FieldMergeBarcode.SymbolRotation
+    #    #ExFor:FieldMergeBarcode.background_color
+    #    #ExFor:FieldMergeBarcode.barcode_type
+    #    #ExFor:FieldMergeBarcode.barcode_value
+    #    #ExFor:FieldMergeBarcode.error_correction_level
+    #    #ExFor:FieldMergeBarcode.foreground_color
+    #    #ExFor:FieldMergeBarcode.scaling_factor
+    #    #ExFor:FieldMergeBarcode.symbol_height
+    #    #ExFor:FieldMergeBarcode.symbol_rotation
     #    #ExSummary:Shows how to perform a mail merge on QR barcodes.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -3722,11 +3720,11 @@ class ExField(ApiExampleBase):
 
     #    #ExStart
     #    #ExFor:FieldMergeBarcode
-    #    #ExFor:FieldMergeBarcode.BarcodeType
-    #    #ExFor:FieldMergeBarcode.BarcodeValue
-    #    #ExFor:FieldMergeBarcode.DisplayText
-    #    #ExFor:FieldMergeBarcode.FixCheckDigit
-    #    #ExFor:FieldMergeBarcode.PosCodeStyle
+    #    #ExFor:FieldMergeBarcode.barcode_type
+    #    #ExFor:FieldMergeBarcode.barcode_value
+    #    #ExFor:FieldMergeBarcode.display_text
+    #    #ExFor:FieldMergeBarcode.fix_check_digit
+    #    #ExFor:FieldMergeBarcode.pos_code_style
     #    #ExSummary:Shows how to perform a mail merge on EAN13 barcodes.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -3786,8 +3784,8 @@ class ExField(ApiExampleBase):
 
     #    #ExStart
     #    #ExFor:FieldMergeBarcode
-    #    #ExFor:FieldMergeBarcode.AddStartStopChar
-    #    #ExFor:FieldMergeBarcode.BarcodeType
+    #    #ExFor:FieldMergeBarcode.add_start_stop_char
+    #    #ExFor:FieldMergeBarcode.barcode_type
     #    #ExSummary:Shows how to perform a mail merge on CODE39 barcodes.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -3845,8 +3843,8 @@ class ExField(ApiExampleBase):
 
     #    #ExStart
     #    #ExFor:FieldMergeBarcode
-    #    #ExFor:FieldMergeBarcode.BarcodeType
-    #    #ExFor:FieldMergeBarcode.CaseCodeStyle
+    #    #ExFor:FieldMergeBarcode.barcode_type
+    #    #ExFor:FieldMergeBarcode.case_code_style
     #    #ExSummary:Shows how to perform a mail merge on ITF14 barcodes.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -3899,41 +3897,41 @@ class ExField(ApiExampleBase):
 
     #ExStart
     #ExFor:FieldLink
-    #ExFor:FieldLink.AutoUpdate
-    #ExFor:FieldLink.FormatUpdateType
-    #ExFor:FieldLink.InsertAsBitmap
-    #ExFor:FieldLink.InsertAsHtml
-    #ExFor:FieldLink.InsertAsPicture
-    #ExFor:FieldLink.InsertAsRtf
-    #ExFor:FieldLink.InsertAsText
-    #ExFor:FieldLink.InsertAsUnicode
-    #ExFor:FieldLink.IsLinked
-    #ExFor:FieldLink.ProgId
-    #ExFor:FieldLink.SourceFullName
-    #ExFor:FieldLink.SourceItem
+    #ExFor:FieldLink.auto_update
+    #ExFor:FieldLink.format_update_type
+    #ExFor:FieldLink.insert_as_bitmap
+    #ExFor:FieldLink.insert_as_html
+    #ExFor:FieldLink.insert_as_picture
+    #ExFor:FieldLink.insert_as_rtf
+    #ExFor:FieldLink.insert_as_text
+    #ExFor:FieldLink.insert_as_unicode
+    #ExFor:FieldLink.is_linked
+    #ExFor:FieldLink.prog_id
+    #ExFor:FieldLink.source_full_name
+    #ExFor:FieldLink.source_item
     #ExFor:FieldDde
-    #ExFor:FieldDde.AutoUpdate
-    #ExFor:FieldDde.InsertAsBitmap
-    #ExFor:FieldDde.InsertAsHtml
-    #ExFor:FieldDde.InsertAsPicture
-    #ExFor:FieldDde.InsertAsRtf
-    #ExFor:FieldDde.InsertAsText
-    #ExFor:FieldDde.InsertAsUnicode
-    #ExFor:FieldDde.IsLinked
-    #ExFor:FieldDde.ProgId
-    #ExFor:FieldDde.SourceFullName
-    #ExFor:FieldDde.SourceItem
+    #ExFor:FieldDde.auto_update
+    #ExFor:FieldDde.insert_as_bitmap
+    #ExFor:FieldDde.insert_as_html
+    #ExFor:FieldDde.insert_as_picture
+    #ExFor:FieldDde.insert_as_rtf
+    #ExFor:FieldDde.insert_as_text
+    #ExFor:FieldDde.insert_as_unicode
+    #ExFor:FieldDde.is_linked
+    #ExFor:FieldDde.prog_id
+    #ExFor:FieldDde.source_full_name
+    #ExFor:FieldDde.source_item
     #ExFor:FieldDdeAuto
-    #ExFor:FieldDdeAuto.InsertAsBitmap
-    #ExFor:FieldDdeAuto.InsertAsHtml
-    #ExFor:FieldDdeAuto.InsertAsPicture
-    #ExFor:FieldDdeAuto.InsertAsRtf
-    #ExFor:FieldDdeAuto.InsertAsText
-    #ExFor:FieldDdeAuto.InsertAsUnicode
-    #ExFor:FieldDdeAuto.IsLinked
-    #ExFor:FieldDdeAuto.ProgId
-    #ExFor:FieldDdeAuto.SourceFullName
-    #ExFor:FieldDdeAuto.SourceItem
+    #ExFor:FieldDdeAuto.insert_as_bitmap
+    #ExFor:FieldDdeAuto.insert_as_html
+    #ExFor:FieldDdeAuto.insert_as_picture
+    #ExFor:FieldDdeAuto.insert_as_rtf
+    #ExFor:FieldDdeAuto.insert_as_text
+    #ExFor:FieldDdeAuto.insert_as_unicode
+    #ExFor:FieldDdeAuto.is_linked
+    #ExFor:FieldDdeAuto.prog_id
+    #ExFor:FieldDdeAuto.source_full_name
+    #ExFor:FieldDdeAuto.source_item
     #ExSummary:Shows how to use various field types to link to other documents in the local file system, and display their contents.
     @unittest.skip("WORDSNET-16226") #ExSkip
     def test_field_linked_objects_as_text(self):
@@ -4104,7 +4102,7 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldUserAddress
-        #ExFor:FieldUserAddress.UserAddress
+        #ExFor:FieldUserAddress.user_address
         #ExSummary:Shows how to use the USERADDRESS field.
         doc = aw.Document()
 
@@ -4147,7 +4145,7 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldUserInitials
-        #ExFor:FieldUserInitials.UserInitials
+        #ExFor:FieldUserInitials.user_initials
         #ExSummary:Shows how to use the USERINITIALS field.
         doc = aw.Document()
 
@@ -4190,7 +4188,7 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldUserName
-        #ExFor:FieldUserName.UserName
+        #ExFor:FieldUserName.user_name
         #ExSummary:Shows how to use the USERNAME field.
         doc = aw.Document()
 
@@ -4235,13 +4233,13 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldStyleRef
-        #ExFor:FieldStyleRef.InsertParagraphNumber
-        #ExFor:FieldStyleRef.InsertParagraphNumberInFullContext
-        #ExFor:FieldStyleRef.InsertParagraphNumberInRelativeContext
-        #ExFor:FieldStyleRef.InsertRelativePosition
-        #ExFor:FieldStyleRef.SearchFromBottom
-        #ExFor:FieldStyleRef.StyleName
-        #ExFor:FieldStyleRef.SuppressNonDelimiters
+        #ExFor:FieldStyleRef.insert_paragraph_number
+        #ExFor:FieldStyleRef.insert_paragraph_number_in_full_context
+        #ExFor:FieldStyleRef.insert_paragraph_number_in_relative_context
+        #ExFor:FieldStyleRef.insert_relative_position
+        #ExFor:FieldStyleRef.search_from_bottom
+        #ExFor:FieldStyleRef.style_name
+        #ExFor:FieldStyleRef.suppress_non_delimiters
         #ExSummary:Shows how to use STYLEREF fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -4347,10 +4345,10 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldDate
-        #ExFor:FieldDate.UseLunarCalendar
-        #ExFor:FieldDate.UseSakaEraCalendar
-        #ExFor:FieldDate.UseUmAlQuraCalendar
-        #ExFor:FieldDate.UseLastFormat
+        #ExFor:FieldDate.use_lunar_calendar
+        #ExFor:FieldDate.use_saka_era_calendar
+        #ExFor:FieldDate.use_um_al_qura_calendar
+        #ExFor:FieldDate.use_last_format
         #ExSummary:Shows how to use DATE fields to display dates according to different kinds of calendars.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -4415,9 +4413,9 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldCreateDate
-        #ExFor:FieldCreateDate.UseLunarCalendar
-        #ExFor:FieldCreateDate.UseSakaEraCalendar
-        #ExFor:FieldCreateDate.UseUmAlQuraCalendar
+        #ExFor:FieldCreateDate.use_lunar_calendar
+        #ExFor:FieldCreateDate.use_saka_era_calendar
+        #ExFor:FieldCreateDate.use_um_al_qura_calendar
         #ExSummary:Shows how to use the CREATEDATE field to display the creation date/time of the document.
         doc = aw.Document(MY_DIR + "Document.docx")
         builder = aw.DocumentBuilder(doc)
@@ -4477,11 +4475,11 @@ class ExField(ApiExampleBase):
     def test_field_save_date(self):
 
         #ExStart
-        #ExFor:BuiltInDocumentProperties.LastSavedTime
+        #ExFor:BuiltInDocumentProperties.last_saved_time
         #ExFor:FieldSaveDate
-        #ExFor:FieldSaveDate.UseLunarCalendar
-        #ExFor:FieldSaveDate.UseSakaEraCalendar
-        #ExFor:FieldSaveDate.UseUmAlQuraCalendar
+        #ExFor:FieldSaveDate.use_lunar_calendar
+        #ExFor:FieldSaveDate.use_saka_era_calendar
+        #ExFor:FieldSaveDate.use_um_al_qura_calendar
         #ExSummary:Shows how to use the SAVEDATE field to display the date/time of the document's most recent save operation performed using Microsoft Word.
         doc = aw.Document(MY_DIR + "Document.docx")
         builder = aw.DocumentBuilder(doc)
@@ -4490,7 +4488,7 @@ class ExField(ApiExampleBase):
 
         # We can use the SAVEDATE field to display the last save operation's date and time on the document.
         # The save operation that these fields refer to is the manual save in an application like Microsoft Word,
-        # not the document's Save method.
+        # not the document's "save" method.
         # Below are three different calendar types according to which the SAVEDATE field can display the date/time.
         # 1 -  Islamic Lunar Calendar:
         builder.write("According to the Lunar Calendar - ")
@@ -4513,7 +4511,7 @@ class ExField(ApiExampleBase):
 
         self.assertEqual(" SAVEDATE  \\s", field.get_field_code())
 
-        # The SAVEDATE fields draw their date/time values from the LastSavedTime built-in property.
+        # The SAVEDATE fields draw their date/time values from the "last_saved_time" built-in property.
         # The document's Save method will not update this value, but we can still update it manually.
         doc.built_in_document_properties.last_saved_time = datetime.now()
 
@@ -4544,20 +4542,20 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldBuilder
-        #ExFor:FieldBuilder.AddArgument(Int32)
-        #ExFor:FieldBuilder.AddArgument(FieldArgumentBuilder)
-        #ExFor:FieldBuilder.AddArgument(String)
-        #ExFor:FieldBuilder.AddArgument(Double)
-        #ExFor:FieldBuilder.AddArgument(FieldBuilder)
-        #ExFor:FieldBuilder.AddSwitch(String)
-        #ExFor:FieldBuilder.AddSwitch(String, Double)
-        #ExFor:FieldBuilder.AddSwitch(String, Int32)
-        #ExFor:FieldBuilder.AddSwitch(String, String)
-        #ExFor:FieldBuilder.BuildAndInsert(Paragraph)
+        #ExFor:FieldBuilder.add_argument(int)
+        #ExFor:FieldBuilder.add_argument(FieldArgumentBuilder)
+        #ExFor:FieldBuilder.add_argument(str)
+        #ExFor:FieldBuilder.add_argument(float)
+        #ExFor:FieldBuilder.add_argument(FieldBuilder)
+        #ExFor:FieldBuilder.add_switch(str)
+        #ExFor:FieldBuilder.add_switch(str,float)
+        #ExFor:FieldBuilder.add_switch(str,int)
+        #ExFor:FieldBuilder.add_switch(str,str)
+        #ExFor:FieldBuilder.build_and_insert(Paragraph)
         #ExFor:FieldArgumentBuilder
-        #ExFor:FieldArgumentBuilder.AddField(FieldBuilder)
-        #ExFor:FieldArgumentBuilder.AddText(String)
-        #ExFor:FieldArgumentBuilder.AddNode(Inline)
+        #ExFor:FieldArgumentBuilder.add_field(FieldBuilder)
+        #ExFor:FieldArgumentBuilder.add_text(str)
+        #ExFor:FieldArgumentBuilder.add_node(Inline)
         #ExSummary:Shows how to construct fields using a field builder, and then insert them into the document.
         doc = aw.Document()
 
@@ -4676,13 +4674,13 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldAuthor
-        #ExFor:FieldAuthor.AuthorName
-        #ExFor:FieldOptions.DefaultDocumentAuthor
+        #ExFor:FieldAuthor.author_name
+        #ExFor:FieldOptions.default_document_author
         #ExSummary:Shows how to use an AUTHOR field to display a document creator's name.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # AUTHOR fields source their results from the built-in document property called "Author".
+        # AUTHOR fields source their results from the built-in document property called "author".
         # If we create and save a document in Microsoft Word,
         # it will have our username in that property.
         # However, if we create a document programmatically using Aspose.Words,
@@ -4701,7 +4699,7 @@ class ExField(ApiExampleBase):
         self.assertEqual("Joe Bloggs", field.result)
 
         # Updating an AUTHOR field that contains a value
-        # will apply that value to the "Author" built-in property.
+        # will apply that value to the "author" built-in property.
         self.assertEqual("Joe Bloggs", doc.built_in_document_properties.author)
 
         # Changing this property, then updating the AUTHOR field will apply this value to the field.
@@ -4719,7 +4717,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(" AUTHOR  \"Jane Doe\"", field.get_field_code())
         self.assertEqual("Jane Doe", field.result)
 
-        # AUTHOR fields do not affect the DefaultDocumentAuthor property.
+        # AUTHOR fields do not affect the "default_document_author" property.
         self.assertEqual("Jane Doe", doc.built_in_document_properties.author)
         self.assertEqual("Joe Bloggs", doc.field_options.default_document_author)
 
@@ -4741,14 +4739,14 @@ class ExField(ApiExampleBase):
         #ExStart
         #ExFor:FieldDocProperty
         #ExFor:FieldDocVariable
-        #ExFor:FieldDocVariable.VariableName
+        #ExFor:FieldDocVariable.variable_name
         #ExSummary:Shows how to use DOCPROPERTY fields to display document properties and variables.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # Below are two ways of using DOCPROPERTY fields.
         # 1 -  Display a built-in property:
-        # Set a custom value for the "Category" built-in property, then insert a DOCPROPERTY field that references it.
+        # Set a custom value for the "category" built-in property, then insert a DOCPROPERTY field that references it.
         doc.built_in_document_properties.category = "My category"
 
         field_doc_property = builder.insert_field(" DOCPROPERTY Category ").as_field_doc_property()
@@ -4791,7 +4789,7 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldSubject
-        #ExFor:FieldSubject.Text
+        #ExFor:FieldSubject.text
         #ExSummary:Shows how to use the SUBJECT field.
         doc = aw.Document()
 
@@ -4806,7 +4804,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(" SUBJECT ", field.get_field_code())
         self.assertEqual("My subject", field.result)
 
-        # If we give the SUBJECT field's Text property value and update it, the field will
+        # If we give the SUBJECT field's "text" property value and update it, the field will
         # overwrite the current value of the "subject" built-in property with the value of its Text property,
         # and then display the new value.
         field.text = "My new subject"
@@ -4833,12 +4831,12 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldComments
-        #ExFor:FieldComments.Text
+        #ExFor:FieldComments.text
         #ExSummary:Shows how to use the COMMENTS field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # Set a value for the document's "Comments" built-in property.
+        # Set a value for the document's "comments" built-in property.
         doc.built_in_document_properties.comments = "My comment."
 
         # Create a COMMENTS field to display the value of that built-in property.
@@ -4873,8 +4871,8 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldFileSize
-        #ExFor:FieldFileSize.IsInKilobytes
-        #ExFor:FieldFileSize.IsInMegabytes
+        #ExFor:FieldFileSize.is_in_kilobytes
+        #ExFor:FieldFileSize.is_in_megabytes
         #ExSummary:Shows how to display the file size of a document with a FILESIZE field.
         doc = aw.Document(MY_DIR + "Document.docx")
 
@@ -4939,8 +4937,8 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldGoToButton
-        #ExFor:FieldGoToButton.DisplayText
-        #ExFor:FieldGoToButton.Location
+        #ExFor:FieldGoToButton.display_text
+        #ExFor:FieldGoToButton.location
         #ExSummary:Shows to insert a GOTOBUTTON field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -4972,9 +4970,9 @@ class ExField(ApiExampleBase):
 
     ##ExStart
     ##ExFor:FieldFillIn
-    ##ExFor:FieldFillIn.DefaultResponse
-    ##ExFor:FieldFillIn.PromptOnceOnMailMerge
-    ##ExFor:FieldFillIn.PromptText
+    ##ExFor:FieldFillIn.default_response
+    ##ExFor:FieldFillIn.prompt_once_on_mail_merge
+    ##ExFor:FieldFillIn.prompt_text
     ##ExSummary:Shows how to use the FILLIN field to prompt the user for a response.
     #def test_field_fill_in(self):
 
@@ -5032,13 +5030,13 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldInfo
-        #ExFor:FieldInfo.InfoType
-        #ExFor:FieldInfo.NewValue
+        #ExFor:FieldInfo.info_type
+        #ExFor:FieldInfo.new_value
         #ExSummary:Shows how to work with INFO fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # Set a value for the "Comments" built-in property and then insert an INFO field to display that property's value.
+        # Set a value for the "comments" built-in property and then insert an INFO field to display that property's value.
         doc.built_in_document_properties.comments = "My comment"
         field = builder.insert_field(aw.fields.FieldType.FIELD_INFO, True).as_field_info()
         field.info_type = "Comments"
@@ -5049,7 +5047,7 @@ class ExField(ApiExampleBase):
 
         builder.writeln()
 
-        # Setting a value for the field's NewValue property and updating
+        # Setting a value for the field's "new_value" property and updating
         # the field will also overwrite the corresponding built-in property with the new value.
         field = builder.insert_field(aw.fields.FieldType.FIELD_INFO, True).as_field_info()
         field.info_type = "Comments"
@@ -5081,17 +5079,17 @@ class ExField(ApiExampleBase):
     def test_field_macro_button(self):
 
         #ExStart
-        #ExFor:Document.HasMacros
+        #ExFor:Document.has_macros
         #ExFor:FieldMacroButton
-        #ExFor:FieldMacroButton.DisplayText
-        #ExFor:FieldMacroButton.MacroName
+        #ExFor:FieldMacroButton.display_text
+        #ExFor:FieldMacroButton.macro_name
         #ExSummary:Shows how to use MACROBUTTON fields to allow us to run a document's macros by clicking.
         doc = aw.Document(MY_DIR + "Macro.docm")
         builder = aw.DocumentBuilder(doc)
 
         self.assertTrue(doc.has_macros)
 
-        # Insert a MACROBUTTON field, and reference one of the document's macros by name in the MacroName property.
+        # Insert a MACROBUTTON field, and reference one of the document's macros by name in the "macro_name" property.
         field = builder.insert_field(aw.fields.FieldType.FIELD_MACRO_BUTTON, True).as_field_macro_button()
         field.macro_name = "MyMacro"
         field.display_text = "Double click to run macro: " + field.macro_name
@@ -5132,7 +5130,7 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldKeywords
-        #ExFor:FieldKeywords.Text
+        #ExFor:FieldKeywords.text
         #ExSummary:Shows to insert a KEYWORDS field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -5147,7 +5145,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(" KEYWORDS ", field.get_field_code())
         self.assertEqual("Keyword1, Keyword2", field.result)
 
-        # Setting a value for the field's Text property,
+        # Setting a value for the field's "text" property,
         # and then updating the field will also overwrite the corresponding built-in property with the new value.
         field.text = "OverridingKeyword"
         field.update()
@@ -5223,8 +5221,8 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldPrint
-        #ExFor:FieldPrint.PostScriptGroup
-        #ExFor:FieldPrint.PrinterInstructions
+        #ExFor:FieldPrint.post_script_group
+        #ExFor:FieldPrint.printer_instructions
         #ExSummary:Shows to insert a PRINT field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -5239,7 +5237,7 @@ class ExField(ApiExampleBase):
         field.post_script_group = "para"
 
         # When we use a printer that supports PostScript to print our document,
-        # this command will turn the entire area that we specified in "field.post_script_group" white.
+        # this command will turn the entire area that we specified in "post_script_group" white.
         field.printer_instructions = "erasepage"
 
         self.assertEqual(" PRINT  erasepage \\p para", field.get_field_code())
@@ -5260,9 +5258,9 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldPrintDate
-        #ExFor:FieldPrintDate.UseLunarCalendar
-        #ExFor:FieldPrintDate.UseSakaEraCalendar
-        #ExFor:FieldPrintDate.UseUmAlQuraCalendar
+        #ExFor:FieldPrintDate.use_lunar_calendar
+        #ExFor:FieldPrintDate.use_saka_era_calendar
+        #ExFor:FieldPrintDate.use_um_al_qura_calendar
         #ExSummary:Shows read PRINTDATE fields.
         doc = aw.Document(MY_DIR + "Field sample - PRINTDATE.docx")
 
@@ -5302,8 +5300,8 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldQuote
-        #ExFor:FieldQuote.Text
-        #ExFor:Document.UpdateFields
+        #ExFor:FieldQuote.text
+        #ExFor:Document.update_fields
         #ExSummary:Shows to use the QUOTE field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -5343,9 +5341,9 @@ class ExField(ApiExampleBase):
     ##ExStart
     ##ExFor:FieldNext
     ##ExFor:FieldNextIf
-    ##ExFor:FieldNextIf.ComparisonOperator
-    ##ExFor:FieldNextIf.LeftExpression
-    ##ExFor:FieldNextIf.RightExpression
+    ##ExFor:FieldNextIf.comparison_operator
+    ##ExFor:FieldNextIf.left_expression
+    ##ExFor:FieldNextIf.right_expression
     ##ExSummary:Shows how to use NEXT/NEXTIF fields to merge multiple rows into one page during a mail merge.
     #def test_field_next(self):
 
@@ -5429,10 +5427,10 @@ class ExField(ApiExampleBase):
 
     #ExStart
     #ExFor:FieldNoteRef
-    #ExFor:FieldNoteRef.BookmarkName
-    #ExFor:FieldNoteRef.InsertHyperlink
-    #ExFor:FieldNoteRef.InsertReferenceMark
-    #ExFor:FieldNoteRef.InsertRelativePosition
+    #ExFor:FieldNoteRef.bookmark_name
+    #ExFor:FieldNoteRef.insert_hyperlink
+    #ExFor:FieldNoteRef.insert_reference_mark
+    #ExFor:FieldNoteRef.insert_relative_position
     #ExSummary:Shows to insert NOTEREF fields, and modify their appearance.
     @unittest.skip("WORDSNET-17845") #ExSkip
     def test_field_note_ref(self):
@@ -5444,7 +5442,7 @@ class ExField(ApiExampleBase):
         ExField.insert_bookmark_with_footnote(builder, "MyBookmark1", "Contents of MyBookmark1", "Footnote from MyBookmark1")
 
         # This NOTEREF field will display the number of the footnote inside the referenced bookmark.
-        # Setting the insert_hyperlink property lets us jump to the bookmark by Ctrl + clicking the field in Microsoft Word.
+        # Setting the "insert_hyperlink" property lets us jump to the bookmark by Ctrl + clicking the field in Microsoft Word.
         self.assertEqual(" NOTEREF  MyBookmark2 \\h",
             ExField.insert_field_note_ref(builder, "MyBookmark2", True, False, False, "Hyperlink to Bookmark2, with footnote number ").get_field_code())
 
@@ -5559,9 +5557,9 @@ class ExField(ApiExampleBase):
 
     #ExStart
     #ExFor:FieldPageRef
-    #ExFor:FieldPageRef.BookmarkName
-    #ExFor:FieldPageRef.InsertHyperlink
-    #ExFor:FieldPageRef.InsertRelativePosition
+    #ExFor:FieldPageRef.bookmark_name
+    #ExFor:FieldPageRef.insert_hyperlink
+    #ExFor:FieldPageRef.insert_relative_position
     #ExSummary:Shows to insert PAGEREF fields to display the relative location of bookmarks.
     @unittest.skip("WORDSNET-17836") #ExSkip
     def test_field_page_ref(self):
@@ -5654,15 +5652,15 @@ class ExField(ApiExampleBase):
 
     #ExStart
     #ExFor:FieldRef
-    #ExFor:FieldRef.BookmarkName
-    #ExFor:FieldRef.IncludeNoteOrComment
-    #ExFor:FieldRef.InsertHyperlink
-    #ExFor:FieldRef.InsertParagraphNumber
-    #ExFor:FieldRef.InsertParagraphNumberInFullContext
-    #ExFor:FieldRef.InsertParagraphNumberInRelativeContext
-    #ExFor:FieldRef.InsertRelativePosition
-    #ExFor:FieldRef.NumberSeparator
-    #ExFor:FieldRef.SuppressNonDelimiters
+    #ExFor:FieldRef.bookmark_name
+    #ExFor:FieldRef.include_note_or_comment
+    #ExFor:FieldRef.insert_hyperlink
+    #ExFor:FieldRef.insert_paragraph_number
+    #ExFor:FieldRef.insert_paragraph_number_in_full_context
+    #ExFor:FieldRef.insert_paragraph_number_in_relative_context
+    #ExFor:FieldRef.insert_relative_position
+    #ExFor:FieldRef.number_separator
+    #ExFor:FieldRef.suppress_non_delimiters
     #ExSummary:Shows how to insert REF fields to reference bookmarks.
     @unittest.skip("WORDSNET-18067") #ExSkip
     def test_field_ref(self):
@@ -5731,8 +5729,8 @@ class ExField(ApiExampleBase):
         builder.list_format.list_level.number_format = ">>> \x0002"
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.r_e_f.docx")
-        self._test_field_ref(aw.Document(ARTIFACTS_DIR + "Field.r_e_f.docx")) #ExSkip
+        doc.save(ARTIFACTS_DIR + "Field.ref.docx")
+        self._test_field_ref(aw.Document(ARTIFACTS_DIR + "Field.ref.docx")) #ExSkip
 
     @staticmethod
     def insert_field_ref(builder: aw.DocumentBuilder, bookmark_name: str, text_before: str, text_after: str) -> aw.fields.FieldRef:
@@ -5800,8 +5798,8 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldRD
-        #ExFor:FieldRD.FileName
-        #ExFor:FieldRD.IsPathRelative
+        #ExFor:FieldRD.file_name
+        #ExFor:FieldRD.is_path_relative
         #ExSummary:Shows to use the RD field to create a table of contents entries from headings in other documents.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -5854,9 +5852,9 @@ class ExField(ApiExampleBase):
 
     #    #ExStart
     #    #ExFor:FieldSkipIf
-    #    #ExFor:FieldSkipIf.ComparisonOperator
-    #    #ExFor:FieldSkipIf.LeftExpression
-    #    #ExFor:FieldSkipIf.RightExpression
+    #    #ExFor:FieldSkipIf.comparison_operator
+    #    #ExFor:FieldSkipIf.left_expression
+    #    #ExFor:FieldSkipIf.right_expression
     #    #ExSummary:Shows how to skip pages in a mail merge using the SKIPIF field.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -5906,10 +5904,10 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldRef
-        #ExFor:FieldRef.BookmarkName
+        #ExFor:FieldRef.bookmark_name
         #ExFor:FieldSet
-        #ExFor:FieldSet.BookmarkName
-        #ExFor:FieldSet.BookmarkText
+        #ExFor:FieldSet.bookmark_name
+        #ExFor:FieldSet.bookmark_text
         #ExSummary:Shows how to create bookmarked text with a SET field, and then display it in the document using a REF field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -5951,13 +5949,13 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldTemplate
-        #ExFor:FieldTemplate.IncludeFullPath
-        #ExFor:FieldOptions.TemplateName
+        #ExFor:FieldTemplate.include_full_path
+        #ExFor:FieldOptions.template_name
         #ExSummary:Shows how to use a TEMPLATE field to display the local file system location of a document's template.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # We can set a template name using by the fields. This property is used when the "doc.AttachedTemplate" is empty.
+        # We can set a template name using by the fields. This property is used when the "doc.attached_template" is empty.
         # If this property is empty the default template file name "Normal.dotm" is used.
         doc.field_options.template_name = ""
 
@@ -5988,13 +5986,13 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldSymbol
-        #ExFor:FieldSymbol.CharacterCode
-        #ExFor:FieldSymbol.DontAffectsLineSpacing
-        #ExFor:FieldSymbol.FontName
-        #ExFor:FieldSymbol.FontSize
-        #ExFor:FieldSymbol.IsAnsi
-        #ExFor:FieldSymbol.IsShiftJis
-        #ExFor:FieldSymbol.IsUnicode
+        #ExFor:FieldSymbol.character_code
+        #ExFor:FieldSymbol.dont_affects_line_spacing
+        #ExFor:FieldSymbol.font_name
+        #ExFor:FieldSymbol.font_size
+        #ExFor:FieldSymbol.is_ansi
+        #ExFor:FieldSymbol.is_shift_jis
+        #ExFor:FieldSymbol.is_unicode
         #ExSummary:Shows how to use the SYMBOL field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -6074,11 +6072,11 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldTitle
-        #ExFor:FieldTitle.Text
+        #ExFor:FieldTitle.text
         #ExSummary:Shows how to use the TITLE field.
         doc = aw.Document()
 
-        # Set a value for the "Title" built-in document property.
+        # Set a value for the "title" built-in document property.
         doc.built_in_document_properties.title = "My Title"
 
         # We can use the TITLE field to display the value of this property in the document.
@@ -6089,7 +6087,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(" TITLE ", field.get_field_code())
         self.assertEqual("My Title", field.result)
 
-        # Setting a value for the field's Text property,
+        # Setting a value for the field's "text" property,
         # and then updating the field will also overwrite the corresponding built-in property with the new value.
         builder.writeln()
         field = builder.insert_field(aw.fields.FieldType.FIELD_TITLE, False).as_field_title()
@@ -6119,23 +6117,23 @@ class ExField(ApiExampleBase):
 
     #ExStart
     #ExFor:FieldToa
-    #ExFor:FieldToa.BookmarkName
-    #ExFor:FieldToa.EntryCategory
-    #ExFor:FieldToa.EntrySeparator
-    #ExFor:FieldToa.PageNumberListSeparator
-    #ExFor:FieldToa.PageRangeSeparator
-    #ExFor:FieldToa.RemoveEntryFormatting
-    #ExFor:FieldToa.SequenceName
-    #ExFor:FieldToa.SequenceSeparator
-    #ExFor:FieldToa.UseHeading
-    #ExFor:FieldToa.UsePassim
+    #ExFor:FieldToa.bookmark_name
+    #ExFor:FieldToa.entry_category
+    #ExFor:FieldToa.entry_separator
+    #ExFor:FieldToa.page_number_list_separator
+    #ExFor:FieldToa.page_range_separator
+    #ExFor:FieldToa.remove_entry_formatting
+    #ExFor:FieldToa.sequence_name
+    #ExFor:FieldToa.sequence_separator
+    #ExFor:FieldToa.use_heading
+    #ExFor:FieldToa.use_passim
     #ExFor:FieldTA
-    #ExFor:FieldTA.EntryCategory
-    #ExFor:FieldTA.IsBold
-    #ExFor:FieldTA.IsItalic
-    #ExFor:FieldTA.LongCitation
-    #ExFor:FieldTA.PageRangeBookmarkName
-    #ExFor:FieldTA.ShortCitation
+    #ExFor:FieldTA.entry_category
+    #ExFor:FieldTA.is_bold
+    #ExFor:FieldTA.is_italic
+    #ExFor:FieldTA.long_citation
+    #ExFor:FieldTA.page_range_bookmark_name
+    #ExFor:FieldTA.short_citation
     #ExSummary:Shows how to build and customize a table of authorities using TOA and TA fields.
     def test_field_toa(self):
 
@@ -6147,7 +6145,7 @@ class ExField(ApiExampleBase):
         field_toa = builder.insert_field(aw.fields.FieldType.FIELD_TOA, False).as_field_toa()
 
         # Set the entry category for our table. This TOA will now only include TA fields
-        # that have a matching value in their EntryCategory property.
+        # that have a matching value in their "entry_category" property.
         field_toa.entry_category = "1"
 
         # Moreover, the Table of Authorities category at index 1 is "Cases",
@@ -6176,7 +6174,7 @@ class ExField(ApiExampleBase):
         field_toa.page_range_separator = " to "
 
         # The format from the TA fields will carry over into our table.
-        # We can disable this by setting the RemoveEntryFormatting flag.
+        # We can disable this by setting the "remove_entry_formatting" flag.
         field_toa.remove_entry_formatting = True
         builder.font.color = drawing.Color.green
         builder.font.name = "Arial Black"
@@ -6186,7 +6184,7 @@ class ExField(ApiExampleBase):
         builder.insert_break(aw.BreakType.PAGE_BREAK)
 
         # This TA field will not appear as an entry in the TOA since it is outside
-        # the bookmark's bounds that the TOA's BookmarkName property specifies.
+        # the bookmark's bounds that the TOA's "bookmark_name" property specifies.
         field_ta = ExField.insert_toa_entry(builder, "1", "Source 1")
 
         self.assertEqual(" TA  \\c 1 \\l \"Source 1\"", field_ta.get_field_code())
@@ -6538,9 +6536,9 @@ class ExField(ApiExampleBase):
     #    #ExFor:FieldMergeRec
     #    #ExFor:FieldMergeSeq
     #    #ExFor:FieldSkipIf
-    #    #ExFor:FieldSkipIf.ComparisonOperator
-    #    #ExFor:FieldSkipIf.LeftExpression
-    #    #ExFor:FieldSkipIf.RightExpression
+    #    #ExFor:FieldSkipIf.comparison_operator
+    #    #ExFor:FieldSkipIf.left_expression
+    #    #ExFor:FieldSkipIf.right_expression
     #    #ExSummary:Shows how to use MERGEREC and MERGESEQ fields to the number and count mail merge records in a mail merge's output documents.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -6614,7 +6612,7 @@ class ExField(ApiExampleBase):
         TestUtil.verify_field(self, aw.fields.FieldType.FIELD_OCX, " OCX ", "", field)
 
     ##ExStart
-    ##ExFor:Field.Remove
+    ##ExFor:Field.remove
     ##ExFor:FieldPrivate
     ##ExSummary:Shows how to process PRIVATE fields.
     #def test_field_private(self):
@@ -6792,8 +6790,8 @@ class ExField(ApiExampleBase):
         #ExStart
         #ExFor:FieldBidiOutline
         #ExFor:FieldShape
-        #ExFor:FieldShape.Text
-        #ExFor:ParagraphFormat.Bidi
+        #ExFor:FieldShape.text
+        #ExFor:ParagraphFormat.bidi
         #ExSummary:Shows how to create right-to-left language-compatible lists with BIDIOUTLINE fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -6832,7 +6830,7 @@ class ExField(ApiExampleBase):
         #ExStart
         #ExFor:FieldEmbed
         #ExFor:FieldShape
-        #ExFor:FieldShape.Text
+        #ExFor:FieldShape.text
         #ExSummary:Shows how some older Microsoft Word fields such as SHAPE and EMBED are handled during loading.
         # Open a document that was created in Microsoft Word 2003.
         doc = aw.Document(MY_DIR + "Legacy fields.doc")
@@ -6867,7 +6865,7 @@ class ExField(ApiExampleBase):
     def test_set_field_index_format(self):
 
         #ExStart
-        #ExFor:FieldOptions.FieldIndexFormat
+        #ExFor:FieldOptions.field_index_format
         #ExSummary:Shows how to formatting FieldIndex fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -6885,14 +6883,14 @@ class ExField(ApiExampleBase):
         #ExEnd
 
     ##ExStart
-    ##ExFor:ComparisonEvaluationResult.#ctor(bool)
-    ##ExFor:ComparisonEvaluationResult.#ctor(string)
+    ##ExFor:ComparisonEvaluationResult.__init__(bool)
+    ##ExFor:ComparisonEvaluationResult.__init__(string)
     ##ExFor:ComparisonEvaluationResult
     ##ExFor:ComparisonExpression
-    ##ExFor:ComparisonExpression.LeftExpression
-    ##ExFor:ComparisonExpression.ComparisonOperator
-    ##ExFor:ComparisonExpression.RightExpression
-    ##ExFor:FieldOptions.ComparisonExpressionEvaluator
+    ##ExFor:ComparisonExpression.left_expression
+    ##ExFor:ComparisonExpression.comparison_operator
+    ##ExFor:ComparisonExpression.right_expression
+    ##ExFor:FieldOptions.comparison_expression_evaluator
     ##ExSummary:Shows how to implement custom evaluation for the IF and COMPARE fields.
     #def test_condition_evaluation_extension_point(self):
 
@@ -7063,8 +7061,8 @@ class ExField(ApiExampleBase):
 
     ##ExStart
     ##ExFor:IFieldUpdatingCallback
-    ##ExFor:IFieldUpdatingCallback.FieldUpdating(Field)
-    ##ExFor:IFieldUpdatingCallback.FieldUpdated(Field)
+    ##ExFor:IFieldUpdatingCallback.field_updating(Field)
+    ##ExFor:IFieldUpdatingCallback.field_updated(Field)
     ##ExSummary:Shows how to use callback methods during a field update.
     #def test_field_updating_callback_test(self):
 

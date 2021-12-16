@@ -16,9 +16,9 @@ class ExDocumentBuilderImages(ApiExampleBase):
     def test_insert_image_from_stream(self):
 
         #ExStart
-        #ExFor:DocumentBuilder.InsertImage(Stream)
-        #ExFor:DocumentBuilder.InsertImage(Stream, Double, Double)
-        #ExFor:DocumentBuilder.InsertImage(Stream, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
+        #ExFor:DocumentBuilder.insert_image(BytesIO)
+        #ExFor:DocumentBuilder.insert_image(BytesIO,float,float)
+        #ExFor:DocumentBuilder.insert_image(BytesIO,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)
         #ExSummary:Shows how to insert an image from a stream into a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -93,9 +93,9 @@ class ExDocumentBuilderImages(ApiExampleBase):
     def test_insert_image_from_filename(self):
 
         #ExStart
-        #ExFor:DocumentBuilder.InsertImage(String)
-        #ExFor:DocumentBuilder.InsertImage(String, Double, Double)
-        #ExFor:DocumentBuilder.InsertImage(String, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
+        #ExFor:DocumentBuilder.insert_image(str)
+        #ExFor:DocumentBuilder.insert_image(str,float,float)
+        #ExFor:DocumentBuilder.insert_image(str,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)
         #ExSummary:Shows how to insert an image from the local file system into a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -169,7 +169,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
     def test_insert_svg_image(self):
 
         #ExStart
-        #ExFor:DocumentBuilder.InsertImage(String)
+        #ExFor:DocumentBuilder.insert_image(str)
         #ExSummary:Shows how to determine which image will be inserted.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -192,9 +192,9 @@ class ExDocumentBuilderImages(ApiExampleBase):
     def test_insert_image_from_image_object(self):
 
         #ExStart
-        #ExFor:DocumentBuilder.InsertImage(Image)
-        #ExFor:DocumentBuilder.InsertImage(Image, Double, Double)
-        #ExFor:DocumentBuilder.InsertImage(Image, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
+        #ExFor:DocumentBuilder.insert_image(Image)
+        #ExFor:DocumentBuilder.insert_image(Image,float,float)
+        #ExFor:DocumentBuilder.insert_image(Image,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)
         #ExSummary:Shows how to insert an image from an object into a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -269,9 +269,9 @@ class ExDocumentBuilderImages(ApiExampleBase):
     def test_insert_image_from_byte_array(self):
 
         #ExStart
-        #ExFor:DocumentBuilder.InsertImage(Byte[])
-        #ExFor:DocumentBuilder.InsertImage(Byte[], Double, Double)
-        #ExFor:DocumentBuilder.InsertImage(Byte[], RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
+        #ExFor:DocumentBuilder.insert_image(bytes)
+        #ExFor:DocumentBuilder.insert_image(bytes,float,float)
+        #ExFor:DocumentBuilder.insert_image(bytes,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)
         #ExSummary:Shows how to insert an image from a byte array into a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -351,7 +351,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
     def test_insert_gif(self):
 
         #ExStart
-        #ExFor:DocumentBuilder.InsertImage(String)
+        #ExFor:DocumentBuilder.insert_image(str)
         #ExSummary:Shows how to insert gif image to the document.
         builder = aw.DocumentBuilder()
 

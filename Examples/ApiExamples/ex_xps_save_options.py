@@ -16,9 +16,9 @@ class ExXpsSaveOptions(ApiExampleBase):
 
         #ExStart
         #ExFor:XpsSaveOptions
-        #ExFor:XpsSaveOptions.#ctor
-        #ExFor:XpsSaveOptions.OutlineOptions
-        #ExFor:XpsSaveOptions.SaveFormat
+        #ExFor:XpsSaveOptions.__init__
+        #ExFor:XpsSaveOptions.outline_options
+        #ExFor:XpsSaveOptions.save_format
         #ExSummary:Shows how to limit the headings' level that will appear in the outline of a saved XPS document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -60,8 +60,8 @@ class ExXpsSaveOptions(ApiExampleBase):
         for render_text_as_book_fold in (False, True):
             with self.subTest(render_text_as_book_fold=render_text_as_book_fold):
                 #ExStart
-                #ExFor:XpsSaveOptions.#ctor(SaveFormat)
-                #ExFor:XpsSaveOptions.UseBookFoldPrintingSettings
+                #ExFor:XpsSaveOptions.__init__(SaveFormat)
+                #ExFor:XpsSaveOptions.use_book_fold_printing_settings
                 #ExSummary:Shows how to save a document to the XPS format in the form of a book fold.
                 doc = aw.Document(MY_DIR + "Paragraphs.docx")
 
@@ -69,9 +69,9 @@ class ExXpsSaveOptions(ApiExampleBase):
                 # to modify how that method converts the document to .XPS.
                 xps_options = aw.saving.XpsSaveOptions(aw.SaveFormat.XPS)
 
-                # Set the "use_book_fold_printing_settings" property to "true" to arrange the contents
+                # Set the "use_book_fold_printing_settings" property to "True" to arrange the contents
                 # in the output XPS in a way that helps us use it to make a booklet.
-                # Set the "use_book_fold_printing_settings" property to "false" to render the XPS normally.
+                # Set the "use_book_fold_printing_settings" property to "False" to render the XPS normally.
                 xps_options.use_book_fold_printing_settings = render_text_as_book_fold
 
                 # If we are rendering the document as a booklet, we must set the "multiple_pages"
@@ -91,7 +91,7 @@ class ExXpsSaveOptions(ApiExampleBase):
         for optimize_output in (False, True):
             with self.subTest(optimize_output=optimize_output):
                 #ExStart
-                #ExFor:FixedPageSaveOptions.OptimizeOutput
+                #ExFor:FixedPageSaveOptions.optimize_output
                 #ExSummary:Shows how to optimize document objects while saving to xps.
                 doc = aw.Document(MY_DIR + "Unoptimized document.docx")
 
@@ -99,10 +99,10 @@ class ExXpsSaveOptions(ApiExampleBase):
                 # to modify how that method converts the document to .XPS.
                 save_options = aw.saving.XpsSaveOptions()
 
-                # Set the "optimize_output" property to "true" to take measures such as removing nested or empty canvases
+                # Set the "optimize_output" property to "True" to take measures such as removing nested or empty canvases
                 # and concatenating adjacent runs with identical formatting to optimize the output document's content.
                 # This may affect the appearance of the document.
-                # Set the "optimize_output" property to "false" to save the document normally.
+                # Set the "optimize_output" property to "False" to save the document normally.
                 save_options.optimize_output = optimize_output
 
                 doc.save(ARTIFACTS_DIR + "XpsSaveOptions.OptimizeOutput.xps", save_options)
@@ -125,8 +125,8 @@ class ExXpsSaveOptions(ApiExampleBase):
     def test_export_exact_pages(self):
 
         #ExStart
-        #ExFor:FixedPageSaveOptions.PageSet
-        #ExFor:PageSet.#ctor(int[])
+        #ExFor:FixedPageSaveOptions.page_set
+        #ExFor:PageSet.__init__(List[int])
         #ExSummary:Shows how to extract pages based on exact page indices.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

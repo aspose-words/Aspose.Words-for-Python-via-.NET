@@ -15,8 +15,8 @@ class ExControlChar(ApiExampleBase):
 
         #ExStart
         #ExFor:ControlChar
-        #ExFor:ControlChar.Cr
-        #ExFor:Node.GetText
+        #ExFor:ControlChar.CR
+        #ExFor:Node.get_text
         #ExSummary:Shows how to use control characters.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -32,7 +32,7 @@ class ExControlChar(ApiExampleBase):
                         aw.ControlChar.PAGE_BREAK, doc.get_text())
 
         # When converting a document to string form,
-        # we can omit some of the control characters with the Trim method.
+        # we can omit some of the control characters with the "strip" method.
         self.assertEqual(f"Hello world!{aw.ControlChar.CR}" +
                         "Hello again!", doc.get_text().strip())
         #ExEnd
@@ -40,31 +40,31 @@ class ExControlChar(ApiExampleBase):
     def test_insert_control_chars(self):
 
         #ExStart
-        #ExFor:ControlChar.Cell
-        #ExFor:ControlChar.ColumnBreak
-        #ExFor:ControlChar.CrLf
-        #ExFor:ControlChar.Lf
-        #ExFor:ControlChar.LineBreak
-        #ExFor:ControlChar.LineFeed
-        #ExFor:ControlChar.NonBreakingSpace
-        #ExFor:ControlChar.PageBreak
-        #ExFor:ControlChar.ParagraphBreak
-        #ExFor:ControlChar.SectionBreak
-        #ExFor:ControlChar.CellChar
-        #ExFor:ControlChar.ColumnBreakChar
-        #ExFor:ControlChar.DefaultTextInputChar
-        #ExFor:ControlChar.FieldEndChar
-        #ExFor:ControlChar.FieldStartChar
-        #ExFor:ControlChar.FieldSeparatorChar
-        #ExFor:ControlChar.LineBreakChar
-        #ExFor:ControlChar.LineFeedChar
-        #ExFor:ControlChar.NonBreakingHyphenChar
-        #ExFor:ControlChar.NonBreakingSpaceChar
-        #ExFor:ControlChar.OptionalHyphenChar
-        #ExFor:ControlChar.PageBreakChar
-        #ExFor:ControlChar.ParagraphBreakChar
-        #ExFor:ControlChar.SectionBreakChar
-        #ExFor:ControlChar.SpaceChar
+        #ExFor:ControlChar.CELL
+        #ExFor:ControlChar.COLUMN_BREAK
+        #ExFor:ControlChar.CR_LF
+        #ExFor:ControlChar.LF
+        #ExFor:ControlChar.LINE_BREAK
+        #ExFor:ControlChar.LINE_FEED
+        #ExFor:ControlChar.NON_BREAKING_SPACE
+        #ExFor:ControlChar.PAGE_BREAK
+        #ExFor:ControlChar.PARAGRAPH_BREAK
+        #ExFor:ControlChar.SECTION_BREAK
+        #ExFor:ControlChar.CELL_CHAR
+        #ExFor:ControlChar.COLUMN_BREAK_CHAR
+        #ExFor:ControlChar.DEFAULT_TEXT_INPUT_CHAR
+        #ExFor:ControlChar.FIELD_END_CHAR
+        #ExFor:ControlChar.FIELD_START_CHAR
+        #ExFor:ControlChar.FIELD_SEPARATOR_CHAR
+        #ExFor:ControlChar.LINE_BREAK_CHAR
+        #ExFor:ControlChar.LINE_FEED_CHAR
+        #ExFor:ControlChar.NON_BREAKING_HYPHEN_CHAR
+        #ExFor:ControlChar.NON_BREAKING_SPACE_CHAR
+        #ExFor:ControlChar.OPTIONAL_HYPHEN_CHAR
+        #ExFor:ControlChar.PAGE_BREAK_CHAR
+        #ExFor:ControlChar.PARAGRAPH_BREAK_CHAR
+        #ExFor:ControlChar.SECTION_BREAK_CHAR
+        #ExFor:ControlChar.SPACE_CHAR
         #ExSummary:Shows how to add various control characters to a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

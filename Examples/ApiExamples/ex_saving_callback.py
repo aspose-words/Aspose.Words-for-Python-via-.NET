@@ -38,13 +38,13 @@ IMAGE_DIR = image_dir
 
 #    #ExStart
 #    #ExFor:IPageSavingCallback
-#    #ExFor:IPageSavingCallback.PageSaving(PageSavingArgs)
+#    #ExFor:IPageSavingCallback.page_saving(PageSavingArgs)
 #    #ExFor:PageSavingArgs
-#    #ExFor:PageSavingArgs.PageFileName
-#    #ExFor:PageSavingArgs.KeepPageStreamOpen
-#    #ExFor:PageSavingArgs.PageIndex
-#    #ExFor:PageSavingArgs.PageStream
-#    #ExFor:FixedPageSaveOptions.PageSavingCallback
+#    #ExFor:PageSavingArgs.page_file_name
+#    #ExFor:PageSavingArgs.keep_page_stream_open
+#    #ExFor:PageSavingArgs.page_index
+#    #ExFor:PageSavingArgs.page_stream
+#    #ExFor:FixedPageSaveOptions.page_saving_callback
 #    #ExSummary:Shows how to use a callback to save a document to HTML page by page.
 #    def test_page_file_names(self):
 
@@ -92,19 +92,19 @@ IMAGE_DIR = image_dir
 
 #    #ExStart
 #    #ExFor:DocumentPartSavingArgs
-#    #ExFor:DocumentPartSavingArgs.Document
-#    #ExFor:DocumentPartSavingArgs.DocumentPartFileName
-#    #ExFor:DocumentPartSavingArgs.DocumentPartStream
-#    #ExFor:DocumentPartSavingArgs.KeepDocumentPartStreamOpen
+#    #ExFor:DocumentPartSavingArgs.document
+#    #ExFor:DocumentPartSavingArgs.document_part_file_name
+#    #ExFor:DocumentPartSavingArgs.document_part_stream
+#    #ExFor:DocumentPartSavingArgs.keep_document_part_stream_open
 #    #ExFor:IDocumentPartSavingCallback
-#    #ExFor:IDocumentPartSavingCallback.DocumentPartSaving(DocumentPartSavingArgs)
+#    #ExFor:IDocumentPartSavingCallback.document_part_saving(DocumentPartSavingArgs)
 #    #ExFor:IImageSavingCallback
-#    #ExFor:IImageSavingCallback.ImageSaving
+#    #ExFor:IImageSavingCallback.image_saving
 #    #ExFor:ImageSavingArgs
-#    #ExFor:ImageSavingArgs.ImageFileName
+#    #ExFor:ImageSavingArgs.image_file_name
 #    #ExFor:HtmlSaveOptions
-#    #ExFor:HtmlSaveOptions.DocumentPartSavingCallback
-#    #ExFor:HtmlSaveOptions.ImageSavingCallback
+#    #ExFor:HtmlSaveOptions.document_part_saving_callback
+#    #ExFor:HtmlSaveOptions.image_saving_callback
 #    #ExSummary:Shows how to split a document into parts and save them.
 #    def test_document_parts_file_names(self):
 
@@ -193,16 +193,16 @@ IMAGE_DIR = image_dir
 
 #    #ExStart
 #    #ExFor:CssSavingArgs
-#    #ExFor:CssSavingArgs.CssStream
-#    #ExFor:CssSavingArgs.Document
-#    #ExFor:CssSavingArgs.IsExportNeeded
-#    #ExFor:CssSavingArgs.KeepCssStreamOpen
+#    #ExFor:CssSavingArgs.css_stream
+#    #ExFor:CssSavingArgs.document
+#    #ExFor:CssSavingArgs.is_export_needed
+#    #ExFor:CssSavingArgs.keep_css_stream_open
 #    #ExFor:CssStyleSheetType
-#    #ExFor:HtmlSaveOptions.CssSavingCallback
-#    #ExFor:HtmlSaveOptions.CssStyleSheetFileName
-#    #ExFor:HtmlSaveOptions.CssStyleSheetType
+#    #ExFor:HtmlSaveOptions.css_saving_callback
+#    #ExFor:HtmlSaveOptions.css_style_sheet_file_name
+#    #ExFor:HtmlSaveOptions.css_style_sheet_type
 #    #ExFor:ICssSavingCallback
-#    #ExFor:ICssSavingCallback.CssSaving(CssSavingArgs)
+#    #ExFor:ICssSavingCallback.css_saving(CssSavingArgs)
 #    #ExSummary:Shows how to work with CSS stylesheets that an HTML conversion creates.
 #    def test_external_css_filenames(self):
 

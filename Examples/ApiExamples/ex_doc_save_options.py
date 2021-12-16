@@ -18,11 +18,11 @@ class ExDocSaveOptions(ApiExampleBase):
 
         #ExStart
         #ExFor:DocSaveOptions
-        #ExFor:DocSaveOptions.#ctor
-        #ExFor:DocSaveOptions.#ctor(SaveFormat)
-        #ExFor:DocSaveOptions.Password
-        #ExFor:DocSaveOptions.SaveFormat
-        #ExFor:DocSaveOptions.SaveRoutingSlip
+        #ExFor:DocSaveOptions.__init__
+        #ExFor:DocSaveOptions.__init__(SaveFormat)
+        #ExFor:DocSaveOptions.password
+        #ExFor:DocSaveOptions.save_format
+        #ExFor:DocSaveOptions.save_routing_slip
         #ExSummary:Shows how to set save options for older Microsoft Word formats.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -53,7 +53,7 @@ class ExDocSaveOptions(ApiExampleBase):
     def test_temp_folder(self):
 
         #ExStart
-        #ExFor:SaveOptions.TempFolder
+        #ExFor:SaveOptions.temp_folder
         #ExSummary:Shows how to use the hard drive instead of memory when saving a document.
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -75,7 +75,7 @@ class ExDocSaveOptions(ApiExampleBase):
     def test_picture_bullets(self):
 
         #ExStart
-        #ExFor:DocSaveOptions.SavePictureBullet
+        #ExFor:DocSaveOptions.save_picture_bullet
         #ExSummary:Shows how to omit PictureBullet data from the document when saving.
         doc = aw.Document(MY_DIR + "Image bullet points.docx")
         self.assertIsNotNone(doc.lists[0].list_levels[0].image_data) #ExSkip
@@ -98,7 +98,7 @@ class ExDocSaveOptions(ApiExampleBase):
         for is_update_last_printed_property in (True, False):
             with self.subTest(is_update_last_printed_property=is_update_last_printed_property):
                 #ExStart
-                #ExFor:SaveOptions.UpdateLastPrintedProperty
+                #ExFor:SaveOptions.update_last_printed_property
                 #ExSummary:Shows how to update a document's "Last printed" property when saving.
                 doc = aw.Document()
                 doc.built_in_document_properties.last_printed = datetime(2019, 12, 20)
@@ -124,7 +124,7 @@ class ExDocSaveOptions(ApiExampleBase):
         for is_update_created_time_property in (True, False):
             with self.subTest(is_update_created_time_property=is_update_created_time_property):
                 #ExStart
-                #ExFor:SaveOptions.UpdateLastPrintedProperty
+                #ExFor:SaveOptions.update_last_printed_property
                 #ExSummary:Shows how to update a document's "created_time" property when saving.
                 doc = aw.Document()
                 doc.built_in_document_properties.created_time = datetime(2019, 12, 20)
@@ -148,7 +148,7 @@ class ExDocSaveOptions(ApiExampleBase):
         for compress_all_metafiles in (False, True):
             with self.subTest(compress_all_metafiles=compress_all_metafiles):
                 #ExStart
-                #ExFor:DocSaveOptions.AlwaysCompressMetafiles
+                #ExFor:DocSaveOptions.always_compress_metafiles
                 #ExSummary:Shows how to change metafiles compression in a document while saving.
                 # Open a document that contains a Microsoft Equation 3.0 formula.
                 doc = aw.Document(MY_DIR + "Microsoft equation object.docx")

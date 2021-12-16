@@ -13,10 +13,10 @@ ARTIFACTS_DIR = artifacts_dir
 class ExRendering(ApiExampleBase):
 
     ##ExStart
-    ##ExFor:NodeRendererBase.RenderToScale(Graphics, Single, Single, Single)
-    ##ExFor:NodeRendererBase.RenderToSize(Graphics, Single, Single, Single, Single)
+    ##ExFor:NodeRendererBase.render_to_scale(Graphics,float,float,float)
+    ##ExFor:NodeRendererBase.render_to_size(Graphics,float,float,float,float)
     ##ExFor:ShapeRenderer
-    ##ExFor:ShapeRenderer.#ctor(ShapeBase)
+    ##ExFor:ShapeRenderer.__init__(ShapeBase)
     ##ExSummary:Shows how to render a shape with a Graphics object and display it using a Windows Form.
     #def test_render_shapes_on_form(self):
 
@@ -106,7 +106,7 @@ class ExRendering(ApiExampleBase):
     def test_render_to_size(self):
 
         #ExStart
-        #ExFor:Document.RenderToSize
+        #ExFor:Document.render_to_size
         #ExSummary:Shows how to render a document to a bitmap at a specified location and size.
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -159,7 +159,7 @@ class ExRendering(ApiExampleBase):
     def test_thumbnails(self):
 
         #ExStart
-        #ExFor:Document.RenderToScale
+        #ExFor:Document.render_to_scale
         #ExSummary:Shows how to the individual pages of a document to graphics to create one image with thumbnails of all pages.
         doc = aw.Document(MY_DIR + "Rendering.docx")
 

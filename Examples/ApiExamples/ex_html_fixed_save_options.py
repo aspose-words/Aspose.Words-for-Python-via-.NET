@@ -18,7 +18,7 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
     def test_use_encoding(self):
 
         #ExStart
-        #ExFor:HtmlFixedSaveOptions.Encoding
+        #ExFor:HtmlFixedSaveOptions.encoding
         #ExSummary:Shows how to set which encoding to use while exporting a document to HTML.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -52,7 +52,7 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
         for export_embedded_css in (True, False):
             with self.subTest(export_embedded_css=export_embedded_css):
                 #ExStart
-                #ExFor:HtmlFixedSaveOptions.ExportEmbeddedCss
+                #ExFor:HtmlFixedSaveOptions.export_embedded_css
                 #ExSummary:Shows how to determine where to store CSS stylesheets when exporting a document to Html.
                 doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -87,7 +87,7 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
         for export_embedded_fonts in (True, False):
             with self.subTest(export_embedded_fonts=export_embedded_fonts):
                 #ExStart
-                #ExFor:HtmlFixedSaveOptions.ExportEmbeddedFonts
+                #ExFor:HtmlFixedSaveOptions.export_embedded_fonts
                 #ExSummary:Shows how to determine where to store embedded fonts when exporting a document to Html.
                 doc = aw.Document(MY_DIR + "Embedded font.docx")
 
@@ -124,7 +124,7 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
         for export_images in (True, False):
             with self.subTest(export_images=export_images):
                 #ExStart
-                #ExFor:HtmlFixedSaveOptions.ExportEmbeddedImages
+                #ExFor:HtmlFixedSaveOptions.export_embedded_images
                 #ExSummary:Shows how to determine where to store images when exporting a document to Html.
                 doc = aw.Document(MY_DIR + "Images.docx")
 
@@ -162,7 +162,7 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
         for export_svgs in (True, False):
             with self.subTest(export_svgs=export_svgs):
                 #ExStart
-                #ExFor:HtmlFixedSaveOptions.ExportEmbeddedSvg
+                #ExFor:HtmlFixedSaveOptions.export_embedded_svg
                 #ExSummary:Shows how to determine where to store SVG objects when exporting a document to Html.
                 doc = aw.Document(MY_DIR + "Images.docx")
 
@@ -197,7 +197,7 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
         for export_form_fields in (True, False):
             with self.subTest(export_form_fields=export_form_fields):
                 #ExStart
-                #ExFor:HtmlFixedSaveOptions.ExportFormFields
+                #ExFor:HtmlFixedSaveOptions.export_form_fields
                 #ExSummary:Shows how to export form fields to Html.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -232,8 +232,8 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
     def test_add_css_class_names_prefix(self):
 
         #ExStart
-        #ExFor:HtmlFixedSaveOptions.CssClassNamesPrefix
-        #ExFor:HtmlFixedSaveOptions.SaveFontFaceCssSeparately
+        #ExFor:HtmlFixedSaveOptions.css_class_names_prefix
+        #ExFor:HtmlFixedSaveOptions.save_font_face_css_separately
         #ExSummary:Shows how to place CSS into a separate file and add a prefix to all of its CSS class names.
         doc = aw.Document(MY_DIR + "Bookmarks.docx")
 
@@ -266,7 +266,7 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
                                           aw.saving.HtmlFixedPageHorizontalAlignment.RIGHT):
             with self.subTest(page_horizontal_alignment=page_horizontal_alignment):
                 #ExStart
-                #ExFor:HtmlFixedSaveOptions.PageHorizontalAlignment
+                #ExFor:HtmlFixedSaveOptions.page_horizontal_alignment
                 #ExFor:HtmlFixedPageHorizontalAlignment
                 #ExSummary:Shows how to set the horizontal alignment of pages when saving a document to HTML.
                 doc = aw.Document(MY_DIR + "Rendering.docx")
@@ -296,7 +296,7 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
     def test_page_margins(self):
 
         #ExStart
-        #ExFor:HtmlFixedSaveOptions.PageMargins
+        #ExFor:HtmlFixedSaveOptions.page_margins
         #ExSummary:Shows how to adjust page margins when saving a document to HTML.
         doc = aw.Document(MY_DIR + "Document.docx")
 
@@ -323,8 +323,8 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
         for optimize_output in (False, True):
             with self.subTest(optimize_output=optimize_output):
                 #ExStart
-                #ExFor:FixedPageSaveOptions.OptimizeOutput
-                #ExFor:HtmlFixedSaveOptions.OptimizeOutput
+                #ExFor:FixedPageSaveOptions.optimize_output
+                #ExFor:HtmlFixedSaveOptions.optimize_output
                 #ExSummary:Shows how to simplify a document when saving it to HTML by removing various redundant objects.
                 doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -348,8 +348,8 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
             with self.subTest(use_target_machine_fonts=use_target_machine_fonts):
                 #ExStart
                 #ExFor:ExportFontFormat
-                #ExFor:HtmlFixedSaveOptions.FontFormat
-                #ExFor:HtmlFixedSaveOptions.UseTargetMachineFonts
+                #ExFor:HtmlFixedSaveOptions.font_format
+                #ExFor:HtmlFixedSaveOptions.use_target_machine_fonts
                 #ExSummary:Shows how use fonts only from the target machine when saving a document to HTML.
                 doc = aw.Document(MY_DIR + "Bullet points with alternative font.docx")
 
@@ -375,11 +375,11 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
 
     ##ExStart
     ##ExFor:IResourceSavingCallback
-    ##ExFor:IResourceSavingCallback.ResourceSaving(ResourceSavingArgs)
+    ##ExFor:IResourceSavingCallback.resource_saving(ResourceSavingArgs)
     ##ExFor:ResourceSavingArgs
-    ##ExFor:ResourceSavingArgs.Document
-    ##ExFor:ResourceSavingArgs.ResourceFileName
-    ##ExFor:ResourceSavingArgs.ResourceFileUri
+    ##ExFor:ResourceSavingArgs.document
+    ##ExFor:ResourceSavingArgs.resource_file_name
+    ##ExFor:ResourceSavingArgs.resource_file_uri
     ##ExSummary:Shows how to use a callback to track external resources created while converting a document to HTML.
     #def test_resource_saving_callback(self):
 
@@ -416,15 +416,15 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
 
     ##ExStart
     ##ExFor:HtmlFixedSaveOptions
-    ##ExFor:HtmlFixedSaveOptions.ResourceSavingCallback
-    ##ExFor:HtmlFixedSaveOptions.ResourcesFolder
-    ##ExFor:HtmlFixedSaveOptions.ResourcesFolderAlias
-    ##ExFor:HtmlFixedSaveOptions.SaveFormat
-    ##ExFor:HtmlFixedSaveOptions.ShowPageBorder
+    ##ExFor:HtmlFixedSaveOptions.resource_saving_callback
+    ##ExFor:HtmlFixedSaveOptions.resources_folder
+    ##ExFor:HtmlFixedSaveOptions.resources_folder_alias
+    ##ExFor:HtmlFixedSaveOptions.save_format
+    ##ExFor:HtmlFixedSaveOptions.show_page_border
     ##ExFor:IResourceSavingCallback
-    ##ExFor:IResourceSavingCallback.ResourceSaving(ResourceSavingArgs)
-    ##ExFor:ResourceSavingArgs.KeepResourceStreamOpen
-    ##ExFor:ResourceSavingArgs.ResourceStream
+    ##ExFor:IResourceSavingCallback.resource_saving(ResourceSavingArgs)
+    ##ExFor:ResourceSavingArgs.keep_resource_stream_open
+    ##ExFor:ResourceSavingArgs.resource_stream
     ##ExSummary:Shows how to use a callback to print the URIs of external resources created while converting a document to HTML.
     #def test_html_fixed_resource_folder(self):
 

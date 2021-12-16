@@ -14,8 +14,8 @@ class ExCompatibilityOptions(ApiExampleBase):
     #ExStart
     #ExFor:Compatibility
     #ExFor:CompatibilityOptions
-    #ExFor:CompatibilityOptions.OptimizeFor(MsWordVersion)
-    #ExFor:Document.CompatibilityOptions
+    #ExFor:CompatibilityOptions.optimize_for(MsWordVersion)
+    #ExFor:Document.compatibility_options
     #ExFor:MsWordVersion
     #ExSummary:Shows how to optimize the document for different versions of Microsoft Word.
     def test_optimize_for(self):

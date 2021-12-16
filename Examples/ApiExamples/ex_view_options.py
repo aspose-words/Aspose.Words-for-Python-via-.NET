@@ -14,11 +14,11 @@ class ExViewOptions(ApiExampleBase):
     def test_set_zoom_percentage(self):
 
         #ExStart
-        #ExFor:Document.ViewOptions
+        #ExFor:Document.view_options
         #ExFor:ViewOptions
-        #ExFor:ViewOptions.ViewType
-        #ExFor:ViewOptions.ZoomPercent
-        #ExFor:ViewOptions.ZoomType
+        #ExFor:ViewOptions.view_type
+        #ExFor:ViewOptions.zoom_percent
+        #ExFor:ViewOptions.zoom_type
         #ExFor:ViewType
         #ExSummary:Shows how to set a custom zoom factor, which older versions of Microsoft Word will apply to a document upon loading.
         doc = aw.Document()
@@ -45,9 +45,9 @@ class ExViewOptions(ApiExampleBase):
         for zoom_type in (aw.settings.ZoomType.PAGE_WIDTH, aw.settings.ZoomType.FULL_PAGE, aw.settings.ZoomType.TEXT_FIT):
             with self.subTest(zoom_type=zoom_type):
                 #ExStart
-                #ExFor:Document.ViewOptions
+                #ExFor:Document.view_options
                 #ExFor:ViewOptions
-                #ExFor:ViewOptions.ZoomType
+                #ExFor:ViewOptions.zoom_type
                 #ExSummary:Shows how to set a custom zoom type, which older versions of Microsoft Word will apply to a document upon loading.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -73,7 +73,7 @@ class ExViewOptions(ApiExampleBase):
         for display_background_shape in (False, True):
             with self.subTest(display_background_shape=display_background_shape):
                 #ExStart
-                #ExFor:ViewOptions.DisplayBackgroundShape
+                #ExFor:ViewOptions.display_background_shape
                 #ExSummary:Shows how to hide/display document background images in view options.
                 # Use an HTML string to create a new document with a flat background color.
                 html = """
@@ -106,7 +106,7 @@ class ExViewOptions(ApiExampleBase):
         for do_not_display_page_boundaries in (False, True):
             with self.subTest(do_not_display_page_boundaries=do_not_display_page_boundaries):
                 #ExStart
-                #ExFor:ViewOptions.DoNotDisplayPageBoundaries
+                #ExFor:ViewOptions.do_not_display_page_boundaries
                 #ExSummary:Shows how to hide vertical whitespace and headers/footers in view options.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -143,7 +143,7 @@ class ExViewOptions(ApiExampleBase):
         for use_forms_design in (False, True):
             with self.subTest(use_forms_design=use_forms_design):
                 #ExStart
-                #ExFor:ViewOptions.FormsDesign
+                #ExFor:ViewOptions.forms_design
                 #ExSummary:Shows how to enable/disable forms design mode.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)

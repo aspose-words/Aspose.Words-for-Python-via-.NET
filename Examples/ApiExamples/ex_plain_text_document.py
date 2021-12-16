@@ -15,8 +15,8 @@ class ExPlainTextDocument(ApiExampleBase):
 
         #ExStart
         #ExFor:PlainTextDocument
-        #ExFor:PlainTextDocument.#ctor(String)
-        #ExFor:PlainTextDocument.Text
+        #ExFor:PlainTextDocument.__init__(str)
+        #ExFor:PlainTextDocument.text
         #ExSummary:Shows how to load the contents of a Microsoft Word document in plaintext.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -32,7 +32,7 @@ class ExPlainTextDocument(ApiExampleBase):
     def test_load_from_stream(self):
 
         #ExStart
-        #ExFor:PlainTextDocument.#ctor(Stream)
+        #ExFor:PlainTextDocument.__init__(BytesIO)
         #ExSummary:Shows how to load the contents of a Microsoft Word document in plaintext using stream.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -51,7 +51,7 @@ class ExPlainTextDocument(ApiExampleBase):
     def test_load_encrypted(self):
 
         #ExStart
-        #ExFor:PlainTextDocument.#ctor(String, LoadOptions)
+        #ExFor:PlainTextDocument.__init__(str,LoadOptions)
         #ExSummary:Shows how to load the contents of an encrypted Microsoft Word document in plaintext.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -73,7 +73,7 @@ class ExPlainTextDocument(ApiExampleBase):
     def test_load_encrypted_using_stream(self):
 
         #ExStart
-        #ExFor:PlainTextDocument.#ctor(Stream, LoadOptions)
+        #ExFor:PlainTextDocument.__init__(BytesIO,LoadOptions)
         #ExSummary:Shows how to load the contents of an encrypted Microsoft Word document in plaintext using stream.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -99,7 +99,7 @@ class ExPlainTextDocument(ApiExampleBase):
     def test_built_in_properties(self):
 
         #ExStart
-        #ExFor:PlainTextDocument.BuiltInDocumentProperties
+        #ExFor:PlainTextDocument.built_in_document_properties
         #ExSummary:Shows how to load the contents of a Microsoft Word document in plaintext and then access the original document's built-in properties.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -118,7 +118,7 @@ class ExPlainTextDocument(ApiExampleBase):
     def test_custom_document_properties(self):
 
         #ExStart
-        #ExFor:PlainTextDocument.CustomDocumentProperties
+        #ExFor:PlainTextDocument.custom_document_properties
         #ExSummary:Shows how to load the contents of a Microsoft Word document in plaintext and then access the original document's custom properties.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

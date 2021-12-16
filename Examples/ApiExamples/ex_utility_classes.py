@@ -14,15 +14,15 @@ class ExUtilityClasses(ApiExampleBase):
     def test_points_and_inches(self):
 
         #ExStart
-        #ExFor:aw.ConvertUtil
-        #ExFor:aw.ConvertUtil.PointToInch
-        #ExFor:aw.ConvertUtil.InchToPoint
+        #ExFor:ConvertUtil
+        #ExFor:ConvertUtil.point_to_inch
+        #ExFor:ConvertUtil.inch_to_point
         #ExSummary:Shows how to specify page properties in inches.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # A section's "Page Setup" defines the size of the page margins in points.
-        # We can also use the "aw.ConvertUtil" class to use a more familiar measurement unit,
+        # We can also use the "ConvertUtil" class to use a more familiar measurement unit,
         # such as inches when defining boundaries.
         page_setup = builder.page_setup
         page_setup.top_margin = aw.ConvertUtil.inch_to_point(1.0)
@@ -59,7 +59,7 @@ class ExUtilityClasses(ApiExampleBase):
     def test_points_and_millimeters(self):
 
         #ExStart
-        #ExFor:aw.ConvertUtil.MillimeterToPoint
+        #ExFor:ConvertUtil.millimeter_to_point
         #ExSummary:Shows how to specify page properties in millimeters.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -97,8 +97,8 @@ class ExUtilityClasses(ApiExampleBase):
     def test_points_and_pixels(self):
 
         #ExStart
-        #ExFor:aw.ConvertUtil.PixelToPoint(double)
-        #ExFor:aw.ConvertUtil.PointToPixel(double)
+        #ExFor:ConvertUtil.pixel_to_point(float)
+        #ExFor:ConvertUtil.point_to_pixel(float)
         #ExSummary:Shows how to specify page properties in pixels.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -144,9 +144,9 @@ class ExUtilityClasses(ApiExampleBase):
     def test_points_and_pixels_dpi(self):
 
         #ExStart
-        #ExFor:aw.ConvertUtil.PixelToNewDpi
-        #ExFor:aw.ConvertUtil.PixelToPoint(double, double)
-        #ExFor:aw.ConvertUtil.PointToPixel(double, double)
+        #ExFor:ConvertUtil.pixel_to_new_dpi
+        #ExFor:ConvertUtil.pixel_to_point(float,float)
+        #ExFor:ConvertUtil.point_to_pixel(float,float)
         #ExSummary:Shows how to use convert points to pixels with default and custom resolution.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

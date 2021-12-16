@@ -14,7 +14,7 @@ ARTIFACTS_DIR = artifacts_dir
 class ExMailMergeCustomNested(ApiExampleBase):
 
     #ExStart
-    #ExFor:MailMerge.ExecuteWithRegions(IMailMergeDataSource)
+    #ExFor:MailMerge.execute_with_regions(IMailMergeDataSource)
     #ExSummary:Shows how to use mail merge regions to execute a nested mail merge.
     def test_custom_data_source(self):
 

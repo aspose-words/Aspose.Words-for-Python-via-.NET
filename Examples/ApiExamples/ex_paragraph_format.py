@@ -79,8 +79,8 @@ class ExParagraphFormat(ApiExampleBase):
     def test_line_spacing(self):
 
         #ExStart
-        #ExFor:ParagraphFormat.LineSpacing
-        #ExFor:ParagraphFormat.LineSpacingRule
+        #ExFor:ParagraphFormat.line_spacing
+        #ExFor:ParagraphFormat.line_spacing_rule
         #ExSummary:Shows how to work with line spacing.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -139,9 +139,9 @@ class ExParagraphFormat(ApiExampleBase):
             with self.subTest(auto_spacing=auto_spacing):
                 #ExStart
                 #ExFor:ParagraphFormat.space_after
-                #ExFor:ParagraphFormat.space_afterAuto
+                #ExFor:ParagraphFormat.space_after_auto
                 #ExFor:ParagraphFormat.space_before
-                #ExFor:ParagraphFormat.space_beforeAuto
+                #ExFor:ParagraphFormat.space_before_auto
                 #ExSummary:Shows how to set automatic paragraph spacing.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -185,7 +185,7 @@ class ExParagraphFormat(ApiExampleBase):
                 #ExStart
                 #ExFor:ParagraphFormat.space_after
                 #ExFor:ParagraphFormat.space_before
-                #ExFor:ParagraphFormat.NoSpaceBetweenParagraphsOfSameStyle
+                #ExFor:ParagraphFormat.no_space_between_paragraphs_of_same_style
                 #ExSummary:Shows how to apply no spacing between paragraphs with the same style.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -227,7 +227,7 @@ class ExParagraphFormat(ApiExampleBase):
     def test_paragraph_outline_level(self):
 
         #ExStart
-        #ExFor:ParagraphFormat.OutlineLevel
+        #ExFor:ParagraphFormat.outline_level
         #ExSummary:Shows how to configure paragraph outline levels to create collapsible text.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -270,7 +270,7 @@ class ExParagraphFormat(ApiExampleBase):
         for page_break_before in (False, True):
             with self.subTest(page_break_before=page_break_before):
                 #ExStart
-                #ExFor:ParagraphFormat.PageBreakBefore
+                #ExFor:ParagraphFormat.page_break_before
                 #ExSummary:Shows how to create paragraphs with page breaks at the beginning.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -309,7 +309,7 @@ class ExParagraphFormat(ApiExampleBase):
         for widow_control in (False, True):
             with self.subTest(widow_control=widow_control):
                 #ExStart
-                #ExFor:ParagraphFormat.WidowControl
+                #ExFor:ParagraphFormat.widow_control
                 #ExSummary:Shows how to enable widow/orphan control for a paragraph.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -340,7 +340,7 @@ class ExParagraphFormat(ApiExampleBase):
     def test_lines_to_drop(self):
 
         #ExStart
-        #ExFor:ParagraphFormat.LinesToDrop
+        #ExFor:ParagraphFormat.lines_to_drop
         #ExSummary:Shows how to set the size of a drop cap.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -370,7 +370,7 @@ class ExParagraphFormat(ApiExampleBase):
         for suppress_auto_hyphens in (False, True):
             with self.subTest(suppress_auto_hyphens=suppress_auto_hyphens):
                 #ExStart
-                #ExFor:ParagraphFormat.SuppressAutoHyphens
+                #ExFor:ParagraphFormat.suppress_auto_hyphens
                 #ExSummary:Shows how to suppress hyphenation for a paragraph.
                 aw.Hyphenation.register_dictionary("de-CH", MY_DIR + "hyph_de_CH.dic")
 
@@ -380,7 +380,7 @@ class ExParagraphFormat(ApiExampleBase):
                 # When we save this document to a fixed page save format, its text will have hyphenation.
                 doc = aw.Document(MY_DIR + "German text.docx")
 
-                # We can set the "SuppressAutoHyphens" property to "True" to disable hyphenation
+                # We can set the "suppress_auto_hyphens" property to "True" to disable hyphenation
                 # for a specific paragraph while keeping it enabled for the rest of the document.
                 # The default value for this property is "False",
                 # which means every paragraph by default uses hyphenation if any is available.
@@ -410,8 +410,8 @@ class ExParagraphFormat(ApiExampleBase):
         #ExFor:ParagraphFormat.character_unit_left_indent
         #ExFor:ParagraphFormat.character_unit_right_indent
         #ExFor:ParagraphFormat.character_unit_first_line_indent
-        #ExFor:ParagraphFormat.LineUnitBefore
-        #ExFor:ParagraphFormat.LineUnitAfter
+        #ExFor:ParagraphFormat.line_unit_before
+        #ExFor:ParagraphFormat.line_unit_after
         #ExSummary:Shows how to change paragraph spacing and indents.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

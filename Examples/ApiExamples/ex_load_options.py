@@ -17,7 +17,7 @@ IMAGE_DIR = image_dir
 class ExLoadOptions(ApiExampleBase):
 
     ##ExStart
-    ##ExFor:LoadOptions.ResourceLoadingCallback
+    ##ExFor:LoadOptions.resource_loading_callback
     ##ExSummary:Shows how to handle external resources when loading Html documents.
     #def test_load_options_callback(self):
 
@@ -60,7 +60,7 @@ class ExLoadOptions(ApiExampleBase):
         for is_convert_shape_to_office_math in (True, False):
             with self.subTest(is_convert_shape_to_office_math=is_convert_shape_to_office_math):
                 #ExStart
-                #ExFor:LoadOptions.ConvertShapeToOfficeMath
+                #ExFor:LoadOptions.convert_shape_to_office_math
                 #ExSummary:Shows how to convert EquationXML shapes to Office Math objects.
                 load_options = aw.loading.LoadOptions()
 
@@ -82,7 +82,7 @@ class ExLoadOptions(ApiExampleBase):
     def test_set_encoding(self):
 
         #ExStart
-        #ExFor:LoadOptions.Encoding
+        #ExFor:LoadOptions.encoding
         #ExSummary:Shows how to set the encoding with which to open a document.
         # A FileFormatInfo object will detect this file as being encoded in something other than UTF-7.
         file_format_info = aw.FileFormatUtil.detect_file_format(MY_DIR + "Encoded in UTF-7.txt")
@@ -110,7 +110,7 @@ class ExLoadOptions(ApiExampleBase):
     def test_font_settings(self):
 
         #ExStart
-        #ExFor:LoadOptions.FontSettings
+        #ExFor:LoadOptions.font_settings
         #ExSummary:Shows how to apply font substitution settings while loading a document.
         # Create a FontSettings object that will substitute the "Times New Roman" font
         # with the font "Arvo" from our "MyFonts" folder.
@@ -131,7 +131,7 @@ class ExLoadOptions(ApiExampleBase):
     def test_load_options_msw_version(self):
 
         #ExStart
-        #ExFor:LoadOptions.MswVersion
+        #ExFor:LoadOptions.msw_version
         #ExSummary:Shows how to emulate the loading procedure of a specific Microsoft Word version during document loading.
         # By default, Aspose.Words load documents according to Microsoft Word 2019 specification.
         load_options = aw.loading.LoadOptions()
@@ -148,7 +148,7 @@ class ExLoadOptions(ApiExampleBase):
         #ExEnd
 
     ##ExStart
-    ##ExFor:LoadOptions.WarningCallback
+    ##ExFor:LoadOptions.warning_callback
     ##ExSummary:Shows how to print and store warnings that occur during document loading.
     #def test_load_options_warning_callback(self):
 
@@ -196,7 +196,7 @@ class ExLoadOptions(ApiExampleBase):
     def test_temp_folder(self):
 
         #ExStart
-        #ExFor:LoadOptions.TempFolder
+        #ExFor:LoadOptions.temp_folder
         #ExSummary:Shows how to use the hard drive instead of memory when loading a document.
         # When we load a document, various elements are temporarily stored in memory as the save operation occurs.
         # We can use this option to use a temporary folder in the local file system instead,
@@ -217,8 +217,8 @@ class ExLoadOptions(ApiExampleBase):
 
         #ExStart
         #ExFor:LanguagePreferences
-        #ExFor:LanguagePreferences.AddEditingLanguage(EditingLanguage)
-        #ExFor:LoadOptions.LanguagePreferences
+        #ExFor:LanguagePreferences.add_editing_language(EditingLanguage)
+        #ExFor:LoadOptions.language_preferences
         #ExFor:EditingLanguage
         #ExSummary:Shows how to apply language preferences when loading a document.
         load_options = aw.loading.LoadOptions()
@@ -242,7 +242,7 @@ class ExLoadOptions(ApiExampleBase):
     def test_set_editing_language_as_default(self):
 
         #ExStart
-        #ExFor:LanguagePreferences.DefaultEditingLanguage
+        #ExFor:LanguagePreferences.default_editing_language
         #ExSummary:Shows how set a default language when loading a document.
         load_options = aw.loading.LoadOptions()
         load_options.language_preferences.default_editing_language = aw.loading.EditingLanguage.RUSSIAN
@@ -265,7 +265,7 @@ class ExLoadOptions(ApiExampleBase):
     def test_convert_metafiles_to_png(self):
 
         #ExStart
-        #ExFor:LoadOptions.ConvertMetafilesToPng
+        #ExFor:LoadOptions.convert_metafiles_to_png
         #ExSummary:Shows how to convert WMF/EMF to PNG during loading document.
         doc = aw.Document()
 
@@ -276,7 +276,7 @@ class ExLoadOptions(ApiExampleBase):
 
         doc.first_section.body.first_paragraph.append_child(shape)
 
-        doc.save(ARTIFACTS_DIR + "Image.create_i_m_a_g_e__d_i_rectly.docx")
+        doc.save(ARTIFACTS_DIR + "Image.create_image_directly.docx")
 
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
@@ -285,7 +285,7 @@ class ExLoadOptions(ApiExampleBase):
         load_options = aw.loading.LoadOptions()
         load_options.convert_metafiles_to_png = True
 
-        doc = aw.Document(ARTIFACTS_DIR + "Image.create_i_m_a_g_e__d_i_rectly.docx", load_options)
+        doc = aw.Document(ARTIFACTS_DIR + "Image.create_image_directly.docx", load_options)
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         TestUtil.verify_image_in_shape(self, 1666, 1666, aw.drawing.ImageType.PNG, shape)
@@ -306,7 +306,7 @@ class ExLoadOptions(ApiExampleBase):
         for is_flat_opc_xml_mapping_only in (True, False):
             with self.subTest(is_flat_opc_xml_mapping_only=is_flat_opc_xml_mapping_only):
                 #ExStart
-                #ExFor:SaveOptions.FlatOpcXmlMappingOnly
+                #ExFor:SaveOptions.flat_opc_xml_mapping_only
                 #ExSummary:Shows how to binding structured document tags to any format.
                 # If true - SDT will contain raw HTML text.
                 # If false - mapped HTML will parsed and resulting document will be inserted into SDT content.

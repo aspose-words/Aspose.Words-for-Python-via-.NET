@@ -16,7 +16,7 @@ class ExPdfLoadOptions(ApiExampleBase):
         for is_skip_pdf_images in (True, False):
             with self.subTest(is_skip_pdf_images=is_skip_pdf_images):
                 #ExStart
-                #ExFor:PdfLoadOptions.SkipPdfImages
+                #ExFor:PdfLoadOptions.skip_pdf_images
                 #ExSummary:Shows how to skip images during loading PDF files.
                 options = aw.loading.PdfLoadOptions()
                 options.skip_pdf_images = is_skip_pdf_images

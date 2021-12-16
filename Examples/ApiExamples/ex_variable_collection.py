@@ -14,16 +14,16 @@ class ExVariableCollection(ApiExampleBase):
     def test_primer(self):
 
         #ExStart
-        #ExFor:Document.Variables
+        #ExFor:Document.variables
         #ExFor:VariableCollection
-        #ExFor:VariableCollection.Add
-        #ExFor:VariableCollection.Clear
-        #ExFor:VariableCollection.Contains
-        #ExFor:VariableCollection.Count
-        #ExFor:VariableCollection.GetEnumerator
-        #ExFor:VariableCollection.IndexOfKey
-        #ExFor:VariableCollection.Remove
-        #ExFor:VariableCollection.RemoveAt
+        #ExFor:VariableCollection.add
+        #ExFor:VariableCollection.clear
+        #ExFor:VariableCollection.contains
+        #ExFor:VariableCollection.count
+        #ExFor:VariableCollection.__iter__
+        #ExFor:VariableCollection.index_of_key
+        #ExFor:VariableCollection.remove
+        #ExFor:VariableCollection.remove_at
         #ExSummary:Shows how to work with a document's variable collection.
         doc = aw.Document()
         variables = doc.variables

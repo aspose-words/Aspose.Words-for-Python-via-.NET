@@ -21,10 +21,10 @@ class ExMetered(ApiExampleBase):
 
         #ExStart
         #ExFor:Metered
-        #ExFor:Metered.#ctor
-        #ExFor:Metered.GetConsumptionCredit
-        #ExFor:Metered.GetConsumptionQuantity
-        #ExFor:Metered.SetMeteredKey(String, String)
+        #ExFor:Metered.__init__
+        #ExFor:Metered.get_consumption_credit
+        #ExFor:Metered.get_consumption_quantity
+        #ExFor:Metered.set_metered_key(str,str)
         #ExSummary:Shows how to activate a Metered license and track credit/consumption.
         # Create a new Metered license, and then print its usage statistics.
         metered = aw.Metered()

@@ -14,7 +14,6 @@ ARTIFACTS_DIR = artifacts_dir
 #ExFor:NodeList
 #ExFor:FieldStart
 #ExSummary:Shows how to find all hyperlinks in a Word document, and then change their URLs and display names.
-
 class ExReplaceHyperlinks(ApiExampleBase):
 
     def test_fields(self):
@@ -22,7 +21,7 @@ class ExReplaceHyperlinks(ApiExampleBase):
         doc = aw.Document(MY_DIR + "Hyperlinks.docx")
 
         # Hyperlinks in a Word documents are fields. To begin looking for hyperlinks, we must first find all the fields.
-        # Use the "SelectNodes" method to find all the fields in the document via an XPath.
+        # Use the "select_nodes" method to find all the fields in the document via an XPath.
         field_starts = doc.select_nodes("//FieldStart")
 
         for field_start in field_starts:
@@ -95,9 +94,6 @@ class Hyperlink:
         self._is_local = len(match.group(2)) > 0
         self._target = match.groups(3)
 
-    # <summary>
-    # Gets or 
-    # </summary>
     @property
     def name(self) -> str:
         """Gets the display name of the hyperlink."""

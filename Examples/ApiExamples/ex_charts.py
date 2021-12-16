@@ -17,11 +17,11 @@ class ExCharts(ApiExampleBase):
 
         #ExStart
         #ExFor:Chart
-        #ExFor:Chart.Title
+        #ExFor:Chart.title
         #ExFor:ChartTitle
-        #ExFor:ChartTitle.Overlay
-        #ExFor:ChartTitle.Show
-        #ExFor:ChartTitle.Text
+        #ExFor:ChartTitle.overlay
+        #ExFor:ChartTitle.show
+        #ExFor:ChartTitle.text
         #ExSummary:Shows how to insert a chart and set a title.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -58,8 +58,8 @@ class ExCharts(ApiExampleBase):
     def test_data_label_number_format(self):
 
         #ExStart
-        #ExFor:ChartDataLabelCollection.NumberFormat
-        #ExFor:ChartNumberFormat.FormatCode
+        #ExFor:ChartDataLabelCollection.number_format
+        #ExFor:ChartNumberFormat.format_code
         #ExSummary:Shows how to enable and configure data labels for a chart series.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -136,22 +136,22 @@ class ExCharts(ApiExampleBase):
 
         #ExStart
         #ExFor:ChartAxis
-        #ExFor:ChartAxis.CategoryType
-        #ExFor:ChartAxis.Crosses
-        #ExFor:ChartAxis.ReverseOrder
-        #ExFor:ChartAxis.MajorTickMark
-        #ExFor:ChartAxis.MinorTickMark
-        #ExFor:ChartAxis.MajorUnit
-        #ExFor:ChartAxis.MinorUnit
-        #ExFor:ChartAxis.TickLabelOffset
-        #ExFor:ChartAxis.TickLabelPosition
-        #ExFor:ChartAxis.TickLabelSpacingIsAuto
-        #ExFor:ChartAxis.TickMarkSpacing
-        #ExFor:Charts.AxisCategoryType
-        #ExFor:Charts.AxisCrosses
-        #ExFor:Charts.Chart.AxisX
-        #ExFor:Charts.Chart.AxisY
-        #ExFor:Charts.Chart.AxisZ
+        #ExFor:ChartAxis.category_type
+        #ExFor:ChartAxis.crosses
+        #ExFor:ChartAxis.reverse_order
+        #ExFor:ChartAxis.major_tick_mark
+        #ExFor:ChartAxis.minor_tick_mark
+        #ExFor:ChartAxis.major_unit
+        #ExFor:ChartAxis.minor_unit
+        #ExFor:ChartAxis.tick_label_offset
+        #ExFor:ChartAxis.tick_label_position
+        #ExFor:ChartAxis.tick_label_spacing_is_auto
+        #ExFor:ChartAxis.tick_mark_spacing
+        #ExFor:Charts.axis_category_type
+        #ExFor:Charts.axis_crosses
+        #ExFor:Charts.Chart.axis_x
+        #ExFor:Charts.Chart.axis_y
+        #ExFor:Charts.Chart.axis_z
         #ExSummary:Shows how to insert a chart and modify the appearance of its axes.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -226,15 +226,15 @@ class ExCharts(ApiExampleBase):
 
         #ExStart
         #ExFor:AxisBound
-        #ExFor:AxisBound.#ctor(Double)
-        #ExFor:AxisBound.#ctor(DateTime)
-        #ExFor:AxisScaling.Minimum
-        #ExFor:AxisScaling.Maximum
-        #ExFor:ChartAxis.Scaling
-        #ExFor:Charts.AxisTickMark
-        #ExFor:Charts.AxisTickLabelPosition
-        #ExFor:Charts.AxisTimeUnit
-        #ExFor:Charts.ChartAxis.BaseTimeUnit
+        #ExFor:AxisBound.__init__(float)
+        #ExFor:AxisBound.__init__(datetime)
+        #ExFor:AxisScaling.minimum
+        #ExFor:AxisScaling.maximum
+        #ExFor:ChartAxis.scaling
+        #ExFor:Charts.axis_tick_mark
+        #ExFor:Charts.axis_tick_label_position
+        #ExFor:Charts.axis_time_unit
+        #ExFor:Charts.ChartAxis.base_time_unit
         #ExSummary:Shows how to insert chart with date/time values.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -298,7 +298,7 @@ class ExCharts(ApiExampleBase):
     def test_hide_chart_axis(self):
 
         #ExStart
-        #ExFor:ChartAxis.Hidden
+        #ExFor:ChartAxis.hidden
         #ExSummary:Shows how to hide chart axes.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -330,10 +330,10 @@ class ExCharts(ApiExampleBase):
     def test_set_number_format_to_chart_axis(self):
 
         #ExStart
-        #ExFor:ChartAxis.NumberFormat
-        #ExFor:Charts.ChartNumberFormat
-        #ExFor:ChartNumberFormat.FormatCode
-        #ExFor:Charts.ChartNumberFormat.IsLinkedToSource
+        #ExFor:ChartAxis.number_format
+        #ExFor:Charts.chart_number_format
+        #ExFor:ChartNumberFormat.format_code
+        #ExFor:Charts.ChartNumberFormat.is_linked_to_source
         #ExSummary:Shows how to set formatting for chart values.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -413,10 +413,10 @@ class ExCharts(ApiExampleBase):
     def test_data_labels_bubble_chart(self):
 
         #ExStart
-        #ExFor:ChartDataLabelCollection.Separator
-        #ExFor:ChartDataLabelCollection.ShowBubbleSize
-        #ExFor:ChartDataLabelCollection.ShowCategoryName
-        #ExFor:ChartDataLabelCollection.ShowSeriesName
+        #ExFor:ChartDataLabelCollection.separator
+        #ExFor:ChartDataLabelCollection.show_bubble_size
+        #ExFor:ChartDataLabelCollection.show_category_name
+        #ExFor:ChartDataLabelCollection.show_series_name
         #ExSummary:Shows how to work with data labels of a bubble chart.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -454,11 +454,11 @@ class ExCharts(ApiExampleBase):
     def test_data_labels_pie_chart(self):
 
         #ExStart
-        #ExFor:ChartDataLabelCollection.Separator
-        #ExFor:ChartDataLabelCollection.ShowLeaderLines
-        #ExFor:ChartDataLabelCollection.ShowLegendKey
-        #ExFor:ChartDataLabelCollection.ShowPercentage
-        #ExFor:ChartDataLabelCollection.ShowValue
+        #ExFor:ChartDataLabelCollection.separator
+        #ExFor:ChartDataLabelCollection.show_leader_lines
+        #ExFor:ChartDataLabelCollection.show_legend_key
+        #ExFor:ChartDataLabelCollection.show_percentage
+        #ExFor:ChartDataLabelCollection.show_value
         #ExSummary:Shows how to work with data labels of a pie chart.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -496,29 +496,29 @@ class ExCharts(ApiExampleBase):
 
     #ExStart
     #ExFor:ChartSeries
-    #ExFor:ChartSeries.DataLabels
-    #ExFor:ChartSeries.DataPoints
-    #ExFor:ChartSeries.Name
+    #ExFor:ChartSeries.data_labels
+    #ExFor:ChartSeries.data_points
+    #ExFor:ChartSeries.name
     #ExFor:ChartDataLabel
-    #ExFor:ChartDataLabel.Index
-    #ExFor:ChartDataLabel.IsVisible
-    #ExFor:ChartDataLabel.NumberFormat
-    #ExFor:ChartDataLabel.Separator
-    #ExFor:ChartDataLabel.ShowCategoryName
-    #ExFor:ChartDataLabel.ShowDataLabelsRange
-    #ExFor:ChartDataLabel.ShowLeaderLines
-    #ExFor:ChartDataLabel.ShowLegendKey
-    #ExFor:ChartDataLabel.ShowPercentage
-    #ExFor:ChartDataLabel.ShowSeriesName
-    #ExFor:ChartDataLabel.ShowValue
-    #ExFor:ChartDataLabel.IsHidden
+    #ExFor:ChartDataLabel.index
+    #ExFor:ChartDataLabel.is_visible
+    #ExFor:ChartDataLabel.number_format
+    #ExFor:ChartDataLabel.separator
+    #ExFor:ChartDataLabel.show_category_name
+    #ExFor:ChartDataLabel.show_data_labels_range
+    #ExFor:ChartDataLabel.show_leader_lines
+    #ExFor:ChartDataLabel.show_legend_key
+    #ExFor:ChartDataLabel.show_percentage
+    #ExFor:ChartDataLabel.show_series_name
+    #ExFor:ChartDataLabel.show_value
+    #ExFor:ChartDataLabel.is_hidden
     #ExFor:ChartDataLabelCollection
-    #ExFor:ChartDataLabelCollection.Add(System.Int32)
-    #ExFor:ChartDataLabelCollection.Clear
-    #ExFor:ChartDataLabelCollection.Count
-    #ExFor:ChartDataLabelCollection.GetEnumerator
-    #ExFor:ChartDataLabelCollection.Item(System.Int32)
-    #ExFor:ChartDataLabelCollection.RemoveAt(System.Int32)
+    #ExFor:ChartDataLabelCollection.add(int)
+    #ExFor:ChartDataLabelCollection.clear
+    #ExFor:ChartDataLabelCollection.count
+    #ExFor:ChartDataLabelCollection.__iter__
+    #ExFor:ChartDataLabelCollection.__getitem__(int)
+    #ExFor:ChartDataLabelCollection.remove_at(int)
     #ExSummary:Shows how to apply labels to data points in a line chart.
     def test_data_labels(self):
 
@@ -579,20 +579,20 @@ class ExCharts(ApiExampleBase):
     #ExEnd
 
     #ExStart
-    #ExFor:ChartSeries.Smooth
+    #ExFor:ChartSeries.smooth
     #ExFor:ChartDataPoint
-    #ExFor:ChartDataPoint.Index
+    #ExFor:ChartDataPoint.index
     #ExFor:ChartDataPointCollection
-    #ExFor:ChartDataPointCollection.ClearFormat
-    #ExFor:ChartDataPointCollection.Count
-    #ExFor:ChartDataPointCollection.GetEnumerator
-    #ExFor:ChartDataPointCollection.Item(System.Int32)
+    #ExFor:ChartDataPointCollection.clear_format
+    #ExFor:ChartDataPointCollection.count
+    #ExFor:ChartDataPointCollection.__iter__
+    #ExFor:ChartDataPointCollection.__getitem__(int)
     #ExFor:ChartMarker
-    #ExFor:ChartMarker.Size
-    #ExFor:ChartMarker.Symbol
+    #ExFor:ChartMarker.size
+    #ExFor:ChartMarker.symbol
     #ExFor:IChartDataPoint
-    #ExFor:IChartDataPoint.InvertIfNegative
-    #ExFor:IChartDataPoint.Marker
+    #ExFor:IChartDataPoint.invert_if_negative
+    #ExFor:IChartDataPoint.marker
     #ExFor:MarkerSymbol
     #ExSummary:Shows how to work with data points on a line chart.
 
@@ -643,7 +643,7 @@ class ExCharts(ApiExampleBase):
     def test_pie_chart_explosion(self):
 
         #ExStart
-        #ExFor:Charts.IChartDataPoint.Explosion
+        #ExFor:Charts.IChartDataPoint.explosion
         #ExSummary:Shows how to move the slices of a pie chart away from the center.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -673,11 +673,11 @@ class ExCharts(ApiExampleBase):
         self.assertEqual(10, series.data_points[0].explosion)
         self.assertEqual(40, series.data_points[1].explosion)
 
-    def test_bubble3_d(self):
+    def test_bubble_3d(self):
 
         #ExStart
-        #ExFor:Charts.ChartDataLabel.ShowBubbleSize
-        #ExFor:Charts.IChartDataPoint.Bubble3D
+        #ExFor:Charts.ChartDataLabel.show_bubble_size
+        #ExFor:Charts.IChartDataPoint.bubble3_d
         #ExSummary:Shows how to use 3D effects with bubble charts.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -704,14 +704,14 @@ class ExCharts(ApiExampleBase):
             self.assertTrue(series.data_labels[i].show_bubble_size)
 
     #ExStart
-    #ExFor:ChartAxis.Type
+    #ExFor:ChartAxis.type
     #ExFor:ChartAxisType
     #ExFor:ChartType
-    #ExFor:Chart.Series
-    #ExFor:ChartSeriesCollection.Add(String,DateTime[],Double[])
-    #ExFor:ChartSeriesCollection.Add(String,Double[],Double[])
-    #ExFor:ChartSeriesCollection.Add(String,Double[],Double[],Double[])
-    #ExFor:ChartSeriesCollection.Add(String,String[],Double[])
+    #ExFor:Chart.series
+    #ExFor:ChartSeriesCollection.add(str,List[datetime],List[float])
+    #ExFor:ChartSeriesCollection.add(str,List[float],List[float])
+    #ExFor:ChartSeriesCollection.add(str,List[float],List[float],List[float])
+    #ExFor:ChartSeriesCollection.add(str,List[str],List[float])
     #ExSummary:Shows how to create an appropriate type of chart series for a graph type.
     def test_chart_series_collection(self):
 
@@ -800,11 +800,11 @@ class ExCharts(ApiExampleBase):
 
         #ExStart
         #ExFor:ChartSeriesCollection
-        #ExFor:ChartSeriesCollection.Clear
-        #ExFor:ChartSeriesCollection.Count
-        #ExFor:ChartSeriesCollection.GetEnumerator
-        #ExFor:ChartSeriesCollection.Item(Int32)
-        #ExFor:ChartSeriesCollection.RemoveAt(Int32)
+        #ExFor:ChartSeriesCollection.clear
+        #ExFor:ChartSeriesCollection.count
+        #ExFor:ChartSeriesCollection.__iter__
+        #ExFor:ChartSeriesCollection.__getitem__(int)
+        #ExFor:ChartSeriesCollection.remove_at(int)
         #ExSummary:Shows how to add and remove series data in a chart.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -852,8 +852,8 @@ class ExCharts(ApiExampleBase):
         #ExStart
         #ExFor:AxisScaleType
         #ExFor:AxisScaling
-        #ExFor:AxisScaling.LogBase
-        #ExFor:AxisScaling.Type
+        #ExFor:AxisScaling.log_base
+        #ExFor:AxisScaling.type
         #ExSummary:Shows how to apply logarithmic scaling to a chart axis.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -891,10 +891,10 @@ class ExCharts(ApiExampleBase):
     def test_axis_bound(self):
 
         #ExStart
-        #ExFor:AxisBound.#ctor
-        #ExFor:AxisBound.IsAuto
-        #ExFor:AxisBound.Value
-        #ExFor:AxisBound.ValueAsDate
+        #ExFor:AxisBound.__init__
+        #ExFor:AxisBound.is_auto
+        #ExFor:AxisBound.value
+        #ExFor:AxisBound.value_as_date
         #ExSummary:Shows how to set custom axis bounds.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -971,10 +971,10 @@ class ExCharts(ApiExampleBase):
     def test_chart_legend(self):
 
         #ExStart
-        #ExFor:Chart.Legend
+        #ExFor:Chart.legend
         #ExFor:ChartLegend
-        #ExFor:ChartLegend.Overlay
-        #ExFor:ChartLegend.Position
+        #ExFor:ChartLegend.overlay
+        #ExFor:ChartLegend.position
         #ExFor:LegendPosition
         #ExSummary:Shows how to edit the appearance of a chart's legend.
         doc = aw.Document()
@@ -1008,8 +1008,8 @@ class ExCharts(ApiExampleBase):
     def test_axis_cross(self):
 
         #ExStart
-        #ExFor:ChartAxis.AxisBetweenCategories
-        #ExFor:ChartAxis.CrossesAt
+        #ExFor:ChartAxis.axis_between_categories
+        #ExFor:ChartAxis.crosses_at
         #ExSummary:Shows how to get a graph axis to cross at a custom location.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1044,16 +1044,16 @@ class ExCharts(ApiExampleBase):
 
         #ExStart
         #ExFor:AxisBuiltInUnit
-        #ExFor:ChartAxis.DisplayUnit
-        #ExFor:ChartAxis.MajorUnitIsAuto
-        #ExFor:ChartAxis.MajorUnitScale
-        #ExFor:ChartAxis.MinorUnitIsAuto
-        #ExFor:ChartAxis.MinorUnitScale
-        #ExFor:ChartAxis.TickLabelSpacing
-        #ExFor:ChartAxis.TickLabelAlignment
+        #ExFor:ChartAxis.display_unit
+        #ExFor:ChartAxis.major_unit_is_auto
+        #ExFor:ChartAxis.major_unit_scale
+        #ExFor:ChartAxis.minor_unit_is_auto
+        #ExFor:ChartAxis.minor_unit_scale
+        #ExFor:ChartAxis.tick_label_spacing
+        #ExFor:ChartAxis.tick_label_alignment
         #ExFor:AxisDisplayUnit
-        #ExFor:AxisDisplayUnit.CustomUnit
-        #ExFor:AxisDisplayUnit.Unit
+        #ExFor:AxisDisplayUnit.custom_unit
+        #ExFor:AxisDisplayUnit.unit
         #ExSummary:Shows how to manipulate the tick marks and displayed values of a chart axis.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1137,14 +1137,14 @@ class ExCharts(ApiExampleBase):
     def test_marker_formatting(self):
 
         #ExStart
-        #ExFor:ChartMarker.Format
-        #ExFor:ChartFormat.Fill
-        #ExFor:ChartFormat.Stroke
-        #ExFor:Stroke.ForeColor
-        #ExFor:Stroke.BackColor
-        #ExFor:Stroke.Visible
-        #ExFor:Stroke.Transparency
-        #ExFor:Fill.PresetTextured(PresetTexture)
+        #ExFor:ChartMarker.format
+        #ExFor:ChartFormat.fill
+        #ExFor:ChartFormat.stroke
+        #ExFor:Stroke.fore_color
+        #ExFor:Stroke.back_color
+        #ExFor:Stroke.visible
+        #ExFor:Stroke.transparency
+        #ExFor:Fill.preset_textured(PresetTexture)
         #ExSummary:Show how to set marker formatting.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1178,7 +1178,7 @@ class ExCharts(ApiExampleBase):
     def test_series_color(self):
 
         #ExStart
-        #ExFor:ChartSeries.Format
+        #ExFor:ChartSeries.format
         #ExSummary:Sows how to set series color.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1210,7 +1210,7 @@ class ExCharts(ApiExampleBase):
     def test_data_points_formatting(self):
 
         #ExStart
-        #ExFor:ChartDataPoint.Format
+        #ExFor:ChartDataPoint.format
         #ExSummary:Shows how to set individual formatting for categories of a column chart.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

@@ -16,8 +16,8 @@ class ExDigitalSignatureUtil(ApiExampleBase):
 
         #ExStart
         #ExFor:DigitalSignatureUtil
-        #ExFor:DigitalSignatureUtil.LoadSignatures(String)
-        #ExFor:DigitalSignatureUtil.LoadSignatures(Stream)
+        #ExFor:DigitalSignatureUtil.load_signatures(str)
+        #ExFor:DigitalSignatureUtil.load_signatures(BytesIO)
         #ExSummary:Shows how to load signatures from a digitally signed document.
         # There are two ways of loading a signed document's collection of digital signatures using the DigitalSignatureUtil class.
         # 1 -  Load from a document from a local file system filename:
@@ -37,9 +37,9 @@ class ExDigitalSignatureUtil(ApiExampleBase):
 
         #ExStart
         #ExFor:DigitalSignatureUtil
-        #ExFor:DigitalSignatureUtil.LoadSignatures(String)
-        #ExFor:DigitalSignatureUtil.RemoveAllSignatures(Stream, Stream)
-        #ExFor:DigitalSignatureUtil.RemoveAllSignatures(String, String)
+        #ExFor:DigitalSignatureUtil.load_signatures(str)
+        #ExFor:DigitalSignatureUtil.remove_all_signatures(BytesIO,BytesIO)
+        #ExFor:DigitalSignatureUtil.remove_all_signatures(str,str)
         #ExSummary:Shows how to remove digital signatures from a digitally signed document.
         # There are two ways of using the DigitalSignatureUtil class to remove digital signatures
         # from a signed document by saving an unsigned copy of it somewhere else in the local file system.
@@ -63,10 +63,10 @@ class ExDigitalSignatureUtil(ApiExampleBase):
 
         #ExStart
         #ExFor:CertificateHolder
-        #ExFor:CertificateHolder.Create(String, String)
-        #ExFor:DigitalSignatureUtil.Sign(Stream, Stream, CertificateHolder, SignOptions)
-        #ExFor:SignOptions.Comments
-        #ExFor:SignOptions.SignTime
+        #ExFor:CertificateHolder.create(str,str)
+        #ExFor:DigitalSignatureUtil.sign(BytesIO,BytesIO,CertificateHolder,SignOptions)
+        #ExFor:SignOptions.comments
+        #ExFor:SignOptions.sign_time
         #ExSummary:Shows how to digitally sign documents.
         # Create an X.509 certificate from a PKCS#12 store, which should contain a private key.
         certificate_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + "morzal.pfx", "aw")
@@ -100,8 +100,8 @@ class ExDigitalSignatureUtil(ApiExampleBase):
 
         #ExStart
         #ExFor:CertificateHolder
-        #ExFor:SignOptions.DecryptionPassword
-        #ExFor:LoadOptions.Password
+        #ExFor:SignOptions.decryption_password
+        #ExFor:LoadOptions.password
         #ExSummary:Shows how to sign encrypted document file.
         # Create an X.509 certificate from a PKCS#12 store, which should contain a private key.
         certificate_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + "morzal.pfx", "aw")

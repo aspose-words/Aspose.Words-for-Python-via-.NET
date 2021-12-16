@@ -12,20 +12,20 @@ ARTIFACTS_DIR = artifacts_dir
 class ExDocumentVisitor(ApiExampleBase):
 
     #ExStart
-    #ExFor:Document.Accept(aw.DocumentVisitor)
-    #ExFor:Body.Accept(aw.DocumentVisitor)
-    #ExFor:SubDocument.Accept(aw.DocumentVisitor)
+    #ExFor:Document.accept(DocumentVisitor)
+    #ExFor:Body.accept(DocumentVisitor)
+    #ExFor:SubDocument.accept(DocumentVisitor)
     #ExFor:DocumentVisitor
-    #ExFor:DocumentVisitor.VisitRun(Run)
-    #ExFor:DocumentVisitor.VisitDocumentEnd(Document)
-    #ExFor:DocumentVisitor.VisitDocumentStart(Document)
-    #ExFor:DocumentVisitor.VisitSectionEnd(Section)
-    #ExFor:DocumentVisitor.VisitSectionStart(Section)
-    #ExFor:DocumentVisitor.VisitBodyStart(Body)
-    #ExFor:DocumentVisitor.VisitBodyEnd(Body)
-    #ExFor:DocumentVisitor.VisitParagraphStart(Paragraph)
-    #ExFor:DocumentVisitor.VisitParagraphEnd(Paragraph)
-    #ExFor:DocumentVisitor.VisitSubDocument(SubDocument)
+    #ExFor:DocumentVisitor.visit_run(Run)
+    #ExFor:DocumentVisitor.visit_document_end(Document)
+    #ExFor:DocumentVisitor.visit_document_start(Document)
+    #ExFor:DocumentVisitor.visit_section_end(Section)
+    #ExFor:DocumentVisitor.visit_section_start(Section)
+    #ExFor:DocumentVisitor.visit_body_start(Body)
+    #ExFor:DocumentVisitor.visit_body_end(Body)
+    #ExFor:DocumentVisitor.visit_paragraph_start(Paragraph)
+    #ExFor:DocumentVisitor.visit_paragraph_end(Paragraph)
+    #ExFor:DocumentVisitor.visit_sub_document(SubDocument)
     #ExSummary:Shows how to use a document visitor to print a document's node structure.
     def test_doc_structure_to_text(self):
 
@@ -166,21 +166,21 @@ class ExDocumentVisitor(ApiExampleBase):
         self.assertIn("[SubDocument]", visitor_text)
 
     #ExStart
-    #ExFor:Cell.Accept(aw.DocumentVisitor)
-    #ExFor:Cell.IsFirstCell
-    #ExFor:Cell.IsLastCell
-    #ExFor:DocumentVisitor.VisitTableEnd(Tables.Table)
-    #ExFor:DocumentVisitor.VisitTableStart(Tables.Table)
-    #ExFor:DocumentVisitor.VisitRowEnd(Tables.Row)
-    #ExFor:DocumentVisitor.VisitRowStart(Tables.Row)
-    #ExFor:DocumentVisitor.VisitCellStart(Tables.Cell)
-    #ExFor:DocumentVisitor.VisitCellEnd(Tables.Cell)
-    #ExFor:Row.Accept(aw.DocumentVisitor)
-    #ExFor:Row.FirstCell
-    #ExFor:Row.GetText
-    #ExFor:Row.IsFirstRow
-    #ExFor:Row.LastCell
-    #ExFor:Row.ParentTable
+    #ExFor:Cell.accept(DocumentVisitor)
+    #ExFor:Cell.is_first_cell
+    #ExFor:Cell.is_last_cell
+    #ExFor:DocumentVisitor.visit_table_end(Table)
+    #ExFor:DocumentVisitor.visit_table_start(Table)
+    #ExFor:DocumentVisitor.visit_row_end(Row)
+    #ExFor:DocumentVisitor.visit_row_start(Row)
+    #ExFor:DocumentVisitor.visit_cell_start(Cell)
+    #ExFor:DocumentVisitor.visit_cell_end(Cell)
+    #ExFor:Row.accept(DocumentVisitor)
+    #ExFor:Row.first_cell
+    #ExFor:Row.get_text
+    #ExFor:Row.is_first_row
+    #ExFor:Row.last_cell
+    #ExFor:Row.parent_table
     #ExSummary:Shows how to print the node structure of every table in a document.
     def test_table_to_text(self):
 
@@ -305,7 +305,7 @@ class ExDocumentVisitor(ApiExampleBase):
             return aw.VisitorAction.CONTINUE
 
         def _indent_and_append_line(self, text: str):
-            """Append a line to the StringBuilder, and indent it depending on how deep the visitor is
+            """Append a line to the output, and indent it depending on how deep the visitor is
             into the current table's tree of child nodes."""
 
             for i in range(self.doc_traversal_depth):
@@ -328,10 +328,10 @@ class ExDocumentVisitor(ApiExampleBase):
         self.assertIn("[Run]", visitor_text)
 
     #ExStart
-    #ExFor:DocumentVisitor.VisitCommentStart(Comment)
-    #ExFor:DocumentVisitor.VisitCommentEnd(Comment)
-    #ExFor:DocumentVisitor.VisitCommentRangeEnd(CommentRangeEnd)
-    #ExFor:DocumentVisitor.VisitCommentRangeStart(CommentRangeStart)
+    #ExFor:DocumentVisitor.visit_comment_start(Comment)
+    #ExFor:DocumentVisitor.visit_comment_end(Comment)
+    #ExFor:DocumentVisitor.visit_comment_range_end(CommentRangeEnd)
+    #ExFor:DocumentVisitor.visit_comment_range_start(CommentRangeStart)
     #ExSummary:Shows how to print the node structure of every comment and comment range in a document.
     def test_comments_to_text(self):
 
@@ -407,7 +407,7 @@ class ExDocumentVisitor(ApiExampleBase):
             return aw.VisitorAction.CONTINUE
 
         def _indent_and_append_line(self, text: str):
-            """Append a line to the StringBuilder, and indent it depending on how deep the visitor is
+            """Append a line to the output, and indent it depending on how deep the visitor is
             into a comment/comment range's tree of child nodes."""
 
             for i in range(self.doc_traversal_depth):
@@ -428,9 +428,9 @@ class ExDocumentVisitor(ApiExampleBase):
         self.assertIn("[Run]", visitor_text)
 
     #ExStart
-    #ExFor:DocumentVisitor.VisitFieldStart
-    #ExFor:DocumentVisitor.VisitFieldEnd
-    #ExFor:DocumentVisitor.VisitFieldSeparator
+    #ExFor:DocumentVisitor.visit_field_start
+    #ExFor:DocumentVisitor.visit_field_end
+    #ExFor:DocumentVisitor.visit_field_separator
     #ExSummary:Shows how to print the node structure of every field in a document.
     def test_field_to_text(self):
 
@@ -493,7 +493,7 @@ class ExDocumentVisitor(ApiExampleBase):
             return aw.VisitorAction.CONTINUE
 
         def _indent_and_append_line(self, text: str):
-            """Append a line to the StringBuilder, and indent it depending on how deep the visitor is
+            """Append a line to the output, and indent it depending on how deep the visitor is
             into the field's tree of child nodes."""
 
             for i in range(self.doc_traversal_depth):
@@ -513,12 +513,12 @@ class ExDocumentVisitor(ApiExampleBase):
         self.assertIn("[Run]", visitor_text)
 
     #ExStart
-    #ExFor:DocumentVisitor.VisitHeaderFooterStart(HeaderFooter)
-    #ExFor:DocumentVisitor.VisitHeaderFooterEnd(HeaderFooter)
-    #ExFor:HeaderFooter.Accept(aw.DocumentVisitor)
-    #ExFor:HeaderFooterCollection.ToArray
-    #ExFor:Run.Accept(aw.DocumentVisitor)
-    #ExFor:Run.GetText
+    #ExFor:DocumentVisitor.visit_header_footer_start(HeaderFooter)
+    #ExFor:DocumentVisitor.visit_header_footer_end(HeaderFooter)
+    #ExFor:HeaderFooter.accept(DocumentVisitor)
+    #ExFor:HeaderFooterCollection.to_array
+    #ExFor:Run.accept(aw.DocumentVisitor)
+    #ExFor:Run.get_text
     #ExSummary:Shows how to print the node structure of every header and footer in a document.
     def test_header_footer_to_text(self):
 
@@ -578,7 +578,7 @@ class ExDocumentVisitor(ApiExampleBase):
             return aw.VisitorAction.CONTINUE
 
         def _indent_and_append_line(self, text: str):
-            """Append a line to the StringBuilder, and indent it depending on how deep the visitor is into the document tree."""
+            """Append a line to the output, and indent it depending on how deep the visitor is into the document tree."""
 
             for i in range(self.doc_traversal_depth):
                self.builder.write("|  ")
@@ -601,8 +601,8 @@ class ExDocumentVisitor(ApiExampleBase):
         self.assertIn("[Run]", visitor_text)
 
     #ExStart
-    #ExFor:DocumentVisitor.VisitEditableRangeEnd(EditableRangeEnd)
-    #ExFor:DocumentVisitor.VisitEditableRangeStart(EditableRangeStart)
+    #ExFor:DocumentVisitor.visit_editable_range_end(EditableRangeEnd)
+    #ExFor:DocumentVisitor.visit_editable_range_start(EditableRangeStart)
     #ExSummary:Shows how to print the node structure of every editable range in a document.
     def test_editable_range_to_text(self):
 
@@ -661,7 +661,7 @@ class ExDocumentVisitor(ApiExampleBase):
             return aw.VisitorAction.CONTINUE
 
         def _indent_and_append_line(self, text: str):
-            """Append a line to the StringBuilder and indent it depending on how deep the visitor is into the document tree."""
+            """Append a line to the output and indent it depending on how deep the visitor is into the document tree."""
 
             for i in range(self.doc_traversal_depth):
                self.builder.write("|  ")
@@ -679,9 +679,9 @@ class ExDocumentVisitor(ApiExampleBase):
         self.assertIn("[Run]", visitor_text)
 
     #ExStart
-    #ExFor:DocumentVisitor.VisitFootnoteEnd(Footnote)
-    #ExFor:DocumentVisitor.VisitFootnoteStart(Footnote)
-    #ExFor:Footnote.Accept(aw.DocumentVisitor)
+    #ExFor:DocumentVisitor.visit_footnote_end(Footnote)
+    #ExFor:DocumentVisitor.visit_footnote_start(Footnote)
+    #ExFor:Footnote.accept(DocumentVisitor)
     #ExSummary:Shows how to print the node structure of every footnote in a document.
     def test_footnote_to_text(self):
 
@@ -738,7 +738,7 @@ class ExDocumentVisitor(ApiExampleBase):
             return aw.VisitorAction.CONTINUE
 
         def _indent_and_append_line(self, text: str):
-            """Append a line to the StringBuilder and indent it depending on how deep the visitor is into the document tree."""
+            """Append a line to the output and indent it depending on how deep the visitor is into the document tree."""
 
             for i in range(self.doc_traversal_depth):
                self.builder.write("|  ")
@@ -756,11 +756,11 @@ class ExDocumentVisitor(ApiExampleBase):
         self.assertIn("[Run]", visitor_text)
 
     #ExStart
-    #ExFor:DocumentVisitor.VisitOfficeMathEnd(Math.OfficeMath)
-    #ExFor:DocumentVisitor.VisitOfficeMathStart(Math.OfficeMath)
+    #ExFor:DocumentVisitor.visit_office_math_end(OfficeMath)
+    #ExFor:DocumentVisitor.visit_office_math_start(OfficeMath)
     #ExFor:Math.MathObjectType
-    #ExFor:Math.OfficeMath.Accept(aw.DocumentVisitor)
-    #ExFor:Math.OfficeMath.MathObjectType
+    #ExFor:Math.OfficeMath.accept(DocumentVisitor)
+    #ExFor:Math.OfficeMath.math_object_type
     #ExSummary:Shows how to print the node structure of every office math node in a document.
     def test_office_math_to_text(self):
 
@@ -842,8 +842,8 @@ class ExDocumentVisitor(ApiExampleBase):
         self.assertIn("[Run]", visitor_text)
 
     #ExStart
-    #ExFor:DocumentVisitor.VisitSmartTagEnd(Markup.SmartTag)
-    #ExFor:DocumentVisitor.VisitSmartTagStart(Markup.SmartTag)
+    #ExFor:DocumentVisitor.visit_smart_tag_end(SmartTag)
+    #ExFor:DocumentVisitor.visit_smart_tag_start(SmartTag)
     #ExSummary:Shows how to print the node structure of every smart tag in a document.
     def test_smart_tag_to_text(self):
 
@@ -925,9 +925,9 @@ class ExDocumentVisitor(ApiExampleBase):
         self.assertIn("[Run]", visitor_text)
 
     #ExStart
-    #ExFor:StructuredDocumentTag.Accept(aw.DocumentVisitor)
-    #ExFor:DocumentVisitor.VisitStructuredDocumentTagEnd(Markup.StructuredDocumentTag)
-    #ExFor:DocumentVisitor.VisitStructuredDocumentTagStart(Markup.StructuredDocumentTag)
+    #ExFor:StructuredDocumentTag.accept(DocumentVisitor)
+    #ExFor:DocumentVisitor.visit_structured_document_tag_end(StructuredDocumentTag)
+    #ExFor:DocumentVisitor.visit_structured_document_tag_start(StructuredDocumentTag)
     #ExSummary:Shows how to print the node structure of every structured document tag in a document.
     def test_structured_document_tag_to_text(self):
 
@@ -982,7 +982,7 @@ class ExDocumentVisitor(ApiExampleBase):
             return aw.VisitorAction.CONTINUE
 
         def _indent_and_append_line(self, text: str):
-            """Append a line to the StringBuilder and indent it depending on how deep the visitor is into the document tree."""
+            """Append a line to the output and indent it depending on how deep the visitor is into the document tree."""
 
             for i in range(self.doc_traversal_depth):
                self.builder.write("|  ")

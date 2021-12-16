@@ -15,11 +15,11 @@ class ExMailMergeCustom(ApiExampleBase):
 
     #ExStart
     #ExFor:IMailMergeDataSource
-    #ExFor:IMailMergeDataSource.TableName
-    #ExFor:IMailMergeDataSource.MoveNext
-    #ExFor:IMailMergeDataSource.GetValue
-    #ExFor:IMailMergeDataSource.GetChildDataSource
-    #ExFor:MailMerge.Execute(IMailMergeDataSourceCore)
+    #ExFor:IMailMergeDataSource.table_name
+    #ExFor:IMailMergeDataSource.move_next
+    #ExFor:IMailMergeDataSource.get_value
+    #ExFor:IMailMergeDataSource.get_child_data_source
+    #ExFor:MailMerge.execute(IMailMergeDataSourceCore)
     #ExSummary:Shows how to execute a mail merge with a data source in the form of a custom object.
     def test_custom_data_source(self):
 
@@ -107,8 +107,8 @@ class ExMailMergeCustom(ApiExampleBase):
 
     #ExStart
     #ExFor:IMailMergeDataSourceRoot
-    #ExFor:IMailMergeDataSourceRoot.GetDataSource(String)
-    #ExFor:MailMerge.ExecuteWithRegions(IMailMergeDataSourceRoot)
+    #ExFor:IMailMergeDataSourceRoot.get_data_source(str)
+    #ExFor:MailMerge.execute_with_regions(IMailMergeDataSourceRoot)
     #ExSummary:Performs mail merge from a custom data source with master-detail data.
     def test_custom_data_source_root(self):
 

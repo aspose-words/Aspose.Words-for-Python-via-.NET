@@ -15,14 +15,14 @@ class ExBorder(ApiExampleBase):
 
         #ExStart
         #ExFor:Border
-        #ExFor:Border.Color
-        #ExFor:Border.LineWidth
-        #ExFor:Border.LineStyle
-        #ExFor:Font.Border
+        #ExFor:Border.color
+        #ExFor:Border.line_width
+        #ExFor:Border.line_style
+        #ExFor:Font.border
         #ExFor:LineStyle
         #ExFor:Font
-        #ExFor:DocumentBuilder.Font
-        #ExFor:DocumentBuilder.Write(String)
+        #ExFor:DocumentBuilder.font
+        #ExFor:DocumentBuilder.write(str)
         #ExSummary:Shows how to insert a string surrounded by a border into a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -49,7 +49,7 @@ class ExBorder(ApiExampleBase):
         #ExFor:BorderCollection
         #ExFor:Border
         #ExFor:BorderType
-        #ExFor:ParagraphFormat.Borders
+        #ExFor:ParagraphFormat.borders
         #ExSummary:Shows how to insert a paragraph with a top border.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -74,8 +74,8 @@ class ExBorder(ApiExampleBase):
     def test_clear_formatting(self):
 
         #ExStart
-        #ExFor:Border.ClearFormatting
-        #ExFor:Border.IsVisible
+        #ExFor:Border.clear_formatting
+        #ExFor:Border.is_visible
         #ExSummary:Shows how to remove borders from a paragraph.
         doc = aw.Document(MY_DIR + "Borders.docx")
 
@@ -88,7 +88,7 @@ class ExBorder(ApiExampleBase):
         self.assertEqual(aw.LineStyle.SINGLE, borders[0].line_style)
         self.assertTrue(borders[0].is_visible)
 
-        # We can remove a border at once by running the clear_formatting method.
+        # We can remove a border at once by running the "clear_formatting" method.
         # Running this method on every border of a paragraph will remove all its borders.
         for border in borders:
             border.clear_formatting()
@@ -112,12 +112,12 @@ class ExBorder(ApiExampleBase):
     def test_shared_elements(self):
 
         #ExStart
-        #ExFor:Border.Equals(Object)
-        #ExFor:Border.Equals(Border)
-        #ExFor:Border.GetHashCode
-        #ExFor:BorderCollection.Count
-        #ExFor:BorderCollection.Equals(BorderCollection)
-        #ExFor:BorderCollection.Item(Int32)
+        #ExFor:Border.__eq__(object)
+        #ExFor:Border.__eq__(Border)
+        #ExFor:Border.get_hash_code
+        #ExFor:BorderCollection.count
+        #ExFor:BorderCollection.__eq__(BorderCollection)
+        #ExFor:BorderCollection.__getitem__(int)
         #ExSummary:Shows how border collections can share elements.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -132,7 +132,7 @@ class ExBorder(ApiExampleBase):
         self.assertEqual(6, first_paragraph_borders.count) #ExSkip
 
         for i in range(first_paragraph_borders.count):
-            self.assertTrue(first_paragraph_borders[i].equals(second_paragraph_borders[i]))
+            self.assertEqual(first_paragraph_borders[i], second_paragraph_borders[i])
             self.assertIs(first_paragraph_borders[i], second_paragraph_borders[i])
             self.assertFalse(first_paragraph_borders[i].is_visible)
 
@@ -163,7 +163,7 @@ class ExBorder(ApiExampleBase):
     def test_horizontal_borders(self):
 
         #ExStart
-        #ExFor:BorderCollection.Horizontal
+        #ExFor:BorderCollection.horizontal
         #ExSummary:Shows how to apply settings to horizontal borders to a paragraph's format.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -194,9 +194,9 @@ class ExBorder(ApiExampleBase):
     def test_vertical_borders(self):
 
         #ExStart
-        #ExFor:BorderCollection.Horizontal
-        #ExFor:BorderCollection.Vertical
-        #ExFor:Cell.LastParagraph
+        #ExFor:BorderCollection.horizontal
+        #ExFor:BorderCollection.vertical
+        #ExFor:Cell.last_paragraph
         #ExSummary:Shows how to apply settings to vertical borders to a table row's format.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

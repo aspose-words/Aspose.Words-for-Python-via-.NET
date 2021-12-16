@@ -18,9 +18,9 @@ class ExRtfSaveOptions(ApiExampleBase):
             with self.subTest(export_images_for_old_readers=export_images_for_old_readers):
                 #ExStart
                 #ExFor:RtfSaveOptions
-                #ExFor:RtfSaveOptions.ExportCompactSize
-                #ExFor:RtfSaveOptions.ExportImagesForOldReaders
-                #ExFor:RtfSaveOptions.SaveFormat
+                #ExFor:RtfSaveOptions.export_compact_size
+                #ExFor:RtfSaveOptions.export_images_for_old_readers
+                #ExFor:RtfSaveOptions.save_format
                 #ExSummary:Shows how to save a document to .rtf with custom options.
                 doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -29,7 +29,7 @@ class ExRtfSaveOptions(ApiExampleBase):
 
                 self.assertEqual(aw.SaveFormat.RTF, options.save_format)
 
-                # Set the "ExportCompactSize" property to "True" to
+                # Set the "export_compact_size" property to "True" to
                 # reduce the saved document's size at the cost of right-to-left text compatibility.
                 options.export_compact_size = True
 
@@ -56,7 +56,7 @@ class ExRtfSaveOptions(ApiExampleBase):
         for save_images_as_wmf in (False, True):
             with self.subTest(save_images_as_wmf=save_images_as_wmf):
                 #ExStart
-                #ExFor:RtfSaveOptions.SaveImagesAsWmf
+                #ExFor:RtfSaveOptions.save_images_as_wmf
                 #ExSummary:Shows how to convert all images in a document to the Windows Metafile format as we save the document as an RTF.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)

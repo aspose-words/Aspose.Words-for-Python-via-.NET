@@ -14,12 +14,12 @@ class ExXamlFlowSaveOptions(ApiExampleBase):
 
     #ExStart
     #ExFor:XamlFlowSaveOptions
-    #ExFor:XamlFlowSaveOptions.#ctor
-    #ExFor:XamlFlowSaveOptions.#ctor(SaveFormat)
-    #ExFor:XamlFlowSaveOptions.ImageSavingCallback
-    #ExFor:XamlFlowSaveOptions.ImagesFolder
-    #ExFor:XamlFlowSaveOptions.ImagesFolderAlias
-    #ExFor:XamlFlowSaveOptions.SaveFormat
+    #ExFor:XamlFlowSaveOptions.__init__
+    #ExFor:XamlFlowSaveOptions.__init__(SaveFormat)
+    #ExFor:XamlFlowSaveOptions.image_saving_callback
+    #ExFor:XamlFlowSaveOptions.images_folder
+    #ExFor:XamlFlowSaveOptions.images_folder_alias
+    #ExFor:XamlFlowSaveOptions.save_format
     #ExSummary:Shows how to print the filenames of linked images created while converting a document to flow-form .xaml.
     def test_image_folder(self):
 

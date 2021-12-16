@@ -15,8 +15,8 @@ class ExPclSaveOptions(ApiExampleBase):
 
         #ExStart
         #ExFor:PclSaveOptions
-        #ExFor:PclSaveOptions.SaveFormat
-        #ExFor:PclSaveOptions.RasterizeTransformedElements
+        #ExFor:PclSaveOptions.save_format
+        #ExFor:PclSaveOptions.rasterize_transformed_elements
         #ExSummary:Shows how to rasterize complex elements while saving a document to PCL.
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -30,7 +30,7 @@ class ExPclSaveOptions(ApiExampleBase):
     def test_fallback_font_name(self):
 
         #ExStart
-        #ExFor:PclSaveOptions.FallbackFontName
+        #ExFor:PclSaveOptions.fallback_font_name
         #ExSummary:Shows how to declare a font that a printer will apply to printed text as a substitute should its original font be unavailable.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -49,7 +49,7 @@ class ExPclSaveOptions(ApiExampleBase):
     def test_add_printer_font(self):
 
         #ExStart
-        #ExFor:PclSaveOptions.AddPrinterFont(string, string)
+        #ExFor:PclSaveOptions.add_printer_font(string,string)
         #ExSummary:Shows how to get a printer to substitute all instances of a specific font with a different font.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

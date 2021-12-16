@@ -14,9 +14,9 @@ class ExCertificateHolder(ApiExampleBase):
     def test_create(self):
 
         #ExStart
-        #ExFor:CertificateHolder.Create(Byte[], SecureString)
-        #ExFor:CertificateHolder.Create(Byte[], String)
-        #ExFor:CertificateHolder.Create(String, String, String)
+        #ExFor:CertificateHolder.create(bytes,SecureString)
+        #ExFor:CertificateHolder.create(bytes,str)
+        #ExFor:CertificateHolder.create(str,str,str)
         #ExSummary:Shows how to create CertificateHolder objects.
         # Below are four ways of creating CertificateHolder objects.
         # 1 -  Load a PKCS #12 file into a byte array and apply its password:

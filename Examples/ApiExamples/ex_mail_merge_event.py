@@ -13,16 +13,16 @@ ARTIFACTS_DIR = artifacts_dir
 class ExMailMergeEvent(ApiExampleBase):
 
     #ExStart
-    #ExFor:DocumentBuilder.InsertHtml(String)
-    #ExFor:MailMerge.FieldMergingCallback
+    #ExFor:DocumentBuilder.insert_html(str)
+    #ExFor:MailMerge.field_merging_callback
     #ExFor:IFieldMergingCallback
     #ExFor:FieldMergingArgs
     #ExFor:FieldMergingArgsBase
-    #ExFor:FieldMergingArgsBase.Field
+    #ExFor:FieldMergingArgsBase.field
     #ExFor:FieldMergingArgsBase.document_field_name
-    #ExFor:FieldMergingArgsBase.Document
-    #ExFor:IFieldMergingCallback.FieldMerging
-    #ExFor:FieldMergingArgs.Text
+    #ExFor:FieldMergingArgsBase.document
+    #ExFor:IFieldMergingCallback.field_merging
+    #ExFor:FieldMergingArgs.text
     #ExSummary:Shows how to execute a mail merge with a custom callback that handles merge data in the form of HTML documents.
     def test_merge_html(self):
 
@@ -77,7 +77,7 @@ class ExMailMergeEvent(ApiExampleBase):
     #ExEnd
 
     #ExStart
-    #ExFor:FieldMergingArgsBase.FieldValue
+    #ExFor:FieldMergingArgsBase.field_value
     #ExSummary:Shows how to edit values that MERGEFIELDs receive as a mail merge takes place.
     def test_field_formats(self):
 
@@ -119,10 +119,10 @@ class ExMailMergeEvent(ApiExampleBase):
     #ExEnd
 
     #ExStart
-    #ExFor:DocumentBuilder.MoveToMergeField(String)
+    #ExFor:DocumentBuilder.move_to_merge_field(str)
     #ExFor:FieldMergingArgsBase.field_name
-    #ExFor:FieldMergingArgsBase.TableName
-    #ExFor:FieldMergingArgsBase.RecordIndex
+    #ExFor:FieldMergingArgsBase.table_name
+    #ExFor:FieldMergingArgsBase.record_index
     #ExSummary:Shows how to insert checkbox form fields into MERGEFIELDs as merge data during mail merge.
     def test_insert_check_box(self):
 
@@ -193,7 +193,7 @@ class ExMailMergeEvent(ApiExampleBase):
     #ExEnd
 
     #ExStart
-    #ExFor:MailMerge.ExecuteWithRegions(DataTable)
+    #ExFor:MailMerge.execute_with_regions(DataTable)
     #ExSummary:Demonstrates how to format cells during a mail merge.
     def test_alternating_rows(self):
 
@@ -254,7 +254,7 @@ class ExMailMergeEvent(ApiExampleBase):
     def test_image_from_url(self):
 
         #ExStart
-        #ExFor:MailMerge.Execute(String[], Object[])
+        #ExFor:MailMerge.execute(List[str],List[object])
         #ExSummary:Shows how to merge an image from a URI as mail merge data into a MERGEFIELD.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -287,13 +287,13 @@ class ExMailMergeEvent(ApiExampleBase):
         TestUtil.verify_image_in_shape(320, 320, aw.drawing.image_type.PNG, image_shape)
 
     #ExStart
-    #ExFor:MailMerge.FieldMergingCallback
-    #ExFor:MailMerge.ExecuteWithRegions(IDataReader,String)
+    #ExFor:MailMerge.field_merging_callback
+    #ExFor:MailMerge.execute_with_regions(IDataReader,str)
     #ExFor:IFieldMergingCallback
     #ExFor:ImageFieldMergingArgs
-    #ExFor:IFieldMergingCallback.FieldMerging
-    #ExFor:IFieldMergingCallback.ImageFieldMerging
-    #ExFor:ImageFieldMergingArgs.ImageStream
+    #ExFor:IFieldMergingCallback.field_merging
+    #ExFor:IFieldMergingCallback.image_field_merging
+    #ExFor:ImageFieldMergingArgs.image_stream
     #ExSummary:Shows how to insert images stored in a database BLOB field into a report.
     def test_image_from_blob(self):
 

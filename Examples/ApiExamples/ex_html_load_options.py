@@ -20,8 +20,8 @@ class ExHtmlLoadOptions(ApiExampleBase):
         for support_vml in (True, False):
             with self.subTest(support_vml=support_vml):
                 #ExStart
-                #ExFor:HtmlLoadOptions.#ctor
-                #ExFor:HtmlLoadOptions.SupportVml
+                #ExFor:HtmlLoadOptions.__init__
+                #ExFor:HtmlLoadOptions.support_vml
                 #ExSummary:Shows how to support conditional comments while loading an HTML document.
                 load_options = aw.loading.HtmlLoadOptions()
 
@@ -48,7 +48,7 @@ class ExHtmlLoadOptions(ApiExampleBase):
                     TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.PNG, image_shape)
 
     ##ExStart
-    ##ExFor:HtmlLoadOptions.WebRequestTimeout
+    ##ExFor:HtmlLoadOptions.web_request_timeout
     ##ExSummary:Shows how to set a time limit for web requests when loading a document with external resources linked by URLs.
     #def test_web_request_timeout(self):
 
@@ -107,7 +107,7 @@ class ExHtmlLoadOptions(ApiExampleBase):
     def test_encrypted_html(self):
 
         #ExStart
-        #ExFor:HtmlLoadOptions.#ctor(String)
+        #ExFor:HtmlLoadOptions.__init__(str)
         #ExSummary:Shows how to encrypt an Html document, and then open it using a password.
         # Create and sign an encrypted HTML document from an encrypted .docx.
         certificate_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + "morzal.pfx", "aw")
@@ -135,9 +135,9 @@ class ExHtmlLoadOptions(ApiExampleBase):
     def test_base_uri(self):
 
         #ExStart
-        #ExFor:HtmlLoadOptions.#ctor(LoadFormat,String,String)
-        #ExFor:LoadOptions.#ctor(LoadFormat, String, String)
-        #ExFor:LoadOptions.LoadFormat
+        #ExFor:HtmlLoadOptions.__init__(LoadFormat,str,str)
+        #ExFor:LoadOptions.__init__(LoadFormat,str,str)
+        #ExFor:LoadOptions.load_format
         #ExFor:LoadFormat
         #ExSummary:Shows how to specify a base URI when opening an html document.
         # Suppose we want to load an .html document that contains an image linked by a relative URI
@@ -164,7 +164,7 @@ class ExHtmlLoadOptions(ApiExampleBase):
     def test_get_select_as_sdt(self):
 
         #ExStart
-        #ExFor:HtmlLoadOptions.PreferredControlType
+        #ExFor:HtmlLoadOptions.preferred_control_type
         #ExSummary:Shows how to set preferred type of document nodes that will represent imported <input> and <select> elements.
         html = """
             <html>
@@ -212,7 +212,7 @@ class ExHtmlLoadOptions(ApiExampleBase):
         for ignore_noscript_elements in (True, False):
             with self.subTest(ignore_noscript_elements=ignore_noscript_elements):
                 #ExStart
-                #ExFor:HtmlLoadOptions.IgnoreNoscriptElements
+                #ExFor:HtmlLoadOptions.ignore_noscript_elements
                 #ExSummary:Shows how to ignore <noscript> HTML elements.
                 html = """
                     <html>

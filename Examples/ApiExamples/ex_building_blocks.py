@@ -14,22 +14,22 @@ ARTIFACTS_DIR = artifacts_dir
 class ExBuildingBlocks(ApiExampleBase):
 
     ##ExStart
-    ##ExFor:Document.GlossaryDocument
-    ##ExFor:BuildingBlocks.BuildingBlock
-    ##ExFor:BuildingBlocks.BuildingBlock.#ctor(BuildingBlocks.GlossaryDocument)
-    ##ExFor:BuildingBlocks.BuildingBlock.Accept(DocumentVisitor)
-    ##ExFor:BuildingBlocks.BuildingBlock.Behavior
-    ##ExFor:BuildingBlocks.BuildingBlock.Category
-    ##ExFor:BuildingBlocks.BuildingBlock.Description
-    ##ExFor:BuildingBlocks.BuildingBlock.FirstSection
-    ##ExFor:BuildingBlocks.BuildingBlock.Gallery
-    ##ExFor:BuildingBlocks.BuildingBlock.Guid
-    ##ExFor:BuildingBlocks.BuildingBlock.LastSection
-    ##ExFor:BuildingBlocks.BuildingBlock.Name
-    ##ExFor:BuildingBlocks.BuildingBlock.Sections
-    ##ExFor:BuildingBlocks.BuildingBlock.Type
-    ##ExFor:BuildingBlocks.BuildingBlockBehavior
-    ##ExFor:BuildingBlocks.BuildingBlockType
+    ##ExFor:Document.glossary_document
+    ##ExFor:BuildingBlocks.building_block
+    ##ExFor:BuildingBlocks.BuildingBlock.__init__(GlossaryDocument)
+    ##ExFor:BuildingBlocks.BuildingBlock.accept(DocumentVisitor)
+    ##ExFor:BuildingBlocks.BuildingBlock.behavior
+    ##ExFor:BuildingBlocks.BuildingBlock.category
+    ##ExFor:BuildingBlocks.BuildingBlock.description
+    ##ExFor:BuildingBlocks.BuildingBlock.first_section
+    ##ExFor:BuildingBlocks.BuildingBlock.gallery
+    ##ExFor:BuildingBlocks.BuildingBlock.guid
+    ##ExFor:BuildingBlocks.BuildingBlock.last_section
+    ##ExFor:BuildingBlocks.BuildingBlock.name
+    ##ExFor:BuildingBlocks.BuildingBlock.sections
+    ##ExFor:BuildingBlocks.BuildingBlock.type
+    ##ExFor:BuildingBlocks.building_block_behavior
+    ##ExFor:BuildingBlocks.building_block_type
     ##ExSummary:Shows how to add a custom building block to a document.
     #def test_create_and_insert(self):
 
@@ -115,20 +115,20 @@ class ExBuildingBlocks(ApiExampleBase):
     ##ExEnd
 
     ##ExStart
-    ##ExFor:BuildingBlocks.GlossaryDocument
-    ##ExFor:BuildingBlocks.GlossaryDocument.Accept(DocumentVisitor)
-    ##ExFor:BuildingBlocks.GlossaryDocument.BuildingBlocks
-    ##ExFor:BuildingBlocks.GlossaryDocument.FirstBuildingBlock
-    ##ExFor:BuildingBlocks.GlossaryDocument.GetBuildingBlock(BuildingBlocks.BuildingBlockGallery,System.String,System.String)
-    ##ExFor:BuildingBlocks.GlossaryDocument.LastBuildingBlock
-    ##ExFor:BuildingBlocks.BuildingBlockCollection
-    ##ExFor:BuildingBlocks.BuildingBlockCollection.Item(System.Int32)
-    ##ExFor:BuildingBlocks.BuildingBlockCollection.ToArray
-    ##ExFor:BuildingBlocks.BuildingBlockGallery
-    ##ExFor:DocumentVisitor.VisitBuildingBlockEnd(BuildingBlock)
-    ##ExFor:DocumentVisitor.VisitBuildingBlockStart(BuildingBlock)
-    ##ExFor:DocumentVisitor.VisitGlossaryDocumentEnd(GlossaryDocument)
-    ##ExFor:DocumentVisitor.VisitGlossaryDocumentStart(GlossaryDocument)
+    ##ExFor:BuildingBlocks.glossary_document
+    ##ExFor:BuildingBlocks.GlossaryDocument.accept(DocumentVisitor)
+    ##ExFor:BuildingBlocks.GlossaryDocument.building_blocks
+    ##ExFor:BuildingBlocks.GlossaryDocument.first_building_block
+    ##ExFor:BuildingBlocks.GlossaryDocument.get_building_block(BuildingBlocks.BuildingBlockGallery,str,str)
+    ##ExFor:BuildingBlocks.GlossaryDocument.last_building_block
+    ##ExFor:BuildingBlocks.building_block_collection
+    ##ExFor:BuildingBlocks.BuildingBlockCollection.__getitem__(int)
+    ##ExFor:BuildingBlocks.BuildingBlockCollection.to_array
+    ##ExFor:BuildingBlocks.building_block_gallery
+    ##ExFor:DocumentVisitor.visit_building_block_end(BuildingBlock)
+    ##ExFor:DocumentVisitor.visit_building_block_start(BuildingBlock)
+    ##ExFor:DocumentVisitor.visit_glossary_document_end(GlossaryDocument)
+    ##ExFor:DocumentVisitor.visit_glossary_document_start(GlossaryDocument)
     ##ExSummary:Shows ways of accessing building blocks in a glossary document.
     #def test_glossary_document(self):
 

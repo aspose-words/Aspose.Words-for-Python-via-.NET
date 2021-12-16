@@ -14,9 +14,9 @@ class ExHyphenation(ApiExampleBase):
     def test_dictionary(self):
 
         #ExStart
-        #ExFor:Hyphenation.IsDictionaryRegistered(String)
-        #ExFor:Hyphenation.RegisterDictionary(String, String)
-        #ExFor:Hyphenation.UnregisterDictionary(String)
+        #ExFor:Hyphenation.is_dictionary_registered(str)
+        #ExFor:Hyphenation.register_dictionary(str,str)
+        #ExFor:Hyphenation.unregister_dictionary(str)
         #ExSummary:Shows how to register a hyphenation dictionary.
         # A hyphenation dictionary contains a list of strings that define hyphenation rules for the dictionary's language.
         # When a document contains lines of text in which a word could be split up and continued on the next line,
@@ -69,12 +69,12 @@ class ExHyphenation(ApiExampleBase):
 
     ##ExStart
     ##ExFor:Hyphenation
-    ##ExFor:Hyphenation.Callback
-    ##ExFor:Hyphenation.RegisterDictionary(String, Stream)
-    ##ExFor:Hyphenation.RegisterDictionary(String, String)
-    ##ExFor:Hyphenation.WarningCallback
+    ##ExFor:Hyphenation.callback
+    ##ExFor:Hyphenation.register_dictionary(str,BytesIO)
+    ##ExFor:Hyphenation.register_dictionary(str,str)
+    ##ExFor:Hyphenation.warning_callback
     ##ExFor:IHyphenationCallback
-    ##ExFor:IHyphenationCallback.RequestDictionary(System.String)
+    ##ExFor:IHyphenationCallback.request_dictionary(str)
     ##ExSummary:Shows how to open and register a dictionary from a file.
     #def test_register_dictionary(self):
 

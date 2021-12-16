@@ -20,18 +20,18 @@ class ExDocumentProperties(ApiExampleBase):
 
         #ExStart
         #ExFor:BuiltInDocumentProperties
-        #ExFor:Document.BuiltInDocumentProperties
-        #ExFor:Document.CustomDocumentProperties
+        #ExFor:Document.built_in_document_properties
+        #ExFor:Document.custom_document_properties
         #ExFor:DocumentProperty
-        #ExFor:DocumentProperty.Name
-        #ExFor:DocumentProperty.Value
-        #ExFor:DocumentProperty.Type
+        #ExFor:DocumentProperty.name
+        #ExFor:DocumentProperty.value
+        #ExFor:DocumentProperty.type
         #ExSummary:Shows how to work with built-in document properties.
         doc = aw.Document(MY_DIR + "Properties.docx")
 
         # The "Document" object contains some of its metadata in its members.
         print(f"Document filename:\n\t \"{doc.original_file_name}\"")
-
+        
         # The document also stores metadata in its built-in properties.
         # Each built-in property is a member of the document's "BuiltInDocumentProperties" object.
         print("Built-in Properties:")
@@ -53,11 +53,11 @@ class ExDocumentProperties(ApiExampleBase):
     def test_custom(self):
 
         #ExStart
-        #ExFor:BuiltInDocumentProperties.Item(String)
+        #ExFor:BuiltInDocumentProperties.__getitem__(str)
         #ExFor:CustomDocumentProperties
-        #ExFor:DocumentProperty.ToString
-        #ExFor:DocumentPropertyCollection.Count
-        #ExFor:DocumentPropertyCollection.Item(int)
+        #ExFor:DocumentProperty.__str__
+        #ExFor:DocumentPropertyCollection.count
+        #ExFor:DocumentPropertyCollection.__getitem__(int)
         #ExSummary:Shows how to work with custom document properties.
         doc = aw.Document(MY_DIR + "Properties.docx")
 
@@ -80,12 +80,12 @@ class ExDocumentProperties(ApiExampleBase):
     def test_description(self):
 
         #ExStart
-        #ExFor:BuiltInDocumentProperties.Author
-        #ExFor:BuiltInDocumentProperties.Category
-        #ExFor:BuiltInDocumentProperties.Comments
-        #ExFor:BuiltInDocumentProperties.Keywords
-        #ExFor:BuiltInDocumentProperties.Subject
-        #ExFor:BuiltInDocumentProperties.Title
+        #ExFor:BuiltInDocumentProperties.author
+        #ExFor:BuiltInDocumentProperties.category
+        #ExFor:BuiltInDocumentProperties.comments
+        #ExFor:BuiltInDocumentProperties.keywords
+        #ExFor:BuiltInDocumentProperties.subject
+        #ExFor:BuiltInDocumentProperties.title
         #ExSummary:Shows how to work with built-in document properties in the "Description" category.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -142,17 +142,17 @@ class ExDocumentProperties(ApiExampleBase):
     def test_origin(self):
 
         #ExStart
-        #ExFor:BuiltInDocumentProperties.Company
-        #ExFor:BuiltInDocumentProperties.CreatedTime
-        #ExFor:BuiltInDocumentProperties.LastPrinted
-        #ExFor:BuiltInDocumentProperties.LastSavedBy
-        #ExFor:BuiltInDocumentProperties.LastSavedTime
-        #ExFor:BuiltInDocumentProperties.Manager
-        #ExFor:BuiltInDocumentProperties.NameOfApplication
-        #ExFor:BuiltInDocumentProperties.RevisionNumber
-        #ExFor:BuiltInDocumentProperties.Template
-        #ExFor:BuiltInDocumentProperties.TotalEditingTime
-        #ExFor:BuiltInDocumentProperties.Version
+        #ExFor:BuiltInDocumentProperties.company
+        #ExFor:BuiltInDocumentProperties.created_time
+        #ExFor:BuiltInDocumentProperties.last_printed
+        #ExFor:BuiltInDocumentProperties.last_saved_by
+        #ExFor:BuiltInDocumentProperties.last_saved_time
+        #ExFor:BuiltInDocumentProperties.manager
+        #ExFor:BuiltInDocumentProperties.name_of_application
+        #ExFor:BuiltInDocumentProperties.revision_number
+        #ExFor:BuiltInDocumentProperties.template
+        #ExFor:BuiltInDocumentProperties.total_editing_time
+        #ExFor:BuiltInDocumentProperties.version
         #ExSummary:Shows how to work with document properties in the "Origin" category.
         # Open a document that we have created and edited using Microsoft Word.
         doc = aw.Document(MY_DIR + "Properties.docx")
@@ -197,16 +197,16 @@ class ExDocumentProperties(ApiExampleBase):
         self.assertEqual(786432, properties.version)
 
     #ExStart
-    #ExFor:BuiltInDocumentProperties.Bytes
-    #ExFor:BuiltInDocumentProperties.Characters
-    #ExFor:BuiltInDocumentProperties.CharactersWithSpaces
-    #ExFor:BuiltInDocumentProperties.ContentStatus
-    #ExFor:BuiltInDocumentProperties.ContentType
-    #ExFor:BuiltInDocumentProperties.Lines
-    #ExFor:BuiltInDocumentProperties.LinksUpToDate
-    #ExFor:BuiltInDocumentProperties.Pages
-    #ExFor:BuiltInDocumentProperties.Paragraphs
-    #ExFor:BuiltInDocumentProperties.Words
+    #ExFor:BuiltInDocumentProperties.bytes
+    #ExFor:BuiltInDocumentProperties.characters
+    #ExFor:BuiltInDocumentProperties.characters_with_spaces
+    #ExFor:BuiltInDocumentProperties.content_status
+    #ExFor:BuiltInDocumentProperties.content_type
+    #ExFor:BuiltInDocumentProperties.lines
+    #ExFor:BuiltInDocumentProperties.links_up_to_date
+    #ExFor:BuiltInDocumentProperties.pages
+    #ExFor:BuiltInDocumentProperties.paragraphs
+    #ExFor:BuiltInDocumentProperties.words
     #ExSummary:Shows how to work with document properties in the "Content" category.
     def test_content(self):
 
@@ -322,14 +322,14 @@ class ExDocumentProperties(ApiExampleBase):
     def test_thumbnail(self):
 
         #ExStart
-        #ExFor:BuiltInDocumentProperties.Thumbnail
-        #ExFor:DocumentProperty.ToByteArray
+        #ExFor:BuiltInDocumentProperties.thumbnail
+        #ExFor:DocumentProperty.to_byte_array
         #ExSummary:Shows how to add a thumbnail to a document that we save as an Epub.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
         builder.writeln("Hello world!")
 
-        # If we save a document, whose "Thumbnail" property contains image data that we added, as an Epub,
+        # If we save a document, whose "thumbnail" property contains image data that we added, as an Epub,
         # a reader that opens that document may display the image before the first page.
         properties = doc.built_in_document_properties
 
@@ -353,7 +353,7 @@ class ExDocumentProperties(ApiExampleBase):
     def test_hyperlink_base(self):
 
         #ExStart
-        #ExFor:BuiltInDocumentProperties.HyperlinkBase
+        #ExFor:BuiltInDocumentProperties.hyperlink_base
         #ExSummary:Shows how to store the base part of a hyperlink in the document's properties.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -393,18 +393,18 @@ class ExDocumentProperties(ApiExampleBase):
     def test_heading_pairs(self):
 
         #ExStart
-        #ExFor:Properties.BuiltInDocumentProperties.HeadingPairs
-        #ExFor:Properties.BuiltInDocumentProperties.TitlesOfParts
-        #ExSummary:Shows the relationship between "HeadingPairs" and "TitlesOfParts" properties.
+        #ExFor:Properties.BuiltInDocumentProperties.heading_pairs
+        #ExFor:Properties.BuiltInDocumentProperties.titles_of_parts
+        #ExSummary:Shows the relationship between "heading_pairs" and "titles_of_parts" properties.
         doc = aw.Document(MY_DIR + "Heading pairs and titles of parts.docx")
 
         # We can find the combined values of these collections via
         # "File" -> "Properties" -> "Advanced Properties" -> "Contents" tab.
-        # The HeadingPairs property is a collection of <string, int> pairs that
+        # The "heading_pairs" property is a collection of [string, int] pairs that
         # determines how many document parts a heading spans across.
         heading_pairs = doc.built_in_document_properties.heading_pairs
 
-        # The titles_of_parts property contains the names of parts that belong to the above headings.
+        # The "titles_of_parts" property contains the names of parts that belong to the above headings.
         titles_of_parts = doc.built_in_document_properties.titles_of_parts
 
         heading_pairs_index = 0
@@ -447,8 +447,8 @@ class ExDocumentProperties(ApiExampleBase):
     def test_security(self):
 
         #ExStart
-        #ExFor:Properties.BuiltInDocumentProperties.Security
-        #ExFor:Properties.DocumentSecurity
+        #ExFor:Properties.BuiltInDocumentProperties.security
+        #ExFor:Properties.document_security
         #ExSummary:Shows how to use document properties to display the security level of a document.
         doc = aw.Document()
 
@@ -490,9 +490,9 @@ class ExDocumentProperties(ApiExampleBase):
     def test_custom_named_access(self):
 
         #ExStart
-        #ExFor:DocumentPropertyCollection.Item(String)
-        #ExFor:CustomDocumentProperties.Add(String,DateTime)
-        #ExFor:DocumentProperty.ToDateTime
+        #ExFor:DocumentPropertyCollection.__getitem__(str)
+        #ExFor:CustomDocumentProperties.add(str,datetime)
+        #ExFor:DocumentProperty.to_date_time
         #ExSummary:Shows how to create a custom document property which contains a date and time.
         doc = aw.Document()
 
@@ -508,9 +508,9 @@ class ExDocumentProperties(ApiExampleBase):
     def test_link_custom_document_properties_to_bookmark(self):
 
         #ExStart
-        #ExFor:CustomDocumentProperties.AddLinkToContent(String, String)
-        #ExFor:DocumentProperty.IsLinkToContent
-        #ExFor:DocumentProperty.LinkSource
+        #ExFor:CustomDocumentProperties.add_link_to_content(str,str)
+        #ExFor:DocumentProperty.is_link_to_content
+        #ExFor:DocumentProperty.link_source
         #ExSummary:Shows how to link a custom document property to a bookmark.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -541,19 +541,19 @@ class ExDocumentProperties(ApiExampleBase):
     def test_document_property_collection(self):
 
         #ExStart
-        #ExFor:CustomDocumentProperties.Add(String,String)
-        #ExFor:CustomDocumentProperties.Add(String,Boolean)
-        #ExFor:CustomDocumentProperties.Add(String,int)
-        #ExFor:CustomDocumentProperties.Add(String,DateTime)
-        #ExFor:CustomDocumentProperties.Add(String,Double)
-        #ExFor:DocumentProperty.Type
-        #ExFor:Properties.DocumentPropertyCollection
-        #ExFor:Properties.DocumentPropertyCollection.Clear
-        #ExFor:Properties.DocumentPropertyCollection.Contains(System.String)
-        #ExFor:Properties.DocumentPropertyCollection.GetEnumerator
-        #ExFor:Properties.DocumentPropertyCollection.IndexOf(System.String)
-        #ExFor:Properties.DocumentPropertyCollection.RemoveAt(System.Int32)
-        #ExFor:Properties.DocumentPropertyCollection.Remove
+        #ExFor:CustomDocumentProperties.add(str,str)
+        #ExFor:CustomDocumentProperties.add(str,bool)
+        #ExFor:CustomDocumentProperties.add(str,int)
+        #ExFor:CustomDocumentProperties.add(str,datetime)
+        #ExFor:CustomDocumentProperties.add(str,float)
+        #ExFor:DocumentProperty.type
+        #ExFor:Properties.document_property_collection
+        #ExFor:Properties.DocumentPropertyCollection.clear
+        #ExFor:Properties.DocumentPropertyCollection.contains(str)
+        #ExFor:Properties.DocumentPropertyCollection.__iter__
+        #ExFor:Properties.DocumentPropertyCollection.index_of(str)
+        #ExFor:Properties.DocumentPropertyCollection.remove_at(int)
+        #ExFor:Properties.DocumentPropertyCollection.remove
         #ExFor:PropertyType
         #ExSummary:Shows how to work with a document's custom properties.
         doc = aw.Document()
@@ -608,11 +608,11 @@ class ExDocumentProperties(ApiExampleBase):
     def test_property_types(self):
 
         #ExStart
-        #ExFor:DocumentProperty.ToBool
-        #ExFor:DocumentProperty.ToInt
-        #ExFor:DocumentProperty.ToDouble
-        #ExFor:DocumentProperty.ToString
-        #ExFor:DocumentProperty.ToDateTime
+        #ExFor:DocumentProperty.to_bool
+        #ExFor:DocumentProperty.to_int
+        #ExFor:DocumentProperty.to_double
+        #ExFor:DocumentProperty.__str__
+        #ExFor:DocumentProperty.to_date_time
         #ExSummary:Shows various type conversion methods of custom document properties.
         doc = aw.Document()
         properties = doc.custom_document_properties

@@ -30,7 +30,7 @@ class ExDocumentBase(ApiExampleBase):
     def test_set_page_color(self):
 
         #ExStart
-        #ExFor:DocumentBase.PageColor
+        #ExFor:DocumentBase.page_color
         #ExSummary:Shows how to set the background color for all pages of a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -48,7 +48,7 @@ class ExDocumentBase(ApiExampleBase):
     def test_import_node(self):
 
         #ExStart
-        #ExFor:DocumentBase.ImportNode(Node, Boolean)
+        #ExFor:DocumentBase.import_node(Node,bool)
         #ExSummary:Shows how to import a node from one document to another.
         src_doc = aw.Document()
         dst_doc = aw.Document()
@@ -64,7 +64,7 @@ class ExDocumentBase(ApiExampleBase):
         with self.assertRaises(Exception):
             dst_doc.append_child(src_doc.first_section)
 
-        # Use the ImportNode method to create a copy of a node, which will have the document
+        # Use the "import_node" method to create a copy of a node, which will have the document
         # that called the ImportNode method set as its new owner document.
         imported_section = dst_doc.import_node(src_doc.first_section, True).as_section()
 
@@ -86,7 +86,7 @@ class ExDocumentBase(ApiExampleBase):
     def test_import_node_custom(self):
 
         #ExStart
-        #ExFor:DocumentBase.ImportNode(Node, System.Boolean, ImportFormatMode)
+        #ExFor:DocumentBase.import_node(Node,bool,ImportFormatMode)
         #ExSummary:Shows how to import node from source document to destination document with specific options.
         # Create two documents and add a character style to each document.
         # Configure the styles to have the same name, but different text formatting.
@@ -113,7 +113,7 @@ class ExDocumentBase(ApiExampleBase):
         self.assertEqual(dst_style.font.name, imported_section.body.first_paragraph.runs[0].font.name)
         self.assertEqual(dst_style.name, imported_section.body.first_paragraph.runs[0].font.style_name)
 
-        # If we use ImportFormatMode.KeepDifferentStyles, the source style is preserved,
+        # If we use ImportFormatMode.KEEP_DIFFERENT_STYLES, the source style is preserved,
         # and the naming clash resolves by adding a suffix.
         dst_doc.import_node(src_doc.first_section, True, aw.ImportFormatMode.KEEP_DIFFERENT_STYLES)
         self.assertEqual(dst_style.font.name, dst_doc.styles.get_by_name("My style").font.name)
@@ -123,7 +123,7 @@ class ExDocumentBase(ApiExampleBase):
     def test_background_shape(self):
 
         #ExStart
-        #ExFor:DocumentBase.BackgroundShape
+        #ExFor:DocumentBase.background_shape
         #ExSummary:Shows how to set a background shape for every page of a document.
         doc = aw.Document()
 
@@ -170,14 +170,14 @@ class ExDocumentBase(ApiExampleBase):
         #self.assertEqual(aspose.pdf.ColorType.RGB, pdf_doc_image.get_color_type())
 
     ##ExStart
-    ##ExFor:DocumentBase.ResourceLoadingCallback
+    ##ExFor:DocumentBase.resource_loading_callback
     ##ExFor:IResourceLoadingCallback
-    ##ExFor:IResourceLoadingCallback.ResourceLoading(ResourceLoadingArgs)
+    ##ExFor:IResourceLoadingCallback.resource_loading(ResourceLoadingArgs)
     ##ExFor:ResourceLoadingAction
     ##ExFor:ResourceLoadingArgs
-    ##ExFor:ResourceLoadingArgs.OriginalUri
-    ##ExFor:ResourceLoadingArgs.ResourceType
-    ##ExFor:ResourceLoadingArgs.SetData(Byte[])
+    ##ExFor:ResourceLoadingArgs.original_uri
+    ##ExFor:ResourceLoadingArgs.resource_type
+    ##ExFor:ResourceLoadingArgs.set_data(bytes)
     ##ExFor:ResourceType
     ##ExSummary:Shows how to customize the process of loading external resources into a document.
     #def test_resource_loading_callback(self):

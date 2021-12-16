@@ -14,7 +14,7 @@ class ExPdf2Word(ApiExampleBase):
     def test_load_pdf(self):
 
         #ExStart
-        #ExFor:Document.#ctor(String)
+        #ExFor:Document.__init__(str)
         #ExSummary:Shows how to load a PDF.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -42,8 +42,8 @@ class ExPdf2Word(ApiExampleBase):
     def convert_pdf_to_docx():
 
         #ExStart
-        #ExFor:Document.#ctor(String)
-        #ExFor:Document.Save(String)
+        #ExFor:Document.__init__(str)
+        #ExFor:Document.save(str)
         #ExSummary:Shows how to convert a PDF to a .docx.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -62,7 +62,7 @@ class ExPdf2Word(ApiExampleBase):
     def convert_pdf_to_docx_custom():
 
         #ExStart
-        #ExFor:Document.Save(String, SaveOptions)
+        #ExFor:Document.save(str,SaveOptions)
         #ExSummary:Shows how to convert a PDF to a .docx and customize the saving process with a SaveOptions object.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -76,7 +76,7 @@ class ExPdf2Word(ApiExampleBase):
 
         save_options = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
 
-        # Set the "Password" property to encrypt the saved document with a password.
+        # Set the "password" property to encrypt the saved document with a password.
         save_options.password = "MyPassword"
 
         pdf_doc.save(ARTIFACTS_DIR + "PDF2Word.convert_pdf_to_docx_custom.docx", save_options)

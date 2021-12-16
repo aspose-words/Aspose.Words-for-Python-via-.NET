@@ -15,8 +15,8 @@ class ExBuildVersion(ApiExampleBase):
 
         #ExStart
         #ExFor:BuildVersionInfo
-        #ExFor:BuildVersionInfo.Product
-        #ExFor:BuildVersionInfo.Version
+        #ExFor:BuildVersionInfo.product
+        #ExFor:BuildVersionInfo.version
         #ExSummary:Shows how to display information about your installed version of Aspose.Words.
         print(f"I am currently using {aw.BuildVersionInfo.product}, version number {aw.BuildVersionInfo.version}!")
         #ExEnd

@@ -17,13 +17,13 @@ class ExLists(ApiExampleBase):
     def test_apply_default_bullets_and_numbers(self):
 
         #ExStart
-        #ExFor:DocumentBuilder.ListFormat
-        #ExFor:ListFormat.ApplyNumberDefault
-        #ExFor:ListFormat.ApplyBulletDefault
-        #ExFor:ListFormat.ListIndent
-        #ExFor:ListFormat.ListOutdent
-        #ExFor:ListFormat.RemoveNumbers
-        #ExFor:ListFormat.ListLevelNumber
+        #ExFor:DocumentBuilder.list_format
+        #ExFor:ListFormat.apply_number_default
+        #ExFor:ListFormat.apply_bullet_default
+        #ExFor:ListFormat.list_indent
+        #ExFor:ListFormat.list_outdent
+        #ExFor:ListFormat.remove_numbers
+        #ExFor:ListFormat.list_level_number
         #ExSummary:Shows how to create bulleted and numbered lists.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -72,7 +72,7 @@ class ExLists(ApiExampleBase):
         builder.writeln("PDF")
         builder.writeln("HTML")
 
-        # Call the "ListOutdent" method to return to the previous list level.
+        # Call the "list_outdent" method to return to the previous list level.
         builder.list_format.list_outdent()
 
         self.assertEqual(0, builder.list_format.list_level_number)
@@ -114,12 +114,12 @@ class ExLists(ApiExampleBase):
         #ExFor:ListCollection
         #ExFor:List
         #ExFor:ListFormat
-        #ExFor:ListFormat.IsListItem
-        #ExFor:ListFormat.ListLevelNumber
-        #ExFor:ListFormat.List
+        #ExFor:ListFormat.is_list_item
+        #ExFor:ListFormat.list_level_number
+        #ExFor:ListFormat.list
         #ExFor:ListTemplate
-        #ExFor:DocumentBase.Lists
-        #ExFor:ListCollection.Add(ListTemplate)
+        #ExFor:DocumentBase.lists
+        #ExFor:ListCollection.add(ListTemplate)
         #ExSummary:Shows how to work with list levels.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -170,11 +170,11 @@ class ExLists(ApiExampleBase):
     def test_nested_lists(self):
 
         #ExStart
-        #ExFor:ListFormat.List
-        #ExFor:ParagraphFormat.ClearFormatting
-        #ExFor:ParagraphFormat.DropCapPosition
-        #ExFor:ParagraphFormat.IsListItem
-        #ExFor:Paragraph.IsListItem
+        #ExFor:ListFormat.list
+        #ExFor:ParagraphFormat.clear_formatting
+        #ExFor:ParagraphFormat.drop_cap_position
+        #ExFor:ParagraphFormat.is_list_item
+        #ExFor:Paragraph.is_list_item
         #ExSummary:Shows how to nest a list inside another list.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -232,23 +232,23 @@ class ExLists(ApiExampleBase):
 
         #ExStart
         #ExFor:List
-        #ExFor:List.ListLevels
-        #ExFor:ListFormat.ListLevel
+        #ExFor:List.list_levels
+        #ExFor:ListFormat.list_level
         #ExFor:ListLevelCollection
-        #ExFor:ListLevelCollection.Item
+        #ExFor:ListLevelCollection.__getitem__
         #ExFor:ListLevel
-        #ExFor:ListLevel.Alignment
-        #ExFor:ListLevel.Font
-        #ExFor:ListLevel.NumberStyle
-        #ExFor:ListLevel.StartAt
-        #ExFor:ListLevel.TrailingCharacter
+        #ExFor:ListLevel.alignment
+        #ExFor:ListLevel.font
+        #ExFor:ListLevel.number_style
+        #ExFor:ListLevel.start_at
+        #ExFor:ListLevel.trailing_character
         #ExFor:ListLevelAlignment
         #ExFor:NumberStyle
         #ExFor:ListTrailingCharacter
-        #ExFor:ListLevel.NumberFormat
-        #ExFor:ListLevel.NumberPosition
-        #ExFor:ListLevel.TextPosition
-        #ExFor:ListLevel.TabPosition
+        #ExFor:ListLevel.number_format
+        #ExFor:ListLevel.number_position
+        #ExFor:ListLevel.text_position
+        #ExFor:ListLevel.tab_position
         #ExSummary:Shows how to apply custom list formatting to paragraphs when using DocumentBuilder.
         doc = aw.Document()
 
@@ -323,9 +323,9 @@ class ExLists(ApiExampleBase):
         #ExStart
         #ExFor:List
         #ExFor:ListCollection
-        #ExFor:ListCollection.Add(ListTemplate)
-        #ExFor:ListCollection.AddCopy(List)
-        #ExFor:ListLevel.StartAt
+        #ExFor:ListCollection.add(ListTemplate)
+        #ExFor:ListCollection.add_copy(List)
+        #ExFor:ListLevel.start_at
         #ExFor:ListTemplate
         #ExSummary:Shows how to restart numbering in a list by copying a list.
         doc = aw.Document()
@@ -381,17 +381,17 @@ class ExLists(ApiExampleBase):
     def test_create_and_use_list_style(self):
 
         #ExStart
-        #ExFor:StyleCollection.Add(StyleType,String)
-        #ExFor:Style.List
+        #ExFor:StyleCollection.add(StyleType,str)
+        #ExFor:Style.list
         #ExFor:StyleType
         #ExFor:List.is_list_style_definition
         #ExFor:List.is_list_style_reference
         #ExFor:List.is_multi_level
-        #ExFor:List.Style
+        #ExFor:List.style
         #ExFor:ListLevelCollection
-        #ExFor:ListLevelCollection.Count
-        #ExFor:ListLevelCollection.Item
-        #ExFor:ListCollection.Add(Style)
+        #ExFor:ListLevelCollection.count
+        #ExFor:ListLevelCollection.__getitem__
+        #ExFor:ListCollection.add(Style)
         #ExSummary:Shows how to create a list style and use it in a document.
         doc = aw.Document()
 
@@ -473,10 +473,10 @@ class ExLists(ApiExampleBase):
     def test_detect_bulleted_paragraphs(self):
 
         #ExStart
-        #ExFor:Paragraph.ListFormat
-        #ExFor:ListFormat.IsListItem
-        #ExFor:CompositeNode.GetText
-        #ExFor:List.ListId
+        #ExFor:Paragraph.list_format
+        #ExFor:ListFormat.is_list_item
+        #ExFor:CompositeNode.get_text
+        #ExFor:List.list_id
         #ExSummary:Shows how to output all paragraphs in a document that are list items.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -511,7 +511,7 @@ class ExLists(ApiExampleBase):
     def test_remove_bullets_from_paragraphs(self):
 
         #ExStart
-        #ExFor:ListFormat.RemoveNumbers
+        #ExFor:ListFormat.remove_numbers
         #ExSummary:Shows how to remove list formatting from all paragraphs in the main text of a section.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -535,7 +535,7 @@ class ExLists(ApiExampleBase):
     def test_apply_existing_list_to_paragraphs(self):
 
         #ExStart
-        #ExFor:ListCollection.Item(Int32)
+        #ExFor:ListCollection.__getitem__(int)
         #ExSummary:Shows how to apply list formatting of an existing list to a collection of paragraphs.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -567,7 +567,7 @@ class ExLists(ApiExampleBase):
     def test_apply_new_list_to_paragraphs(self):
 
         #ExStart
-        #ExFor:ListCollection.Add(ListTemplate)
+        #ExFor:ListCollection.add(ListTemplate)
         #ExSummary:Shows how to create a list by applying a new list format to a collection of paragraphs.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -690,8 +690,8 @@ class ExLists(ApiExampleBase):
 
     #ExStart
     #ExFor:ListCollection
-    #ExFor:ListCollection.AddCopy(List)
-    #ExFor:ListCollection.GetEnumerator
+    #ExFor:ListCollection.add_copy(List)
+    #ExFor:ListCollection.__iter__
     #ExSummary:Shows how to create a document with a sample of all the lists from another document.
     def test_print_out_all_lists(self):
 
@@ -736,12 +736,12 @@ class ExLists(ApiExampleBase):
     def test_list_document(self):
 
         #ExStart
-        #ExFor:ListCollection.Document
-        #ExFor:ListCollection.Count
-        #ExFor:ListCollection.Item(Int32)
-        #ExFor:ListCollection.GetListByListId
-        #ExFor:List.Document
-        #ExFor:List.ListId
+        #ExFor:ListCollection.document
+        #ExFor:ListCollection.count
+        #ExFor:ListCollection.__getitem__(int)
+        #ExFor:ListCollection.get_list_by_list_id
+        #ExFor:List.document
+        #ExFor:List.list_id
         #ExSummary:Shows how to verify owner document properties of lists.
         doc = aw.Document()
 
@@ -770,12 +770,12 @@ class ExLists(ApiExampleBase):
     def test_create_list_restart_after_higher(self):
 
         #ExStart
-        #ExFor:ListLevel.NumberStyle
-        #ExFor:ListLevel.NumberFormat
-        #ExFor:ListLevel.IsLegal
-        #ExFor:ListLevel.RestartAfterLevel
-        #ExFor:ListLevel.LinkedStyle
-        #ExFor:ListLevelCollection.GetEnumerator
+        #ExFor:ListLevel.number_style
+        #ExFor:ListLevel.number_format
+        #ExFor:ListLevel.is_legal
+        #ExFor:ListLevel.restart_after_level
+        #ExFor:ListLevel.linked_style
+        #ExFor:ListLevelCollection.__iter__
         #ExSummary:Shows advances ways of customizing list labels.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -798,7 +798,7 @@ class ExLists(ApiExampleBase):
         list.list_levels[1].number_style = aw.NumberStyle.LEADING_ZERO
 
         # Note that the higher-level uses UppercaseLetter numbering.
-        # We can set the "IsLegal" property to use Arabic numbers for the higher list levels.
+        # We can set the "is_legal" property to use Arabic numbers for the higher list levels.
         list.list_levels[1].is_legal = True
         list.list_levels[1].restart_after_level = 0
 
@@ -845,12 +845,12 @@ class ExLists(ApiExampleBase):
     def test_get_list_labels(self):
 
         #ExStart
-        #ExFor:Document.UpdateListLabels()
-        #ExFor:Node.ToString(SaveFormat)
+        #ExFor:Document.update_list_labels()
+        #ExFor:Node.to_string(SaveFormat)
         #ExFor:ListLabel
-        #ExFor:Paragraph.ListLabel
-        #ExFor:ListLabel.LabelValue
-        #ExFor:ListLabel.LabelString
+        #ExFor:Paragraph.list_label
+        #ExFor:ListLabel.label_value
+        #ExFor:ListLabel.label_string
         #ExSummary:Shows how to extract the list labels of all paragraphs that are list items.
         doc = aw.Document(MY_DIR + "Rendering.docx")
         doc.update_list_labels()
@@ -864,7 +864,7 @@ class ExLists(ApiExampleBase):
                 print(f"List item paragraph #{paras.index(paragraph)}")
 
                 # This is the text we get when getting when we output this node to text format.
-                # This text output will omit list labels. Trim any paragraph formatting characters.
+                # This text output will omit list labels. Strip any paragraph formatting characters.
                 paragraph_text = paragraph.to_string(aw.SaveFormat.TEXT).strip()
                 print(f"\tExported Text: {paragraph_text}")
 
@@ -884,8 +884,8 @@ class ExLists(ApiExampleBase):
     def test_create_picture_bullet(self):
 
         #ExStart
-        #ExFor:ListLevel.CreatePictureBullet
-        #ExFor:ListLevel.DeletePictureBullet
+        #ExFor:ListLevel.create_picture_bullet
+        #ExFor:ListLevel.delete_picture_bullet
         #ExSummary:Shows how to set a custom image icon for list item labels.
         doc = aw.Document()
 
@@ -918,8 +918,8 @@ class ExLists(ApiExampleBase):
     def test_custom_number_style_format(self):
 
         #ExStart
-        #ExFor:ListLevel.CustomNumberStyleFormat
-        #ExFor:ListLevel.GetEffectiveValue(Int32, NumberStyle, String)
+        #ExFor:ListLevel.custom_number_style_format
+        #ExFor:ListLevel.get_effective_value(int,NumberStyle,str)
         #ExSummary:Shows how to get the format for a list with the custom number style.
         doc = aw.Document(MY_DIR + "List with leading zero.docx")
 

@@ -15,17 +15,17 @@ class ExInline(ApiExampleBase):
 
         #ExStart
         #ExFor:Inline
-        #ExFor:Inline.IsDeleteRevision
-        #ExFor:Inline.IsFormatRevision
-        #ExFor:Inline.IsInsertRevision
-        #ExFor:Inline.IsMoveFromRevision
-        #ExFor:Inline.IsMoveToRevision
-        #ExFor:Inline.ParentParagraph
-        #ExFor:Paragraph.Runs
-        #ExFor:Revision.ParentNode
+        #ExFor:Inline.is_delete_revision
+        #ExFor:Inline.is_format_revision
+        #ExFor:Inline.is_insert_revision
+        #ExFor:Inline.is_move_from_revision
+        #ExFor:Inline.is_move_to_revision
+        #ExFor:Inline.parent_paragraph
+        #ExFor:Paragraph.runs
+        #ExFor:Revision.parent_node
         #ExFor:RunCollection
-        #ExFor:RunCollection.Item(Int32)
-        #ExFor:RunCollection.ToArray
+        #ExFor:RunCollection.__getitem__(int)
+        #ExFor:RunCollection.to_array
         #ExSummary:Shows how to determine the revision type of an inline node.
         doc = aw.Document(MY_DIR + "Revision runs.docx")
 

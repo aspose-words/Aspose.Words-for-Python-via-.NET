@@ -15,8 +15,8 @@ ARTIFACTS_DIR = artifacts_dir
 #    def test_custom_print(self):
 
 #        #ExStart
-#        #ExFor:PageInfo.GetDotNetPaperSize
-#        #ExFor:PageInfo.Landscape
+#        #ExFor:PageInfo.get_dot_net_paper_size
+#        #ExFor:PageInfo.landscape
 #        #ExSummary:Shows how to customize the printing of Aspose.Words documents.
 #        doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -97,14 +97,14 @@ ARTIFACTS_DIR = artifacts_dir
 
 #        #ExStart
 #        #ExFor:PageInfo
-#        #ExFor:PageInfo.GetSizeInPixels(Single, Single, Single)
-#        #ExFor:PageInfo.GetSpecifiedPrinterPaperSource(PaperSourceCollection, PaperSource)
-#        #ExFor:PageInfo.HeightInPoints
-#        #ExFor:PageInfo.Landscape
-#        #ExFor:PageInfo.PaperSize
-#        #ExFor:PageInfo.PaperTray
-#        #ExFor:PageInfo.SizeInPoints
-#        #ExFor:PageInfo.WidthInPoints
+#        #ExFor:PageInfo.get_size_in_pixels(float,float,float)
+#        #ExFor:PageInfo.get_specified_printer_paper_source(PaperSourceCollection,PaperSource)
+#        #ExFor:PageInfo.height_in_points
+#        #ExFor:PageInfo.landscape
+#        #ExFor:PageInfo.paper_size
+#        #ExFor:PageInfo.paper_tray
+#        #ExFor:PageInfo.size_in_points
+#        #ExFor:PageInfo.width_in_points
 #        #ExSummary:Shows how to print page size and orientation information for every page in a Word document.
 #        doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -145,10 +145,10 @@ ARTIFACTS_DIR = artifacts_dir
 
 #        #ExStart
 #        #ExFor:PrinterSettingsContainer
-#        #ExFor:PrinterSettingsContainer.#ctor(PrinterSettings)
-#        #ExFor:PrinterSettingsContainer.DefaultPageSettingsPaperSource
-#        #ExFor:PrinterSettingsContainer.PaperSizes
-#        #ExFor:PrinterSettingsContainer.PaperSources
+#        #ExFor:PrinterSettingsContainer.__init__(PrinterSettings)
+#        #ExFor:PrinterSettingsContainer.default_page_settings_paper_source
+#        #ExFor:PrinterSettingsContainer.paper_sizes
+#        #ExFor:PrinterSettingsContainer.paper_sources
 #        #ExSummary:Shows how to access and list your printer's paper sources and sizes.
 #        # The "PrinterSettingsContainer" contains a "PrinterSettings" object,
 #        # which contains unique data for different printer drivers.
@@ -177,8 +177,8 @@ ARTIFACTS_DIR = artifacts_dir
 #    def test_print(self):
 
 #        #ExStart
-#        #ExFor:Document.Print
-#        #ExFor:Document.Print(String)
+#        #ExFor:Document.print
+#        #ExFor:Document.print(str)
 #        #ExSummary:Shows how to print a document using the default printer.
 #        doc = aw.Document()
 #        builder = aw.DocumentBuilder(doc)
@@ -200,8 +200,8 @@ ARTIFACTS_DIR = artifacts_dir
 #    def test_print_range(self):
 
 #        #ExStart
-#        #ExFor:Document.Print(PrinterSettings)
-#        #ExFor:Document.Print(PrinterSettings, String)
+#        #ExFor:Document.print(PrinterSettings)
+#        #ExFor:Document.print(PrinterSettings,str)
 #        #ExSummary:Shows how to print a range of pages.
 #        doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -230,8 +230,8 @@ ARTIFACTS_DIR = artifacts_dir
 #    def test_preview_and_print(self):
 
 #        #ExStart
-#        #ExFor:AsposeWordsPrintDocument.#ctor(Document)
-#        #ExFor:AsposeWordsPrintDocument.CachePrinterSettings
+#        #ExFor:AsposeWordsPrintDocument.__init__(Document)
+#        #ExFor:AsposeWordsPrintDocument.cache_printer_settings
 #        #ExSummary:Shows how to select a page range and a printer to print the document with, and then bring up a print preview.
 #        doc = aw.Document(MY_DIR + "Rendering.docx")
 

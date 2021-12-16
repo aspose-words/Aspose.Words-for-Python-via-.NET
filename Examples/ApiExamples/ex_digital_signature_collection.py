@@ -14,7 +14,7 @@ class ExDigitalSignatureCollection(ApiExampleBase):
     def test_get_enumerator(self):
 
         #ExStart
-        #ExFor:DigitalSignatureCollection.GetEnumerator
+        #ExFor:DigitalSignatureCollection.__iter__
         #ExSummary:Shows how to print all the digital signatures of a signed document.
         digital_signatures = aw.digitalsignatures.DigitalSignatureUtil.load_signatures(MY_DIR + "Digitally signed.docx")
 

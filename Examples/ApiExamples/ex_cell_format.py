@@ -14,9 +14,9 @@ class ExCellFormat(ApiExampleBase):
     def test_vertical_merge(self):
 
         #ExStart
-        #ExFor:DocumentBuilder.EndRow
+        #ExFor:DocumentBuilder.end_row
         #ExFor:CellMerge
-        #ExFor:CellFormat.VerticalMerge
+        #ExFor:CellFormat.vertical_merge
         #ExSummary:Shows how to merge table cells vertically.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -61,7 +61,7 @@ class ExCellFormat(ApiExampleBase):
 
         #ExStart
         #ExFor:CellMerge
-        #ExFor:CellFormat.HorizontalMerge
+        #ExFor:CellFormat.horizontal_merge
         #ExSummary:Shows how to merge table cells horizontally.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -100,7 +100,7 @@ class ExCellFormat(ApiExampleBase):
     def test_padding(self):
 
         #ExStart
-        #ExFor:CellFormat.SetPaddings
+        #ExFor:CellFormat.set_paddings
         #ExSummary:Shows how to pad the contents of a cell with whitespace.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

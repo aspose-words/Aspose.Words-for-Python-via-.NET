@@ -13,8 +13,8 @@ class ExAbsolutePositionTab(ApiExampleBase):
 
     ##ExStart
     ##ExFor:AbsolutePositionTab
-    ##ExFor:AbsolutePositionTab.Accept(DocumentVisitor)
-    ##ExFor:DocumentVisitor.VisitAbsolutePositionTab
+    ##ExFor:AbsolutePositionTab.accept(DocumentVisitor)
+    ##ExFor:DocumentVisitor.visit_absolute_position_tab
     ##ExSummary:Shows how to process absolute position tab characters with a document visitor.
     #def test_document_to_txt(self):
 

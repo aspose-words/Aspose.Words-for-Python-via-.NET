@@ -16,12 +16,12 @@ class ExSignDocumentCustom(ApiExampleBase):
 
     #ExStart
     #ExFor:CertificateHolder
-    #ExFor:SignatureLineOptions.Signer
-    #ExFor:SignatureLineOptions.SignerTitle
-    #ExFor:SignatureLine.Id
-    #ExFor:SignOptions.SignatureLineId
-    #ExFor:SignOptions.SignatureLineImage
-    #ExFor:DigitalSignatureUtil.Sign(String, String, CertificateHolder, SignOptions)
+    #ExFor:SignatureLineOptions.signer
+    #ExFor:SignatureLineOptions.signer_title
+    #ExFor:SignatureLine.id
+    #ExFor:SignOptions.signature_line_id
+    #ExFor:SignOptions.signature_line_image
+    #ExFor:DigitalSignatureUtil.sign(str,str,CertificateHolder,SignOptions)
     #ExSummary:Shows how to add a signature line to a document, and then sign it using a digital certificate.
     def test_sign(self):
 
