@@ -77,10 +77,10 @@ class ExThemes(ApiExampleBase):
         colors.hyperlink = drawing.Color.black
         colors.followed_hyperlink = drawing.Color.gray
 
-        doc.save(ARTIFACTS_DIR + "Themes.CustomColorsAndFonts.docx")
+        doc.save(ARTIFACTS_DIR + "Themes.custom_colors_and_fonts.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Themes.CustomColorsAndFonts.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Themes.custom_colors_and_fonts.docx")
 
         self.assertEqual(drawing.Color.orange_red.to_argb(), doc.theme.colors.accent1.to_argb())
         self.assertEqual(drawing.Color.midnight_blue.to_argb(), doc.theme.colors.dark1.to_argb())

@@ -1145,7 +1145,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                 #        "[(Samsta) -1 (g) 1 (, 10. November) -1 ( ) 1 (2) -1 (018)] TJ",
                 #        tj_operator.to_string())
 
-    def test_save_as_pdf_bookFold(self):
+    def test_save_as_pdf_book_fold(self):
 
         for render_text_as_bookfold in (False, True):
             with self.subTest(render_text_as_bookfold=render_text_as_bookfold):
@@ -1480,7 +1480,7 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                 self.assertEqual(aw.saving.DmlRenderingMode.DRAWING_ML, options.dml_rendering_mode)
 
-                doc.save(ARTIFACTS_DIR + "PdfSaveOptions.drawing_m_l_effects.pdf", options)
+                doc.save(ARTIFACTS_DIR + "PdfSaveOptions.drawing_ml_effects.pdf", options)
                 #ExEnd
 
                 #pdf_document = aspose.pdf.Document(ARTIFACTS_DIR + "PdfSaveOptions.drawing_ml_effects.pdf")

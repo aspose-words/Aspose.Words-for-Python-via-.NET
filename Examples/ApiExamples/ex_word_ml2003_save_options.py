@@ -37,9 +37,9 @@ class ExWordML2003SaveOptions(ApiExampleBase):
                 # Set the "pretty_format" property to "False" to save the document's raw content in one continuous body of the text.
                 options.pretty_format = pretty_format
 
-                doc.save(ARTIFACTS_DIR + "WordML2003SaveOptions.PrettyFormat.xml", options)
+                doc.save(ARTIFACTS_DIR + "WordML2003SaveOptions.pretty_format.xml", options)
 
-                with open(ARTIFACTS_DIR + "WordML2003SaveOptions.PrettyFormat.xml", "rb") as file:
+                with open(ARTIFACTS_DIR + "WordML2003SaveOptions.pretty_format.xml", "rb") as file:
                     file_contents = file.read().decode('utf-8')
 
                 if pretty_format:
@@ -84,5 +84,5 @@ class ExWordML2003SaveOptions(ApiExampleBase):
                 # Set the "memory_optimization" flag to "False" to save the document normally.
                 options.memory_optimization = memory_optimization
 
-                doc.save(ARTIFACTS_DIR + "WordML2003SaveOptions.MemoryOptimization.xml", options)
+                doc.save(ARTIFACTS_DIR + "WordML2003SaveOptions.memory_optimization.xml", options)
                 #ExEnd

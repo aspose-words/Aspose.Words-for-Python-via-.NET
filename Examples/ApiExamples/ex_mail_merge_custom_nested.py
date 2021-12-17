@@ -166,7 +166,7 @@ class ExMailMergeCustomNested(ApiExampleBase):
             # that we could not find a field with this name.
             return None
 
-        def MoveNext() -> bool:
+        def move_next(self) -> bool:
             """A standard implementation for moving to a next record in a collection."""
 
             if not self.is_eof:

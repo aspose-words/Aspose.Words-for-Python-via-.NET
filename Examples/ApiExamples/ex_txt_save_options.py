@@ -40,11 +40,11 @@ class ExTxtSaveOptions(ApiExampleBase):
                 # Set the "force_page_breaks" property to "False" to discard all page breaks.
                 save_options.force_page_breaks = force_page_breaks
 
-                doc.save(ARTIFACTS_DIR + "TxtSaveOptions.PageBreaks.txt", save_options)
+                doc.save(ARTIFACTS_DIR + "TxtSaveOptions.page_breaks.txt", save_options)
 
                 # If we load a plaintext document with page breaks,
                 # the "Document" object will use them to split the body into pages.
-                doc = aw.Document(ARTIFACTS_DIR + "TxtSaveOptions.PageBreaks.txt")
+                doc = aw.Document(ARTIFACTS_DIR + "TxtSaveOptions.page_breaks.txt")
 
                 self.assertEqual(3 if force_page_breaks else 1, doc.page_count)
                 #ExEnd
@@ -79,9 +79,9 @@ class ExTxtSaveOptions(ApiExampleBase):
                 # and right-to-left run equally with nothing to indicate which is which.
                 save_options.add_bidi_marks = add_bidi_marks
 
-                doc.save(ARTIFACTS_DIR + "TxtSaveOptions.AddBidiMarks.txt", save_options)
+                doc.save(ARTIFACTS_DIR + "TxtSaveOptions.add_bidi_marks.txt", save_options)
 
-                with open(ARTIFACTS_DIR + "TxtSaveOptions.AddBidiMarks.txt", "rb") as file:
+                with open(ARTIFACTS_DIR + "TxtSaveOptions.add_bidi_marks.txt", "rb") as file:
                     doc_text = file.read().decode('utf-8')
 
                 if add_bidi_marks:
@@ -136,9 +136,9 @@ class ExTxtSaveOptions(ApiExampleBase):
                 # to place all headers and footers for all section bodies at the end of the document.
                 save_options.export_headers_footers_mode = txt_export_headers_footers_mode
 
-                doc.save(ARTIFACTS_DIR + "TxtSaveOptions.ExportHeadersFooters.txt", save_options)
+                doc.save(ARTIFACTS_DIR + "TxtSaveOptions.export_headers_footers.txt", save_options)
 
-                with open(ARTIFACTS_DIR + "TxtSaveOptions.ExportHeadersFooters.txt", "rb") as file:
+                with open(ARTIFACTS_DIR + "TxtSaveOptions.export_headers_footers.txt", "rb") as file:
                     doc_text = file.read().decode("utf-8-sig")
 
                 if txt_export_headers_footers_mode == aw.saving.TxtExportHeadersFootersMode.ALL_AT_END:
@@ -196,9 +196,9 @@ class ExTxtSaveOptions(ApiExampleBase):
         # to place the padding character for each list indent level.
         txt_save_options.list_indentation.count = 3
 
-        doc.save(ARTIFACTS_DIR + "TxtSaveOptions.TxtListIndentation.txt", txt_save_options)
+        doc.save(ARTIFACTS_DIR + "TxtSaveOptions.txt_list_indentation.txt", txt_save_options)
 
-        with open(ARTIFACTS_DIR + "TxtSaveOptions.TxtListIndentation.txt", "rb") as file:
+        with open(ARTIFACTS_DIR + "TxtSaveOptions.txt_list_indentation.txt", "rb") as file:
             doc_text = file.read().decode("utf-8-sig")
 
         self.assertEqual(
@@ -238,9 +238,9 @@ class ExTxtSaveOptions(ApiExampleBase):
                 # Set the "simplify_list_labels" property to "False" to preserve as many original list symbols as possible.
                 txt_save_options.simplify_list_labels = simplify_list_labels
 
-                doc.save(ARTIFACTS_DIR + "TxtSaveOptions.SimplifyListLabels.txt", txt_save_options)
+                doc.save(ARTIFACTS_DIR + "TxtSaveOptions.simplify_list_labels.txt", txt_save_options)
 
-                with open(ARTIFACTS_DIR + "TxtSaveOptions.SimplifyListLabels.txt", "rb") as file:
+                with open(ARTIFACTS_DIR + "TxtSaveOptions.simplify_list_labels.txt", "rb") as file:
                     doc_text = file.read().decode("utf-8-sig")
 
                 if simplify_list_labels:
@@ -283,9 +283,9 @@ class ExTxtSaveOptions(ApiExampleBase):
         # Set the "paragraph_break" to a custom value that we wish to put at the end of every paragraph.
         txt_save_options.paragraph_break = " End of paragraph.\n\n\t"
 
-        doc.save(ARTIFACTS_DIR + "TxtSaveOptions.ParagraphBreak.txt", txt_save_options)
+        doc.save(ARTIFACTS_DIR + "TxtSaveOptions.paragraph_break.txt", txt_save_options)
 
-        with open(ARTIFACTS_DIR + "TxtSaveOptions.ParagraphBreak.txt", "rb") as file:
+        with open(ARTIFACTS_DIR + "TxtSaveOptions.paragraph_break.txt", "rb") as file:
             doc_text = file.read().decode("utf-8-sig")
 
         self.assertEqual(
@@ -312,16 +312,16 @@ class ExTxtSaveOptions(ApiExampleBase):
         # Verify that the "encoding" property contains the appropriate encoding for our document's contents.
         self.assertEqual("utf-8", txt_save_options.encoding)
 
-        doc.save(ARTIFACTS_DIR + "TxtSaveOptions.Encoding.UTF8.txt", txt_save_options)
+        doc.save(ARTIFACTS_DIR + "TxtSaveOptions.encoding.utf8.txt", txt_save_options)
 
-        with open(ARTIFACTS_DIR + "TxtSaveOptions.Encoding.UTF8.txt", "rb") as file:
+        with open(ARTIFACTS_DIR + "TxtSaveOptions.encoding.utf8.txt", "rb") as file:
             doc_text = file.read().decode('utf-8')
 
         self.assertEqual("\uFEFFÀ È Ì Ò Ù.\r\n", doc_text)
 
         # Using an unsuitable encoding may result in a loss of document contents.
         txt_save_options.encoding = "ascii"
-        doc.save(ARTIFACTS_DIR + "TxtSaveOptions.Encoding.ASCII.txt", txt_save_options)
+        doc.save(ARTIFACTS_DIR + "TxtSaveOptions.encoding.ascii.txt", txt_save_options)
 
         with open(ARTIFACTS_DIR + "TxtSaveOptions.Encoding.ASCII.txt", "rb") as file:
             doc_text = file.read().decode('ascii')
@@ -361,9 +361,9 @@ class ExTxtSaveOptions(ApiExampleBase):
                 # as a continuous body of text, with just a new line for each row.
                 txt_save_options.preserve_table_layout = preserve_table_layout
 
-                doc.save(ARTIFACTS_DIR + "TxtSaveOptions.PreserveTableLayout.txt", txt_save_options)
+                doc.save(ARTIFACTS_DIR + "TxtSaveOptions.preserve_table_layout.txt", txt_save_options)
 
-                with open(ARTIFACTS_DIR + "TxtSaveOptions.PreserveTableLayout.txt", "rb") as file:
+                with open(ARTIFACTS_DIR + "TxtSaveOptions.preserve_table_layout.txt", "rb") as file:
                     doc_text = file.read().decode("utf-8-sig")
 
                 if preserve_table_layout:
@@ -393,5 +393,5 @@ class ExTxtSaveOptions(ApiExampleBase):
         save_options = aw.saving.TxtSaveOptions()
         save_options.max_characters_per_line = 30
 
-        doc.save(ARTIFACTS_DIR + "TxtSaveOptions.MaxCharactersPerLine.txt", save_options)
+        doc.save(ARTIFACTS_DIR + "TxtSaveOptions.max_characters_per_line.txt", save_options)
         #ExEnd

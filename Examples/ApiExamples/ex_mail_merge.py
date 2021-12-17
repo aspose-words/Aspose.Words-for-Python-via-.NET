@@ -80,7 +80,7 @@ class ExMailMerge(ApiExampleBase):
             SELECT Products.ProductName, Suppliers.CompanyName, Products.QuantityPerUnit, {fn ROUND(Products.UnitPrice,2)} as UnitPrice
             FROM Products
             INNER JOIN Suppliers
-            ON Products.supplier_i_d = Suppliers.SupplierID"""
+            ON Products.SupplierID = Suppliers.SupplierID"""
 
         connection = OdbcConnection()
         connection.connection_string = connection_string
@@ -118,7 +118,7 @@ class ExMailMerge(ApiExampleBase):
 
         # Create a connection string that points to the "Northwind" database file
         # in our local file system and open a connection.
-        connection_string = r"Provider=Microsoft.jet.o_l_e_d_b.4.0;Data Source=" + DATABASE_DIR + "Northwind.mdb"
+        connection_string = r"Provider=Microsoft.jet.oledb.4.0;Data Source=" + DATABASE_DIR + "Northwind.mdb"
         connection.open(connection_string)
 
         # Populate our DataSet by running an SQL command on our database.

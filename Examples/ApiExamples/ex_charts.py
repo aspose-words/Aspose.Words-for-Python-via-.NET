@@ -386,8 +386,8 @@ class ExCharts(ApiExampleBase):
                     ["Word", "PDF", "Excel", "GoogleDocs", "Note"],
                     [1900000, 850000, 2100000, 600000, 1500000])
 
-                doc.save(ARTIFACTS_DIR + "Charts.test_display_charts_with_conversion.docx")
-                doc.save(ARTIFACTS_DIR + "Charts.test_display_charts_with_conversion.pdf")
+                doc.save(ARTIFACTS_DIR + "Charts.display_charts_with_conversion.docx")
+                doc.save(ARTIFACTS_DIR + "Charts.display_charts_with_conversion.pdf")
 
     def test_surface3d_chart(self):
 
@@ -410,8 +410,8 @@ class ExCharts(ApiExampleBase):
             ["Word", "PDF", "Excel", "GoogleDocs", "Note"],
             [500000, 820000, 1500000, 400000, 100000])
 
-        doc.save(ARTIFACTS_DIR + "Charts.surface_chart.docx")
-        doc.save(ARTIFACTS_DIR + "Charts.surface_chart.pdf")
+        doc.save(ARTIFACTS_DIR + "Charts.surface3d_chart.docx")
+        doc.save(ARTIFACTS_DIR + "Charts.surface3d_chart.pdf")
 
     def test_data_labels_bubble_chart(self):
 
@@ -598,7 +598,6 @@ class ExCharts(ApiExampleBase):
     #ExFor:IChartDataPoint.marker
     #ExFor:MarkerSymbol
     #ExSummary:Shows how to work with data points on a line chart.
-
     def test_chart_data_point(self):
 
         doc = aw.Document()
@@ -697,10 +696,10 @@ class ExCharts(ApiExampleBase):
             chart.series[0].has_data_labels = True
             chart.series[0].data_labels[i].show_bubble_size = True
 
-        doc.save(ARTIFACTS_DIR + "Charts.bubble3_d.docx")
+        doc.save(ARTIFACTS_DIR + "Charts.bubble_3d.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Charts.bubble3_d.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Charts.bubble_3d.docx")
         series = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape().chart.series[0]
 
         for i in range(3):

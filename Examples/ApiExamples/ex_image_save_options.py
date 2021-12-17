@@ -106,14 +106,14 @@ class ExImageSaveOptions(ApiExampleBase):
         for i in range(1, doc.page_count + 1):
             save_options.page_set = aw.saving.PageSet(1)
 
-            doc.save(ARTIFACTS_DIR + f"ImageSaveOptions.page_index.page {i}.gif", save_options)
+            doc.save(ARTIFACTS_DIR + f"ImageSaveOptions.page_set.page {i}.gif", save_options)
 
         #ExEnd
 
-        TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_index.page 1.gif")
-        TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_index.page 2.gif")
-        TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_index.page 3.gif")
-        self.assertFalse(os.path.exists(ARTIFACTS_DIR + "ImageSaveOptions.page_index.page 4.gif"))
+        TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_set.page 1.gif")
+        TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_set.page 2.gif")
+        TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_set.page 3.gif")
+        self.assertFalse(os.path.exists(ARTIFACTS_DIR + "ImageSaveOptions.page_set.page 4.gif"))
 
     def test_graphics_quality(self):
 

@@ -31,7 +31,7 @@ class ExSvgSaveOptions(ApiExampleBase):
         options.show_page_border = False
         options.text_output_mode = aw.saving.SvgTextOutputMode.USE_PLACED_GLYPHS
 
-        doc.save(ARTIFACTS_DIR + "SvgSaveOptions.SaveLikeImage.svg", options)
+        doc.save(ARTIFACTS_DIR + "SvgSaveOptions.save_like_image.svg", options)
         #ExEnd
 
     #ExStart

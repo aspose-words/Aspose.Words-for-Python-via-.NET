@@ -344,7 +344,7 @@ class ExNode(ApiExampleBase):
         self.assertIsInstance(node, aw.Paragraph)
         #ExEnd
 
-    def test_test_node_is_inside_field(self):
+    def test_node_is_inside_field(self):
 
         #ExStart
         #ExFor:CompositeNode.select_nodes

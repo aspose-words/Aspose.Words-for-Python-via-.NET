@@ -47,7 +47,7 @@ class ExXamlFixedSaveOptions(ApiExampleBase):
         # We must ensure the folder exists before the callback's streams can put their resources into it.
         os.makedirs(options.resources_folder_alias)
 
-        doc.save(ARTIFACTS_DIR + "XamlFixedSaveOptions.ResourceFolder.xaml", options)
+        doc.save(ARTIFACTS_DIR + "XamlFixedSaveOptions.resource_folder.xaml", options)
 
         for resource in callback.resources:
             print(resource)

@@ -1065,7 +1065,7 @@ class ExFontSettings(ApiExampleBase):
         builder.font.name = "Times New Roman"
         builder.writeln("Text written in Times New Roman, to be substituted by Squarish Sans CT.")
 
-        doc.save(ARTIFACTS_DIR + "FontSettings.table_substitution_rule.custom.pdf")
+        doc.save(ARTIFACTS_DIR + "FontSettings.table_substitution_rule_custom.pdf")
         #ExEnd
 
     def test_resolve_fonts_before_loading_document(self):

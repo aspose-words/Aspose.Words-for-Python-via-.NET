@@ -103,7 +103,7 @@ class ExTableColumn(ApiExampleBase):
         column = ExTableColumn.Column.from_index(table, 2)
         column.remove()
 
-        doc.save(ARTIFACTS_DIR + "TableColumn.RemoveColumn.doc")
+        doc.save(ARTIFACTS_DIR + "TableColumn.remove_column.doc")
 
         self.assertEqual(16, table.get_child_nodes(aw.NodeType.CELL, True).count)
         self.assertEqual("Cell 7 contents", table.rows[2].cells[2].to_string(aw.SaveFormat.TEXT).strip())
@@ -124,7 +124,7 @@ class ExTableColumn(ApiExampleBase):
         for cell in new_column.cells:
             cell.first_paragraph.append_child(aw.Run(doc, "Column Text " + str(new_column.index_of(cell))))
 
-        doc.save(ARTIFACTS_DIR + "TableColumn.Insert.doc")
+        doc.save(ARTIFACTS_DIR + "TableColumn.insert.doc")
 
         self.assertEqual(24, table.get_child_nodes(aw.NodeType.CELL, True).count)
         self.assertEqual("Column Text 0", table.first_row.cells[1].to_string(aw.SaveFormat.TEXT).strip())

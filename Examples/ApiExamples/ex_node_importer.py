@@ -74,7 +74,6 @@ class ExNodeImporter(ApiExampleBase):
     #ExFor:NodeImporter.__init__(DocumentBase,DocumentBase,ImportFormatMode)
     #ExFor:NodeImporter.import_node(Node,bool)
     #ExSummary:Shows how to insert the contents of one document to a bookmark in another document.
-
     def test_insert_at_bookmark(self):
 
         doc = aw.Document()
@@ -89,7 +88,7 @@ class ExNodeImporter(ApiExampleBase):
 
         builder.write("Hello world!")
 
-        doc_to_insert.save(ARTIFACTS_DIR + "NodeImporter.insert_at_merge_field.docx")
+        doc_to_insert.save(ARTIFACTS_DIR + "NodeImporter.insert_at_bookmark.docx")
 
         bookmark = doc.range.bookmarks.get_by_name("InsertionPoint")
         ExNodeImporter.insert_document(bookmark.bookmark_start.parent_node, doc_to_insert)

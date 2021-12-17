@@ -33,7 +33,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 save_options.export_page_margins = True
 
                 doc.save(
-                    ARTIFACTS_DIR + "HtmlSaveOptions.ExportPageMarginsEpub" +
+                    ARTIFACTS_DIR + "HtmlSaveOptions.export_page_margins_epub" +
                     aw.FileFormatUtil.save_format_to_extension(save_format), save_options)
 
     def test_export_office_math_epub(self):
@@ -51,7 +51,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 save_options.office_math_output_mode = output_mode
 
                 doc.save(
-                    ARTIFACTS_DIR + "HtmlSaveOptions.ExportOfficeMathEpub" +
+                    ARTIFACTS_DIR + "HtmlSaveOptions.export_office_math_epub" +
                     aw.FileFormatUtil.save_format_to_extension(save_format), save_options)
 
     def test_export_text_box_as_svg_epub(self):
@@ -73,7 +73,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 save_options = aw.saving.HtmlSaveOptions(save_format)
                 save_options.export_text_box_as_svg = is_text_box_as_svg
 
-                doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.ExportTextBoxAsSvgEpub" + aw.FileFormatUtil.save_format_to_extension(save_format), save_options)
+                doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.export_text_box_as_svg_epub" + aw.FileFormatUtil.save_format_to_extension(save_format), save_options)
 
                 if save_format == aw.SaveFormat.HTML:
                     dir_files = glob.glob(ARTIFACTS_DIR + "**/HtmlSaveOptions.export_text_box_as_svg_epub.001.png", recursive=True)
@@ -135,7 +135,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         save_options = aw.saving.HtmlSaveOptions()
         save_options.export_roundtrip_information = True
 
-        doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.roundtrip_information.html", save_options)
+        doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.export_roundtrip_information.html", save_options)
 
     def test_roundtrip_information_defaul_value(self):
 
@@ -344,7 +344,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         save_options.css_style_sheet_type = aw.saving.CssStyleSheetType.EMBEDDED
         save_options.css_class_name_prefix = None
 
-        doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.css_class_name_prefix.html", save_options)
+        doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.css_class_names_null_prefix.html", save_options)
 
     def test_content_id_scheme(self):
 
@@ -1625,10 +1625,10 @@ class ExHtmlSaveOptions(ApiExampleBase):
         options.export_text_input_form_field_as_text = True
         options.images_folder = images_dir
 
-        doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.save_html_with_options.html", options)
+        doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.image_folder.html", options)
         #ExEnd
 
-        self.assertTrue(os.path.exists(ARTIFACTS_DIR + "HtmlSaveOptions.save_html_with_options.html"))
+        self.assertTrue(os.path.exists(ARTIFACTS_DIR + "HtmlSaveOptions.image_folder.html"))
         self.assertEqual(9, len(os.listdir(images_dir)))
 
         shutil.rmtree(images_dir)

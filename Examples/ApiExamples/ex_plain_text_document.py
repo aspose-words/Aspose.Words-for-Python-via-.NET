@@ -86,12 +86,12 @@ class ExPlainTextDocument(ApiExampleBase):
         save_options = aw.saving.OoxmlSaveOptions()
         save_options.password = "MyPassword"
 
-        doc.save(ARTIFACTS_DIR + "PlainTextDocument.load_from_stream_with_options.docx", save_options)
+        doc.save(ARTIFACTS_DIR + "PlainTextDocument.load_encrypted_using_stream.docx", save_options)
 
         load_options = aw.loading.LoadOptions()
         load_options.password = "MyPassword"
 
-        with open(ARTIFACTS_DIR + "PlainTextDocument.load_from_stream_with_options.docx", "rb") as stream:
+        with open(ARTIFACTS_DIR + "PlainTextDocument.load_encrypted_using_stream.docx", "rb") as stream:
 
             plaintext = aw.PlainTextDocument(stream, load_options)
 

@@ -32,31 +32,31 @@ class ExShape(ApiExampleBase):
         shape.alternative_text = "Alt text for MyCube."
 
         # We can access the alternative text of a shape by right-clicking it, and then via "Format AutoShape" -> "Alt Text".
-        doc.save(ARTIFACTS_DIR + "Shape.AltText.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.alt_text.docx")
 
         # Save the document to HTML, and then delete the linked image that belongs to our shape.
         # The browser that is reading our HTML will display the alt text in place of the missing image.
-        doc.save(ARTIFACTS_DIR + "Shape.AltText.html")
-        self.assertTrue(os.path.exists(ARTIFACTS_DIR + "Shape.AltText.001.png")); #ExSkip
-        os.remove(ARTIFACTS_DIR + "Shape.AltText.001.png")
+        doc.save(ARTIFACTS_DIR + "Shape.alt_text.html")
+        self.assertTrue(os.path.exists(ARTIFACTS_DIR + "Shape.alt_text.001.png")) #ExSkip
+        os.remove(ARTIFACTS_DIR + "Shape.alt_text.001.png")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Shape.AltText.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.alt_text.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         TestUtil.verify_shape(self, aw.drawing.ShapeType.CUBE, "MyCube", 150.0, 150.0, 0, 0, shape)
         self.assertEqual("Alt text for MyCube.", shape.alternative_text)
         self.assertEqual("Times New Roman", shape.font.name)
 
-        doc = aw.Document(ARTIFACTS_DIR + "Shape.AltText.html")
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.alt_text.html")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         TestUtil.verify_shape(self, aw.drawing.ShapeType.IMAGE, "", 153.0, 153.0, 0, 0, shape)
         self.assertEqual("Alt text for MyCube.", shape.alternative_text)
 
-        with open(ARTIFACTS_DIR + "Shape.AltText.html", 'rb') as file:
+        with open(ARTIFACTS_DIR + "Shape.alt_text.html", 'rb') as file:
             self.assertIn(
-                "<img src=\"Shape.AltText.001.png\" width=\"204\" height=\"204\" alt=\"Alt text for MyCube.\" " +
+                "<img src=\"Shape.alt_text.001.png\" width=\"204\" height=\"204\" alt=\"Alt text for MyCube.\" " +
                 "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />",
                 file.read().decode('utf-8'))
 
@@ -131,10 +131,10 @@ class ExShape(ApiExampleBase):
         # Rotate the image 45 degrees clockwise.
         shape.rotation = 45
 
-        doc.save(ARTIFACTS_DIR + "Shape.Rotate.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.rotate.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Shape.Rotate.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.rotate.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         TestUtil.verify_shape(self, aw.drawing.ShapeType.IMAGE, "", 300.0, 300.0, 0, 0, shape)
@@ -197,10 +197,10 @@ class ExShape(ApiExampleBase):
         builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
                       "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")
 
-        doc.save(ARTIFACTS_DIR + "Shape.Coordinates.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.coordinates.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Shape.Coordinates.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.coordinates.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         TestUtil.verify_shape(self, aw.drawing.ShapeType.RECTANGLE, "Rectangle 100002", 150.0, 150.0, 75.0, 150.0, shape)
@@ -296,10 +296,10 @@ class ExShape(ApiExampleBase):
         builder.move_to(group.get_child(aw.NodeType.SHAPE, 4, True).as_shape().append_child(aw.Paragraph(doc)))
         builder.write("Hello world!")
 
-        doc.save(ARTIFACTS_DIR + "Shape.GroupShape.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.group_shape.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Shape.GroupShape.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.group_shape.docx")
         group = doc.get_child(aw.NodeType.GROUP_SHAPE, 0, True).as_group_shape()
 
         self.assertEqual(drawing.RectangleF(0, 0, 400, 400), group.bounds)
@@ -384,10 +384,10 @@ class ExShape(ApiExampleBase):
         group.append_child(shape)
         doc.first_section.body.first_paragraph.append_child(group)
 
-        doc.save(ARTIFACTS_DIR + "Shape.LocalToParent.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.local_to_parent.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Shape.LocalToParent.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.local_to_parent.docx")
         group = doc.get_child(aw.NodeType.GROUP_SHAPE, 0, True).as_group_shape()
 
         self.assertEqual(drawing.RectangleF(100, 100, 500, 500), group.bounds)
@@ -421,10 +421,10 @@ class ExShape(ApiExampleBase):
 
                 # If the shape does not have a visible anchor symbol to its left,
                 # we will need to enable visible anchors via "Options" -> "Display" -> "Object Anchors".
-                doc.save(ARTIFACTS_DIR + "Shape.AnchorLocked.docx")
+                doc.save(ARTIFACTS_DIR + "Shape.anchor_locked.docx")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + "Shape.AnchorLocked.docx")
+                doc = aw.Document(ARTIFACTS_DIR + "Shape.anchor_locked.docx")
                 shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
                 self.assertEqual(anchor_locked, shape.anchor_locked)
@@ -508,10 +508,10 @@ class ExShape(ApiExampleBase):
         self.assertEqual(aw.drawing.WrapType.NONE, shape.wrap_type)
         self.assertFalse(shape.is_inline)
 
-        doc.save(ARTIFACTS_DIR + "Shape.IsInline.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.is_inline.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Shape.IsInline.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.is_inline.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         TestUtil.verify_shape(self, aw.drawing.ShapeType.RECTANGLE, "Rectangle 100002", 100, 100, 0, 0, shape)
@@ -651,10 +651,10 @@ class ExShape(ApiExampleBase):
         # making it into a horizontal and vertical mirror image of the first shape.
         shape.flip_orientation = aw.drawing.FlipOrientation.BOTH
 
-        doc.save(ARTIFACTS_DIR + "Shape.FlipShapeOrientation.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.flip_shape_orientation.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Shape.FlipShapeOrientation.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.flip_shape_orientation.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         TestUtil.verify_shape(self, aw.drawing.ShapeType.RECTANGLE, "Rectangle 100002", 100, 100, 100, 100, shape)
@@ -787,10 +787,10 @@ class ExShape(ApiExampleBase):
         self.assertEqual(0, len([shape for shape in shapes if shape.shape_type == aw.drawing.ShapeType.TEXT_BOX]))
         self.assertEqual(4, len([shape for shape in shapes if shape.shape_type == aw.drawing.ShapeType.IMAGE]))
 
-        doc.save(ARTIFACTS_DIR + "Shape.ReplaceTextboxesWithImages.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.replace_textboxes_with_images.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Shape.ReplaceTextboxesWithImages.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.replace_textboxes_with_images.docx")
         out_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         self.assertEqual(aw.drawing.WrapSide.BOTH, out_shape.wrap_side)
@@ -825,10 +825,10 @@ class ExShape(ApiExampleBase):
 
         doc.first_section.body.first_paragraph.append_child(text_box)
 
-        doc.save(ARTIFACTS_DIR + "Shape.CreateTextBox.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.create_text_box.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Shape.CreateTextBox.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.create_text_box.docx")
         text_box = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_BOX, "", 200.0, 50.0, 0.0, 0.0, text_box)
@@ -873,7 +873,7 @@ class ExShape(ApiExampleBase):
         shapes[1].zorder = 2
         shapes[2].zorder = 1
 
-        doc.save(ARTIFACTS_DIR + "Shape.ZOrder.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.z_order.docx")
         #ExEnd
 
     def test_get_active_x_control_properties(self):
@@ -1006,7 +1006,7 @@ class ExShape(ApiExampleBase):
 
         self.assertEqual("Microsoft Visio drawing.vsd", ole_format.icon_caption)
 
-        doc.save(ARTIFACTS_DIR + "Shape.OleLinks.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.ole_links.docx")
 
         # If the object contains OLE data, we can access it using a stream.
         with ole_format.get_ole_entry("\x0001CompObj") as stream:
@@ -1099,10 +1099,10 @@ class ExShape(ApiExampleBase):
         # Set the "scale" property to 5 to render the object to five times its original size.
         save_options.scale = 5
 
-        math.get_math_renderer().save(ARTIFACTS_DIR + "Shape.RenderOfficeMath.png", save_options)
+        math.get_math_renderer().save(ARTIFACTS_DIR + "Shape.render_office_math.png", save_options)
         #ExEnd
 
-        TestUtil.verify_image(self, 795, 87, filename=(ARTIFACTS_DIR + "Shape.RenderOfficeMath.png"))
+        TestUtil.verify_image(self, 795, 87, filename=(ARTIFACTS_DIR + "Shape.render_office_math.png"))
 
     def test_office_math_display_exception(self):
 
@@ -1152,10 +1152,10 @@ class ExShape(ApiExampleBase):
         office_math.display_type = aw.math.OfficeMathDisplayType.DISPLAY
         office_math.justification = aw.math.OfficeMathJustification.LEFT
 
-        doc.save(ARTIFACTS_DIR + "Shape.OfficeMath.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.office_math.docx")
         #ExEnd
 
-        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "Shape.OfficeMath.docx", GOLDS_DIR + "Shape.OfficeMath Gold.docx"))
+        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "Shape.office_math.docx", GOLDS_DIR + "Shape.OfficeMath Gold.docx"))
 
     def test_cannot_be_set_display_with_inline_justification(self):
 
@@ -1223,10 +1223,10 @@ class ExShape(ApiExampleBase):
                 # freely change the image's aspect ratio with all sizing handles.
                 shape.aspect_ratio_locked = lock_aspect_ratio
 
-                doc.save(ARTIFACTS_DIR + "Shape.AspectRatio.docx")
+                doc.save(ARTIFACTS_DIR + "Shape.aspect_ratio.docx")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + "Shape.AspectRatio.docx")
+                doc = aw.Document(ARTIFACTS_DIR + "Shape.aspect_ratio.docx")
                 shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
                 self.assertEqual(lock_aspect_ratio, shape.aspect_ratio_locked)
@@ -1320,7 +1320,7 @@ class ExShape(ApiExampleBase):
 
         builder.insert_ole_object("http://www.aspose.com", "htmlfile", True, False, None)
 
-        doc.save(ARTIFACTS_DIR + "Shape.InsertOleObjectAsHtmlFile.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.insert_ole_object_as_html_file.docx")
 
     #def test_insert_ole_package(self):
 
@@ -1375,7 +1375,7 @@ class ExShape(ApiExampleBase):
         shape.width = 500
         shape.rotation = 30
 
-        doc.save(ARTIFACTS_DIR + "Shape.Resize.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.resize.docx")
 
     def test_calendar(self):
 
@@ -1422,9 +1422,9 @@ class ExShape(ApiExampleBase):
             builder.move_to(run)
             builder.insert_node(watermark)
 
-        doc.save(ARTIFACTS_DIR + "Shape.Calendar.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.calendar.docx")
 
-        doc = aw.Document(ARTIFACTS_DIR + "Shape.Calendar.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.calendar.docx")
         shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
 
         self.assertEqual(31, len(shapes))
@@ -1474,10 +1474,10 @@ class ExShape(ApiExampleBase):
                 # We can only apply the "is_layout_in_cell" property to floating shapes.
                 shape.wrap_type = aw.drawing.WrapType.NONE
 
-                doc.save(ARTIFACTS_DIR + "Shape.LayoutInTableCell.docx")
+                doc.save(ARTIFACTS_DIR + "Shape.is_layout_in_cell.docx")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + "Shape.LayoutInTableCell.docx")
+                doc = aw.Document(ARTIFACTS_DIR + "Shape.is_layout_in_cell.docx")
                 table = doc.first_section.body.tables[0]
                 shape = table.first_row.first_cell.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
@@ -1508,10 +1508,10 @@ class ExShape(ApiExampleBase):
         save_options = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
         save_options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
 
-        doc.save(ARTIFACTS_DIR + "Shape.ShapeInsertion.docx", save_options)
+        doc.save(ARTIFACTS_DIR + "Shape.shape_insertion.docx", save_options)
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Shape.ShapeInsertion.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.shape_insertion.docx")
         shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
 
         TestUtil.verify_shape(self, aw.drawing.ShapeType.TOP_CORNERS_ROUNDED, "TopCornersRounded 100002", 50.0, 50.0, 100.0, 100.0, shapes[0])
@@ -1665,10 +1665,10 @@ class ExShape(ApiExampleBase):
         self.assertTrue(signature_line.allow_comments)
         self.assertTrue(signature_line.default_instructions)
 
-        doc.save(ARTIFACTS_DIR + "Shape.SignatureLine.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.signature_line.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Shape.SignatureLine.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.signature_line.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         TestUtil.verify_shape(self, aw.drawing.ShapeType.IMAGE, "", 192.75, 96.75, -60.0, -170.0, shape)
@@ -1718,10 +1718,10 @@ class ExShape(ApiExampleBase):
                 # Set the "layout_flow" property to set an orientation for the text contents of this text box.
                 text_box.layout_flow = layout_flow
 
-                doc.save(ARTIFACTS_DIR + "Shape.TextBoxLayoutFlow.docx")
+                doc.save(ARTIFACTS_DIR + "Shape.text_box_layout_flow.docx")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + "Shape.TextBoxLayoutFlow.docx")
+                doc = aw.Document(ARTIFACTS_DIR + "Shape.text_box_layout_flow.docx")
                 text_box_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
                 TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 150.0, 100.0, 0.0, 0.0, text_box_shape)
@@ -1754,10 +1754,10 @@ class ExShape(ApiExampleBase):
         builder.move_to(text_box_shape.last_paragraph)
         builder.write("Text fit tightly inside textbox.")
 
-        doc.save(ARTIFACTS_DIR + "Shape.TextBoxFitShapeToText.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.text_box_fit_shape_to_text.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Shape.TextBoxFitShapeToText.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.text_box_fit_shape_to_text.docx")
         text_box_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 150.0, 100.0, 0.0, 0.0, text_box_shape)
@@ -1787,17 +1787,17 @@ class ExShape(ApiExampleBase):
         builder.move_to(text_box_shape.last_paragraph)
         builder.write("Text placed according to textbox margins.")
 
-        doc.save(ARTIFACTS_DIR + "Shape.TextBoxMargins.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.text_box_margins.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Shape.TextBoxMargins.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.text_box_margins.docx")
         text_box_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 100.0, 100.0, 0.0, 0.0, text_box_shape)
         TestUtil.verify_text_box(self, aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 15.0, 15.0, 15.0, 15.0, text_box_shape.text_box)
         self.assertEqual("Text placed according to textbox margins.", text_box_shape.get_text().strip())
 
-    def test_text_box_Contents_wrap_mode(self):
+    def test_text_box_сontents_wrap_mode(self):
 
         for text_box_wrap_mode in (aw.drawing.TextBoxWrapMode.NONE, aw.drawing.TextBoxWrapMode.SQUARE):
             with self.subTest(text_box_wrap_mode=text_box_wrap_mode):
@@ -1821,10 +1821,10 @@ class ExShape(ApiExampleBase):
                 builder.font.size = 32
                 builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
 
-                doc.save(ARTIFACTS_DIR + "Shape.TextBoxContentsWrapMode.docx")
+                doc.save(ARTIFACTS_DIR + "Shape.text_box_сontents_wrap_mode.docx")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + "Shape.TextBoxContentsWrapMode.docx")
+                doc = aw.Document(ARTIFACTS_DIR + "Shape.text_box_сontents_wrap_mode.docx")
                 text_box_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
                 TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 300.0, 300.0, 0.0, 0.0, text_box_shape)
@@ -1847,7 +1847,7 @@ class ExShape(ApiExampleBase):
         builder.move_to(text_box_shape.last_paragraph)
         builder.write("Text placed bottom")
 
-        doc.save(ARTIFACTS_DIR + "Shape.TextBoxShapeType.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.text_box_shape_type.docx")
 
     def test_create_link_between_text_boxes(self):
 
@@ -1905,10 +1905,10 @@ class ExShape(ApiExampleBase):
             self.assertIsNone(text_box2.next)
             self.assertIsNone(text_box3.previous)
 
-        doc.save(ARTIFACTS_DIR + "Shape.CreateLinkBetweenTextBoxes.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.create_link_between_text_boxes.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Shape.CreateLinkBetweenTextBoxes.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.create_link_between_text_boxes.docx")
         shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
 
         TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 100.0, 100.0, 0.0, 0.0, shapes[0])
@@ -1955,10 +1955,10 @@ class ExShape(ApiExampleBase):
 
                 # The vertical aligning of text inside text boxes is available from Microsoft Word 2007 onwards.
                 doc.compatibility_options.optimize_for(aw.settings.MsWordVersion.WORD2007)
-                doc.save(ARTIFACTS_DIR + "Shape.VerticalAnchor.docx")
+                doc.save(ARTIFACTS_DIR + "Shape.vertical_anchor.docx")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + "Shape.VerticalAnchor.docx")
+                doc = aw.Document(ARTIFACTS_DIR + "Shape.vertical_anchor.docx")
                 shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
                 TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 200.0, 200.0, 0.0, 0.0, shape)
@@ -2056,8 +2056,8 @@ class ExShape(ApiExampleBase):
         shape.text_path.size = 24.0
         shape.text_path.text_path_alignment = aw.drawing.TextPathAlignment.RIGHT
 
-        doc.save(ARTIFACTS_DIR + "Shape.InsertTextPaths.docx")
-        self._test_insert_text_paths(ARTIFACTS_DIR + "Shape.InsertTextPaths.docx") #ExSkip
+        doc.save(ARTIFACTS_DIR + "Shape.insert_text_paths.docx")
+        self._test_insert_text_paths(ARTIFACTS_DIR + "Shape.insert_text_paths.docx") #ExSkip
 
     def append_word_art(self, doc: aw.Document, text: str, text_font_family: str, shape_width: float, shape_height: float, word_art_fill: drawing.Color, line: drawing.Color, word_art_shape_type: aw.drawing.ShapeType) -> aw.drawing.Shape:
         """Insert a new paragraph with a WordArt shape inside it."""
@@ -2282,7 +2282,7 @@ class ExShape(ApiExampleBase):
             shape = shape.as_shape()
             renderer = shape.get_shape_renderer()
             options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
-            renderer.save(ARTIFACTS_DIR + f"Shape.RenderAllShapes.{shape.name}.png", options)
+            renderer.save(ARTIFACTS_DIR + f"Shape.render_all_shapes.{shape.name}.png", options)
 
         #ExEnd
 
@@ -2376,8 +2376,8 @@ class ExShape(ApiExampleBase):
         # "Strict" or "Transitional" compliance allows to save shape as DML.
         save_options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
 
-        doc.save(ARTIFACTS_DIR + "ShapeTypes.docx", save_options)
-        doc = aw.Document(ARTIFACTS_DIR + "ShapeTypes.docx")
+        doc.save(ARTIFACTS_DIR + "Shape.shape_types.docx", save_options)
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.shape_types.docx")
 
         shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
 

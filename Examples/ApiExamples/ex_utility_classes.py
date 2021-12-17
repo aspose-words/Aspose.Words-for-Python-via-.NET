@@ -44,10 +44,10 @@ class ExUtilityClasses(ApiExampleBase):
             f"{page_setup.top_margin} points/{aw.ConvertUtil.point_to_inch(page_setup.top_margin)} inches from the top, " +
             f"and {page_setup.bottom_margin} points/{aw.ConvertUtil.point_to_inch(page_setup.bottom_margin)} inches from the bottom of the page.")
 
-        doc.save(ARTIFACTS_DIR + "UtilityClasses.PointsAndInches.docx")
+        doc.save(ARTIFACTS_DIR + "UtilityClasses.points_and_inches.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "UtilityClasses.PointsAndInches.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "UtilityClasses.points_and_inches.docx")
         page_setup = doc.first_section.page_setup
 
         self.assertAlmostEqual(72.0, page_setup.top_margin, 2)
@@ -86,10 +86,10 @@ class ExUtilityClasses(ApiExampleBase):
             f"{page_setup.top_margin} points from the top, " +
             f"and {page_setup.bottom_margin} points from the bottom of the page.")
 
-        doc.save(ARTIFACTS_DIR + "UtilityClasses.PointsAndMillimeters.docx")
+        doc.save(ARTIFACTS_DIR + "UtilityClasses.points_and_millimeters.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "UtilityClasses.PointsAndMillimeters.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "UtilityClasses.points_and_millimeters.docx")
         page_setup = doc.first_section.page_setup
 
         self.assertAlmostEqual(85.05, page_setup.top_margin, 2)
@@ -129,10 +129,10 @@ class ExUtilityClasses(ApiExampleBase):
             f"{page_setup.top_margin} points/{aw.ConvertUtil.point_to_pixel(page_setup.top_margin)} pixels from the top, " +
             f"and {page_setup.bottom_margin} points/{aw.ConvertUtil.point_to_pixel(page_setup.bottom_margin)} pixels from the bottom of the page.")
 
-        doc.save(ARTIFACTS_DIR + "UtilityClasses.PointsAndPixels.docx")
+        doc.save(ARTIFACTS_DIR + "UtilityClasses.points_and_pixels.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "UtilityClasses.PointsAndPixels.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "UtilityClasses.points_and_pixels.docx")
         page_setup = doc.first_section.page_setup
 
         self.assertAlmostEqual(75.0, page_setup.top_margin, 2)
@@ -178,10 +178,10 @@ class ExUtilityClasses(ApiExampleBase):
             f"At a DPI of {NEW_DPI}, the text is now {page_setup.top_margin} points/{aw.ConvertUtil.point_to_pixel(page_setup.top_margin, MY_DPI)} " +
             "pixels from the top of the page.")
 
-        doc.save(ARTIFACTS_DIR + "UtilityClasses.PointsAndPixelsDpi.docx")
+        doc.save(ARTIFACTS_DIR + "UtilityClasses.points_and_pixels_dpi.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "UtilityClasses.PointsAndPixelsDpi.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "UtilityClasses.points_and_pixels_dpi.docx")
         page_setup = doc.first_section.page_setup
 
         self.assertAlmostEqual(59.0, page_setup.top_margin, 2)

@@ -163,13 +163,13 @@ class ExDocument(ApiExampleBase):
         save_options = aw.saving.PdfSaveOptions()
         save_options.encryption_details = aw.saving.PdfEncryptionDetails("Aspose", None, aw.saving.PdfEncryptionAlgorithm.RC4_40)
 
-        doc.save(ARTIFACTS_DIR + "Document.pdf_document_encrypted.pdf", save_options)
+        doc.save(ARTIFACTS_DIR + "Document.open_protected_pdf_document.pdf", save_options)
 
         load_options = aw.loading.PdfLoadOptions()
         load_options.password = "Aspose"
         load_options.load_format = aw.LoadFormat.PDF
 
-        doc = aw.Document(ARTIFACTS_DIR + "Document.pdf_document_encrypted.pdf", load_options)
+        doc = aw.Document(ARTIFACTS_DIR + "Document.open_protected_pdf_document.pdf", load_options)
 
     def test_open_from_stream_with_base_uri(self):
 
@@ -733,11 +733,11 @@ class ExDocument(ApiExampleBase):
 
         # If we open this document with Microsoft Word intending to edit it,
         # we will need to apply the password to get through the protection.
-        doc.save(ARTIFACTS_DIR + "Document.protect.docx")
+        doc.save(ARTIFACTS_DIR + "Document.protect_unprotect.docx")
 
         # Note that the protection only applies to Microsoft Word users opening our document.
         # We have not encrypted the document in any way, and we do not need the password to open and edit it programmatically.
-        protected_doc = aw.Document(ARTIFACTS_DIR + "Document.protect.docx")
+        protected_doc = aw.Document(ARTIFACTS_DIR + "Document.protect_unprotect.docx")
 
         self.assertEqual(aw.ProtectionType.READ_ONLY, protected_doc.protection_type)
 
@@ -1188,7 +1188,7 @@ class ExDocument(ApiExampleBase):
         # We can accept/reject these revisions programmatically
         # by calling methods such as "Document.accept_all_revisions", or each revision's "accept" method.
         # In Microsoft Word, we can process them manually via "Review" -> "Changes".
-        doc.save(ARTIFACTS_DIR + "Document.start_track_revisions.docx")
+        doc.save(ARTIFACTS_DIR + "Document.track_revisions.docx")
         #ExEnd
 
     def test_accept_all_revisions(self):
@@ -2075,7 +2075,7 @@ class ExDocument(ApiExampleBase):
         web_extension.is_frozen = False
 
         # We can access the web extension in Microsoft Word via Developer -> Add-ins.
-        doc.save(ARTIFACTS_DIR + "Document.web_extension.docx")
+        doc.save(ARTIFACTS_DIR + "Document.create_web_extension.docx")
 
         # Remove all web extension task panes at once like this.
         doc.web_extension_task_panes.clear()
@@ -2083,7 +2083,7 @@ class ExDocument(ApiExampleBase):
         self.assertEqual(0, doc.web_extension_task_panes.count)
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Document.web_extension.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Document.create_web_extension.docx")
         my_script_task_pane = doc.web_extension_task_panes[0]
 
         self.assertEqual(aw.webextensions.TaskPaneDockState.RIGHT, my_script_task_pane.dock_state)

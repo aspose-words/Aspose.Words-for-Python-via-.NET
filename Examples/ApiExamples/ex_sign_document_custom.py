@@ -29,7 +29,7 @@ class ExSignDocumentCustom(ApiExampleBase):
 
         signee_name = "Ron Williams"
         src_document_path = MY_DIR + "Document.docx"
-        dst_document_path = ARTIFACTS_DIR + "SignDocumentCustom.Sign.docx"
+        dst_document_path = ARTIFACTS_DIR + "SignDocumentCustom.sign.docx"
         certificate_path = MY_DIR + "morzal.pfx"
         certificate_password = "aw"
 

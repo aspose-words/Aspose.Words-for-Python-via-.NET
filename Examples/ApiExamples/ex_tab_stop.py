@@ -42,10 +42,10 @@ class ExTabStop(ApiExampleBase):
         builder = aw.DocumentBuilder(doc)
         builder.writeln("Start\tTab 1\tTab 2\tTab 3\tTab 4")
 
-        doc.save(ARTIFACTS_DIR + "TabStopCollection.AddTabStops.docx")
+        doc.save(ARTIFACTS_DIR + "TabStopCollection.add_tab_stops.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "TabStopCollection.AddTabStops.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "TabStopCollection.add_tab_stops.docx")
         tab_stops = doc.first_section.body.paragraphs[0].paragraph_format.tab_stops
 
         #TestUtil.verify_tab_stop(141.75d, TabAlignment.Left, TabLeader.Dashes, False, tab_stops[0])
@@ -104,10 +104,10 @@ class ExTabStop(ApiExampleBase):
 
         self.assertEqual(0, paragraphs[1].paragraph_format.tab_stops.count)
 
-        doc.save(ARTIFACTS_DIR + "TabStopCollection.TabStopCollection.docx")
+        doc.save(ARTIFACTS_DIR + "TabStopCollection.tab_stop_collection.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "TabStopCollection.TabStopCollection.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "TabStopCollection.tab_stop_collection.docx")
         tab_stops = doc.first_section.body.paragraphs[0].paragraph_format.tab_stops
 
         self.assertEqual(2, tab_stops.count)
@@ -136,10 +136,10 @@ class ExTabStop(ApiExampleBase):
 
         self.assertEqual(1, tab_stops.count)
 
-        doc.save(ARTIFACTS_DIR + "TabStopCollection.RemoveByIndex.docx")
+        doc.save(ARTIFACTS_DIR + "TabStopCollection.remove_by_index.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "TabStopCollection.RemoveByIndex.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "TabStopCollection.remove_by_index.docx")
 
         #TestUtil.verify_tab_stop(170.1d, TabAlignment.Left, TabLeader.Dashes, False, doc.first_section.Body.Paragraphs[0].paragraph_format.TabStops[0])
 

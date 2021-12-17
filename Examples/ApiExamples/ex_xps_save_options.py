@@ -55,7 +55,7 @@ class ExXpsSaveOptions(ApiExampleBase):
         # The last two headings we have inserted above will not appear.
         save_options.outline_options.headings_outline_levels = 2
 
-        doc.save(ARTIFACTS_DIR + "XpsSaveOptions.OutlineLevels.xps", save_options)
+        doc.save(ARTIFACTS_DIR + "XpsSaveOptions.outline_levels.xps", save_options)
         #ExEnd
 
     def test_book_fold(self):
@@ -86,7 +86,7 @@ class ExXpsSaveOptions(ApiExampleBase):
 
                 # Once we print this document, we can turn it into a booklet by stacking the pages
                 # to come out of the printer and folding down the middle.
-                doc.save(ARTIFACTS_DIR + "XpsSaveOptions.BookFold.xps", xps_options)
+                doc.save(ARTIFACTS_DIR + "XpsSaveOptions.book_fold.xps", xps_options)
                 #ExEnd
 
     def test_optimize_output(self):
@@ -108,10 +108,10 @@ class ExXpsSaveOptions(ApiExampleBase):
                 # Set the "optimize_output" property to "False" to save the document normally.
                 save_options.optimize_output = optimize_output
 
-                doc.save(ARTIFACTS_DIR + "XpsSaveOptions.OptimizeOutput.xps", save_options)
+                doc.save(ARTIFACTS_DIR + "XpsSaveOptions.optimize_output.xps", save_options)
                 #ExEnd
 
-                out_file_size = os.path.getsize(ARTIFACTS_DIR + "XpsSaveOptions.OptimizeOutput.xps")
+                out_file_size = os.path.getsize(ARTIFACTS_DIR + "XpsSaveOptions.optimize_output.xps")
 
                 if optimize_output:
                     self.assertLess(out_file_size, 50000)
@@ -147,5 +147,5 @@ class ExXpsSaveOptions(ApiExampleBase):
         # In this case, we will choose, via a zero-based index, only three pages: page 1, page 2, and page 4.
         xps_options.page_set = aw.saving.PageSet([0, 1, 3])
 
-        doc.save(ARTIFACTS_DIR + "XpsSaveOptions.ExportExactPages.xps", xps_options)
+        doc.save(ARTIFACTS_DIR + "XpsSaveOptions.export_exact_pages.xps", xps_options)
         #ExEnd

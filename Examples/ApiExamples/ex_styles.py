@@ -117,7 +117,7 @@ class ExStyles(ApiExampleBase):
         # Note that remove styles work only with DOCX format for now.
         doc.styles.clear_quick_style_gallery()
 
-        doc.save(ARTIFACTS_DIR + "Styles.RemoveStylesFromStyleGallery.docx")
+        doc.save(ARTIFACTS_DIR + "Styles.remove_styles_from_style_gallery.docx")
         #ExEnd
 
     def test_change_tocs_tab_stops(self):
@@ -146,10 +146,10 @@ class ExStyles(ApiExampleBase):
                 para.paragraph_format.tab_stops.remove_by_position(tab.position)
                 para.paragraph_format.tab_stops.add(tab.position - 50, tab.alignment, tab.leader)
 
-        doc.save(ARTIFACTS_DIR + "Styles.ChangeTocstab_stops.docx")
+        doc.save(ARTIFACTS_DIR + "Styles.change_tocs_tab_stops.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Styles.ChangeTocstab_stops.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Styles.change_tocs_tab_stops.docx")
 
         for para in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True):
             para = para.as_paragraph()
@@ -259,10 +259,10 @@ class ExStyles(ApiExampleBase):
         builder.paragraph_format.style = doc.styles.get_by_name("Normal")
         builder.writeln("Hello World: Normal.")
 
-        builder.document.save(ARTIFACTS_DIR + "Styles.ParagraphStyleBulletedList.docx")
+        builder.document.save(ARTIFACTS_DIR + "Styles.paragraph_style_bulleted_list.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Styles.ParagraphStyleBulletedList.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Styles.paragraph_style_bulleted_list.docx")
 
         style = doc.styles.get_by_name("MyStyle1")
 

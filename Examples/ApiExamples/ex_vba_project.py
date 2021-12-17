@@ -42,10 +42,10 @@ class ExVbaProject(ApiExampleBase):
         # Add the module to the VBA project.
         doc.vba_project.modules.add(module)
 
-        doc.save(ARTIFACTS_DIR + "VbaProject.CreateVBAMacros.docm")
+        doc.save(ARTIFACTS_DIR + "VbaProject.create_new_vba_project.docm")
         #ExEnd
 
-        project = aw.Document(ARTIFACTS_DIR + "VbaProject.CreateVBAMacros.docm").vba_project
+        project = aw.Document(ARTIFACTS_DIR + "VbaProject.create_new_vba_project.docm").vba_project
 
         self.assertEqual("Aspose.Project", project.name)
 
@@ -80,10 +80,10 @@ class ExVbaProject(ApiExampleBase):
         dest_doc.vba_project.modules.remove(old_vba_module)
         dest_doc.vba_project.modules.add(copy_vba_module)
 
-        dest_doc.save(ARTIFACTS_DIR + "VbaProject.CloneVbaProject.docm")
+        dest_doc.save(ARTIFACTS_DIR + "VbaProject.clone_vba_project.docm")
         #ExEnd
 
-        original_vba_project = aw.Document(ARTIFACTS_DIR + "VbaProject.CloneVbaProject.docm").vba_project
+        original_vba_project = aw.Document(ARTIFACTS_DIR + "VbaProject.clone_vba_project.docm").vba_project
 
         self.assertEqual(copy_vba_project.name, original_vba_project.name)
         self.assertEqual(copy_vba_project.code_page, original_vba_project.code_page)
@@ -104,7 +104,6 @@ class ExVbaProject(ApiExampleBase):
     #ExFor:VbaReferenceCollection.remove(VbaReference)
     #ExFor:VbaReferenceType
     #ExSummary:Shows how to get/remove an element from the VBA reference collection.
-
     def test_remove_vba_reference(self):
 
         BROKEN_PATH = r"X:\broken.dll"
@@ -126,7 +125,7 @@ class ExVbaProject(ApiExampleBase):
         references.remove(references[1])
         self.assertEqual(3, references.count)
 
-        doc.save(ARTIFACTS_DIR + "VbaProject.RemoveVbaReference.docm")
+        doc.save(ARTIFACTS_DIR + "VbaProject.remove_vba_reference.docm")
 
     def get_lib_id_path(self, reference: aw.vba.VbaReference) -> str:
         """Returns string representing LibId path of a specified reference."""

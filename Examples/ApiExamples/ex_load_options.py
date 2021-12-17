@@ -277,7 +277,7 @@ class ExLoadOptions(ApiExampleBase):
 
         doc.first_section.body.first_paragraph.append_child(shape)
 
-        doc.save(ARTIFACTS_DIR + "Image.create_image_directly.docx")
+        doc.save(ARTIFACTS_DIR + "Image.convert_metafiles_to_png.docx")
 
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
@@ -286,7 +286,7 @@ class ExLoadOptions(ApiExampleBase):
         load_options = aw.loading.LoadOptions()
         load_options.convert_metafiles_to_png = True
 
-        doc = aw.Document(ARTIFACTS_DIR + "Image.create_image_directly.docx", load_options)
+        doc = aw.Document(ARTIFACTS_DIR + "Image.convert_metafiles_to_png.docx", load_options)
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         TestUtil.verify_image_in_shape(self, 1666, 1666, aw.drawing.ImageType.PNG, shape)

@@ -34,10 +34,10 @@ class ExViewOptions(ApiExampleBase):
         self.assertEqual(aw.settings.ZoomType.CUSTOM, doc.view_options.zoom_type)
         self.assertEqual(aw.settings.ZoomType.NONE, doc.view_options.zoom_type)
 
-        doc.save(ARTIFACTS_DIR + "ViewOptions.SetZoomPercentage.doc")
+        doc.save(ARTIFACTS_DIR + "ViewOptions.set_zoom_percentage.doc")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "ViewOptions.SetZoomPercentage.doc")
+        doc = aw.Document(ARTIFACTS_DIR + "ViewOptions.set_zoom_percentage.doc")
 
         self.assertEqual(aw.settings.ViewType.PAGE_LAYOUT, doc.view_options.view_type)
         self.assertEqual(50.0, doc.view_options.zoom_percent)
@@ -64,10 +64,10 @@ class ExViewOptions(ApiExampleBase):
                 # to automatically zoom the document to fit the inner text margins of the first page.
                 doc.view_options.zoom_type = zoom_type
 
-                doc.save(ARTIFACTS_DIR + "ViewOptions.SetZoomType.doc")
+                doc.save(ARTIFACTS_DIR + "ViewOptions.set_zoom_type.doc")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + "ViewOptions.SetZoomType.doc")
+                doc = aw.Document(ARTIFACTS_DIR + "ViewOptions.set_zoom_type.doc")
 
                 self.assertEqual(zoom_type, doc.view_options.zoom_type)
 
@@ -97,10 +97,10 @@ class ExViewOptions(ApiExampleBase):
                 # Set the "display_background_shape" to "False" to not display the background color.
                 doc.view_options.display_background_shape = display_background_shape
 
-                doc.save(ARTIFACTS_DIR + "ViewOptions.DisplayBackgroundShape.docx")
+                doc.save(ARTIFACTS_DIR + "ViewOptions.display_background_shape.docx")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + "ViewOptions.DisplayBackgroundShape.docx")
+                doc = aw.Document(ARTIFACTS_DIR + "ViewOptions.display_background_shape.docx")
 
                 self.assertEqual(display_background_shape, doc.view_options.display_background_shape)
 
@@ -134,10 +134,10 @@ class ExViewOptions(ApiExampleBase):
                 # to normally display our document.
                 doc.view_options.do_not_display_page_boundaries = do_not_display_page_boundaries
 
-                doc.save(ARTIFACTS_DIR + "ViewOptions.DisplayPageBoundaries.doc")
+                doc.save(ARTIFACTS_DIR + "ViewOptions.display_page_boundaries.doc")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + "ViewOptions.DisplayPageBoundaries.doc")
+                doc = aw.Document(ARTIFACTS_DIR + "ViewOptions.display_page_boundaries.doc")
 
                 self.assertEqual(do_not_display_page_boundaries, doc.view_options.do_not_display_page_boundaries)
 
@@ -156,8 +156,8 @@ class ExViewOptions(ApiExampleBase):
                 # Set the "forms_design" property to "True" to enable forms design mode.
                 doc.view_options.forms_design = use_forms_design
 
-                doc.save(ARTIFACTS_DIR + "ViewOptions.FormsDesign.xml")
+                doc.save(ARTIFACTS_DIR + "ViewOptions.forms_design.xml")
 
-                with open(ARTIFACTS_DIR + "ViewOptions.FormsDesign.xml") as file:
+                with open(ARTIFACTS_DIR + "ViewOptions.forms_design.xml") as file:
                     self.assertEqual(use_forms_design, "<w:formsDesign />" in file.read())
                 #ExEnd

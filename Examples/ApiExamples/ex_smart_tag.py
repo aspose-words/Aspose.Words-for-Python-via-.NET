@@ -68,7 +68,7 @@ class ExSmartTag(ApiExampleBase):
         #doc.accept(ExSmartTag.SmartTagPrinter())
 
         # Older versions of Microsoft Word support smart tags.
-        doc.save(ARTIFACTS_DIR + "SmartTag.Create.doc")
+        doc.save(ARTIFACTS_DIR + "SmartTag.create.doc")
 
         # Use the "remove_smart_tags" method to remove all smart tags from a document.
         self.assertEqual(2, doc.get_child_nodes(aw.NodeType.SMART_TAG, True).count)
@@ -76,7 +76,7 @@ class ExSmartTag(ApiExampleBase):
         doc.remove_smart_tags()
 
         self.assertEqual(0, doc.get_child_nodes(aw.NodeType.SMART_TAG, True).count)
-        self._test_create(aw.Document(ARTIFACTS_DIR + "SmartTag.Create.doc")) #ExSkip
+        self._test_create(aw.Document(ARTIFACTS_DIR + "SmartTag.create.doc")) #ExSkip
 
     #class SmartTagPrinter(aw.DocumentVisitor):
     #    """Prints visited smart tags and their contents."""

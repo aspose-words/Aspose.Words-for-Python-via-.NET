@@ -458,10 +458,10 @@ class ExDocumentBuilder(ApiExampleBase):
 
         builder.insert_html(math_ml)
 
-        doc.save(ARTIFACTS_DIR + "DocumentBuilder.math_m_l.docx")
-        doc.save(ARTIFACTS_DIR + "DocumentBuilder.math_m_l.pdf")
+        doc.save(ARTIFACTS_DIR + "DocumentBuilder.math_ml.docx")
+        doc.save(ARTIFACTS_DIR + "DocumentBuilder.math_ml.pdf")
 
-        self.assertTrue(DocumentHelper.compare_docs(GOLDS_DIR + "DocumentBuilder.MathML Gold.docx", ARTIFACTS_DIR + "DocumentBuilder.math_m_l.docx"))
+        self.assertTrue(DocumentHelper.compare_docs(GOLDS_DIR + "DocumentBuilder.MathML Gold.docx", ARTIFACTS_DIR + "DocumentBuilder.math_ml.docx"))
 
     def test_insert_text_and_bookmark(self):
 
@@ -1261,10 +1261,10 @@ class ExDocumentBuilder(ApiExampleBase):
         builder.end_row()
         builder.end_table()
 
-        doc.save(ARTIFACTS_DIR + "DocumentBuilder.create_formatted_table.docx")
+        doc.save(ARTIFACTS_DIR + "DocumentBuilder.build_formatted_table.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "DocumentBuilder.create_formatted_table.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "DocumentBuilder.build_formatted_table.docx")
         table = doc.first_section.body.tables[0]
 
         self.assertEqual(20.0, table.left_indent)

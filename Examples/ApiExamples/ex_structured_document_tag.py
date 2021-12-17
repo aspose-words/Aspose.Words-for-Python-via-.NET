@@ -89,10 +89,10 @@ class ExStructuredDocumentTag(ApiExampleBase):
 
         builder.insert_node(sdt_check_box)
 
-        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.CheckBox.docx")
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.check_box.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.CheckBox.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.check_box.docx")
 
         tags = [node.as_structured_document_tag() for node in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)]
 
@@ -134,7 +134,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         builder = aw.DocumentBuilder(doc)
         builder.insert_node(sdt_date)
 
-        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.Date.docx")
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.date.docx")
         #ExEnd
 
     def test_plain_text(self):
@@ -192,10 +192,10 @@ class ExStructuredDocumentTag(ApiExampleBase):
         # Use the "remove_self_only" method to remove a structured document tag, while keeping its contents in the document.
         tag_clone.remove_self_only()
 
-        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.PlainText.docx")
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.plain_text.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.PlainText.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.plain_text.docx")
         tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
 
         self.assertEqual("My plain text", tag.title)
@@ -241,10 +241,10 @@ class ExStructuredDocumentTag(ApiExampleBase):
                 builder.write("\nPlease click the check box: ")
                 builder.insert_node(tag)
 
-                doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.IsTemporary.docx")
+                doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.is_temporary.docx")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.IsTemporary.docx")
+                doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.is_temporary.docx")
 
                 self.assertEqual(2, len([sdt.as_structured_document_tag().is_temporary == is_temporary for sdt in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)]))
 
@@ -293,10 +293,10 @@ class ExStructuredDocumentTag(ApiExampleBase):
                 builder = aw.DocumentBuilder(doc)
                 builder.insert_node(tag)
 
-                doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.PlaceholderBuildingBlock.docx")
+                doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.placeholder_building_block.docx")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.PlaceholderBuildingBlock.docx")
+                doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.placeholder_building_block.docx")
                 tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
                 substitute_block = doc.glossary_document.get_child(aw.NodeType.BUILDING_BLOCK, 0, True).as_building_block()
 
@@ -332,10 +332,10 @@ class ExStructuredDocumentTag(ApiExampleBase):
         builder.write("This structured document tag cannot be deleted but its contents can be edited: ")
         builder.insert_node(tag)
 
-        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.Lock.docx")
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.lock.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.Lock.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.lock.docx")
         tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
 
         self.assertTrue(tag.lock_contents)
@@ -402,7 +402,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         # Since our drop-down control is set to display the removed item by default, give it an item to display which exists.
         list_items.selected_value = list_items[1]
 
-        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.ListItemCollection.docx")
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.list_item_collection.docx")
 
         # Use the "clear" method to empty the entire drop-down item collection at once.
         list_items.clear()
@@ -481,12 +481,12 @@ class ExStructuredDocumentTag(ApiExampleBase):
 
         doc.first_section.body.append_child(tag)
 
-        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.CustomXml.docx")
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.creating_custom_xml.docx")
         #ExEnd
 
-        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "StructuredDocumentTag.CustomXml.docx", GOLDS_DIR + "StructuredDocumentTag.CustomXml Gold.docx"))
+        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "StructuredDocumentTag.creating_custom_xml.docx", GOLDS_DIR + "StructuredDocumentTag.CustomXml Gold.docx"))
 
-        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.CustomXml.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.creating_custom_xml.docx")
         xml_part = doc.custom_xml_parts[0]
 
         xml_part_id = uuid.UUID(xml_part.id)
@@ -596,10 +596,10 @@ class ExStructuredDocumentTag(ApiExampleBase):
         # This XPath will point to the contents second "<text>" element of the first "<root>" element of our CustomXmlPart.
         sdt_range_start.xml_mapping.set_mapping(xml_part, "/root[1]/text[2]", None)
 
-        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.StructuredDocumentTagRangeStartXmlMapping.docx")
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.structured_document_tag_range_start_xml_mapping.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.StructuredDocumentTagRangeStartXmlMapping.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.structured_document_tag_range_start_xml_mapping.docx")
         xml_part = doc.custom_xml_parts[0]
 
         xml_part_id = uuid.UUID(xml_part.id)
@@ -803,7 +803,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
                 # Set the "update_sdt_content" property to "True" to make sure the tags display updated values in the PDF.
                 options.update_sdt_content = update_sdt_content
 
-                doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.UpdateSdtContent.pdf", options)
+                doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.update_sdt_content.pdf", options)
                 #ExEnd
 
                 #pdf_doc = aspose.pdf.Document(ARTIFACTS_DIR + "StructuredDocumentTag.UpdateSdtContent.pdf")
@@ -870,10 +870,10 @@ class ExStructuredDocumentTag(ApiExampleBase):
         author_sdt.xml_mapping.set_mapping(xml_part, "/books[1]/book[1]/author[1]", "")
         row.append_child(author_sdt)
 
-        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.RepeatingSectionItem.docx")
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.fill_table_using_repeating_section_item.docx")
 		#ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.RepeatingSectionItem.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.fill_table_using_repeating_section_item.docx")
         tags = [node.as_structured_document_tag() for node in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)]
 
         self.assertEqual("/books[1]/book", tags[0].xml_mapping.xpath)

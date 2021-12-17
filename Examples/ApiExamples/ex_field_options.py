@@ -109,17 +109,17 @@ class ExFieldOptions(ApiExampleBase):
 
         # We can also set a value for this property to
         # override the value that the FILENAME field displays.
-        doc.field_options.file_name = "FieldOptions.filename.docx"
+        doc.field_options.file_name = "FieldOptions.file_name.docx"
         field.update()
 
         self.assertEqual(" FILENAME  \\p", field.get_field_code())
-        self.assertEqual("FieldOptions.filename.docx", field.result)
+        self.assertEqual("FieldOptions.file_name.docx", field.result)
 
         doc.update_fields()
         doc.save(ARTIFACTS_DIR + doc.field_options.file_name)
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "FieldOptions.filename.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "FieldOptions.file_name.docx")
 
         self.assertIsNone(doc.field_options.file_name)
         TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FILE_NAME, " FILENAME ", "FieldOptions.filename.docx", doc.range.fields[0])
@@ -248,10 +248,10 @@ class ExFieldOptions(ApiExampleBase):
         builder.insert_field("TA \\c 2 \\l \"entry 3\"")
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "FieldOptions.t_o_a.categories.docx")
+        doc.save(ARTIFACTS_DIR + "FieldOptions.table_of_authority_categories.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "FieldOptions.t_o_a.categories.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "FieldOptions.table_of_authority_categories.docx")
 
         self.assertIsNone(doc.field_options.toa_categories)
 

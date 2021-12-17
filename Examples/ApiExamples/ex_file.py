@@ -192,7 +192,7 @@ class ExFile(ApiExampleBase):
 
             self.assertEqual(".doc", aw.FileFormatUtil.save_format_to_extension(save_format))
 
-            doc.save(ARTIFACTS_DIR + "File.SaveToDetectedFileFormat" + aw.FileFormatUtil.save_format_to_extension(save_format))
+            doc.save(ARTIFACTS_DIR + "File.save_to_detected_file_format" + aw.FileFormatUtil.save_format_to_extension(save_format))
 
         #ExEnd
 

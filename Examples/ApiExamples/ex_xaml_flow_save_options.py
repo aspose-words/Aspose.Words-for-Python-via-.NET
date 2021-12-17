@@ -50,7 +50,7 @@ class ExXamlFlowSaveOptions(ApiExampleBase):
         # We must ensure the folder exists before the callback's streams can put their resources into it.
         os.makedirs(options.images_folder_alias)
 
-        doc.save(ARTIFACTS_DIR + "XamlFlowSaveOptions.ImageFolder.xaml", options)
+        doc.save(ARTIFACTS_DIR + "XamlFlowSaveOptions.image_folder.xaml", options)
 
         for resource in callback.Resources:
             print(f"{callback.images_folder_alias}/{resource}")

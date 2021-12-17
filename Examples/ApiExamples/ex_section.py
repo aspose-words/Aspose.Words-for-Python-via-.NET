@@ -109,10 +109,10 @@ class ExSection(ApiExampleBase):
         self.assertEqual(1, doc.first_section.page_setup.text_columns.count)
         self.assertEqual(2, doc.last_section.page_setup.text_columns.count)
 
-        doc.save(ARTIFACTS_DIR + "Section.create.docx")
+        doc.save(ARTIFACTS_DIR + "Section.first_and_last.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Section.create.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Section.first_and_last.docx")
 
         self.assertEqual(1, doc.first_section.page_setup.text_columns.count)
         self.assertEqual(2, doc.last_section.page_setup.text_columns.count)

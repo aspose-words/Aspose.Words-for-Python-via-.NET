@@ -365,5 +365,5 @@ class ExDocumentBuilderImages(ApiExampleBase):
         with open(IMAGE_DIR + "Graphics Interchange Format.gif", "rb") as file:
             gif_image = builder.insert_image(file.read())
 
-        builder.document.save(ARTIFACTS_DIR + "InsertGif.docx")
+        builder.document.save(ARTIFACTS_DIR + "DocumentBuilderImages.insert_gif.docx")
         #ExEnd

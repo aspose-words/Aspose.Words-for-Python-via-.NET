@@ -46,7 +46,7 @@ class ExPclSaveOptions(ApiExampleBase):
 
         # This document will instruct the printer to apply "Times New Roman" to the text with the missing font.
         # Should "Times New Roman" also be unavailable, the printer will default to the "Arial" font.
-        doc.save(ARTIFACTS_DIR + "PclSaveOptions.set_printer_font.pcl", save_options)
+        doc.save(ARTIFACTS_DIR + "PclSaveOptions.fallback_font_name.pcl", save_options)
         #ExEnd
 
     def test_add_printer_font(self):
