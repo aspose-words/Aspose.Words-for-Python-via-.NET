@@ -14,7 +14,6 @@ import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
 from document_helper import DocumentHelper
-from testutil import TestUtil
 
 class ExDocumentProperties(ApiExampleBase):
 
@@ -190,7 +189,7 @@ class ExDocumentProperties(ApiExampleBase):
         self.assertEqual(datetime(2006, 4, 25, 10, 10, 0, tzinfo=timezone.utc), properties.created_time)
         self.assertEqual(datetime(2019, 4, 21, 10, 0, 0, tzinfo=timezone.utc), properties.last_printed)
         self.assertEqual("John Doe", properties.last_saved_by)
-        TestUtil.verify_date(self, datetime.now(timezone.utc), properties.last_saved_time, timedelta(seconds=5))
+        self.verify_date(datetime.now(timezone.utc), properties.last_saved_time, timedelta(seconds=5))
         self.assertEqual("Jane Doe", properties.manager)
         self.assertEqual("Microsoft Office Word", properties.name_of_application)
         self.assertEqual(12, properties.revision_number)
@@ -350,7 +349,7 @@ class ExDocumentProperties(ApiExampleBase):
         #ExEnd
 
         with open(ARTIFACTS_DIR + "DocumentProperties.thumbnail.gif", "rb") as img_stream:
-            TestUtil.verify_image(self, 400, 400, image_stream=img_stream)
+            self.verify_image(400, 400, image_stream=img_stream)
 
     def test_hyperlink_base(self):
 
@@ -503,7 +502,7 @@ class ExDocumentProperties(ApiExampleBase):
         print("Document authorized on", doc.custom_document_properties.get_by_name("AuthorizationDate").to_date_time())
         #ExEnd
 
-        TestUtil.verify_date(self, datetime.now(tz=timezone.utc),
+        self.verify_date(datetime.now(tz=timezone.utc),
             DocumentHelper.save_open(doc).custom_document_properties.get_by_name("AuthorizationDate").to_date_time(),
             timedelta(seconds=1))
 

@@ -12,7 +12,6 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, ASPOSE_LOGO_URL
-from testutil import TestUtil
 
 # Mostly scenarios that deal with image shapes.
 class ExImage(ApiExampleBase):
@@ -42,7 +41,7 @@ class ExImage(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Image.from_file.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 1600, 1600, aw.drawing.ImageType.WMF, shape)
+        self.verify_image_in_shape(1600, 1600, aw.drawing.ImageType.WMF, shape)
         self.assertEqual(100.0, shape.height)
         self.assertEqual(100.0, shape.width)
 
@@ -73,8 +72,8 @@ class ExImage(ApiExampleBase):
         shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
 
         self.assertEqual(2, shapes.count)
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, shapes[0].as_shape())
-        TestUtil.verify_image_in_shape(self, 320, 320, aw.drawing.ImageType.PNG, shapes[1].as_shape())
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shapes[0].as_shape())
+        self.verify_image_in_shape(320, 320, aw.drawing.ImageType.PNG, shapes[1].as_shape())
 
     def test_from_stream(self):
 
@@ -93,7 +92,7 @@ class ExImage(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Image.from_stream.docx")
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, doc.get_child_nodes(aw.NodeType.SHAPE, True)[0].as_shape())
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, doc.get_child_nodes(aw.NodeType.SHAPE, True)[0].as_shape())
 
     def test_from_image(self):
 
@@ -147,7 +146,7 @@ class ExImage(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Image.create_floating_page_center.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shape)
         self.assertEqual(aw.drawing.WrapType.NONE, shape.wrap_type)
         self.assertTrue(shape.behind_text)
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.PAGE, shape.relative_horizontal_position)
@@ -199,7 +198,7 @@ class ExImage(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Image.create_floating_position_size.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shape)
         self.assertEqual(aw.drawing.WrapType.NONE, shape.wrap_type)
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.PAGE, shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.PAGE, shape.relative_vertical_position)
@@ -233,8 +232,8 @@ class ExImage(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Image.insert_image_with_hyperlink.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_web_response_status_code(HttpStatusCode.OK, shape.href)
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, shape)
+        self.verify_web_response_status_code(HttpStatusCode.OK, shape.href)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shape)
         self.assertEqual("New Window", shape.target)
         self.assertEqual("Aspose.Words Support Forums", shape.screen_tip)
 
@@ -285,7 +284,7 @@ class ExImage(ApiExampleBase):
 
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 1600, 1600, aw.drawing.ImageType.WMF, shape)
+        self.verify_image_in_shape(1600, 1600, aw.drawing.ImageType.WMF, shape)
         self.assertEqual(aw.drawing.WrapType.INLINE, shape.wrap_type)
         self.assertEqual("", shape.image_data.source_full_name.replace("%20", " "))
 
@@ -293,7 +292,7 @@ class ExImage(ApiExampleBase):
 
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 0, 0, aw.drawing.ImageType.WMF, shape)
+        self.verify_image_in_shape(0, 0, aw.drawing.ImageType.WMF, shape)
         self.assertEqual(aw.drawing.WrapType.INLINE, shape.wrap_type)
         self.assertEqual(image_file_name, shape.image_data.source_full_name.replace("%20", " "))
 

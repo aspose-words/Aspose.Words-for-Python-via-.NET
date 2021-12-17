@@ -11,7 +11,6 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
-from testutil import TestUtil
 
 class ExMailMergeEvent(ApiExampleBase):
 
@@ -149,7 +148,7 @@ class ExMailMergeEvent(ApiExampleBase):
 
         doc.mail_merge.execute_with_regions(data_table)
         doc.save(ARTIFACTS_DIR + "MailMergeEvent.insert_check_box.docx")
-        TestUtil.mail_merge_matches_data_table(data_table, aw.Document(ARTIFACTS_DIR + "MailMergeEvent.insert_check_box.docx"), False) #ExSkip
+        self.mail_merge_matches_data_table(data_table, aw.Document(ARTIFACTS_DIR + "MailMergeEvent.insert_check_box.docx"), False) #ExSkip
 
     class HandleMergeFieldInsertCheckBox(aw.mailmerging.IFieldMergingCallback):
         """Upon encountering a MERGEFIELD with a specific name, inserts a check box form field instead of merge data text."""
@@ -208,7 +207,7 @@ class ExMailMergeEvent(ApiExampleBase):
         doc.mail_merge.execute_with_regions(data_table)
 
         doc.save(ARTIFACTS_DIR + "MailMergeEvent.alternating_rows.docx")
-        TestUtil.mail_merge_matches_data_table(data_table, aw.Document(ARTIFACTS_DIR + "MailMergeEvent.alternating_rows.docx"), False) #ExSkip
+        self.mail_merge_matches_data_table(data_table, aw.Document(ARTIFACTS_DIR + "MailMergeEvent.alternating_rows.docx"), False) #ExSkip
 
     class HandleMergeFieldAlternatingRows(aw.mailmerging.IFieldMergingCallback):
         """Formats table rows as a mail merge takes place to alternate between two colors on odd/even rows."""
@@ -283,11 +282,11 @@ class ExMailMergeEvent(ApiExampleBase):
 
         image_shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
 
-        TestUtil.verify_image_in_shape(400, 400, aw.drawing.image_type.JPEG, image_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.image_type.JPEG, image_shape)
 
         image_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(320, 320, aw.drawing.image_type.PNG, image_shape)
+        self.verify_image_in_shape(320, 320, aw.drawing.image_type.PNG, image_shape)
 
     #ExStart
     #ExFor:MailMerge.field_merging_callback
@@ -317,7 +316,7 @@ class ExMailMergeEvent(ApiExampleBase):
             doc.mail_merge.execute_with_regions(data_reader, "Employees")
 
         doc.save(ARTIFACTS_DIR + "MailMergeEvent.image_from_blob.docx")
-        TestUtil.mail_merge_matches_query_result(DatabaseDir + "Northwind.mdb", query, aw.Document(ARTIFACTS_DIR + "MailMergeEvent.image_from_blob.docx"), False) #ExSkip
+        self.mail_merge_matches_query_result(DatabaseDir + "Northwind.mdb", query, aw.Document(ARTIFACTS_DIR + "MailMergeEvent.image_from_blob.docx"), False) #ExSkip
 
     class HandleMergeImageFieldFromBlob(aw.mailmerging.IFieldMergingCallback):
 

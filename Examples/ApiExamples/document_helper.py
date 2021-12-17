@@ -4,11 +4,10 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
-import api_example_base as aeb
 import aspose.words as aw
+from api_example_base import ApiExampleBase, TEMP_DIR
 
-
-class DocumentHelper(aeb.ApiExampleBase):
+class DocumentHelper(ApiExampleBase):
 
     def create_document_without_dummy_text() -> aw.Document:
         """Create simple document without run in the paragraph"""
@@ -227,7 +226,7 @@ class DocumentHelper(aeb.ApiExampleBase):
     # <param name="doc">The document we wish to re-open</param>
     @staticmethod
     def save_open(doc):
-        tmp_file_name = aeb.temp_dir + "tmp.docx"
+        tmp_file_name = TEMP_DIR + "tmp.docx"
         doc.save(tmp_file_name, aw.SaveFormat.DOCX)
         return aw.Document(tmp_file_name)
 

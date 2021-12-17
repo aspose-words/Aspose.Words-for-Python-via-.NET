@@ -16,7 +16,6 @@ import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, GOLDS_DIR, ASPOSE_LOGO_URL
 from document_helper import DocumentHelper
-from testutil import TestUtil
 
 class ExDocumentBuilder(ApiExampleBase):
 
@@ -133,9 +132,9 @@ class ExDocumentBuilder(ApiExampleBase):
                         " Text between our merge fields. " +
                         "\u0013MERGEFIELD MyMergeField2 \\* MERGEFORMAT\u0014«MyMergeField2»\u0015", doc.get_text().strip())
         self.assertEqual(2, doc.range.fields.count)
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_MERGE_FIELD, r"MERGEFIELD MyMergeField1 \* MERGEFORMAT",
+        self.verify_field(aw.fields.FieldType.FIELD_MERGE_FIELD, r"MERGEFIELD MyMergeField1 \* MERGEFORMAT",
             "«MyMergeField1»", doc.range.fields[0])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_MERGE_FIELD, r"MERGEFIELD MyMergeField2 \* MERGEFORMAT",
+        self.verify_field(aw.fields.FieldType.FIELD_MERGE_FIELD, r"MERGEFIELD MyMergeField2 \* MERGEFORMAT",
             "«MyMergeField2»", doc.range.fields[1])
 
     def test_insert_horizontal_rule(self):
@@ -228,7 +227,7 @@ class ExDocumentBuilder(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "DocumentBuilder.insert_hyperlink.docx")
 
         hyperlink = doc.range.fields[0].as_field_hyperlink()
-        #TestUtil.verify_web_response_status_code(HttpStatusCode.OK, hyperlink.address)
+        #self.verify_web_response_status_code(HttpStatusCode.OK, hyperlink.address)
 
         field_contents = hyperlink.start.next_sibling.as_run()
 
@@ -288,7 +287,7 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertNotEqual(runs[0].font.color, runs[2].font.color)
         self.assertNotEqual(runs[0].font.underline, runs[2].font.underline)
 
-        #TestUtil.verify_web_response_status_code(HttpStatusCode.OK, (doc.range.fields[0].as_field_hyperlink()).address)
+        #self.verify_web_response_status_code(HttpStatusCode.OK, (doc.range.fields[0].as_field_hyperlink()).address)
 
     def test_insert_watermark(self):
 
@@ -322,7 +321,7 @@ class ExDocumentBuilder(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "DocumentBuilder.insert_watermark.docx")
         shape = doc.first_section.headers_footers[aw.HeaderFooterType.HEADER_PRIMARY].get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.PNG, shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, shape)
         self.assertEqual(aw.drawing.WrapType.NONE, shape.wrap_type)
         self.assertTrue(shape.behind_text)
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.PAGE, shape.relative_horizontal_position)
@@ -1401,7 +1400,7 @@ class ExDocumentBuilder(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "DocumentBuilder.insert_hyperlink_to_local_bookmark.docx")
         hyperlink = doc.range.fields[0].as_field_hyperlink()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_HYPERLINK, " HYPERLINK \\l \"Bookmark1\" \\o \"Hyperlink Tip\" ", "Link to Bookmark1", hyperlink)
+        self.verify_field(aw.fields.FieldType.FIELD_HYPERLINK, " HYPERLINK \\l \"Bookmark1\" \\o \"Hyperlink Tip\" ", "Link to Bookmark1", hyperlink)
         self.assertEqual("Bookmark1", hyperlink.sub_address)
         self.assertEqual("Hyperlink Tip", hyperlink.screen_tip)
         self.assertTrue(any(b for f in doc.range.bookmarks if b.name == "Bookmark1"))
@@ -1683,7 +1682,7 @@ class ExDocumentBuilder(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "DocumentBuilder.insert_floating_image.docx")
         image = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.PNG, image)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, image)
         self.assertEqual(100.0, image.left)
         self.assertEqual(0.0, image.top)
         self.assertEqual(200.0, image.width)
@@ -1694,7 +1693,7 @@ class ExDocumentBuilder(ApiExampleBase):
 
         image = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 320, 320, aw.drawing.ImageType.PNG, image)
+        self.verify_image_in_shape(320, 320, aw.drawing.ImageType.PNG, image)
         self.assertEqual(100.0, image.left)
         self.assertEqual(250.0, image.top)
         self.assertEqual(200.0, image.width)
@@ -1727,7 +1726,7 @@ class ExDocumentBuilder(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "DocumentBuilder.insert_image_original_size.docx")
         image_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, image_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
         self.assertEqual(0.0, image_shape.left)
         self.assertEqual(0.0, image_shape.top)
         self.assertEqual(300.0, image_shape.width)
@@ -2081,9 +2080,9 @@ class ExDocumentBuilder(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "DocumentBuilder.insert_footnote.docx")
 
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote comment regarding referenced text.", doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, False, "CustomMark",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, False, "CustomMark",
             "CustomMark Endnote comment regarding referenced text.", doc.get_child(aw.NodeType.FOOTNOTE, 1, True).as_footnote())
 
     def test_apply_borders_and_shading(self):
@@ -2456,8 +2455,8 @@ class ExDocumentBuilder(ApiExampleBase):
                 self.assertEqual("This document was written by \u0013 AUTHOR \u0014John Doe\u0015" +
                                 "\r\rThis is page \u0013 PAGE \u00141\u0015", doc.get_text().strip())
 
-                TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTHOR, " AUTHOR ", "John Doe", doc.range.fields[0])
-                TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE, " PAGE ", "1", doc.range.fields[1])
+                self.verify_field(aw.fields.FieldType.FIELD_AUTHOR, " AUTHOR ", "John Doe", doc.range.fields[0])
+                self.verify_field(aw.fields.FieldType.FIELD_PAGE, " PAGE ", "1", doc.range.fields[1])
 
     ##ExStart
     ##ExFor:IFieldResultFormatter
@@ -2587,8 +2586,8 @@ class ExDocumentBuilder(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "DocumentBuilder.insert_video_with_url.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 480, 360, aw.drawing.ImageType.JPEG, shape)
-        #TestUtil.verify_web_response_status_code(HttpStatusCode.OK, shape.HRef)
+        self.verify_image_in_shape(480, 360, aw.drawing.ImageType.JPEG, shape)
+        #self.verify_web_response_status_code(HttpStatusCode.OK, shape.HRef)
 
         self.assertEqual(360.0, shape.width)
         self.assertEqual(270.0, shape.height)
@@ -2732,9 +2731,9 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual("Heading 1", doc.first_section.body.paragraphs[0].paragraph_format.style.name)
         self.assertEqual("MyParaStyle", doc.first_section.body.paragraphs[1].paragraph_format.style.name)
         self.assertEqual(" ", doc.first_section.body.paragraphs[1].runs[0].get_text())
-        TestUtil.doc_package_file_contains_string("w:rPr><w:vanish /><w:specVanish /></w:rPr>",
+        self.verify_doc_package_file_contains_string("w:rPr><w:vanish /><w:specVanish /></w:rPr>",
             ARTIFACTS_DIR + "DocumentBuilder.insert_style_separator.docx", "word/document.xml")
-        TestUtil.doc_package_file_contains_string("<w:t xml:space=\"preserve\"> </w:t>",
+        self.verify_doc_package_file_contains_string("<w:t xml:space=\"preserve\"> </w:t>",
             ARTIFACTS_DIR + "DocumentBuilder.insert_style_separator.docx", "word/document.xml")
 
     @unittest.skip("Bug: does not insert headers and footers, all lists (bullets, numbering, multilevel) breaks")
@@ -3285,7 +3284,7 @@ class ExDocumentBuilder(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "DocumentBuilder.insert_online_video.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 640, 360, aw.drawing.ImageType.JPEG, shape)
+        self.verify_image_in_shape(640, 360, aw.drawing.ImageType.JPEG, shape)
 
         self.assertEqual(320.0, shape.width)
         self.assertEqual(180.0, shape.height)
@@ -3296,7 +3295,7 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, shape.relative_horizontal_position)
 
         self.assertEqual("https://vimeo.com/52477838", shape.href)
-        #TestUtil.verify_web_response_status_code(HttpStatusCode.OK, shape.HRef)
+        #self.verify_web_response_status_code(HttpStatusCode.OK, shape.HRef)
 
     def test_insert_online_video_custom_thumbnail(self):
 
@@ -3337,7 +3336,7 @@ class ExDocumentBuilder(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "DocumentBuilder.insert_online_video_custom_thumbnail.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shape)
         self.assertEqual(400.0, shape.width)
         self.assertEqual(400.0, shape.height)
         self.assertEqual(0.0, shape.left)
@@ -3350,7 +3349,7 @@ class ExDocumentBuilder(ApiExampleBase):
 
         shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shape)
         self.assertEqual(400.0, shape.width)
         self.assertEqual(400.0, shape.height)
         self.assertEqual(-329.15, shape.left)
@@ -3362,7 +3361,7 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual("https://vimeo.com/52477838", shape.href)
 
         #ServicePointManager.security_protocol = SecurityProtocolType.TLS12
-        #TestUtil.verify_web_response_status_code(HttpStatusCode.OK, shape.href)
+        #self.verify_web_response_status_code(HttpStatusCode.OK, shape.href)
 
     def test_insert_ole_object_as_icon(self):
 

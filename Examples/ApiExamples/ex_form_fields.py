@@ -12,7 +12,6 @@ import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 from document_helper import DocumentHelper
-from testutil import TestUtil
 
 class ExFormFields(ApiExampleBase):
 
@@ -278,9 +277,9 @@ class ExFormFields(ApiExampleBase):
         fields = doc.range.fields
         self.assertEqual(3, fields.count)
 
-        TestUtil.verify_field(aw.fields.FieldType.FIELD_FORM_DROP_DOWN, " FORMDROPDOWN \u0001", "", doc.range.fields[0])
-        TestUtil.verify_field(aw.fields.FieldType.FIELD_FORM_CHECK_BOX, " FORMCHECKBOX \u0001", "", doc.range.fields[1])
-        TestUtil.verify_field(aw.fields.FieldType.FIELD_FORM_TEXT_INPUT, " FORMTEXT \u0001", "New placeholder text", doc.range.fields[2])
+        self.verify_field(aw.fields.FieldType.FIELD_FORM_DROP_DOWN, " FORMDROPDOWN \u0001", "", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_FORM_CHECK_BOX, " FORMCHECKBOX \u0001", "", doc.range.fields[1])
+        self.verify_field(aw.fields.FieldType.FIELD_FORM_TEXT_INPUT, " FORMTEXT \u0001", "New placeholder text", doc.range.fields[2])
 
         form_fields = doc.range.form_fields
         self.assertEqual(3, form_fields.count)

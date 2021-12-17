@@ -12,7 +12,6 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, ASPOSE_LOGO_URL, IMAGE_DIR
-from testutil import TestUtil
 
 class ExHtmlLoadOptions(ApiExampleBase):
 
@@ -44,9 +43,9 @@ class ExHtmlLoadOptions(ApiExampleBase):
                 image_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
                 if support_vml:
-                    TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, image_shape)
+                    self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
                 else:
-                    TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.PNG, image_shape)
+                    self.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, image_shape)
 
     ##ExStart
     ##ExFor:HtmlLoadOptions.web_request_timeout

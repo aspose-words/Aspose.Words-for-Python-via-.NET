@@ -13,7 +13,6 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
-from testutil import TestUtil
 
 class ExDrawing(ApiExampleBase):
 
@@ -221,23 +220,23 @@ class ExDrawing(ApiExampleBase):
         image_file_names = glob.glob(ARTIFACTS_DIR + "Drawing.save_all_images.*")
         image_file_ext = [os.path.splitext(name)[-1] for name in image_file_names]
 
-        TestUtil.verify_image(self, 2467, 1500, image_file_names[0])
+        self.verify_image(2467, 1500, image_file_names[0])
         self.assertEqual(".Jpeg", image_file_ext[0])
-        TestUtil.verify_image(self, 400, 400, image_file_names[1])
+        self.verify_image(400, 400, image_file_names[1])
         self.assertEqual(".Png", image_file_ext[1])
-        TestUtil.verify_image(self, 382, 138, image_file_names[2])
+        self.verify_image(382, 138, image_file_names[2])
         self.assertEqual(".Emf", image_file_ext[2])
-        TestUtil.verify_image(self, 1600, 1600, image_file_names[3])
+        self.verify_image(1600, 1600, image_file_names[3])
         self.assertEqual(".Wmf", image_file_ext[3])
-        TestUtil.verify_image(self, 534, 534, image_file_names[4])
+        self.verify_image(534, 534, image_file_names[4])
         self.assertEqual(".Emf", image_file_ext[4])
-        TestUtil.verify_image(self, 1260, 660, image_file_names[5])
+        self.verify_image(1260, 660, image_file_names[5])
         self.assertEqual(".Jpeg", image_file_ext[5])
-        TestUtil.verify_image(self, 1125, 1500, image_file_names[6])
+        self.verify_image(1125, 1500, image_file_names[6])
         self.assertEqual(".Jpeg", image_file_ext[6])
-        TestUtil.verify_image(self, 1027, 1500, image_file_names[7])
+        self.verify_image(1027, 1500, image_file_names[7])
         self.assertEqual(".Jpeg", image_file_ext[7])
-        TestUtil.verify_image(self, 1200, 1500, image_file_names[8])
+        self.verify_image(1200, 1500, image_file_names[8])
         self.assertEqual(".Jpeg", image_file_ext[8])
 
     def test_import_image(self):
@@ -277,16 +276,16 @@ class ExDrawing(ApiExampleBase):
 
         img_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, img_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, img_shape)
         self.assertEqual(0.0, img_shape.left)
         self.assertEqual(0.0, img_shape.top)
         self.assertEqual(300.0, img_shape.height)
         self.assertEqual(300.0, img_shape.width)
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, img_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, img_shape)
 
         img_shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, img_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, img_shape)
         self.assertEqual(150.0, img_shape.left)
         self.assertEqual(0.0, img_shape.top)
         self.assertEqual(300.0, img_shape.height)
@@ -313,7 +312,7 @@ class ExDrawing(ApiExampleBase):
             file.write(stroke.image_bytes)
         #ExEnd
 
-        TestUtil.verify_image(self, 8, 8, ARTIFACTS_DIR + "Drawing.stroke_pattern.png")
+        self.verify_image(8, 8, ARTIFACTS_DIR + "Drawing.stroke_pattern.png")
 
     ##ExStart
     ##ExFor:DocumentVisitor.visit_shape_end(Shape)
@@ -472,7 +471,7 @@ class ExDrawing(ApiExampleBase):
 
         #ExEnd
 
-        TestUtil.verify_image(self, 2467, 1500, ARTIFACTS_DIR + "Drawing.get_data_from_image.png")
+        self.verify_image(2467, 1500, ARTIFACTS_DIR + "Drawing.get_data_from_image.png")
 
     def test_image_data(self):
 
@@ -549,7 +548,7 @@ class ExDrawing(ApiExampleBase):
         img_source_doc = aw.Document(ARTIFACTS_DIR + "Drawing.image_data.docx")
         source_shape = img_source_doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 2467, 1500, aw.drawing.ImageType.JPEG, source_shape)
+        self.verify_image_in_shape(2467, 1500, aw.drawing.ImageType.JPEG, source_shape)
         self.assertEqual("Imported Image", source_shape.image_data.title)
         self.assertAlmostEqual(0.8, source_shape.image_data.brightness, delta=0.1)
         self.assertAlmostEqual(1.0, source_shape.image_data.contrast, delta=0.1)
@@ -557,12 +556,12 @@ class ExDrawing(ApiExampleBase):
 
         source_shape = img_source_doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 2467, 1500, aw.drawing.ImageType.JPEG, source_shape)
+        self.verify_image_in_shape(2467, 1500, aw.drawing.ImageType.JPEG, source_shape)
         self.assertTrue(source_shape.image_data.gray_scale)
 
         source_shape = img_source_doc.get_child(aw.NodeType.SHAPE, 2, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 2467, 1500, aw.drawing.ImageType.JPEG, source_shape)
+        self.verify_image_in_shape(2467, 1500, aw.drawing.ImageType.JPEG, source_shape)
         self.assertTrue(source_shape.image_data.bi_level)
         self.assertAlmostEqual(0.3, source_shape.image_data.crop_bottom, delta=0.1)
         self.assertAlmostEqual(0.3, source_shape.image_data.crop_left, delta=0.1)
@@ -605,7 +604,7 @@ class ExDrawing(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Drawing.image_size.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shape)
         self.assertEqual(600.0, shape.width)
         self.assertEqual(600.0, shape.height)
 

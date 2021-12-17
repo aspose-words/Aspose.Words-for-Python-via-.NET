@@ -16,7 +16,6 @@ import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
 from document_helper import DocumentHelper
-from testutil import TestUtil
 
 class ExHtmlSaveOptions(ApiExampleBase):
 
@@ -723,21 +722,21 @@ class ExHtmlSaveOptions(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.epub_headings.epub", options)
         #ExEnd
 
-        TestUtil.doc_package_file_contains_string("<navLabel><text>Heading #1</text></navLabel>",
+        self.verify_doc_package_file_contains_string("<navLabel><text>Heading #1</text></navLabel>",
             ARTIFACTS_DIR + "HtmlSaveOptions.epub_headings.epub", "OEBPS/HtmlSaveOptions.epub_headings.ncx")
-        TestUtil.doc_package_file_contains_string("<navLabel><text>Heading #2</text></navLabel>",
+        self.verify_doc_package_file_contains_string("<navLabel><text>Heading #2</text></navLabel>",
             ARTIFACTS_DIR + "HtmlSaveOptions.epub_headings.epub", "OEBPS/HtmlSaveOptions.epub_headings.ncx")
-        TestUtil.doc_package_file_contains_string("<navLabel><text>Heading #4</text></navLabel>",
+        self.verify_doc_package_file_contains_string("<navLabel><text>Heading #4</text></navLabel>",
             ARTIFACTS_DIR + "HtmlSaveOptions.epub_headings.epub", "OEBPS/HtmlSaveOptions.epub_headings.ncx")
-        TestUtil.doc_package_file_contains_string("<navLabel><text>Heading #5</text></navLabel>",
+        self.verify_doc_package_file_contains_string("<navLabel><text>Heading #5</text></navLabel>",
             ARTIFACTS_DIR + "HtmlSaveOptions.epub_headings.epub", "OEBPS/HtmlSaveOptions.epub_headings.ncx")
 
         with self.assertRaises(Exception):
-            TestUtil.doc_package_file_contains_string("<navLabel><text>Heading #3</text></navLabel>",
+            self.verify_doc_package_file_contains_string("<navLabel><text>Heading #3</text></navLabel>",
                 ARTIFACTS_DIR + "HtmlSaveOptions.epub_headings.epub", "OEBPS/HtmlSaveOptions.epub_headings.ncx")
 
         with self.assertRaises(Exception):
-            TestUtil.doc_package_file_contains_string("<navLabel><text>Heading #6</text></navLabel>",
+            self.verify_doc_package_file_contains_string("<navLabel><text>Heading #6</text></navLabel>",
                 ARTIFACTS_DIR + "HtmlSaveOptions.epub_headings.epub", "OEBPS/HtmlSaveOptions.epub_headings.ncx")
 
     def test_doc2_epub_save_options(self):

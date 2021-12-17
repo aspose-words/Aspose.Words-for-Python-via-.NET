@@ -13,7 +13,6 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
-from testutil import TestUtil
 
 class ExImageSaveOptions(ApiExampleBase):
 
@@ -48,7 +47,7 @@ class ExImageSaveOptions(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "ImageSaveOptions.one_page.jpg", options)
         #ExEnd
 
-        TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.one_page.jpg")
+        self.verify_image(816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.one_page.jpg")
 
     def test_renderer(self):
 
@@ -79,7 +78,7 @@ class ExImageSaveOptions(ApiExampleBase):
                     self.assertGreater(30000, os.path.getsize(ARTIFACTS_DIR + "ImageSaveOptions.renderer.emf"))
                 #ExEnd
 
-                TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.renderer.emf")
+                self.verify_image(816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.renderer.emf")
 
     def test_page_set(self):
 
@@ -110,9 +109,9 @@ class ExImageSaveOptions(ApiExampleBase):
 
         #ExEnd
 
-        TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_set.page 1.gif")
-        TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_set.page 2.gif")
-        TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_set.page 3.gif")
+        self.verify_image(816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_set.page 1.gif")
+        self.verify_image(816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_set.page 2.gif")
+        self.verify_image(816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_set.page 3.gif")
         self.assertFalse(os.path.exists(ARTIFACTS_DIR + "ImageSaveOptions.page_set.page 4.gif"))
 
     def test_graphics_quality(self):
@@ -143,7 +142,7 @@ class ExImageSaveOptions(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "ImageSaveOptions.graphics_quality.jpg", save_options)
         #ExEnd
 
-        TestUtil.verify_image(self, 794, 1122, verify_image=ARTIFACTS_DIR + "ImageSaveOptions.graphics_quality.jpg")
+        self.verify_image(794, 1122, verify_image=ARTIFACTS_DIR + "ImageSaveOptions.graphics_quality.jpg")
 
     def test_windows_meta_file(self):
 
@@ -170,7 +169,7 @@ class ExImageSaveOptions(ApiExampleBase):
                 doc.save(ARTIFACTS_DIR + "ImageSaveOptions.windows_meta_file.png", options)
                 #ExEnd
 
-                TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.windows_meta_file.png")
+                self.verify_image(816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.windows_meta_file.png")
 
     def test_page_by_page(self):
 
@@ -208,7 +207,7 @@ class ExImageSaveOptions(ApiExampleBase):
         self.assertEqual(3, len(image_file_names))
 
         for image_file_name in image_file_names:
-            TestUtil.verify_image(self, 816, 1056, filename=image_file_name)
+            self.verify_image(816, 1056, filename=image_file_name)
 
     def test_color_mode(self):
 
@@ -285,8 +284,8 @@ class ExImageSaveOptions(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "ImageSaveOptions.paper_color.light_coral.png", img_options)
         #ExEnd
 
-        TestUtil.image_contains_transparency(self, ARTIFACTS_DIR + "ImageSaveOptions.paper_color.transparent.png")
-        TestUtil.image_contains_transparency(self, ARTIFACTS_DIR + "ImageSaveOptions.paper_color.light_coral.png")
+        self.verify_image_contains_transparency(ARTIFACTS_DIR + "ImageSaveOptions.paper_color.transparent.png")
+        self.verify_image_contains_transparency(ARTIFACTS_DIR + "ImageSaveOptions.paper_color.light_coral.png")
 
     def test_pixel_format(self):
 
@@ -364,7 +363,7 @@ class ExImageSaveOptions(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "ImageSaveOptions.floyd_steinberg_dithering.tiff", options)
         #ExEnd
 
-        TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.floyd_steinberg_dithering.tiff")
+        self.verify_image(816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.floyd_steinberg_dithering.tiff")
 
     def test_edit_image(self):
 
@@ -405,7 +404,7 @@ class ExImageSaveOptions(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "ImageSaveOptions.edit_image.png", options)
         #ExEnd
 
-        TestUtil.verify_image(self, 817, 1057, filename=ARTIFACTS_DIR + "ImageSaveOptions.edit_image.png")
+        self.verify_image(817, 1057, filename=ARTIFACTS_DIR + "ImageSaveOptions.edit_image.png")
 
     def test_jpeg_quality(self):
 

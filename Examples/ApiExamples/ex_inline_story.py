@@ -12,7 +12,6 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
-from testutil import TestUtil
 
 class ExInlineStory(ApiExampleBase):
 
@@ -54,7 +53,7 @@ class ExInlineStory(ApiExampleBase):
 
                 self.assertEqual(footnote_position, doc.footnote_options.position)
 
-                TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+                self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
                     "Footnote contents.", doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
 
     def test_position_endnote(self):
@@ -97,7 +96,7 @@ class ExInlineStory(ApiExampleBase):
 
                 self.assertEqual(endnote_position, doc.endnote_options.position)
 
-                TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+                self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
                     "Endnote contents.", doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
 
     def test_ref_mark_number_style(self):
@@ -157,17 +156,17 @@ class ExInlineStory(ApiExampleBase):
         self.assertEqual(aw.NumberStyle.UPPERCASE_ROMAN, doc.footnote_options.number_style)
         self.assertEqual(aw.NumberStyle.UPPERCASE_LETTER, doc.endnote_options.number_style)
 
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote 1.", doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote 2.", doc.get_child(aw.NodeType.FOOTNOTE, 1, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, False, "Custom footnote reference mark",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, False, "Custom footnote reference mark",
             "Custom footnote reference mark Footnote 3.", doc.get_child(aw.NodeType.FOOTNOTE, 2, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote 1.", doc.get_child(aw.NodeType.FOOTNOTE, 3, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote 2.", doc.get_child(aw.NodeType.FOOTNOTE, 4, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, False, "Custom endnote reference mark",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, False, "Custom endnote reference mark",
             "Custom endnote reference mark Endnote 3.", doc.get_child(aw.NodeType.FOOTNOTE, 5, True).as_footnote())
 
     def test_numbering_rule(self):
@@ -233,21 +232,21 @@ class ExInlineStory(ApiExampleBase):
         self.assertEqual(aw.notes.FootnoteNumberingRule.RESTART_PAGE, doc.footnote_options.restart_rule)
         self.assertEqual(aw.notes.FootnoteNumberingRule.RESTART_SECTION, doc.endnote_options.restart_rule)
 
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote 1.", doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote 2.", doc.get_child(aw.NodeType.FOOTNOTE, 1, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote 3.", doc.get_child(aw.NodeType.FOOTNOTE, 2, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote 4.", doc.get_child(aw.NodeType.FOOTNOTE, 3, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote 1.", doc.get_child(aw.NodeType.FOOTNOTE, 4, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote 2.", doc.get_child(aw.NodeType.FOOTNOTE, 5, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote 3.", doc.get_child(aw.NodeType.FOOTNOTE, 6, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote 4.", doc.get_child(aw.NodeType.FOOTNOTE, 7, True).as_footnote())
 
     def test_start_number(self):
@@ -309,17 +308,17 @@ class ExInlineStory(ApiExampleBase):
         self.assertEqual(aw.NumberStyle.ARABIC, doc.footnote_options.number_style)
         self.assertEqual(aw.NumberStyle.ARABIC, doc.endnote_options.number_style)
 
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote 1.", doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote 2.", doc.get_child(aw.NodeType.FOOTNOTE, 1, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote 3.", doc.get_child(aw.NodeType.FOOTNOTE, 2, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote 1.", doc.get_child(aw.NodeType.FOOTNOTE, 3, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote 2.", doc.get_child(aw.NodeType.FOOTNOTE, 4, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote 3.", doc.get_child(aw.NodeType.FOOTNOTE, 5, True).as_footnote())
 
     def test_add_footnote(self):
@@ -376,11 +375,11 @@ class ExInlineStory(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "InlineStory.add_footnote.docx")
 
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote text. More text added by a DocumentBuilder.", doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, False, "RefMark",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, False, "RefMark",
             "Footnote text.", doc.get_child(aw.NodeType.FOOTNOTE, 1, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote text.", doc.get_child(aw.NodeType.FOOTNOTE, 2, True).as_footnote())
 
     def test_footnote_endnote(self):
@@ -417,9 +416,9 @@ class ExInlineStory(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "InlineStory.footnote_endnote.docx")
 
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote text, will appear at the bottom of the page that contains the referenced text.", doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote text, will appear at the very end of the document.", doc.get_child(aw.NodeType.FOOTNOTE, 1, True).as_footnote())
 
     def test_add_comment(self):
@@ -569,7 +568,7 @@ class ExInlineStory(ApiExampleBase):
 
         footnote = doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote()
 
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "", "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "", "",
             doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
         self.assertEqual("Arial", footnote.font.name)
         self.assertEqual(drawing.Color.green.to_argb(), footnote.font.color.to_argb())

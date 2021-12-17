@@ -12,7 +12,6 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
-from testutil import TestUtil
 
 class ExMailMergeCustom(ApiExampleBase):
 
@@ -106,7 +105,7 @@ class ExMailMergeCustom(ApiExampleBase):
         for customer in customer_list:
             merge_data.append([customer.full_name, customer.address])
 
-        TestUtil.mail_merge_matches_array(merge_data, doc, True)
+        self.mail_merge_matches_array(merge_data, doc, True)
 
     #ExStart
     #ExFor:IMailMergeDataSourceRoot
@@ -254,4 +253,4 @@ class ExMailMergeCustom(ApiExampleBase):
 
                 data_table.rows.add([full_name, department])
 
-        TestUtil.mail_merge_matches_data_table(data_table, doc, False)
+        self.mail_merge_matches_data_table(data_table, doc, False)

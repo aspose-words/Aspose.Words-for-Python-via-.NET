@@ -11,7 +11,6 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
-from testutil import TestUtil
 
 class ExDocumentBuilderImages(ApiExampleBase):
 
@@ -58,7 +57,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, image_shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, image_shape.relative_vertical_position)
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, image_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
         self.assertEqual(300.0, image_shape.image_data.image_size.height_points)
         self.assertEqual(300.0, image_shape.image_data.image_size.width_points)
 
@@ -73,7 +72,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, image_shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, image_shape.relative_vertical_position)
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, image_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
         self.assertEqual(300.0, image_shape.image_data.image_size.height_points)
         self.assertEqual(300.0, image_shape.image_data.image_size.width_points)
 
@@ -88,7 +87,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, image_shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, image_shape.relative_vertical_position)
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, image_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
         self.assertEqual(300.0, image_shape.image_data.image_size.height_points)
         self.assertEqual(300.0, image_shape.image_data.image_size.width_points)
 
@@ -134,7 +133,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, image_shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, image_shape.relative_vertical_position)
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, image_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
         self.assertEqual(300.0, image_shape.image_data.image_size.height_points)
         self.assertEqual(300.0, image_shape.image_data.image_size.width_points)
 
@@ -149,7 +148,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, image_shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, image_shape.relative_vertical_position)
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.PNG, image_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, image_shape)
         self.assertEqual(300.0, image_shape.image_data.image_size.height_points)
         self.assertEqual(300.0, image_shape.image_data.image_size.width_points)
 
@@ -164,7 +163,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, image_shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, image_shape.relative_vertical_position)
 
-        TestUtil.verify_image_in_shape(self, 1600, 1600, aw.drawing.ImageType.WMF, image_shape)
+        self.verify_image_in_shape(1600, 1600, aw.drawing.ImageType.WMF, image_shape)
         self.assertEqual(400.0, image_shape.image_data.image_size.height_points)
         self.assertEqual(400.0, image_shape.image_data.image_size.width_points)
 
@@ -234,7 +233,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, image_shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, image_shape.relative_vertical_position)
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, image_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
         self.assertEqual(300.0, image_shape.image_data.image_size.height_points)
         self.assertEqual(300.0, image_shape.image_data.image_size.width_points)
 
@@ -249,7 +248,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, image_shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, image_shape.relative_vertical_position)
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, image_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
         self.assertEqual(300.0, image_shape.image_data.image_size.height_points)
         self.assertEqual(300.0, image_shape.image_data.image_size.width_points)
 
@@ -264,7 +263,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, image_shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, image_shape.relative_vertical_position)
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, image_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
         self.assertEqual(300.0, image_shape.image_data.image_size.height_points)
         self.assertEqual(300.0, image_shape.image_data.image_size.width_points)
 
@@ -316,7 +315,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, image_shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, image_shape.relative_vertical_position)
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.PNG, image_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, image_shape)
         self.assertAlmostEqual(300.0, image_shape.image_data.image_size.height_points, delta=0.1)
         self.assertAlmostEqual(300.0, image_shape.image_data.image_size.width_points, delta=0.1)
 
@@ -331,7 +330,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, image_shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, image_shape.relative_vertical_position)
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.PNG, image_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, image_shape)
         self.assertAlmostEqual(300.0, image_shape.image_data.image_size.height_points, delta=0.1)
         self.assertAlmostEqual(300.0, image_shape.image_data.image_size.width_points, delta=0.1)
 
@@ -346,7 +345,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, image_shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, image_shape.relative_vertical_position)
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.PNG, image_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, image_shape)
         self.assertAlmostEqual(300.0, image_shape.image_data.image_size.height_points, delta=0.1)
         self.assertAlmostEqual(300.0, image_shape.image_data.image_size.width_points, delta=0.1)
 

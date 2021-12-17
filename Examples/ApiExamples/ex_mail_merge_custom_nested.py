@@ -12,7 +12,6 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
-from testutil import TestUtil
 
 class ExMailMergeCustomNested(ApiExampleBase):
 
@@ -195,4 +194,4 @@ class ExMailMergeCustomNested(ApiExampleBase):
                 mail_merge_data.add([order.name, order.quantity.to_string()])
             mail_merge_data.add([customer.full_name, customer.address])
 
-        TestUtil.mail_merge_matches_array(mail_merge_data.to_array(), doc, False)
+        self.mail_merge_matches_array(mail_merge_data.to_array(), doc, False)

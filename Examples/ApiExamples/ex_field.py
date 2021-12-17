@@ -14,7 +14,6 @@ import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
 from document_helper import DocumentHelper
-from testutil import TestUtil
 
 class ExField(ApiExampleBase):
 
@@ -54,7 +53,7 @@ class ExField(ApiExampleBase):
 
         doc = DocumentHelper.save_open(doc)
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DATE, " DATE  \\@ \"dddd, MMMM dd, yyyy\"", datetime.now().strftime("%A, %B %d, %Y"), doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_DATE, " DATE  \\@ \"dddd, MMMM dd, yyyy\"", datetime.now().strftime("%A, %B %d, %Y"), doc.range.fields[0])
 
     def test_get_field_code(self):
 
@@ -136,7 +135,7 @@ class ExField(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Field.create_with_field_builder.docx")
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_BARCODE, " BARCODE 90210 \\f A \\u ", "", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_BARCODE, " BARCODE 90210 \\f A \\u ", "", doc.range.fields[0])
 
         self.assertEqual(doc.first_section.body.first_paragraph.runs[11].previous_sibling, doc.range.fields[0].end)
         self.assertEqual(f"{aw.ControlChar.FIELD_START_CHAR} BARCODE 90210 \\f A \\u {aw.ControlChar.FIELD_END_CHAR} Hello world! This text is one Run, which is an inline node.",
@@ -173,7 +172,7 @@ class ExField(ApiExampleBase):
         doc = DocumentHelper.save_open(doc)
         self.assertEqual(2, doc.built_in_document_properties.revision_number)
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REVISION_NUM, " REVNUM ", "2", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_REVISION_NUM, " REVNUM ", "2", doc.range.fields[0])
 
     def test_insert_field_none(self):
 
@@ -196,7 +195,7 @@ class ExField(ApiExampleBase):
 
         doc = DocumentHelper.save_open(doc)
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_NONE, " NOTAREALFIELD //a", "Error! Bookmark not defined.", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_NONE, " NOTAREALFIELD //a", "Error! Bookmark not defined.", doc.range.fields[0])
 
     def test_insert_tc_field(self):
 
@@ -270,7 +269,7 @@ class ExField(ApiExampleBase):
         doc = DocumentHelper.save_open(doc)
         field = doc.range.fields[0]
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DATE, "DATE", datetime.now.to_string(de.date_time_format.short_date_pattern), field)
+        self.verify_field(aw.fields.FieldType.FIELD_DATE, "DATE", datetime.now.to_string(de.date_time_format.short_date_pattern), field)
         self.assertEqual(CultureInfo("de-DE").lcid, field.locale_id)
 
     @unittest.skip("WORDSNET-16037")
@@ -455,7 +454,7 @@ class ExField(ApiExampleBase):
     #    self.assertEqual(' DATABASE  \\d "' + database_path + '" \\c "DSN=MS Access Databases" \\s "SELECT * FROM [Products]"',
     #        field.get_field_code())
 
-    #    TestUtil.table_matches_query_result(table, DATABASE_DIR + "Northwind.mdb", field.query)
+    #    self.table_matches_query_result(table, DATABASE_DIR + "Northwind.mdb", field.query)
 
     #    table = doc.get_child(aw.NodeType.TABLE, 1, True).as_table()
     #    field = doc.range.fields[1].as_field_database()
@@ -476,7 +475,7 @@ class ExField(ApiExampleBase):
 
     #    table.rows[0].remove()
 
-    #    TestUtil.table_matches_query_result(table, DATABASE_DIR + "Northwind.mdb", field.query.insert(7, " TOP 10 "))
+    #    self.table_matches_query_result(table, DATABASE_DIR + "Northwind.mdb", field.query.insert(7, " TOP 10 "))
 
     def test_preserve_include_picture(self):
 
@@ -757,7 +756,7 @@ class ExField(ApiExampleBase):
     #            field_ref = field.as_field_ref()
     #            break
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REF,
+    #    self.verify_field(aw.fields.FieldType.FIELD_REF,
     #        " REF  MyAskField", "Response from MyPromptRespondent. Response from within the field.", field_ref)
 
     #    for field in doc.range.fields:
@@ -765,7 +764,7 @@ class ExField(ApiExampleBase):
     #            field_ask = field.as_field_ask()
     #            break
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_ASK,
+    #    self.verify_field(aw.fields.FieldType.FIELD_ASK,
     #        " ASK  MyAskField \"Please provide a response for this ASK field\" \\d \"Response from within the field.\" \\o",
     #        "Response from MyPromptRespondent. Response from within the field.", field_ask)
 
@@ -774,7 +773,7 @@ class ExField(ApiExampleBase):
     #    self.assertEqual("Response from within the field.", field_ask.default_response)
     #    self.assertEqual(True, field_ask.prompt_once_on_mail_merge)
 
-    #    TestUtil.mail_merge_matches_data_table(data_table, doc, True)
+    #    self.mail_merge_matches_data_table(data_table, doc, True)
 
     def test_field_advance(self):
 
@@ -830,19 +829,19 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_advance()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_ADVANCE, " ADVANCE  \\r 5 \\u 5", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_ADVANCE, " ADVANCE  \\r 5 \\u 5", "", field)
         self.assertEqual("5", field.right_offset)
         self.assertEqual("5", field.up_offset)
 
         field = doc.range.fields[1].as_field_advance()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_ADVANCE, " ADVANCE  \\d 5 \\l 100", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_ADVANCE, " ADVANCE  \\d 5 \\l 100", "", field)
         self.assertEqual("5", field.down_offset)
         self.assertEqual("100", field.left_offset)
 
         field = doc.range.fields[2].as_field_advance()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_ADVANCE, " ADVANCE  \\x -100 \\y 200", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_ADVANCE, " ADVANCE  \\x -100 \\y 200", "", field)
         self.assertEqual("-100", field.horizontal_position)
         self.assertEqual("200", field.vertical_position)
 
@@ -881,7 +880,7 @@ class ExField(ApiExampleBase):
         doc = DocumentHelper.save_open(doc)
         field = doc.range.fields[0].as_field_address_block()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_ADDRESS_BLOCK,
+        self.verify_field(aw.fields.FieldType.FIELD_ADDRESS_BLOCK,
             ' ADDRESSBLOCK  \\c 2 \\d \\e "United States" \\f "<Title> <Forename> <Surname> <Address Line 1> <Region> <Postcode> <Country>" \\l 1033',
             '«AddressBlock»', field)
         self.assertEqual("2", field.include_country_or_region_name)
@@ -1072,14 +1071,14 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_compare()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_COMPARE, " COMPARE  3 < 2", "0", field)
+        self.verify_field(aw.fields.FieldType.FIELD_COMPARE, " COMPARE  3 < 2", "0", field)
         self.assertEqual("3", field.left_expression)
         self.assertEqual("<", field.comparison_operator)
         self.assertEqual("2", field.right_expression)
 
         field = doc.range.fields[1].as_field_compare()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_COMPARE, " COMPARE  5 = \"2 + 3\"", "1", field)
+        self.verify_field(aw.fields.FieldType.FIELD_COMPARE, " COMPARE  5 = \"2 + 3\"", "1", field)
         self.assertEqual("5", field.left_expression)
         self.assertEqual("=", field.comparison_operator)
         self.assertEqual("\"2 + 3\"", field.right_expression)
@@ -1137,7 +1136,7 @@ class ExField(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_if.docx")
         field = doc.range.fields[0].as_field_if()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_IF, " IF  0 = 1 True False", "False", field)
+        self.verify_field(aw.fields.FieldType.FIELD_IF, " IF  0 = 1 True False", "False", field)
         self.assertEqual("0", field.left_expression)
         self.assertEqual("=", field.comparison_operator)
         self.assertEqual("1", field.right_expression)
@@ -1146,7 +1145,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[1].as_field_if()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_IF, " IF  5 = \"2 + 3\" True False", "True", field)
+        self.verify_field(aw.fields.FieldType.FIELD_IF, " IF  5 = \"2 + 3\" True False", "True", field)
         self.assertEqual("5", field.left_expression)
         self.assertEqual("=", field.comparison_operator)
         self.assertEqual("\"2 + 3\"", field.right_expression)
@@ -1188,8 +1187,8 @@ class ExField(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_auto_num.docx")
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTO_NUM, " AUTONUM ", "", doc.range.fields[0])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTO_NUM, " AUTONUM  \\s :", "", doc.range.fields[1])
+        self.verify_field(aw.fields.FieldType.FIELD_AUTO_NUM, " AUTONUM ", "", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_AUTO_NUM, " AUTONUM  \\s :", "", doc.range.fields[1])
 
     #ExStart
     #ExFor:FieldAutoNumLgl
@@ -1271,7 +1270,7 @@ class ExField(ApiExampleBase):
         for field in doc.range.fields:
             if field.type == aw.fields.FieldType.FIELD_AUTO_NUM_LEGAL:
                 field = field.as_field_auto_num_lgl()
-                TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTO_NUM_LEGAL, " AUTONUMLGL  \\s : \\e", "", field)
+                self.verify_field(aw.fields.FieldType.FIELD_AUTO_NUM_LEGAL, " AUTONUMLGL  \\s : \\e", "", field)
 
                 self.assertEqual(":", field.separator_character)
                 self.assertTrue(field.remove_trailing_period)
@@ -1308,7 +1307,7 @@ class ExField(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_auto_num_out.docx")
 
         for field in doc.range.fields:
-            TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTO_NUM_OUTLINE, " AUTONUMOUT ", "", field)
+            self.verify_field(aw.fields.FieldType.FIELD_AUTO_NUM_OUTLINE, " AUTONUMOUT ", "", field)
 
     def test_field_auto_text(self):
 
@@ -1367,12 +1366,12 @@ class ExField(ApiExampleBase):
 
         field_auto_text = doc.range.fields[0].as_field_auto_text()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTO_TEXT, " AUTOTEXT  MyBlock", "Hello World!\r", field_auto_text)
+        self.verify_field(aw.fields.FieldType.FIELD_AUTO_TEXT, " AUTOTEXT  MyBlock", "Hello World!\r", field_auto_text)
         self.assertEqual("MyBlock", field_auto_text.entry_name)
 
         field_glossary = doc.range.fields[1].as_field_glossary()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_GLOSSARY, " GLOSSARY  MyBlock", "Hello World!\r", field_glossary)
+        self.verify_field(aw.fields.FieldType.FIELD_GLOSSARY, " GLOSSARY  MyBlock", "Hello World!\r", field_glossary)
         self.assertEqual("MyBlock", field_glossary.entry_name)
 
     #ExStart
@@ -1441,7 +1440,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_auto_text_list()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTO_TEXT_LIST,
+        self.verify_field(aw.fields.FieldType.FIELD_AUTO_TEXT_LIST,
             " AUTOTEXTLIST  \"Right click here to select an AutoText block\" \\s \"Heading 1\" \\t \"Hover tip text for AutoTextList goes here\"",
             "", field)
         self.assertEqual("Right click here to select an AutoText block", field.entry_name)
@@ -1586,7 +1585,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_list_num()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_LIST_NUM, " LISTNUM  \\s 0", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_LIST_NUM, " LISTNUM  \\s 0", "", field)
         self.assertEqual("0", field.starting_number)
         self.assertIsNone(field.list_level)
         self.assertFalse(field.has_list_name)
@@ -1596,7 +1595,7 @@ class ExField(ApiExampleBase):
 
             field = doc.range.fields[i].as_field_list_num()
 
-            TestUtil.verify_field(self, aw.fields.FieldType.FIELD_LIST_NUM, " LISTNUM ", "", field)
+            self.verify_field(aw.fields.FieldType.FIELD_LIST_NUM, " LISTNUM ", "", field)
             self.assertIsNone(field.starting_number)
             self.assertIsNone(field.list_level)
             self.assertFalse(field.has_list_name)
@@ -1604,7 +1603,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[4].as_field_list_num()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_LIST_NUM, " LISTNUM  \\l 2", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_LIST_NUM, " LISTNUM  \\l 2", "", field)
         self.assertIsNone(field.starting_number)
         self.assertEqual("2", field.list_level)
         self.assertFalse(field.has_list_name)
@@ -1612,7 +1611,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[5].as_field_list_num()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_LIST_NUM, " LISTNUM  OutlineDefault \\s 1", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_LIST_NUM, " LISTNUM  OutlineDefault \\s 1", "", field)
         self.assertEqual("1", field.starting_number)
         self.assertIsNone(field.list_level)
         self.assertTrue(field.has_list_name)
@@ -1837,13 +1836,13 @@ class ExField(ApiExampleBase):
         doc = DocumentHelper.save_open(doc)
         field_toc = doc.range.fields[0].as_field_toc()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOC, " TOC  \\f A \\l 1-3", "TC field 1\rTC field 2\r", field_toc)
+        self.verify_field(aw.fields.FieldType.FIELD_TOC, " TOC  \\f A \\l 1-3", "TC field 1\rTC field 2\r", field_toc)
         self.assertEqual("A", field_toc.entry_identifier)
         self.assertEqual("1-3", field_toc.entry_level_range)
 
         field_tc = doc.range.fields[1].as_field_tc()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 1\" \\n \\f A \\l 1", "", field_tc)
+        self.verify_field(aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 1\" \\n \\f A \\l 1", "", field_tc)
         self.assertTrue(field_tc.omit_page_number)
         self.assertEqual("TC field 1", field_tc.text)
         self.assertEqual("A", field_tc.type_identifier)
@@ -1851,7 +1850,7 @@ class ExField(ApiExampleBase):
 
         field_tc = doc.range.fields[2].as_field_tc()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 2\" \\n \\f A \\l 2", "", field_tc)
+        self.verify_field(aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 2\" \\n \\f A \\l 2", "", field_tc)
         self.assertTrue(field_tc.omit_page_number)
         self.assertEqual("TC field 2", field_tc.text)
         self.assertEqual("A", field_tc.type_identifier)
@@ -1859,7 +1858,7 @@ class ExField(ApiExampleBase):
 
         field_tc = doc.range.fields[3].as_field_tc()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 3\" \\n \\f B \\l 1", "", field_tc)
+        self.verify_field(aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 3\" \\n \\f B \\l 1", "", field_tc)
         self.assertTrue(field_tc.omit_page_number)
         self.assertEqual("TC field 3", field_tc.text)
         self.assertEqual("B", field_tc.type_identifier)
@@ -1867,7 +1866,7 @@ class ExField(ApiExampleBase):
 
         field_tc = doc.range.fields[4].as_field_tc()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 4\" \\n \\f A \\l 5", "", field_tc)
+        self.verify_field(aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 4\" \\n \\f A \\l 5", "", field_tc)
         self.assertTrue(field_tc.omit_page_number)
         self.assertEqual("TC field 4", field_tc.text)
         self.assertEqual("A", field_tc.type_identifier)
@@ -1957,7 +1956,7 @@ class ExField(ApiExampleBase):
 
         field_toc = doc.range.fields[0].as_field_toc()
         print(field_toc.display_result)
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOC, " TOC  \\c MySequence \\s PrefixSequence \\d >",
+        self.verify_field(aw.fields.FieldType.FIELD_TOC, " TOC  \\c MySequence \\s PrefixSequence \\d >",
             "First TOC entry, MySequence #12\t\u0013 SEQ PrefixSequence _Toc256000000 \\* ARABIC \u00141\u0015>\u0013 PAGEREF _Toc256000000 \\h \u00142\u0015\r2" +
             "Second TOC entry, MySequence #\t\u0013 SEQ PrefixSequence _Toc256000001 \\* ARABIC \u00142\u0015>\u0013 PAGEREF _Toc256000001 \\h \u00143\u0015\r",
             field_toc)
@@ -1967,45 +1966,45 @@ class ExField(ApiExampleBase):
 
         field_seq = doc.range.fields[1].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ PrefixSequence _Toc256000000 \\* ARABIC ", "1", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ PrefixSequence _Toc256000000 \\* ARABIC ", "1", field_seq)
         self.assertEqual("PrefixSequence", field_seq.sequence_identifier)
 
         # Byproduct field created by Aspose.Words
         field_page_ref = doc.range.fields[2].as_field_page_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF _Toc256000000 \\h ", "2", field_page_ref)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF _Toc256000000 \\h ", "2", field_page_ref)
         self.assertEqual("PrefixSequence", field_seq.sequence_identifier)
         self.assertEqual("_Toc256000000", field_page_ref.bookmark_name)
 
         field_seq = doc.range.fields[3].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ PrefixSequence _Toc256000001 \\* ARABIC ", "2", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ PrefixSequence _Toc256000001 \\* ARABIC ", "2", field_seq)
         self.assertEqual("PrefixSequence", field_seq.sequence_identifier)
 
         field_page_ref = doc.range.fields[4].as_field_page_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF _Toc256000001 \\h ", "3", field_page_ref)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF _Toc256000001 \\h ", "3", field_page_ref)
         self.assertEqual("PrefixSequence", field_seq.sequence_identifier)
         self.assertEqual("_Toc256000001", field_page_ref.bookmark_name)
 
         field_seq = doc.range.fields[5].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  PrefixSequence", "1", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  PrefixSequence", "1", field_seq)
         self.assertEqual("PrefixSequence", field_seq.sequence_identifier)
 
         field_seq = doc.range.fields[6].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "1", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "1", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
         field_seq = doc.range.fields[7].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  PrefixSequence", "2", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  PrefixSequence", "2", field_seq)
         self.assertEqual("PrefixSequence", field_seq.sequence_identifier)
 
         field_seq = doc.range.fields[8].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "2", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "2", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
     def test_toc_seq_numbering(self):
@@ -2079,22 +2078,22 @@ class ExField(ApiExampleBase):
 
         field_seq = doc.range.fields[0].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence \\r 100", "100", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence \\r 100", "100", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
         field_seq = doc.range.fields[1].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "101", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "101", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
         field_seq = doc.range.fields[2].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence \\s 1", "1", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence \\s 1", "1", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
         field_seq = doc.range.fields[3].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence \\n", "2", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence \\n", "2", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
     @unittest.skip("WORDSNET-18083")
@@ -2181,44 +2180,44 @@ class ExField(ApiExampleBase):
 
         self.assertEqual(aw.fields.FieldType.FIELD_TOC, field_toc.type)
         self.assertEqual("MySequence", field_toc.table_of_figures_label)
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOC, " TOC  \\c MySequence \\b TOCBookmark",
+        self.verify_field(aw.fields.FieldType.FIELD_TOC, " TOC  \\c MySequence \\b TOCBookmark",
             f"MySequence #2, will show up in the TOC next to the entry for the above caption.\t\u0013 PAGEREF {page_ref_ids[0]} \\h \u00142\u0015\r" +
             f"3MySequence #3, text from inside SEQBookmark.\t\u0013 PAGEREF {page_ref_ids[1]} \\h \u00142\u0015\r", field_toc)
 
         field_page_ref = doc.range.fields[1].as_field_page_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE_REF, f" PAGEREF {page_ref_ids[0]} \\h ", "2", field_page_ref)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, f" PAGEREF {page_ref_ids[0]} \\h ", "2", field_page_ref)
         self.assertEqual(page_ref_ids[0], field_page_ref.bookmark_name)
 
         field_page_ref = doc.range.fields[2].as_field_page_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE_REF, f" PAGEREF {page_ref_ids[1]} \\h ", "2", field_page_ref)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, f" PAGEREF {page_ref_ids[1]} \\h ", "2", field_page_ref)
         self.assertEqual(page_ref_ids[1], field_page_ref.bookmark_name)
 
         field_seq = doc.range.fields[3].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "1", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "1", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
         field_seq = doc.range.fields[4].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "2", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "2", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
         field_seq = doc.range.fields[5].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  OtherSequence", "1", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  OtherSequence", "1", field_seq)
         self.assertEqual("OtherSequence", field_seq.sequence_identifier)
 
         field_seq = doc.range.fields[6].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence SEQBookmark", "3", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence SEQBookmark", "3", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
         self.assertEqual("SEQBookmark", field_seq.bookmark_name)
 
         field_seq = doc.range.fields[7].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "3", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "3", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
     @unittest.skip("WORDSNET-13854")
@@ -2293,7 +2292,7 @@ class ExField(ApiExampleBase):
 
         field_citation = doc.range.fields[0].as_field_citation()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_CITATION, " CITATION  Book1 \\p 85 \\t \\y", " (Doe, p. 85)", field_citation)
+        self.verify_field(aw.fields.FieldType.FIELD_CITATION, " CITATION  Book1 \\p 85 \\t \\y", " (Doe, p. 85)", field_citation)
         self.assertEqual("Book1", field_citation.source_tag)
         self.assertEqual("85", field_citation.page_number)
         self.assertFalse(field_citation.suppress_author)
@@ -2302,7 +2301,7 @@ class ExField(ApiExampleBase):
 
         field_citation = doc.range.fields[1].as_field_Citation()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_CITATION,
+        self.verify_field(aw.fields.FieldType.FIELD_CITATION,
             " CITATION  Book1 \\m Book2 \\l en-US \\p 19 \\f \"Prefix \" \\s \" Suffix\" \\v VII",
             " (Doe, 2018; Prefix Cardholder, 2018, VII:19 Suffix)", field_citation)
         self.assertEqual("Book1", field_citation.source_tag)
@@ -2318,19 +2317,19 @@ class ExField(ApiExampleBase):
 
         field_bibliography = doc.range.fields[2].as_field_bibliography()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_BIBLIOGRAPHY, " BIBLIOGRAPHY  \\l 1124",
+        self.verify_field(aw.fields.FieldType.FIELD_BIBLIOGRAPHY, " BIBLIOGRAPHY  \\l 1124",
             "Cardholder, A. (2018). My Book, Vol. II. New York: Doe Co. Ltd.\rDoe, J. (2018). My Book, Vol I. London: Doe Co. Ltd.\r", field_bibliography)
         self.assertEqual("1124", field_bibliography.format_language_id)
 
         field_citation = doc.range.fields[3].as_field_citation()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_CITATION, " CITATION Book1 \\l 1033 ", "(Doe, 2018)", field_citation)
+        self.verify_field(aw.fields.FieldType.FIELD_CITATION, " CITATION Book1 \\l 1033 ", "(Doe, 2018)", field_citation)
         self.assertEqual("Book1", field_citation.source_tag)
         self.assertEqual("1033", field_citation.format_language_id)
 
         field_bibliography = doc.range.fields[4].as_field_bibliography()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_BIBLIOGRAPHY, " BIBLIOGRAPHY ",
+        self.verify_field(aw.fields.FieldType.FIELD_BIBLIOGRAPHY, " BIBLIOGRAPHY ",
             "Cardholder, A. (2018). My Book, Vol. II. New York: Doe Co. Ltd.\rDoe, J. (2018). My Book, Vol I. London: Doe Co. Ltd.\r", field_bibliography)
 
     def test_field_data(self):
@@ -2345,7 +2344,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(" DATA ", field.get_field_code())
         #ExEnd
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DATA, " DATA ", "", DocumentHelper.save_open(doc).range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_DATA, " DATA ", "", DocumentHelper.save_open(doc).range.fields[0])
 
     def test_field_include(self):
 
@@ -2611,7 +2610,7 @@ class ExField(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_hyperlink.docx")
         field = doc.range.fields[0].as_field_hyperlink()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_HYPERLINK,
+        self.verify_field(aw.fields.FieldType.FIELD_HYPERLINK,
             " HYPERLINK \"" + MY_DIR.replace("\\", "\\\\") + "Bookmarks.docx\" \\l \"MyBookmark3\" \\o \"Open " + MY_DIR + "Bookmarks.docx on bookmark MyBookmark3 in a new window\" ",
             MY_DIR + "Bookmarks.docx - MyBookmark3", field)
         self.assertEqual(MY_DIR + "Bookmarks.docx", field.address)
@@ -2620,7 +2619,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[1].as_field_hyperlink()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_HYPERLINK, " HYPERLINK \"file:///" + MY_DIR.replace("\\", "\\\\").replace(" ", "%20") + "Iframes.html\" \\t \"iframe_3\" \\o \"Open " + MY_DIR.replace("\\", "\\\\") + "Iframes.html\" ",
+        self.verify_field(aw.fields.FieldType.FIELD_HYPERLINK, " HYPERLINK \"file:///" + MY_DIR.replace("\\", "\\\\").replace(" ", "%20") + "Iframes.html\" \\t \"iframe_3\" \\o \"Open " + MY_DIR.replace("\\", "\\\\") + "Iframes.html\" ",
             MY_DIR + "Iframes.html", field)
         self.assertEqual("file:///" + MY_DIR.replace(" ", "%20") + "Iframes.html", field.address)
         self.assertEqual("Open " + MY_DIR + "Iframes.html", field.screen_tip)
@@ -2703,19 +2702,19 @@ class ExField(ApiExampleBase):
 
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shape)
         self.assertEqual(200.0, shape.width)
         self.assertEqual(200.0, shape.height)
 
         shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
 
-        TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, shape)
         self.assertEqual(200.0, shape.width)
         self.assertEqual(200.0, shape.height)
 
         shape = doc.get_child(aw.NodeType.SHAPE, 2, True).as_shape()
 
-        TestUtil.verify_image_in_shape(534, 534, aw.drawing.ImageType.EMF, shape)
+        self.verify_image_in_shape(534, 534, aw.drawing.ImageType.EMF, shape)
         self.assertEqual(200.0, shape.width)
         self.assertEqual(200.0, shape.height)
 
@@ -2783,13 +2782,13 @@ class ExField(ApiExampleBase):
 
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shape)
         self.assertEqual(300.0, shape.width)
         self.assertEqual(300.0, shape.height)
 
         shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
 
-        TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, shape)
         self.assertEqual(300.0, shape.width, 1)
         self.assertEqual(300.0, shape.height, 1)
 
@@ -2857,25 +2856,25 @@ class ExField(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_index_filter.docx")
         index = doc.range.fields[0].as_field_index()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX, " INDEX  \\b MainBookmark \\f A", "Index entry 1, 2\r", index)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX, " INDEX  \\b MainBookmark \\f A", "Index entry 1, 2\r", index)
         self.assertEqual("MainBookmark", index.bookmark_name)
         self.assertEqual("A", index.entry_type)
 
         index_entry = doc.range.fields[1].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Index entry 1\" \\f A", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Index entry 1\" \\f A", "", index_entry)
         self.assertEqual("Index entry 1", index_entry.text)
         self.assertEqual("A", index_entry.entry_type)
 
         index_entry = doc.range.fields[2].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Index entry 2\" \\f B", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Index entry 2\" \\f B", "", index_entry)
         self.assertEqual("Index entry 2", index_entry.text)
         self.assertEqual("B", index_entry.entry_type)
 
         index_entry = doc.range.fields[3].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Index entry 3\" \\f A", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Index entry 3\" \\f A", "", index_entry)
         self.assertEqual("Index entry 3", index_entry.text)
         self.assertEqual("A", index_entry.entry_type)
 
@@ -2975,42 +2974,42 @@ class ExField(ApiExampleBase):
 
         index_entry = doc.range.fields[1].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Apple \\i", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Apple \\i", "", index_entry)
         self.assertEqual("Apple", index_entry.text)
         self.assertFalse(index_entry.is_bold)
         self.assertTrue(index_entry.is_italic)
 
         index_entry = doc.range.fields[2].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Apricot \\b", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Apricot \\b", "", index_entry)
         self.assertEqual("Apricot", index_entry.text)
         self.assertTrue(index_entry.is_bold)
         self.assertFalse(index_entry.is_italic)
 
         index_entry = doc.range.fields[3].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Banana", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Banana", "", index_entry)
         self.assertEqual("Banana", index_entry.text)
         self.assertFalse(index_entry.is_bold)
         self.assertFalse(index_entry.is_italic)
 
         index_entry = doc.range.fields[4].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Cherry", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Cherry", "", index_entry)
         self.assertEqual("Cherry", index_entry.text)
         self.assertFalse(index_entry.is_bold)
         self.assertFalse(index_entry.is_italic)
 
         index_entry = doc.range.fields[5].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Avocado", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Avocado", "", index_entry)
         self.assertEqual("Avocado", index_entry.text)
         self.assertFalse(index_entry.is_bold)
         self.assertFalse(index_entry.is_italic)
 
         index_entry = doc.range.fields[6].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Durian", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Durian", "", index_entry)
         self.assertEqual("Durian", index_entry.text)
         self.assertFalse(index_entry.is_bold)
         self.assertFalse(index_entry.is_italic)
@@ -3152,7 +3151,7 @@ class ExField(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_index_page_number_separator.docx")
         index = doc.range.fields[0].as_field_index()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX, " INDEX  \\e \", on page(s) \" \\l \" & \"", "First entry, on page(s) 2 & 3 & 4\r", index)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX, " INDEX  \\e \", on page(s) \" \\l \" & \"", "First entry, on page(s) 2 & 3 & 4\r", index)
         self.assertEqual(", on page(s) ", index.page_number_separator)
         self.assertEqual(" & ", index.page_number_list_separator)
         self.assertTrue(index.has_page_number_separator)
@@ -3212,13 +3211,13 @@ class ExField(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_index_page_range_bookmark.docx")
         index = doc.range.fields[0].as_field_index()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX, " INDEX  \\e \", on page(s) \" \\g \" to \"", "My entry, on page(s) 3 to 5\r", index)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX, " INDEX  \\e \", on page(s) \" \\g \" to \"", "My entry, on page(s) 3 to 5\r", index)
         self.assertEqual(", on page(s) ", index.page_number_separator)
         self.assertEqual(" to ", index.page_range_separator)
 
         index_entry = doc.range.fields[1].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"My entry\" \\r MyBookmark", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"My entry\" \\r MyBookmark", "", index_entry)
         self.assertEqual("My entry", index_entry.text)
         self.assertEqual("MyBookmark", index_entry.page_range_bookmark_name)
         self.assertTrue(index_entry.has_page_range_bookmark_name)
@@ -3274,20 +3273,20 @@ class ExField(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_index_cross_reference_separator.docx")
         index = doc.range.fields[0].as_field_index()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " INDEX  \\k \", see: \"",
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " INDEX  \\k \", see: \"",
             "Apple, 2\r" +
             "Banana, see: Tropical fruit\r", index)
         self.assertEqual(", see: ", index.cross_reference_separator)
 
         index_entry = doc.range.fields[1].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Apple", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Apple", "", index_entry)
         self.assertEqual("Apple", index_entry.text)
         self.assertIsNone(index_entry.page_number_replacement)
 
         index_entry = doc.range.fields[2].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Banana \\t \"Tropical fruit\"", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Banana \\t \"Tropical fruit\"", "", index_entry)
         self.assertEqual("Banana", index_entry.text)
         self.assertEqual("Tropical fruit", index_entry.page_number_replacement)
 
@@ -3352,12 +3351,12 @@ class ExField(ApiExampleBase):
                 index = doc.range.fields[0].as_field_index()
 
                 if run_subentries_on_the_same_line:
-                    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX, " INDEX  \\r \\e \", see page \" \\h A",
+                    self.verify_field(aw.fields.FieldType.FIELD_INDEX, " INDEX  \\r \\e \", see page \" \\h A",
                         "H\r" +
                         "Heading 1: Subheading 1, see page 2; Subheading 2, see page 3\r", index)
                     self.assertTrue(index.run_subentries_on_same_line)
                 else:
-                    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX, " INDEX  \\e \", see page \" \\h A",
+                    self.verify_field(aw.fields.FieldType.FIELD_INDEX, " INDEX  \\e \", see page \" \\h A",
                         "H\r" +
                         "Heading 1\r" +
                         "Subheading 1, see page 2\r" +
@@ -3366,12 +3365,12 @@ class ExField(ApiExampleBase):
 
                 index_entry = doc.range.fields[1].as_field_xe()
 
-                TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Heading 1:Subheading 1\"", "", index_entry)
+                self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Heading 1:Subheading 1\"", "", index_entry)
                 self.assertEqual("Heading 1:Subheading 1", index_entry.text)
 
                 index_entry = doc.range.fields[2].as_field_xe()
 
-                TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Heading 1:Subheading 2\"", "", index_entry)
+                self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Heading 1:Subheading 2\"", "", index_entry)
                 self.assertEqual("Heading 1:Subheading 2", index_entry.text)
 
     @unittest.skip("WORDSNET-17524")
@@ -3453,25 +3452,25 @@ class ExField(ApiExampleBase):
 
                 index_entry = doc.range.fields[1].as_field_xe()
 
-                TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  愛子 \\y あ", "", index_entry)
+                self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  愛子 \\y あ", "", index_entry)
                 self.assertEqual("愛子", index_entry.text)
                 self.assertEqual("あ", index_entry.yomi)
 
                 index_entry = doc.range.fields[2].as_field_xe()
 
-                TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  明美 \\y あ", "", index_entry)
+                self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  明美 \\y あ", "", index_entry)
                 self.assertEqual("明美", index_entry.text)
                 self.assertEqual("あ", index_entry.yomi)
 
                 index_entry = doc.range.fields[3].as_field_xe()
 
-                TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  恵美 \\y え", "", index_entry)
+                self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  恵美 \\y え", "", index_entry)
                 self.assertEqual("恵美", index_entry.text)
                 self.assertEqual("え", index_entry.yomi)
 
                 index_entry = doc.range.fields[4].as_field_xe()
 
-                TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  愛美 \\y え", "", index_entry)
+                self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  愛美 \\y え", "", index_entry)
                 self.assertEqual("愛美", index_entry.text)
                 self.assertEqual("え", index_entry.yomi)
 
@@ -3525,14 +3524,14 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_barcode()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_BARCODE, " BARCODE  96801 \\u \\f C", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_BARCODE, " BARCODE  96801 \\u \\f C", "", field)
         self.assertEqual("C", field.facing_identification_mark)
         self.assertEqual("96801", field.postal_address)
         self.assertTrue(field.is_uspostal_address)
 
         field = doc.range.fields[1].as_field_barcode()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_BARCODE, " BARCODE  BarcodeBookmark \\b", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_BARCODE, " BARCODE  BarcodeBookmark \\b", "", field)
         self.assertEqual("BarcodeBookmark", field.postal_address)
         self.assertTrue(field.is_bookmark)
 
@@ -3610,7 +3609,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_display_barcode()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  ABC123 QR \\b 0xF8BD69 \\f 0xB5413B \\q 3 \\s 250 \\h 1000 \\r 0", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  ABC123 QR \\b 0xF8BD69 \\f 0xB5413B \\q 3 \\s 250 \\h 1000 \\r 0", "", field)
         self.assertEqual("QR", field.barcode_type)
         self.assertEqual("ABC123", field.barcode_value)
         self.assertEqual("0xF8BD69", field.background_color)
@@ -3622,7 +3621,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[1].as_field_display_barcode()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  501234567890 EAN13 \\t \\p CASE \\x", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  501234567890 EAN13 \\t \\p CASE \\x", "", field)
         self.assertEqual("EAN13", field.barcode_type)
         self.assertEqual("501234567890", field.barcode_value)
         self.assertTrue(field.display_text)
@@ -3631,14 +3630,14 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[2].as_field_display_barcode()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  12345ABCDE CODE39 \\d", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  12345ABCDE CODE39 \\d", "", field)
         self.assertEqual("CODE39", field.barcode_type)
         self.assertEqual("12345ABCDE", field.barcode_value)
         self.assertTrue(field.add_start_stop_char)
 
         field = doc.range.fields[3].as_field_display_barcode()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  09312345678907 ITF14 \\c STD", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  09312345678907 ITF14 \\c STD", "", field)
         self.assertEqual("ITF14", field.barcode_type)
         self.assertEqual("09312345678907", field.barcode_value)
         self.assertEqual("STD", field.case_code_style)
@@ -3705,14 +3704,14 @@ class ExField(ApiExampleBase):
 
     #    barcode = doc.range.fields[0].as_field_display_barcode()
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE,
+    #    self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE,
     #        "DISPLAYBARCODE \"ABC123\" QR \\q 3 \\s 250 \\h 1000 \\r 0 \\b 0xF8BD69 \\f 0xB5413B", "", barcode)
     #    self.assertEqual("ABC123", barcode.barcode_value)
     #    self.assertEqual("QR", barcode.barcode_type)
 
     #    barcode = doc.range.fields[1].as_field_display_barcode()
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE,
+    #    self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE,
     #        "DISPLAYBARCODE \"DEF456\" QR \\q 3 \\s 250 \\h 1000 \\r 0 \\b 0xF8BD69 \\f 0xB5413B", "", barcode)
     #    self.assertEqual("DEF456", barcode.barcode_value)
     #    self.assertEqual("QR", barcode.barcode_type)
@@ -3771,13 +3770,13 @@ class ExField(ApiExampleBase):
 
     #    barcode = doc.range.fields[0].as_field_display_barcode()
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"501234567890\" EAN13 \\t \\p CASE \\x", "", barcode)
+    #    self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"501234567890\" EAN13 \\t \\p CASE \\x", "", barcode)
     #    self.assertEqual("501234567890", barcode.barcode_value)
     #    self.assertEqual("EAN13", barcode.barcode_type)
 
     #    barcode = doc.range.fields[1].as_field_display_barcode()
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"123456789012\" EAN13 \\t \\p CASE \\x", "", barcode)
+    #    self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"123456789012\" EAN13 \\t \\p CASE \\x", "", barcode)
     #    self.assertEqual("123456789012", barcode.barcode_value)
     #    self.assertEqual("EAN13", barcode.barcode_type)
 
@@ -3830,13 +3829,13 @@ class ExField(ApiExampleBase):
 
     #    barcode = doc.range.fields[0].as_field_display_barcode()
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"12345ABCDE\" CODE39 \\d", "", barcode)
+    #    self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"12345ABCDE\" CODE39 \\d", "", barcode)
     #    self.assertEqual("12345ABCDE", barcode.barcode_value)
     #    self.assertEqual("CODE39", barcode.barcode_type)
 
     #    barcode = doc.range.fields[1].as_field_display_barcode()
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"67890FGHIJ\" CODE39 \\d", "", barcode)
+    #    self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"67890FGHIJ\" CODE39 \\d", "", barcode)
     #    self.assertEqual("67890FGHIJ", barcode.barcode_value)
     #    self.assertEqual("CODE39", barcode.barcode_type)
 
@@ -3886,13 +3885,13 @@ class ExField(ApiExampleBase):
 
     #    barcode = doc.range.fields[0].as_field_display_barcode()
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"09312345678907\" ITF14 \\c STD", "", barcode)
+    #    self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"09312345678907\" ITF14 \\c STD", "", barcode)
     #    self.assertEqual("09312345678907", barcode.barcode_value)
     #    self.assertEqual("ITF14", barcode.barcode_type)
 
     #    barcode = doc.range.fields[1].as_field_display_barcode()
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"1234567891234\" ITF14 \\c STD", "", barcode)
+    #    self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"1234567891234\" ITF14 \\c STD", "", barcode)
     #    self.assertEqual("1234567891234", barcode.barcode_value)
     #    self.assertEqual("ITF14", barcode.barcode_type)
 
@@ -4139,7 +4138,7 @@ class ExField(ApiExampleBase):
 
         field_user_address = doc.range.fields[0].as_field_user_address()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_USER_ADDRESS, " USERADDRESS  \"456 North Road\"", "456 North Road", field_user_address)
+        self.verify_field(aw.fields.FieldType.FIELD_USER_ADDRESS, " USERADDRESS  \"456 North Road\"", "456 North Road", field_user_address)
         self.assertEqual("456 North Road", field_user_address.user_address)
 
     def test_field_user_initials(self):
@@ -4182,7 +4181,7 @@ class ExField(ApiExampleBase):
 
         field_user_initials = doc.range.fields[0].as_field_user_initials()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_USER_INITIALS, " USERINITIALS  \"J. C.\"", "J. C.", field_user_initials)
+        self.verify_field(aw.fields.FieldType.FIELD_USER_INITIALS, " USERINITIALS  \"J. C.\"", "J. C.", field_user_initials)
         self.assertEqual("J. C.", field_user_initials.user_initials)
 
     def test_field_user_name(self):
@@ -4226,7 +4225,7 @@ class ExField(ApiExampleBase):
 
         field_user_name = doc.range.fields[0].as_field_user_name()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_USER_NAME, " USERNAME  \"Jane Doe\"", "Jane Doe", field_user_name)
+        self.verify_field(aw.fields.FieldType.FIELD_USER_NAME, " USERNAME  \"Jane Doe\"", "Jane Doe", field_user_name)
         self.assertEqual("Jane Doe", field_user_name.user_name)
 
     @unittest.skip("WORDSNET-17657")
@@ -4308,36 +4307,36 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_style_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  \"List Paragraph\"", "Item 1", field)
+        self.verify_field(aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  \"List Paragraph\"", "Item 1", field)
         self.assertEqual("List Paragraph", field.style_name)
 
         field = doc.range.fields[1].as_field_style_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  \"List Paragraph\" \\l", "Item 3", field)
+        self.verify_field(aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  \"List Paragraph\" \\l", "Item 3", field)
         self.assertEqual("List Paragraph", field.style_name)
         self.assertTrue(field.search_from_bottom)
 
         field = doc.range.fields[2].as_field_style_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\n", "b )", field)
+        self.verify_field(aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\n", "b )", field)
         self.assertEqual("Quote", field.style_name)
         self.assertTrue(field.insert_paragraph_number)
 
         field = doc.range.fields[3].as_field_style_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\r", "b )", field)
+        self.verify_field(aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\r", "b )", field)
         self.assertEqual("Quote", field.style_name)
         self.assertTrue(field.insert_paragraph_number_in_relative_context)
 
         field = doc.range.fields[4].as_field_style_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\w", "1.b )", field)
+        self.verify_field(aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\w", "1.b )", field)
         self.assertEqual("Quote", field.style_name)
         self.assertTrue(field.insert_paragraph_number_in_full_context)
 
         field = doc.range.fields[5].as_field_style_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\w \\t", "1.b)", field)
+        self.verify_field(aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\w \\t", "1.b)", field)
         self.assertEqual("Quote", field.style_name)
         self.assertTrue(field.insert_paragraph_number_in_full_context)
         self.assertTrue(field.suppress_non_delimiters)
@@ -4396,17 +4395,17 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[1].as_field_date()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DATE, " DATE  \\u", datetime.now().strftime("%d/%m/%Y"), field)
+        self.verify_field(aw.fields.FieldType.FIELD_DATE, " DATE  \\u", datetime.now().strftime("%d/%m/%Y"), field)
         self.assertTrue(field.use_um_al_qura_calendar)
 
         field = doc.range.fields[2].as_field_date()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DATE, " DATE  \\s", datetime.now().strftime("%d/%m/%Y"), field)
+        self.verify_field(aw.fields.FieldType.FIELD_DATE, " DATE  \\s", datetime.now().strftime("%d/%m/%Y"), field)
         self.assertTrue(field.use_saka_era_calendar)
 
         field = doc.range.fields[3].as_field_date()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DATE, " DATE  \\l", datetime.now().strftime("%d/%m/%Y"), field)
+        self.verify_field(aw.fields.FieldType.FIELD_DATE, " DATE  \\l", datetime.now().strftime("%d/%m/%Y"), field)
         self.assertTrue(field.use_last_format)
 
     @unittest.skip("WORDSNET-17669")
@@ -4458,7 +4457,7 @@ class ExField(ApiExampleBase):
         field = doc.range.fields[0].as_field_create_date()
         um_al_qura_calendar = UmAlQuraCalendar()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_CREATE_DATE, " CREATEDATE  \\h",
+        self.verify_field(aw.fields.FieldType.FIELD_CREATE_DATE, " CREATEDATE  \\h",
             f"{umAlQuraCalendar.get_month(expected_date)}/{umAlQuraCalendar.get_day_of_month(expected_date)}/{umAlQuraCalendar.get_year(expected_date)} " +
             expected_date.add_hours(1).to_string("hh:mm:ss tt"), field)
         self.assertEqual(aw.fields.FieldType.FIELD_CREATE_DATE, field.type)
@@ -4466,7 +4465,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[1].as_field_create_date()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_CREATE_DATE, " CREATEDATE  \\u",
+        self.verify_field(aw.fields.FieldType.FIELD_CREATE_DATE, " CREATEDATE  \\u",
             f"{umAlQuraCalendar.get_month(expected_date)}/{umAlQuraCalendar.get_day_of_month(expected_date)}/{umAlQuraCalendar.get_year(expected_date)} " +
             expected_date.add_hours(1).to_string("hh:mm:ss tt"), field)
         self.assertEqual(aw.fields.FieldType.FIELD_CREATE_DATE, field.type)
@@ -4637,39 +4636,39 @@ class ExField(ApiExampleBase):
 
         field_symbol = doc.range.fields[0].as_field_symbol()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL 402 \\f Arial \\s 25 \\u ", "", fieldSymbol)
+        self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL 402 \\f Arial \\s 25 \\u ", "", fieldSymbol)
         self.assertEqual("ƒ", field_symbol.display_result)
 
         field_symbol = doc.range.fields[1].as_field_symbol()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL \u0013 = 100 + 74 \u0014174\u0015 ", "", fieldSymbol)
+        self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL \u0013 = 100 + 74 \u0014174\u0015 ", "", fieldSymbol)
         self.assertEqual("®", field_symbol.display_result)
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FORMULA, " = 100 + 74 ", "174", doc.range.fields[2])
+        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, " = 100 + 74 ", "174", doc.range.fields[2])
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_IF,
+        self.verify_field(aw.fields.FieldType.FIELD_IF,
             " IF \u0013 = 2 + 3 \u00145\u0015 = \u0013 = 2.5 * 5.2 \u001413\u0015 " +
             "\"True, both expressions amount to \u0013 = 2 + 3 \u0014\u0015\" " +
             "\"False, \u0013 = 2 + 3 \u00145\u0015 does not equal \u0013 = 2.5 * 5.2 \u001413\u0015\" ",
             "False, 5 does not equal 13", doc.range.fields[3])
 
         with self.assertRaises(Exception):
-            TestUtil.fields_are_nested(doc.range.fields[2], doc.range.fields[3])
+            self.fields_are_nested(doc.range.fields[2], doc.range.fields[3])
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FORMULA, " = 2 + 3 ", "5", doc.range.fields[4])
-        TestUtil.fields_are_nested(doc.range.fields[4], doc.range.fields[3])
+        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, " = 2 + 3 ", "5", doc.range.fields[4])
+        self.fields_are_nested(doc.range.fields[4], doc.range.fields[3])
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FORMULA, " = 2.5 * 5.2 ", "13", doc.range.fields[5])
-        TestUtil.fields_are_nested(doc.range.fields[5], doc.range.fields[3])
+        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, " = 2.5 * 5.2 ", "13", doc.range.fields[5])
+        self.fields_are_nested(doc.range.fields[5], doc.range.fields[3])
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FORMULA, " = 2 + 3 ", "", doc.range.fields[6])
-        TestUtil.fields_are_nested(doc.range.fields[6], doc.range.fields[3])
+        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, " = 2 + 3 ", "", doc.range.fields[6])
+        self.fields_are_nested(doc.range.fields[6], doc.range.fields[3])
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FORMULA, " = 2 + 3 ", "5", doc.range.fields[7])
-        TestUtil.fields_are_nested(doc.range.fields[7], doc.range.fields[3])
+        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, " = 2 + 3 ", "5", doc.range.fields[7])
+        self.fields_are_nested(doc.range.fields[7], doc.range.fields[3])
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FORMULA, " = 2.5 * 5.2 ", "13", doc.range.fields[8])
-        TestUtil.fields_are_nested(doc.range.fields[8], doc.range.fields[3])
+        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, " = 2.5 * 5.2 ", "13", doc.range.fields[8])
+        self.fields_are_nested(doc.range.fields[8], doc.range.fields[3])
 
     def test_field_author(self):
 
@@ -4732,7 +4731,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_author()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTHOR, " AUTHOR  \"Jane Doe\"", "Jane Doe", field)
+        self.verify_field(aw.fields.FieldType.FIELD_AUTHOR, " AUTHOR  \"Jane Doe\"", "Jane Doe", field)
         self.assertEqual("Jane Doe", field.author_name)
 
     def test_field_doc_variable(self):
@@ -4779,11 +4778,11 @@ class ExField(ApiExampleBase):
 
         field_doc_property = doc.range.fields[0].as_field_doc_property()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DOC_PROPERTY, " DOCPROPERTY Category ", "My category", field_doc_property)
+        self.verify_field(aw.fields.FieldType.FIELD_DOC_PROPERTY, " DOCPROPERTY Category ", "My category", field_doc_property)
 
         field_doc_variable = doc.range.fields[1].as_field_doc_variable()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DOC_VARIABLE, " DOCVARIABLE  \"My Variable\"", "My variable's value", field_doc_variable)
+        self.verify_field(aw.fields.FieldType.FIELD_DOC_VARIABLE, " DOCVARIABLE  \"My Variable\"", "My variable's value", field_doc_variable)
         self.assertEqual("My Variable", field_doc_variable.variable_name)
 
     def test_field_subject(self):
@@ -4825,7 +4824,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_subject()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SUBJECT, " SUBJECT  \"My new subject\"", "My new subject", field)
+        self.verify_field(aw.fields.FieldType.FIELD_SUBJECT, " SUBJECT  \"My new subject\"", "My new subject", field)
         self.assertEqual("My new subject", field.text)
 
     def test_field_comments(self):
@@ -4865,7 +4864,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_comments()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_COMMENTS, " COMMENTS  \"My overriding comment.\"", "My overriding comment.", field)
+        self.verify_field(aw.fields.FieldType.FIELD_COMMENTS, " COMMENTS  \"My overriding comment.\"", "My overriding comment.", field)
         self.assertEqual("My overriding comment.", field.text)
 
     def test_field_file_size(self):
@@ -4919,19 +4918,19 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_file_size()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FILE_SIZE, " FILESIZE ", "18105", field)
+        self.verify_field(aw.fields.FieldType.FIELD_FILE_SIZE, " FILESIZE ", "18105", field)
 
         # These fields will need to be updated to produce an accurate result.
         doc.update_fields()
 
         field = doc.range.fields[1].as_field_file_size()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FILE_SIZE, " FILESIZE  \\k", "13", field)
+        self.verify_field(aw.fields.FieldType.FIELD_FILE_SIZE, " FILESIZE  \\k", "13", field)
         self.assertTrue(field.is_in_kilobytes)
 
         field = doc.range.fields[2].as_field_file_size()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FILE_SIZE, " FILESIZE  \\m", "0", field)
+        self.verify_field(aw.fields.FieldType.FIELD_FILE_SIZE, " FILESIZE  \\m", "0", field)
         self.assertTrue(field.is_in_megabytes)
 
     def test_field_go_to_button(self):
@@ -4965,7 +4964,7 @@ class ExField(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_go_to_button.docx")
         field = doc.range.fields[0].as_field_go_to_button()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_GO_TO_BUTTON, " GOTOBUTTON  MyBookmark My Button", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_GO_TO_BUTTON, " GOTOBUTTON  MyBookmark My Button", "", field)
         self.assertEqual("My Button", field.display_text)
         self.assertEqual("MyBookmark", field.location)
 
@@ -5021,7 +5020,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_fill_in()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FILL_IN, " FILLIN  \"Please enter a response:\" \\d \"A default response.\" \\o",
+        self.verify_field(aw.fields.FieldType.FIELD_FILL_IN, " FILLIN  \"Please enter a response:\" \\d \"A default response.\" \\o",
             "Response modified by PromptRespondent. A default response.", field)
         self.assertEqual("Please enter a response:", field.prompt_text)
         self.assertEqual("A default response.", field.default_response)
@@ -5068,12 +5067,12 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_info()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INFO, " INFO  Comments", "My comment", field)
+        self.verify_field(aw.fields.FieldType.FIELD_INFO, " INFO  Comments", "My comment", field)
         self.assertEqual("Comments", field.info_type)
 
         field = doc.range.fields[1].as_field_info()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INFO, " INFO  Comments \"New comment\"", "New comment", field)
+        self.verify_field(aw.fields.FieldType.FIELD_INFO, " INFO  Comments \"New comment\"", "New comment", field)
         self.assertEqual("Comments", field.info_type)
         self.assertEqual("New comment", field.new_value)
 
@@ -5117,13 +5116,13 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_macro_button()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_MACRO_BUTTON, " MACROBUTTON  MyMacro Double click to run macro: MyMacro", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_MACRO_BUTTON, " MACROBUTTON  MyMacro Double click to run macro: MyMacro", "", field)
         self.assertEqual("MyMacro", field.macro_name)
         self.assertEqual("Double click to run macro: MyMacro", field.display_text)
 
         field = doc.range.fields[1].as_field_macro_button()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_MACRO_BUTTON, " MACROBUTTON  ViewZoom200 Run ViewZoom200", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_MACRO_BUTTON, " MACROBUTTON  ViewZoom200 Run ViewZoom200", "", field)
         self.assertEqual("ViewZoom200", field.macro_name)
         self.assertEqual("Run ViewZoom200", field.display_text)
 
@@ -5164,7 +5163,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_keywords()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_KEYWORD, " KEYWORDS  OverridingKeyword", "OverridingKeyword", field)
+        self.verify_field(aw.fields.FieldType.FIELD_KEYWORD, " KEYWORDS  OverridingKeyword", "OverridingKeyword", field)
         self.assertEqual("OverridingKeyword", field.text)
 
     def test_field_num(self):
@@ -5212,11 +5211,11 @@ class ExField(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_num.docx")
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_NUM_CHARS, " NUMCHARS ", "6009", doc.range.fields[0])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_NUM_WORDS, " NUMWORDS ", "1054", doc.range.fields[1])
+        self.verify_field(aw.fields.FieldType.FIELD_NUM_CHARS, " NUMCHARS ", "6009", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_NUM_WORDS, " NUMWORDS ", "1054", doc.range.fields[1])
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE, " PAGE ", "6", doc.range.fields[2])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_NUM_PAGES, " NUMPAGES ", "6", doc.range.fields[3])
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE, " PAGE ", "6", doc.range.fields[2])
+        self.verify_field(aw.fields.FieldType.FIELD_NUM_PAGES, " NUMPAGES ", "6", doc.range.fields[3])
 
     def test_field_print(self):
 
@@ -5251,7 +5250,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_print()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PRINT, " PRINT  erasepage \\p para", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_PRINT, " PRINT  erasepage \\p para", "", field)
         self.assertEqual("para", field.post_script_group)
         self.assertEqual("erasepage", field.printer_instructions)
 
@@ -5334,9 +5333,9 @@ class ExField(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_quote.docx")
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_QUOTE, " QUOTE  \"\\\"Quoted text\\\"\"", "\"Quoted text\"", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_QUOTE, " QUOTE  \"\\\"Quoted text\\\"\"", "\"Quoted text\"", doc.range.fields[0])
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_QUOTE, " QUOTE \u0013 DATE \u0014" + datetime.now().strftime("%d/%m/%Y") + "\u0015",
+        self.verify_field(aw.fields.FieldType.FIELD_QUOTE, " QUOTE \u0013 DATE \u0014" + datetime.now().strftime("%d/%m/%Y") + "\u0015",
             datetime.now().strftime("%d/%m/%Y"), doc.range.fields[1])
 
     ##ExStart
@@ -5495,7 +5494,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_note_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_NOTE_REF, " NOTEREF  MyBookmark2 \\h", "2", field)
+        self.verify_field(aw.fields.FieldType.FIELD_NOTE_REF, " NOTEREF  MyBookmark2 \\h", "2", field)
         self.assertEqual("MyBookmark2", field.bookmark_name)
         self.assertTrue(field.insert_hyperlink)
         self.assertFalse(field.insert_relative_position)
@@ -5503,7 +5502,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[1].as_field_note_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_NOTE_REF, " NOTEREF  MyBookmark1 \\h \\p", "1 above", field)
+        self.verify_field(aw.fields.FieldType.FIELD_NOTE_REF, " NOTEREF  MyBookmark1 \\h \\p", "1 above", field)
         self.assertEqual("MyBookmark1", field.bookmark_name)
         self.assertTrue(field.insert_hyperlink)
         self.assertTrue(field.insert_relative_position)
@@ -5511,7 +5510,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[2].as_field_note_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_NOTE_REF, " NOTEREF  MyBookmark2 \\h \\p \\f", "2 below", field)
+        self.verify_field(aw.fields.FieldType.FIELD_NOTE_REF, " NOTEREF  MyBookmark2 \\h \\p \\f", "2 below", field)
         self.assertEqual("MyBookmark2", field.bookmark_name)
         self.assertTrue(field.insert_hyperlink)
         self.assertTrue(field.insert_relative_position)
@@ -5552,8 +5551,8 @@ class ExField(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_footnote_ref.doc")
         field = doc.range.fields[0].as_field_footnote_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FOOTNOTE_REF, " FOOTNOTEREF CrossRefBookmark", "1", field)
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "", "Cross referenced footnote.",
+        self.verify_field(aw.fields.FieldType.FIELD_FOOTNOTE_REF, " FOOTNOTEREF CrossRefBookmark", "1", field)
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "", "Cross referenced footnote.",
             doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
 
     #ExStart
@@ -5625,28 +5624,28 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_page_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF  MyBookmark3 \\h", "2", field)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF  MyBookmark3 \\h", "2", field)
         self.assertEqual("MyBookmark3", field.bookmark_name)
         self.assertTrue(field.insert_hyperlink)
         self.assertFalse(field.insert_relative_position)
 
         field = doc.range.fields[1].as_field_page_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF  MyBookmark1 \\h \\p", "above", field)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF  MyBookmark1 \\h \\p", "above", field)
         self.assertEqual("MyBookmark1", field.bookmark_name)
         self.assertTrue(field.insert_hyperlink)
         self.assertTrue(field.insert_relative_position)
 
         field = doc.range.fields[2].as_field_page_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF  MyBookmark2 \\h \\p", "below", field)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF  MyBookmark2 \\h \\p", "below", field)
         self.assertEqual("MyBookmark2", field.bookmark_name)
         self.assertTrue(field.insert_hyperlink)
         self.assertTrue(field.insert_relative_position)
 
         field = doc.range.fields[3].as_field_page_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF  MyBookmark3 \\h \\p", "on page 2", field)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF  MyBookmark3 \\h \\p", "on page 2", field)
         self.assertEqual("MyBookmark3", field.bookmark_name)
         self.assertTrue(field.insert_hyperlink)
         self.assertTrue(field.insert_relative_position)
@@ -5747,14 +5746,14 @@ class ExField(ApiExampleBase):
 
     def _test_field_ref(self, doc: aw.Document):
 
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "", "MyBookmark footnote #1",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "", "MyBookmark footnote #1",
             doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "", "MyBookmark footnote #2",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "", "MyBookmark footnote #2",
             doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
 
         field = doc.range.fields[0].as_field_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\f \\h",
+        self.verify_field(aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\f \\h",
             "\u0002 MyBookmark footnote #1\r" +
             "Text that will appear in REF field\u0002 MyBookmark footnote #2\r", field)
         self.assertEqual("MyBookmark", field.bookmark_name)
@@ -5763,13 +5762,13 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[1].as_field_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\p", "below", field)
+        self.verify_field(aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\p", "below", field)
         self.assertEqual("MyBookmark", field.bookmark_name)
         self.assertTrue(field.insert_relative_position)
 
         field = doc.range.fields[2].as_field_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\n", ">>> i", field)
+        self.verify_field(aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\n", ">>> i", field)
         self.assertEqual("MyBookmark", field.bookmark_name)
         self.assertTrue(field.insert_paragraph_number)
         self.assertEqual(" REF  MyBookmark \\n", field.get_field_code())
@@ -5777,20 +5776,20 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[3].as_field_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\n \\t", "i", field)
+        self.verify_field(aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\n \\t", "i", field)
         self.assertEqual("MyBookmark", field.bookmark_name)
         self.assertTrue(field.insert_paragraph_number)
         self.assertTrue(field.suppress_non_delimiters)
 
         field = doc.range.fields[4].as_field_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\w", "> 4>> c>>> i", field)
+        self.verify_field(aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\w", "> 4>> c>>> i", field)
         self.assertEqual("MyBookmark", field.bookmark_name)
         self.assertTrue(field.insert_paragraph_number_in_full_context)
 
         field = doc.range.fields[5].as_field_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\r", ">> c>>> i", field)
+        self.verify_field(aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\r", ">> c>>> i", field)
         self.assertEqual("MyBookmark", field.bookmark_name)
         self.assertTrue(field.insert_paragraph_number_in_relative_context)
 
@@ -5841,11 +5840,11 @@ class ExField(ApiExampleBase):
 
         field_page_ref = doc.range.fields[1].as_field_page_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF _Toc36149519 \\h ", "2", field_page_ref)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF _Toc36149519 \\h ", "2", field_page_ref)
 
         field = doc.range.fields[2].as_field_rd()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REF_DOC, " RD  ReferencedDocument.docx \\f", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_REF_DOC, " RD  ReferencedDocument.docx \\f", "", field)
         self.assertEqual("ReferencedDocument.docx", field.file_name)
         self.assertTrue(field.is_path_relative)
 
@@ -5939,11 +5938,11 @@ class ExField(ApiExampleBase):
 
         field_set = doc.range.fields[0].as_field_set()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SET, " SET  MyBookmark \"Hello world!\"", "Hello world!", field_set)
+        self.verify_field(aw.fields.FieldType.FIELD_SET, " SET  MyBookmark \"Hello world!\"", "Hello world!", field_set)
         self.assertEqual("MyBookmark", field_set.bookmark_name)
         self.assertEqual("Hello world!", field_set.bookmark_text)
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REF, " REF  MyBookmark", "Hello world!", field_ref)
+        self.verify_field(aw.fields.FieldType.FIELD_REF, " REF  MyBookmark", "Hello world!", field_ref)
         self.assertEqual("Hello world!", field_ref.result)
 
     def test_field_template(self):
@@ -6047,14 +6046,14 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_symbol()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL  169 \\a", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL  169 \\a", "", field)
         self.assertEqual(0x00a9.to_string(), field.character_code)
         self.assertTrue(field.is_ansi)
         self.assertEqual("©", field.display_result)
 
         field = doc.range.fields[1].as_field_symbol()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL  8734 \\u \\f Calibri \\s 24 \\h", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL  8734 \\u \\f Calibri \\s 24 \\h", "", field)
         self.assertEqual(0x221E.to_string(), field.character_code)
         self.assertEqual("Calibri", field.font_name)
         self.assertEqual("24", field.font_size)
@@ -6064,7 +6063,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[2].as_field_symbol()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL  33440 \\f \"MS Gothic\" \\j", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL  33440 \\f \"MS Gothic\" \\j", "", field)
         self.assertEqual(0x82A0.to_string(), field.character_code)
         self.assertEqual("MS Gothic", field.font_name)
         self.assertTrue(field.is_shift_jis)
@@ -6109,11 +6108,11 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_title()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TITLE, " TITLE ", "My New Title", field)
+        self.verify_field(aw.fields.FieldType.FIELD_TITLE, " TITLE ", "My New Title", field)
 
         field = doc.range.fields[1].as_field_title()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TITLE, " TITLE  \"My New Title\"", "My New Title", field)
+        self.verify_field(aw.fields.FieldType.FIELD_TITLE, " TITLE  \"My New Title\"", "My New Title", field)
         self.assertEqual("My New Title", field.text)
 
     #ExStart
@@ -6270,26 +6269,26 @@ class ExField(ApiExampleBase):
 
         field_ta = doc.range.fields[1].as_field_ta()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 1\"", "", field_ta)
+        self.verify_field(aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 1\"", "", field_ta)
         self.assertEqual("1", field_ta.entry_category)
         self.assertEqual("Source 1", field_ta.long_citation)
 
         field_ta = doc.range.fields[2].as_field_ta()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 2 \\l \"Source 2\"", "", field_ta)
+        self.verify_field(aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 2 \\l \"Source 2\"", "", field_ta)
         self.assertEqual("2", field_ta.entry_category)
         self.assertEqual("Source 2", field_ta.long_citation)
 
         field_ta = doc.range.fields[3].as_field_ta()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 3\" \\s S.3", "", field_ta)
+        self.verify_field(aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 3\" \\s S.3", "", field_ta)
         self.assertEqual("1", field_ta.entry_category)
         self.assertEqual("Source 3", field_ta.long_citation)
         self.assertEqual("S.3", field_ta.short_citation)
 
         field_ta = doc.range.fields[4].as_field_ta()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 2\" \\b \\i", "", field_ta)
+        self.verify_field(aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 2\" \\b \\i", "", field_ta)
         self.assertEqual("1", field_ta.entry_category)
         self.assertEqual("Source 2", field_ta.long_citation)
         self.assertTrue(field_ta.is_bold)
@@ -6297,7 +6296,7 @@ class ExField(ApiExampleBase):
 
         field_ta = doc.range.fields[5].as_field_ta()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 3\" \\r MyMultiPageBookmark", "", field_ta)
+        self.verify_field(aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 3\" \\r MyMultiPageBookmark", "", field_ta)
         self.assertEqual("1", field_ta.entry_category)
         self.assertEqual("Source 3", field_ta.long_citation)
         self.assertEqual("MyMultiPageBookmark", field_ta.page_range_bookmark_name)
@@ -6305,7 +6304,7 @@ class ExField(ApiExampleBase):
         for i in range(6, 11):
             field_ta = doc.range.fields[i].as_field_ta()
 
-            TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 4\"", "", field_ta)
+            self.verify_field(aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 4\"", "", field_ta)
             self.assertEqual("1", field_ta.entry_category)
             self.assertEqual("Source 4", field_ta.long_citation)
 
@@ -6324,7 +6323,7 @@ class ExField(ApiExampleBase):
 
         doc = DocumentHelper.save_open(doc)
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_ADDIN, " ADDIN \"My value\" ", "", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_ADDIN, " ADDIN \"My value\" ", "", doc.range.fields[0])
 
     def test_field_edit_time(self):
 
@@ -6359,7 +6358,7 @@ class ExField(ApiExampleBase):
 
         self.assertEqual(10, doc.built_in_document_properties.total_editing_time)
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EDIT_TIME, " EDITTIME ", "10", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_EDIT_TIME, " EDITTIME ", "10", doc.range.fields[0])
 
     #ExStart
     #ExFor:FieldEQ
@@ -6440,20 +6439,20 @@ class ExField(ApiExampleBase):
 
     def _test_field_eq(self, doc: aw.Document):
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \f(1,4)", "", doc.range.fields[0])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \a \al \co2 \vs3 \hs3(4x,- 4y,-4x,+ y)", "", doc.range.fields[1])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \b \bc\[ (\a \al \co3 \vs3 \hs3(1,0,0,0,1,0,0,0,1))", "", doc.range.fields[2])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ A \d \fo30 \li() B", "", doc.range.fields[3])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \f(d,dx)(u + v) = \f(du,dx) + \f(dv,dx)", "", doc.range.fields[4])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \i \su(n=1,5,n)", "", doc.range.fields[5])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \l(1,1,2,3,n,8,13)", "", doc.range.fields[6])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \r (3,x)", "", doc.range.fields[7])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \s \up8(Superscript) Text \s \do8(Subscript)", "", doc.range.fields[8])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \x \to \bo \le \ri(5)", "", doc.range.fields[9])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \a \ac \vs1 \co1(lim,n→∞) \b (\f(n,n2 + 12) + \f(n,n2 + 22) + ... + \f(n,n2 + n2))", "", doc.range.fields[10])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \i (,,  \b(\f(x,x2 + 3x + 2))) \s \up10(2)", "", doc.range.fields[11])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \i \in( tan x, \s \up2(sec x), \b(\r(3) )\s \up4(t) \s \up7(2)  dt)", "", doc.range.fields[12])
-        #TestUtil.verify_web_response_status_code(HttpStatusCode.OK, "https://blogs.msdn.microsoft.com/murrays/2018/01/23/microsoft-word-eq-field/")
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \f(1,4)", "", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \a \al \co2 \vs3 \hs3(4x,- 4y,-4x,+ y)", "", doc.range.fields[1])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \b \bc\[ (\a \al \co3 \vs3 \hs3(1,0,0,0,1,0,0,0,1))", "", doc.range.fields[2])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ A \d \fo30 \li() B", "", doc.range.fields[3])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \f(d,dx)(u + v) = \f(du,dx) + \f(dv,dx)", "", doc.range.fields[4])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \i \su(n=1,5,n)", "", doc.range.fields[5])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \l(1,1,2,3,n,8,13)", "", doc.range.fields[6])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \r (3,x)", "", doc.range.fields[7])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \s \up8(Superscript) Text \s \do8(Subscript)", "", doc.range.fields[8])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \x \to \bo \le \ri(5)", "", doc.range.fields[9])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \a \ac \vs1 \co1(lim,n→∞) \b (\f(n,n2 + 12) + \f(n,n2 + 22) + ... + \f(n,n2 + n2))", "", doc.range.fields[10])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \i (,,  \b(\f(x,x2 + 3x + 2))) \s \up10(2)", "", doc.range.fields[11])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \i \in( tan x, \s \up2(sec x), \b(\r(3) )\s \up4(t) \s \up7(2)  dt)", "", doc.range.fields[12])
+        #self.verify_web_response_status_code(HttpStatusCode.OK, "https://blogs.msdn.microsoft.com/murrays/2018/01/23/microsoft-word-eq-field/")
 
     def test_field_forms(self):
 
@@ -6502,7 +6501,7 @@ class ExField(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_formula.docx")
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FORMULA, " = 2 * 5 ", "10", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, " = 2 * 5 ", "10", doc.range.fields[0])
 
     def test_field_last_saved_by(self):
 
@@ -6528,7 +6527,7 @@ class ExField(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_last_saved_by.docx")
 
         self.assertEqual("John Doe", doc.built_in_document_properties.last_saved_by)
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_LAST_SAVED_BY, " LASTSAVEDBY ", "John Doe", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_LAST_SAVED_BY, " LASTSAVEDBY ", "John Doe", doc.range.fields[0])
 
     #@unittest.skip("WORDSNET-18173")
     #def test_field_merge_rec(self):
@@ -6610,7 +6609,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(" OCX ", field.get_field_code())
         #ExEnd
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_OCX, " OCX ", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_OCX, " OCX ", "", field)
 
     ##ExStart
     ##ExFor:Field.remove
@@ -6719,9 +6718,9 @@ class ExField(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_section.docx")
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SECTION, " SECTION ", "2", doc.range.fields[0])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE, " PAGE ", "2", doc.range.fields[1])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SECTION_PAGES, " SECTIONPAGES ", "2", doc.range.fields[2])
+        self.verify_field(aw.fields.FieldType.FIELD_SECTION, " SECTION ", "2", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE, " PAGE ", "2", doc.range.fields[1])
+        self.verify_field(aw.fields.FieldType.FIELD_SECTION_PAGES, " SECTIONPAGES ", "2", doc.range.fields[2])
 
     #ExStart
     #ExFor:FieldTime
@@ -6824,7 +6823,7 @@ class ExField(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_bidi_outline.docx")
 
         for field_bidi_outline in doc.range.fields:
-            TestUtil.verify_field(self, aw.fields.FieldType.FIELD_BIDI_OUTLINE, " BIDIOUTLINE ", "", field_bidi_outline)
+            self.verify_field(aw.fields.FieldType.FIELD_BIDI_OUTLINE, " BIDIOUTLINE ", "", field_bidi_outline)
 
     def test_legacy(self):
 

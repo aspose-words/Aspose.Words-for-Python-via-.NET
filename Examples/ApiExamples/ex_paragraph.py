@@ -13,7 +13,6 @@ import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 from document_helper import DocumentHelper
-from testutil import TestUtil
 
 class ExParagraph(ApiExampleBase):
 
@@ -102,9 +101,9 @@ class ExParagraph(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Paragraph.append_field.docx")
 
-        TestUtil.verify_datetime_field(self, aw.fields.FieldType.FIELD_DATE, " DATE ", datetime.now(), doc.range.fields[0], timedelta())
-        TestUtil.verify_datetime_field(self, aw.fields.FieldType.FIELD_TIME, " TIME  \\@ \"HH:mm:ss\" ", datetime.now(), doc.range.fields[1], timedelta(seconds=5))
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_QUOTE, " QUOTE \"Real value\"", "Real value", doc.range.fields[2])
+        self.verify_datetime_field(aw.fields.FieldType.FIELD_DATE, " DATE ", datetime.now(), doc.range.fields[0], timedelta())
+        self.verify_datetime_field(aw.fields.FieldType.FIELD_TIME, " TIME  \\@ \"HH:mm:ss\" ", datetime.now(), doc.range.fields[1], timedelta(seconds=5))
+        self.verify_field(aw.fields.FieldType.FIELD_QUOTE, " QUOTE \"Real value\"", "Real value", doc.range.fields[2])
 
     def test_insert_field(self):
 
@@ -148,9 +147,9 @@ class ExParagraph(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Paragraph.insert_field.docx")
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTHOR, " AUTHOR ", "John Doe", doc.range.fields[0])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_QUOTE, " QUOTE \" Real value.\"", " Real value.", doc.range.fields[1])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_QUOTE, " QUOTE \" Real value\" ", " Real value", doc.range.fields[2])
+        self.verify_field(aw.fields.FieldType.FIELD_AUTHOR, " AUTHOR ", "John Doe", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_QUOTE, " QUOTE \" Real value.\"", " Real value.", doc.range.fields[1])
+        self.verify_field(aw.fields.FieldType.FIELD_QUOTE, " QUOTE \" Real value\" ", " Real value", doc.range.fields[2])
 
     def test_insert_field_before_text_in_paragraph(self):
 
@@ -501,7 +500,7 @@ class ExParagraph(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Paragraph.break_is_style_separator.docx")
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOC, "TOC \\o \\h \\z \\u",
+        self.verify_field(aw.fields.FieldType.FIELD_TOC, "TOC \\o \\h \\z \\u",
             "\u0013 HYPERLINK \\l \"_Toc256000000\" \u0014Heading 1. Will appear in the TOC.\t\u0013 PAGEREF _Toc256000000 \\h \u00142\u0015\u0015\r", doc.range.fields[0])
         self.assertFalse(doc.first_section.body.first_paragraph.break_is_style_separator)
 
@@ -538,9 +537,9 @@ class ExParagraph(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Paragraph.tab_stops.docx")
         tab_stops = doc.first_section.body.first_paragraph.paragraph_format.tab_stops
 
-        TestUtil.verify_tab_stop(self, 72.0, aw.TabAlignment.LEFT, aw.TabLeader.DOTS, False, tab_stops[0])
-        TestUtil.verify_tab_stop(self, 216.0, aw.TabAlignment.CENTER, aw.TabLeader.DASHES, False, tab_stops[1])
-        TestUtil.verify_tab_stop(self, 360.0, aw.TabAlignment.RIGHT, aw.TabLeader.LINE, False, tab_stops[2])
+        self.verify_tab_stop(72.0, aw.TabAlignment.LEFT, aw.TabLeader.DOTS, False, tab_stops[0])
+        self.verify_tab_stop(216.0, aw.TabAlignment.CENTER, aw.TabLeader.DASHES, False, tab_stops[1])
+        self.verify_tab_stop(360.0, aw.TabAlignment.RIGHT, aw.TabLeader.LINE, False, tab_stops[2])
 
     def test_join_runs(self):
 

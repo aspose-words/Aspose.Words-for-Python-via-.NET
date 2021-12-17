@@ -13,7 +13,6 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, FONTS_DIR
-from testutil import TestUtil
 
 class ExPdfSaveOptions(ApiExampleBase):
 
@@ -506,18 +505,18 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                 #pdf_document = aspose.pdf.Document(ARTIFACTS_DIR + "PdfSaveOptions.image_compression.pdf")
                 #with pdf_document.pages[1].resources.images[1].to_stream() as pdf_doc_image_stream:
-                #    TestUtil.verify_image(400, 400, pdf_doc_image_stream)
+                #    self.verify_image(400, 400, pdf_doc_image_stream)
 
                 #with pdf_document.pages[1].resources.images[2].to_stream() as pdf_doc_image_stream:
                 #    if pdf_image_compression == aw.saving.PdfImageCompression.AUTO:
                 #        self.assertLess(50000, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.image_compression.pdf"))
                 #        with self.assertRaises(Exception):
-                #            TestUtil.verify_image(400, 400, pdf_doc_image_stream)
+                #            self.verify_image(400, 400, pdf_doc_image_stream)
 
                 #    elif pdf_image_compression == aw.saving.PdfImageCompression.JPEG:
                 #        self.assertLess(42000, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.image_compression.pdf"))
                 #        with self.assertRaises(Exception):
-                #            TestUtil.verify_image(400, 400, pdf_doc_image_stream)
+                #            self.verify_image(400, 400, pdf_doc_image_stream)
 
     def test_image_color_space_export_mode(self):
 

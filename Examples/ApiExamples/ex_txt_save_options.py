@@ -49,7 +49,7 @@ class ExTxtSaveOptions(ApiExampleBase):
                 self.assertEqual(3 if force_page_breaks else 1, doc.page_count)
                 #ExEnd
 
-                #TestUtil.file_contains_string(
+                #self.file_contains_string(
                 #    "Page 1\r\n\fPage 2\r\n\fPage 3\r\n\r\n" if force_page_breaks else "Page 1\r\nPage 2\r\nPage 3\r\n\r\n",
                 #    ARTIFACTS_DIR + "TxtSaveOptions.PageBreaks.txt")
 

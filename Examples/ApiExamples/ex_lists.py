@@ -12,7 +12,6 @@ import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
 from document_helper import DocumentHelper
-from testutil import TestUtil
 
 class ExLists(ApiExampleBase):
 
@@ -106,9 +105,9 @@ class ExLists(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Lists.apply_default_bullets_and_numbers.docx")
 
-        TestUtil.verify_list_level(self, "\0.", 18.0, aw.NumberStyle.ARABIC, doc.lists[1].list_levels[0])
-        TestUtil.verify_list_level(self, "\u0001.", 54.0, aw.NumberStyle.LOWERCASE_LETTER, doc.lists[1].list_levels[1])
-        TestUtil.verify_list_level(self, "\uf0b7", 18.0, aw.NumberStyle.BULLET, doc.lists[0].list_levels[0])
+        self.verify_list_level("\0.", 18.0, aw.NumberStyle.ARABIC, doc.lists[1].list_levels[0])
+        self.verify_list_level("\u0001.", 54.0, aw.NumberStyle.LOWERCASE_LETTER, doc.lists[1].list_levels[1])
+        self.verify_list_level("\uf0b7", 18.0, aw.NumberStyle.BULLET, doc.lists[0].list_levels[0])
 
     def test_specify_list_level(self):
 
@@ -167,7 +166,7 @@ class ExLists(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Lists.specify_list_level.docx")
 
-        TestUtil.verify_list_level(self, "\0.", 18.0, aw.NumberStyle.ARABIC, doc.lists[0].list_levels[0])
+        self.verify_list_level("\0.", 18.0, aw.NumberStyle.ARABIC, doc.lists[0].list_levels[0])
 
     def test_nested_lists(self):
 
@@ -226,9 +225,9 @@ class ExLists(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Lists.nested_lists.docx")
 
-        TestUtil.verify_list_level(self, "\0)", 0.0, aw.NumberStyle.ARABIC, doc.lists[0].list_levels[0])
-        TestUtil.verify_list_level(self, "\0.", 18.0, aw.NumberStyle.ARABIC, doc.lists[1].list_levels[0])
-        TestUtil.verify_list_level(self, "\uf0b7", 18.0, aw.NumberStyle.BULLET, doc.lists[2].list_levels[0])
+        self.verify_list_level("\0)", 0.0, aw.NumberStyle.ARABIC, doc.lists[0].list_levels[0])
+        self.verify_list_level("\0.", 18.0, aw.NumberStyle.ARABIC, doc.lists[1].list_levels[0])
+        self.verify_list_level("\uf0b7", 18.0, aw.NumberStyle.BULLET, doc.lists[2].list_levels[0])
 
     def test_create_custom_list(self):
 
@@ -307,14 +306,14 @@ class ExLists(ApiExampleBase):
 
         list_level = doc.lists[0].list_levels[0]
 
-        TestUtil.verify_list_level(self, "\0", -36.0, aw.NumberStyle.ORDINAL_TEXT, list_level)
+        self.verify_list_level("\0", -36.0, aw.NumberStyle.ORDINAL_TEXT, list_level)
         self.assertEqual(drawing.Color.red.to_argb(), list_level.font.color.to_argb())
         self.assertEqual(24.0, list_level.font.size)
         self.assertEqual(21, list_level.start_at)
 
         list_level = doc.lists[0].list_levels[1]
 
-        TestUtil.verify_list_level(self, "\xf0af", 144.0, aw.NumberStyle.BULLET, list_level)
+        self.verify_list_level("\xf0af", 144.0, aw.NumberStyle.BULLET, list_level)
         self.assertEqual(drawing.Color.blue.to_argb(), list_level.font.color.to_argb())
         self.assertEqual(24.0, list_level.font.size)
         self.assertEqual(1, list_level.start_at)
@@ -369,13 +368,13 @@ class ExLists(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Lists.restart_numbering_using_list_copy.docx")
 
         list1 = doc.lists[0]
-        TestUtil.verify_list_level(self, "\0)", 18.0, aw.NumberStyle.ARABIC, list1.list_levels[0])
+        self.verify_list_level("\0)", 18.0, aw.NumberStyle.ARABIC, list1.list_levels[0])
         self.assertEqual(drawing.Color.red.to_argb(), list1.list_levels[0].font.color.to_argb())
         self.assertEqual(10.0, list1.list_levels[0].font.size)
         self.assertEqual(1, list1.list_levels[0].start_at)
 
         list2 = doc.lists[1]
-        TestUtil.verify_list_level(self, "\0)", 18.0, aw.NumberStyle.ARABIC, list2.list_levels[0])
+        self.verify_list_level("\0)", 18.0, aw.NumberStyle.ARABIC, list2.list_levels[0])
         self.assertEqual(drawing.Color.blue.to_argb(), list2.list_levels[0].font.color.to_argb())
         self.assertEqual(10.0, list2.list_levels[0].font.size)
         self.assertEqual(10, list2.list_levels[0].start_at)
@@ -450,7 +449,7 @@ class ExLists(ApiExampleBase):
 
         list1 = doc.lists[0]
 
-        TestUtil.verify_list_level(self, "\0.", 18.0, aw.NumberStyle.ARABIC, list1.list_levels[0])
+        self.verify_list_level("\0.", 18.0, aw.NumberStyle.ARABIC, list1.list_levels[0])
         self.assertTrue(list1.is_list_style_definition)
         self.assertFalse(list1.is_list_style_reference)
         self.assertTrue(list1.is_multi_level)
@@ -460,14 +459,14 @@ class ExLists(ApiExampleBase):
 
         list2 = doc.lists[1]
 
-        TestUtil.verify_list_level(self, "\0.", 18.0, aw.NumberStyle.ARABIC, list2.list_levels[0])
+        self.verify_list_level("\0.", 18.0, aw.NumberStyle.ARABIC, list2.list_levels[0])
         self.assertFalse(list2.is_list_style_definition)
         self.assertTrue(list2.is_list_style_reference)
         self.assertTrue(list2.is_multi_level)
 
         list3 = doc.lists[2]
 
-        TestUtil.verify_list_level(self, "\0.", 18.0, aw.NumberStyle.ARABIC, list3.list_levels[0])
+        self.verify_list_level("\0.", 18.0, aw.NumberStyle.ARABIC, list3.list_levels[0])
         self.assertFalse(list3.is_list_style_definition)
         self.assertTrue(list3.is_list_style_reference)
         self.assertTrue(list3.is_multi_level)
@@ -644,51 +643,51 @@ class ExLists(ApiExampleBase):
 
         list = doc.lists[0] # Article section list template.
 
-        TestUtil.verify_list_level(self, "Article \0.", 0.0, aw.NumberStyle.UPPERCASE_ROMAN, list.list_levels[0])
-        TestUtil.verify_list_level(self, "Section \0.\u0001", 0.0, aw.NumberStyle.LEADING_ZERO, list.list_levels[1])
-        TestUtil.verify_list_level(self, "(\u0002)", 14.4, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[2])
-        TestUtil.verify_list_level(self, "(\u0003)", 36.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[3])
-        TestUtil.verify_list_level(self, "\u0004)", 28.8, aw.NumberStyle.ARABIC, list.list_levels[4])
-        TestUtil.verify_list_level(self, "\u0005)", 36.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[5])
-        TestUtil.verify_list_level(self, "\u0006)", 50.4, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[6])
-        TestUtil.verify_list_level(self, "\a.", 50.4, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[7])
-        TestUtil.verify_list_level(self, "\b.", 72.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[8])
+        self.verify_list_level("Article \0.", 0.0, aw.NumberStyle.UPPERCASE_ROMAN, list.list_levels[0])
+        self.verify_list_level("Section \0.\u0001", 0.0, aw.NumberStyle.LEADING_ZERO, list.list_levels[1])
+        self.verify_list_level("(\u0002)", 14.4, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[2])
+        self.verify_list_level("(\u0003)", 36.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[3])
+        self.verify_list_level("\u0004)", 28.8, aw.NumberStyle.ARABIC, list.list_levels[4])
+        self.verify_list_level("\u0005)", 36.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[5])
+        self.verify_list_level("\u0006)", 50.4, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[6])
+        self.verify_list_level("\a.", 50.4, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[7])
+        self.verify_list_level("\b.", 72.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[8])
 
         list = doc.lists[1] # Legal list template.
 
-        TestUtil.verify_list_level(self, "\0", 0.0, aw.NumberStyle.ARABIC, list.list_levels[0])
-        TestUtil.verify_list_level(self, "\0.\u0001", 0.0, aw.NumberStyle.ARABIC, list.list_levels[1])
-        TestUtil.verify_list_level(self, "\0.\u0001.\u0002", 0.0, aw.NumberStyle.ARABIC, list.list_levels[2])
-        TestUtil.verify_list_level(self, "\0.\u0001.\u0002.\u0003", 0.0, aw.NumberStyle.ARABIC, list.list_levels[3])
-        TestUtil.verify_list_level(self, "\0.\u0001.\u0002.\u0003.\u0004", 0.0, aw.NumberStyle.ARABIC, list.list_levels[4])
-        TestUtil.verify_list_level(self, "\0.\u0001.\u0002.\u0003.\u0004.\u0005", 0.0, aw.NumberStyle.ARABIC, list.list_levels[5])
-        TestUtil.verify_list_level(self, "\0.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006", 0.0, aw.NumberStyle.ARABIC, list.list_levels[6])
-        TestUtil.verify_list_level(self, "\0.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006.\a", 0.0, aw.NumberStyle.ARABIC, list.list_levels[7])
-        TestUtil.verify_list_level(self, "\0.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006.\a.\b", 0.0, aw.NumberStyle.ARABIC, list.list_levels[8])
+        self.verify_list_level("\0", 0.0, aw.NumberStyle.ARABIC, list.list_levels[0])
+        self.verify_list_level("\0.\u0001", 0.0, aw.NumberStyle.ARABIC, list.list_levels[1])
+        self.verify_list_level("\0.\u0001.\u0002", 0.0, aw.NumberStyle.ARABIC, list.list_levels[2])
+        self.verify_list_level("\0.\u0001.\u0002.\u0003", 0.0, aw.NumberStyle.ARABIC, list.list_levels[3])
+        self.verify_list_level("\0.\u0001.\u0002.\u0003.\u0004", 0.0, aw.NumberStyle.ARABIC, list.list_levels[4])
+        self.verify_list_level("\0.\u0001.\u0002.\u0003.\u0004.\u0005", 0.0, aw.NumberStyle.ARABIC, list.list_levels[5])
+        self.verify_list_level("\0.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006", 0.0, aw.NumberStyle.ARABIC, list.list_levels[6])
+        self.verify_list_level("\0.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006.\a", 0.0, aw.NumberStyle.ARABIC, list.list_levels[7])
+        self.verify_list_level("\0.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006.\a.\b", 0.0, aw.NumberStyle.ARABIC, list.list_levels[8])
 
         list = doc.lists[2] # Numbered list template.
 
-        TestUtil.verify_list_level(self, "\0.", 0.0, aw.NumberStyle.UPPERCASE_ROMAN, list.list_levels[0])
-        TestUtil.verify_list_level(self, "\u0001.", 36.0, aw.NumberStyle.UPPERCASE_LETTER, list.list_levels[1])
-        TestUtil.verify_list_level(self, "\u0002.", 72.0, aw.NumberStyle.ARABIC, list.list_levels[2])
-        TestUtil.verify_list_level(self, "\u0003)", 108.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[3])
-        TestUtil.verify_list_level(self, "(\u0004)", 144.0, aw.NumberStyle.ARABIC, list.list_levels[4])
-        TestUtil.verify_list_level(self, "(\u0005)", 180.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[5])
-        TestUtil.verify_list_level(self, "(\u0006)", 216.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[6])
-        TestUtil.verify_list_level(self, "(\a)", 252.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[7])
-        TestUtil.verify_list_level(self, "(\b)", 288.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[8])
+        self.verify_list_level("\0.", 0.0, aw.NumberStyle.UPPERCASE_ROMAN, list.list_levels[0])
+        self.verify_list_level("\u0001.", 36.0, aw.NumberStyle.UPPERCASE_LETTER, list.list_levels[1])
+        self.verify_list_level("\u0002.", 72.0, aw.NumberStyle.ARABIC, list.list_levels[2])
+        self.verify_list_level("\u0003)", 108.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[3])
+        self.verify_list_level("(\u0004)", 144.0, aw.NumberStyle.ARABIC, list.list_levels[4])
+        self.verify_list_level("(\u0005)", 180.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[5])
+        self.verify_list_level("(\u0006)", 216.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[6])
+        self.verify_list_level("(\a)", 252.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[7])
+        self.verify_list_level("(\b)", 288.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[8])
 
         list = doc.lists[3] # Chapter list template.
 
-        TestUtil.verify_list_level(self, "Chapter \0", 0.0, aw.NumberStyle.ARABIC, list.list_levels[0])
-        TestUtil.verify_list_level(self, "", 0.0, aw.NumberStyle.NONE, list.list_levels[1])
-        TestUtil.verify_list_level(self, "", 0.0, aw.NumberStyle.NONE, list.list_levels[2])
-        TestUtil.verify_list_level(self, "", 0.0, aw.NumberStyle.NONE, list.list_levels[3])
-        TestUtil.verify_list_level(self, "", 0.0, aw.NumberStyle.NONE, list.list_levels[4])
-        TestUtil.verify_list_level(self, "", 0.0, aw.NumberStyle.NONE, list.list_levels[5])
-        TestUtil.verify_list_level(self, "", 0.0, aw.NumberStyle.NONE, list.list_levels[6])
-        TestUtil.verify_list_level(self, "", 0.0, aw.NumberStyle.NONE, list.list_levels[7])
-        TestUtil.verify_list_level(self, "", 0.0, aw.NumberStyle.NONE, list.list_levels[8])
+        self.verify_list_level("Chapter \0", 0.0, aw.NumberStyle.ARABIC, list.list_levels[0])
+        self.verify_list_level("", 0.0, aw.NumberStyle.NONE, list.list_levels[1])
+        self.verify_list_level("", 0.0, aw.NumberStyle.NONE, list.list_levels[2])
+        self.verify_list_level("", 0.0, aw.NumberStyle.NONE, list.list_levels[3])
+        self.verify_list_level("", 0.0, aw.NumberStyle.NONE, list.list_levels[4])
+        self.verify_list_level("", 0.0, aw.NumberStyle.NONE, list.list_levels[5])
+        self.verify_list_level("", 0.0, aw.NumberStyle.NONE, list.list_levels[6])
+        self.verify_list_level("", 0.0, aw.NumberStyle.NONE, list.list_levels[7])
+        self.verify_list_level("", 0.0, aw.NumberStyle.NONE, list.list_levels[8])
 
     #ExStart
     #ExFor:ListCollection
@@ -832,14 +831,14 @@ class ExLists(ApiExampleBase):
 
         list_level = doc.lists[0].list_levels[0]
 
-        TestUtil.verify_list_level(self, "Appendix \0", 18.0, aw.NumberStyle.UPPERCASE_LETTER, list_level)
+        self.verify_list_level("Appendix \0", 18.0, aw.NumberStyle.UPPERCASE_LETTER, list_level)
         self.assertFalse(list_level.is_legal)
         self.assertEqual(-1, list_level.restart_after_level)
         self.assertEqual("Heading 1", list_level.linked_style.name)
 
         list_level = doc.lists[0].list_levels[1]
 
-        TestUtil.verify_list_level(self, "Section (\0.\u0001)", 54.0, aw.NumberStyle.LEADING_ZERO, list_level)
+        self.verify_list_level("Section (\0.\u0001)", 54.0, aw.NumberStyle.LEADING_ZERO, list_level)
         self.assertTrue(list_level.is_legal)
         self.assertEqual(0, list_level.restart_after_level)
         self.assertIsNone(list_level.linked_style)

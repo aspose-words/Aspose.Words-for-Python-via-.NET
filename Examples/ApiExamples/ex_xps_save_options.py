@@ -118,7 +118,7 @@ class ExXpsSaveOptions(ApiExampleBase):
                 else:
                     self.assertGreater(out_file_size, 60000)
 
-                #TestUtil.DocPackageFileContainsString(
+                #self.DocPackageFileContainsString(
                 #    optimizeOutput
                 #        ? "Glyphs OriginX=\"34.294998169\" OriginY=\"10.31799984\" " +
                 #          "UnicodeString=\"This document contains complex content which can be optimized to save space when \""

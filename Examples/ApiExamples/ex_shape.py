@@ -13,7 +13,6 @@ import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, IMAGE_DIR
 from document_helper import DocumentHelper
-from testutil import TestUtil
 
 class ExShape(ApiExampleBase):
     """Examples using shapes in documents."""
@@ -44,14 +43,14 @@ class ExShape(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Shape.alt_text.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.CUBE, "MyCube", 150.0, 150.0, 0, 0, shape)
+        self.verify_shape(aw.drawing.ShapeType.CUBE, "MyCube", 150.0, 150.0, 0, 0, shape)
         self.assertEqual("Alt text for MyCube.", shape.alternative_text)
         self.assertEqual("Times New Roman", shape.font.name)
 
         doc = aw.Document(ARTIFACTS_DIR + "Shape.alt_text.html")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.IMAGE, "", 153.0, 153.0, 0, 0, shape)
+        self.verify_shape(aw.drawing.ShapeType.IMAGE, "", 153.0, 153.0, 0, 0, shape)
         self.assertEqual("Alt text for MyCube.", shape.alternative_text)
 
         with open(ARTIFACTS_DIR + "Shape.alt_text.html", 'rb') as file:
@@ -110,7 +109,7 @@ class ExShape(ApiExampleBase):
                     self.assertEqual(drawing.Color.red.to_argb(), shape.font.color.to_argb())
                     self.assertEqual(aw.Underline.DASH, shape.font.underline)
 
-                TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 300.0, 50.0, 0, 0, shape)
+                self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 300.0, 50.0, 0, 0, shape)
                 self.assertEqual("This text is inside the text box.", shape.get_text().strip())
                 self.assertEqual("Hello world!\rThis text is inside the text box.\r\rThis text is outside the text box.", doc.get_text().strip())
 
@@ -137,7 +136,7 @@ class ExShape(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Shape.rotate.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.IMAGE, "", 300.0, 300.0, 0, 0, shape)
+        self.verify_shape(aw.drawing.ShapeType.IMAGE, "", 300.0, 300.0, 0, 0, shape)
         self.assertTrue(shape.can_have_image)
         self.assertTrue(shape.has_image)
         self.assertEqual(45.0, shape.rotation)
@@ -203,7 +202,7 @@ class ExShape(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Shape.coordinates.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.RECTANGLE, "Rectangle 100002", 150.0, 150.0, 75.0, 150.0, shape)
+        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, "Rectangle 100002", 150.0, 150.0, 75.0, 150.0, shape)
         self.assertEqual(40.0, shape.distance_bottom)
         self.assertEqual(40.0, shape.distance_left)
         self.assertEqual(40.0, shape.distance_right)
@@ -306,11 +305,11 @@ class ExShape(ApiExampleBase):
         self.assertEqual(drawing.Size(500, 500), group.coord_size)
         self.assertEqual(drawing.Point(-250, -250), group.coord_origin)
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.RECTANGLE, "", 500.0, 500.0, -250.0, -250.0, group.get_child(aw.NodeType.SHAPE, 0, True).as_shape())
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.STAR, "", 20.0, 20.0, -10.0, -10.0, group.get_child(aw.NodeType.SHAPE, 1, True).as_shape())
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.RECTANGLE, "", 250.0, 250.0, -250.0, -250.0, group.get_child(aw.NodeType.SHAPE, 2, True).as_shape())
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.IMAGE, "", 200.0, 200.0, -225.0, -225.0, group.get_child(aw.NodeType.SHAPE, 3, True).as_shape())
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_BOX, "", 200.0, 50.0, 250.0, 50.0, group.get_child(aw.NodeType.SHAPE, 4, True).as_shape())
+        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, "", 500.0, 500.0, -250.0, -250.0, group.get_child(aw.NodeType.SHAPE, 0, True).as_shape())
+        self.verify_shape(aw.drawing.ShapeType.STAR, "", 20.0, 20.0, -10.0, -10.0, group.get_child(aw.NodeType.SHAPE, 1, True).as_shape())
+        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, "", 250.0, 250.0, -250.0, -250.0, group.get_child(aw.NodeType.SHAPE, 2, True).as_shape())
+        self.verify_shape(aw.drawing.ShapeType.IMAGE, "", 200.0, 200.0, -225.0, -225.0, group.get_child(aw.NodeType.SHAPE, 3, True).as_shape())
+        self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, "", 200.0, 50.0, 250.0, 50.0, group.get_child(aw.NodeType.SHAPE, 4, True).as_shape())
 
     def test_is_top_level(self):
 
@@ -514,14 +513,14 @@ class ExShape(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Shape.is_inline.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.RECTANGLE, "Rectangle 100002", 100, 100, 0, 0, shape)
+        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, "Rectangle 100002", 100, 100, 0, 0, shape)
         self.assertEqual(drawing.Color.light_blue.to_argb(), shape.fill_color.to_argb())
         self.assertEqual(aw.drawing.WrapType.INLINE, shape.wrap_type)
         self.assertTrue(shape.is_inline)
 
         shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.RECTANGLE, "Rectangle 100004", 100, 100, 200, 200, shape)
+        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, "Rectangle 100004", 100, 100, 200, 200, shape)
         self.assertEqual(drawing.Color.orange.to_argb(), shape.fill_color.to_argb())
         self.assertEqual(aw.drawing.WrapType.NONE, shape.wrap_type)
         self.assertFalse(shape.is_inline)
@@ -590,7 +589,7 @@ class ExShape(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Shape.bounds.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.LINE, "Line 100002", 100, 100, 50, 50, shape)
+        self.verify_shape(aw.drawing.ShapeType.LINE, "Line 100002", 100, 100, 50, 50, shape)
         self.assertEqual(drawing.Color.orange.to_argb(), shape.stroke_color.to_argb())
         self.assertEqual(drawing.RectangleF(50, 50, 100, 100), shape.bounds_in_points)
 
@@ -603,12 +602,12 @@ class ExShape(ApiExampleBase):
 
         shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.RECTANGLE, "", 100, 100, 700, 700, shape)
+        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, "", 100, 100, 700, 700, shape)
         self.assertEqual(drawing.RectangleF(175, 275, 25, 25), shape.bounds_in_points)
 
         shape = doc.get_child(aw.NodeType.SHAPE, 2, True).as_shape()
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.RECTANGLE, "", 100, 100, 1000, 1000, shape)
+        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, "", 100, 100, 1000, 1000, shape)
         self.assertEqual(drawing.RectangleF(250, 350, 25, 25), shape.bounds_in_points)
 
     def test_flip_shape_orientation(self):
@@ -657,22 +656,22 @@ class ExShape(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Shape.flip_shape_orientation.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.RECTANGLE, "Rectangle 100002", 100, 100, 100, 100, shape)
+        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, "Rectangle 100002", 100, 100, 100, 100, shape)
         self.assertEqual(aw.drawing.FlipOrientation.NONE, shape.flip_orientation)
 
         shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.RECTANGLE, "Rectangle 100004", 100, 100, 100, 250, shape)
+        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, "Rectangle 100004", 100, 100, 100, 250, shape)
         self.assertEqual(aw.drawing.FlipOrientation.HORIZONTAL, shape.flip_orientation)
 
         shape = doc.get_child(aw.NodeType.SHAPE, 2, True).as_shape()
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.RECTANGLE, "Rectangle 100006", 100, 100, 250, 100, shape)
+        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, "Rectangle 100006", 100, 100, 250, 100, shape)
         self.assertEqual(aw.drawing.FlipOrientation.VERTICAL, shape.flip_orientation)
 
         shape = doc.get_child(aw.NodeType.SHAPE, 3, True).as_shape()
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.RECTANGLE, "Rectangle 100008", 100, 100, 250, 250, shape)
+        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, "Rectangle 100008", 100, 100, 250, 250, shape)
         self.assertEqual(aw.drawing.FlipOrientation.BOTH, shape.flip_orientation)
 
     def test_fill(self):
@@ -714,7 +713,7 @@ class ExShape(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Shape.fill.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.CLOUD_CALLOUT, "CloudCallout 100002", 250.0, 150.0, 25.0, 25.0, shape)
+        self.verify_shape(aw.drawing.ShapeType.CLOUD_CALLOUT, "CloudCallout 100002", 250.0, 150.0, 25.0, 25.0, shape)
         self.assertEqual(drawing.Color.light_blue.to_argb(), shape.fill_color.to_argb())
         self.assertEqual(drawing.Color.cadet_blue.to_argb(), shape.stroke_color.to_argb())
         self.assertAlmostEqual(0.3, shape.fill.opacity, delta=0.01)
@@ -746,7 +745,7 @@ class ExShape(ApiExampleBase):
         self.assertEqual("Title: My cube", shape.alternative_text)
         #ExEnd
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.CUBE, "", 200.0, 200.0, 0.0, 0.0, shape)
+        self.verify_shape(aw.drawing.ShapeType.CUBE, "", 200.0, 200.0, 0.0, 0.0, shape)
 
     def test_replace_textboxes_with_images(self):
 
@@ -831,7 +830,7 @@ class ExShape(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Shape.create_text_box.docx")
         text_box = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_BOX, "", 200.0, 50.0, 0.0, 0.0, text_box)
+        self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, "", 200.0, 50.0, 0.0, 0.0, text_box)
         self.assertEqual(aw.drawing.WrapType.NONE, text_box.wrap_type)
         self.assertEqual(aw.drawing.HorizontalAlignment.CENTER, text_box.horizontal_alignment)
         self.assertEqual(aw.drawing.VerticalAlignment.TOP, text_box.vertical_alignment)
@@ -1102,7 +1101,7 @@ class ExShape(ApiExampleBase):
         math.get_math_renderer().save(ARTIFACTS_DIR + "Shape.render_office_math.png", save_options)
         #ExEnd
 
-        TestUtil.verify_image(self, 795, 87, filename=(ARTIFACTS_DIR + "Shape.render_office_math.png"))
+        self.verify_image(795, 87, filename=(ARTIFACTS_DIR + "Shape.render_office_math.png"))
 
     def test_office_math_display_exception(self):
 
@@ -1430,7 +1429,7 @@ class ExShape(ApiExampleBase):
         self.assertEqual(31, len(shapes))
 
         for shape in shapes:
-            TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_PLAIN_TEXT, f"Watermark_{shapes.index(shape) + 1}",
+            self.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, f"Watermark_{shapes.index(shape) + 1}",
                 30.0, 30.0, 0.0, 0.0, shape)
 
     def test_is_layout_in_cell(self):
@@ -1514,8 +1513,8 @@ class ExShape(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Shape.shape_insertion.docx")
         shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.TOP_CORNERS_ROUNDED, "TopCornersRounded 100002", 50.0, 50.0, 100.0, 100.0, shapes[0])
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.DIAGONAL_CORNERS_ROUNDED, "DiagonalCornersRounded 100004", 50.0, 50.0, 0.0, 0.0, shapes[1])
+        self.verify_shape(aw.drawing.ShapeType.TOP_CORNERS_ROUNDED, "TopCornersRounded 100002", 50.0, 50.0, 100.0, 100.0, shapes[0])
+        self.verify_shape(aw.drawing.ShapeType.DIAGONAL_CORNERS_ROUNDED, "DiagonalCornersRounded 100004", 50.0, 50.0, 0.0, 0.0, shapes[1])
 
     ##ExStart
     ##ExFor:Shape.accept(DocumentVisitor)
@@ -1671,7 +1670,7 @@ class ExShape(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Shape.signature_line.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.IMAGE, "", 192.75, 96.75, -60.0, -170.0, shape)
+        self.verify_shape(aw.drawing.ShapeType.IMAGE, "", 192.75, 96.75, -60.0, -170.0, shape)
         self.assertTrue(shape.is_signature_line)
 
         signature_line = shape.signature_line
@@ -1724,14 +1723,14 @@ class ExShape(ApiExampleBase):
                 doc = aw.Document(ARTIFACTS_DIR + "Shape.text_box_layout_flow.docx")
                 text_box_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-                TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 150.0, 100.0, 0.0, 0.0, text_box_shape)
+                self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 150.0, 100.0, 0.0, 0.0, text_box_shape)
 
                 if layout_flow in (aw.drawing.LayoutFlow.BOTTOM_TO_TOP, aw.drawing.LayoutFlow.HORIZONTAL, aw.drawing.LayoutFlow.TOP_TO_BOTTOM_IDEOGRAPHIC):
                     expected_layout_flow = layout_flow
                 else:
                     expected_layout_flow = aw.drawing.LayoutFlow.HORIZONTAL
 
-                TestUtil.verify_text_box(self, expected_layout_flow, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, text_box_shape.text_box)
+                self.verify_text_box(expected_layout_flow, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, text_box_shape.text_box)
                 self.assertEqual("Hello world!\rHello again!", text_box_shape.get_text().strip())
 
     def test_text_box_fit_shape_to_text(self):
@@ -1760,8 +1759,8 @@ class ExShape(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Shape.text_box_fit_shape_to_text.docx")
         text_box_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 150.0, 100.0, 0.0, 0.0, text_box_shape)
-        TestUtil.verify_text_box(self, aw.drawing.LayoutFlow.HORIZONTAL, True, aw.drawing.TextBoxWrapMode.NONE, 3.6, 3.6, 7.2, 7.2, text_box_shape.text_box)
+        self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 150.0, 100.0, 0.0, 0.0, text_box_shape)
+        self.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, True, aw.drawing.TextBoxWrapMode.NONE, 3.6, 3.6, 7.2, 7.2, text_box_shape.text_box)
         self.assertEqual("Text fit tightly inside textbox.", text_box_shape.get_text().strip())
 
     def test_text_box_margins(self):
@@ -1793,8 +1792,8 @@ class ExShape(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Shape.text_box_margins.docx")
         text_box_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 100.0, 100.0, 0.0, 0.0, text_box_shape)
-        TestUtil.verify_text_box(self, aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 15.0, 15.0, 15.0, 15.0, text_box_shape.text_box)
+        self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 100.0, 100.0, 0.0, 0.0, text_box_shape)
+        self.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 15.0, 15.0, 15.0, 15.0, text_box_shape.text_box)
         self.assertEqual("Text placed according to textbox margins.", text_box_shape.get_text().strip())
 
     def test_text_box_сontents_wrap_mode(self):
@@ -1827,8 +1826,8 @@ class ExShape(ApiExampleBase):
                 doc = aw.Document(ARTIFACTS_DIR + "Shape.text_box_сontents_wrap_mode.docx")
                 text_box_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-                TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 300.0, 300.0, 0.0, 0.0, text_box_shape)
-                TestUtil.verify_text_box(self, aw.drawing.LayoutFlow.HORIZONTAL, False, text_box_wrap_mode, 3.6, 3.6, 7.2, 7.2, text_box_shape.text_box)
+                self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 300.0, 300.0, 0.0, 0.0, text_box_shape)
+                self.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, text_box_wrap_mode, 3.6, 3.6, 7.2, 7.2, text_box_shape.text_box)
                 self.assertEqual("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", text_box_shape.get_text().strip())
 
     def test_text_box_shape_type(self):
@@ -1911,20 +1910,20 @@ class ExShape(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Shape.create_link_between_text_boxes.docx")
         shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 100.0, 100.0, 0.0, 0.0, shapes[0])
-        TestUtil.verify_text_box(self, aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shapes[0].text_box)
+        self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 100.0, 100.0, 0.0, 0.0, shapes[0])
+        self.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shapes[0].text_box)
         self.assertEqual("", shapes[0].get_text().strip())
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_BOX, "TextBox 100004", 100.0, 100.0, 0.0, 0.0, shapes[1])
-        TestUtil.verify_text_box(self, aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shapes[1].text_box)
+        self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, "TextBox 100004", 100.0, 100.0, 0.0, 0.0, shapes[1])
+        self.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shapes[1].text_box)
         self.assertEqual("", shapes[1].get_text().strip())
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.RECTANGLE, "TextBox 100006", 100.0, 100.0, 0.0, 0.0, shapes[2])
-        TestUtil.verify_text_box(self, aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shapes[2].text_box)
+        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, "TextBox 100006", 100.0, 100.0, 0.0, 0.0, shapes[2])
+        self.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shapes[2].text_box)
         self.assertEqual("", shapes[2].get_text().strip())
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_BOX, "TextBox 100008", 100.0, 100.0, 0.0, 0.0, shapes[3])
-        TestUtil.verify_text_box(self, aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shapes[3].text_box)
+        self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, "TextBox 100008", 100.0, 100.0, 0.0, 0.0, shapes[3])
+        self.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shapes[3].text_box)
         self.assertEqual("Hello world!", shapes[3].get_text().strip())
 
     def test_vertical_anchor(self):
@@ -1961,8 +1960,8 @@ class ExShape(ApiExampleBase):
                 doc = aw.Document(ARTIFACTS_DIR + "Shape.vertical_anchor.docx")
                 shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-                TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 200.0, 200.0, 0.0, 0.0, shape)
-                TestUtil.verify_text_box(self, aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shape.text_box)
+                self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 200.0, 200.0, 0.0, 0.0, shape)
+                self.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shape.text_box)
                 self.assertEqual(vertical_anchor, shape.text_box.vertical_anchor)
                 self.assertEqual("Hello world!", shape.get_text().strip())
 
@@ -2087,36 +2086,36 @@ class ExShape(ApiExampleBase):
         doc = aw.Document(filename)
         shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_PLAIN_TEXT, "", 480, 24, 0.0, 0.0, shapes[0])
+        self.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, "", 480, 24, 0.0, 0.0, shapes[0])
         self.assertTrue(shapes[0].text_path.bold)
         self.assertTrue(shapes[0].text_path.italic)
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_PLAIN_TEXT, "", 150, 24, 0.0, 0.0, shapes[1])
+        self.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, "", 150, 24, 0.0, 0.0, shapes[1])
         self.assertTrue(shapes[1].text_path.on)
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_PLAIN_TEXT, "", 150, 24, 0.0, 0.0, shapes[2])
+        self.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, "", 150, 24, 0.0, 0.0, shapes[2])
         self.assertFalse(shapes[2].text_path.on)
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_PLAIN_TEXT, "", 90, 24, 0.0, 0.0, shapes[3])
+        self.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, "", 90, 24, 0.0, 0.0, shapes[3])
         self.assertTrue(shapes[3].text_path.kerning)
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_PLAIN_TEXT, "", 100, 24, 0.0, 0.0, shapes[4])
+        self.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, "", 100, 24, 0.0, 0.0, shapes[4])
         self.assertFalse(shapes[4].text_path.kerning)
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_CASCADE_DOWN, "", 120, 24, 0.0, 0.0, shapes[5])
+        self.verify_shape(aw.drawing.ShapeType.TEXT_CASCADE_DOWN, "", 120, 24, 0.0, 0.0, shapes[5])
         self.assertAlmostEqual(0.1, shapes[5].text_path.spacing, delta=0.01)
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_WAVE, "", 200, 36, 0.0, 0.0, shapes[6])
+        self.verify_shape(aw.drawing.ShapeType.TEXT_WAVE, "", 200, 36, 0.0, 0.0, shapes[6])
         self.assertTrue(shapes[6].text_path.rotate_letters)
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_SLANT_UP, "", 300, 24, 0.0, 0.0, shapes[7])
+        self.verify_shape(aw.drawing.ShapeType.TEXT_SLANT_UP, "", 300, 24, 0.0, 0.0, shapes[7])
         self.assertTrue(shapes[7].text_path.same_letter_heights)
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_PLAIN_TEXT, "", 160, 24, 0.0, 0.0, shapes[8])
+        self.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, "", 160, 24, 0.0, 0.0, shapes[8])
         self.assertTrue(shapes[8].text_path.fit_shape)
         self.assertEqual(24.0, shapes[8].text_path.size)
 
-        TestUtil.verify_shape(self, aw.drawing.ShapeType.TEXT_PLAIN_TEXT, "", 160, 24, 0.0, 0.0, shapes[9])
+        self.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, "", 160, 24, 0.0, 0.0, shapes[9])
         self.assertFalse(shapes[9].text_path.fit_shape)
         self.assertEqual(24.0, shapes[9].text_path.size)
         self.assertEqual(aw.drawing.TextPathAlignment.RIGHT, shapes[9].text_path.text_path_alignment)

@@ -48,9 +48,9 @@ class ExTabStop(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "TabStopCollection.add_tab_stops.docx")
         tab_stops = doc.first_section.body.paragraphs[0].paragraph_format.tab_stops
 
-        #TestUtil.verify_tab_stop(141.75d, TabAlignment.Left, TabLeader.Dashes, False, tab_stops[0])
-        #TestUtil.verify_tab_stop(216.0d, TabAlignment.Left, TabLeader.Dashes, False, tab_stops[1])
-        #TestUtil.verify_tab_stop(283.45d, TabAlignment.Left, TabLeader.Dashes, False, tab_stops[2])
+        #self.verify_tab_stop(141.75d, TabAlignment.Left, TabLeader.Dashes, False, tab_stops[0])
+        #self.verify_tab_stop(216.0d, TabAlignment.Left, TabLeader.Dashes, False, tab_stops[1])
+        #self.verify_tab_stop(283.45d, TabAlignment.Left, TabLeader.Dashes, False, tab_stops[2])
 
     def test_tab_stop_collection(self):
 
@@ -111,8 +111,8 @@ class ExTabStop(ApiExampleBase):
         tab_stops = doc.first_section.body.paragraphs[0].paragraph_format.tab_stops
 
         self.assertEqual(2, tab_stops.count)
-        #TestUtil.verify_tab_stop(72.0d, TabAlignment.Left, TabLeader.None, False, tab_stops[0])
-        #TestUtil.verify_tab_stop(432.0d, TabAlignment.Right, TabLeader.Dashes, False, tab_stops[1])
+        #self.verify_tab_stop(72.0d, TabAlignment.Left, TabLeader.None, False, tab_stops[0])
+        #self.verify_tab_stop(432.0d, TabAlignment.Right, TabLeader.Dashes, False, tab_stops[1])
 
         tab_stops = doc.first_section.body.paragraphs[1].paragraph_format.tab_stops
 
@@ -141,7 +141,7 @@ class ExTabStop(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "TabStopCollection.remove_by_index.docx")
 
-        #TestUtil.verify_tab_stop(170.1d, TabAlignment.Left, TabLeader.Dashes, False, doc.first_section.Body.Paragraphs[0].paragraph_format.TabStops[0])
+        #self.verify_tab_stop(170.1d, TabAlignment.Left, TabLeader.Dashes, False, doc.first_section.Body.Paragraphs[0].paragraph_format.TabStops[0])
 
     def test_get_position_by_index(self):
 

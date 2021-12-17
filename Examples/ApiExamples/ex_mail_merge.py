@@ -13,7 +13,6 @@ import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, database_dir
 from document_helper import DocumentHelper
-from testutil import TestUtil
 
 DATABASE_DIR = database_dir
 
@@ -54,7 +53,7 @@ class ExMailMerge(ApiExampleBase):
 
         doc = DocumentHelper.save_open(doc)
 
-        TestUtil.mail_merge_matches_array([["James Bond", "MI5 Headquarters", "Milbank", "London"]], doc, True)
+        self.mail_merge_matches_array([["James Bond", "MI5 Headquarters", "Milbank", "London"]], doc, True)
 
     def test_execute_data_reader(self):
 
@@ -103,7 +102,7 @@ class ExMailMerge(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "MailMerge.execute_data_reader.docx")
 
-        TestUtil.mail_merge_matches_query_result(DATABASE_DIR + "Northwind.mdb", query, doc, True)
+        self.mail_merge_matches_query_result(DATABASE_DIR + "Northwind.mdb", query, doc, True)
 
     #ExStart
     #ExFor:MailMerge.execute_ado(object)
@@ -132,7 +131,7 @@ class ExMailMerge(ApiExampleBase):
         # Execute the mail merge and save the document.
         doc.mail_merge.execute_ado(recordset)
         doc.save(ARTIFACTS_DIR + "MailMerge.execute_ado.docx")
-        TestUtil.mail_merge_matches_query_result(DATABASE_DIR + "Northwind.mdb", command, doc, True) #ExSkip
+        self.mail_merge_matches_query_result(DATABASE_DIR + "Northwind.mdb", command, doc, True) #ExSkip
 
     @staticmethod
     def create_source_doc_ado_mail_merge() -> aw.Document:
@@ -189,7 +188,7 @@ class ExMailMerge(ApiExampleBase):
         doc.mail_merge.execute_with_regions_ado(recordset, "MergeRegion2")
 
         doc.save(ARTIFACTS_DIR + "MailMerge.execute_with_regions_ado.docx")
-        TestUtil.mail_merge_matches_query_result_multiple(DATABASE_DIR + "Northwind.mdb", ["SELECT FirstName, LastName, City FROM Employees", "SELECT ContactName, Address, City FROM Customers"], aw.Document(ARTIFACTS_DIR + "MailMerge.execute_with_regions_ado.docx"), False) #ExSkip
+        self.mail_merge_matches_query_result_multiple(DATABASE_DIR + "Northwind.mdb", ["SELECT FirstName, LastName, City FROM Employees", "SELECT ContactName, Address, City FROM Customers"], aw.Document(ARTIFACTS_DIR + "MailMerge.execute_with_regions_ado.docx"), False) #ExSkip
 
     @staticmethod
     def create_source_doc_ado_mail_merge_with_regions() -> aw.Document:
@@ -270,12 +269,12 @@ class ExMailMerge(ApiExampleBase):
     @staticmethod
     def _test_ado_data_table(doc_whole_table: aw.Document, doc_one_row: aw.Document, table: DataTable):
 
-        TestUtil.mail_merge_matches_data_table(table, doc_whole_table, True)
+        self.mail_merge_matches_data_table(table, doc_whole_table, True)
 
         row_as_table = DataTable()
         row_as_table.import_row(table.rows[1])
 
-        TestUtil.mail_merge_matches_data_table(row_as_table, doc_one_row, True)
+        self.mail_merge_matches_data_table(row_as_table, doc_one_row, True)
 
     def test_execute_data_view(self):
 
@@ -311,7 +310,7 @@ class ExMailMerge(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "MailMerge.execute_data_view.docx")
         #ExEnd
 
-        TestUtil.mail_merge_matches_data_table(view.to_table(), aw.Document(ARTIFACTS_DIR + "MailMerge.execute_data_view.docx"), True)
+        self.mail_merge_matches_data_table(view.to_table(), aw.Document(ARTIFACTS_DIR + "MailMerge.execute_data_view.docx"), True)
 
     #ExStart
     #ExFor:MailMerge.execute_with_regions(DataSet)
@@ -362,7 +361,7 @@ class ExMailMerge(ApiExampleBase):
         doc.mail_merge.execute_with_regions(customersAndOrders)
 
         doc.save(ARTIFACTS_DIR + "MailMerge.execute_with_regions_nested.docx")
-        TestUtil.mail_merge_matches_data_set(customersAndOrders, aw.Document(ARTIFACTS_DIR + "MailMerge.execute_with_regions_nested.docx"), False) #ExSkip
+        self.mail_merge_matches_data_set(customersAndOrders, aw.Document(ARTIFACTS_DIR + "MailMerge.execute_with_regions_nested.docx"), False) #ExSkip
 
     @staticmethod
     def create_data_set() -> DataSet:
@@ -450,7 +449,7 @@ class ExMailMerge(ApiExampleBase):
         data_set.tables.add(table_cities)
         data_set.tables.add(table_fruit)
 
-        TestUtil.mail_merge_matches_data_set(data_set, aw.Document(ARTIFACTS_DIR + "MailMerge.execute_with_regions_concurrent.docx"), False)
+        self.mail_merge_matches_data_set(data_set, aw.Document(ARTIFACTS_DIR + "MailMerge.execute_with_regions_concurrent.docx"), False)
 
     def test_mail_merge_region_info(self):
 
@@ -565,11 +564,11 @@ class ExMailMerge(ApiExampleBase):
     def _test_merge_duplicate_regions(data_table: DataTable, doc: aw.Document, is_merge_duplicate_regions: bool):
 
         if is_merge_duplicate_regions:
-            TestUtil.mail_merge_matches_data_table(data_table, doc, True)
+            self.mail_merge_matches_data_table(data_table, doc, True)
         else:
 
             data_table.columns.remove("Column2")
-            TestUtil.mail_merge_matches_data_table(data_table, doc, True)
+            self.mail_merge_matches_data_table(data_table, doc, True)
 
     #ExStart
     #ExFor:MailMerge.preserve_unused_tags
@@ -601,7 +600,7 @@ class ExMailMerge(ApiExampleBase):
                     self.assertEqual(0, len([f for f in doc.range.fields if f.type == aw.fields.field_type.FIELD_MERGE_FIELD]))
                 else:
                     self.assertEqual(1, len([f for f in doc.range.fields if f.type == aw.fields.field_type.FIELD_MERGE_FIELD]))
-                TestUtil.mail_merge_matches_data_table(data_table, doc, True) #ExSkip
+                self.mail_merge_matches_data_table(data_table, doc, True) #ExSkip
 
     @staticmethod
     def create_source_doc_with_alternative_merge_fields() -> aw.Document:
@@ -654,7 +653,7 @@ class ExMailMerge(ApiExampleBase):
                 self.assertTrue(doc.get_text().contains("This QUOTE field is inside the \"MyTable\" merge region."))
                 self.assertEqual(merge_whole_document,
                     doc.get_text().contains("This QUOTE field is outside of the \"MyTable\" merge region."))
-                TestUtil.mail_merge_matches_data_table(data_table, doc, True) #ExSkip
+                self.mail_merge_matches_data_table(data_table, doc, True) #ExSkip
 
     @staticmethod
     def create_source_doc_merge_whole_document() -> aw.Document:
@@ -719,7 +718,7 @@ class ExMailMerge(ApiExampleBase):
                 # since it is the region that breaks the rule.
                 doc.save(ARTIFACTS_DIR + "MailMerge.use_whole_paragraph_as_region.docx")
                 if not use_whole_paragraph_as_region: #ExSkip
-                    TestUtil.mail_merge_matches_data_table(data_table, aw.Document(ARTIFACTS_DIR + "MailMerge.use_whole_paragraph_as_region.docx"), True) #ExSkip
+                    self.mail_merge_matches_data_table(data_table, aw.Document(ARTIFACTS_DIR + "MailMerge.use_whole_paragraph_as_region.docx"), True) #ExSkip
 
     @staticmethod
     def create_source_doc_with_nested_merge_regions() -> aw.Document:
@@ -805,7 +804,7 @@ class ExMailMerge(ApiExampleBase):
         doc.mail_merge.execute(data_table)
         #ExEnd
 
-        TestUtil.mail_merge_matches_data_table(data_table, doc, True)
+        self.mail_merge_matches_data_table(data_table, doc, True)
 
     def test_delete_fields(self):
 
@@ -876,7 +875,7 @@ class ExMailMerge(ApiExampleBase):
                     self.assertEqual(2, doc.range.fields.count)
                 #ExEnd
 
-                TestUtil.mail_merge_matches_data_table(data_table, doc, True)
+                self.mail_merge_matches_data_table(data_table, doc, True)
 
     def test_remove_empty_paragraphs(self):
 
@@ -922,7 +921,7 @@ class ExMailMerge(ApiExampleBase):
                         "Jane Doe", doc.get_text().strip())
                 #ExEnd
 
-                TestUtil.mail_merge_matches_data_table(data_table, doc, False)
+                self.mail_merge_matches_data_table(data_table, doc, False)
 
     # Ignore("WORDSNET-17733")
     def test_remove_colon_between_empty_merge_fields(self):
@@ -1035,7 +1034,7 @@ class ExMailMerge(ApiExampleBase):
         mapped_data_fields.clear()
 
         self.assertEqual(0, mapped_data_fields.count)
-        TestUtil.mail_merge_matches_data_table(data_table, aw.Document(ARTIFACTS_DIR + "MailMerge.mapped_data_field_collection.docx"), True) #ExSkip
+        self.mail_merge_matches_data_table(data_table, aw.Document(ARTIFACTS_DIR + "MailMerge.mapped_data_field_collection.docx"), True) #ExSkip
 
     @staticmethod
     def create_Source_doc_mapped_data_fields() -> aw.Document:

@@ -13,7 +13,6 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, FONTS_DIR, IMAGE_DIR
-from testutil import TestUtil
 
 class ExLoadOptions(ApiExampleBase):
 
@@ -281,7 +280,7 @@ class ExLoadOptions(ApiExampleBase):
 
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 1600, 1600, aw.drawing.ImageType.WMF, shape)
+        self.verify_image_in_shape(1600, 1600, aw.drawing.ImageType.WMF, shape)
 
         load_options = aw.loading.LoadOptions()
         load_options.convert_metafiles_to_png = True
@@ -289,7 +288,7 @@ class ExLoadOptions(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Image.convert_metafiles_to_png.docx", load_options)
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 1666, 1666, aw.drawing.ImageType.PNG, shape)
+        self.verify_image_in_shape(1666, 1666, aw.drawing.ImageType.PNG, shape)
         #ExEnd
 
     def test_open_chm_file(self):

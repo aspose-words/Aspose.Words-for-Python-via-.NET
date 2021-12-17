@@ -14,7 +14,6 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
-from testutil import TestUtil
 
 class ExOoxmlSaveOptions(ApiExampleBase):
 
@@ -255,8 +254,8 @@ class ExOoxmlSaveOptions(ApiExampleBase):
                     file_size = os.path.getsize(ARTIFACTS_DIR + "OoxmlSaveOptions.check_file_signatures.docx")
                     self.assertLess(prev_file_size, file_size)
 
-                    TestUtil.copy_stream(output_file_stream, stream)
-                    self.assertEqual(file_signatures[i], TestUtil.dump_array(bytes(stream.getvalue()), 0, 10))
+                    ApiExamplesBase.copy_stream(output_file_stream, stream)
+                    self.assertEqual(file_signatures[i], ApiExampleBase.dump_array(bytes(stream.getvalue()), 0, 10))
 
                     prev_file_size = file_size
 

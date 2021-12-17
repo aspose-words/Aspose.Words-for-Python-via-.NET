@@ -16,7 +16,6 @@ import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, FONTS_DIR, GOLDS_DIR
 from document_helper import DocumentHelper
-from testutil import TestUtil
 
 class ExDocument(ApiExampleBase):
 
@@ -85,7 +84,7 @@ class ExDocument(ApiExampleBase):
 
         #ExEnd
 
-        #TestUtil.verify_web_response_status_code(HttpStatusCode.OK, url)
+        #self.verify_web_response_status_code(HttpStatusCode.OK, url)
 
     def test_convert_to_pdf(self):
 
@@ -224,7 +223,7 @@ class ExDocument(ApiExampleBase):
 
         #ExEnd
 
-        #TestUtil.verify_web_response_status_code(HttpStatusCode.OK, url)
+        #self.verify_web_response_status_code(HttpStatusCode.OK, url)
 
     def test_load_encrypted(self):
 
@@ -910,11 +909,11 @@ class ExDocument(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "Document.table_style_to_direct_formatting.docx")
         #ExEnd
 
-        TestUtil.doc_package_file_contains_string("<w:tblStyleRowBandSize w:val=\"3\" />",
+        self.verify_doc_package_file_contains_string("<w:tblStyleRowBandSize w:val=\"3\" />",
             ARTIFACTS_DIR + "Document.table_style_to_direct_formatting.docx", "word/document.xml")
-        TestUtil.doc_package_file_contains_string("<w:tblCellSpacing w:w=\"100\" w:type=\"dxa\" />",
+        self.verify_doc_package_file_contains_string("<w:tblCellSpacing w:w=\"100\" w:type=\"dxa\" />",
             ARTIFACTS_DIR + "Document.table_style_to_direct_formatting.docx", "word/document.xml")
-        TestUtil.doc_package_file_contains_string("<w:tblBorders><w:top w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:left w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:bottom w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:right w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:insideH w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:insideV w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /></w:tblBorders>",
+        self.verify_doc_package_file_contains_string("<w:tblBorders><w:top w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:left w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:bottom w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:right w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:insideH w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:insideV w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /></w:tblBorders>",
             ARTIFACTS_DIR + "Document.table_style_to_direct_formatting.docx", "word/document.xml")
 
     def test_update_table_layout(self):
@@ -1111,7 +1110,7 @@ class ExDocument(ApiExampleBase):
 
         doc_original = aw.Document(ARTIFACTS_DIR + "Document.compare_options.docx")
 
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "OriginalEdited endnote text.", doc_original.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
 
     def test_ignore_dml_unique_id(self):
@@ -1373,8 +1372,8 @@ class ExDocument(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "Document.image_save_options.high_quality.jpg", options)
         #ExEnd
 
-        TestUtil.verify_image(self, 794, 1122, ARTIFACTS_DIR + "Document.image_save_options.default.jpg")
-        TestUtil.verify_image(self, 794, 1122, ARTIFACTS_DIR + "Document.image_save_options.high_quality.jpg")
+        self.verify_image(794, 1122, ARTIFACTS_DIR + "Document.image_save_options.default.jpg")
+        self.verify_image(794, 1122, ARTIFACTS_DIR + "Document.image_save_options.high_quality.jpg")
 
     def test_cleanup(self):
 

@@ -11,7 +11,6 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
-from testutil import TestUtil
 
 class ExOdtSaveOptions(ApiExampleBase):
 
@@ -71,12 +70,12 @@ class ExOdtSaveOptions(ApiExampleBase):
                 #ExEnd
 
                 if odt_save_measure_unit == aw.saving.OdtSaveMeasureUnit.CENTIMETERS:
-                    TestUtil.doc_package_file_contains_string(
+                    self.verify_doc_package_file_contains_string(
                         '<style:paragraph-properties fo:orphans="2" fo:widows="2" style:tab-stop-distance="1.27cm" />',
                         ARTIFACTS_DIR + "OdtSaveOptions.measurement_units.odt", "styles.xml")
 
                 elif odt_save_measure_unit == aw.saving.OdtSaveMeasureUnit.INCHES:
-                    TestUtil.doc_package_file_contains_string(
+                    self.verify_doc_package_file_contains_string(
                         '<style:paragraph-properties fo:orphans="2" fo:widows="2" style:tab-stop-distance="0.5in" />',
                         ARTIFACTS_DIR + "OdtSaveOptions.measurement_units.odt", "styles.xml")
 

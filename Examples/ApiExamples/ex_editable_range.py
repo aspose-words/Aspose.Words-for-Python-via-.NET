@@ -9,7 +9,6 @@ import unittest
 import aspose.words as aw
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 from document_helper import DocumentHelper
-from testutil import TestUtil
 
 class ExEditableRange(ApiExampleBase):
 
@@ -83,7 +82,7 @@ class ExEditableRange(ApiExampleBase):
 
         editable_range = doc.get_child(aw.NodeType.EDITABLE_RANGE_START, 0, True).as_editable_range_start().editable_range
         
-        TestUtil.verify_editable_range(self, 0, "", aw.EditorType.UNSPECIFIED, editable_range)
+        self.verify_editable_range(0, "", aw.EditorType.UNSPECIFIED, editable_range)
 
     def test_nested(self):
         #ExStart
@@ -135,11 +134,11 @@ class ExEditableRange(ApiExampleBase):
 
         editable_range = doc.get_child(aw.NodeType.EDITABLE_RANGE_START, 0, True).as_editable_range_start().editable_range
         
-        TestUtil.verify_editable_range(self, 0, "", aw.EditorType.EVERYONE, editable_range)
+        self.verify_editable_range(0, "", aw.EditorType.EVERYONE, editable_range)
         
         editable_range = doc.get_child(aw.NodeType.EDITABLE_RANGE_START, 1, True).as_editable_range_start().editable_range
         
-        TestUtil.verify_editable_range(self, 1, "", aw.EditorType.CONTRIBUTORS, editable_range)
+        self.verify_editable_range(1, "", aw.EditorType.CONTRIBUTORS, editable_range)
 
     #ExStart
     #ExFor:EditableRange

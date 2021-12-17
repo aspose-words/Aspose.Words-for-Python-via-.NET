@@ -12,7 +12,6 @@ import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 from document_helper import DocumentHelper
-from testutil import TestUtil
 
 class ExFieldOptions(ApiExampleBase):
 
@@ -122,7 +121,7 @@ class ExFieldOptions(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "FieldOptions.file_name.docx")
 
         self.assertIsNone(doc.field_options.file_name)
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FILE_NAME, " FILENAME ", "FieldOptions.filename.docx", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_FILE_NAME, " FILENAME ", "FieldOptions.filename.docx", doc.range.fields[0])
 
     def test_bidi(self):
 
@@ -172,7 +171,7 @@ class ExFieldOptions(ApiExampleBase):
         doc = DocumentHelper.save_open(doc)
 
         self.assertFalse(doc.field_options.legacy_number_format)
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FORMULA, "= 2 + 3 \\# $##", "$5", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, "= 2 + 3 \\# $##", "$5", doc.range.fields[0])
 
     def test_pre_process_culture(self):
 
@@ -255,8 +254,8 @@ class ExFieldOptions(ApiExampleBase):
 
         self.assertIsNone(doc.field_options.toa_categories)
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOA, "TOA \\c 1 \\h", "My Category 1\rentry 2\t3\r", doc.range.fields[0])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOA, "TOA \\c 2 \\h",
+        self.verify_field(aw.fields.FieldType.FIELD_TOA, "TOA \\c 1 \\h", "My Category 1\rentry 2\t3\r", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_TOA, "TOA \\c 2 \\h",
             "My Category 2\r" +
             "entry 1\t2\r" +
             "entry 3\t4\r", doc.range.fields[1])
@@ -289,7 +288,7 @@ class ExFieldOptions(ApiExampleBase):
         doc = DocumentHelper.save_open(doc)
 
         self.assertFalse(doc.field_options.use_invariant_culture_number_format)
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FORMULA, " = 1234567,89 \\# $#,###,###.##", "$1.234.567,89", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, " = 1234567,89 \\# $#,###,###.##", "$1.234.567,89", doc.range.fields[0])
 
     ##ExStart
     ##ExFor:FieldOptions.field_update_culture_provider
@@ -440,10 +439,10 @@ class ExFieldOptions(ApiExampleBase):
     #    doc.save(ARTIFACTS_DIR + "FieldOptions.barcode_generator.docx")
     #    #ExEnd
 
-    #    TestUtil.verify_image(223, 223, ARTIFACTS_DIR + "FieldOptions.barcode_generator.q_r.jpg")
-    #    TestUtil.verify_image(117, 108, ARTIFACTS_DIR + "FieldOptions.barcode_generator.e_a_n13.jpg")
-    #    TestUtil.verify_image(397, 70, ARTIFACTS_DIR + "FieldOptions.barcode_generator.c_o_d_e39.jpg")
-    #    TestUtil.verify_image(633, 134, ARTIFACTS_DIR + "FieldOptions.barcode_generator.i_t_f14.jpg")
+    #    self.verify_image(223, 223, ARTIFACTS_DIR + "FieldOptions.barcode_generator.q_r.jpg")
+    #    self.verify_image(117, 108, ARTIFACTS_DIR + "FieldOptions.barcode_generator.e_a_n13.jpg")
+    #    self.verify_image(397, 70, ARTIFACTS_DIR + "FieldOptions.barcode_generator.c_o_d_e39.jpg")
+    #    self.verify_image(633, 134, ARTIFACTS_DIR + "FieldOptions.barcode_generator.i_t_f14.jpg")
 
     #    doc = aw.Document(ARTIFACTS_DIR + "FieldOptions.barcode_generator.docx")
     #    barcode = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
