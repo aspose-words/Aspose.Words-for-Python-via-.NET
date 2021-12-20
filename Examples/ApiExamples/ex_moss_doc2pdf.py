@@ -37,7 +37,7 @@ def main():
     # conversion account (not sure what name), so for testing purposes,
     # I would give the Users group write permissions into this folder.
     logging.basicConfig(filename=r"C:\Aspose2Pdf\log.txt")
-    
+
     logger = logging.getLogger("doc2pdf")
 
     logger.info("Started")
@@ -81,7 +81,7 @@ def parse_command_line(args: List[str]) -> Options:
         elif token == "-log":
             # Skip the name of the log file and do nothing.
             i += 1
-        
+
         else:
             raise Exception("Unknown command line argument: " + token)
 
@@ -89,6 +89,6 @@ def parse_command_line(args: List[str]) -> Options:
 
     return Options(in_file_name, out_file_name)
 
-    
+
 if __name__ == '__main__':
     main()

@@ -48,15 +48,15 @@ class Hyperlink:
     """HYPERLINK fields contain and display hyperlinks in the document body. A field in Aspose.Words
     consists of several nodes, and it might be difficult to work with all those nodes directly.
     This implementation will work only if the hyperlink code and name each consist of only one Run node.
-    
+
     The node structure for fields is as follows:
-    
+
     [FieldStart][Run - field code][FieldSeparator][Run - field result][FieldEnd]
-    
+
     Below are two example field codes of HYPERLINK fields:
     HYPERLINK "url"
     HYPERLINK \l "bookmark name"
-    
+
     A field's "result" property contains text that the field displays in the document body to the user."""
     def __init__(self, field_start: aw.fields.FieldStart):
 
@@ -80,7 +80,7 @@ class Hyperlink:
 
         # Field code looks something like "HYPERLINK "http:\\www.myurl.com"", but it can consist of several runs.
         field_code = Hyperlink.get_text_same_parent(self.field_start.next_sibling, self.field_separator)
-        
+
         pattern = r"""
         \S+        # One or more non spaces HYPERLINK or other word in other languages.
         \s+        # One or more spaces.

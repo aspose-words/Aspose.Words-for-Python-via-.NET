@@ -979,7 +979,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 options.export_list_labels = export_list_labels
 
                 doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.list.html", options)
-                
+
                 with open(ARTIFACTS_DIR + "HtmlSaveOptions.list.html", "rt", encoding="utf-8") as file:
                     out_doc_contents = file.read()
 
@@ -1525,7 +1525,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 options.office_math_output_mode = html_office_math_output_mode
 
                 doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.office_math_output_mode.html", options)
-                
+
                 with open(ARTIFACTS_DIR + "HtmlSaveOptions.office_math_output_mode.html", "rt", encoding="utf-8") as file:
                     out_doc_contents = file.read()
 

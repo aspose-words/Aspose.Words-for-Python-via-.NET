@@ -643,7 +643,7 @@ class ExFontSettings(ApiExampleBase):
 
         with open(MY_DIR + "Alte DIN 1451 Mittelschrift.ttf", "rb") as file:
             font_bytes = file.read()
-        
+
         memory_font_source = aw.fonts.MemoryFontSource(font_bytes, 0)
 
         doc = aw.Document()

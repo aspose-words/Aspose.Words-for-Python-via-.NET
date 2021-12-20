@@ -462,9 +462,9 @@ class ExPdfSaveOptions(ApiExampleBase):
                     self.assertLess(60000, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.text_compression.pdf"))
                     with open(ARTIFACTS_DIR + "PdfSaveOptions.text_compression.pdf", "rb") as file:
                         self.assertIn(b"12 0 obj\r\n<</Length 13 0 R>>stream", file.read())
-                
+
                 elif pdf_text_compression == aw.saving.PdfTextCompression.FLATE:
-                    self.assertGreater(30000, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.text_compression.pdf"))    
+                    self.assertGreater(30000, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.text_compression.pdf"))
                     with open(ARTIFACTS_DIR + "PdfSaveOptions.text_compression.pdf", "rb") as file:
                         self.assertIn(b"12 0 obj\r\n<</Length 13 0 R/Filter /FlateDecode>>stream", file.read())
 
@@ -634,7 +634,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                 # Set the "color_mode" property to "NORMAL" to render all images in color.
                 pdf_save_options = aw.saving.PdfSaveOptions()
                 pdf_save_options.color_mode = color_mode
-                
+
                 doc.save(ARTIFACTS_DIR + "PdfSaveOptions.color_rendering.pdf", pdf_save_options)
                 #ExEnd
 
@@ -868,7 +868,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                 #if header_footer_bookmarks_export_mode == aw.saving.HeaderFooterBookmarksExportMode.NONE:
                 #    self.assertIn(f"<</Type /Catalog/Pages 3 0 R/Lang({input_doc_locale_name})/Metadata 4 0 R>>\r\n", data)
                 #    self.assertEqual(0, pdf_doc.outlines.count)
-                
+
                 #elif header_footer_bookmarks_export_mode in (aw.saving.HeaderFooterBookmarksExportMode.FIRST,
                 #                                             aw.saving.HeaderFooterBookmarksExportMode.ALL):
                 #    self.assertIn(f"<</Type /Catalog/Pages 3 0 R/Outlines 14 0 R/PageMode /UseOutlines/Lang({inputDocLocaleName})/Metadata 4 0 R>>", data)
@@ -1272,7 +1272,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                         self.assertIn(
                             f"<</Type /Catalog/Pages 3 0 R/PageMode /FullScreen/Lang({doc_locale_name})/Metadata 4 0 R>>\r\n",
                             content)
-                    
+
                     elif page_mode == aw.saving.PdfPageMode.USE_THUMBS:
                         self.assertIn(
                             f"<</Type /Catalog/Pages 3 0 R/PageMode /UseThumbs/Lang({doc_locale_name})/Metadata 4 0 R>>",
@@ -1282,7 +1282,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                         self.assertIn(
                             f"<</Type /Catalog/Pages 3 0 R/PageMode /UseOC/Lang({doc_locale_name})/Metadata 4 0 R>>\r\n",
                             content)
-                        
+
                     elif page_mode in (aw.saving.PdfPageMode.USE_OUTLINES, aw.saving.PdfPageMode.USE_NONE):
                         self.assertIn(
                             f"<</Type /Catalog/Pages 3 0 R/Lang({doc_locale_name})/Metadata 4 0 R>>\r\n",
@@ -1301,7 +1301,7 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                 #elif page_mode == aw.saving.PdfPageMode.USE_OC:
                 #    self.assertEqual(aspose.pdf.PageMode.USE_OC, pdf_document.page_mode)
-                    
+
     def test_note_hyperlinks(self):
 
         for create_note_hyperlinks in (False, True):
@@ -1556,7 +1556,7 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                 #if dml_rendering_mode == aw.saving.DmlRenderingMode.DRAWING_ML:
                 #    self.assertEqual(6, table_absorber.table_list.count)
-                        
+
                 #elif dml_rendering_mode == aw.saving.DmlRenderingMode.FALLBACK:
                 #    self.assertEqual(15, table_absorber.table_list.count)
 
@@ -1831,7 +1831,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         #ExEnd
 
         self.assertFalse(aw.FileFormatUtil.detect_file_format(ARTIFACTS_DIR + "PdfSaveOptions.pdf_digital_signature_timestamp.pdf").has_digital_signature)
-        
+
         with open(ARTIFACTS_DIR + "PdfSaveOptions.pdf_digital_signature_timestamp.pdf", "rb") as file:
             content = file.read()
 

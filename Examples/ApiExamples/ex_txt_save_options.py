@@ -325,7 +325,7 @@ class ExTxtSaveOptions(ApiExampleBase):
 
         with open(ARTIFACTS_DIR + "TxtSaveOptions.Encoding.ASCII.txt", "rb") as file:
             doc_text = file.read().decode('ascii')
-        
+
         self.assertEqual("? ? ? ? ?.\r\n", doc_text)
         #ExEnd
 

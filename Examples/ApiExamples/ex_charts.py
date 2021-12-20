@@ -112,7 +112,7 @@ class ExCharts(ApiExampleBase):
 
         with self.assertRaises(Exception):
             series_coll.add("AW Series 3", categories, [nan, 4, 5, nan, nan])
-        
+
         with self.assertRaises(Exception):
             series_coll.add("AW Series 4", categories, [nan, nan, nan, nan, nan])
 

@@ -253,7 +253,7 @@ class ExDocumentVisitor(ApiExampleBase):
             row_width = row.index_of(row.last_cell) + 1
             row_index = row.parent_table.index_of(row)
             if row.is_first_row and row.is_last_row:
-                row_status_in_table = "only" 
+                row_status_in_table = "only"
             elif row.is_first_row:
                 row_status_in_table = "first"
             elif row.is_last_row:
@@ -354,7 +354,7 @@ class ExDocumentVisitor(ApiExampleBase):
         Creates a map in the form of a string of all encountered Comment/CommentRange nodes and their children."""
 
         def __init__(self):
-            
+
             self.builder = io.StringIO()
             self.visitor_is_inside_comment = False
             self.doc_traversal_depth = 0

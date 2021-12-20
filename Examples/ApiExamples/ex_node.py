@@ -130,7 +130,7 @@ class ExNode(ApiExampleBase):
             if child.node_type == aw.NodeType.RUN:
                 print("Run contents:")
                 print(f"\t\"{child.get_text().strip()}\"")
-                
+
             elif child.node_type == aw.NodeType.SHAPE:
                 child_shape = child.as_shape()
                 print("Shape:")
@@ -253,7 +253,7 @@ class ExNode(ApiExampleBase):
 
             contents = node.get_text().strip()
             print("This node contains no text" if contents == "" else f'Contents: "{node.get_text().strip()}"')
-            
+
             node = node.next_sibling
         #ExEnd
 
@@ -274,10 +274,10 @@ class ExNode(ApiExampleBase):
 
         for table in tables:
             table = table.as_table()
-            
+
             if table.first_row is not None:
                 table.first_row.remove()
-            
+
             if table.last_row is not None:
                 table.last_row.remove()
 

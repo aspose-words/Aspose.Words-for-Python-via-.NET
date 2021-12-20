@@ -269,7 +269,7 @@ class ExShape(ApiExampleBase):
         blue_rectangle.left = -250
         blue_rectangle.top = -250
         blue_rectangle.fill_color = drawing.Color.light_blue
-        group.append_child(blue_rectangle) 
+        group.append_child(blue_rectangle)
 
         image = aw.drawing.Shape(doc, aw.drawing.ShapeType.IMAGE)
         image.width = 200
@@ -288,7 +288,7 @@ class ExShape(ApiExampleBase):
         text_box.height = 50
         text_box.left = group.coord_size.width + group.coord_origin.x - 200
         text_box.top = group.coord_size.height + group.coord_origin.y
-        group.append_child(text_box) 
+        group.append_child(text_box)
 
         builder = aw.DocumentBuilder(doc)
         builder.insert_node(group)

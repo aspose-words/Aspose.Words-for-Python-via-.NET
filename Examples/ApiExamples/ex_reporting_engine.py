@@ -819,7 +819,7 @@ class ExReportingEngine(ApiExampleBase):
 
         options = aw.reporting.JsonDataLoadOptions()
         options.exact_date_time_parse_formats = ["MM/dd/yyyy", "MM.d.yy", "MM d yy"]
-        
+
         with open(MY_DIR + "List of people.json", "rb") as stream:
             data_source = aw.reporting.JsonDataSource(stream, options)
             self.build_report(doc, data_source, "persons")
@@ -924,7 +924,7 @@ class ExReportingEngine(ApiExampleBase):
                      known_types = None, options: Optional[aw.reporting.ReportBuildOptions] = None):
 
         engine = aw.reporting.ReportingEngine()
-        
+
         if options is not None:
             engine.options = options
 

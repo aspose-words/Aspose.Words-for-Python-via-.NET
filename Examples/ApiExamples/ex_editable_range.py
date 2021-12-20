@@ -81,7 +81,7 @@ class ExEditableRange(ApiExampleBase):
             "This paragraph is outside the editable range, and cannot be edited.", doc.get_text().strip())
 
         editable_range = doc.get_child(aw.NodeType.EDITABLE_RANGE_START, 0, True).as_editable_range_start().editable_range
-        
+
         self.verify_editable_range(0, "", aw.EditorType.UNSPECIFIED, editable_range)
 
     def test_nested(self):
@@ -133,11 +133,11 @@ class ExEditableRange(ApiExampleBase):
             "This paragraph is outside any editable ranges, and cannot be edited.", doc.get_text().strip())
 
         editable_range = doc.get_child(aw.NodeType.EDITABLE_RANGE_START, 0, True).as_editable_range_start().editable_range
-        
+
         self.verify_editable_range(0, "", aw.EditorType.EVERYONE, editable_range)
-        
+
         editable_range = doc.get_child(aw.NodeType.EDITABLE_RANGE_START, 1, True).as_editable_range_start().editable_range
-        
+
         self.verify_editable_range(1, "", aw.EditorType.CONTRIBUTORS, editable_range)
 
     #ExStart
@@ -254,15 +254,15 @@ class ExEditableRange(ApiExampleBase):
     # #ExEnd
 
     def test_incorrect_structure_exception(self):
-    
+
         doc = aw.Document()
-    
+
         builder = aw.DocumentBuilder(doc)
-    
+
         # Assert that isn't valid structure for the current document.
         with self.assertRaises(Exception):
             builder.end_editable_range()
-    
+
         builder.start_editable_range()
 
     def test_incorrect_structure_do_not_added(self):

@@ -321,7 +321,7 @@ class ExMailMergeEvent(ApiExampleBase):
     class HandleMergeImageFieldFromBlob(aw.mailmerging.IFieldMergingCallback):
 
         def field_merging(self, args: aw.mailmerging.FieldMergingArgs):
-            
+
             # Do nothing.
             pass
 

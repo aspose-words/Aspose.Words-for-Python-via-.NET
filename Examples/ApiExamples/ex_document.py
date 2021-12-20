@@ -235,7 +235,7 @@ class ExDocument(ApiExampleBase):
         #ExSummary:Shows how to load an encrypted Microsoft Word document.
 
         # Aspose.Words throw an exception if we try to open an encrypted document without its password.
-        with self.assertRaises(Exception):       
+        with self.assertRaises(Exception):
             doc = aw.Document(MY_DIR + "Encrypted.docx")
 
         # When loading such a document, the password is passed to the document's constructor using a LoadOptions object.

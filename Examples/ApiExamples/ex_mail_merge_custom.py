@@ -186,7 +186,7 @@ class ExMailMergeCustom(ApiExampleBase):
         def register_source(self, source_name: str, source: ExMailMergeCustom.EmployeeListMailMergeSource):
 
             self.sources.add(source_name, source)
-    
+
     class EmployeeListMailMergeSource(aw.mailmerging.IMailMergeDataSource):
         """Custom mail merge data source."""
 

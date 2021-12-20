@@ -134,7 +134,7 @@ class ExVbaProject(ApiExampleBase):
                               aw.vba.VbaReferenceType.ORIGINAL,
                               aw.vba.VbaReferenceType.CONTROL):
             return self.get_lib_id_reference_path(reference.lib_id)
-        
+
         if reference.type == aw.vba.VbaReferenceType.PROJECT:
             return self.get_lib_id_project_path(reference.lib_id)
 

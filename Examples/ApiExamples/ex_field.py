@@ -219,7 +219,7 @@ class ExField(ApiExampleBase):
 
     #    def __init__(self, text: str, switches: str):
     #        """The display text and switches to use for each TC field. Display name can be an empty String or null."""
-            
+
     #        # Store the text and switches to be used for the TC fields.
     #        self.field_text = text
     #        self.field_switches = switches
@@ -354,7 +354,7 @@ class ExField(ApiExampleBase):
     #        self.assertEqual("QR", bar_code_reader.found_bar_codes[0].code_type_name)
 
     #def bar_code_reader_pdf(filename: str) -> aspose.barcode.barcoderecognition.BarCodeReader:
-    
+
     #    # Set license for Aspose.BarCode.
     #    licence_bar_code = aspose.barcode.License()
     #    licence_bar_code.set_license(LICENSE_DIR + "Aspose.total.n_e_t.lic")
@@ -947,7 +947,7 @@ class ExField(ApiExampleBase):
 
     #    def get_text(self) -> str:
     #        """Gets the plain text of the document that was accumulated by the visitor."""
-            
+
     #        return self.builder.getvalue()
 
     #    def visit_field_start(self, field_start: aw.fields.FieldStart) -> aw.VisitorAction:
@@ -1355,7 +1355,7 @@ class ExField(ApiExampleBase):
         field_glossary.entry_name = "MyBlock"
 
         self.assertEqual(" GLOSSARY  MyBlock", field_glossary.get_field_code())
-        
+
         doc.update_fields()
         doc.save(ARTIFACTS_DIR + "Field.field_auto_text.glossary.dotx")
         #ExEnd
@@ -3999,7 +3999,7 @@ class ExField(ApiExampleBase):
 
         if insert_linked_object_as == ExField.InsertLinkedObjectAs.TEXT:
             field.insert_as_text = True
-            
+
         elif insert_linked_object_as == ExField.InsertLinkedObjectAs.UNICODE:
             field.insert_as_unicode = True
 

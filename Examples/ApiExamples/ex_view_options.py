@@ -105,7 +105,7 @@ class ExViewOptions(ApiExampleBase):
                 self.assertEqual(display_background_shape, doc.view_options.display_background_shape)
 
     def test_display_page_boundaries(self):
-        
+
         for do_not_display_page_boundaries in (False, True):
             with self.subTest(do_not_display_page_boundaries=do_not_display_page_boundaries):
                 #ExStart

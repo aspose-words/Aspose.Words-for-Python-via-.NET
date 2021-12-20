@@ -233,7 +233,7 @@ class ExRange(ApiExampleBase):
                     expected_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                 else:
                     expected_text = "Replaced Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                
+
                 self.assertEqual(expected_text, footnotes[0].to_string(aw.SaveFormat.TEXT).strip())
                 self.assertEqual(expected_text, footnotes[1].to_string(aw.SaveFormat.TEXT).strip())
 
@@ -378,7 +378,7 @@ class ExRange(ApiExampleBase):
     #    self.assertEqual(4, replacement_count)
     #    self.assertEqual("Numbers that the find-and-replace operation will convert to hexadecimal and highlight:\r" +
     #                    "0x7B, 0x1C8, 0x315 and 0x43E3.", doc.get_text().strip())
-    #    self.assertEqual(4, len([node for node in doc.get_child_nodes(aw.NodeType.RUN, True) 
+    #    self.assertEqual(4, len([node for node in doc.get_child_nodes(aw.NodeType.RUN, True)
     #                             if node.as_run().font.highlight_color.to_argb() == drawing.Color.light_gray.to_argb()]))
 
     #class NumberHexer(aw.replacing.IReplacingCallback):

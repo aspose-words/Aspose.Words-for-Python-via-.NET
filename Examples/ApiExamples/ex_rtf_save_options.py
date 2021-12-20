@@ -52,7 +52,7 @@ class ExRtfSaveOptions(ApiExampleBase):
                     else:
                         self.assertNotIn("nonshppict", data)
                         self.assertNotIn("shprslt", data)
-                        
+
     def test_save_images_as_wmf(self):
 
         for save_images_as_wmf in (False, True):

@@ -66,11 +66,11 @@ class MergeField:
     def name(self) -> str:
         """Gets the name of the merge field."""
         return MergeField.get_text_same_parent(self.field_separator.next_sibling, self.field_end).strip("«»")
-       
+
     @name.setter
     def name(self, value: str):
         """Sets the name of the merge field."""
-    
+
         # Merge field name is stored in the field result which is a Run
         # node between field separator and field end.
         field_result = self.field_separator.next_sibling.as_run()

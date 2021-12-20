@@ -16,7 +16,7 @@ from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 class ExTxtLoadOptions(ApiExampleBase):
 
     def test_detect_numbering_with_whitespaces(self):
-    
+
         for detect_numbering_with_whitespaces in (False, True):
             with self.subTest(detect_numbering_with_whitespaces=detect_numbering_with_whitespaces):
                 #ExStart
@@ -120,15 +120,15 @@ class ExTxtLoadOptions(ApiExampleBase):
                     self.assertTrue(paragraphs[0].get_text().startswith("Line 1"))
                     self.assertTrue(paragraphs[1].get_text().startswith("Line 2"))
                     self.assertTrue(paragraphs[2].get_text().startswith("Line 3"))
-                
+
                 elif txt_leading_spaces_options == aw.loading.TxtLeadingSpacesOptions.PRESERVE:
-                    self.assertTrue(all(p.as_paragraph().paragraph_format.first_line_indent == 0.0 
+                    self.assertTrue(all(p.as_paragraph().paragraph_format.first_line_indent == 0.0
                                         for p in paragraphs))
 
                     self.assertTrue(paragraphs[0].get_text().startswith("      Line 1"))
                     self.assertTrue(paragraphs[1].get_text().startswith("    Line 2"))
                     self.assertTrue(paragraphs[2].get_text().startswith(" Line 3"))
-                
+
                 elif txt_leading_spaces_options == aw.loading.TxtLeadingSpacesOptions.TRIM:
                     self.assertTrue(all(p.as_paragraph().paragraph_format.first_line_indent == 0.0
                                         for p in paragraphs))
@@ -141,7 +141,7 @@ class ExTxtLoadOptions(ApiExampleBase):
                     self.assertTrue(paragraphs[0].get_text().endswith("Line 1 \r"))
                     self.assertTrue(paragraphs[1].get_text().endswith("Line 2   \r"))
                     self.assertTrue(paragraphs[2].get_text().endswith("Line 3       \f"))
-                
+
                 elif txt_trailing_spaces_options == aw.loading.TxtTrailingSpacesOptions.TRIM:
                     self.assertTrue(paragraphs[0].get_text().endswith("Line 1\r"))
                     self.assertTrue(paragraphs[1].get_text().endswith("Line 2\r"))

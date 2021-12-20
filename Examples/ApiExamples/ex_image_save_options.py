@@ -203,7 +203,7 @@ class ExImageSaveOptions(ApiExampleBase):
         #ExEnd
 
         image_file_names = glob.glob(ARTIFACTS_DIR + "/ImageSaveOptions.page_by_page*.tiff")
-        
+
         self.assertEqual(3, len(image_file_names))
 
         for image_file_name in image_file_names:
@@ -553,7 +553,7 @@ class ExImageSaveOptions(ApiExampleBase):
         page_set = aw.saving.PageSet([
             aw.saving.PageRange(1, 1),
             aw.saving.PageRange(2, 3),
-            aw.saving.PageRange(1, 3),                  
+            aw.saving.PageRange(1, 3),
             aw.saving.PageRange(2, 4),
             aw.saving.PageRange(1, 1)])
 

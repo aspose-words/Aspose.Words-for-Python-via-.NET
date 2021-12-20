@@ -32,7 +32,7 @@ class ExDocumentProperties(ApiExampleBase):
 
         # The "Document" object contains some of its metadata in its members.
         print(f"Document filename:\n\t \"{doc.original_file_name}\"")
-        
+
         # The document also stores metadata in its built-in properties.
         # Each built-in property is a member of the document's "BuiltInDocumentProperties" object.
         print("Built-in Properties:")

@@ -225,7 +225,7 @@ class ExTable(ApiExampleBase):
     @staticmethod
     def get_nested_depth_of_table(table: aw.tables.Table) -> int:
         """Calculates what level a table is nested inside other tables.
-        
+
         :return: An integer indicating the nesting depth of the table (number of parent table nodes).
         """
 
@@ -241,9 +241,9 @@ class ExTable(ApiExampleBase):
     @staticmethod
     def get_child_table_count(table: aw.tables.Table) -> int:
         """Determines if a table contains any immediate child table within its cells.
-        
+
         Do not recursively traverse through those tables to check for further tables.
-        
+
         :return: Returns true if at least one child cell contains a table.
                  Returns false if no cells in the table contain a table.
         """

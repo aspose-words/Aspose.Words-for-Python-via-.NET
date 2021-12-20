@@ -183,7 +183,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         tag.multiline = True
 
         # Set the "Appearance" property to "SdtAppearance.TAGS" to show tags around content.
-        # By default structured document tag shows as BoundingBox. 
+        # By default structured document tag shows as BoundingBox.
         tag.appearance = aw.markup.SdtAppearance.TAGS;
 
         builder = aw.DocumentBuilder(doc)

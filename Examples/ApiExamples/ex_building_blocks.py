@@ -142,7 +142,7 @@ class ExBuildingBlocks(ApiExampleBase):
     #        block = aw.buildingblocks.BuildingBlock(glossary_doc)
     #        block.name = f"Block {i}"
     #        glossary_doc.append_child(block)
-        
+
     #    self.assertEqual(5, glossary_doc.building_blocks.count)
 
     #    doc.glossary_document = glossary_doc
