@@ -6,7 +6,7 @@
 
 import unittest
 import io
-from datetime import datetime, date, timedelta
+from datetime import datetime
 from enum import Enum
 
 import aspose.words as aw

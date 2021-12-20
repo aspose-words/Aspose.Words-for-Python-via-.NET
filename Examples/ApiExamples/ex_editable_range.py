@@ -4,10 +4,8 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
-import unittest
-
 import aspose.words as aw
-from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR
 from document_helper import DocumentHelper
 
 class ExEditableRange(ApiExampleBase):

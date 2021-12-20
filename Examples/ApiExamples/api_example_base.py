@@ -7,7 +7,6 @@
 import unittest
 import os
 import io
-import platform
 from datetime import datetime, timedelta
 from typing import Optional
 

@@ -4,18 +4,12 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
-import unittest
-import io
 import os
 import shutil
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, license_dir, assembly_dir
-
-LICENSE_DIR = license_dir
-ASSEMBLY_DIR = assembly_dir
+from api_example_base import ApiExampleBase, LICENSE_DIR, ASSEMBLY_DIR
 
 class ExLicense(ApiExampleBase):
 

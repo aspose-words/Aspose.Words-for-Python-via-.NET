@@ -4,14 +4,11 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
-import unittest
-import io
 from typing import List
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR
 
 class ExMailMergeCustomNested(ApiExampleBase):
 
