@@ -326,7 +326,6 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
         for optimize_output in (False, True):
             with self.subTest(optimize_output=optimize_output):
                 #ExStart
-                #ExFor:FixedPageSaveOptions.optimize_output
                 #ExFor:HtmlFixedSaveOptions.optimize_output
                 #ExSummary:Shows how to simplify a document when saving it to HTML by removing various redundant objects.
                 doc = aw.Document(MY_DIR + "Rendering.docx")

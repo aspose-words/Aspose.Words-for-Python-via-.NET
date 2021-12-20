@@ -5,12 +5,14 @@
 # "as is", without warranty of any kind, either expressed or implied.
 
 import unittest
-import aspose.words as aw
 import os
 import io
 import platform
 from datetime import datetime, timedelta
 from typing import Optional
+
+import aspose.words as aw
+import aspose.pydrawing as drawing
 
 ROOT_DIR = os.path.abspath(os.curdir) + "/"
 ROOT_DIR = ROOT_DIR[:ROOT_DIR.find("Aspose.Words-for-Python-via-.NET")]

@@ -498,7 +498,7 @@ class ExFontSettings(ApiExampleBase):
         #ExStart
         #ExFor:FontSettings
         #ExFor:FontSettings.get_fonts_sources()
-        #ExFor:FontSettings.set_fonts_sources()
+        #ExFor:FontSettings.set_fonts_sources(List[FontSourceBase])
         #ExSummary:Shows how to add a font source to our existing font sources.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

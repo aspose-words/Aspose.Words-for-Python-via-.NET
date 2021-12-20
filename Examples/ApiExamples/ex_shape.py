@@ -718,6 +718,198 @@ class ExShape(ApiExampleBase):
         self.assertEqual(drawing.Color.cadet_blue.to_argb(), shape.stroke_color.to_argb())
         self.assertAlmostEqual(0.3, shape.fill.opacity, delta=0.01)
 
+    def test_texture_fill(self):
+
+        #ExStart
+        #ExFor:Fill.texture_alignment
+        #ExFor:TextureAlignment
+        #ExSummary:Shows how to fill and tiling the texture inside the shape.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, 80, 80)
+
+        # Apply texture alignment to the shape fill.
+        shape.fill.preset_textured(aw.drawing.PresetTexture.CANVAS)
+        shape.fill.texture_alignment = aw.drawing.TextureAlignment.TOP_RIGHT
+
+        # Use the compliance option to define the shape using DML if you want to get "texture_alignment"
+        # property after the document saves.
+        save_options = aw.saving.OoxmlSaveOptions()
+        save_options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_STRICT
+
+        doc.save(ARTIFACTS_DIR + "Shape.texture_fill.docx", save_options)
+        #ExEnd
+
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.texture_fill.docx")
+
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+
+        self.assertEqual(aw.drawing.TextureAlignment.TOP_RIGHT, shape.fill.texture_alignment)
+
+    def test_gradient_fill(self):
+
+        #ExStart
+        #ExFor:Fill.one_color_gradient(Color, GradientStyle, GradientVariant, float)
+        #ExFor:Fill.one_color_gradient(GradientStyle, GradientVariant, float)
+        #ExFor:Fill.two_color_gradient(Color, Color, GradientStyle, GradientVariant)
+        #ExFor:Fill.two_color_gradient(GradientStyle, GradientVariant)
+        #ExFor:Fill.gradient_style
+        #ExFor:Fill.gradient_variant
+        #ExFor:Fill.gradient_angle
+        #ExFor:GradientStyle
+        #ExFor:GradientVariant
+        #ExSummary:Shows how to fill a shape with a gradients.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, 80, 80)
+        # Apply One-color gradient fill to the shape with "fore_color" of gradient fill.
+        shape.fill.one_color_gradient(drawing.Color.red, aw.drawing.GradientStyle.HORIZONTAL, aw.drawing.GradientVariant.VARIANT2, 0.1)
+
+        self.assertEqual(drawing.Color.red.to_argb(), shape.fill.fore_color.to_argb())
+        self.assertEqual(aw.drawing.GradientStyle.HORIZONTAL, shape.fill.gradient_style)
+        self.assertEqual(aw.drawing.GradientVariant.VARIANT2, shape.fill.gradient_variant)
+        self.assertEqual(270, shape.fill.gradient_angle)
+
+        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, 80, 80)
+        # Apply Two-color gradient fill to the shape.
+        shape.fill.two_color_gradient(aw.drawing.GradientStyle.FROM_CORNER, aw.drawing.GradientVariant.VARIANT4)
+        # Change "back_color" of gradient fill.
+        shape.fill.back_color = drawing.Color.yellow
+        # Note that changes "gradient_angle" for "GradientStyle.FROM_CORNER/GradientStyle.FROM_CENTER"
+        # gradient fill don't get any effect, it will work only for linear gradient.
+        shape.fill.gradient_angle = 15
+
+        self.assertEqual(drawing.Color.yellow.to_argb(), shape.fill.back_color.to_argb())
+        self.assertEqual(aw.drawing.GradientStyle.FROM_CORNER, shape.fill.gradient_style)
+        self.assertEqual(aw.drawing.GradientVariant.VARIANT4, shape.fill.gradient_variant)
+        self.assertEqual(0, shape.fill.gradient_angle)
+
+        # Use the compliance option to define the shape using DML if you want to get "gradient_style",
+        # "gradient_variant" and "gradient_angle" properties after the document saves.
+        save_options = aw.saving.OoxmlSaveOptions()
+        save_options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_STRICT
+
+        doc.save(ARTIFACTS_DIR + "Shape.gradient_fill.docx", save_options)
+        #ExEnd
+
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.gradient_fill.docx")
+        first_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+
+        self.assertEqual(drawing.Color.red.to_argb(), first_shape.fill.fore_color.to_argb())
+        self.assertEqual(aw.drawing.GradientStyle.HORIZONTAL, first_shape.fill.gradient_style)
+        self.assertEqual(aw.drawing.GradientVariant.VARIANT2, first_shape.fill.gradient_variant)
+        self.assertEqual(270, first_shape.fill.gradient_angle)
+
+        second_shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
+
+        self.assertEqual(drawing.Color.yellow.to_argb(), second_shape.fill.back_color.to_argb())
+        self.assertEqual(aw.drawing.GradientStyle.FROM_CORNER, second_shape.fill.gradient_style)
+        self.assertEqual(aw.drawing.GradientVariant.VARIANT4, second_shape.fill.gradient_variant)
+        self.assertEqual(0, second_shape.fill.gradient_angle)
+
+    def test_gradient_stops(self):
+
+        #ExStart
+        #ExFor:Fill.gradient_stops
+        #ExFor:GradientStopCollection
+        #ExFor:GradientStopCollection.insert(int, GradientStop)
+        #ExFor:GradientStopCollection.add(GradientStop)
+        #ExFor:GradientStopCollection.remove_at(int)
+        #ExFor:GradientStopCollection.remove(GradientStop)
+        #ExFor:GradientStopCollection.__getitem__(int)
+        #ExFor:GradientStopCollection.count
+        #ExFor:GradientStop.__init__(Color, float)
+        #ExFor:GradientStop.__init__(Color, float, float)
+        #ExFor:GradientStop.color
+        #ExFor:GradientStop.position
+        #ExFor:GradientStop.transparency
+        #ExFor:GradientStop.remove
+        #ExSummary:Shows how to add gradient stops to the gradient fill.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, 80, 80)
+        shape.fill.two_color_gradient(drawing.Color.green, drawing.Color.red, aw.drawing.GradientStyle.HORIZONTAL, aw.drawing.GradientVariant.VARIANT2)
+
+        # Get gradient stops collection.
+        gradient_stops = shape.fill.gradient_stops
+
+        # Change first gradient stop.
+        gradient_stops[0].color = drawing.Color.aqua
+        gradient_stops[0].position = 0.1
+        gradient_stops[0].transparency = 0.25
+
+        # Add new gradient stop to the end of collection.
+        gradient_stop = aw.drawing.GradientStop(drawing.Color.brown, 0.5)
+        gradient_stops.add(gradient_stop)
+
+        # Remove gradient stop at index 1.
+        gradient_stops.remove_at(1)
+        # And insert new gradient stop at the same index 1.
+        gradient_stops.insert(1, aw.drawing.GradientStop(drawing.Color.chocolate, 0.75, 0.3))
+
+        # Remove last gradient stop in the collection.
+        gradient_stop = gradient_stops[2]
+        gradient_stops.remove(gradient_stop)
+
+        self.assertEqual(2, gradient_stops.count)
+
+        self.assertEqual(drawing.Color.aqua.to_argb(), gradient_stops[0].color.to_argb())
+        self.assertAlmostEqual(0.1, gradient_stops[0].position, delta=0.01)
+        self.assertAlmostEqual(0.25, gradient_stops[0].transparency, delta=0.01)
+
+        self.assertEqual(drawing.Color.chocolate.to_argb(), gradient_stops[1].color.to_argb())
+        self.assertAlmostEqual(0.75, gradient_stops[1].position, delta=0.01)
+        self.assertAlmostEqual(0.3, gradient_stops[1].transparency, delta=0.01)
+
+        # Use the compliance option to define the shape using DML
+        # if you want to get "gradient_stops" property after the document saves.
+        save_options = aw.saving.OoxmlSaveOptions()
+        save_options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_STRICT
+
+        doc.save(ARTIFACTS_DIR + "Shape.gradient_stops.docx", save_options)
+        #ExEnd
+
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.gradient_stops.docx")
+
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        gradient_stops = shape.fill.gradient_stops
+
+        self.assertEqual(2, gradient_stops.count)
+
+        self.assertEqual(drawing.Color.aqua.to_argb(), gradient_stops[0].color.to_argb())
+        self.assertAlmostEqual(0.1, gradient_stops[0].position, delta=0.01)
+        self.assertAlmostEqual(0.25, gradient_stops[0].transparency, delta=0.01)
+
+        self.assertEqual(drawing.Color.chocolate.to_argb(), gradient_stops[1].color.to_argb())
+        self.assertAlmostEqual(0.75, gradient_stops[1].position, delta=0.01)
+        self.assertAlmostEqual(0.3, gradient_stops[1].transparency, delta=0.01)
+
+    def test_fill_pattern(self):
+
+        #ExStart
+        #ExFor:Fill.Patterned(PatternType)
+        #ExFor:Fill.Patterned(PatternType, Color, Color)
+        #ExSummary:Shows how to set pattern for a shape.
+        doc = aw.Document(MY_DIR + "Shape stroke pattern border.docx")
+
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        fill = shape.fill
+
+        print("Pattern value is: {0}", fill.pattern)
+
+        # There are several ways specified fill to a pattern.
+        # 1 -  Apply pattern to the shape fill:
+        fill.patterned(aw.drawing.PatternType.DIAGONAL_BRICK)
+
+        # 2 -  Apply pattern with foreground and background colors to the shape fill:
+        fill.patterned(aw.drawing.PatternType.DIAGONAL_BRICK, drawing.Color.aqua, drawing.Color.bisque)
+
+        doc.save(ARTIFACTS_DIR + "Shape.fill_pattern.docx")
+        #ExEnd
+
     def test_title(self):
 
         #ExStart
@@ -2360,7 +2552,7 @@ class ExShape(ApiExampleBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        builder.insert_shape(aw.drawing.ShapeType.HEPTAGON, aw.drawing.RelativeHorizontalPosition.RIGHT_MARGIN, 0,
+        builder.insert_shape(aw.drawing.ShapeType.HEPTAGON, aw.drawing.RelativeHorizontalPosition.PAGE, 0,
             aw.drawing.RelativeVerticalPosition.PAGE, 0, 0, 0, aw.drawing.WrapType.NONE)
 
         builder.insert_shape(aw.drawing.ShapeType.CLOUD, aw.drawing.RelativeHorizontalPosition.RIGHT_MARGIN, 0,
@@ -2383,4 +2575,29 @@ class ExShape(ApiExampleBase):
         for shape in shapes:
             print(shape.shape_type)
 
+        #ExEnd
+
+    def test_is_decorative(self):
+
+        #ExStart
+        #ExFor:ShapeBase.is_decorative
+        #ExSummary:Shows how to set that the shape is decorative.
+        doc = aw.Document(MY_DIR + "Decorative shapes.docx")
+
+        shape = doc.get_child_nodes(aw.NodeType.SHAPE, True)[0].as_shape()
+        self.assertTrue(shape.is_decorative)
+
+        # If "alternative_text" is not empty, the shape cannot be decorative.
+        # That's why our value has changed to 'False'.
+        shape.alternative_text = "Alternative text."
+        self.assertFalse(shape.is_decorative)
+
+        builder = aw.DocumentBuilder(doc)
+
+        builder.move_to_document_end()
+        # Create a new shape as decorative.
+        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, 100, 100)
+        shape.is_decorative = True
+
+        doc.save(ARTIFACTS_DIR + "Shape.is_decorative.docx")
         #ExEnd
