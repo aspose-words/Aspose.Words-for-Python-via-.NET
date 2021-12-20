@@ -38,9 +38,9 @@ class ApiExampleBase(unittest.TestCase):
 
     def verify_image(self, expected_width: int, expected_height: int, filename: Optional[str] = None, image_stream: Optional[io.BytesIO] = None):
         """Checks whether a file or a stream contains a valid image with specified dimensions.
-            
+
         Serves to check that an image file is valid and nonempty without looking up its file size.
-            
+
         :param expected_width: Expected width of the image, in pixels.
         :param expected_height: Expected height of the image, in pixels.
         :param filename: Local file system filename of the image file.
@@ -58,10 +58,10 @@ class ApiExampleBase(unittest.TestCase):
             with drawing.Image.from_stream(image_stream) as image:
                 self.assertEqual(expected_width, image.width)
                 self.assertEqual(expected_height, image.height)
-            
+
     def verify_image_contains_transparency(self, filename: str):
         """Checks whether an image from the local file system contains any transparency.
-        
+
         :param filename: Local file system filename of the image file."""
 
         with drawing.Image.from_file(filename) as image:
@@ -86,17 +86,17 @@ class ApiExampleBase(unittest.TestCase):
     #    request.Method = "HEAD"
 
     #    self.assertEqual(expectedHttpStatusCode, ((HttpWebResponse)request.get_response()).StatusCode)
-    
+
     def verify_doc_package_file_contains_string(self, expected: str, doc_filename: str, doc_part_filename: str):
         """Checks whether a file inside a document's OOXML package contains a string.
-        
+
         If an output document does not have a testable value that can be found as a property in its object when loaded,
         the value can sometimes be found in the document's OOXML package.
-        
+
         :param expected: The string we are looking for.
         :param doc_filename: Local file system filename of the document.
         :param doc_part_filename: Name of the file within the document opened as a .zip that is expected to contain the string."""
-        
+
         with zipfile.ZipFile(doc_filename) as archive:
             with archive.open(doc_part_filename) as stream:
                 self.assertIn(expected.encode('utf-8'), stream.read())
@@ -107,9 +107,9 @@ class ApiExampleBase(unittest.TestCase):
                      expected_result: str,
                      field: aw.fields.Field):
         """Checks whether values of properties of a field with a type not related to date/time are equal to expected values.
-        
+
         Best used when there are many fields closely being tested and should be avoided if a field has a long field code/result.
-        
+
         :param expected_type: The FieldType that we expect the field to have.
         :param expected_field_code: The expected output value of GetFieldCode() being called on the field.
         :param expected_result: The field's expected result, which will be the value displayed by it in the document.
@@ -122,15 +122,15 @@ class ApiExampleBase(unittest.TestCase):
 
     def verify_datetime_field(self,
                               expected_type: aw.fields.FieldType,
-                              expected_field_code: str, 
+                              expected_field_code: str,
                               expected_result: datetime,
                               field: aw.fields.Field,
                               delta: timedelta):
         """Checks whether values of properties of a field with a type related to date/time are equal to expected values.
-        
+
         Used when comparing DateTime instances to Field.Result values parsed to DateTime, which may differ slightly.
         Give a delta value that's generous enough for any lower end system to pass, also a delta of zero is allowed.
-        
+
         :param expected_type: The FieldType that we expect the field to have.
         :param expected_field_code: The expected output value of GetFieldCode() being called on the field.
         :param expected_result: The date/time that the field's result is expected to represent.
@@ -139,7 +139,7 @@ class ApiExampleBase(unittest.TestCase):
 
         self.assertEqual(expected_type, field.type)
         self.assertEqual(expected_field_code, field.get_field_code(True))
-        
+
         if field.type == aw.fields.FieldType.FIELD_TIME:
             actual = datetime.strptime(field.result, "%H:%M:%S")
             expected = datetime.combine(date(1900, 1, 1), expected_result.time())
@@ -174,7 +174,7 @@ class ApiExampleBase(unittest.TestCase):
                               expected_image_type: aw.drawing.ImageType,
                               image_shape: aw.drawing.Shape):
         """Checks whether a shape contains a valid image with specified dimensions.
-        
+
         Serves to check that an image file is valid and nonempty without looking up its data length.
 
         :param expected_width: Expected width of the image, in pixels.
@@ -195,7 +195,7 @@ class ApiExampleBase(unittest.TestCase):
                         expected_contents: str,
                         footnote: aw.notes.Footnote):
         """Checks whether values of a footnote's properties are equal to their expected values.
-        
+
         :param expected_footnote_type: Expected type of the footnote/endnote.</param>
         :param expected_is_auto: Expected auto-numbered status of this footnote.</param>
         :param expected_reference_mark: If "is_auto" is false, then the footnote is expected to display this string instead of a number after referenced text.</param>
@@ -213,12 +213,12 @@ class ApiExampleBase(unittest.TestCase):
                           expected_number_style: aw.NumberStyle,
                           list_level: aw.lists.ListLevel):
         """Checks whether values of a list level's properties are equal to their expected values.
-        
+
         Only necessary for list levels that have been explicitly created by the user.
-        
+
         :param expected_list_format: Expected format for the list symbol.
         :param expected_number_position: Expected indent for this level, usually growing larger with each level.
-        :param expected_number_style: 
+        :param expected_number_style:
         :param list_level: List level in question."""
 
         self.assertEqual(expected_list_format, list_level.number_format)
@@ -250,13 +250,13 @@ class ApiExampleBase(unittest.TestCase):
 
         return result
 
-    def verify_tab_stop(self, 
+    def verify_tab_stop(self,
                         expected_position: float,
                         expected_tab_alignment: aw.TabAlignment,
                         expected_tab_leader: aw.TabLeader,
                         is_clear: bool, tab_stop: aw.TabStop):
         """Checks whether values of a tab stop's properties are equal to their expected values.
-        
+
         :param expected_position: Expected position on the tab stop ruler, in points.
         :param expected_tab_alignment: Expected position where the position is measured from.
         :param expected_tab_leader: Expected characters that pad the space between the start and end of the tab whitespace.
@@ -270,7 +270,7 @@ class ApiExampleBase(unittest.TestCase):
 
     def verify_shape(self, expected_shape_type: aw.drawing.ShapeType, expected_name: str, expected_width: float, expected_height: float, expected_top: float, expected_left: float, shape: aw.drawing.Shape):
         """Checks whether values of a shape's properties are equal to their expected values.
-        
+
         All dimension measurements are in points."""
 
         self.assertEqual(expected_shape_type, shape.shape_type)
@@ -282,7 +282,7 @@ class ApiExampleBase(unittest.TestCase):
 
     def verify_text_box(self, expected_layout_flow: aw.drawing.LayoutFlow, expected_fit_shape_to_text: bool, expected_text_box_wrap_mode: aw.drawing.TextBoxWrapMode, margin_top: float, margin_bottom: float, margin_left: float, margin_right: float, text_box: aw.drawing.TextBox):
         """Checks whether values of properties of a textbox are equal to their expected values.
-        
+
         All dimension measurements are in points."""
 
         self.assertEqual(expected_layout_flow, text_box.layout_flow)
@@ -306,11 +306,11 @@ class ApiExampleBase(unittest.TestCase):
 
     def verify_date(self, expected: datetime, actual: datetime, delta: timedelta):
         """Checks whether a DateTime matches an expected value, with a margin of error.
-            
+
         :param expected: The date/time that we expect the result to be.</param>
         :param actual: The DateTime object being tested.</param>
         :param delta: Margin of error for expectedResult.</param>"""
-        
+
         self.assertAlmostEqual(expected, actual, delta=delta)
 
     ## <summary>

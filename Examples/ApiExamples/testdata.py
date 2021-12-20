@@ -13,7 +13,7 @@ import aspose.pydrawing as drawing
 
 
 class ClientTestClass:
-    
+
     def __init__(self, name: str, country: Optional[str] = None, local_address: Optional[str] = None):
         self.name = name
         self.country = country
@@ -95,10 +95,10 @@ class NumericTestClass:
 
 
 class Common:
-    
+
     @staticmethod
     def get_managers() -> List[ManagerTestClass]:
-    
+
         managers: List[ManagerTestClass] = []
 
         manager = ManagerTestClass(name="John Smith", age=36, contracts=[])

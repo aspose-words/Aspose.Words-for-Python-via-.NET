@@ -111,7 +111,7 @@ class DocumentHelper(ApiExampleBase):
 
     def insert_new_run(doc: aw.Document, text: str, para_index: int) -> aw.Run:
         """Insert run into the current document.
-        
+
         :param doc: Current document.
         :param text: Custom text.
         :param para_index: Paragraph index."""
@@ -127,7 +127,7 @@ class DocumentHelper(ApiExampleBase):
     @staticmethod
     def insert_builder_text(builder: aw.DocumentBuilder, text_strings):
         """Insert text into the current document.
-        
+
         :param builder: Current document builder.
         :param text_strings: Custom text."""
         for text_string in text_strings :
@@ -136,7 +136,7 @@ class DocumentHelper(ApiExampleBase):
     @staticmethod
     def get_paragraph_text(doc: aw.Document, para_index: int) -> str:
         """Get paragraph text of the current document.
-        
+
         :param doc: Current document.
         :param para_index: Paragraph number from collection."""
         return doc.first_section.body.paragraphs[para_index].get_text()
@@ -144,7 +144,7 @@ class DocumentHelper(ApiExampleBase):
     @staticmethod
     def insert_table(builder: aw.DocumentBuilder):
         """Insert new table in the document.
-        
+
         :param builder: Current document builder."""
         # Start creating a new table
         table = builder.start_table()
@@ -179,7 +179,7 @@ class DocumentHelper(ApiExampleBase):
     @staticmethod
     def insert_toc(builder: aw.DocumentBuilder):
         """Insert TOC entries in the document.
-        
+
         :param builder: The builder."""
         # Creating TOC entries
         builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING1
@@ -204,7 +204,7 @@ class DocumentHelper(ApiExampleBase):
 
     def get_section_text(doc: aw.Document, sec_index: int) -> str:
         """Get section text of the current document.
-        
+
         :param doc: Current document.
         :param sec_index: Section number from collection."""
         return doc.sections[sec_index].get_text()
@@ -212,7 +212,7 @@ class DocumentHelper(ApiExampleBase):
     @staticmethod
     def get_paragraph(doc: aw.Document, para_index: int) -> aw.Paragraph:
         """Get paragraph of the current document.
-        
+
         :param doc: Current document.
         :param para_index: Paragraph number from collection."""
         return doc.first_section.body.paragraphs[para_index]
