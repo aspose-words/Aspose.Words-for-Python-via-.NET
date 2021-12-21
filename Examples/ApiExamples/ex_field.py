@@ -2487,6 +2487,7 @@ class ExField(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "Field.field_include_text.docx")
         self._test_field_include_text(aw.Document(ARTIFACTS_DIR + "Field.field_include_text.docx")) #ExSkip
 
+    @staticmethod
     def create_field_include_text(builder: aw.DocumentBuilder, source_full_name: str, lock_fields: bool, mime_type: str, text_converter: str, encoding: str) -> aw.fields.FieldIncludeText:
         """Use a document builder to insert an INCLUDETEXT field with custom properties."""
 

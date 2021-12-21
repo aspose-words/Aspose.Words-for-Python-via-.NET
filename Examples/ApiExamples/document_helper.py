@@ -109,6 +109,7 @@ class DocumentHelper(ApiExampleBase):
 
         return doc1.get_text() == doc2.get_text()
 
+    @staticmethod
     def insert_new_run(doc: aw.Document, text: str, para_index: int) -> aw.Run:
         """Insert run into the current document.
 
@@ -202,6 +203,7 @@ class DocumentHelper(ApiExampleBase):
 
         builder.writeln("Heading 1.1.1.1.1.1.1.1.1")
 
+    @staticmethod
     def get_section_text(doc: aw.Document, sec_index: int) -> str:
         """Get section text of the current document.
 

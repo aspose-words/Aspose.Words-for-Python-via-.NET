@@ -487,6 +487,7 @@ class ExNode(ApiExampleBase):
             print(string_stream.getvalue())
             self._test_node_xpath_navigator(string_stream.getvalue(), doc) #ExSkip
 
+    @staticmethod
     def map_document(navigator, string_stream: io.StringIO, depth: int):
         """Traverses all children of a composite node and map the structure in the style of a directory tree.
         The amount of space indentation indicates depth relative to the initial node.
