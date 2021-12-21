@@ -84,4 +84,3 @@ class ExBookmarksOutlineLevelCollection(ApiExampleBase):
         #self.assertEqual("Bookmark 1", bookmarks[0].title)
         #self.assertEqual("Bookmark 2", bookmarks[1].title)
         #self.assertEqual("Bookmark 3", bookmarks[2].title)
-
