@@ -56,9 +56,9 @@ class ExXamlFixedSaveOptions(ApiExampleBase):
 
         def __init__(self):
 
-            self.resources = [] # type: List[str[
+            self.resources = [] # type: List[str]
 
-        def resource_saving(args: aw.saving.ResourceSavingArgs):
+        def resource_saving(self, args: aw.saving.ResourceSavingArgs):
 
             self.resources.add(f"Resource \"{args.resource_file_name}\"\n\t{args.resource_file_uri}")
 
