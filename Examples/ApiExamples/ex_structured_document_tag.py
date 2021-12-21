@@ -95,7 +95,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         tags = [node.as_structured_document_tag() for node in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)]
 
         self.assertTrue(tags[0].checked)
-        self.assertEquals(tags[0].xml_mapping.store_item_id, "")
+        self.assertEqual(tags[0].xml_mapping.store_item_id, "")
 
     def test_date(self):
 
