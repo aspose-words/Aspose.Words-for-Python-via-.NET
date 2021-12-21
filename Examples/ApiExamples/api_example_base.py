@@ -50,8 +50,8 @@ class ApiExampleBase(unittest.TestCase):
         assert filename is not None or image_stream is not None
 
         if filename is not None:
-            with open(filename, 'rb') as image_stream:
-                with drawing.Image.from_stream(image_stream) as image:
+            with open(filename, 'rb') as stream:
+                with drawing.Image.from_stream(stream) as image:
                     self.assertEqual(expected_width, image.width)
                     self.assertEqual(expected_height, image.height)
         else:
