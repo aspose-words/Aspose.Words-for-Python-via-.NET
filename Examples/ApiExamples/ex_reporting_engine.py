@@ -334,7 +334,7 @@ class ExReportingEngine(ApiExampleBase):
 
         doc_base64 = DocumentTestClass(doc_string=base64_template)
 
-        self.build_report(template, docBase64, "src", options=aw.reporting.ReportBuildOptions.NONE)
+        self.build_report(template, doc_base64, "src", options=aw.reporting.ReportBuildOptions.NONE)
         template.save(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_base64.docx")
 
         self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_base64.docx", GOLDS_DIR + "ReportingEngine.insert_document_dynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by uri")

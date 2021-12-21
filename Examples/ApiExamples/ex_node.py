@@ -511,7 +511,7 @@ class ExNode(ApiExampleBase):
 
     #ExEnd
 
-    def _test_node_xpath_navigator(navigator_result: str, doc: aw.Document):
+    def _test_node_xpath_navigator(self, navigator_result: str, doc: aw.Document):
 
         for run in doc.get_child_nodes(aw.NodeType.RUN, True):
             run = run.as_run()

@@ -589,8 +589,8 @@ class ExDocument(ApiExampleBase):
         self.assertTrue(digital_signature_collection.is_valid)
         self.assertEqual(1, digital_signature_collection.count)
         self.assertEqual(aw.digitalsignatures.DigitalSignatureType.XML_DSIG, digital_signature_collection[0].signature_type)
-        self.assertEqual("CN=Morzal.Me", signedDoc.digital_signatures[0].issuer_name)
-        self.assertEqual("CN=Morzal.Me", signedDoc.digital_signatures[0].subject_name)
+        self.assertEqual("CN=Morzal.Me", signed_doc.digital_signatures[0].issuer_name)
+        self.assertEqual("CN=Morzal.Me", signed_doc.digital_signatures[0].subject_name)
         #ExEnd
 
     def test_append_all_documents_in_folder(self):

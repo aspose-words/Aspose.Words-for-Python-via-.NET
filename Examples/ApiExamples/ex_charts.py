@@ -943,8 +943,8 @@ class ExCharts(ApiExampleBase):
         # We can set axis bounds in the form of dates as well, limiting the chart to a period.
         # Setting the range to 1980-1990 will omit the two of the series values
         # that are outside of the range from the graph.
-        chart.axis_x.scaling.minimum = aw.drawing.charts.AxisBound(DateTime(1980, 1, 1))
-        chart.axis_x.scaling.maximum = aw.drawing.charts.AxisBound(DateTime(1990, 1, 1))
+        chart.axis_x.scaling.minimum = aw.drawing.charts.AxisBound(date(1980, 1, 1))
+        chart.axis_x.scaling.maximum = aw.drawing.charts.AxisBound(date(1990, 1, 1))
 
         doc.save(ARTIFACTS_DIR + "Charts.axis_bound.docx")
         #ExEnd
@@ -963,8 +963,8 @@ class ExCharts(ApiExampleBase):
         chart = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape().chart
 
         self.assertFalse(chart.axis_x.scaling.minimum.is_auto)
-        self.assertEqual(aw.drawing.charts.AxisBound(DateTime(1980, 1, 1)), chart.axis_x.scaling.minimum)
-        self.assertEqual(aw.drawing.charts.AxisBound(DateTime(1990, 1, 1)), chart.axis_x.scaling.maximum)
+        self.assertEqual(aw.drawing.charts.AxisBound(date(1980, 1, 1)), chart.axis_x.scaling.minimum)
+        self.assertEqual(aw.drawing.charts.AxisBound(date(1990, 1, 1)), chart.axis_x.scaling.maximum)
 
         self.assertTrue(chart.axis_y.scaling.minimum.is_auto)
 

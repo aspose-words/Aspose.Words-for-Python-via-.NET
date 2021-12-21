@@ -49,7 +49,7 @@ class ExXamlFixedSaveOptions(ApiExampleBase):
         for resource in callback.resources:
             print(resource)
 
-        test_resource_folder(callback) #ExSkip
+        self._test_resource_folder(callback) #ExSkip
 
     class ResourceUriPrinter(aw.saving.IResourceSavingCallback):
         """Counts and prints URIs of resources created during conversion to fixed .xaml."""
@@ -69,7 +69,7 @@ class ExXamlFixedSaveOptions(ApiExampleBase):
 
     #ExEnd
 
-    def test_resource_folder(callback: ExXamlFixedSaveOptions.ResourceUriPrinter):
+    def _test_resource_folder(self, callback: ExXamlFixedSaveOptions.ResourceUriPrinter):
 
         self.assertEqual(15, len(callback.resources))
         for resource in callback.resources:

@@ -252,7 +252,7 @@ class ExOoxmlSaveOptions(ApiExampleBase):
                     file_size = os.path.getsize(ARTIFACTS_DIR + "OoxmlSaveOptions.check_file_signatures.docx")
                     self.assertLess(prev_file_size, file_size)
 
-                    ApiExamplesBase.copy_stream(output_file_stream, stream)
+                    ApiExampleBase.copy_stream(output_file_stream, stream)
                     self.assertEqual(file_signatures[i], ApiExampleBase.dump_array(bytes(stream.getvalue()), 0, 10))
 
                     prev_file_size = file_size

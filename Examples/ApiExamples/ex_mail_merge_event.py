@@ -9,7 +9,7 @@ import io
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, ASPOSE_LOGO_URL
 
 class ExMailMergeEvent(ApiExampleBase):
 
@@ -168,7 +168,7 @@ class ExMailMergeEvent(ApiExampleBase):
                 field_value = args.field_value.to_string()
 
                 # In this case, for every record index 'n', the corresponding field value is "Course n".
-                self.assertEqual(char.get_numeric_value(field_value[7]), args.record_index)
+                self.assertEqual(ord(field_value[7]), args.record_index)
 
                 builder.write(field_value)
                 self.check_box_count += 1

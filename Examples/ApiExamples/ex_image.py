@@ -230,7 +230,7 @@ class ExImage(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Image.insert_image_with_hyperlink.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        self.verify_web_response_status_code(HttpStatusCode.OK, shape.href)
+        self.verify_web_response_status_code(200, shape.href)
         self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shape)
         self.assertEqual("New Window", shape.target)
         self.assertEqual("Aspose.Words Support Forums", shape.screen_tip)

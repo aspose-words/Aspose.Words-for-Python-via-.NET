@@ -229,7 +229,7 @@ class ExHeaderFooter(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "HeaderFooter.replace_text.docx")
 
-        self.assertIn(f"Copyright (C) {currentYear} by Aspose Pty Ltd.", doc.range.text)
+        self.assertIn(f"Copyright (C) {current_year} by Aspose Pty Ltd.", doc.range.text)
 
     ##ExStart
     ##ExFor:IReplacingCallback

@@ -8,6 +8,7 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
+from document_helper import DocumentHelper
 
 class ExSection(ApiExampleBase):
 
@@ -494,7 +495,7 @@ class ExSection(ApiExampleBase):
         section_de.page_setup.footer_distance = 35.4 # 1.25 cm
         section_de.page_setup.text_columns.spacing = 35.4 # 1.25 cm
 
-        doc_de = DocumentHelper.save_open(docDe)
+        doc_de = DocumentHelper.save_open(doc_de)
 
         section_de_after = doc_de.sections[0]
         self.assertEqual(90.0, section_de_after.page_setup.left_margin) # 3.17 cm

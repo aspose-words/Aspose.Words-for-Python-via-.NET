@@ -1378,11 +1378,11 @@ class ExShape(ApiExampleBase):
     def def_work_with_math_object_type(self):
 
         parameters = [
-            (0, MathObjectType.OMathPara),
-            (1, MathObjectType.OMath),
-            (2, MathObjectType.Supercript),
-            (3, MathObjectType.Argument),
-            (4, MathObjectType.SuperscriptPart)]
+            (0, aw.math.MathObjectType.OMathPara),
+            (1, aw.math.MathObjectType.OMath),
+            (2, aw.math.MathObjectType.Supercript),
+            (3, aw.math.MathObjectType.Argument),
+            (4, aw.math.MathObjectType.SuperscriptPart)]
 
         for index, object_type in parameters:
             with self.subTest(index=index, object_type=object_type):

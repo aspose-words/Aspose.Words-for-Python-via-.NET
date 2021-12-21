@@ -1403,7 +1403,7 @@ class ExDocumentBuilder(ApiExampleBase):
         self.verify_field(aw.fields.FieldType.FIELD_HYPERLINK, " HYPERLINK \\l \"Bookmark1\" \\o \"Hyperlink Tip\" ", "Link to Bookmark1", hyperlink)
         self.assertEqual("Bookmark1", hyperlink.sub_address)
         self.assertEqual("Hyperlink Tip", hyperlink.screen_tip)
-        self.assertTrue(any(b for f in doc.range.bookmarks if b.name == "Bookmark1"))
+        self.assertTrue(any(b for b in doc.range.bookmarks if b.name == "Bookmark1"))
 
     def test_cursor_position(self):
 

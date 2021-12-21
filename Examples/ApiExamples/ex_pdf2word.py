@@ -81,8 +81,7 @@ class ExPdf2Word(ApiExampleBase):
         pdf_doc.save(ARTIFACTS_DIR + "PDF2Word.convert_pdf_to_docx_custom.docx", save_options)
         #ExEnd
 
-    @staticmethod
-    def load_pdf_using_plugin():
+    def load_pdf_using_plugin(self):
 
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

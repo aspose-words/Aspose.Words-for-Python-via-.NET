@@ -1008,7 +1008,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         range_start.remove_self_only()
 
         range_start = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, False).as_structured_document_tag_range_start()
-        self.assertEqual(null, range_start)
+        self.assertIsNone(range_start)
 
         range_end = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_END, 0, False).as_structured_document_tag_range_end()
 

@@ -2550,7 +2550,7 @@ class ExField(ApiExampleBase):
                     self.assertEqual(drawing.Color.empty(), table.rows[i].cells[j].cell_format.shading.background_pattern_color)
 
                 self.assertEqual(
-                    double.parse(cd_collection_xsl_transformation.select_nodes("//xsl:stylesheet/xsl:template/html/body/table", manager)[0].attributes.get_named_item("border").value) * 0.75,
+                    float(cd_collection_xsl_transformation.select_nodes("//xsl:stylesheet/xsl:template/html/body/table", manager)[0].attributes.get_named_item("border").value) * 0.75,
                     table.first_row.row_format.borders.bottom.line_width)
 
         field_include_text = doc.range.fields[1].as_field_include_text()
@@ -2693,7 +2693,7 @@ class ExField(ApiExampleBase):
 
     ##ExEnd
 
-    def _test_merge_field_image_dimension(sefl, doc: aw.Document):
+    def _test_merge_field_image_dimension(self, doc: aw.Document):
 
         doc = DocumentHelper.save_open(doc)
 
@@ -4636,12 +4636,12 @@ class ExField(ApiExampleBase):
 
         field_symbol = doc.range.fields[0].as_field_symbol()
 
-        self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL 402 \\f Arial \\s 25 \\u ", "", fieldSymbol)
+        self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL 402 \\f Arial \\s 25 \\u ", "", field_symbol)
         self.assertEqual("ƒ", field_symbol.display_result)
 
         field_symbol = doc.range.fields[1].as_field_symbol()
 
-        self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL \u0013 = 100 + 74 \u0014174\u0015 ", "", fieldSymbol)
+        self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL \u0013 = 100 + 74 \u0014174\u0015 ", "", field_symbol)
         self.assertEqual("®", field_symbol.display_result)
 
         self.verify_field(aw.fields.FieldType.FIELD_FORMULA, " = 100 + 74 ", "174", doc.range.fields[2])
@@ -5401,8 +5401,8 @@ class ExField(ApiExampleBase):
         """Uses a document builder to insert MERGEFIELDs for a data source that contains columns named "Courtesy Title", "First Name" and "Last Name"."""
 
         ExField.insert_merge_field(builder, "Courtesy Title", first_field_text_before, " ")
-        ExFieldinsert_merge_field(builder, "First Name", None, " ")
-        ExFieldinsert_merge_field(builder, "Last Name", None, None)
+        ExField.insert_merge_field(builder, "First Name", None, " ")
+        ExField.insert_merge_field(builder, "Last Name", None, None)
         builder.insert_paragraph()
 
     @staticmethod

@@ -132,10 +132,10 @@ class ExImageSaveOptions(ApiExampleBase):
         quality_options.compositing_mode = drawing.drawing2d.CompositingMode.SOURCE_OVER
         quality_options.compositing_quality = drawing.drawing2d.CompositingQuality.HIGH_QUALITY
         quality_options.interpolation_mode = drawing.drawing2d.InterpolationMode.HIGH
-        quality_options.string_format = drawingl.StringFormat.GENERIC_TYPOGRAPHIC
+        quality_options.string_format = drawing.StringFormat.GENERIC_TYPOGRAPHIC
 
         save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
-        save_options.graphics_quality_options = qualityOptions
+        save_options.graphics_quality_options = quality_options
 
         doc.save(ARTIFACTS_DIR + "ImageSaveOptions.graphics_quality.jpg", save_options)
         #ExEnd

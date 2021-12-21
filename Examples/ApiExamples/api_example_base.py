@@ -7,7 +7,8 @@
 import unittest
 import os
 import io
-from datetime import datetime, timedelta
+import zipfile
+from datetime import date, time, datetime, timedelta
 from typing import Optional
 
 import aspose.words as aw

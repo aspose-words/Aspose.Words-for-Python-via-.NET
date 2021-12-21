@@ -8,10 +8,8 @@ from datetime import datetime
 
 import aspose.words as aw
 
-from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, database_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, DATABASE_DIR
 from document_helper import DocumentHelper
-
-DATABASE_DIR = database_dir
 
 class ExMailMerge(ApiExampleBase):
 
@@ -246,7 +244,7 @@ class ExMailMerge(ApiExampleBase):
         doc.mail_merge.execute(table.rows[1])
 
         doc.save(ARTIFACTS_DIR + "MailMerge.execute_data_table.one_row.docx")
-        ExMailMerge._test_ado_data_table(aw.Document(ARTIFACTS_DIR + "MailMerge.execute_data_table.whole_table.docx"), aw.Document(ARTIFACTS_DIR + "MailMerge.execute_data_table.one_row.docx"), table) #ExSkip
+        self._test_ado_data_table(aw.Document(ARTIFACTS_DIR + "MailMerge.execute_data_table.whole_table.docx"), aw.Document(ARTIFACTS_DIR + "MailMerge.execute_data_table.one_row.docx"), table) #ExSkip
 
     @staticmethod
     def create_source_doc_execute_data_table() -> aw.Document:
@@ -263,8 +261,7 @@ class ExMailMerge(ApiExampleBase):
 
     #ExEnd
 
-    @staticmethod
-    def _test_ado_data_table(doc_whole_table: aw.Document, doc_one_row: aw.Document, table: DataTable):
+    def _test_ado_data_table(self, doc_whole_table: aw.Document, doc_one_row: aw.Document, table: DataTable):
 
         self.mail_merge_matches_data_table(table, doc_whole_table, True)
 
@@ -512,8 +509,8 @@ class ExMailMerge(ApiExampleBase):
 
         for merge_duplicate_regions in (True, False):
             with self.subTest(merge_duplicate_regions=merge_duplicate_regions):
-                doc = create_source_doc_merge_duplicate_regions()
-                data_table = create_source_table_merge_duplicate_regions()
+                doc = ExMailMerge.create_source_doc_merge_duplicate_regions()
+                data_table = ExMailMerge.create_source_table_merge_duplicate_regions()
 
                 # If we set the "merge_duplicate_regions" property to "False", the mail merge will affect the first region,
                 # while the MERGEFIELDs of the second one will be left in the pre-merge state.
@@ -524,7 +521,7 @@ class ExMailMerge(ApiExampleBase):
 
                 doc.mail_merge.execute_with_regions(data_table)
                 doc.save(ARTIFACTS_DIR + "MailMerge.merge_duplicate_regions.docx")
-                ExMailMerge._test_merge_duplicate_regions(data_table, doc, merge_duplicate_regions) #ExSkip
+                self._test_merge_duplicate_regions(data_table, doc, merge_duplicate_regions) #ExSkip
 
     @staticmethod
     def create_source_doc_merge_duplicate_regions() -> aw.Document:
@@ -557,13 +554,11 @@ class ExMailMerge(ApiExampleBase):
 
     #ExEnd
 
-    @staticmethod
-    def _test_merge_duplicate_regions(data_table: DataTable, doc: aw.Document, is_merge_duplicate_regions: bool):
+    def _test_merge_duplicate_regions(self, data_table: DataTable, doc: aw.Document, is_merge_duplicate_regions: bool):
 
         if is_merge_duplicate_regions:
             self.mail_merge_matches_data_table(data_table, doc, True)
         else:
-
             data_table.columns.remove("Column2")
             self.mail_merge_matches_data_table(data_table, doc, True)
 
@@ -695,7 +690,7 @@ class ExMailMerge(ApiExampleBase):
         for use_whole_paragraph_as_region in (False, True):
             with self.subTest(use_whole_paragraph_as_region=use_whole_paragraph_as_region):
                 doc = ExMailMerge.create_source_doc_with_nested_merge_regions()
-                data_table = create_source_table_data_table_for_one_region()
+                data_table = ExMailMerge.create_source_table_data_table_for_one_region()
 
                 # By default, a paragraph can belong to no more than one mail merge region.
                 # The contents of our document do not meet these criteria.
@@ -760,7 +755,7 @@ class ExMailMerge(ApiExampleBase):
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
 
-                builder.insert_field("MERGEFIELD myMergeField", null)
+                builder.insert_field("MERGEFIELD myMergeField", None)
 
                 doc.mail_merge.trim_whitespaces = trim_whitespaces
                 doc.mail_merge.execute(["myMergeField"], ["\t hello world! "])
@@ -1666,7 +1661,7 @@ class ExMailMerge(ApiExampleBase):
             print(f"\tContents array length: {data.unique_tag.length}")
 
         # We can clone the elements in this collection.
-        Assert.are_not_equal(data_collection[0], data_collection[0].clone())
+        self.assertNotEqual(data_collection[0], data_collection[0].clone())
 
         # We can also remove elements individually, or clear the entire collection at once.
         data_collection.remove_at(0)
@@ -1703,7 +1698,7 @@ class ExMailMerge(ApiExampleBase):
         doc.mail_merge.execute(["Date1"], [datetime(2020, 1, 1)])
 
         # Configure the next merge to source its culture value from the field code. The value of that culture will be German.
-        doc.field_options.field_update_culture_source = FieldUpdateCultureSource.FIELD_CODE
+        doc.field_options.field_update_culture_source = aw.fields.FieldUpdateCultureSource.FIELD_CODE
         doc.mail_merge.execute(["Date2"], [datetime(2020, 1, 1)])
 
         # The first merge result contains a date formatted in English, while the second one is in German.

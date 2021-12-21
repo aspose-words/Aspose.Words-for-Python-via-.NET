@@ -4,7 +4,7 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
-from typing import List
+from typing import Dict, List
 
 import aspose.words as aw
 
@@ -35,7 +35,7 @@ class ExMailMergeCustom(ApiExampleBase):
         # To use a custom object as a data source, it must implement the IMailMergeDataSource interface.
         data_source = ExMailMergeCustom.CustomerMailMergeDataSource(customers)
 
-        doc.mail_merge.execute(dataSource)
+        doc.mail_merge.execute(data_source)
 
         doc.save(ARTIFACTS_DIR + "MailMergeCustom.custom_data_source.docx")
         self._test_custom_data_source(customers, aw.Document(ARTIFACTS_DIR + "MailMergeCustom.custom_data_source.docx")) #ExSkip

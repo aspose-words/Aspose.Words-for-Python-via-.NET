@@ -54,8 +54,8 @@ class ExDigitalSignatureUtil(ApiExampleBase):
                 aw.digitalsignatures.DigitalSignatureUtil.remove_all_signatures(stream_in, stream_out)
 
         # Verify that both our output documents have no digital signatures.
-        self.assertListEqual([], aw.digitalsignatures.DigitalSignatureUtil.load_signatures(ARTIFACTS_DIR + "DigitalSignatureUtil.load_and_remove.from_string.docx"), Is.Empty)
-        self.assertListEqual([], aw.digitalsignatures.DigitalSignatureUtil.load_signatures(ARTIFACTS_DIR + "DigitalSignatureUtil.load_and_remove.from_stream.docx"), Is.Empty)
+        self.assertListEqual([], aw.digitalsignatures.DigitalSignatureUtil.load_signatures(ARTIFACTS_DIR + "DigitalSignatureUtil.load_and_remove.from_string.docx"))
+        self.assertListEqual([], aw.digitalsignatures.DigitalSignatureUtil.load_signatures(ARTIFACTS_DIR + "DigitalSignatureUtil.load_and_remove.from_stream.docx"))
         #ExEnd
 
     # WORDSNET-16868

@@ -11,6 +11,7 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
+from document_helper import DocumentHelper
 
 class ExDrawing(ApiExampleBase):
 

@@ -121,7 +121,7 @@ class ExMailMergeCustomNested(ApiExampleBase):
 
             return not self.is_eof
 
-        def GetChildDataSource(self, table_name: str):
+        def get_child_data_source(self, table_name: str):
 
             # Get the child data source, whose name matches the mail merge region that uses its columns.
             if table_name == "Orders":
@@ -130,7 +130,7 @@ class ExMailMergeCustomNested(ApiExampleBase):
             return None
 
         @property
-        def is_eof() -> bool:
+        def is_eof(self) -> bool:
 
             return self.record_index >= len(self.customers)
 

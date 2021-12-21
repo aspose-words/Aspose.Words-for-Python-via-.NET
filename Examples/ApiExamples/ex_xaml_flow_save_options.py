@@ -52,7 +52,7 @@ class ExXamlFlowSaveOptions(ApiExampleBase):
         for resource in callback.Resources:
             print(f"{callback.images_folder_alias}/{resource}")
 
-        TestImageFolder(callback) #ExSkip
+        self._test_image_folder(callback) #ExSkip
 
     class ImageUriPrinter(aw.saving.IImageSavingCallback):
         """Counts and prints filenames of images while their parent document is converted to flow-form .xaml."""
@@ -68,12 +68,12 @@ class ExXamlFlowSaveOptions(ApiExampleBase):
 
             # If we specified an image folder alias, we would also need
             # to redirect each stream to put its image in the alias folder.
-            args.image_stream = FileStream(f"{images_folder_alias}/{args.image_file_name}", FileMode.Create)
-            args.keep_image_stream_open = false
+            args.image_stream = open(f"{images_folder_alias}/{args.image_file_name}", "wb")
+            args.keep_image_stream_open = False
 
     #ExEnd
 
-    def test_image_folder(callback: ExXamlFlowSaveOptions.ImageUriPrinter):
+    def _test_image_folder(self, callback: ExXamlFlowSaveOptions.ImageUriPrinter):
 
         self.assertEqual(9, len(callback.resources))
         for resource in callback.resources:
