@@ -38,7 +38,7 @@ class ExMailMergeCustom(ApiExampleBase):
         doc.mail_merge.execute(dataSource)
 
         doc.save(ARTIFACTS_DIR + "MailMergeCustom.custom_data_source.docx")
-        self._test_custom_data_source(customers, aw.Document(ARTIFACTS_DIR + "MailMergeCustom.custom_data_source.docx")); #ExSkip
+        self._test_custom_data_source(customers, aw.Document(ARTIFACTS_DIR + "MailMergeCustom.custom_data_source.docx")) #ExSkip
 
     class Customer:
         """An example of a "data entity" class in your application."""

@@ -1452,7 +1452,7 @@ class ExDocumentBuilder(ApiExampleBase):
         builder.writeln("Run 3. ")
 
         self.assertEqual("Run 2. \rRun 1. \rRun 3.", doc.get_text().strip())
-        self.assertEqual(doc.first_section.body.last_paragraph, builder.current_paragraph); #ExSkip
+        self.assertEqual(doc.first_section.body.last_paragraph, builder.current_paragraph) #ExSkip
         #ExEnd
 
     def test_move_to_paragraph(self):

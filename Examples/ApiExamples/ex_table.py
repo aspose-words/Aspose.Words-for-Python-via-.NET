@@ -202,7 +202,7 @@ class ExTable(ApiExampleBase):
 
         doc = aw.Document(MY_DIR + "Nested tables.docx")
         tables = doc.get_child_nodes(aw.NodeType.TABLE, True)
-        self.assertEqual(5, tables.count); #ExSkip
+        self.assertEqual(5, tables.count) #ExSkip
 
         for i in range(tables.count):
             table = tables[i].as_table()

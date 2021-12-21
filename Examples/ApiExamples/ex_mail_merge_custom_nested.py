@@ -61,7 +61,7 @@ class ExMailMergeCustomNested(ApiExampleBase):
         doc.mail_merge.execute_with_regions(customers_data_source)
 
         doc.save(ARTIFACTS_DIR + "NestedMailMergeCustom.custom_data_source.docx")
-        self._test_custom_data_source(customers, aw.Document(ARTIFACTS_DIR + "NestedMailMergeCustom.custom_data_source.docx")); #ExSkip
+        self._test_custom_data_source(customers, aw.Document(ARTIFACTS_DIR + "NestedMailMergeCustom.custom_data_source.docx")) #ExSkip
 
     class Customer:
         """An example of a "data entity" class in your application."""

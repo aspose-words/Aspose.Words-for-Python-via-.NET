@@ -182,7 +182,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
 
         # Set the "Appearance" property to "SdtAppearance.TAGS" to show tags around content.
         # By default structured document tag shows as BoundingBox.
-        tag.appearance = aw.markup.SdtAppearance.TAGS;
+        tag.appearance = aw.markup.SdtAppearance.TAGS
 
         builder = aw.DocumentBuilder(doc)
         builder.insert_node(tag)
@@ -208,7 +208,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         self.assertEqual("Arial", tag.contents_font.name)
         self.assertEqual("Arial Black", tag.end_character_font.name)
         self.assertTrue(tag.multiline)
-        self.assertTrue(aw.markup.SdtAppearance.TAGS, tag.appearance);
+        self.assertTrue(aw.markup.SdtAppearance.TAGS, tag.appearance)
 
     def test_is_temporary(self):
 

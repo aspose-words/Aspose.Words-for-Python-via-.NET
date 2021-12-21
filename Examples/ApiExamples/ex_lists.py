@@ -616,7 +616,7 @@ class ExLists(ApiExampleBase):
         ExLists.add_outline_heading_paragraphs(builder, list, "Aspose.Words Outline - \"Chapters\"")
 
         doc.save(ARTIFACTS_DIR + "Lists.outline_heading_templates.docx")
-        self._test_outline_heading_templates(aw.Document(ARTIFACTS_DIR + "Lists.outline_heading_templates.docx")); #ExSkip
+        self._test_outline_heading_templates(aw.Document(ARTIFACTS_DIR + "Lists.outline_heading_templates.docx")) #ExSkip
 
     @staticmethod
     def add_outline_heading_paragraphs(builder: aw.DocumentBuilder, list: aw.lists.List, title: str):

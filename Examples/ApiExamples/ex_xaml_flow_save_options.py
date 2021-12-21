@@ -52,7 +52,7 @@ class ExXamlFlowSaveOptions(ApiExampleBase):
         for resource in callback.Resources:
             print(f"{callback.images_folder_alias}/{resource}")
 
-        TestImageFolder(callback); #ExSkip
+        TestImageFolder(callback) #ExSkip
 
     class ImageUriPrinter(aw.saving.IImageSavingCallback):
         """Counts and prints filenames of images while their parent document is converted to flow-form .xaml."""
