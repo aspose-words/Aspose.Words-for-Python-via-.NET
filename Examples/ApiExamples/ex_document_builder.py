@@ -879,28 +879,28 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(aw.LineStyle.ENGRAVE3_D, table.rows[0].row_format.borders.line_style)
         self.assertEqual(drawing.Color.orange.to_argb(), table.rows[0].row_format.borders.color.to_argb())
 
-        for c in table.rows[0].cells:
-            c = c.as_cell()
-            self.assertEqual(150, c.cell_format.width)
-            self.assertEqual(aw.tables.CellVerticalAlignment.CENTER, c.cell_format.vertical_alignment)
-            self.assertEqual(drawing.Color.green_yellow.to_argb(), c.cell_format.shading.background_pattern_color.to_argb())
-            self.assertFalse(c.cell_format.wrap_text)
-            self.assertTrue(c.cell_format.fit_text)
+        for cell in table.rows[0].cells:
+            cell = cell.as_cell()
+            self.assertEqual(150, cell.cell_format.width)
+            self.assertEqual(aw.tables.CellVerticalAlignment.CENTER, cell.cell_format.vertical_alignment)
+            self.assertEqual(drawing.Color.green_yellow.to_argb(), cell.cell_format.shading.background_pattern_color.to_argb())
+            self.assertFalse(cell.cell_format.wrap_text)
+            self.assertTrue(cell.cell_format.fit_text)
 
-            self.assertEqual(aw.ParagraphAlignment.CENTER, c.first_paragraph.paragraph_format.alignment)
+            self.assertEqual(aw.ParagraphAlignment.CENTER, cell.first_paragraph.paragraph_format.alignment)
 
         self.assertEqual("Row 2, Col 1\a", table.rows[1].cells[0].get_text().strip())
         self.assertEqual("Row 2, Col 2\a", table.rows[1].cells[1].get_text().strip())
 
-        for c in table.rows[1].cells:
-            c = c.as_cell()
-            self.assertEqual(150, c.cell_format.width)
-            self.assertEqual(aw.tables.CellVerticalAlignment.CENTER, c.cell_format.vertical_alignment)
-            self.assertEqual(drawing.Color.empty().to_argb(), c.cell_format.shading.background_pattern_color.to_argb())
-            self.assertFalse(c.cell_format.wrap_text)
-            self.assertTrue(c.cell_format.fit_text)
+        for cell in table.rows[1].cells:
+            cell = cell.as_cell()
+            self.assertEqual(150, cell.cell_format.width)
+            self.assertEqual(aw.tables.CellVerticalAlignment.CENTER, cell.cell_format.vertical_alignment)
+            self.assertEqual(drawing.Color.empty().to_argb(), cell.cell_format.shading.background_pattern_color.to_argb())
+            self.assertFalse(cell.cell_format.wrap_text)
+            self.assertTrue(cell.cell_format.fit_text)
 
-            self.assertEqual(aw.ParagraphAlignment.CENTER, c.first_paragraph.paragraph_format.alignment)
+            self.assertEqual(aw.ParagraphAlignment.CENTER, cell.first_paragraph.paragraph_format.alignment)
 
         self.assertEqual(150, table.rows[2].row_format.height)
 
@@ -1271,20 +1271,20 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(aw.HeightRule.AT_LEAST, table.rows[0].row_format.height_rule)
         self.assertEqual(40.0, table.rows[0].row_format.height)
 
-        for c in doc.get_child_nodes(aw.NodeType.CELL, True):
-            c = c.as_cell()
-            self.assertEqual(aw.ParagraphAlignment.CENTER, c.first_paragraph.paragraph_format.alignment)
+        for cell in doc.get_child_nodes(aw.NodeType.CELL, True):
+            cell = cell.as_cell()
+            self.assertEqual(aw.ParagraphAlignment.CENTER, cell.first_paragraph.paragraph_format.alignment)
 
-            for r in c.first_paragraph.runs:
-                r = r.as_run()
-                self.assertEqual("Arial", r.font.name)
+            for run in cell.first_paragraph.runs:
+                run = run.as_run()
+                self.assertEqual("Arial", run.font.name)
 
-                if c.parent_row == table.first_row:
-                    self.assertEqual(16, r.font.size)
-                    self.assertTrue(r.font.bold)
+                if cell.parent_row == table.first_row:
+                    self.assertEqual(16, run.font.size)
+                    self.assertTrue(run.font.bold)
                 else:
-                    self.assertEqual(12, r.font.size)
-                    self.assertFalse(r.font.bold)
+                    self.assertEqual(12, run.font.size)
+                    self.assertFalse(run.font.bold)
 
     def test_table_borders_and_shading(self):
 
@@ -1332,31 +1332,31 @@ class ExDocumentBuilder(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "DocumentBuilder.table_borders_and_shading.docx")
         table = doc.first_section.body.tables[0]
 
-        for c in table.first_row:
-            c = c.as_cell()
-            self.assertEqual(0.5, c.cell_format.borders.top.line_width)
-            self.assertEqual(0.5, c.cell_format.borders.bottom.line_width)
-            self.assertEqual(0.5, c.cell_format.borders.left.line_width)
-            self.assertEqual(0.5, c.cell_format.borders.right.line_width)
+        for cell in table.first_row:
+            cell = cell.as_cell()
+            self.assertEqual(0.5, cell.cell_format.borders.top.line_width)
+            self.assertEqual(0.5, cell.cell_format.borders.bottom.line_width)
+            self.assertEqual(0.5, cell.cell_format.borders.left.line_width)
+            self.assertEqual(0.5, cell.cell_format.borders.right.line_width)
 
-            self.assertEqual(drawing.Color.empty().to_argb(), c.cell_format.borders.left.color.to_argb())
-            self.assertEqual(aw.LineStyle.SINGLE, c.cell_format.borders.left.line_style)
+            self.assertEqual(drawing.Color.empty().to_argb(), cell.cell_format.borders.left.color.to_argb())
+            self.assertEqual(aw.LineStyle.SINGLE, cell.cell_format.borders.left.line_style)
 
         self.assertEqual(drawing.Color.light_sky_blue.to_argb(),
             table.first_row.first_cell.cell_format.shading.background_pattern_color.to_argb())
         self.assertEqual(drawing.Color.orange.to_argb(),
             table.first_row.cells[1].cell_format.shading.background_pattern_color.to_argb())
 
-        for c in table.last_row:
-            c = c.as_cell()
-            self.assertEqual(4.0, c.cell_format.borders.top.line_width)
-            self.assertEqual(4.0, c.cell_format.borders.bottom.line_width)
-            self.assertEqual(4.0, c.cell_format.borders.left.line_width)
-            self.assertEqual(4.0, c.cell_format.borders.right.line_width)
+        for cell in table.last_row:
+            cell = cell.as_cell()
+            self.assertEqual(4.0, cell.cell_format.borders.top.line_width)
+            self.assertEqual(4.0, cell.cell_format.borders.bottom.line_width)
+            self.assertEqual(4.0, cell.cell_format.borders.left.line_width)
+            self.assertEqual(4.0, cell.cell_format.borders.right.line_width)
 
-            self.assertEqual(drawing.Color.empty().to_argb(), c.cell_format.borders.left.color.to_argb())
-            self.assertEqual(aw.LineStyle.SINGLE, c.cell_format.borders.left.line_style)
-            self.assertEqual(drawing.Color.empty().to_argb(), c.cell_format.shading.background_pattern_color.to_argb())
+            self.assertEqual(drawing.Color.empty().to_argb(), cell.cell_format.borders.left.color.to_argb())
+            self.assertEqual(aw.LineStyle.SINGLE, cell.cell_format.borders.left.line_style)
+            self.assertEqual(drawing.Color.empty().to_argb(), cell.cell_format.shading.background_pattern_color.to_argb())
 
     def test_set_preferred_type_convert_util(self):
 

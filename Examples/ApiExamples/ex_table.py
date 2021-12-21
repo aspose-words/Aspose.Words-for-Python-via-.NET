@@ -865,6 +865,7 @@ class ExTable(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "Table.create_nested_table.docx")
         self.create_and_test_nested_table(aw.Document(ARTIFACTS_DIR + "Table.create_nested_table.docx")) #ExSkip
 
+    @staticmethod
     def create_table(doc: aw.Document, row_count: int, cell_count: int, cell_text: str) -> aw.tables.Table:
         """Creates a new table in the document with the given dimensions and text in each cell."""
         table = aw.tables.Table(doc)

@@ -999,9 +999,9 @@ class ExDocument(ApiExampleBase):
         # After the comparison, the original document will gain a new revision
         # for every element that is different in the edited document.
         self.assertEqual(2, doc_original.revisions.count) #ExSkip
-        for r in doc_original.revisions:
-            print(f"Revision type: {r.revision_type}, on a node of type \"{r.parent_node.node_type}\"")
-            print(f"\tChanged text: \"{r.parent_node.get_text()}\"")
+        for revision in doc_original.revisions:
+            print(f"Revision type: {revision.revision_type}, on a node of type \"{revision.parent_node.node_type}\"")
+            print(f"\tChanged text: \"{revision.parent_node.get_text()}\"")
 
         # Accepting these revisions will transform the original document into the edited document.
         doc_original.revisions.accept_all()

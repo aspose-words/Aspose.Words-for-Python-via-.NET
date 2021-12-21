@@ -723,9 +723,9 @@ class ExLists(ApiExampleBase):
 
         for list in out_doc.lists:
             for i in range(list.list_levels.count):
-                for l in list_source_doc.lists:
-                    if l.list_id == list.list_id:
-                        expected_list_level = l.list_levels[i]
+                for src_list in list_source_doc.lists:
+                    if src_list.list_id == list.list_id:
+                        expected_list_level = src_list.list_levels[i]
                         self.assertEqual(expected_list_level.number_format, list.list_levels[i].number_format)
                         self.assertEqual(expected_list_level.number_position, list.list_levels[i].number_position)
                         self.assertEqual(expected_list_level.number_style, list.list_levels[i].number_style)

@@ -97,22 +97,22 @@ class ExMailMergeEvent(ApiExampleBase):
         builder.document.mail_merge.execute(
             ["text_Field1", "text_Field2", "numeric_Field1"],
             ["Field 1", "Field 2", 10])
-        t = doc.get_text().strip()
+
         self.assertEqual("Merge Value For \"Text_Field1\": Field 1, MERGE VALUE FOR \"TEXT_FIELD2\": FIELD 2, 10000.0", doc.get_text().strip())
 
     class FieldValueMergingCallback(aw.mailmerging.IFieldMergingCallback):
         """Edits the values that MERGEFIELDs receive during a mail merge.
         The name of a MERGEFIELD must have a prefix for this callback to take effect on its value."""
 
-        def field_merging(self, e: aw.mailmerging.FieldMergingArgs):
+        def field_merging(self, args: aw.mailmerging.FieldMergingArgs):
             """Called when a mail merge merges data into a MERGEFIELD."""
 
-            if e.field_name.startswith("text_"):
-                e.field_value = f"Merge value for \"{e.field_name}\": {e.field_value}"
-            elif e.field_name.startswith("numeric_"):
-                e.field_value = int(e.field_value) * 1000
+            if args.field_name.startswith("text_"):
+                args.field_value = f"Merge value for \"{e.field_name}\": {e.field_value}"
+            elif args.field_name.startswith("numeric_"):
+                args.field_value = int(args.field_value) * 1000
 
-        def image_field_merging(self, e: aw.mailmerging.ImageFieldMergingArgs):
+        def image_field_merging(self, args: aw.mailmerging.ImageFieldMergingArgs):
 
             # Do nothing.
             pass
@@ -269,10 +269,10 @@ class ExMailMergeEvent(ApiExampleBase):
         # Create a data source that contains URIs of images that we will merge.
         # A URI can be a web URL that points to an image, or a local file system filename of an image file.
         columns = ["logo_FromWeb", "logo_FromFileSystem"]
-        URIs = [ASPOSE_LOGO_URL, IMAGE_DIR + "Logo.jpg"]
+        uris = [ASPOSE_LOGO_URL, IMAGE_DIR + "Logo.jpg"]
 
         # Execute a mail merge on a data source with one row.
-        doc.mail_merge.execute(columns, URIs)
+        doc.mail_merge.execute(columns, uris)
 
         doc.save(ARTIFACTS_DIR + "MailMergeEvent.image_from_url.docx")
         #ExEnd
@@ -324,9 +324,9 @@ class ExMailMergeEvent(ApiExampleBase):
             # Do nothing.
             pass
 
-        def image_field_merging(self, e: aw.mailmering.ImageFieldMergingArgs):
+        def image_field_merging(self, args: aw.mailmerging.ImageFieldMergingArgs):
             """This is called when a mail merge encounters a MERGEFIELD in the document with an "Image:" tag in its name."""
 
-            e.image_stream = io.BytesIO(e.field_value)
+            args.image_stream = io.BytesIO(args.field_value)
 
     #ExEnd

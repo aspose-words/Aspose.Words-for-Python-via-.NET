@@ -147,14 +147,13 @@ class ExMailMergeCustom(ApiExampleBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        for s in regions:
-
-            builder.writeln("\n" + s + " branch: ")
-            builder.insert_field(" MERGEFIELD TableStart:" + s)
+        for region in regions:
+            builder.writeln("\n" + region + " branch: ")
+            builder.insert_field(" MERGEFIELD TableStart:" + region)
             builder.insert_field(" MERGEFIELD FullName")
             builder.write(", ")
             builder.insert_field(" MERGEFIELD Department")
-            builder.insert_field(" MERGEFIELD TableEnd:" + s)
+            builder.insert_field(" MERGEFIELD TableEnd:" + region)
 
         return doc
 
@@ -163,7 +162,7 @@ class ExMailMergeCustom(ApiExampleBase):
 
         def __init__(self, full_name: str, department: str):
 
-            self.full_Name = full_name
+            self.full_name = full_name
             self.department = department
 
     class DataSourceRoot(aw.mailmerging.IMailMergeDataSourceRoot):

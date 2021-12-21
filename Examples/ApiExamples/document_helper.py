@@ -233,15 +233,15 @@ class DocumentHelper(ApiExampleBase):
     # Rude workaround to get style by name.
     @staticmethod
     def get_style_by_name(doc, style_name):
-        for s in doc.styles:
-            if s.name == style_name:
-                return s
+        for style in doc.styles:
+            if style.name == style_name:
+                return style
         return None
 
     # Rude workaround to get style by name.
     @staticmethod
     def get_vba_module_by_name(doc, module_name):
-        for m in doc.vba_project.modules:
-            if m.name == module_name:
-                return m
+        for module in doc.vba_project.modules:
+            if module.name == module_name:
+                return module
         return None

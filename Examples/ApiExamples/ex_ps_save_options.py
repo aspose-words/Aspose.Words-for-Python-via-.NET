@@ -32,9 +32,9 @@ class ExPsSaveOptions(ApiExampleBase):
 
                 # If we are rendering the document as a booklet, we must set the "multiple_pages"
                 # properties of the page setup objects of all sections to "MultiplePagesType.BOOK_FOLD_PRINTING".
-                for s in doc.sections:
-                    s = s.as_section()
-                    s.page_setup.multiple_pages = aw.settings.MultiplePagesType.BOOK_FOLD_PRINTING
+                for section in doc.sections:
+                    section = section.as_section()
+                    section.page_setup.multiple_pages = aw.settings.MultiplePagesType.BOOK_FOLD_PRINTING
 
                 # Once we print this document on both sides of the pages, we can fold all the pages down the middle at once,
                 # and the contents will line up in a way that creates a booklet.

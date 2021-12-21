@@ -102,7 +102,7 @@ class ExVbaProject(ApiExampleBase):
     #ExSummary:Shows how to get/remove an element from the VBA reference collection.
     def test_remove_vba_reference(self):
 
-        BROKEN_PATH = r"X:\broken.dll"
+        broken_path = r"X:\broken.dll"
         doc = aw.Document(MY_DIR + "VBA project.docm")
 
         references = doc.vba_project.references
@@ -113,7 +113,7 @@ class ExVbaProject(ApiExampleBase):
             reference = doc.vba_project.references[i]
             path = self.get_lib_id_path(reference)
 
-            if path == BROKEN_PATH:
+            if path == broken_path:
                 references.remove_at(i)
 
         self.assertEqual(4, references.count)

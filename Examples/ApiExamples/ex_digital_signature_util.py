@@ -133,7 +133,7 @@ class ExDigitalSignatureUtil(ApiExampleBase):
     # WORDSNET-13036, WORDSNET-16868
     def test_sign_document_obfuscation_bug(self):
 
-        ch = aw.digitalsignatures.CertificateHolder.create(MY_DIR + "morzal.pfx", "aw")
+        cert_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + "morzal.pfx", "aw")
 
         doc = aw.Document(MY_DIR + "Structured document tags.docx")
         output_file_name = ARTIFACTS_DIR + "DigitalSignatureUtil.sign_document_obfuscation_bug.doc"
@@ -142,7 +142,7 @@ class ExDigitalSignatureUtil(ApiExampleBase):
         sign_options.comments = "Comment"
         sign_options.sign_time = datetime.now()
 
-        aw.digitalsignatures.DigitalSignatureUtil.sign(doc.original_file_name, output_file_name, ch, sign_options)
+        aw.digitalsignatures.DigitalSignatureUtil.sign(doc.original_file_name, output_file_name, cert_holder, sign_options)
 
     # WORDSNET-16868
     def test_incorrect_decryption_password(self):

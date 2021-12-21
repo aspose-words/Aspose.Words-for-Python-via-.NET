@@ -113,45 +113,45 @@ class ExRendering(ApiExampleBase):
 
         with drawing.Bitmap(700, 700) as bmp:
 
-            with drawing.Graphics.from_image(bmp) as gr:
+            with drawing.Graphics.from_image(bmp) as graphics:
 
-                gr.text_rendering_hint = drawing.text.TextRenderingHint.ANTI_ALIAS_GRID_FIT
+                graphics.text_rendering_hint = drawing.text.TextRenderingHint.ANTI_ALIAS_GRID_FIT
 
                 # Set the "page_unit" property to "GraphicsUnit.INCH" to use inches as the
                 # measurement unit for any transformations and dimensions that we will define.
-                gr.page_unit = drawing.GraphicsUnit.INCH
+                graphics.page_unit = drawing.GraphicsUnit.INCH
 
                 # Offset the output 0.5" from the edge.
-                gr.translate_transform(0.5, 0.5)
+                graphics.translate_transform(0.5, 0.5)
 
                 # Rotate the output by 10 degrees.
-                gr.rotate_transform(10)
+                graphics.rotate_transform(10)
 
                 # Draw a 3"x3" rectangle.
-                gr.draw_rectangle(drawing.Pen(drawing.Color.black, 3 / 72), 0, 0, 3, 3)
+                graphics.draw_rectangle(drawing.Pen(drawing.Color.black, 3 / 72), 0, 0, 3, 3)
 
                 # Draw the first page of our document with the same dimensions and transformation as the rectangle.
                 # The rectangle will frame the first page.
-                returned_scale = doc.render_to_size(0, gr, 0, 0, 3, 3)
+                returned_scale = doc.render_to_size(0, graphics, 0, 0, 3, 3)
 
                 # This is the scaling factor that the "render_to_size" method applied to the first page to fit the specified size.
                 self.assertEqual(0.2566, returned_scale, 0.0001)
 
                 # Set the "page_unit" property to "GraphicsUnit.MILLIMETER" to use millimeters as the
                 # measurement unit for any transformations and dimensions that we will define.
-                gr.page_unit = drawing.GraphicsUnit.MILLIMETER
+                graphics.page_unit = drawing.GraphicsUnit.MILLIMETER
 
                 # Reset the transformations that we used from the previous rendering.
-                gr.reset_transform()
+                graphics.reset_transform()
 
                 # Apply another set of transformations.
-                gr.translate_transform(10, 10)
-                gr.scale_transform(0.5, 0.5)
-                gr.page_scale = 2
+                graphics.translate_transform(10, 10)
+                graphics.scale_transform(0.5, 0.5)
+                graphics.page_scale = 2
 
                 # Create another rectangle and use it to frame another page from the document.
-                gr.draw_rectangle(drawing.Pen(drawing.Color.black, 1), 90, 10, 50, 100)
-                doc.render_to_size(1, gr, 90, 10, 50, 100)
+                graphics.draw_rectangle(drawing.Pen(drawing.Color.black, 1), 90, 10, 50, 100)
+                doc.render_to_size(1, graphics, 90, 10, 50, 100)
 
                 bmp.save(ARTIFACTS_DIR + "Rendering.render_to_size.png")
 

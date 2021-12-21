@@ -17,8 +17,8 @@ class ExDigitalSignatureCollection(ApiExampleBase):
         #ExSummary:Shows how to print all the digital signatures of a signed document.
         digital_signatures = aw.digitalsignatures.DigitalSignatureUtil.load_signatures(MY_DIR + "Digitally signed.docx")
 
-        for ds in digital_signatures:
-            print(ds)
+        for signature in digital_signatures:
+            print(signature)
 
         #ExEnd
 

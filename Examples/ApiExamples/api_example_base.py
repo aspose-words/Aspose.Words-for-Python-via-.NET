@@ -31,8 +31,8 @@ class ApiExampleBase(unittest.TestCase):
 
     def setUp(self):
         if os.path.exists(ARTIFACTS_DIR):
-            l = aw.License()
-            l.set_license(LICENSE_PATH)
+            lic = aw.License()
+            lic.set_license(LICENSE_PATH)
         if not os.path.exists(ARTIFACTS_DIR):
             os.makedirs(ARTIFACTS_DIR)
 

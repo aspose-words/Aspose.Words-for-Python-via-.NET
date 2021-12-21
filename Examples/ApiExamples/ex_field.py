@@ -259,8 +259,8 @@ class ExField(ApiExampleBase):
         # Another way to get the DATE field to display a date in a different culture is to use its LocaleId property.
         # This way allows us to avoid changing the thread's culture to get this effect.
         doc.field_options.field_update_culture_source = aw.fields.FieldUpdateCultureSource.FIELD_CODE
-        de = CultureInfo("de-DE")
-        field.locale_id = de.LCID
+        de_culture = CultureInfo("de-DE")
+        field.locale_id = de_culture.LCID
         field.update()
 
         print(f"Today's date, as displayed according to the \"{CultureInfo.get_culture_info(field.LocaleId).english_name}\" culture: {field.Result}")

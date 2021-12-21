@@ -431,9 +431,9 @@ class ExMailMerge(ApiExampleBase):
 
         # Run a second merge for the "Fruit" table, while using a data view
         # to sort the rows in ascending order on the "Name" column before the merge.
-        dv = DataView(table_fruit)
-        dv.sort = "Name ASC"
-        doc.mail_merge.execute_with_regions(dv)
+        data_view = DataView(table_fruit)
+        data_view.sort = "Name ASC"
+        doc.mail_merge.execute_with_regions(data_view)
 
         doc.save(ARTIFACTS_DIR + "MailMerge.execute_with_regions_concurrent.docx")
         #ExEnd
@@ -986,7 +986,7 @@ class ExMailMerge(ApiExampleBase):
     #ExSummary:Shows how to map data columns and MERGEFIELDs with different names so the data is transferred between them during a mail merge.
     def test_mapped_data_field_collection(self):
 
-        doc = ExMailMerge.create_Source_doc_mapped_data_fields()
+        doc = ExMailMerge.create_source_doc_mapped_data_fields()
         data_table = ExMailMerge.create_source_table_mapped_fata_fields()
 
         # The table has a column named "Column2", but there are no MERGEFIELDs with that name.
@@ -1029,7 +1029,7 @@ class ExMailMerge(ApiExampleBase):
         self.mail_merge_matches_data_table(data_table, aw.Document(ARTIFACTS_DIR + "MailMerge.mapped_data_field_collection.docx"), True) #ExSkip
 
     @staticmethod
-    def create_Source_doc_mapped_data_fields() -> aw.Document:
+    def create_source_doc_mapped_data_fields() -> aw.Document:
         """Create a document with 2 MERGEFIELDs, one of which does not have a
         corresponding column in the data table from the method below."""
 
