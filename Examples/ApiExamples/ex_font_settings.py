@@ -622,11 +622,11 @@ class ExFontSettings(ApiExampleBase):
         doc = aw.Document(MY_DIR + "Rendering.docx")
         doc.font_settings = font_settings
 
-        alternative_fonts = [font for font in doc.font_settings.substitution_settings.table_substitution.get_substitutes("Slab")]
-        self.assertEqual(["Times New Roman", "Arial"], alternative_fonts)
+        alternative_fonts = doc.font_settings.substitution_settings.table_substitution.get_substitutes("Slab")
+        self.assertListEqual(["Times New Roman", "Arial"], list(alternative_fonts))
 
-        alternative_fonts = [font for font in doc.font_settings.substitution_settings.table_substitution.get_substitutes("Arvo")]
-        self.assertEqual(["Open Sans", "Arial"], alternative_fonts)
+        alternative_fonts = doc.font_settings.substitution_settings.table_substitution.get_substitutes("Arvo")
+        self.assertListEqual(["Open Sans", "Arial"], list(alternative_fonts))
 
     def test_font_source_memory(self):
 
