@@ -1231,17 +1231,17 @@ class ExMailMerge(ApiExampleBase):
         regions = doc.mail_merge.get_regions_by_name("Region1")
         self.assertEqual(1, doc.mail_merge.get_regions_by_name("Region1").count)
         for region in regions:
-           self.assertEqual("Region1", region.name)
+            self.assertEqual("Region1", region.name)
 
         regions = doc.mail_merge.get_regions_by_name("Region2")
         self.assertEqual(1, doc.mail_merge.get_regions_by_name("Region2").count)
         for region in regions:
-           self.assertEqual("Region2", region.name)
+            self.assertEqual("Region2", region.name)
 
         regions = doc.mail_merge.get_regions_by_name("NestedRegion1")
         self.assertEqual(2, doc.mail_merge.get_regions_by_name("NestedRegion1").count)
         for region in regions:
-           self.assertEqual("NestedRegion1", region.name)
+            self.assertEqual("NestedRegion1", region.name)
 
     def test_cleanup_options(self):
 

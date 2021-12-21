@@ -144,7 +144,7 @@ class ExDocumentVisitor(ApiExampleBase):
             """Append a line to the StringBuilder and indent it depending on how deep the visitor is into the document tree."""
 
             for i in range(self.doc_traversal_depth):
-               self.accepting_node_child_tree.write("|  ")
+                self.accepting_node_child_tree.write("|  ")
 
             self.accepting_node_child_tree.write(text + "\n")
 
@@ -366,7 +366,7 @@ class ExDocumentVisitor(ApiExampleBase):
             A Run is only recorded if it is a child of a Comment or CommentRange node."""
 
             if self.visitor_is_inside_comment:
-               self._indent_and_append_line("[Run] \"" + run.get_text() + "\"")
+                self._indent_and_append_line("[Run] \"" + run.get_text() + "\"")
 
             return aw.VisitorAction.CONTINUE
 
@@ -464,7 +464,7 @@ class ExDocumentVisitor(ApiExampleBase):
             """Called when a Run node is encountered in the document."""
 
             if self.visitor_is_inside_field:
-               self._indent_and_append_line("[Run] \"" + run.get_text() + "\"")
+                self._indent_and_append_line("[Run] \"" + run.get_text() + "\"")
 
             return aw.VisitorAction.CONTINUE
 
@@ -556,7 +556,7 @@ class ExDocumentVisitor(ApiExampleBase):
             """Called when a Run node is encountered in the document."""
 
             if self.visitor_is_inside_header_footer:
-               self._indent_and_append_line("[Run] \"" + run.get_text() + "\"")
+                self._indent_and_append_line("[Run] \"" + run.get_text() + "\"")
 
             return aw.VisitorAction.CONTINUE
 
@@ -582,7 +582,7 @@ class ExDocumentVisitor(ApiExampleBase):
             """Append a line to the output, and indent it depending on how deep the visitor is into the document tree."""
 
             for i in range(self.doc_traversal_depth):
-               self.builder.write("|  ")
+                self.builder.write("|  ")
 
             self.builder.write(text + "\n")
 
@@ -638,7 +638,7 @@ class ExDocumentVisitor(ApiExampleBase):
 
             # We want to print the contents of runs, but only if they are inside shapes, as they would be in the case of text boxes
             if self.visitor_is_inside_editable_range:
-               self._indent_and_append_line("[Run] \"" + run.get_text() + "\"")
+                self._indent_and_append_line("[Run] \"" + run.get_text() + "\"")
 
             return aw.VisitorAction.CONTINUE
 
@@ -665,7 +665,7 @@ class ExDocumentVisitor(ApiExampleBase):
             """Append a line to the output and indent it depending on how deep the visitor is into the document tree."""
 
             for i in range(self.doc_traversal_depth):
-               self.builder.write("|  ")
+                self.builder.write("|  ")
 
             self.builder.write(text + "\n")
 
@@ -742,7 +742,7 @@ class ExDocumentVisitor(ApiExampleBase):
             """Append a line to the output and indent it depending on how deep the visitor is into the document tree."""
 
             for i in range(self.doc_traversal_depth):
-               self.builder.write("|  ")
+                self.builder.write("|  ")
 
             self.builder.write(text + "\n")
 
@@ -795,7 +795,7 @@ class ExDocumentVisitor(ApiExampleBase):
             """Called when a Run node is encountered in the document."""
 
             if self.visitor_is_inside_office_math:
-               self._indent_and_append_line("[Run] \"" + run.get_text() + "\"")
+                self._indent_and_append_line("[Run] \"" + run.get_text() + "\"")
 
             return aw.VisitorAction.CONTINUE
 
@@ -821,7 +821,7 @@ class ExDocumentVisitor(ApiExampleBase):
             """Append a line to the StringBuilder and indent it depending on how deep the visitor is into the document tree."""
 
             for i in range(self.doc_traversal_depth):
-               self.builder.write("|  ")
+                self.builder.write("|  ")
 
             self.builder.write(text + "\n")
 
@@ -878,7 +878,7 @@ class ExDocumentVisitor(ApiExampleBase):
             """Called when a Run node is encountered in the document."""
 
             if self.visitor_is_inside_smart_tag:
-               self._indent_and_append_line("[Run] \"" + run.get_text() + "\"")
+                self._indent_and_append_line("[Run] \"" + run.get_text() + "\"")
 
             return aw.VisitorAction.CONTINUE
 
@@ -904,7 +904,7 @@ class ExDocumentVisitor(ApiExampleBase):
             """Append a line to the StringBuilder and indent it depending on how deep the visitor is into the document tree."""
 
             for i in range(self.doc_traversal_depth):
-               self.builder.write("|  ")
+                self.builder.write("|  ")
 
             self.builder.write(text + "\n")
 
@@ -962,7 +962,7 @@ class ExDocumentVisitor(ApiExampleBase):
             """Called when a Run node is encountered in the document."""
 
             if self.visitor_is_inside_structured_document_tag:
-               self._indent_and_append_line("[Run] \"" + run.get_text() + "\"")
+                self._indent_and_append_line("[Run] \"" + run.get_text() + "\"")
 
             return aw.VisitorAction.CONTINUE
 
@@ -986,7 +986,7 @@ class ExDocumentVisitor(ApiExampleBase):
             """Append a line to the output and indent it depending on how deep the visitor is into the document tree."""
 
             for i in range(self.doc_traversal_depth):
-               self.builder.write("|  ")
+                self.builder.write("|  ")
 
             self.builder.write(text + "\n")
 

@@ -64,7 +64,7 @@ class ExVariableCollection(ApiExampleBase):
 
         # Enumerate over the collection of variables.
         for entry in doc.variables:
-             print(f"Name: {entry.key}, Value: {entry.value}")
+            print(f"Name: {entry.key}, Value: {entry.value}")
 
         # Below are three ways of removing document variables from a collection.
         # 1 -  By name:

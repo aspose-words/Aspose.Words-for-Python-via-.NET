@@ -1385,7 +1385,7 @@ class ExTable(ApiExampleBase):
         # List all possible style conditions.
         for conditional_style in table_style.conditional_styles:
             if conditional_style is not None:
-               print(conditional_style.type)
+                print(conditional_style.type)
 
         # Apply the custom style, which contains all conditional styles, to the table.
         table.style = table_style
