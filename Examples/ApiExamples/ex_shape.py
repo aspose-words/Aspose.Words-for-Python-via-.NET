@@ -2085,7 +2085,7 @@ class ExShape(ApiExampleBase):
         if text_box2.next is not None and text_box2.previous is None:
             print("This TextBox is the middle of the sequence")
 
-        if text_box3.next == None and text_box3.previous != None:
+        if text_box3.next is None and text_box3.previous is not None:
             print("This TextBox is the tail of the sequence")
 
             # Break the forward link between text_box2 and text_box3, and then verify that they are no longer linked.
