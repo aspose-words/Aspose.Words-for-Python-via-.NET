@@ -92,6 +92,7 @@ class ExNodeImporter(ApiExampleBase):
         self.assertEqual("We will insert a document here: " +
                          "\rHello world!", doc.get_text().strip())
 
+    @staticmethod
     def insert_document(insertion_destination: aw.Node, doc_to_insert: aw.Document):
         """Inserts the contents of a document after the specified node."""
 
