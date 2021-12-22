@@ -47,6 +47,8 @@ class ExDocumentVisitor(ApiExampleBase):
 
         def __init__(self):
 
+            aw.DocumentVisitor.__init__(self)
+
             self.accepting_node_child_tree = io.StringIO()
             self.doc_traversal_depth = 0
 
@@ -202,6 +204,8 @@ class ExDocumentVisitor(ApiExampleBase):
 
         def __init__(self):
 
+            aw.DocumentVisitor.__init__(self)
+
             self.visited_tables = io.StringIO()
             self.visitor_is_inside_table = False
             self.doc_traversal_depth = 0
@@ -353,6 +357,8 @@ class ExDocumentVisitor(ApiExampleBase):
 
         def __init__(self):
 
+            aw.DocumentVisitor.__init__(self)
+
             self.builder = io.StringIO()
             self.visitor_is_inside_comment = False
             self.doc_traversal_depth = 0
@@ -452,6 +458,8 @@ class ExDocumentVisitor(ApiExampleBase):
 
         def __init__(self):
 
+            aw.DocumentVisitor.__init__(self)
+
             self.builder = io.StringIO()
             self.visitor_is_inside_field = False
             self.doc_traversal_depth = 0
@@ -544,6 +552,8 @@ class ExDocumentVisitor(ApiExampleBase):
 
         def __init__(self):
 
+            aw.DocumentVisitor.__init__(self)
+
             self.builder = io.StringIO()
             self.visitor_is_inside_header_footer = False
             self.doc_traversal_depth = 0
@@ -624,6 +634,8 @@ class ExDocumentVisitor(ApiExampleBase):
 
         def __init__(self):
 
+            aw.DocumentVisitor.__init__(self)
+
             self.builder = io.StringIO()
             self.visitor_is_inside_editable_range = False
             self.doc_traversal_depth = 0
@@ -703,6 +715,8 @@ class ExDocumentVisitor(ApiExampleBase):
 
         def __init__(self):
 
+            aw.DocumentVisitor.__init__(self)
+
             self.builder = io.StringIO()
             self.visitor_is_inside_footnote = False
             self.doc_traversal_depth = 0
@@ -781,6 +795,8 @@ class ExDocumentVisitor(ApiExampleBase):
         Creates a map in the form of a string of all encountered OfficeMath nodes and their children."""
 
         def __init__(self):
+
+            aw.DocumentVisitor.__init__(self)
 
             self.builder = io.StringIO()
             self.visitor_is_inside_office_math = False
@@ -865,6 +881,8 @@ class ExDocumentVisitor(ApiExampleBase):
 
         def __init__(self):
 
+            aw.DocumentVisitor.__init__(self)
+
             self.builder = io.StringIO()
             self.visitor_is_inside_smart_tag = False
             self.doc_traversal_depth = 0
@@ -948,6 +966,8 @@ class ExDocumentVisitor(ApiExampleBase):
         Creates a map in the form of a string of all encountered StructuredDocumentTag nodes and their children."""
 
         def __init__(self):
+
+            aw.DocumentVisitor.__init__(self)
 
             self.builder = io.StringIO()
             self.visitor_is_inside_structured_document_tag = False
