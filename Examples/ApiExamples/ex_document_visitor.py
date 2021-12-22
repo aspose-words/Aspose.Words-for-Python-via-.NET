@@ -152,7 +152,6 @@ class ExDocumentVisitor(ApiExampleBase):
 
     #ExEnd
 
-    @staticmethod
     def _test_doc_structure_to_text(self, visitor: ExDocumentVisitor.DocStructurePrinter):
 
         visitor_text = visitor.get_text()
