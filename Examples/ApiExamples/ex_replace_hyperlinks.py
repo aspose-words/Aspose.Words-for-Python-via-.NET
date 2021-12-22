@@ -52,7 +52,7 @@ class Hyperlink:
 
     Below are two example field codes of HYPERLINK fields:
     HYPERLINK "url"
-    HYPERLINK \l "bookmark name"
+    HYPERLINK \\l "bookmark name"
 
     A field's "result" property contains text that the field displays in the document body to the user."""
     def __init__(self, field_start: aw.fields.FieldStart):
