@@ -41,7 +41,7 @@ def main():
     logger = logging.getLogger("doc2pdf")
 
     logger.info("Started")
-    logger.info('Command line:', ' '.join(sys.argv[1:]))
+    logger.info('Command line: ' + ' '.join(sys.argv[1:]))
 
     options = parse_command_line(sys.argv[1:])
 
