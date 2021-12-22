@@ -144,7 +144,7 @@ class ExMailMergeCustomNested(ApiExampleBase):
             self.record_index = -1
 
         @property
-        def table_name() -> str:
+        def table_name(self) -> str:
             """The name of the data source. Used by Aspose.Words only when executing mail merge with repeatable regions."""
 
             return "Orders"

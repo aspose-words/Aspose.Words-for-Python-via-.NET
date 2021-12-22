@@ -9,6 +9,7 @@ from api_example_base import ApiExampleBase, TEMP_DIR
 
 class DocumentHelper(ApiExampleBase):
 
+    @staticmethod
     def create_document_without_dummy_text() -> aw.Document:
         """Create simple document without run in the paragraph"""
         doc = aw.Document()
@@ -24,7 +25,6 @@ class DocumentHelper(ApiExampleBase):
         builder.writeln()
 
         return doc
-
 
     @staticmethod
     def find_text_in_file(path: str, expression: str):

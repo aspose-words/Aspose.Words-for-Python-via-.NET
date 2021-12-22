@@ -178,6 +178,7 @@ class ExMailMergeEvent(ApiExampleBase):
             # Do nothing.
             pass
 
+    @staticmethod
     def get_student_course_data_table() -> DataTable:
         """Creates a mail merge data source."""
 
@@ -236,6 +237,7 @@ class ExMailMergeEvent(ApiExampleBase):
             # Do nothing.
             pass
 
+    @staticmethod
     def get_suppliers_data_table() -> DataTable:
         """Creates a mail merge data source."""
 
