@@ -182,12 +182,12 @@ class ExRendering(ApiExampleBase):
 
         with drawing.Bitmap(img_width, img_height) as img:
 
-            with drawing.Graphics.from_image(img) as gr:
+            with drawing.Graphics.from_image(img) as graphics:
 
-                gr.text_rendering_hint = drawing.text.TextRenderingHint.ANTI_ALIAS_GRID_FIT
+                graphics.text_rendering_hint = drawing.text.TextRenderingHint.ANTI_ALIAS_GRID_FIT
 
                 # Fill the background, which is transparent by default, in white.
-                gr.fill_rectangle(drawing.SolidBrush(drawing.Color.white), 0, 0, img_width, img_height)
+                graphics.fill_rectangle(drawing.SolidBrush(drawing.Color.white), 0, 0, img_width, img_height)
 
                 for page_index in range(doc.page_count):
 
@@ -199,8 +199,8 @@ class ExRendering(ApiExampleBase):
                     thumb_top = row_idx * thumb_size.height
 
                     # Render a page as a thumbnail, and then frame it in a rectangle of the same size.
-                    size = doc.render_to_scale(page_index, gr, thumb_left, thumb_top, scale)
-                    gr.draw_rectangle(drawing.Pens.black, thumb_left, thumb_top, size.width, size.height)
+                    size = doc.render_to_scale(page_index, graphics, thumb_left, thumb_top, scale)
+                    graphics.draw_rectangle(drawing.Pens.black, thumb_left, thumb_top, size.width, size.height)
 
                 img.save(ARTIFACTS_DIR + "Rendering.thumbnails.png")
 
