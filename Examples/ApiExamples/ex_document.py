@@ -423,7 +423,7 @@ class ExDocument(ApiExampleBase):
             src_doc = aw.Document()
 
             with self.assertRaises(Exception):
-                src_doc == aw.Document("C:\\DetailsList.doc")
+                src_doc = aw.Document("C:\\DetailsList.doc")
 
             # Append the source document at the end of the destination document.
             doc.append_document(src_doc, aw.ImportFormatMode.USE_DESTINATION_STYLES)
