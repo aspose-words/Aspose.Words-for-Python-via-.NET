@@ -90,7 +90,7 @@ class NumericTestClass:
         self.date = date
 
     def sum(self, value1: int, value2: int) -> int:
-        result = value1 + value2;
+        result = value1 + value2
         return result
 
 
