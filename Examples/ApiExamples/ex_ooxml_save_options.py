@@ -241,7 +241,7 @@ class ExOoxmlSaveOptions(ApiExampleBase):
         save_options = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
 
         prev_file_size = 0
-        for i in range(len(file_signatures)):
+        for i, file_signature in enumerate(file_signatures):
 
             save_options.compression_level = compression_levels[i]
             doc.save(ARTIFACTS_DIR + "OoxmlSaveOptions.check_file_signatures.docx", save_options)
@@ -253,7 +253,7 @@ class ExOoxmlSaveOptions(ApiExampleBase):
                     self.assertLess(prev_file_size, file_size)
 
                     ApiExampleBase.copy_stream(output_file_stream, stream)
-                    self.assertEqual(file_signatures[i], ApiExampleBase.dump_array(bytes(stream.getvalue()), 0, 10))
+                    self.assertEqual(ffile_signature, ApiExampleBase.dump_array(bytes(stream.getvalue()), 0, 10))
 
                     prev_file_size = file_size
 

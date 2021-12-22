@@ -914,9 +914,9 @@ class ExReportingEngine(ApiExampleBase):
 
                 self.assertEqual(len(expected_items), sdt.list_items.count)
 
-                for i in range(len(expected_items)):
-                    self.assertEqual(expected_items[i].value, sdt.list_items[i].value)
-                    self.assertEqual(expected_items[i].display_text, sdt.list_items[i].display_text)
+                for i, expected_item in enumerate(expected_items):
+                    self.assertEqual(expected_item.value, sdt.list_items[i].value)
+                    self.assertEqual(expected_item.display_text, sdt.list_items[i].display_text)
 
     def build_report(self, document: aw.Document, data_source, data_source_name = None,
                      known_types = None, options: Optional[aw.reporting.ReportBuildOptions] = None):
