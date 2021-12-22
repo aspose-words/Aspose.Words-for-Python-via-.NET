@@ -104,8 +104,7 @@ class ExPdf2Word(ApiExampleBase):
 
         self.assertEqual("Hello world! We are editing a PDF document that was loaded into Aspose.Words!", pdf_doc.get_text().strip())
 
-    @staticmethod
-    def load_encrypted_pdf_using_plugin():
+    def load_encrypted_pdf_using_plugin(self):
 
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -135,5 +134,4 @@ class ExPdf2Word(ApiExampleBase):
             # the same way we would pass it into a document's "load" method.
             pdf2word.read(stream, aw.loading.LoadOptions("MyPassword"), pdf_doc)
 
-        self.assertEqual("Hello world! This is an encrypted PDF document.",
-            pdf_doc.get_text().strip())
+        self.assertEqual("Hello world! This is an encrypted PDF document.", pdf_doc.get_text().strip())

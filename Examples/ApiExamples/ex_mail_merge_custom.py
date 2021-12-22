@@ -99,6 +99,8 @@ class ExMailMergeCustom(ApiExampleBase):
 
     def _test_custom_data_source(self, customer_list: List[ExMailMergeCustom.Customer], doc: aw.Document):
 
+        merge_data = []
+
         for customer in customer_list:
             merge_data.append([customer.full_name, customer.address])
 

@@ -352,10 +352,10 @@ class ExMailMerge(ApiExampleBase):
         # Each merge document for each row of the "Customers" table of the outer merge region will perform its mail merge on the "Orders" table.
         # Each merge document will display all rows of the latter table whose "CustomerID" column values match the current "Customers" table row.
         customers_and_orders = ExMailMerge.create_data_set()
-        doc.mail_merge.execute_with_regions(customersAndOrders)
+        doc.mail_merge.execute_with_regions(customers_and_orders)
 
         doc.save(ARTIFACTS_DIR + "MailMerge.execute_with_regions_nested.docx")
-        self.mail_merge_matches_data_set(customersAndOrders, aw.Document(ARTIFACTS_DIR + "MailMerge.execute_with_regions_nested.docx"), False) #ExSkip
+        self.mail_merge_matches_data_set(customers_and_orders, aw.Document(ARTIFACTS_DIR + "MailMerge.execute_with_regions_nested.docx"), False) #ExSkip
 
     @staticmethod
     def create_data_set() -> DataSet:
@@ -1705,7 +1705,7 @@ class ExMailMerge(ApiExampleBase):
         self.assertEqual("Wednesday, 1 January 2020 - Mittwoch, 1 Januar 2020", doc.range.text.strip())
 
         # Restore the thread's original culture.
-        Thread.current_thread.current_culture = currentCulture
+        Thread.current_thread.current_culture = current_culture
         #ExEnd
 
     def test_restart_lists_at_each_section(self):

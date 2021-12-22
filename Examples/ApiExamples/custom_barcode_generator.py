@@ -88,13 +88,13 @@ class CustomBarcodeGenerator(ApiExampleBase):
             generator.parameters.barcode.code_text_parameters.two_d_display_text = parameters.barcode_value
 
         if parameters.foreground_color is not None:
-            generator.parameters.barcode.bar_color = convert_color(parameters.foreground_color)
+            generator.parameters.barcode.bar_color = CustomBarcodeGenerator.convert_color(parameters.foreground_color)
 
         if parameters.background_color is not None:
-            generator.parameters.back_color = convert_color(parameters.background_color)
+            generator.parameters.back_color = CustomBarcodeGenerator.convert_color(parameters.background_color)
 
         if parameters.symbol_height is not None:
-            generator.parameters.image_height.pixels = convert_symbol_height(parameters.symbol_height)
+            generator.parameters.image_height.pixels = CustomBarcodeGenerator.convert_symbol_height(parameters.symbol_height)
             generator.parameters.auto_size_mode = aspose.barcode.generation.AutoSizeMode.NONE
 
         generator.parameters.barcode.code_text_parameters.location = aspose.barcode.generation.CodeLocation.NONE

@@ -48,7 +48,7 @@ class ExMailMergeEvent(ApiExampleBase):
         ]
 
         doc.mail_merge.field_merging_callback = ExMailMergeEvent.HandleMergeFieldInsertHtml()
-        doc.mail_merge.execute(["html_Title", "html_Body"], mergeData)
+        doc.mail_merge.execute(["html_Title", "html_Body"], merge_data)
 
         doc.save(ARTIFACTS_DIR + "MailMergeEvent.merge_html.docx")
 
@@ -108,7 +108,7 @@ class ExMailMergeEvent(ApiExampleBase):
             """Called when a mail merge merges data into a MERGEFIELD."""
 
             if args.field_name.startswith("text_"):
-                args.field_value = f"Merge value for \"{e.field_name}\": {e.field_value}"
+                args.field_value = f"Merge value for \"{args.field_name}\": {args.field_value}"
             elif args.field_name.startswith("numeric_"):
                 args.field_value = int(args.field_value) * 1000
 

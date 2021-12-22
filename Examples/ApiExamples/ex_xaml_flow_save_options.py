@@ -68,7 +68,7 @@ class ExXamlFlowSaveOptions(ApiExampleBase):
 
             # If we specified an image folder alias, we would also need
             # to redirect each stream to put its image in the alias folder.
-            args.image_stream = open(f"{images_folder_alias}/{args.image_file_name}", "wb")
+            args.image_stream = open(f"{self.images_folder_alias}/{args.image_file_name}", "wb")
             args.keep_image_stream_open = False
 
     #ExEnd
