@@ -70,7 +70,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(" IF  > 0 \" (surplus of ) \" \"\" ", field_if.get_field_code(False))
 
         # 2 -  Include its inner fields:
-        self.assertEqual(f" IF \u0013 MERGEFIELD NetIncome \u0014\u0015 > 0 \" (surplus of \u0013 MERGEFIELD  NetIncome \\f $ \u0014\u0015) \" \"\" ",
+        self.assertEqual(" IF \u0013 MERGEFIELD NetIncome \u0014\u0015 > 0 \" (surplus of \u0013 MERGEFIELD  NetIncome \\f $ \u0014\u0015) \" \"\" ",
             field_if.get_field_code(True))
 
         # By default, the "get_field_code" method displays inner fields.
