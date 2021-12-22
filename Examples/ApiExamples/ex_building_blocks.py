@@ -217,3 +217,4 @@ class ExBuildingBlocks(ApiExampleBase):
     #        return aw.VisitorAction.CONTINUE
 
     ##ExEnd
+    pass
