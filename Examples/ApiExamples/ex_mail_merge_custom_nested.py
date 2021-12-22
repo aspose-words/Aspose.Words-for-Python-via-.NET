@@ -125,7 +125,7 @@ class ExMailMergeCustomNested(ApiExampleBase):
 
             # Get the child data source, whose name matches the mail merge region that uses its columns.
             if table_name == "Orders":
-                ExMailMergeCustomNested.OrderMailMergeDataSource(self.ustomers[self.record_index].orders)
+                return ExMailMergeCustomNested.OrderMailMergeDataSource(self.ustomers[self.record_index].orders)
 
             return None
 
