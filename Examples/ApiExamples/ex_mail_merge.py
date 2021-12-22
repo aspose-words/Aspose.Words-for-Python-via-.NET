@@ -860,8 +860,7 @@ class ExMailMerge(ApiExampleBase):
                 doc.mail_merge.cleanup_options = mail_merge_cleanup_options
                 doc.mail_merge.execute(data_table)
 
-                if (mail_merge_cleanup_options == aw.mailmerging.MailMergeCleanupOptions.REMOVE_UNUSED_FIELDS or
-                    mail_merge_cleanup_options == aw.mailmerging.MailMergeCleanupOptions.REMOVE_STATIC_FIELDS):
+                if mail_merge_cleanup_options in (aw.mailmerging.MailMergeCleanupOptions.REMOVE_UNUSED_FIELDS, aw.mailmerging.MailMergeCleanupOptions.REMOVE_STATIC_FIELDS):
                     self.assertEqual(0, doc.range.fields.count)
                 else:
                     self.assertEqual(2, doc.range.fields.count)
