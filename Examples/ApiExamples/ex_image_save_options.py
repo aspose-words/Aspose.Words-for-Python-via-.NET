@@ -140,7 +140,7 @@ class ExImageSaveOptions(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "ImageSaveOptions.graphics_quality.jpg", save_options)
         #ExEnd
 
-        self.verify_image(794, 1122, verify_image=ARTIFACTS_DIR + "ImageSaveOptions.graphics_quality.jpg")
+        self.verify_image(794, 1122, filename=(ARTIFACTS_DIR + "ImageSaveOptions.graphics_quality.jpg"))
 
     def test_windows_meta_file(self):
 
