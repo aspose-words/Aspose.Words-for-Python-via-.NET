@@ -253,7 +253,7 @@ class ExOoxmlSaveOptions(ApiExampleBase):
                     self.assertLess(prev_file_size, file_size)
 
                     ApiExampleBase.copy_stream(output_file_stream, stream)
-                    self.assertEqual(ffile_signature, ApiExampleBase.dump_array(bytes(stream.getvalue()), 0, 10))
+                    self.assertEqual(file_signature, ApiExampleBase.dump_array(bytes(stream.getvalue()), 0, 10))
 
                     prev_file_size = file_size
 
