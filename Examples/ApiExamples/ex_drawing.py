@@ -177,16 +177,16 @@ class ExDrawing(ApiExampleBase):
         fill = doc.first_section.body.paragraphs[0].runs[0].font.fill
 
         # Check "fill" properties of the Font.
-        print("The type of the fill is: {0}", fill.fill_type)
-        print("The foreground color of the fill is: {0}", fill.fore_color)
-        print("The fill is transparent at {0}%", fill.transparency * 100)
+        print("The type of the fill is:", fill.fill_type)
+        print("The foreground color of the fill is:", fill.fore_color)
+        print("The fill is transparent at", fill.transparency * 100, "%")
 
         # Change type of the fill to Solid with uniform green color.
         fill.solid(drawing.Color.green)
         print("\nThe fill is changed:")
-        print("The type of the fill is: {0}", fill.fill_type)
-        print("The foreground color of the fill is: {0}", fill.fore_color)
-        print("The fill transparency is {0}%", fill.transparency * 100)
+        print("The type of the fill is:", fill.fill_type)
+        print("The foreground color of the fill is:", fill.fore_color)
+        print("The fill transparency is", fill.transparency * 100, "%")
 
         doc.save(ARTIFACTS_DIR + "Drawing.fill_solid.docx")
         #ExEnd

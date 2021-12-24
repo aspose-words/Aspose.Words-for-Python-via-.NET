@@ -1341,7 +1341,7 @@ class ExFont(ApiExampleBase):
         doc.theme.minor_fonts.complex_script = "Andalus"
 
         font = doc.styles.get_by_name("Normal").font
-        print("Originally the Normal style theme color is: {0} and RGB color is: {1}\n", font.theme_color, font.color)
+        print(f"Originally the Normal style theme color is: {font.theme_color} and RGB color is: {font.color}\n")
 
         # We can use theme font and color instead of default values.
         font.theme_font = aw.themes.ThemeFont.MINOR

@@ -896,7 +896,7 @@ class ExShape(ApiExampleBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
         fill = shape.fill
 
-        print("Pattern value is: {0}", fill.pattern)
+        print("Pattern value is:", fill.pattern)
 
         # There are several ways specified fill to a pattern.
         # 1 -  Apply pattern to the shape fill:
