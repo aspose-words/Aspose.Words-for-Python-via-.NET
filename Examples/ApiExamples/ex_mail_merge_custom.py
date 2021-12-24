@@ -52,7 +52,7 @@ class ExMailMergeCustom(ApiExampleBase):
         """A custom mail merge data source that you implement to allow Aspose.Words
         to mail merge data from your Customer objects into Microsoft Word documents."""
 
-        def __init__(self, customers: List[ExMailMergeCustom.Customer]):
+        def __init__(self, customers: 'List[ExMailMergeCustom.Customer]'):
 
             self.customers = customers
 

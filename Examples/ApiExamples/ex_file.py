@@ -38,8 +38,8 @@ class ExFile(ApiExampleBase):
 
         self.assertEqual(aw.LoadFormat.HTML, info.load_format)
 
-        # The Encoding property is used only when we create a FileFormatInfo object for an html document.
-        self.assertEqual("Western European (Windows)", info.encoding)
+        # The "encoding" property is used only when we create a FileFormatInfo object for an html document.
+        self.assertEqual("windows-1252", info.encoding)
         #ExEnd
 
         info = aw.FileFormatUtil.detect_file_format(MY_DIR + "Document.docx")

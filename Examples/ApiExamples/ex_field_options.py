@@ -117,7 +117,7 @@ class ExFieldOptions(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "FieldOptions.file_name.docx")
 
         self.assertIsNone(doc.field_options.file_name)
-        self.verify_field(aw.fields.FieldType.FIELD_FILE_NAME, " FILENAME ", "FieldOptions.filename.docx", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_FILE_NAME, " FILENAME ", "FieldOptions.file_name.docx", doc.range.fields[0])
 
     def test_bidi(self):
 

@@ -5207,7 +5207,7 @@ class ExField(ApiExampleBase):
         # while we edit the document programmatically using Aspose.Words, or in Microsoft Word.
         # We need to update them every we need to see an up-to-date value.
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.nfield_num.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_num.docx")
         #ExEnd
 
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_num.docx")

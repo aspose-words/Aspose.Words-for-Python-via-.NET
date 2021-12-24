@@ -51,7 +51,7 @@ class ExReportingEngine(ApiExampleBase):
             "<<[s.Value1]:alphabetic>> : <<[s.Value2]:roman:lower>>, <<[s.Value3]:ordinal>>, <<[s.Value1]:ordinalText:upper>>" +
             ", <<[s.Value2]:cardinal>>, <<[s.Value3]:hex>>, <<[s.Value3]:arabicDash>>")
 
-        sender = NumericTestClass(1, 2.2, 200, None, date=datetime.strptime("%d-%m-%Y %H:%M:%S", "10.09.2016 10:00:00"))
+        sender = NumericTestClass(1, 2.2, 200, None, date=datetime(2016, 10, 9, 10, 0, 0))
         self.build_report(doc, sender, "s")
 
         doc = DocumentHelper.save_open(doc)
