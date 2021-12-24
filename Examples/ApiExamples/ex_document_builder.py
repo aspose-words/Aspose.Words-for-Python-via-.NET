@@ -227,7 +227,7 @@ class ExDocumentBuilder(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "DocumentBuilder.insert_hyperlink.docx")
 
         hyperlink = doc.range.fields[0].as_field_hyperlink()
-        #self.verify_web_response_status_code(HttpStatusCode.OK, hyperlink.address)
+        self.verify_web_response_status_code(200, hyperlink.address)
 
         field_contents = hyperlink.start.next_sibling.as_run()
 
@@ -287,7 +287,7 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertNotEqual(runs[0].font.color, runs[2].font.color)
         self.assertNotEqual(runs[0].font.underline, runs[2].font.underline)
 
-        #self.verify_web_response_status_code(HttpStatusCode.OK, (doc.range.fields[0].as_field_hyperlink()).address)
+        self.verify_web_response_status_code(200, doc.range.fields[0].as_field_hyperlink().address)
 
     def test_insert_watermark(self):
 
@@ -2587,7 +2587,7 @@ class ExDocumentBuilder(ApiExampleBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         self.verify_image_in_shape(480, 360, aw.drawing.ImageType.JPEG, shape)
-        #self.verify_web_response_status_code(HttpStatusCode.OK, shape.HRef)
+        self.verify_web_response_status_code(200, shape.href)
 
         self.assertEqual(360.0, shape.width)
         self.assertEqual(270.0, shape.height)
@@ -3295,7 +3295,7 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, shape.relative_horizontal_position)
 
         self.assertEqual("https://vimeo.com/52477838", shape.href)
-        #self.verify_web_response_status_code(HttpStatusCode.OK, shape.HRef)
+        self.verify_web_response_status_code(200, shape.href)
 
     def test_insert_online_video_custom_thumbnail(self):
 
@@ -3361,7 +3361,7 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual("https://vimeo.com/52477838", shape.href)
 
         #ServicePointManager.security_protocol = SecurityProtocolType.TLS12
-        #self.verify_web_response_status_code(HttpStatusCode.OK, shape.href)
+        self.verify_web_response_status_code(200, shape.href)
 
     def test_insert_ole_object_as_icon(self):
 

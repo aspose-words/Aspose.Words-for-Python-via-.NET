@@ -5,6 +5,7 @@
 # "as is", without warranty of any kind, either expressed or implied.
 
 import unittest
+import urllib.request
 import os
 import io
 import zipfile
@@ -72,20 +73,18 @@ class ApiExampleBase(unittest.TestCase):
 
         raise Exception(f"The image from \"{filename}\" does not contain any transparency.")
 
-    ## <summary>
-    ## Checks whether an HTTP request sent to the specified address produces an expected web response.
-    ## </summary>
-    ## <remarks>
-    ## Serves as a notification of any URLs used in code examples becoming unusable in the future.
-    ## </remarks>
-    ## <param name="expectedHttpStatusCode">Expected result status code of a request HTTP "HEAD" method performed on the web address.</param>
-    ## <param name="webAddress">URL where the request will be sent.</param>
-    #internal static void VerifyWebResponseStatusCode(HttpStatusCode expectedHttpStatusCode, string webAddress)
+    def verify_web_response_status_code(self, expected_http_status_code: int, web_address: str):
+        """Checks whether an HTTP request sent to the specified address produces an expected web response.
 
-    #    HttpWebRequest request = (HttpWebRequest)WebRequest.create(webAddress)
-    #    request.Method = "HEAD"
+        Serves as a notification of any URLs used in code examples becoming unusable in the future.
 
-    #    self.assertEqual(expectedHttpStatusCode, ((HttpWebResponse)request.get_response()).StatusCode)
+        :param expected_http_status_code: Expected result status code of a request HTTP "HEAD" method performed on the web address.
+        :param web_address: URL where the request will be sent."""
+
+        req = urllib.request.Request(web_address, method="HEAD")
+        response = urllib.request.urlopen(req)
+
+        self.assertEqual(expected_http_status_code, response.getcode())
 
     def verify_doc_package_file_contains_string(self, expected: str, doc_filename: str, doc_part_filename: str):
         """Checks whether a file inside a document's OOXML package contains a string.

@@ -6453,7 +6453,7 @@ class ExField(ApiExampleBase):
         self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \a \ac \vs1 \co1(lim,n→∞) \b (\f(n,n2 + 12) + \f(n,n2 + 22) + ... + \f(n,n2 + n2))", "", doc.range.fields[10])
         self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \i (,,  \b(\f(x,x2 + 3x + 2))) \s \up10(2)", "", doc.range.fields[11])
         self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \i \in( tan x, \s \up2(sec x), \b(\r(3) )\s \up4(t) \s \up7(2)  dt)", "", doc.range.fields[12])
-        #self.verify_web_response_status_code(HttpStatusCode.OK, "https://blogs.msdn.microsoft.com/murrays/2018/01/23/microsoft-word-eq-field/")
+        self.verify_web_response_status_code(200, "https://blogs.msdn.microsoft.com/murrays/2018/01/23/microsoft-word-eq-field/")
 
     def test_field_forms(self):
 

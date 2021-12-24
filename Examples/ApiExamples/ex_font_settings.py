@@ -793,7 +793,7 @@ class ExFontSettings(ApiExampleBase):
         doc.font_settings = font_settings
         #ExEnd
 
-        #self.verify_web_response_status_code(HttpStatusCode.OK, "https://www.google.com/get/noto/#sans-lgc")
+        self.verify_web_response_status_code(200, "https://www.google.com/get/noto/#sans-lgc")
 
     def test_default_font_substitution_rule(self):
 

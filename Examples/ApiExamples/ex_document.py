@@ -84,7 +84,7 @@ class ExDocument(ApiExampleBase):
 
         #ExEnd
 
-        #self.verify_web_response_status_code(HttpStatusCode.OK, url)
+        self.verify_web_response_status_code(200, url)
 
     def test_convert_to_pdf(self):
 
@@ -223,7 +223,7 @@ class ExDocument(ApiExampleBase):
 
         #ExEnd
 
-        #self.verify_web_response_status_code(HttpStatusCode.OK, url)
+        self.verify_web_response_status_code(200, url)
 
     def test_load_encrypted(self):
 

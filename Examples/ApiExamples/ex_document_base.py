@@ -236,4 +236,4 @@ class ExDocumentBase(ApiExampleBase):
     #        self.assertTrue(shape.has_image)
     #        self.assertNotEqual(b"", shape.image_data.image_bytes)
 
-    #    #self.verify_web_response_status_code(HttpStatusCode.OK, "http://www.google.com/images/logos/ps_logo2.png")
+    #    #self.verify_web_response_status_code(200, "http://www.google.com/images/logos/ps_logo2.png")
