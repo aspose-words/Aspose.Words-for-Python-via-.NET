@@ -605,34 +605,34 @@ class ExRange(ApiExampleBase):
 
     #        return aw.replacing.ReplaceAction.SKIP
 
-    @staticmethod
-    def insert_document(insertion_destination: aw.Node, doc_to_insert: aw.Document):
-        """Inserts all the nodes of another document after a paragraph or table."""
+    #@staticmethod
+    #def insert_document(insertion_destination: aw.Node, doc_to_insert: aw.Document):
+    #    """Inserts all the nodes of another document after a paragraph or table."""
 
-        if insertion_destination.node_type == aw.NodeType.PARAGRAPH or insertion_destination.node_type == aw.NodeType.TABLE:
+    #    if insertion_destination.node_type == aw.NodeType.PARAGRAPH or insertion_destination.node_type == aw.NodeType.TABLE:
 
-            dst_story = insertion_destination.parent_node
+    #        dst_story = insertion_destination.parent_node
 
-            importer = aw.NodeImporter(doc_to_insert, insertion_destination.document, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+    #        importer = aw.NodeImporter(doc_to_insert, insertion_destination.document, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
-            for src_section in doc_to_insert.sections:
-                src_section = src_section.as_section()
-                for src_node in src_section.body:
+    #        for src_section in doc_to_insert.sections:
+    #            src_section = src_section.as_section()
+    #            for src_node in src_section.body:
 
-                    # Skip the node if it is the last empty paragraph in a section.
-                    if src_node.node_type == aw.NodeType.PARAGRAPH:
-                        para = src_node.as_paragraph()
-                        if para.is_end_of_section and not para.has_child_nodes:
-                            continue
+    #                # Skip the node if it is the last empty paragraph in a section.
+    #                if src_node.node_type == aw.NodeType.PARAGRAPH:
+    #                    para = src_node.as_paragraph()
+    #                    if para.is_end_of_section and not para.has_child_nodes:
+    #                        continue
 
-                    new_node = importer.import_node(src_node, True)
+    #                new_node = importer.import_node(src_node, True)
 
-                    dst_story.insert_after(new_node, insertion_destination)
-                    insertion_destination = new_node
-        else:
-            raise ValueError("The destination node must be either a paragraph or table.")
+    #                dst_story.insert_after(new_node, insertion_destination)
+    #                insertion_destination = new_node
+    #    else:
+    #        raise ValueError("The destination node must be either a paragraph or table.")
 
-    #ExEnd
+    ##ExEnd
 
     def _test_insert_document_at_replace(self, doc: aw.Document):
 

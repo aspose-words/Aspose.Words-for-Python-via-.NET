@@ -5397,25 +5397,25 @@ class ExField(ApiExampleBase):
     #    doc.save(ARTIFACTS_DIR + "Field.next.nextif.docx")
     #    self._test_field_next(doc) #ExSKip
 
-    @staticmethod
-    def insert_merge_fields(builder: aw.DocumentBuilder, first_field_text_before: str):
-        """Uses a document builder to insert MERGEFIELDs for a data source that contains columns named "Courtesy Title", "First Name" and "Last Name"."""
+    #@staticmethod
+    #def insert_merge_fields(builder: aw.DocumentBuilder, first_field_text_before: str):
+    #    """Uses a document builder to insert MERGEFIELDs for a data source that contains columns named "Courtesy Title", "First Name" and "Last Name"."""
 
-        ExField.insert_merge_field(builder, "Courtesy Title", first_field_text_before, " ")
-        ExField.insert_merge_field(builder, "First Name", None, " ")
-        ExField.insert_merge_field(builder, "Last Name", None, None)
-        builder.insert_paragraph()
+    #    ExField.insert_merge_field(builder, "Courtesy Title", first_field_text_before, " ")
+    #    ExField.insert_merge_field(builder, "First Name", None, " ")
+    #    ExField.insert_merge_field(builder, "Last Name", None, None)
+    #    builder.insert_paragraph()
 
-    @staticmethod
-    def insert_merge_field(builder: aw.DocumentBuilder, field_name: str, text_before: str, text_after: str):
-        """Uses a document builder to insert a MERRGEFIELD with specified properties."""
+    #@staticmethod
+    #def insert_merge_field(builder: aw.DocumentBuilder, field_name: str, text_before: str, text_after: str):
+    #    """Uses a document builder to insert a MERRGEFIELD with specified properties."""
 
-        field = builder.insert_field(aw.fields.FieldType.FIELD_MERGE_FIELD, True).as_field_merge_field()
-        field.field_name = field_name
-        field.text_before = text_before
-        field.text_after = text_after
+    #    field = builder.insert_field(aw.fields.FieldType.FIELD_MERGE_FIELD, True).as_field_merge_field()
+    #    field.field_name = field_name
+    #    field.text_before = text_before
+    #    field.text_after = text_after
 
-    #ExEnd
+    ##ExEnd
 
     def _test_field_next(self, doc: aw.Document):
 
