@@ -361,7 +361,7 @@ class ExInlineStory(ApiExampleBase):
 
         self.assertFalse(footnote.is_auto)
 
-        # A bookmark with the "is_auto" flag set to true will still show its real index
+        # A bookmark with the "is_auto" flag set to True will still show its real index
         # even if previous bookmarks display custom reference marks, so this bookmark's reference mark will be a "3".
         builder.write(" More main body text.")
         footnote = builder.insert_footnote(aw.notes.FootnoteType.FOOTNOTE, "Footnote text.")

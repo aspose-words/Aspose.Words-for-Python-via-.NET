@@ -315,7 +315,7 @@ class ExField(ApiExampleBase):
 
                     field = doc.range.fields[0].as_field_author()
 
-                    # Updating dirty fields like this automatically set their "is_dirty" flag to false.
+                    # Updating dirty fields like this automatically set their "is_dirty" flag to False.
                     if update_dirty_fields:
                         self.assertEqual("John & Jane Doe", field.result)
                         self.assertFalse(field.is_dirty)
@@ -1047,7 +1047,7 @@ class ExField(ApiExampleBase):
         field.update()
 
         # The COMPARE field displays a "0" or a "1", depending on its statement's truth.
-        # The result of this statement is false so that this field will display a "0".
+        # The result of this statement is False so that this field will display a "0".
         self.assertEqual(" COMPARE  3 < 2", field.get_field_code())
         self.assertEqual("0", field.result)
 
@@ -1059,7 +1059,7 @@ class ExField(ApiExampleBase):
         field.right_expression = "2 + 3"
         field.update()
 
-        # This field displays a "1" since the statement is true.
+        # This field displays a "1" since the statement is True.
         self.assertEqual(" COMPARE  5 = \"2 + 3\"", field.get_field_code())
         self.assertEqual("1", field.result)
 
@@ -4591,7 +4591,7 @@ class ExField(ApiExampleBase):
 
         # 3 -  Multiple nested fields and arguments:
         # Now, we will use a builder to create an IF field, which displays one of two custom string values,
-        # depending on the true/false value of its expression. To get a true/false value
+        # depending on the True/False value of its expression. To get a True/False value
         # that determines which string the IF field displays, the IF field will test two numeric expressions for equality.
         # We will provide the two expressions in the form of formula fields, which we will nest inside the IF field.
         left_expression = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_FORMULA)
@@ -4604,7 +4604,7 @@ class ExField(ApiExampleBase):
         right_expression.add_argument("*")
         right_expression.add_argument(5.2)
 
-        # Next, we will build two field arguments, which will serve as the true/false output strings for the IF field.
+        # Next, we will build two field arguments, which will serve as the True/False output strings for the IF field.
         # These arguments will reuse the output values of our numeric expressions.
         true_output = aw.fields.FieldArgumentBuilder()
         true_output.add_text("True, both expressions amount to ")
@@ -5377,7 +5377,7 @@ class ExField(ApiExampleBase):
     #    ExField.insert_merge_fields(builder, "Second row: ")
 
     #    # A NEXTIF field has the same function as a NEXT field,
-    #    # but it skips to the next row only if a statement constructed by the following 3 properties is true.
+    #    # but it skips to the next row only if a statement constructed by the following 3 properties is True.
     #    field_next_if = builder.insert_field(aw.fields.FieldType.FIELD_NEXT_IF, True).as_field_next_if()
     #    field_next_if.left_expression = "5"
     #    field_next_if.right_expression = "2 + 3"
@@ -6150,7 +6150,7 @@ class ExField(ApiExampleBase):
         field_toa.entry_category = "1"
 
         # Moreover, the Table of Authorities category at index 1 is "Cases",
-        # which will show up as our table's title if we set this variable to true.
+        # which will show up as our table's title if we set this variable to True.
         field_toa.use_heading = True
 
         # We can further filter TA fields by naming a bookmark that they will need to be within the TOA bounds.
@@ -6166,7 +6166,7 @@ class ExField(ApiExampleBase):
         # We can use this property to specify a string that will separate their page numbers.
         field_toa.page_number_list_separator = " & p. "
 
-        # We can set this to true to get our table to display the word "passim"
+        # We can set this to True to get our table to display the word "passim"
         # if there are five or more page numbers in one row.
         field_toa.use_passim = True
 

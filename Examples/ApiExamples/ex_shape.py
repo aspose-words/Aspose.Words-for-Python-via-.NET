@@ -2224,7 +2224,7 @@ class ExShape(ApiExampleBase):
         shape = self.append_word_art(doc, "Spacing set to 0.1", "Calibri", 120, 24, drawing.Color.blue_violet, drawing.Color.blue, aw.drawing.ShapeType.TEXT_CASCADE_DOWN)
         shape.text_path.spacing = 0.1
 
-        # Set the "rotate_letters" property to "true" to rotate each character 90 degrees counterclockwise.
+        # Set the "rotate_letters" property to "True" to rotate each character 90 degrees counterclockwise.
         shape = self.append_word_art(doc, "RotateLetters", "Calibri", 200, 36, drawing.Color.green_yellow, drawing.Color.green, aw.drawing.ShapeType.TEXT_WAVE)
         shape.text_path.rotate_letters = True
 

@@ -241,8 +241,8 @@ class ExTable(ApiExampleBase):
 
         Do not recursively traverse through those tables to check for further tables.
 
-        :return: Returns true if at least one child cell contains a table.
-                 Returns false if no cells in the table contain a table.
+        :return: Returns True if at least one child cell contains a table.
+                 Returns False if no cells in the table contain a table.
         """
 
         child_table_count = 0

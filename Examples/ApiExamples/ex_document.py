@@ -1478,7 +1478,7 @@ class ExDocument(ApiExampleBase):
         options = aw.replacing.FindReplaceOptions()
         options.use_substitutions = True
 
-        # Using legacy mode does not support many advanced features, so we need to set it to 'false'.
+        # Using legacy mode does not support many advanced features, so we need to set it to 'False'.
         options.legacy_mode = False
 
         doc.range.replace_regex(r"([A-z]+) gave money to ([A-z]+)", r"$2 took money from $1", options)
@@ -2342,7 +2342,7 @@ class ExDocument(ApiExampleBase):
                 # The string with spelling errors.
                 doc.first_section.body.first_paragraph.runs.add(aw.Run(doc, "The speeling in this documentz is all broked."))
 
-                # Spelling/Grammar check start if we set properties to false.
+                # Spelling/Grammar check start if we set properties to False.
                 # We can see all errors in Microsoft Word via Review -> Spelling & Grammar.
                 # Note that Microsoft Word does not start grammar/spell check automatically for DOC and RTF document format.
                 doc.spelling_checked = check_spelling_grammar

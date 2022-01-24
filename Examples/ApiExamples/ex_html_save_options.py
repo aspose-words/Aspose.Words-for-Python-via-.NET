@@ -1255,7 +1255,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
 
                 # When converting a document to .html, some elements such as hidden bookmarks, original shape positions,
                 # or footnotes will be either removed or converted to plain text and effectively be lost.
-                # Saving with a HtmlSaveOptions object with "export_roundtrip_information" set to true will preserve these elements.
+                # Saving with a HtmlSaveOptions object with "export_roundtrip_information" set to True will preserve these elements.
 
                 # When we save the document to HTML, we can pass a SaveOptions object to determine
                 # how the saving operation will export document elements that HTML does not support or use,

@@ -134,7 +134,7 @@ class ExBookmarks(ApiExampleBase):
 
         for bookmark in doc.range.bookmarks:
 
-            # If a bookmark encloses columns of a table, it is a table column bookmark, and its "is_column" flag set to true.
+            # If a bookmark encloses columns of a table, it is a table column bookmark, and its "is_column" flag set to True.
             print(f"Bookmark: {bookmark.name}{' (Column)' if bookmark.is_column else ''}")
             if bookmark.is_column:
                 row = bookmark.bookmark_start.get_ancestor(aw.NodeType.ROW)

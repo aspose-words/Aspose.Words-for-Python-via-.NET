@@ -305,8 +305,8 @@ class ExLoadOptions(ApiExampleBase):
                 #ExStart
                 #ExFor:SaveOptions.flat_opc_xml_mapping_only
                 #ExSummary:Shows how to binding structured document tags to any format.
-                # If true - SDT will contain raw HTML text.
-                # If false - mapped HTML will parsed and resulting document will be inserted into SDT content.
+                # If True - SDT will contain raw HTML text.
+                # If False - mapped HTML will parsed and resulting document will be inserted into SDT content.
                 load_options = aw.loading.LoadOptions()
                 load_options.flat_opc_xml_mapping_only = is_flat_opc_xml_mapping_only
                 doc = aw.Document(MY_DIR + "Structured document tag with HTML content.docx", load_options)

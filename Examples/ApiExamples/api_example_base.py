@@ -197,7 +197,7 @@ class ApiExampleBase(unittest.TestCase):
 
         :param expected_footnote_type: Expected type of the footnote/endnote.</param>
         :param expected_is_auto: Expected auto-numbered status of this footnote.</param>
-        :param expected_reference_mark: If "is_auto" is false, then the footnote is expected to display this string instead of a number after referenced text.</param>
+        :param expected_reference_mark: If "is_auto" is False, then the footnote is expected to display this string instead of a number after referenced text.</param>
         :param expected_contents: Expected side comment provided by the footnote.</param>
         :param footnote: Footnote node in question.</param>"""
 

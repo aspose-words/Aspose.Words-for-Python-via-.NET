@@ -1721,7 +1721,7 @@ class ExPdfSaveOptions(ApiExampleBase):
     #        return len(self.warnings)
 
     #    def contains(self, source: aw.WarningSource, type: aw.WarningType, description: str) -> bool:
-    #        """Returns true if a warning with the specified properties has been generated."""
+    #        """Returns True if a warning with the specified properties has been generated."""
 
     #        return any(warning for warning in self.warnings
     #                   if warning.source == source and warning.warning_type == type and warning.description == description)

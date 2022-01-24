@@ -33,7 +33,7 @@ class ExDocSaveOptions(ApiExampleBase):
         # Note that this does not encrypt the contents of the document in any way.
         options.password = "MyPassword"
 
-        # If the document contains a routing slip, we can preserve it while saving by setting this flag to true.
+        # If the document contains a routing slip, we can preserve it while saving by setting this flag to True.
         options.save_routing_slip = True
 
         doc.save(ARTIFACTS_DIR + "DocSaveOptions.save_as_doc.doc", options)

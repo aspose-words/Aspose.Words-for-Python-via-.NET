@@ -23,7 +23,7 @@ class ExHtmlLoadOptions(ApiExampleBase):
                 #ExSummary:Shows how to support conditional comments while loading an HTML document.
                 load_options = aw.loading.HtmlLoadOptions()
 
-                # If the value is true, then we take VML code into account while parsing the loaded document.
+                # If the value is True, then we take VML code into account while parsing the loaded document.
                 load_options.support_vml = support_vml
 
                 # This document contains a JPEG image within "<!--[if gte vml 1]>" tags,

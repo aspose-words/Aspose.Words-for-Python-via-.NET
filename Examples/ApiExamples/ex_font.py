@@ -418,7 +418,7 @@ class ExFont(ApiExampleBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # With the "hidden" flag set to true, any text that we create using this Font object will be invisible in the document.
+        # With the "hidden" flag set to True, any text that we create using this Font object will be invisible in the document.
         # We will not see or highlight hidden text unless we enable the "Hidden text" option
         # found in Microsoft Word via "File" -> "Options" -> "Display". The text will still be there,
         # and we will be able to access this text programmatically.
@@ -659,7 +659,7 @@ class ExFont(ApiExampleBase):
         builder.font.locale_id_bi = 4096 # ar-AR
 
         # We can use the "bidi" flag to indicate whether the text we are about to add
-        # with the document builder is right-to-left. When we add text with this flag set to true,
+        # with the document builder is right-to-left. When we add text with this flag set to True,
         # it will be formatted using the right-to-left set of font settings.
         builder.font.bidi = True
         builder.write("مرحبًا")

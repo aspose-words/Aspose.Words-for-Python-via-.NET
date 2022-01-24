@@ -2065,7 +2065,7 @@ class ExDocumentBuilder(ApiExampleBase):
         builder.insert_footnote(aw.notes.FootnoteType.FOOTNOTE, "Footnote comment regarding referenced text.")
 
         # Insert more text and mark it with an endnote with a custom reference mark,
-        # which will be used in place of the number "2" and set "is_auto" to false.
+        # which will be used in place of the number "2" and set "is_auto" to False.
         builder.write("This text will be referenced by an endnote.")
         builder.insert_footnote(aw.notes.FootnoteType.ENDNOTE, "Endnote comment regarding referenced text.", "CustomMark")
 
@@ -2916,8 +2916,8 @@ class ExDocumentBuilder(ApiExampleBase):
         builder.writeln("\n")
 
         # By default, Heading styles in Word may have bold and italic formatting.
-        # If we do not want text to be emphasized, set these properties explicitly to false.
-        # Thus we can't use 'builder.font.clear_formatting()' because bold/italic will be set to true.
+        # If we do not want text to be emphasized, set these properties explicitly to False.
+        # Thus we can't use 'builder.font.clear_formatting()' because bold/italic will be set to True.
         builder.font.bold = False
         builder.font.italic = False
 

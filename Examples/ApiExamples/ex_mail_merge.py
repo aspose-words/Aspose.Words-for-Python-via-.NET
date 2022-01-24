@@ -604,7 +604,7 @@ class ExMailMerge(ApiExampleBase):
         builder.writeln("{{ Column1 }}")
         builder.writeln("{{ Column2 }}")
 
-        # Our tags will register as destinations for mail merge data only if we set this to true.
+        # Our tags will register as destinations for mail merge data only if we set this to True.
         doc.mail_merge.use_non_merge_fields = True
 
         return doc
@@ -1288,7 +1288,7 @@ class ExMailMerge(ApiExampleBase):
                 builder = aw.DocumentBuilder(doc)
 
                 # Insert a MERGEFIELD nested inside an IF field.
-                # Since the IF field statement is false, it will not display the result of the MERGEFIELD.
+                # Since the IF field statement is False, it will not display the result of the MERGEFIELD.
                 # The MERGEFIELD will also not receive any data during a mail merge.
                 field_if = builder.insert_field(" IF 1 = 2 ").as_field_if()
                 builder.move_to(field_if.separator)

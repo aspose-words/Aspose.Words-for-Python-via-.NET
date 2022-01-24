@@ -172,8 +172,8 @@ class ExStructuredDocumentTag(ApiExampleBase):
         # Any text that we type in the document body after moving out of the tag with arrow keys will use this font.
         tag.end_character_font.name = "Arial Black"
 
-        # By default, this is false and pressing enter while inside a structured document tag does nothing.
-        # When set to true, our structured document tag can have multiple lines.
+        # By default, this is False and pressing enter while inside a structured document tag does nothing.
+        # When set to True, our structured document tag can have multiple lines.
 
         # Set the "multiline" property to "False" to only allow the contents
         # of this structured document tag to span a single line.
