@@ -14,7 +14,7 @@ class ExXamlFlowSaveOptions(ApiExampleBase):
 
     #ExStart
     #ExFor:XamlFlowSaveOptions
-    #ExFor:XamlFlowSaveOptions.__init__
+    #ExFor:XamlFlowSaveOptions.__init__()
     #ExFor:XamlFlowSaveOptions.__init__(SaveFormat)
     #ExFor:XamlFlowSaveOptions.image_saving_callback
     #ExFor:XamlFlowSaveOptions.images_folder

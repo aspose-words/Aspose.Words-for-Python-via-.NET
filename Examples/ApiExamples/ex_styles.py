@@ -273,7 +273,7 @@ class ExStyles(ApiExampleBase):
         #ExStart
         #ExFor:Style.aliases
         #ExFor:Style.base_style_name
-        #ExFor:Style.__eq__(Aspose.Words.Style)
+        #ExFor:Style.__eq__(Style)
         #ExFor:Style.linked_style_name
         #ExSummary:Shows how to use style aliases.
         doc = aw.Document(MY_DIR + "Style with alias.docx")

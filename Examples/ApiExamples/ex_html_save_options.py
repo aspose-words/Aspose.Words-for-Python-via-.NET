@@ -743,7 +743,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         #ExStart
         #ExFor:DocumentSplitCriteria
         #ExFor:HtmlSaveOptions
-        #ExFor:HtmlSaveOptions.__init__
+        #ExFor:HtmlSaveOptions.__init__()
         #ExFor:HtmlSaveOptions.encoding
         #ExFor:HtmlSaveOptions.document_split_criteria
         #ExFor:HtmlSaveOptions.export_document_properties

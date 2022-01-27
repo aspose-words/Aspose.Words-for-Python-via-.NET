@@ -525,7 +525,7 @@ class ExDocumentVisitor(ApiExampleBase):
     #ExFor:DocumentVisitor.visit_header_footer_end(HeaderFooter)
     #ExFor:HeaderFooter.accept(DocumentVisitor)
     #ExFor:HeaderFooterCollection.to_array
-    #ExFor:Run.accept(aw.DocumentVisitor)
+    #ExFor:Run.accept(DocumentVisitor)
     #ExFor:Run.get_text
     #ExSummary:Shows how to print the node structure of every header and footer in a document.
     def test_header_footer_to_text(self):
@@ -772,9 +772,9 @@ class ExDocumentVisitor(ApiExampleBase):
     #ExStart
     #ExFor:DocumentVisitor.visit_office_math_end(OfficeMath)
     #ExFor:DocumentVisitor.visit_office_math_start(OfficeMath)
-    #ExFor:Math.MathObjectType
-    #ExFor:Math.OfficeMath.accept(DocumentVisitor)
-    #ExFor:Math.OfficeMath.math_object_type
+    #ExFor:MathObjectType
+    #ExFor:OfficeMath.accept(DocumentVisitor)
+    #ExFor:OfficeMath.math_object_type
     #ExSummary:Shows how to print the node structure of every office math node in a document.
     def test_office_math_to_text(self):
 

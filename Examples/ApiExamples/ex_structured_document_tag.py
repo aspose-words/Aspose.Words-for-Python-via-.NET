@@ -359,7 +359,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         #ExFor:SdtListItem.display_text
         #ExFor:SdtListItem.value
         #ExFor:SdtListItemCollection
-        #ExFor:SdtListItemCollection.add(Aspose.Words.Markup.SdtListItem)
+        #ExFor:SdtListItemCollection.add(SdtListItem)
         #ExFor:SdtListItemCollection.clear
         #ExFor:SdtListItemCollection.count
         #ExFor:SdtListItemCollection.__iter__

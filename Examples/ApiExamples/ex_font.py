@@ -17,7 +17,7 @@ class ExFont(ApiExampleBase):
     def test_create_formatted_run(self):
 
         #ExStart
-        #ExFor:Document.__init__
+        #ExFor:Document.__init__()
         #ExFor:Font
         #ExFor:Font.name
         #ExFor:Font.size
@@ -887,7 +887,7 @@ class ExFont(ApiExampleBase):
     def test_get_available_fonts(self):
 
         #ExStart
-        #ExFor:Fonts.physical_font_info
+        #ExFor:PhysicalFontInfo
         #ExFor:FontSourceBase.get_available_fonts
         #ExFor:PhysicalFontInfo.font_family_name
         #ExFor:PhysicalFontInfo.full_font_name
@@ -1162,8 +1162,8 @@ class ExFont(ApiExampleBase):
     def test_default_fonts(self):
 
         #ExStart
-        #ExFor:Fonts.FontInfoCollection.contains(str)
-        #ExFor:Fonts.FontInfoCollection.count
+        #ExFor:FontInfoCollection.contains(str)
+        #ExFor:FontInfoCollection.count
         #ExSummary:Shows info about the fonts that are present in the blank document.
         doc = aw.Document()
 
@@ -1182,12 +1182,12 @@ class ExFont(ApiExampleBase):
     def test_extract_embedded_font(self):
 
         #ExStart
-        #ExFor:Fonts.embedded_font_format
-        #ExFor:Fonts.embedded_font_style
-        #ExFor:Fonts.FontInfo.get_embedded_font(EmbeddedFontFormat,EmbeddedFontStyle)
-        #ExFor:Fonts.FontInfo.get_embedded_font_as_open_type(EmbeddedFontStyle)
-        #ExFor:Fonts.FontInfoCollection.__getitem__(int)
-        #ExFor:Fonts.FontInfoCollection.__getitem__(str)
+        #ExFor:EmbeddedFontFormat
+        #ExFor:EmbeddedFontStyle
+        #ExFor:FontInfo.get_embedded_font(EmbeddedFontFormat,EmbeddedFontStyle)
+        #ExFor:FontInfo.get_embedded_font_as_open_type(EmbeddedFontStyle)
+        #ExFor:FontInfoCollection.__getitem__(int)
+        #ExFor:FontInfoCollection.__getitem__(str)
         #ExSummary:Shows how to extract an embedded font from a document, and save it to the local file system.
         doc = aw.Document(MY_DIR + "Embedded font.docx")
 
@@ -1215,14 +1215,14 @@ class ExFont(ApiExampleBase):
     def test_get_font_info_from_file(self):
 
         #ExStart
-        #ExFor:Fonts.font_family
-        #ExFor:Fonts.font_pitch
-        #ExFor:Fonts.FontInfo.alt_name
-        #ExFor:Fonts.FontInfo.charset
-        #ExFor:Fonts.FontInfo.family
-        #ExFor:Fonts.FontInfo.panose
-        #ExFor:Fonts.FontInfo.pitch
-        #ExFor:Fonts.FontInfoCollection.__iter__
+        #ExFor:FontFamily
+        #ExFor:FontPitch
+        #ExFor:FontInfo.alt_name
+        #ExFor:FontInfo.charset
+        #ExFor:FontInfo.family
+        #ExFor:FontInfo.panose
+        #ExFor:FontInfo.pitch
+        #ExFor:FontInfoCollection.__iter__
         #ExSummary:Shows how to access and print details of each font in a document.
         doc = aw.Document(MY_DIR + "Document.docx")
 

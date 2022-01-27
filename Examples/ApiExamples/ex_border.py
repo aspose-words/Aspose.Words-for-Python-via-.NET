@@ -112,7 +112,6 @@ class ExBorder(ApiExampleBase):
     def test_shared_elements(self):
 
         #ExStart
-        #ExFor:Border.__eq__(object)
         #ExFor:Border.__eq__(Border)
         #ExFor:Border.get_hash_code
         #ExFor:BorderCollection.count

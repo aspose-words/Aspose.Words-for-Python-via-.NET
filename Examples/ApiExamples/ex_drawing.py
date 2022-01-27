@@ -26,7 +26,6 @@ class ExDrawing(ApiExampleBase):
         #ExFor:Fill.fore_color
         #ExFor:Fill.image_bytes
         #ExFor:Fill.visible
-        #ExFor:join_style
         #ExFor:Shape.stroke
         #ExFor:Stroke.color
         #ExFor:Stroke.start_arrow_length
@@ -38,6 +37,7 @@ class ExDrawing(ApiExampleBase):
         #ExFor:Stroke.end_arrow_type
         #ExFor:Stroke.end_cap
         #ExFor:Stroke.opacity
+        #ExFor:Stroke.join_style
         #ExSummary:Shows to create a variety of shapes.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -168,7 +168,6 @@ class ExDrawing(ApiExampleBase):
     def test_fill_solid(self):
 
         #ExStart
-        #ExFor:Fill.color()
         #ExFor:Fill.solid(Color)
         #ExSummary:Shows how to convert any of the fills back to solid fill.
         doc = aw.Document(MY_DIR + "Two color gradient.docx")

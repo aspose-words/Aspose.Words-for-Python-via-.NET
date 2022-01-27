@@ -16,7 +16,7 @@ class ExOdtSaveOptions(ApiExampleBase):
             with self.subTest(export_to_odt11_specs=export_to_odt11_specs):
                 #ExStart
                 #ExFor:OdtSaveOptions
-                #ExFor:OdtSaveOptions.__init__
+                #ExFor:OdtSaveOptions.__init__()
                 #ExFor:OdtSaveOptions.is_strict_schema11
                 #ExSummary:Shows how to make a saved document conform to an older ODT schema.
                 doc = aw.Document(MY_DIR + "Rendering.docx")

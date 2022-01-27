@@ -48,7 +48,7 @@ class ExPclSaveOptions(ApiExampleBase):
     def test_add_printer_font(self):
 
         #ExStart
-        #ExFor:PclSaveOptions.add_printer_font(string,string)
+        #ExFor:PclSaveOptions.add_printer_font(str,str)
         #ExSummary:Shows how to get a printer to substitute all instances of a specific font with a different font.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

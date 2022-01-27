@@ -1730,7 +1730,6 @@ class ExPdfSaveOptions(ApiExampleBase):
 
         #ExStart
         #ExFor:PdfDigitalSignatureDetails
-        #ExFor:PdfDigitalSignatureDetails.__init__
         #ExFor:PdfDigitalSignatureDetails.__init__(CertificateHolder,str,str,datetime)
         #ExFor:PdfDigitalSignatureDetails.hash_algorithm
         #ExFor:PdfDigitalSignatureDetails.location
@@ -1791,7 +1790,6 @@ class ExPdfSaveOptions(ApiExampleBase):
         #ExStart
         #ExFor:PdfDigitalSignatureDetails.timestamp_settings
         #ExFor:PdfDigitalSignatureTimestampSettings
-        #ExFor:PdfDigitalSignatureTimestampSettings.__init__
         #ExFor:PdfDigitalSignatureTimestampSettings.__init__(str,str,str)
         #ExFor:PdfDigitalSignatureTimestampSettings.__init__(str,str,str,TimeSpan)
         #ExFor:PdfDigitalSignatureTimestampSettings.password

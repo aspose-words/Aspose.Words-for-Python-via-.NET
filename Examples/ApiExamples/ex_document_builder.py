@@ -27,7 +27,7 @@ class ExDocumentBuilder(ApiExampleBase):
         #ExFor:Font.name
         #ExFor:Font.color
         #ExFor:Font.underline
-        #ExFor:DocumentBuilder.__init__
+        #ExFor:DocumentBuilder.__init__(Document)
         #ExSummary:Shows how to insert formatted text using DocumentBuilder.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -61,7 +61,7 @@ class ExDocumentBuilder(ApiExampleBase):
         #ExFor:DocumentBuilder.move_to_header_footer
         #ExFor:DocumentBuilder.move_to_section
         #ExFor:DocumentBuilder.insert_break
-        #ExFor:DocumentBuilder.writeln
+        #ExFor:DocumentBuilder.writeln(str)
         #ExFor:HeaderFooterType
         #ExFor:PageSetup.different_first_page_header_footer
         #ExFor:PageSetup.odd_and_even_pages_header_footer
@@ -572,7 +572,7 @@ class ExDocumentBuilder(ApiExampleBase):
     def test_insert_check_box(self):
 
         #ExStart
-        #ExFor:DocumentBuilder.insert_check_box(string,bool,bool,int)
+        #ExFor:DocumentBuilder.insert_check_box(str,bool,bool,int)
         #ExFor:DocumentBuilder.insert_check_box(str,bool,int)
         #ExSummary:Shows how to insert checkboxes into the document.
         doc = aw.Document()
@@ -1053,9 +1053,8 @@ class ExDocumentBuilder(ApiExampleBase):
         #ExStart
         #ExFor:CellFormat.preferred_width
         #ExFor:PreferredWidth
-        #ExFor:PreferredWidth.auto
+        #ExFor:PreferredWidth.AUTO
         #ExFor:PreferredWidth.__eq__(PreferredWidth)
-        #ExFor:PreferredWidth.__eq__(object)
         #ExFor:PreferredWidth.from_points
         #ExFor:PreferredWidth.from_percent
         #ExFor:PreferredWidth.get_hash_code
@@ -2392,7 +2391,7 @@ class ExDocumentBuilder(ApiExampleBase):
         #ExFor:DocumentBuilder.insert_field(str)
         #ExFor:Field
         #ExFor:Field.result
-        #ExFor:Field.get_field_code
+        #ExFor:Field.get_field_code()
         #ExFor:Field.type
         #ExFor:FieldType
         #ExSummary:Shows how to insert a field into a document using a field code.
@@ -2414,7 +2413,7 @@ class ExDocumentBuilder(ApiExampleBase):
             with self.subTest(update_inserted_fields_immediately=update_inserted_fields_immediately):
                 #ExStart
                 #ExFor:DocumentBuilder.insert_field(FieldType,bool)
-                #ExFor:Field.update
+                #ExFor:Field.update()
                 #ExSummary:Shows how to insert a field into a document using FieldType.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)

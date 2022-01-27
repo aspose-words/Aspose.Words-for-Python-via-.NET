@@ -46,7 +46,7 @@ class ExOoxmlSaveOptions(ApiExampleBase):
         #ExFor:CompatibilityOptions
         #ExFor:CompatibilityOptions.optimize_for(MsWordVersion)
         #ExFor:OoxmlSaveOptions
-        #ExFor:OoxmlSaveOptions.__init__
+        #ExFor:OoxmlSaveOptions.__init__()
         #ExFor:OoxmlSaveOptions.save_format
         #ExFor:OoxmlCompliance
         #ExFor:OoxmlSaveOptions.compliance

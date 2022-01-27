@@ -174,7 +174,7 @@ class ExDocument(ApiExampleBase):
 
         #ExStart
         #ExFor:Document.__init__(BytesIO,LoadOptions)
-        #ExFor:LoadOptions.__init__
+        #ExFor:LoadOptions.__init__()
         #ExFor:LoadOptions.base_uri
         #ExSummary:Shows how to open an HTML document with images from a stream using a base URI.
         with open(MY_DIR + "Document.html", "rb") as stream:
@@ -669,7 +669,7 @@ class ExDocument(ApiExampleBase):
     def test_clone_document(self):
 
         #ExStart
-        #ExFor:Document.clone
+        #ExFor:Document.clone()
         #ExSummary:Shows how to deep clone a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -722,7 +722,7 @@ class ExDocument(ApiExampleBase):
         #ExStart
         #ExFor:Document.protect(ProtectionType,str)
         #ExFor:Document.protection_type
-        #ExFor:Document.unprotect
+        #ExFor:Document.unprotect()
         #ExFor:Document.unprotect(str)
         #ExSummary:Shows how to protect and unprotect a document.
         doc = aw.Document()
@@ -1378,7 +1378,7 @@ class ExDocument(ApiExampleBase):
     def test_cleanup(self):
 
         #ExStart
-        #ExFor:Document.cleanup
+        #ExFor:Document.cleanup()
         #ExSummary:Shows how to remove unused custom styles from a document.
         doc = aw.Document()
 
@@ -1558,7 +1558,7 @@ class ExDocument(ApiExampleBase):
                 #ExStart
                 #ExFor:Document.layout_options
                 #ExFor:LayoutOptions
-                #ExFor:Layout.LayoutOptions.show_hidden_text
+                #ExFor:LayoutOptions.show_hidden_text
                 #ExSummary:Shows how to hide text in a rendered output document.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -1590,7 +1590,7 @@ class ExDocument(ApiExampleBase):
                 #ExStart
                 #ExFor:Document.layout_options
                 #ExFor:LayoutOptions
-                #ExFor:Layout.LayoutOptions.show_paragraph_marks
+                #ExFor:LayoutOptions.show_paragraph_marks
                 #ExSummary:Shows how to show paragraph marks in a rendered output document.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)

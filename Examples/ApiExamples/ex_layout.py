@@ -13,15 +13,15 @@ class ExLayout(ApiExampleBase):
     def test_layout_collector(self):
 
         #ExStart
-        #ExFor:Layout.layout_collector
-        #ExFor:Layout.LayoutCollector.__init__(Document)
-        #ExFor:Layout.LayoutCollector.clear
-        #ExFor:Layout.LayoutCollector.document
-        #ExFor:Layout.LayoutCollector.get_end_page_index(Node)
-        #ExFor:Layout.LayoutCollector.get_entity(Node)
-        #ExFor:Layout.LayoutCollector.get_num_pages_spanned(Node)
-        #ExFor:Layout.LayoutCollector.get_start_page_index(Node)
-        #ExFor:Layout.LayoutEnumerator.current
+        #ExFor:LayoutCollector
+        #ExFor:LayoutCollector.__init__(Document)
+        #ExFor:LayoutCollector.clear
+        #ExFor:LayoutCollector.document
+        #ExFor:LayoutCollector.get_end_page_index(Node)
+        #ExFor:LayoutCollector.get_entity(Node)
+        #ExFor:LayoutCollector.get_num_pages_spanned(Node)
+        #ExFor:LayoutCollector.get_start_page_index(Node)
+        #ExFor:LayoutEnumerator.current
         #ExSummary:Shows how to see the the ranges of pages that a node spans.
         doc = aw.Document()
         layout_collector = aw.layout.LayoutCollector(doc)
@@ -81,7 +81,6 @@ class ExLayout(ApiExampleBase):
     #ExFor:LayoutEnumerator.move_last_child
     #ExFor:LayoutEnumerator.move_next
     #ExFor:LayoutEnumerator.move_next_logical
-    #ExFor:LayoutEnumerator.move_parent
     #ExFor:LayoutEnumerator.move_parent(LayoutEntityType)
     #ExFor:LayoutEnumerator.move_previous
     #ExFor:LayoutEnumerator.move_previous_logical

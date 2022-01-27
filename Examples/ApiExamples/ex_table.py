@@ -192,7 +192,6 @@ class ExTable(ApiExampleBase):
 
     #ExStart
     #ExFor:Node.get_ancestor(NodeType)
-    #ExFor:Node.get_ancestor(type)
     #ExFor:Table.node_type
     #ExFor:Cell.tables
     #ExFor:TableCollection

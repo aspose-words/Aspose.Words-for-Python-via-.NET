@@ -148,11 +148,11 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartAxis.tick_label_position
         #ExFor:ChartAxis.tick_label_spacing_is_auto
         #ExFor:ChartAxis.tick_mark_spacing
-        #ExFor:Charts.axis_category_type
-        #ExFor:Charts.axis_crosses
-        #ExFor:Charts.Chart.axis_x
-        #ExFor:Charts.Chart.axis_y
-        #ExFor:Charts.Chart.axis_z
+        #ExFor:AxisCategoryType
+        #ExFor:AxisCrosses
+        #ExFor:Chart.axis_x
+        #ExFor:Chart.axis_y
+        #ExFor:Chart.axis_z
         #ExSummary:Shows how to insert a chart and modify the appearance of its axes.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -232,10 +232,10 @@ class ExCharts(ApiExampleBase):
         #ExFor:AxisScaling.minimum
         #ExFor:AxisScaling.maximum
         #ExFor:ChartAxis.scaling
-        #ExFor:Charts.axis_tick_mark
-        #ExFor:Charts.axis_tick_label_position
-        #ExFor:Charts.axis_time_unit
-        #ExFor:Charts.ChartAxis.base_time_unit
+        #ExFor:AxisTickMark
+        #ExFor:AxisTickLabelPosition
+        #ExFor:AxisTimeUnit
+        #ExFor:ChartAxis.base_time_unit
         #ExSummary:Shows how to insert chart with date/time values.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -332,9 +332,9 @@ class ExCharts(ApiExampleBase):
 
         #ExStart
         #ExFor:ChartAxis.number_format
-        #ExFor:Charts.chart_number_format
+        #ExFor:ChartNumberFormat
         #ExFor:ChartNumberFormat.format_code
-        #ExFor:Charts.ChartNumberFormat.is_linked_to_source
+        #ExFor:ChartNumberFormat.is_linked_to_source
         #ExSummary:Shows how to set formatting for chart values.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -643,7 +643,7 @@ class ExCharts(ApiExampleBase):
     def test_pie_chart_explosion(self):
 
         #ExStart
-        #ExFor:Charts.IChartDataPoint.explosion
+        #ExFor:IChartDataPoint.explosion
         #ExSummary:Shows how to move the slices of a pie chart away from the center.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -676,8 +676,8 @@ class ExCharts(ApiExampleBase):
     def test_bubble_3d(self):
 
         #ExStart
-        #ExFor:Charts.ChartDataLabel.show_bubble_size
-        #ExFor:Charts.IChartDataPoint.bubble3_d
+        #ExFor:ChartDataLabel.show_bubble_size
+        #ExFor:IChartDataPoint.bubble3_d
         #ExSummary:Shows how to use 3D effects with bubble charts.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -891,7 +891,8 @@ class ExCharts(ApiExampleBase):
     def test_axis_bound(self):
 
         #ExStart
-        #ExFor:AxisBound.__init__
+        #ExFor:AxisBound.__init__(float)
+        #ExFor:AxisBound.__init__(datetime)
         #ExFor:AxisBound.is_auto
         #ExFor:AxisBound.value
         #ExFor:AxisBound.value_as_date

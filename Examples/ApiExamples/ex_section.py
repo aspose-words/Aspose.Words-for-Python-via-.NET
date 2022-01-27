@@ -49,7 +49,7 @@ class ExSection(ApiExampleBase):
 
         #ExStart
         #ExFor:Document.sections
-        #ExFor:Section.clone
+        #ExFor:Section.clone()
         #ExFor:SectionCollection
         #ExFor:NodeCollection.remove_at(int)
         #ExSummary:Shows how to add and remove sections in a document.

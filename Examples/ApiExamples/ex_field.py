@@ -58,7 +58,7 @@ class ExField(ApiExampleBase):
     def test_get_field_code(self):
 
         #ExStart
-        #ExFor:Field.get_field_code
+        #ExFor:Field.get_field_code()
         #ExFor:Field.get_field_code(bool)
         #ExSummary:Shows how to get a field's field code.
         # Open a document which contains a MERGEFIELD inside an IF field.
@@ -517,7 +517,7 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:Field.format
-        #ExFor:Field.update
+        #ExFor:Field.update()
         #ExFor:FieldFormat
         #ExFor:FieldFormat.date_time_format
         #ExFor:FieldFormat.numeric_format
@@ -778,13 +778,13 @@ class ExField(ApiExampleBase):
     def test_field_advance(self):
 
         #ExStart
-        #ExFor:Fields.field_advance
-        #ExFor:Fields.FieldAdvance.down_offset
-        #ExFor:Fields.FieldAdvance.horizontal_position
-        #ExFor:Fields.FieldAdvance.left_offset
-        #ExFor:Fields.FieldAdvance.right_offset
-        #ExFor:Fields.FieldAdvance.up_offset
-        #ExFor:Fields.FieldAdvance.vertical_position
+        #ExFor:FieldAdvance
+        #ExFor:FieldAdvance.down_offset
+        #ExFor:FieldAdvance.horizontal_position
+        #ExFor:FieldAdvance.left_offset
+        #ExFor:FieldAdvance.right_offset
+        #ExFor:FieldAdvance.up_offset
+        #ExFor:FieldAdvance.vertical_position
         #ExSummary:Shows how to insert an ADVANCE field, and edit its properties.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1312,7 +1312,7 @@ class ExField(ApiExampleBase):
     def test_field_auto_text(self):
 
         #ExStart
-        #ExFor:Fields.field_auto_text
+        #ExFor:FieldAutoText
         #ExFor:FieldAutoText.entry_name
         #ExFor:FieldOptions.built_in_templates_paths
         #ExFor:FieldGlossary
@@ -3481,7 +3481,7 @@ class ExField(ApiExampleBase):
         #ExFor:FieldBarcode
         #ExFor:FieldBarcode.facing_identification_mark
         #ExFor:FieldBarcode.is_bookmark
-        #ExFor:FieldBarcode.is_us_postal_address
+        #ExFor:FieldBarcode.is_uspostal_address
         #ExFor:FieldBarcode.postal_address
         #ExSummary:Shows how to use the BARCODE field to display U.S. ZIP codes in the form of a barcode.
         doc = aw.Document()

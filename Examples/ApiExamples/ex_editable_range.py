@@ -13,7 +13,7 @@ class ExEditableRange(ApiExampleBase):
     def test_create_and_remove(self):
         #ExStart
         #ExFor:DocumentBuilder.start_editable_range
-        #ExFor:DocumentBuilder.end_editable_range
+        #ExFor:DocumentBuilder.end_editable_range()
         #ExFor:EditableRange
         #ExFor:EditableRange.editable_range_end
         #ExFor:EditableRange.editable_range_start

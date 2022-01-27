@@ -18,7 +18,7 @@ class ExHtmlLoadOptions(ApiExampleBase):
         for support_vml in (True, False):
             with self.subTest(support_vml=support_vml):
                 #ExStart
-                #ExFor:HtmlLoadOptions.__init__
+                #ExFor:HtmlLoadOptions.__init__()
                 #ExFor:HtmlLoadOptions.support_vml
                 #ExSummary:Shows how to support conditional comments while loading an HTML document.
                 load_options = aw.loading.HtmlLoadOptions()

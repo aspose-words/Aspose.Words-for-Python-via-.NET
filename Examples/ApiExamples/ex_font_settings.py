@@ -661,8 +661,6 @@ class ExFontSettings(ApiExampleBase):
         #ExFor:FontSettings.substitution_settings
         #ExFor:FontSubstitutionSettings
         #ExFor:SystemFontSource
-        #ExFor:SystemFontSource.__init__
-        #ExFor:SystemFontSource.__init__(int)
         #ExFor:SystemFontSource.get_system_font_folders
         #ExFor:SystemFontSource.type
         #ExSummary:Shows how to access a document's system font source and set font substitutes.

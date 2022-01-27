@@ -888,8 +888,8 @@ class ExShape(ApiExampleBase):
     def test_fill_pattern(self):
 
         #ExStart
-        #ExFor:Fill.Patterned(PatternType)
-        #ExFor:Fill.Patterned(PatternType, Color, Color)
+        #ExFor:Fill.patterned(PatternType)
+        #ExFor:Fill.patterned(PatternType, Color, Color)
         #ExSummary:Shows how to set pattern for a shape.
         doc = aw.Document(MY_DIR + "Shape stroke pattern border.docx")
 
@@ -1029,7 +1029,7 @@ class ExShape(ApiExampleBase):
     def test_z_order(self):
 
         #ExStart
-        #ExFor:ShapeBase.z_order
+        #ExFor:ShapeBase.zorder
         #ExSummary:Shows how to manipulate the order of shapes.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -2177,7 +2177,7 @@ class ExShape(ApiExampleBase):
     #ExFor:TextPath.text_path_alignment
     #ExFor:TextPath.trim
     #ExFor:TextPath.underline
-    #ExFor:TextPath.x_scale
+    #ExFor:TextPath.xscale
     #ExFor:TextPathAlignment
     #ExSummary:Shows how to work with WordArt.
     def test_insert_text_paths(self):

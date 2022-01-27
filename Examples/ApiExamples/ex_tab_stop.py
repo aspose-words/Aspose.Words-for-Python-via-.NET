@@ -62,7 +62,6 @@ class ExTabStop(ApiExampleBase):
         #ExFor:TabStopCollection.clear
         #ExFor:TabStopCollection.count
         #ExFor:TabStopCollection.__eq__(TabStopCollection)
-        #ExFor:TabStopCollection.__eq__(object)
         #ExFor:TabStopCollection.get_hash_code
         #ExFor:TabStopCollection.__getitem__(float)
         #ExFor:TabStopCollection.__getitem__(int)

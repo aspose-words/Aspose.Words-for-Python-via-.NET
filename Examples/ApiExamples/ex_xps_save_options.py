@@ -16,7 +16,7 @@ class ExXpsSaveOptions(ApiExampleBase):
 
         #ExStart
         #ExFor:XpsSaveOptions
-        #ExFor:XpsSaveOptions.__init__
+        #ExFor:XpsSaveOptions.__init__()
         #ExFor:XpsSaveOptions.outline_options
         #ExFor:XpsSaveOptions.save_format
         #ExSummary:Shows how to limit the headings' level that will appear in the outline of a saved XPS document.

@@ -391,8 +391,8 @@ class ExDocumentProperties(ApiExampleBase):
     def test_heading_pairs(self):
 
         #ExStart
-        #ExFor:Properties.BuiltInDocumentProperties.heading_pairs
-        #ExFor:Properties.BuiltInDocumentProperties.titles_of_parts
+        #ExFor:BuiltInDocumentProperties.heading_pairs
+        #ExFor:BuiltInDocumentProperties.titles_of_parts
         #ExSummary:Shows the relationship between "heading_pairs" and "titles_of_parts" properties.
         doc = aw.Document(MY_DIR + "Heading pairs and titles of parts.docx")
 
@@ -445,8 +445,8 @@ class ExDocumentProperties(ApiExampleBase):
     def test_security(self):
 
         #ExStart
-        #ExFor:Properties.BuiltInDocumentProperties.security
-        #ExFor:Properties.document_security
+        #ExFor:BuiltInDocumentProperties.security
+        #ExFor:DocumentSecurity
         #ExSummary:Shows how to use document properties to display the security level of a document.
         doc = aw.Document()
 
@@ -545,13 +545,13 @@ class ExDocumentProperties(ApiExampleBase):
         #ExFor:CustomDocumentProperties.add(str,datetime)
         #ExFor:CustomDocumentProperties.add(str,float)
         #ExFor:DocumentProperty.type
-        #ExFor:Properties.document_property_collection
-        #ExFor:Properties.DocumentPropertyCollection.clear
-        #ExFor:Properties.DocumentPropertyCollection.contains(str)
-        #ExFor:Properties.DocumentPropertyCollection.__iter__
-        #ExFor:Properties.DocumentPropertyCollection.index_of(str)
-        #ExFor:Properties.DocumentPropertyCollection.remove_at(int)
-        #ExFor:Properties.DocumentPropertyCollection.remove
+        #ExFor:DocumentPropertyCollection
+        #ExFor:DocumentPropertyCollection.clear
+        #ExFor:DocumentPropertyCollection.contains(str)
+        #ExFor:DocumentPropertyCollection.__iter__
+        #ExFor:DocumentPropertyCollection.index_of(str)
+        #ExFor:DocumentPropertyCollection.remove_at(int)
+        #ExFor:DocumentPropertyCollection.remove
         #ExFor:PropertyType
         #ExSummary:Shows how to work with a document's custom properties.
         doc = aw.Document()

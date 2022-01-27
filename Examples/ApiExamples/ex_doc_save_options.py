@@ -17,7 +17,6 @@ class ExDocSaveOptions(ApiExampleBase):
 
         #ExStart
         #ExFor:DocSaveOptions
-        #ExFor:DocSaveOptions.__init__
         #ExFor:DocSaveOptions.__init__(SaveFormat)
         #ExFor:DocSaveOptions.password
         #ExFor:DocSaveOptions.save_format

@@ -22,7 +22,7 @@ class ExParagraph(ApiExampleBase):
         #ExFor:ParagraphFormat.alignment
         #ExFor:ParagraphFormat.keep_together
         #ExFor:ParagraphFormat.add_space_between_far_east_and_alpha
-        #ExFor:ParagraphFormat.aadd_space_between_far_east_and_digit
+        #ExFor:ParagraphFormat.add_space_between_far_east_and_digit
         #ExFor:Paragraph.is_end_of_document
         #ExSummary:Shows how to insert a paragraph into the document.
         doc = aw.Document()
@@ -106,9 +106,9 @@ class ExParagraph(ApiExampleBase):
     def test_insert_field(self):
 
         #ExStart
-        #ExFor:Paragraph.insert_field(string,Node,bool)
+        #ExFor:Paragraph.insert_field(str,Node,bool)
         #ExFor:Paragraph.insert_field(FieldType,bool,Node,bool)
-        #ExFor:Paragraph.insert_field(string,string,Node,bool)
+        #ExFor:Paragraph.insert_field(str,str,Node,bool)
         #ExSummary:Shows various ways of adding fields to a paragraph.
         doc = aw.Document()
         para = doc.first_section.body.first_paragraph
