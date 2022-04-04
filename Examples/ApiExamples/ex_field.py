@@ -3162,7 +3162,6 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldIndex.page_range_separator
-        #ExFor:FieldXE.has_page_range_bookmark_name
         #ExFor:FieldXE.page_range_bookmark_name
         #ExSummary:Shows how to specify a bookmark's spanned pages as a page range for an INDEX field entry.
         doc = aw.Document()
@@ -3192,7 +3191,7 @@ class ExField(ApiExampleBase):
         index_entry.page_range_bookmark_name = "MyBookmark"
 
         self.assertEqual(" XE  \"My entry\" \\r MyBookmark", index_entry.get_field_code())
-        self.assertTrue(index_entry.has_page_range_bookmark_name)
+        self.assertEqual("MyBookmark", index_entry.page_range_bookmark_name)
 
         # Insert a bookmark that starts on page 3 and ends on page 5.
         # The INDEX entry for the XE field that references this bookmark will display this page range.
@@ -3221,7 +3220,6 @@ class ExField(ApiExampleBase):
         self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"My entry\" \\r MyBookmark", "", index_entry)
         self.assertEqual("My entry", index_entry.text)
         self.assertEqual("MyBookmark", index_entry.page_range_bookmark_name)
-        self.assertTrue(index_entry.has_page_range_bookmark_name)
 
     @unittest.skip("WORDSNET-17524")
     def test_field_index_cross_reference_separator(self):

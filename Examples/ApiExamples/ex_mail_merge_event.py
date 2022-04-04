@@ -9,7 +9,7 @@ import io
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, ASPOSE_LOGO_URL
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, IMAGE_URL
 
 class ExMailMergeEvent(ApiExampleBase):
 
@@ -271,7 +271,7 @@ class ExMailMergeEvent(ApiExampleBase):
         # Create a data source that contains URIs of images that we will merge.
         # A URI can be a web URL that points to an image, or a local file system filename of an image file.
         columns = ["logo_FromWeb", "logo_FromFileSystem"]
-        uris = [ASPOSE_LOGO_URL, IMAGE_DIR + "Logo.jpg"]
+        uris = [IMAGE_URL, IMAGE_DIR + "Logo.jpg"]
 
         # Execute a mail merge on a data source with one row.
         doc.mail_merge.execute(columns, uris)
@@ -287,7 +287,7 @@ class ExMailMergeEvent(ApiExampleBase):
 
         image_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        self.verify_image_in_shape(320, 320, aw.drawing.image_type.PNG, image_shape)
+        self.verify_image_in_shape(5184, 3456, aw.drawing.image_type.JPEG, image_shape)
 
     #ExStart
     #ExFor:MailMerge.field_merging_callback

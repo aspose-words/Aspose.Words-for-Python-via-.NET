@@ -9,7 +9,7 @@ from datetime import datetime
 
 import aspose.words as aw
 
-from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, ASPOSE_LOGO_URL, IMAGE_DIR
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_URL, IMAGE_DIR
 
 class ExHtmlLoadOptions(ApiExampleBase):
 
@@ -63,12 +63,12 @@ class ExHtmlLoadOptions(ApiExampleBase):
 
     #    # Load such a document and verify that a shape with image data has been created.
     #    # This linked image will require a web request to load, which will have to complete within our time limit.
-    #    html = '<html><img src="{ASPOSE_LOGO_URL}" alt="Aspose logo" style="width:400px;height:400px;"></html>'
+    #    html = '<html><img src="{IMAGE_URL}" alt="Aspose logo" style="width:400px;height:400px;"></html>'
 
     #    doc = aw.Document(io.BytesIO(html.encode("utf-8")), options)
     #    image_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-    #    self.assertEqual(7498, len(image_shape.image_data.image_bytes))
+    #    self.assertEqual(1109843, len(image_shape.image_data.image_bytes))
     #    self.assertEqual(0, warning_callback.warnings().count)
 
     #    # Set an unreasonable timeout limit and try load the document again.
@@ -83,7 +83,7 @@ class ExHtmlLoadOptions(ApiExampleBase):
     #    # We can also configure a custom callback to pick up any warnings from timed out web requests.
     #    self.assertEqual(aw.WarningSource.HTML, warning_callback.warnings[0].source)
     #    self.assertEqual(aw.WarningType.DATA_LOSS, warning_callback.warnings[0].warning_type)
-    #    self.assertEqual(f"Couldn't load a resource from \'{ASPOSE_LOGO_URL}\'.", warning_callback.warnings[0].description)
+    #    self.assertEqual(f"Couldn't load a resource from \'{IMAGE_URL}\'.", warning_callback.warnings[0].description)
 
     #    self.assertEqual(aw.WarningSource.HTML, warning_callback.warnings[1].source)
     #    self.assertEqual(aw.WarningType.DATA_LOSS, warning_callback.warnings[1].warning_type)

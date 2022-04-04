@@ -2288,13 +2288,13 @@ class ExDocument(ApiExampleBase):
                     self.assertEqual("\"", groups[4].text)
                 else:
                     self.assertEqual(aw.RevisionType.DELETION, groups[0].revision_type)
-                    self.assertEqual("Alpha Lorem ", groups[0].text)
+                    self.assertEqual("Alpha Lorem", groups[0].text)
 
                     self.assertEqual(aw.RevisionType.DELETION, groups[1].revision_type)
                     self.assertEqual(",", groups[1].text)
 
                     self.assertEqual(aw.RevisionType.INSERTION, groups[2].revision_type)
-                    self.assertEqual("Lorems ", groups[2].text)
+                    self.assertEqual("Lorems", groups[2].text)
 
                     self.assertEqual(aw.RevisionType.INSERTION, groups[3].revision_type)
                     self.assertEqual("- \"", groups[3].text)

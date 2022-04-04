@@ -1766,14 +1766,14 @@ class ExPdfSaveOptions(ApiExampleBase):
 
         self.assertIn(
             b"7 0 obj\r\n" +
-            b"<</Type /Annot/Subtype /Widget/Rect [0 0 0 0]/FT /Sig/DR <<>>/F 132/V 8 0 R/P 5 0 R/T(\xFE\xFF\0A\0s\0p\0o\0s\0e\0D\0i\0g\0i\0t\0a\0l\0S\0i\0g\0n\0a\0t\0u\0r\0e)/AP <</N 9 0 R>>>>",
+            b"<</Type /Annot/Subtype /Widget/Rect [0 0 0 0]/FT /Sig/T",
             content)
 
         self.assertFalse(aw.FileFormatUtil.detect_file_format(ARTIFACTS_DIR + "PdfSaveOptions.pdf_digital_signature.pdf").has_digital_signature)
 
         #pdf_document = aspose.pdf.Document(ARTIFACTS_DIR + "PdfSaveOptions.pdf_digital_signature.pdf")
 
-        #self.assertFalse(pdf_document.form.signatures_exist)
+        #self.assertTrue(pdf_document.form.signatures_exist)
 
         #signature_field = pdf_document.form[1].as_signature_field()
 
@@ -1834,12 +1834,12 @@ class ExPdfSaveOptions(ApiExampleBase):
 
         self.assertIn(
             b"7 0 obj\r\n" +
-            b"<</Type /Annot/Subtype /Widget/Rect [0 0 0 0]/FT /Sig/DR <<>>/F 132/V 8 0 R/P 5 0 R/T(\xFE\xFF\0A\0s\0p\0o\0s\0e\0D\0i\0g\0i\0t\0a\0l\0S\0i\0g\0n\0a\0t\0u\0r\0e)/AP <</N 9 0 R>>>>",
+            b"<</Type /Annot/Subtype /Widget/Rect [0 0 0 0]/FT /Sig/T",
             content)
 
         #pdf_document = aspose.pdf.Document(ARTIFACTS_DIR + "PdfSaveOptions.pdf_digital_signature_timestamp.pdf")
 
-        #self.assertFalse(pdf_document.form.signatures_exist)
+        #self.assertTrue(pdf_document.form.signatures_exist)
 
         #signature_field = pdf_document.form[1].as_signature_field()
 

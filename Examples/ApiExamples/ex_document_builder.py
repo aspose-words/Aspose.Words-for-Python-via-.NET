@@ -14,7 +14,7 @@ from datetime import datetime, timedelta, timezone
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, GOLDS_DIR, ASPOSE_LOGO_URL
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, GOLDS_DIR, IMAGE_URL
 from document_helper import DocumentHelper
 
 class ExDocumentBuilder(ApiExampleBase):
@@ -1672,7 +1672,7 @@ class ExDocumentBuilder(ApiExampleBase):
             aw.drawing.RelativeVerticalPosition.MARGIN, 0, 200, 200, aw.drawing.WrapType.SQUARE)
 
         # 2 -  From a URL:
-        builder.insert_image(ASPOSE_LOGO_URL, aw.drawing.RelativeHorizontalPosition.MARGIN, 100,
+        builder.insert_image(IMAGE_URL, aw.drawing.RelativeHorizontalPosition.MARGIN, 100,
             aw.drawing.RelativeVerticalPosition.MARGIN, 250, 200, 200, aw.drawing.WrapType.SQUARE)
 
         doc.save(ARTIFACTS_DIR + "DocumentBuilder.insert_floating_image.docx")
@@ -1692,7 +1692,7 @@ class ExDocumentBuilder(ApiExampleBase):
 
         image = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
 
-        self.verify_image_in_shape(320, 320, aw.drawing.ImageType.PNG, image)
+        self.verify_image_in_shape(5184, 3456, aw.drawing.ImageType.PNG, image)
         self.assertEqual(100.0, image.left)
         self.assertEqual(250.0, image.top)
         self.assertEqual(200.0, image.width)

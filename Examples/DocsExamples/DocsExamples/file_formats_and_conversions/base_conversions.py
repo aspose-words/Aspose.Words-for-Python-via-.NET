@@ -22,7 +22,7 @@ class BaseConversions(DocsExamplesBase):
 
         #ExStart:LoadAndSaveToStream
         #ExStart:OpeningFromStream
-        # Read only access is enough for Aspose.words to load a document.
+        # Read only access is enough for Aspose.Words to load a document.
         stream = io.FileIO(MY_DIR + "Document.docx")
 
         doc = aw.Document(stream)
@@ -79,16 +79,16 @@ class BaseConversions(DocsExamplesBase):
 #        Stream stream = new MemoryStream()
 #        doc.save(stream, SaveFormat.mhtml)
 #
-#        # Rewind the stream to the beginning so Aspose.email can read it.
+#        # Rewind the stream to the beginning so Aspose.Email can read it.
 #        stream.position = 0
 #
-#        # Create an Aspose.network MIME email message from the stream.
+#        # Create an Aspose.Email MIME email message from the stream.
 #        MailMessage message = MailMessage.load(stream, new MhtmlLoadOptions())
 #        message.from = "your_from@email.com"
 #        message.to = "your_to@email.com"
-#        message.subject = "Aspose.words + Aspose.email MHTML Test Message"
+#        message.subject = "Aspose.Words + Aspose.Email MHTML Test Message"
 #
-#        # Send the message using Aspose.email.
+#        # Send the message using Aspose.Email.
 #        SmtpClient client = new SmtpClient()
 #        client.host = "your_smtp.com"
 #        client.send(message)

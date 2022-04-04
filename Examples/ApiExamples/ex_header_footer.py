@@ -161,7 +161,7 @@ class ExHeaderFooter(ApiExampleBase):
             if footer is not None:
                 footer.remove()
 
-            # 3 -  The "Even" header/footer, which appears on odd even pages.
+            # 3 -  The "Even" header/footer, which appears on even pages.
             footer = section.headers_footers[aw.HeaderFooterType.FOOTER_EVEN]
             if footer is not None:
                 footer.remove()
