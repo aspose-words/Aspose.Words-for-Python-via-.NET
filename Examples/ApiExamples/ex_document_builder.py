@@ -830,7 +830,7 @@ class ExDocumentBuilder(ApiExampleBase):
         builder.row_format.clear_formatting()
         builder.row_format.height_rule = aw.HeightRule.EXACTLY
         builder.row_format.height = 50
-        builder.row_format.borders.line_style = aw.LineStyle.ENGRAVE3_D
+        builder.row_format.borders.line_style = aw.LineStyle.ENGRAVE_3D
         builder.row_format.borders.color = drawing.Color.orange
 
         builder.insert_cell()
@@ -876,7 +876,7 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual("Row 1, Col 2\a", table.rows[0].cells[1].get_text().strip())
         self.assertEqual(aw.HeightRule.EXACTLY, table.rows[0].row_format.height_rule)
         self.assertEqual(50.0, table.rows[0].row_format.height)
-        self.assertEqual(aw.LineStyle.ENGRAVE3_D, table.rows[0].row_format.borders.line_style)
+        self.assertEqual(aw.LineStyle.ENGRAVE_3D, table.rows[0].row_format.borders.line_style)
         self.assertEqual(drawing.Color.orange.to_argb(), table.rows[0].row_format.borders.color.to_argb())
 
         for cell in table.rows[0].cells:
@@ -1692,7 +1692,7 @@ class ExDocumentBuilder(ApiExampleBase):
 
         image = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
 
-        self.verify_image_in_shape(5184, 3456, aw.drawing.ImageType.PNG, image)
+        self.verify_image_in_shape(5184, 3456, aw.drawing.ImageType.JPEG, image)
         self.assertEqual(100.0, image.left)
         self.assertEqual(250.0, image.top)
         self.assertEqual(200.0, image.width)

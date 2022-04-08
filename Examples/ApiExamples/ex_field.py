@@ -1823,7 +1823,7 @@ class ExField(ApiExampleBase):
     def insert_toc_entry(builder: aw.DocumentBuilder, text: str, type_identifier: str, entry_level: str):
         """Use a document builder to insert a TC field."""
 
-        field_tc = builder.insert_field(aw.fields.FieldType.FIELD_TOCENTRY, True).as_field_tc()
+        field_tc = builder.insert_field(aw.fields.FieldType.FIELD_TOC_ENTRY, True).as_field_tc()
         field_tc.omit_page_number = True
         field_tc.text = text
         field_tc.type_identifier = type_identifier
@@ -1842,7 +1842,7 @@ class ExField(ApiExampleBase):
 
         field_tc = doc.range.fields[1].as_field_tc()
 
-        self.verify_field(aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 1\" \\n \\f A \\l 1", "", field_tc)
+        self.verify_field(aw.fields.FieldType.FIELD_TOC_ENTRY, " TC  \"TC field 1\" \\n \\f A \\l 1", "", field_tc)
         self.assertTrue(field_tc.omit_page_number)
         self.assertEqual("TC field 1", field_tc.text)
         self.assertEqual("A", field_tc.type_identifier)
@@ -1850,7 +1850,7 @@ class ExField(ApiExampleBase):
 
         field_tc = doc.range.fields[2].as_field_tc()
 
-        self.verify_field(aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 2\" \\n \\f A \\l 2", "", field_tc)
+        self.verify_field(aw.fields.FieldType.FIELD_TOC_ENTRY, " TC  \"TC field 2\" \\n \\f A \\l 2", "", field_tc)
         self.assertTrue(field_tc.omit_page_number)
         self.assertEqual("TC field 2", field_tc.text)
         self.assertEqual("A", field_tc.type_identifier)
@@ -1858,7 +1858,7 @@ class ExField(ApiExampleBase):
 
         field_tc = doc.range.fields[3].as_field_tc()
 
-        self.verify_field(aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 3\" \\n \\f B \\l 1", "", field_tc)
+        self.verify_field(aw.fields.FieldType.FIELD_TOC_ENTRY, " TC  \"TC field 3\" \\n \\f B \\l 1", "", field_tc)
         self.assertTrue(field_tc.omit_page_number)
         self.assertEqual("TC field 3", field_tc.text)
         self.assertEqual("B", field_tc.type_identifier)
@@ -1866,7 +1866,7 @@ class ExField(ApiExampleBase):
 
         field_tc = doc.range.fields[4].as_field_tc()
 
-        self.verify_field(aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 4\" \\n \\f A \\l 5", "", field_tc)
+        self.verify_field(aw.fields.FieldType.FIELD_TOC_ENTRY, " TC  \"TC field 4\" \\n \\f A \\l 5", "", field_tc)
         self.assertTrue(field_tc.omit_page_number)
         self.assertEqual("TC field 4", field_tc.text)
         self.assertEqual("A", field_tc.type_identifier)
@@ -3479,7 +3479,7 @@ class ExField(ApiExampleBase):
         #ExFor:FieldBarcode
         #ExFor:FieldBarcode.facing_identification_mark
         #ExFor:FieldBarcode.is_bookmark
-        #ExFor:FieldBarcode.is_uspostal_address
+        #ExFor:FieldBarcode.is_us_postal_address
         #ExFor:FieldBarcode.postal_address
         #ExSummary:Shows how to use the BARCODE field to display U.S. ZIP codes in the form of a barcode.
         doc = aw.Document()
@@ -3493,7 +3493,7 @@ class ExField(ApiExampleBase):
 
         # This value needs to be a valid ZIP code.
         field.postal_address = "96801"
-        field.is_uspostal_address = True
+        field.is_us_postal_address = True
         field.facing_identification_mark = "C"
 
         self.assertEqual(" BARCODE  96801 \\u \\f C", field.get_field_code())
@@ -3526,7 +3526,7 @@ class ExField(ApiExampleBase):
         self.verify_field(aw.fields.FieldType.FIELD_BARCODE, " BARCODE  96801 \\u \\f C", "", field)
         self.assertEqual("C", field.facing_identification_mark)
         self.assertEqual("96801", field.postal_address)
-        self.assertTrue(field.is_uspostal_address)
+        self.assertTrue(field.is_us_postal_address)
 
         field = doc.range.fields[1].as_field_barcode()
 
@@ -4394,17 +4394,19 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[1].as_field_date()
 
-        self.verify_field(aw.fields.FieldType.FIELD_DATE, " DATE  \\u", datetime.now().strftime("%d/%m/%Y"), field)
+        today = datetime.now().strftime("%d/%m/%Y").lstrip('0')
+
+        self.verify_field(aw.fields.FieldType.FIELD_DATE, " DATE  \\u", today, field)
         self.assertTrue(field.use_um_al_qura_calendar)
 
         field = doc.range.fields[2].as_field_date()
 
-        self.verify_field(aw.fields.FieldType.FIELD_DATE, " DATE  \\s", datetime.now().strftime("%d/%m/%Y"), field)
+        self.verify_field(aw.fields.FieldType.FIELD_DATE, " DATE  \\s", today, field)
         self.assertTrue(field.use_saka_era_calendar)
 
         field = doc.range.fields[3].as_field_date()
 
-        self.verify_field(aw.fields.FieldType.FIELD_DATE, " DATE  \\l", datetime.now().strftime("%d/%m/%Y"), field)
+        self.verify_field(aw.fields.FieldType.FIELD_DATE, " DATE  \\l", today, field)
         self.assertTrue(field.use_last_format)
 
     @unittest.skip("WORDSNET-17669")
@@ -5320,7 +5322,9 @@ class ExField(ApiExampleBase):
         builder.move_to(field.separator)
         builder.insert_field(aw.fields.FieldType.FIELD_DATE, True)
 
-        self.assertEqual(" QUOTE \u0013 DATE \u0014" + datetime.now().strftime("%d/%m/%Y") + "\u0015", field.get_field_code())
+        today = datetime.now().strftime("%d/%m/%Y").lstrip('0')
+
+        self.assertEqual(" QUOTE \u0013 DATE \u0014" + today + "\u0015", field.get_field_code())
 
         # Update all the fields to display their correct results.
         doc.update_fields()
@@ -5334,8 +5338,8 @@ class ExField(ApiExampleBase):
 
         self.verify_field(aw.fields.FieldType.FIELD_QUOTE, " QUOTE  \"\\\"Quoted text\\\"\"", "\"Quoted text\"", doc.range.fields[0])
 
-        self.verify_field(aw.fields.FieldType.FIELD_QUOTE, " QUOTE \u0013 DATE \u0014" + datetime.now().strftime("%d/%m/%Y") + "\u0015",
-            datetime.now().strftime("%d/%m/%Y"), doc.range.fields[1])
+        self.verify_field(aw.fields.FieldType.FIELD_QUOTE, " QUOTE \u0013 DATE \u0014" + today + "\u0015",
+            today, doc.range.fields[1])
 
     ##ExStart
     ##ExFor:FieldNext
@@ -6001,7 +6005,7 @@ class ExField(ApiExampleBase):
         field = builder.insert_field(aw.fields.FieldType.FIELD_SYMBOL, True).as_field_symbol()
 
         # The ANSI character code "U+00A9", or "169" in integer form, is reserved for the copyright symbol.
-        field.character_code = "\u00a9"
+        field.character_code = "169"
         field.is_ansi = True
 
         self.assertEqual(" SYMBOL  169 \\a", field.get_field_code())
@@ -6012,7 +6016,7 @@ class ExField(ApiExampleBase):
         field = builder.insert_field(aw.fields.FieldType.FIELD_SYMBOL, True).as_field_symbol()
 
         # In Unicode, the infinity symbol occupies the "221E" code.
-        field.character_code = "/u221E"
+        field.character_code = str(0x221E)
         field.is_unicode = True
 
         # Change the font of our symbol after using the Windows Character Map
@@ -6031,7 +6035,7 @@ class ExField(ApiExampleBase):
         # with a font that supports Shift-JIS (Windows-932) codepage:
         field = builder.insert_field(aw.fields.FieldType.FIELD_SYMBOL, True).as_field_symbol()
         field.font_name = "MS Gothic"
-        field.character_code = "/u82A0"
+        field.character_code = str(0x82A0)
         field.is_shift_jis = True
 
         self.assertEqual(" SYMBOL  33440 \\f \"MS Gothic\" \\j", field.get_field_code())
@@ -6046,14 +6050,14 @@ class ExField(ApiExampleBase):
         field = doc.range.fields[0].as_field_symbol()
 
         self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL  169 \\a", "", field)
-        self.assertEqual(0x00a9.to_string(), field.character_code)
+        self.assertEqual(str(0x00a9), field.character_code)
         self.assertTrue(field.is_ansi)
         self.assertEqual("©", field.display_result)
 
         field = doc.range.fields[1].as_field_symbol()
 
         self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL  8734 \\u \\f Calibri \\s 24 \\h", "", field)
-        self.assertEqual(0x221E.to_string(), field.character_code)
+        self.assertEqual(str(0x221E), field.character_code)
         self.assertEqual("Calibri", field.font_name)
         self.assertEqual("24", field.font_size)
         self.assertTrue(field.is_unicode)
@@ -6063,7 +6067,7 @@ class ExField(ApiExampleBase):
         field = doc.range.fields[2].as_field_symbol()
 
         self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL  33440 \\f \"MS Gothic\" \\j", "", field)
-        self.assertEqual(0x82A0.to_string(), field.character_code)
+        self.assertEqual(str(0x82A0), field.character_code)
         self.assertEqual("MS Gothic", field.font_name)
         self.assertTrue(field.is_shift_jis)
 
@@ -6238,7 +6242,7 @@ class ExField(ApiExampleBase):
     @staticmethod
     def insert_toa_entry(builder: aw.DocumentBuilder, entry_category: str, long_citation: str) -> aw.fields.FieldTA:
 
-        field = builder.insert_field(aw.fields.FieldType.FIELD_TOAENTRY, False).as_field_ta()
+        field = builder.insert_field(aw.fields.FieldType.FIELD_TOA_ENTRY, False).as_field_ta()
         field.entry_category = entry_category
         field.long_citation = long_citation
 
@@ -6268,26 +6272,26 @@ class ExField(ApiExampleBase):
 
         field_ta = doc.range.fields[1].as_field_ta()
 
-        self.verify_field(aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 1\"", "", field_ta)
+        self.verify_field(aw.fields.FieldType.FIELD_TOA_ENTRY, " TA  \\c 1 \\l \"Source 1\"", "", field_ta)
         self.assertEqual("1", field_ta.entry_category)
         self.assertEqual("Source 1", field_ta.long_citation)
 
         field_ta = doc.range.fields[2].as_field_ta()
 
-        self.verify_field(aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 2 \\l \"Source 2\"", "", field_ta)
+        self.verify_field(aw.fields.FieldType.FIELD_TOA_ENTRY, " TA  \\c 2 \\l \"Source 2\"", "", field_ta)
         self.assertEqual("2", field_ta.entry_category)
         self.assertEqual("Source 2", field_ta.long_citation)
 
         field_ta = doc.range.fields[3].as_field_ta()
 
-        self.verify_field(aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 3\" \\s S.3", "", field_ta)
+        self.verify_field(aw.fields.FieldType.FIELD_TOA_ENTRY, " TA  \\c 1 \\l \"Source 3\" \\s S.3", "", field_ta)
         self.assertEqual("1", field_ta.entry_category)
         self.assertEqual("Source 3", field_ta.long_citation)
         self.assertEqual("S.3", field_ta.short_citation)
 
         field_ta = doc.range.fields[4].as_field_ta()
 
-        self.verify_field(aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 2\" \\b \\i", "", field_ta)
+        self.verify_field(aw.fields.FieldType.FIELD_TOA_ENTRY, " TA  \\c 1 \\l \"Source 2\" \\b \\i", "", field_ta)
         self.assertEqual("1", field_ta.entry_category)
         self.assertEqual("Source 2", field_ta.long_citation)
         self.assertTrue(field_ta.is_bold)
@@ -6295,7 +6299,7 @@ class ExField(ApiExampleBase):
 
         field_ta = doc.range.fields[5].as_field_ta()
 
-        self.verify_field(aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 3\" \\r MyMultiPageBookmark", "", field_ta)
+        self.verify_field(aw.fields.FieldType.FIELD_TOA_ENTRY, " TA  \\c 1 \\l \"Source 3\" \\r MyMultiPageBookmark", "", field_ta)
         self.assertEqual("1", field_ta.entry_category)
         self.assertEqual("Source 3", field_ta.long_citation)
         self.assertEqual("MyMultiPageBookmark", field_ta.page_range_bookmark_name)
@@ -6303,7 +6307,7 @@ class ExField(ApiExampleBase):
         for i in range(6, 11):
             field_ta = doc.range.fields[i].as_field_ta()
 
-            self.verify_field(aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 4\"", "", field_ta)
+            self.verify_field(aw.fields.FieldType.FIELD_TOA_ENTRY, " TA  \\c 1 \\l \"Source 4\"", "", field_ta)
             self.assertEqual("1", field_ta.entry_category)
             self.assertEqual("Source 4", field_ta.long_citation)
 

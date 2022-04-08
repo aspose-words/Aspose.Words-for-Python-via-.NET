@@ -392,7 +392,7 @@ class ExCharts(ApiExampleBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        shape = builder.insert_chart(aw.drawing.charts.ChartType.SURFACE3_D, 500, 300)
+        shape = builder.insert_chart(aw.drawing.charts.ChartType.SURFACE_3D, 500, 300)
         chart = shape.chart
         chart.series.clear()
 
@@ -677,17 +677,17 @@ class ExCharts(ApiExampleBase):
 
         #ExStart
         #ExFor:ChartDataLabel.show_bubble_size
-        #ExFor:IChartDataPoint.bubble3_d
+        #ExFor:IChartDataPoint.bubble_3d
         #ExSummary:Shows how to use 3D effects with bubble charts.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        shape = builder.insert_chart(aw.drawing.charts.ChartType.BUBBLE3_D, 500, 350)
+        shape = builder.insert_chart(aw.drawing.charts.ChartType.BUBBLE_3D, 500, 350)
         chart = shape.chart
 
         self.assertEqual(1, chart.series.count)
         self.assertEqual("Y-Values", chart.series[0].name)
-        self.assertTrue(chart.series[0].bubble3_d)
+        self.assertTrue(chart.series[0].bubble_3d)
 
         # Apply a data label to each bubble that displays its diameter.
         for i in range(3):

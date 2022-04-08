@@ -1283,7 +1283,7 @@ class ExFont(ApiExampleBase):
         self.assertTrue(runs[0].font.has_dml_effect(aw.TextDmlEffect.SHADOW))
         self.assertTrue(runs[1].font.has_dml_effect(aw.TextDmlEffect.SHADOW))
         self.assertTrue(runs[2].font.has_dml_effect(aw.TextDmlEffect.REFLECTION))
-        self.assertTrue(runs[3].font.has_dml_effect(aw.TextDmlEffect.EFFECT3_D))
+        self.assertTrue(runs[3].font.has_dml_effect(aw.TextDmlEffect.EFFECT_3D))
         self.assertTrue(runs[4].font.has_dml_effect(aw.TextDmlEffect.FILL))
         #ExEnd
 

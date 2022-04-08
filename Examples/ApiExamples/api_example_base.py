@@ -326,6 +326,27 @@ class ApiExampleBase(unittest.TestCase):
 
         self.assertAlmostEqual(expected, actual, delta=delta)
 
+    def fields_are_nested(self, inner_field, outer_field):
+        """Checks whether a field contains another complete field as a sibling within its nodes.
+
+        If two fields have the same immediate parent node and therefore their nodes are siblings,
+        the "field_start" of the outer field appears before the "field_start" of the inner node,
+        and the "field_end" of the outer node appears after the "field_end" of the inner node,
+        then the inner field is considered to be nested within the outer field. 
+
+        :param inner_field: The field that we expect to be fully within "outer_field".
+        :param outer_field: The field that we to contain "inner_field.
+        """
+        inner_field_parent = inner_field.start.parent_node.as_composite_node()
+
+        self.assertEqual(inner_field_parent, outer_field.start.parent_node)
+        self.assertGreater(
+            inner_field_parent.child_nodes.index_of(inner_field.start),
+            inner_field_parent.child_nodes.index_of(outer_field.start))
+        self.assertLess(
+            inner_field_parent.child_nodes.index_of(inner_field.end),
+            inner_field_parent.child_nodes.index_of(outer_field.end))
+
     ## <summary>
     ## Checks whether an SQL query performed on a database file stored in the local file system
     ## produces a result that resembles the contents of an Aspose.Words table.

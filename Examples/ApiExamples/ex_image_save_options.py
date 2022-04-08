@@ -287,11 +287,11 @@ class ExImageSaveOptions(ApiExampleBase):
 
     def test_pixel_format(self):
 
-        for image_pixel_format in (aw.saving.ImagePixelFormat.FORMAT1BPP_INDEXED,
-                                   aw.saving.ImagePixelFormat.FORMAT16_BPP_RGB555,
-                                   aw.saving.ImagePixelFormat.FORMAT24_BPP_RGB,
-                                   aw.saving.ImagePixelFormat.FORMAT32_BPP_RGB,
-                                   aw.saving.ImagePixelFormat.FORMAT48_BPP_RGB):
+        for image_pixel_format in (aw.saving.ImagePixelFormat.FORMAT_1BPP_INDEXED,
+                                   aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_555,
+                                   aw.saving.ImagePixelFormat.FORMAT_24BPP_RGB,
+                                   aw.saving.ImagePixelFormat.FORMAT_32BPP_RGB,
+                                   aw.saving.ImagePixelFormat.FORMAT_48BPP_RGB):
             with self.subTest(image_pixel_format=image_pixel_format):
                 #ExStart
                 #ExFor:ImagePixelFormat
@@ -318,19 +318,19 @@ class ExImageSaveOptions(ApiExampleBase):
 
                 doc.save(ARTIFACTS_DIR + "ImageSaveOptions.pixel_format.png", image_save_options)
 
-                if image_pixel_format == aw.saving.ImagePixelFormat.FORMAT1BPP_INDEXED:
+                if image_pixel_format == aw.saving.ImagePixelFormat.FORMAT_1BPP_INDEXED:
                     self.assertGreater(10000, os.path.getsize(ARTIFACTS_DIR + "ImageSaveOptions.pixel_format.png"))
 
-                elif image_pixel_format == aw.saving.ImagePixelFormat.FORMAT16_BPP_RGB555:
+                elif image_pixel_format == aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_555:
                     self.assertLess(125000, os.path.getsize(ARTIFACTS_DIR + "ImageSaveOptions.pixel_format.png"))
 
-                elif image_pixel_format == aw.saving.ImagePixelFormat.FORMAT24_BPP_RGB:
+                elif image_pixel_format == aw.saving.ImagePixelFormat.FORMAT_24BPP_RGB:
                     self.assertLess(70000, os.path.getsize(ARTIFACTS_DIR + "ImageSaveOptions.pixel_format.png"))
 
-                elif image_pixel_format == aw.saving.ImagePixelFormat.FORMAT32_BPP_RGB:
+                elif image_pixel_format == aw.saving.ImagePixelFormat.FORMAT_32BPP_RGB:
                     self.assertLess(125000, os.path.getsize(ARTIFACTS_DIR + "ImageSaveOptions.pixel_format.png"))
 
-                elif image_pixel_format == aw.saving.ImagePixelFormat.FORMAT48_BPP_RGB:
+                elif image_pixel_format == aw.saving.ImagePixelFormat.FORMAT_48BPP_RGB:
                     self.assertLess(125000, os.path.getsize(ARTIFACTS_DIR + "ImageSaveOptions.pixel_format.png"))
 
                 #ExEnd
