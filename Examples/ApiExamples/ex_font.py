@@ -1,30 +1,30 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import os
 import glob
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, fonts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-FONTS_DIR = fonts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, FONTS_DIR
 
 class ExFont(ApiExampleBase):
 
     def test_create_formatted_run(self):
 
         #ExStart
-        #ExFor:Document.#ctor
+        #ExFor:Document.__init__()
         #ExFor:Font
-        #ExFor:Font.Name
-        #ExFor:Font.Size
-        #ExFor:Font.HighlightColor
+        #ExFor:Font.name
+        #ExFor:Font.size
+        #ExFor:Font.highlight_color
         #ExFor:Run
-        #ExFor:Run.#ctor(DocumentBase,String)
-        #ExFor:Story.FirstParagraph
+        #ExFor:Run.__init__(DocumentBase,str)
+        #ExFor:Story.first_paragraph
         #ExSummary:Shows how to format a run of text using its font property.
         doc = aw.Document()
         run = aw.Run(doc, "Hello world!")
@@ -49,21 +49,21 @@ class ExFont(ApiExampleBase):
     def test_caps(self):
 
         #ExStart
-        #ExFor:Font.AllCaps
-        #ExFor:Font.SmallCaps
+        #ExFor:Font.all_caps
+        #ExFor:Font.small_caps
         #ExSummary:Shows how to format a run to display its contents in capitals.
         doc = aw.Document()
         para = doc.get_child(aw.NodeType.PARAGRAPH, 0, True).as_paragraph()
 
         # There are two ways of getting a run to display its lowercase text in uppercase without changing the contents.
-        # 1 -  Set the AllCaps flag to display all characters in regular capitals:
+        # 1 -  Set the "all_caps" flag to display all characters in regular capitals:
         run = aw.Run(doc, "all capitals")
         run.font.all_caps = True
         para.append_child(run)
 
         para = para.parent_node.append_child(aw.Paragraph(doc)).as_paragraph()
 
-        # 2 -  Set the SmallCaps flag to display all characters in small capitals:
+        # 2 -  Set the "small_caps" flag to display all characters in small capitals:
         # If a character is lower case, it will appear in its upper case form
         # but will have the same height as the lower case (the font's x-height).
         # Characters that were in upper case originally will look the same.
@@ -89,10 +89,10 @@ class ExFont(ApiExampleBase):
 
         #ExStart
         #ExFor:FontInfoCollection
-        #ExFor:DocumentBase.FontInfos
+        #ExFor:DocumentBase.font_infos
         #ExFor:FontInfo
-        #ExFor:FontInfo.Name
-        #ExFor:FontInfo.IsTrueType
+        #ExFor:FontInfo.name
+        #ExFor:FontInfo.is_true_type
         #ExSummary:Shows how to print the details of what fonts are present in a document.
         doc = aw.Document(MY_DIR + "Embedded font.docx")
 
@@ -122,10 +122,10 @@ class ExFont(ApiExampleBase):
             with self.subTest(embed_all_fonts=embed_all_fonts):
                 #ExStart
                 #ExFor:FontInfoCollection
-                #ExFor:DocumentBase.FontInfos
-                #ExFor:FontInfoCollection.EmbedTrueTypeFonts
-                #ExFor:FontInfoCollection.EmbedSystemFonts
-                #ExFor:FontInfoCollection.SaveSubsetFonts
+                #ExFor:DocumentBase.font_infos
+                #ExFor:FontInfoCollection.embed_true_type_fonts
+                #ExFor:FontInfoCollection.embed_system_fonts
+                #ExFor:FontInfoCollection.save_subset_fonts
                 #ExSummary:Shows how to save a document with embedded TrueType fonts.
                 doc = aw.Document(MY_DIR + "Document.docx")
 
@@ -170,8 +170,8 @@ class ExFont(ApiExampleBase):
     def test_strike_through(self):
 
         #ExStart
-        #ExFor:Font.StrikeThrough
-        #ExFor:Font.DoubleStrikeThrough
+        #ExFor:Font.strike_through
+        #ExFor:Font.double_strike_through
         #ExSummary:Shows how to add a line strikethrough to text.
         doc = aw.Document()
         para = doc.get_child(aw.NodeType.PARAGRAPH, 0, True).as_paragraph()
@@ -204,9 +204,9 @@ class ExFont(ApiExampleBase):
     def test_position_subscript(self):
 
         #ExStart
-        #ExFor:Font.Position
-        #ExFor:Font.Subscript
-        #ExFor:Font.Superscript
+        #ExFor:Font.position
+        #ExFor:Font.subscript
+        #ExFor:Font.superscript
         #ExSummary:Shows how to format text to offset its position.
         doc = aw.Document()
         para = doc.get_child(aw.NodeType.PARAGRAPH, 0, True).as_paragraph()
@@ -263,8 +263,8 @@ class ExFont(ApiExampleBase):
     def test_scaling_spacing(self):
 
         #ExStart
-        #ExFor:Font.Scaling
-        #ExFor:Font.Spacing
+        #ExFor:Font.scaling
+        #ExFor:Font.spacing
         #ExSummary:Shows how to set horizontal scaling and spacing for characters.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -303,7 +303,7 @@ class ExFont(ApiExampleBase):
     def test_italic(self):
 
         #ExStart
-        #ExFor:Font.Italic
+        #ExFor:Font.italic
         #ExSummary:Shows how to write italicized text using a document builder.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -324,8 +324,8 @@ class ExFont(ApiExampleBase):
     def test_engrave_emboss(self):
 
         #ExStart
-        #ExFor:Font.Emboss
-        #ExFor:Font.Engrave
+        #ExFor:Font.emboss
+        #ExFor:Font.engrave
         #ExSummary:Shows how to apply engraving/embossing effects to text.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -364,12 +364,12 @@ class ExFont(ApiExampleBase):
     def test_shadow(self):
 
         #ExStart
-        #ExFor:Font.Shadow
+        #ExFor:Font.shadow
         #ExSummary:Shows how to create a run of text formatted with a shadow.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # Set the Shadow flag to apply an offset shadow effect,
+        # Set the "shadow" flag to apply an offset shadow effect,
         # making it look like the letters are floating above the page.
         builder.font.shadow = True
         builder.font.size = 36
@@ -388,12 +388,12 @@ class ExFont(ApiExampleBase):
     def test_outline(self):
 
         #ExStart
-        #ExFor:Font.Outline
+        #ExFor:Font.outline
         #ExSummary:Shows how to create a run of text formatted as outline.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # Set the Outline flag to change the text's fill color to white and
+        # Set the "outline" flag to change the text's fill color to white and
         # leave a thin outline around each character in the original color of the text.
         builder.font.outline = True
         builder.font.color = drawing.Color.blue
@@ -413,12 +413,12 @@ class ExFont(ApiExampleBase):
     def test_hidden(self):
 
         #ExStart
-        #ExFor:Font.Hidden
+        #ExFor:Font.hidden
         #ExSummary:Shows how to create a run of hidden text.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # With the Hidden flag set to true, any text that we create using this Font object will be invisible in the document.
+        # With the "hidden" flag set to True, any text that we create using this Font object will be invisible in the document.
         # We will not see or highlight hidden text unless we enable the "Hidden text" option
         # found in Microsoft Word via "File" -> "Options" -> "Display". The text will still be there,
         # and we will be able to access this text programmatically.
@@ -440,7 +440,7 @@ class ExFont(ApiExampleBase):
     def test_kerning(self):
 
         #ExStart
-        #ExFor:Font.Kerning
+        #ExFor:Font.kerning
         #ExSummary:Shows how to specify the font size at which kerning begins to take effect.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -479,7 +479,7 @@ class ExFont(ApiExampleBase):
     def test_no_proofing(self):
 
         #ExStart
-        #ExFor:Font.NoProofing
+        #ExFor:Font.no_proofing
         #ExSummary:Shows how to prevent text from being spell checked by Microsoft Word.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -503,7 +503,7 @@ class ExFont(ApiExampleBase):
     def test_locale_id(self):
 
         #ExStart
-        #ExFor:Font.LocaleId
+        #ExFor:Font.locale_id
         #ExSummary:Shows how to set the locale of the text that we are adding with a document builder.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -534,8 +534,8 @@ class ExFont(ApiExampleBase):
     def test_underlines(self):
 
         #ExStart
-        #ExFor:Font.Underline
-        #ExFor:Font.UnderlineColor
+        #ExFor:Font.underline
+        #ExFor:Font.underline_color
         #ExSummary:Shows how to configure the style and color of a text underline.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -558,7 +558,7 @@ class ExFont(ApiExampleBase):
     def test_complex_script(self):
 
         #ExStart
-        #ExFor:Font.ComplexScript
+        #ExFor:Font.complex_script
         #ExSummary:Shows how to add text that is always treated as complex script.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -579,7 +579,7 @@ class ExFont(ApiExampleBase):
     def test_sparkling_text(self):
 
         #ExStart
-        #ExFor:Font.TextEffect
+        #ExFor:Font.text_effect
         #ExSummary:Shows how to apply a visual effect to a run.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -602,7 +602,7 @@ class ExFont(ApiExampleBase):
     def test_shading(self):
 
         #ExStart
-        #ExFor:Font.Shading
+        #ExFor:Font.shading
         #ExSummary:Shows how to apply shading to text created by a document builder.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -634,12 +634,12 @@ class ExFont(ApiExampleBase):
     def test_bidi(self):
 
         #ExStart
-        #ExFor:Font.Bidi
-        #ExFor:Font.NameBi
-        #ExFor:Font.SizeBi
-        #ExFor:Font.ItalicBi
-        #ExFor:Font.BoldBi
-        #ExFor:Font.LocaleIdBi
+        #ExFor:Font.bidi
+        #ExFor:Font.name_bi
+        #ExFor:Font.size_bi
+        #ExFor:Font.italic_bi
+        #ExFor:Font.bold_bi
+        #ExFor:Font.locale_id_bi
         #ExSummary:Shows how to define separate sets of font settings for right-to-left, and right-to-left text.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -659,12 +659,12 @@ class ExFont(ApiExampleBase):
         builder.font.locale_id_bi = 4096 # ar-AR
 
         # We can use the "bidi" flag to indicate whether the text we are about to add
-        # with the document builder is right-to-left. When we add text with this flag set to true,
+        # with the document builder is right-to-left. When we add text with this flag set to True,
         # it will be formatted using the right-to-left set of font settings.
         builder.font.bidi = True
         builder.write("مرحبًا")
 
-        # Set the flag to false, and then add left-to-right text.
+        # Set the flag to "False", and then add left-to-right text.
         # The document builder will format these using the left-to-right set of font settings.
         builder.font.bidi = False
         builder.write(" Hello world!")
@@ -699,8 +699,8 @@ class ExFont(ApiExampleBase):
     def test_far_east(self):
 
         #ExStart
-        #ExFor:Font.NameFarEast
-        #ExFor:Font.LocaleIdFarEast
+        #ExFor:Font.name_far_east
+        #ExFor:Font.locale_id_far_east
         #ExSummary:Shows how to insert and format text in a Far East language.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -745,8 +745,8 @@ class ExFont(ApiExampleBase):
     def test_name_ascii(self):
 
         #ExStart
-        #ExFor:Font.NameAscii
-        #ExFor:Font.NameOther
+        #ExFor:Font.name_ascii
+        #ExFor:Font.name_other
         #ExSummary:Shows how Microsoft Word can combine two different fonts in one run.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -781,8 +781,8 @@ class ExFont(ApiExampleBase):
     def test_change_style(self):
 
         #ExStart
-        #ExFor:Font.StyleName
-        #ExFor:Font.StyleIdentifier
+        #ExFor:Font.style_name
+        #ExFor:Font.style_identifier
         #ExFor:StyleIdentifier
         #ExSummary:Shows how to change the style of existing text.
         doc = aw.Document()
@@ -827,7 +827,7 @@ class ExFont(ApiExampleBase):
     def test_built_in(self):
 
         #ExStart
-        #ExFor:Style.BuiltIn
+        #ExFor:Style.built_in
         #ExSummary:Shows how to differentiate custom styles from built-in styles.
         doc = aw.Document()
 
@@ -851,7 +851,7 @@ class ExFont(ApiExampleBase):
     def test_style(self):
 
         #ExStart
-        #ExFor:Font.Style
+        #ExFor:Font.style
         #ExSummary:Applies a double underline to all runs in a document that are formatted with custom character styles.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -887,12 +887,12 @@ class ExFont(ApiExampleBase):
     def test_get_available_fonts(self):
 
         #ExStart
-        #ExFor:Fonts.PhysicalFontInfo
-        #ExFor:FontSourceBase.GetAvailableFonts
-        #ExFor:PhysicalFontInfo.FontFamilyName
-        #ExFor:PhysicalFontInfo.FullFontName
-        #ExFor:PhysicalFontInfo.Version
-        #ExFor:PhysicalFontInfo.FilePath
+        #ExFor:PhysicalFontInfo
+        #ExFor:FontSourceBase.get_available_fonts
+        #ExFor:PhysicalFontInfo.font_family_name
+        #ExFor:PhysicalFontInfo.full_font_name
+        #ExFor:PhysicalFontInfo.version
+        #ExFor:PhysicalFontInfo.file_path
         #ExSummary:Shows how to list available fonts.
         # Configure Aspose.Words to source fonts from a custom folder, and then print every available font.
         folder_font_source = [aw.fonts.FolderFontSource(FONTS_DIR, True)]
@@ -913,7 +913,7 @@ class ExFont(ApiExampleBase):
     def test_set_font_auto_color(self):
 
         #ExStart
-        #ExFor:Font.AutoColor
+        #ExFor:Font.auto_color
         #ExSummary:Shows how to improve readability by automatically selecting text color based on the brightness of its background.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -923,7 +923,7 @@ class ExFont(ApiExampleBase):
         self.assertEqual(drawing.Color.empty().to_argb(), builder.font.color.to_argb())
 
         # The default color for text is black. If the color of the background is dark, black text will be difficult to see.
-        # To solve this problem, the AutoColor property will display this text in white.
+        # To solve this problem, the "auto_color" property will display this text in white.
         builder.font.shading.background_pattern_color = drawing.Color.dark_blue
 
         builder.writeln("The text color automatically chosen for this run is white.")
@@ -955,22 +955,22 @@ class ExFont(ApiExampleBase):
         self.assertEqual(drawing.Color.light_blue.to_argb(), run.font.shading.background_pattern_color.to_argb())
 
     ##ExStart
-    ##ExFor:Font.Hidden
-    ##ExFor:Paragraph.Accept
-    ##ExFor:DocumentVisitor.VisitParagraphStart(Paragraph)
-    ##ExFor:DocumentVisitor.VisitFormField(FormField)
-    ##ExFor:DocumentVisitor.VisitTableEnd(Table)
-    ##ExFor:DocumentVisitor.VisitCellEnd(Cell)
-    ##ExFor:DocumentVisitor.VisitRowEnd(Row)
-    ##ExFor:DocumentVisitor.VisitSpecialChar(SpecialChar)
-    ##ExFor:DocumentVisitor.VisitGroupShapeStart(GroupShape)
-    ##ExFor:DocumentVisitor.VisitShapeStart(Shape)
-    ##ExFor:DocumentVisitor.VisitCommentStart(Comment)
-    ##ExFor:DocumentVisitor.VisitFootnoteStart(Footnote)
+    ##ExFor:Font.hidden
+    ##ExFor:Paragraph.accept
+    ##ExFor:DocumentVisitor.visit_paragraph_start(Paragraph)
+    ##ExFor:DocumentVisitor.visit_form_field(FormField)
+    ##ExFor:DocumentVisitor.visit_table_end(Table)
+    ##ExFor:DocumentVisitor.visit_cell_end(Cell)
+    ##ExFor:DocumentVisitor.visit_row_end(Row)
+    ##ExFor:DocumentVisitor.visit_special_char(SpecialChar)
+    ##ExFor:DocumentVisitor.visit_group_shape_start(GroupShape)
+    ##ExFor:DocumentVisitor.visit_shape_start(Shape)
+    ##ExFor:DocumentVisitor.visit_comment_start(Comment)
+    ##ExFor:DocumentVisitor.visit_footnote_start(Footnote)
     ##ExFor:SpecialChar
-    ##ExFor:Node.Accept
-    ##ExFor:Paragraph.ParagraphBreakFont
-    ##ExFor:Table.Accept
+    ##ExFor:Node.accept
+    ##ExFor:Paragraph.paragraph_break_font
+    ##ExFor:Table.accept
     ##ExSummary:Shows how to use a DocumentVisitor implementation to remove all hidden content from a document.
     #def test_remove_hidden_content_from_document(self):
 
@@ -1162,8 +1162,8 @@ class ExFont(ApiExampleBase):
     def test_default_fonts(self):
 
         #ExStart
-        #ExFor:Fonts.FontInfoCollection.Contains(String)
-        #ExFor:Fonts.FontInfoCollection.Count
+        #ExFor:FontInfoCollection.contains(str)
+        #ExFor:FontInfoCollection.count
         #ExSummary:Shows info about the fonts that are present in the blank document.
         doc = aw.Document()
 
@@ -1182,12 +1182,12 @@ class ExFont(ApiExampleBase):
     def test_extract_embedded_font(self):
 
         #ExStart
-        #ExFor:Fonts.EmbeddedFontFormat
-        #ExFor:Fonts.EmbeddedFontStyle
-        #ExFor:Fonts.FontInfo.GetEmbeddedFont(EmbeddedFontFormat,EmbeddedFontStyle)
-        #ExFor:Fonts.FontInfo.GetEmbeddedFontAsOpenType(EmbeddedFontStyle)
-        #ExFor:Fonts.FontInfoCollection.Item(Int32)
-        #ExFor:Fonts.FontInfoCollection.Item(String)
+        #ExFor:EmbeddedFontFormat
+        #ExFor:EmbeddedFontStyle
+        #ExFor:FontInfo.get_embedded_font(EmbeddedFontFormat,EmbeddedFontStyle)
+        #ExFor:FontInfo.get_embedded_font_as_open_type(EmbeddedFontStyle)
+        #ExFor:FontInfoCollection.__getitem__(int)
+        #ExFor:FontInfoCollection.__getitem__(str)
         #ExSummary:Shows how to extract an embedded font from a document, and save it to the local file system.
         doc = aw.Document(MY_DIR + "Embedded font.docx")
 
@@ -1215,14 +1215,14 @@ class ExFont(ApiExampleBase):
     def test_get_font_info_from_file(self):
 
         #ExStart
-        #ExFor:Fonts.FontFamily
-        #ExFor:Fonts.FontPitch
-        #ExFor:Fonts.FontInfo.AltName
-        #ExFor:Fonts.FontInfo.Charset
-        #ExFor:Fonts.FontInfo.Family
-        #ExFor:Fonts.FontInfo.Panose
-        #ExFor:Fonts.FontInfo.Pitch
-        #ExFor:Fonts.FontInfoCollection.GetEnumerator
+        #ExFor:FontFamily
+        #ExFor:FontPitch
+        #ExFor:FontInfo.alt_name
+        #ExFor:FontInfo.charset
+        #ExFor:FontInfo.family
+        #ExFor:FontInfo.panose
+        #ExFor:FontInfo.pitch
+        #ExFor:FontInfoCollection.__iter__
         #ExSummary:Shows how to access and print details of each font in a document.
         doc = aw.Document(MY_DIR + "Document.docx")
 
@@ -1258,7 +1258,7 @@ class ExFont(ApiExampleBase):
     def test_line_spacing(self):
 
         #ExStart
-        #ExFor:Font.LineSpacing
+        #ExFor:Font.line_spacing
         #ExSummary:Shows how to get a font's line spacing, in points.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1274,7 +1274,7 @@ class ExFont(ApiExampleBase):
     def test_has_dml_effect(self):
 
         #ExStart
-        #ExFor:Font.HasDmlEffect(TextDmlEffect)
+        #ExFor:Font.has_dml_effect(TextDmlEffect)
         #ExSummary:Shows how to check if a run displays a DrawingML text effect.
         doc = aw.Document(MY_DIR + "DrawingML text effects.docx")
 
@@ -1305,7 +1305,7 @@ class ExFont(ApiExampleBase):
             with self.subTest(emphasis_mark=emphasis_mark):
                 #ExStart
                 #ExFor:EmphasisMark
-                #ExFor:Font.EmphasisMark
+                #ExFor:Font.emphasis_mark
                 #ExSummary:Shows how to add additional character rendered above/below the glyph-character.
                 builder = aw.DocumentBuilder()
 
@@ -1324,12 +1324,12 @@ class ExFont(ApiExampleBase):
     def test_theme_fonts_colors(self):
 
         #ExStart
-        #ExFor:Font.ThemeFont
-        #ExFor:Font.ThemeFontAscii
-        #ExFor:Font.ThemeFontBi
-        #ExFor:Font.ThemeFontFarEast
-        #ExFor:Font.ThemeFontOther
-        #ExFor:Font.ThemeColor
+        #ExFor:Font.theme_font
+        #ExFor:Font.theme_font_ascii
+        #ExFor:Font.theme_font_bi
+        #ExFor:Font.theme_font_far_east
+        #ExFor:Font.theme_font_other
+        #ExFor:Font.theme_color
         #ExFor:ThemeFont
         #ExFor:ThemeColor
         #ExSummary:Shows how to work with theme fonts and colors.
@@ -1341,7 +1341,7 @@ class ExFont(ApiExampleBase):
         doc.theme.minor_fonts.complex_script = "Andalus"
 
         font = doc.styles.get_by_name("Normal").font
-        print("Originally the Normal style theme color is: {0} and RGB color is: {1}\n", font.theme_color, font.color)
+        print(f"Originally the Normal style theme color is: {font.theme_color} and RGB color is: {font.color}\n")
 
         # We can use theme font and color instead of default values.
         font.theme_font = aw.themes.ThemeFont.MINOR
@@ -1366,7 +1366,7 @@ class ExFont(ApiExampleBase):
         self.assertEqual(drawing.Color.empty(), font.color)
 
         # There are several ways of reset them font and color.
-        # 1 -  By setting ThemeFont.None/ThemeColor.None:
+        # 1 -  By setting ThemeFont.NONE/ThemeColor.NONE:
         font.theme_font = aw.themes.ThemeFont.NONE
         font.theme_color = aw.themes.ThemeColor.NONE
 
@@ -1414,9 +1414,9 @@ class ExFont(ApiExampleBase):
     def test_create_themed_style(self):
 
         #ExStart
-        #ExFor:Font.ThemeFont
-        #ExFor:Font.ThemeColor
-        #ExFor:Font.TintAndShade
+        #ExFor:Font.theme_font
+        #ExFor:Font.theme_color
+        #ExFor:Font.tint_and_shade
         #ExFor:ThemeFont
         #ExFor:ThemeColor
         #ExSummary:Shows how to create and use themed style.

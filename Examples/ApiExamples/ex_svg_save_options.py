@@ -1,23 +1,21 @@
-import unittest
-import io
-import os
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExSvgSaveOptions(ApiExampleBase):
 
     def test_save_like_image(self):
 
         #ExStart
-        #ExFor:SvgSaveOptions.FitToViewPort
-        #ExFor:SvgSaveOptions.ShowPageBorder
-        #ExFor:SvgSaveOptions.TextOutputMode
+        #ExFor:SvgSaveOptions.fit_to_view_port
+        #ExFor:SvgSaveOptions.show_page_border
+        #ExFor:SvgSaveOptions.text_output_mode
         #ExFor:SvgTextOutputMode
         #ExSummary:Shows how to mimic the properties of images when converting a .docx document to .svg.
         doc = aw.Document(MY_DIR + "Document.docx")
@@ -28,16 +26,16 @@ class ExSvgSaveOptions(ApiExampleBase):
         options.show_page_border = False
         options.text_output_mode = aw.saving.SvgTextOutputMode.USE_PLACED_GLYPHS
 
-        doc.save(ARTIFACTS_DIR + "SvgSaveOptions.SaveLikeImage.svg", options)
+        doc.save(ARTIFACTS_DIR + "SvgSaveOptions.save_like_image.svg", options)
         #ExEnd
 
     #ExStart
     #ExFor:SvgSaveOptions
-    #ExFor:SvgSaveOptions.ExportEmbeddedImages
-    #ExFor:SvgSaveOptions.ResourceSavingCallback
-    #ExFor:SvgSaveOptions.ResourcesFolder
-    #ExFor:SvgSaveOptions.ResourcesFolderAlias
-    #ExFor:SvgSaveOptions.SaveFormat
+    #ExFor:SvgSaveOptions.export_embedded_images
+    #ExFor:SvgSaveOptions.resource_saving_callback
+    #ExFor:SvgSaveOptions.resources_folder
+    #ExFor:SvgSaveOptions.resources_folder_alias
+    #ExFor:SvgSaveOptions.save_format
     #ExSummary:Shows how to manipulate and print the URIs of linked resources created while converting a document to .svg.
     #def test_svg_resource_folder(self):
 

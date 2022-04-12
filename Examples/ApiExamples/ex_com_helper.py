@@ -1,38 +1,34 @@
-import unittest
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
 
-import api_example_base as aeb
+from api_example_base import ApiExampleBase, MY_DIR
 
-
-class ExComHelper(aeb.ApiExampleBase):
+class ExComHelper(ApiExampleBase):
 
     def test_com_helper(self):
 
         #ExStart
         #ExFor:ComHelper
-        #ExFor:ComHelper.#ctor
-        #ExFor:ComHelper.open(Stream)
-        #ExFor:ComHelper.open(String)
+        #ExFor:ComHelper.__init__
+        #ExFor:ComHelper.open(BytesIO)
+        #ExFor:ComHelper.open(str)
         #ExSummary:Shows how to open documents using the ComHelper class.
         # The ComHelper class allows us to load documents from within COM clients.
         com_helper = aw.ComHelper()
 
         # 1 -  Using a local system filename:
-        doc = com_helper.open(aeb.my_dir + "Document.docx")
+        doc = com_helper.open(MY_DIR + "Document.docx")
 
         self.assertEqual("Hello World!\r\rHello Word!\r\r\rHello World!", doc.get_text().strip())
 
-        ### Streams are not allowed in current version of aw for python
         # 2 -  From a stream:
-        # using (FileStream stream = new FileStream(MyDir + "Document.docx", FileMode.open))
-        #
-        #     doc = comHelper.open(stream)
-        #
-        #     self.assertEqual("Hello World!\r\rHello Word!\r\r\rHello World!", doc.get_text().strip())
+        with open(MY_DIR + "Document.docx", "rb") as stream:
+            doc = com_helper.open(stream)
+            self.assertEqual("Hello World!\r\rHello Word!\r\r\rHello World!", doc.get_text().strip())
 
         #ExEnd
-
-
-if __name__ == '__main__':
-    unittest.main()

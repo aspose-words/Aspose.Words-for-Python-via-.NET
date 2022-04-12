@@ -1,13 +1,12 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExPclSaveOptions(ApiExampleBase):
 
@@ -15,8 +14,8 @@ class ExPclSaveOptions(ApiExampleBase):
 
         #ExStart
         #ExFor:PclSaveOptions
-        #ExFor:PclSaveOptions.SaveFormat
-        #ExFor:PclSaveOptions.RasterizeTransformedElements
+        #ExFor:PclSaveOptions.save_format
+        #ExFor:PclSaveOptions.rasterize_transformed_elements
         #ExSummary:Shows how to rasterize complex elements while saving a document to PCL.
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -30,7 +29,7 @@ class ExPclSaveOptions(ApiExampleBase):
     def test_fallback_font_name(self):
 
         #ExStart
-        #ExFor:PclSaveOptions.FallbackFontName
+        #ExFor:PclSaveOptions.fallback_font_name
         #ExSummary:Shows how to declare a font that a printer will apply to printed text as a substitute should its original font be unavailable.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -43,13 +42,13 @@ class ExPclSaveOptions(ApiExampleBase):
 
         # This document will instruct the printer to apply "Times New Roman" to the text with the missing font.
         # Should "Times New Roman" also be unavailable, the printer will default to the "Arial" font.
-        doc.save(ARTIFACTS_DIR + "PclSaveOptions.set_printer_font.pcl", save_options)
+        doc.save(ARTIFACTS_DIR + "PclSaveOptions.fallback_font_name.pcl", save_options)
         #ExEnd
 
     def test_add_printer_font(self):
 
         #ExStart
-        #ExFor:PclSaveOptions.AddPrinterFont(string, string)
+        #ExFor:PclSaveOptions.add_printer_font(str,str)
         #ExSummary:Shows how to get a printer to substitute all instances of a specific font with a different font.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

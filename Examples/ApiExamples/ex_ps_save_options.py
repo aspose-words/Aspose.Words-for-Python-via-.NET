@@ -1,13 +1,12 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExPsSaveOptions(ApiExampleBase):
 
@@ -17,7 +16,7 @@ class ExPsSaveOptions(ApiExampleBase):
             with self.subTest(render_text_as_book_fold=render_text_as_book_fold):
                 #ExStart
                 #ExFor:PsSaveOptions
-                #ExFor:PsSaveOptions.SaveFormat
+                #ExFor:PsSaveOptions.save_format
                 #ExFor:PsSaveOptions.use_book_fold_printing_settings
                 #ExSummary:Shows how to save a document to the Postscript format in the form of a book fold.
                 doc = aw.Document(MY_DIR + "Paragraphs.docx")
@@ -33,9 +32,9 @@ class ExPsSaveOptions(ApiExampleBase):
 
                 # If we are rendering the document as a booklet, we must set the "multiple_pages"
                 # properties of the page setup objects of all sections to "MultiplePagesType.BOOK_FOLD_PRINTING".
-                for s in doc.sections:
-                    s = s.as_section()
-                    s.page_setup.multiple_pages = aw.settings.MultiplePagesType.BOOK_FOLD_PRINTING
+                for section in doc.sections:
+                    section = section.as_section()
+                    section.page_setup.multiple_pages = aw.settings.MultiplePagesType.BOOK_FOLD_PRINTING
 
                 # Once we print this document on both sides of the pages, we can fold all the pages down the middle at once,
                 # and the contents will line up in a way that creates a booklet.

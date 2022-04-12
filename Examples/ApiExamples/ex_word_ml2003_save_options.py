@@ -1,13 +1,12 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR
 
 class ExWordML2003SaveOptions(ApiExampleBase):
 
@@ -17,7 +16,7 @@ class ExWordML2003SaveOptions(ApiExampleBase):
             with self.subTest(pretty_format=pretty_format):
                 #ExStart
                 #ExFor:WordML2003SaveOptions
-                #ExFor:WordML2003SaveOptions.SaveFormat
+                #ExFor:WordML2003SaveOptions.save_format
                 #ExSummary:Shows how to manage output document's raw content.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -34,9 +33,9 @@ class ExWordML2003SaveOptions(ApiExampleBase):
                 # Set the "pretty_format" property to "False" to save the document's raw content in one continuous body of the text.
                 options.pretty_format = pretty_format
 
-                doc.save(ARTIFACTS_DIR + "WordML2003SaveOptions.PrettyFormat.xml", options)
+                doc.save(ARTIFACTS_DIR + "WordML2003SaveOptions.pretty_format.xml", options)
 
-                with open(ARTIFACTS_DIR + "WordML2003SaveOptions.PrettyFormat.xml", "rb") as file:
+                with open(ARTIFACTS_DIR + "WordML2003SaveOptions.pretty_format.xml", "rb") as file:
                     file_contents = file.read().decode('utf-8')
 
                 if pretty_format:
@@ -81,5 +80,5 @@ class ExWordML2003SaveOptions(ApiExampleBase):
                 # Set the "memory_optimization" flag to "False" to save the document normally.
                 options.memory_optimization = memory_optimization
 
-                doc.save(ARTIFACTS_DIR + "WordML2003SaveOptions.MemoryOptimization.xml", options)
+                doc.save(ARTIFACTS_DIR + "WordML2003SaveOptions.memory_optimization.xml", options)
                 #ExEnd

@@ -1,15 +1,15 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 from datetime import date, datetime
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExInlineStory(ApiExampleBase):
 
@@ -19,9 +19,9 @@ class ExInlineStory(ApiExampleBase):
                                   aw.notes.FootnotePosition.BOTTOM_OF_PAGE):
             with self.subTest(footnote_position=footnote_position):
                 #ExStart
-                #ExFor:Document.FootnoteOptions
+                #ExFor:Document.footnote_options
                 #ExFor:FootnoteOptions
-                #ExFor:FootnoteOptions.Position
+                #ExFor:FootnoteOptions.position
                 #ExFor:FootnotePosition
                 #ExSummary:Shows how to select a different place where the document collects and displays its footnotes.
                 doc = aw.Document()
@@ -33,14 +33,14 @@ class ExInlineStory(ApiExampleBase):
                 # at the main body text where we insert the footnote.
                 # Each footnote also creates an entry at the bottom of the page, consisting of a symbol
                 # that matches the reference symbol in the main body text.
-                # The reference text that we pass to the document builder's "InsertFootnote" method.
+                # The reference text that we pass to the document builder's "insert_footnote" method.
                 builder.write("Hello world!")
                 builder.insert_footnote(aw.notes.FootnoteType.FOOTNOTE, "Footnote contents.")
 
-                # We can use the "Position" property to determine where the document will place all its footnotes.
-                # If we set the value of the "Position" property to "FootnotePosition.BottomOfPage",
+                # We can use the "position" property to determine where the document will place all its footnotes.
+                # If we set the value of the "position" property to "FootnotePosition.BOTTOM_OF_PAGE",
                 # every footnote will show up at the bottom of the page that contains its reference mark. This is the default value.
-                # If we set the value of the "Position" property to "FootnotePosition.BeneathText",
+                # If we set the value of the "position" property to "FootnotePosition.BENEATH_TEXT",
                 # every footnote will show up at the end of the page's text that contains its reference mark.
                 doc.footnote_options.position = footnote_position
 
@@ -51,7 +51,7 @@ class ExInlineStory(ApiExampleBase):
 
                 self.assertEqual(footnote_position, doc.footnote_options.position)
 
-                TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+                self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
                     "Footnote contents.", doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
 
     def test_position_endnote(self):
@@ -60,9 +60,9 @@ class ExInlineStory(ApiExampleBase):
                                  aw.notes.EndnotePosition.END_OF_SECTION):
             with self.subTest(endnote_position=endnote_position):
                 #ExStart
-                #ExFor:Document.EndnoteOptions
+                #ExFor:Document.endnote_options
                 #ExFor:EndnoteOptions
-                #ExFor:EndnoteOptions.Position
+                #ExFor:EndnoteOptions.position
                 #ExFor:EndnotePosition
                 #ExSummary:Shows how to select a different place where the document collects and displays its endnotes.
                 doc = aw.Document()
@@ -74,7 +74,7 @@ class ExInlineStory(ApiExampleBase):
                 # at the main body text where we insert the endnote.
                 # Each endnote also creates an entry at the end of the document, consisting of a symbol
                 # that matches the reference symbol in the main body text.
-                # The reference text that we pass to the document builder's "InsertEndnote" method.
+                # The reference text that we pass to the document builder's "insert_endnote" method.
                 builder.write("Hello world!")
                 builder.insert_footnote(aw.notes.FootnoteType.ENDNOTE, "Endnote contents.")
                 builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
@@ -94,18 +94,18 @@ class ExInlineStory(ApiExampleBase):
 
                 self.assertEqual(endnote_position, doc.endnote_options.position)
 
-                TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+                self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
                     "Endnote contents.", doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
 
     def test_ref_mark_number_style(self):
 
         #ExStart
-        #ExFor:Document.EndnoteOptions
+        #ExFor:Document.endnote_options
         #ExFor:EndnoteOptions
-        #ExFor:EndnoteOptions.NumberStyle
-        #ExFor:Document.FootnoteOptions
+        #ExFor:EndnoteOptions.number_style
+        #ExFor:Document.footnote_options
         #ExFor:FootnoteOptions
-        #ExFor:FootnoteOptions.NumberStyle
+        #ExFor:FootnoteOptions.number_style
         #ExSummary:Shows how to change the number style of footnote/endnote reference marks.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -115,7 +115,7 @@ class ExInlineStory(ApiExampleBase):
         # Inserting a footnote/endnote adds a small superscript reference symbol
         # at the main body text where we insert the footnote/endnote.
         # Each footnote/endnote also creates an entry, which consists of a symbol that matches the reference
-        # symbol in the main body text. The reference text that we pass to the document builder's "InsertEndnote" method.
+        # symbol in the main body text. The reference text that we pass to the document builder's "insert_endnote" method.
         # Footnote entries, by default, show up at the bottom of each page that contains
         # their reference symbols, and endnotes show up at the end of the document.
         builder.write("Text 1. ")
@@ -154,29 +154,29 @@ class ExInlineStory(ApiExampleBase):
         self.assertEqual(aw.NumberStyle.UPPERCASE_ROMAN, doc.footnote_options.number_style)
         self.assertEqual(aw.NumberStyle.UPPERCASE_LETTER, doc.endnote_options.number_style)
 
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote 1.", doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote 2.", doc.get_child(aw.NodeType.FOOTNOTE, 1, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, False, "Custom footnote reference mark",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, False, "Custom footnote reference mark",
             "Custom footnote reference mark Footnote 3.", doc.get_child(aw.NodeType.FOOTNOTE, 2, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote 1.", doc.get_child(aw.NodeType.FOOTNOTE, 3, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote 2.", doc.get_child(aw.NodeType.FOOTNOTE, 4, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, False, "Custom endnote reference mark",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, False, "Custom endnote reference mark",
             "Custom endnote reference mark Endnote 3.", doc.get_child(aw.NodeType.FOOTNOTE, 5, True).as_footnote())
 
     def test_numbering_rule(self):
 
         #ExStart
-        #ExFor:Document.EndnoteOptions
+        #ExFor:Document.endnote_options
         #ExFor:EndnoteOptions
-        #ExFor:EndnoteOptions.RestartRule
+        #ExFor:EndnoteOptions.restart_rule
         #ExFor:FootnoteNumberingRule
-        #ExFor:Document.FootnoteOptions
+        #ExFor:Document.footnote_options
         #ExFor:FootnoteOptions
-        #ExFor:FootnoteOptions.RestartRule
+        #ExFor:FootnoteOptions.restart_rule
         #ExSummary:Shows how to restart footnote/endnote numbering at certain places in the document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -186,7 +186,7 @@ class ExInlineStory(ApiExampleBase):
         # Inserting a footnote/endnote adds a small superscript reference symbol
         # at the main body text where we insert the footnote/endnote.
         # Each footnote/endnote also creates an entry, which consists of a symbol that matches the reference
-        # symbol in the main body text. The reference text that we pass to the document builder's "InsertEndnote" method.
+        # symbol in the main body text. The reference text that we pass to the document builder's "insert_endnote" method.
         # Footnote entries, by default, show up at the bottom of each page that contains
         # their reference symbols, and endnotes show up at the end of the document.
         builder.write("Text 1. ")
@@ -230,32 +230,32 @@ class ExInlineStory(ApiExampleBase):
         self.assertEqual(aw.notes.FootnoteNumberingRule.RESTART_PAGE, doc.footnote_options.restart_rule)
         self.assertEqual(aw.notes.FootnoteNumberingRule.RESTART_SECTION, doc.endnote_options.restart_rule)
 
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote 1.", doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote 2.", doc.get_child(aw.NodeType.FOOTNOTE, 1, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote 3.", doc.get_child(aw.NodeType.FOOTNOTE, 2, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote 4.", doc.get_child(aw.NodeType.FOOTNOTE, 3, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote 1.", doc.get_child(aw.NodeType.FOOTNOTE, 4, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote 2.", doc.get_child(aw.NodeType.FOOTNOTE, 5, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote 3.", doc.get_child(aw.NodeType.FOOTNOTE, 6, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote 4.", doc.get_child(aw.NodeType.FOOTNOTE, 7, True).as_footnote())
 
     def test_start_number(self):
 
         #ExStart
-        #ExFor:Document.EndnoteOptions
+        #ExFor:Document.endnote_options
         #ExFor:EndnoteOptions
-        #ExFor:EndnoteOptions.StartNumber
-        #ExFor:Document.FootnoteOptions
+        #ExFor:EndnoteOptions.start_number
+        #ExFor:Document.footnote_options
         #ExFor:FootnoteOptions
-        #ExFor:FootnoteOptions.StartNumber
+        #ExFor:FootnoteOptions.start_number
         #ExSummary:Shows how to set a number at which the document begins the footnote/endnote count.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -266,7 +266,7 @@ class ExInlineStory(ApiExampleBase):
         # at the main body text where we insert the footnote/endnote.
         # Each footnote/endnote also creates an entry, which consists of a symbol
         # that matches the reference symbol in the main body text.
-        # The reference text that we pass to the document builder's "InsertEndnote" method.
+        # The reference text that we pass to the document builder's "insert_endnote" method.
         # Footnote entries, by default, show up at the bottom of each page that contains
         # their reference symbols, and endnotes show up at the end of the document.
         builder.write("Text 1. ")
@@ -306,30 +306,30 @@ class ExInlineStory(ApiExampleBase):
         self.assertEqual(aw.NumberStyle.ARABIC, doc.footnote_options.number_style)
         self.assertEqual(aw.NumberStyle.ARABIC, doc.endnote_options.number_style)
 
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote 1.", doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote 2.", doc.get_child(aw.NodeType.FOOTNOTE, 1, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote 3.", doc.get_child(aw.NodeType.FOOTNOTE, 2, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote 1.", doc.get_child(aw.NodeType.FOOTNOTE, 3, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote 2.", doc.get_child(aw.NodeType.FOOTNOTE, 4, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote 3.", doc.get_child(aw.NodeType.FOOTNOTE, 5, True).as_footnote())
 
     def test_add_footnote(self):
 
         #ExStart
         #ExFor:Footnote
-        #ExFor:Footnote.IsAuto
-        #ExFor:Footnote.ReferenceMark
+        #ExFor:Footnote.is_auto
+        #ExFor:Footnote.reference_mark
         #ExFor:InlineStory
-        #ExFor:InlineStory.Paragraphs
+        #ExFor:InlineStory.paragraphs
         #ExFor:InlineStory.first_paragraph
         #ExFor:FootnoteType
-        #ExFor:Footnote.#ctor
+        #ExFor:Footnote.__init__
         #ExSummary:Shows how to insert and customize footnotes.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -361,7 +361,7 @@ class ExInlineStory(ApiExampleBase):
 
         self.assertFalse(footnote.is_auto)
 
-        # A bookmark with the "IsAuto" flag set to true will still show its real index
+        # A bookmark with the "is_auto" flag set to True will still show its real index
         # even if previous bookmarks display custom reference marks, so this bookmark's reference mark will be a "3".
         builder.write(" More main body text.")
         footnote = builder.insert_footnote(aw.notes.FootnoteType.FOOTNOTE, "Footnote text.")
@@ -373,17 +373,17 @@ class ExInlineStory(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "InlineStory.add_footnote.docx")
 
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote text. More text added by a DocumentBuilder.", doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, False, "RefMark",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, False, "RefMark",
             "Footnote text.", doc.get_child(aw.NodeType.FOOTNOTE, 1, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote text.", doc.get_child(aw.NodeType.FOOTNOTE, 2, True).as_footnote())
 
     def test_footnote_endnote(self):
 
         #ExStart
-        #ExFor:Footnote.FootnoteType
+        #ExFor:Footnote.footnote_type
         #ExSummary:Shows the difference between footnotes and endnotes.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -392,7 +392,7 @@ class ExInlineStory(ApiExampleBase):
         # small superscript reference mark at the location that we insert them.
         # The reference mark, by default, is the index number of the reference among all the references in the document.
         # Each reference will also create an entry, which will have the same reference mark as in the body text
-        # and reference text, which we will pass to the document builder's "InsertFootnote" method.
+        # and reference text, which we will pass to the document builder's "insert_footnote" method.
         # 1 -  A footnote, whose entry will appear on the same page as the text that it references:
         builder.write("Footnote referenced main body text.")
         footnote = builder.insert_footnote(aw.notes.FootnoteType.FOOTNOTE,
@@ -414,9 +414,9 @@ class ExInlineStory(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "InlineStory.footnote_endnote.docx")
 
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "",
             "Footnote text, will appear at the bottom of the page that contains the referenced text.", doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.ENDNOTE, True, "",
+        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
             "Endnote text, will appear at the very end of the document.", doc.get_child(aw.NodeType.FOOTNOTE, 1, True).as_footnote())
 
     def test_add_comment(self):
@@ -424,9 +424,9 @@ class ExInlineStory(ApiExampleBase):
         #ExStart
         #ExFor:Comment
         #ExFor:InlineStory
-        #ExFor:InlineStory.Paragraphs
+        #ExFor:InlineStory.paragraphs
         #ExFor:InlineStory.first_paragraph
-        #ExFor:Comment.#ctor(DocumentBase, String, String, DateTime)
+        #ExFor:Comment.__init__(DocumentBase,str,str,datetime)
         #ExSummary:Shows how to add a comment to a paragraph.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -454,10 +454,10 @@ class ExInlineStory(ApiExampleBase):
     def test_inline_story_revisions(self):
 
         #ExStart
-        #ExFor:InlineStory.IsDeleteRevision
-        #ExFor:InlineStory.IsInsertRevision
-        #ExFor:InlineStory.IsMoveFromRevision
-        #ExFor:InlineStory.IsMoveToRevision
+        #ExFor:InlineStory.is_delete_revision
+        #ExFor:InlineStory.is_insert_revision
+        #ExFor:InlineStory.is_move_from_revision
+        #ExFor:InlineStory.is_move_to_revision
         #ExSummary:Shows how to view revision-related properties of InlineStory nodes.
         doc = aw.Document(MY_DIR + "Revision footnotes.docx")
 
@@ -502,14 +502,14 @@ class ExInlineStory(ApiExampleBase):
     def test_insert_inline_story_nodes(self):
 
         #ExStart
-        #ExFor:Comment.StoryType
-        #ExFor:Footnote.StoryType
-        #ExFor:InlineStory.EnsureMinimum
-        #ExFor:InlineStory.Font
+        #ExFor:Comment.story_type
+        #ExFor:Footnote.story_type
+        #ExFor:InlineStory.ensure_minimum
+        #ExFor:InlineStory.font
         #ExFor:InlineStory.last_paragraph
-        #ExFor:InlineStory.ParentParagraph
-        #ExFor:InlineStory.StoryType
-        #ExFor:InlineStory.Tables
+        #ExFor:InlineStory.parent_paragraph
+        #ExFor:InlineStory.story_type
+        #ExFor:InlineStory.tables
         #ExSummary:Shows how to insert InlineStory nodes.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -566,7 +566,7 @@ class ExInlineStory(ApiExampleBase):
 
         footnote = doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote()
 
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "", "",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "", "",
             doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
         self.assertEqual("Arial", footnote.font.name)
         self.assertEqual(drawing.Color.green.to_argb(), footnote.font.color.to_argb())
@@ -579,8 +579,8 @@ class ExInlineStory(ApiExampleBase):
 
         #ExStart
         #ExFor:Story
-        #ExFor:Story.DeleteShapes
-        #ExFor:Story.StoryType
+        #ExFor:Story.delete_shapes
+        #ExFor:Story.story_type
         #ExFor:StoryType
         #ExSummary:Shows how to remove all shapes from a node.
         doc = aw.Document()

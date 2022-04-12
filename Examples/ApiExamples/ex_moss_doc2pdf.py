@@ -1,3 +1,9 @@
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 """DOC2PDF document converter for SharePoint.
 Uses Aspose.Words to perform the conversion."""
 
@@ -7,8 +13,6 @@ from typing import List, NamedTuple
 
 import aspose.words as aw
 
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
 
 class Options(NamedTuple):
     in_file_name: str
@@ -33,11 +37,11 @@ def main():
     # conversion account (not sure what name), so for testing purposes,
     # I would give the Users group write permissions into this folder.
     logging.basicConfig(filename=r"C:\Aspose2Pdf\log.txt")
-    
+
     logger = logging.getLogger("doc2pdf")
 
     logger.info("Started")
-    logger.info('Command line:', ' '.join(sys.argv[1:]))
+    logger.info('Command line: ' + ' '.join(sys.argv[1:]))
 
     options = parse_command_line(sys.argv[1:])
 
@@ -77,7 +81,7 @@ def parse_command_line(args: List[str]) -> Options:
         elif token == "-log":
             # Skip the name of the log file and do nothing.
             i += 1
-        
+
         else:
             raise Exception("Unknown command line argument: " + token)
 
@@ -85,6 +89,6 @@ def parse_command_line(args: List[str]) -> Options:
 
     return Options(in_file_name, out_file_name)
 
-    
+
 if __name__ == '__main__':
     main()

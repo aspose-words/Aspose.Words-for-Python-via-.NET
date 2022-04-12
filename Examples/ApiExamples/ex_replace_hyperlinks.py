@@ -1,20 +1,19 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import re
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 #ExStart
 #ExFor:NodeList
 #ExFor:FieldStart
 #ExSummary:Shows how to find all hyperlinks in a Word document, and then change their URLs and display names.
-
 class ExReplaceHyperlinks(ApiExampleBase):
 
     def test_fields(self):
@@ -22,7 +21,7 @@ class ExReplaceHyperlinks(ApiExampleBase):
         doc = aw.Document(MY_DIR + "Hyperlinks.docx")
 
         # Hyperlinks in a Word documents are fields. To begin looking for hyperlinks, we must first find all the fields.
-        # Use the "SelectNodes" method to find all the fields in the document via an XPath.
+        # Use the "select_nodes" method to find all the fields in the document via an XPath.
         field_starts = doc.select_nodes("//FieldStart")
 
         for field_start in field_starts:
@@ -46,15 +45,15 @@ class Hyperlink:
     """HYPERLINK fields contain and display hyperlinks in the document body. A field in Aspose.Words
     consists of several nodes, and it might be difficult to work with all those nodes directly.
     This implementation will work only if the hyperlink code and name each consist of only one Run node.
-    
+
     The node structure for fields is as follows:
-    
+
     [FieldStart][Run - field code][FieldSeparator][Run - field result][FieldEnd]
-    
+
     Below are two example field codes of HYPERLINK fields:
     HYPERLINK "url"
-    HYPERLINK \l "bookmark name"
-    
+    HYPERLINK \\l "bookmark name"
+
     A field's "result" property contains text that the field displays in the document body to the user."""
     def __init__(self, field_start: aw.fields.FieldStart):
 
@@ -78,7 +77,7 @@ class Hyperlink:
 
         # Field code looks something like "HYPERLINK "http:\\www.myurl.com"", but it can consist of several runs.
         field_code = Hyperlink.get_text_same_parent(self.field_start.next_sibling, self.field_separator)
-        
+
         pattern = r"""
         \S+        # One or more non spaces HYPERLINK or other word in other languages.
         \s+        # One or more spaces.
@@ -95,9 +94,6 @@ class Hyperlink:
         self._is_local = len(match.group(2)) > 0
         self._target = match.groups(3)
 
-    # <summary>
-    # Gets or 
-    # </summary>
     @property
     def name(self) -> str:
         """Gets the display name of the hyperlink."""

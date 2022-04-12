@@ -1,26 +1,25 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import os
 import glob
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, image_dir
-from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-IMAGE_DIR = image_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
 
 class ExImageSaveOptions(ApiExampleBase):
 
     def test_one_page(self):
 
         #ExStart
-        #ExFor:Document.Save(String, SaveOptions)
+        #ExFor:Document.save(str,SaveOptions)
         #ExFor:FixedPageSaveOptions
-        #ExFor:ImageSaveOptions.PageSet
+        #ExFor:ImageSaveOptions.page_set
         #ExSummary:Shows how to render one page from a document to a JPEG image.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -46,14 +45,14 @@ class ExImageSaveOptions(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "ImageSaveOptions.one_page.jpg", options)
         #ExEnd
 
-        TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.one_page.jpg")
+        self.verify_image(816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.one_page.jpg")
 
     def test_renderer(self):
 
         for use_gdi_emf_renderer in (False, True):
             with self.subTest(use_gdi_emf_renderer=use_gdi_emf_renderer):
                 #ExStart
-                #ExFor:ImageSaveOptions.UseGdiEmfRenderer
+                #ExFor:ImageSaveOptions.use_gdi_emf_renderer
                 #ExSummary:Shows how to choose a renderer when converting a document to .emf.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -77,12 +76,12 @@ class ExImageSaveOptions(ApiExampleBase):
                     self.assertGreater(30000, os.path.getsize(ARTIFACTS_DIR + "ImageSaveOptions.renderer.emf"))
                 #ExEnd
 
-                TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.renderer.emf")
+                self.verify_image(816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.renderer.emf")
 
     def test_page_set(self):
 
         #ExStart
-        #ExFor:ImageSaveOptions.PageSet
+        #ExFor:ImageSaveOptions.page_set
         #ExSummary:Shows how to specify which page in a document to render as an image.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -104,26 +103,26 @@ class ExImageSaveOptions(ApiExampleBase):
         for i in range(1, doc.page_count + 1):
             save_options.page_set = aw.saving.PageSet(1)
 
-            doc.save(ARTIFACTS_DIR + f"ImageSaveOptions.page_index.page {i}.gif", save_options)
+            doc.save(ARTIFACTS_DIR + f"ImageSaveOptions.page_set.page {i}.gif", save_options)
 
         #ExEnd
 
-        TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_index.page 1.gif")
-        TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_index.page 2.gif")
-        TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_index.page 3.gif")
-        self.assertFalse(os.path.exists(ARTIFACTS_DIR + "ImageSaveOptions.page_index.page 4.gif"))
+        self.verify_image(816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_set.page 1.gif")
+        self.verify_image(816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_set.page 2.gif")
+        self.verify_image(816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_set.page 3.gif")
+        self.assertFalse(os.path.exists(ARTIFACTS_DIR + "ImageSaveOptions.page_set.page 4.gif"))
 
     def test_graphics_quality(self):
 
         #ExStart
         #ExFor:GraphicsQualityOptions
-        #ExFor:GraphicsQualityOptions.CompositingMode
-        #ExFor:GraphicsQualityOptions.CompositingQuality
-        #ExFor:GraphicsQualityOptions.InterpolationMode
-        #ExFor:GraphicsQualityOptions.StringFormat
-        #ExFor:GraphicsQualityOptions.SmoothingMode
-        #ExFor:GraphicsQualityOptions.TextRenderingHint
-        #ExFor:ImageSaveOptions.GraphicsQualityOptions
+        #ExFor:GraphicsQualityOptions.compositing_mode
+        #ExFor:GraphicsQualityOptions.compositing_quality
+        #ExFor:GraphicsQualityOptions.interpolation_mode
+        #ExFor:GraphicsQualityOptions.string_format
+        #ExFor:GraphicsQualityOptions.smoothing_mode
+        #ExFor:GraphicsQualityOptions.text_rendering_hint
+        #ExFor:ImageSaveOptions.graphics_quality_options
         #ExSummary:Shows how to set render quality options while converting documents to image formats.
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -133,15 +132,15 @@ class ExImageSaveOptions(ApiExampleBase):
         quality_options.compositing_mode = drawing.drawing2d.CompositingMode.SOURCE_OVER
         quality_options.compositing_quality = drawing.drawing2d.CompositingQuality.HIGH_QUALITY
         quality_options.interpolation_mode = drawing.drawing2d.InterpolationMode.HIGH
-        quality_options.string_format = drawingl.StringFormat.GENERIC_TYPOGRAPHIC
+        quality_options.string_format = drawing.StringFormat.GENERIC_TYPOGRAPHIC
 
         save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
-        save_options.graphics_quality_options = qualityOptions
+        save_options.graphics_quality_options = quality_options
 
         doc.save(ARTIFACTS_DIR + "ImageSaveOptions.graphics_quality.jpg", save_options)
         #ExEnd
 
-        TestUtil.verify_image(self, 794, 1122, verify_image=ARTIFACTS_DIR + "ImageSaveOptions.graphics_quality.jpg")
+        self.verify_image(794, 1122, filename=(ARTIFACTS_DIR + "ImageSaveOptions.graphics_quality.jpg"))
 
     def test_windows_meta_file(self):
 
@@ -150,7 +149,7 @@ class ExImageSaveOptions(ApiExampleBase):
                                         aw.saving.MetafileRenderingMode.VECTOR_WITH_FALLBACK):
             with self.subTest(metafile_rendering_mode=metafile_rendering_mode):
                 #ExStart
-                #ExFor:ImageSaveOptions.MetafileRenderingOptions
+                #ExFor:ImageSaveOptions.metafile_rendering_options
                 #ExSummary:Shows how to set the rendering mode when saving documents with Windows Metafile images to other image formats.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -168,14 +167,14 @@ class ExImageSaveOptions(ApiExampleBase):
                 doc.save(ARTIFACTS_DIR + "ImageSaveOptions.windows_meta_file.png", options)
                 #ExEnd
 
-                TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.windows_meta_file.png")
+                self.verify_image(816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.windows_meta_file.png")
 
     def test_page_by_page(self):
 
         #ExStart
-        #ExFor:Document.Save(String, SaveOptions)
+        #ExFor:Document.save(str,SaveOptions)
         #ExFor:FixedPageSaveOptions
-        #ExFor:ImageSaveOptions.PageSet
+        #ExFor:ImageSaveOptions.page_set
         #ExSummary:Shows how to render every page of a document to a separate TIFF image.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -202,11 +201,11 @@ class ExImageSaveOptions(ApiExampleBase):
         #ExEnd
 
         image_file_names = glob.glob(ARTIFACTS_DIR + "/ImageSaveOptions.page_by_page*.tiff")
-        
+
         self.assertEqual(3, len(image_file_names))
 
         for image_file_name in image_file_names:
-            TestUtil.verify_image(self, 816, 1056, filename=image_file_name)
+            self.verify_image(816, 1056, filename=image_file_name)
 
     def test_color_mode(self):
 
@@ -216,7 +215,7 @@ class ExImageSaveOptions(ApiExampleBase):
             with self.subTest(image_color_mode=image_color_mode):
                 #ExStart
                 #ExFor:ImageColorMode
-                #ExFor:ImageSaveOptions.ImageColorMode
+                #ExFor:ImageSaveOptions.image_color_mode
                 #ExSummary:Shows how to set a color mode when rendering documents.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -255,7 +254,7 @@ class ExImageSaveOptions(ApiExampleBase):
 
         #ExStart
         #ExFor:ImageSaveOptions
-        #ExFor:ImageSaveOptions.PaperColor
+        #ExFor:ImageSaveOptions.paper_color
         #ExSummary:Renders a page of a Word document into an image with transparent or colored background.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -283,8 +282,8 @@ class ExImageSaveOptions(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "ImageSaveOptions.paper_color.light_coral.png", img_options)
         #ExEnd
 
-        TestUtil.image_contains_transparency(self, ARTIFACTS_DIR + "ImageSaveOptions.paper_color.transparent.png")
-        TestUtil.image_contains_transparency(self, ARTIFACTS_DIR + "ImageSaveOptions.paper_color.light_coral.png")
+        self.verify_image_contains_transparency(ARTIFACTS_DIR + "ImageSaveOptions.paper_color.transparent.png")
+        self.verify_image_contains_transparency(ARTIFACTS_DIR + "ImageSaveOptions.paper_color.light_coral.png")
 
     def test_pixel_format(self):
 
@@ -296,8 +295,8 @@ class ExImageSaveOptions(ApiExampleBase):
             with self.subTest(image_pixel_format=image_pixel_format):
                 #ExStart
                 #ExFor:ImagePixelFormat
-                #ExFor:ImageSaveOptions.Clone
-                #ExFor:ImageSaveOptions.PixelFormat
+                #ExFor:ImageSaveOptions.clone
+                #ExFor:ImageSaveOptions.pixel_format
                 #ExSummary:Shows how to select a bit-per-pixel rate with which to render a document to an image.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -340,8 +339,8 @@ class ExImageSaveOptions(ApiExampleBase):
 
         #ExStart
         #ExFor:ImageBinarizationMethod
-        #ExFor:ImageSaveOptions.ThresholdForFloydSteinbergDithering
-        #ExFor:ImageSaveOptions.TiffBinarizationMethod
+        #ExFor:ImageSaveOptions.threshold_for_floyd_steinberg_dithering
+        #ExFor:ImageSaveOptions.tiff_binarization_method
         #ExSummary:Shows how to set the TIFF binarization error threshold when using the Floyd-Steinberg method to render a TIFF image.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -362,17 +361,17 @@ class ExImageSaveOptions(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "ImageSaveOptions.floyd_steinberg_dithering.tiff", options)
         #ExEnd
 
-        TestUtil.verify_image(self, 816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.floyd_steinberg_dithering.tiff")
+        self.verify_image(816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.floyd_steinberg_dithering.tiff")
 
     def test_edit_image(self):
 
         #ExStart
-        #ExFor:ImageSaveOptions.HorizontalResolution
-        #ExFor:ImageSaveOptions.ImageBrightness
-        #ExFor:ImageSaveOptions.ImageContrast
-        #ExFor:ImageSaveOptions.SaveFormat
-        #ExFor:ImageSaveOptions.Scale
-        #ExFor:ImageSaveOptions.VerticalResolution
+        #ExFor:ImageSaveOptions.horizontal_resolution
+        #ExFor:ImageSaveOptions.image_brightness
+        #ExFor:ImageSaveOptions.image_contrast
+        #ExFor:ImageSaveOptions.save_format
+        #ExFor:ImageSaveOptions.scale
+        #ExFor:ImageSaveOptions.vertical_resolution
         #ExSummary:Shows how to edit the image while Aspose.Words converts a document to one.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -403,16 +402,16 @@ class ExImageSaveOptions(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "ImageSaveOptions.edit_image.png", options)
         #ExEnd
 
-        TestUtil.verify_image(self, 817, 1057, filename=ARTIFACTS_DIR + "ImageSaveOptions.edit_image.png")
+        self.verify_image(817, 1057, filename=ARTIFACTS_DIR + "ImageSaveOptions.edit_image.png")
 
     def test_jpeg_quality(self):
 
         #ExStart
-        #ExFor:Document.Save(String, SaveOptions)
-        #ExFor:FixedPageSaveOptions.JpegQuality
+        #ExFor:Document.save(str,SaveOptions)
+        #ExFor:FixedPageSaveOptions.jpeg_quality
         #ExFor:ImageSaveOptions
-        #ExFor:ImageSaveOptions.#ctor
-        #ExFor:ImageSaveOptions.JpegQuality
+        #ExFor:ImageSaveOptions.__init__
+        #ExFor:ImageSaveOptions.jpeg_quality
         #ExSummary:Shows how to configure compression while saving a document as a JPEG.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -454,7 +453,7 @@ class ExImageSaveOptions(ApiExampleBase):
             with self.subTest(tiff_compression=tiff_compression):
                 #ExStart
                 #ExFor:TiffCompression
-                #ExFor:ImageSaveOptions.TiffCompression
+                #ExFor:ImageSaveOptions.tiff_compression
                 #ExSummary:Shows how to select the compression scheme to apply to a document that we convert into a TIFF image.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -496,7 +495,7 @@ class ExImageSaveOptions(ApiExampleBase):
 
         #ExStart
         #ExFor:ImageSaveOptions
-        #ExFor:ImageSaveOptions.Resolution
+        #ExFor:ImageSaveOptions.resolution
         #ExSummary:Shows how to specify a resolution while rendering a document to PNG.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -542,9 +541,9 @@ class ExImageSaveOptions(ApiExampleBase):
     def test_export_various_page_ranges(self):
 
         #ExStart
-        #ExFor:PageSet.#ctor(PageRange[])
-        #ExFor:PageRange.#ctor(int, int)
-        #ExFor:ImageSaveOptions.PageSet
+        #ExFor:PageSet.__init__(List[PageRange])
+        #ExFor:PageRange.__init__(int,int)
+        #ExFor:ImageSaveOptions.page_set
         #ExSummary:Shows how to extract pages based on exact page ranges.
         doc = aw.Document(MY_DIR + "Images.docx")
 
@@ -552,7 +551,7 @@ class ExImageSaveOptions(ApiExampleBase):
         page_set = aw.saving.PageSet([
             aw.saving.PageRange(1, 1),
             aw.saving.PageRange(2, 3),
-            aw.saving.PageRange(1, 3),                  
+            aw.saving.PageRange(1, 3),
             aw.saving.PageRange(2, 4),
             aw.saving.PageRange(1, 1)])
 
@@ -563,7 +562,7 @@ class ExImageSaveOptions(ApiExampleBase):
     def test_render_ink_object(self):
 
         #ExStart
-        #ExFor:SaveOptions.ImlRenderingMode
+        #ExFor:SaveOptions.iml_rendering_mode
         #ExFor:ImlRenderingMode
         #ExSummary:Shows how to render Ink object.
         doc = aw.Document(MY_DIR + "Ink object.docx")

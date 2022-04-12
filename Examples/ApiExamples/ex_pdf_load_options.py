@@ -1,13 +1,12 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR
 
 class ExPdfLoadOptions(ApiExampleBase):
 
@@ -16,7 +15,7 @@ class ExPdfLoadOptions(ApiExampleBase):
         for is_skip_pdf_images in (True, False):
             with self.subTest(is_skip_pdf_images=is_skip_pdf_images):
                 #ExStart
-                #ExFor:PdfLoadOptions.SkipPdfImages
+                #ExFor:PdfLoadOptions.skip_pdf_images
                 #ExSummary:Shows how to skip images during loading PDF files.
                 options = aw.loading.PdfLoadOptions()
                 options.skip_pdf_images = is_skip_pdf_images

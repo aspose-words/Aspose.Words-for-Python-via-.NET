@@ -1,25 +1,24 @@
-import unittest
-import io
-from typing import List
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
+from typing import Dict, List
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR
 
 class ExMailMergeCustom(ApiExampleBase):
 
     #ExStart
     #ExFor:IMailMergeDataSource
-    #ExFor:IMailMergeDataSource.TableName
-    #ExFor:IMailMergeDataSource.MoveNext
-    #ExFor:IMailMergeDataSource.GetValue
-    #ExFor:IMailMergeDataSource.GetChildDataSource
-    #ExFor:MailMerge.Execute(IMailMergeDataSourceCore)
+    #ExFor:IMailMergeDataSource.table_name
+    #ExFor:IMailMergeDataSource.move_next
+    #ExFor:IMailMergeDataSource.get_value
+    #ExFor:IMailMergeDataSource.get_child_data_source
+    #ExFor:MailMerge.execute(IMailMergeDataSourceCore)
     #ExSummary:Shows how to execute a mail merge with a data source in the form of a custom object.
     def test_custom_data_source(self):
 
@@ -36,10 +35,10 @@ class ExMailMergeCustom(ApiExampleBase):
         # To use a custom object as a data source, it must implement the IMailMergeDataSource interface.
         data_source = ExMailMergeCustom.CustomerMailMergeDataSource(customers)
 
-        doc.mail_merge.execute(dataSource)
+        doc.mail_merge.execute(data_source)
 
         doc.save(ARTIFACTS_DIR + "MailMergeCustom.custom_data_source.docx")
-        self._test_custom_data_source(customers, aw.Document(ARTIFACTS_DIR + "MailMergeCustom.custom_data_source.docx")); #ExSkip
+        self._test_custom_data_source(customers, aw.Document(ARTIFACTS_DIR + "MailMergeCustom.custom_data_source.docx")) #ExSkip
 
     class Customer:
         """An example of a "data entity" class in your application."""
@@ -53,7 +52,7 @@ class ExMailMergeCustom(ApiExampleBase):
         """A custom mail merge data source that you implement to allow Aspose.Words
         to mail merge data from your Customer objects into Microsoft Word documents."""
 
-        def __init__(self, customers: List[ExMailMergeCustom.Customer]):
+        def __init__(self, customers: 'List[ExMailMergeCustom.Customer]'):
 
             self.customers = customers
 
@@ -100,15 +99,17 @@ class ExMailMergeCustom(ApiExampleBase):
 
     def _test_custom_data_source(self, customer_list: List[ExMailMergeCustom.Customer], doc: aw.Document):
 
+        merge_data = []
+
         for customer in customer_list:
             merge_data.append([customer.full_name, customer.address])
 
-        TestUtil.mail_merge_matches_array(merge_data, doc, True)
+        self.mail_merge_matches_array(merge_data, doc, True)
 
     #ExStart
     #ExFor:IMailMergeDataSourceRoot
-    #ExFor:IMailMergeDataSourceRoot.GetDataSource(String)
-    #ExFor:MailMerge.ExecuteWithRegions(IMailMergeDataSourceRoot)
+    #ExFor:IMailMergeDataSourceRoot.get_data_source(str)
+    #ExFor:MailMerge.execute_with_regions(IMailMergeDataSourceRoot)
     #ExSummary:Performs mail merge from a custom data source with master-detail data.
     def test_custom_data_source_root(self):
 
@@ -148,14 +149,13 @@ class ExMailMergeCustom(ApiExampleBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        for s in regions:
-
-            builder.writeln("\n" + s + " branch: ")
-            builder.insert_field(" MERGEFIELD TableStart:" + s)
+        for region in regions:
+            builder.writeln("\n" + region + " branch: ")
+            builder.insert_field(" MERGEFIELD TableStart:" + region)
             builder.insert_field(" MERGEFIELD FullName")
             builder.write(", ")
             builder.insert_field(" MERGEFIELD Department")
-            builder.insert_field(" MERGEFIELD TableEnd:" + s)
+            builder.insert_field(" MERGEFIELD TableEnd:" + region)
 
         return doc
 
@@ -164,7 +164,7 @@ class ExMailMergeCustom(ApiExampleBase):
 
         def __init__(self, full_name: str, department: str):
 
-            self.full_Name = full_name
+            self.full_name = full_name
             self.department = department
 
     class DataSourceRoot(aw.mailmerging.IMailMergeDataSourceRoot):
@@ -184,7 +184,7 @@ class ExMailMergeCustom(ApiExampleBase):
         def register_source(self, source_name: str, source: ExMailMergeCustom.EmployeeListMailMergeSource):
 
             self.sources.add(source_name, source)
-    
+
     class EmployeeListMailMergeSource(aw.mailmerging.IMailMergeDataSource):
         """Custom mail merge data source."""
 
@@ -251,4 +251,4 @@ class ExMailMergeCustom(ApiExampleBase):
 
                 data_table.rows.add([full_name, department])
 
-        TestUtil.mail_merge_matches_data_table(data_table, doc, False)
+        self.mail_merge_matches_data_table(data_table, doc, False)

@@ -1,28 +1,28 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 from datetime import datetime, date, timedelta
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 from document_helper import DocumentHelper
-from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
 
 class ExParagraph(ApiExampleBase):
 
     def test_document_builder_insert_paragraph(self):
 
         #ExStart
-        #ExFor:DocumentBuilder.InsertParagraph
+        #ExFor:DocumentBuilder.insert_paragraph
         #ExFor:ParagraphFormat.first_line_indent
-        #ExFor:ParagraphFormat.Alignment
+        #ExFor:ParagraphFormat.alignment
         #ExFor:ParagraphFormat.keep_together
         #ExFor:ParagraphFormat.add_space_between_far_east_and_alpha
-        #ExFor:ParagraphFormat.aadd_space_between_far_east_and_digit
+        #ExFor:ParagraphFormat.add_space_between_far_east_and_digit
         #ExFor:Paragraph.is_end_of_document
         #ExSummary:Shows how to insert a paragraph into the document.
         doc = aw.Document()
@@ -70,9 +70,9 @@ class ExParagraph(ApiExampleBase):
     def test_append_field(self):
 
         #ExStart
-        #ExFor:Paragraph.AppendField(FieldType, Boolean)
-        #ExFor:Paragraph.AppendField(String)
-        #ExFor:Paragraph.AppendField(String, String)
+        #ExFor:Paragraph.append_field(FieldType,bool)
+        #ExFor:Paragraph.append_field(str)
+        #ExFor:Paragraph.append_field(str,str)
         #ExSummary:Shows various ways of appending fields to a paragraph.
         doc = aw.Document()
         paragraph = doc.first_section.body.first_paragraph
@@ -99,16 +99,16 @@ class ExParagraph(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Paragraph.append_field.docx")
 
-        TestUtil.verify_datetime_field(self, aw.fields.FieldType.FIELD_DATE, " DATE ", datetime.now(), doc.range.fields[0], timedelta())
-        TestUtil.verify_datetime_field(self, aw.fields.FieldType.FIELD_TIME, " TIME  \\@ \"HH:mm:ss\" ", datetime.now(), doc.range.fields[1], timedelta(seconds=5))
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_QUOTE, " QUOTE \"Real value\"", "Real value", doc.range.fields[2])
+        self.verify_datetime_field(aw.fields.FieldType.FIELD_DATE, " DATE ", datetime.now(), doc.range.fields[0], timedelta())
+        self.verify_datetime_field(aw.fields.FieldType.FIELD_TIME, " TIME  \\@ \"HH:mm:ss\" ", datetime.now(), doc.range.fields[1], timedelta(seconds=5))
+        self.verify_field(aw.fields.FieldType.FIELD_QUOTE, " QUOTE \"Real value\"", "Real value", doc.range.fields[2])
 
     def test_insert_field(self):
 
         #ExStart
-        #ExFor:Paragraph.InsertField(string, Node, bool)
-        #ExFor:Paragraph.InsertField(FieldType, bool, Node, bool)
-        #ExFor:Paragraph.InsertField(string, string, Node, bool)
+        #ExFor:Paragraph.insert_field(str,Node,bool)
+        #ExFor:Paragraph.insert_field(FieldType,bool,Node,bool)
+        #ExFor:Paragraph.insert_field(str,str,Node,bool)
         #ExSummary:Shows various ways of adding fields to a paragraph.
         doc = aw.Document()
         para = doc.first_section.body.first_paragraph
@@ -145,9 +145,9 @@ class ExParagraph(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Paragraph.insert_field.docx")
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTHOR, " AUTHOR ", "John Doe", doc.range.fields[0])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_QUOTE, " QUOTE \" Real value.\"", " Real value.", doc.range.fields[1])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_QUOTE, " QUOTE \" Real value\" ", " Real value", doc.range.fields[2])
+        self.verify_field(aw.fields.FieldType.FIELD_AUTHOR, " AUTHOR ", "John Doe", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_QUOTE, " QUOTE \" Real value.\"", " Real value.", doc.range.fields[1])
+        self.verify_field(aw.fields.FieldType.FIELD_QUOTE, " QUOTE \" Real value\" ", " Real value", doc.range.fields[2])
 
     def test_insert_field_before_text_in_paragraph(self):
 
@@ -255,12 +255,12 @@ class ExParagraph(ApiExampleBase):
     def test_composite_node_children(self):
 
         #ExStart
-        #ExFor:CompositeNode.Count
-        #ExFor:CompositeNode.GetChildNodes(NodeType, Boolean)
-        #ExFor:CompositeNode.InsertAfter(Node, Node)
-        #ExFor:CompositeNode.InsertBefore(Node, Node)
-        #ExFor:CompositeNode.PrependChild(Node)
-        #ExFor:Paragraph.GetText
+        #ExFor:CompositeNode.count
+        #ExFor:CompositeNode.get_child_nodes(NodeType,bool)
+        #ExFor:CompositeNode.insert_after(Node,Node)
+        #ExFor:CompositeNode.insert_before(Node,Node)
+        #ExFor:CompositeNode.prepend_child(Node)
+        #ExFor:Paragraph.get_text
         #ExFor:Run
         #ExSummary:Shows how to add, update and delete child nodes in a CompositeNode's collection of children.
         doc = aw.Document()
@@ -311,11 +311,11 @@ class ExParagraph(ApiExampleBase):
     def test_revisions(self):
 
         #ExStart
-        #ExFor:Paragraph.IsMoveFromRevision
-        #ExFor:Paragraph.IsMoveToRevision
+        #ExFor:Paragraph.is_move_from_revision
+        #ExFor:Paragraph.is_move_to_revision
         #ExFor:ParagraphCollection
-        #ExFor:ParagraphCollection.Item(Int32)
-        #ExFor:Story.Paragraphs
+        #ExFor:ParagraphCollection.__getitem__(int)
+        #ExFor:Story.paragraphs
         #ExSummary:Shows how to check whether a paragraph is a move revision.
         doc = aw.Document(MY_DIR + "Revisions.docx")
 
@@ -358,20 +358,20 @@ class ExParagraph(ApiExampleBase):
     def test_get_frame_properties(self):
 
         #ExStart
-        #ExFor:Paragraph.FrameFormat
+        #ExFor:Paragraph.frame_format
         #ExFor:FrameFormat
-        #ExFor:FrameFormat.IsFrame
+        #ExFor:FrameFormat.is_frame
         #ExFor:FrameFormat.width
         #ExFor:FrameFormat.height
-        #ExFor:FrameFormat.heightRule
-        #ExFor:FrameFormat.HorizontalAlignment
-        #ExFor:FrameFormat.VerticalAlignment
-        #ExFor:FrameFormat.HorizontalPosition
-        #ExFor:FrameFormat.RelativeHorizontalPosition
-        #ExFor:FrameFormat.HorizontalDistanceFromText
-        #ExFor:FrameFormat.VerticalPosition
-        #ExFor:FrameFormat.RelativeVerticalPosition
-        #ExFor:FrameFormat.VerticalDistanceFromText
+        #ExFor:FrameFormat.height_rule
+        #ExFor:FrameFormat.horizontal_alignment
+        #ExFor:FrameFormat.vertical_alignment
+        #ExFor:FrameFormat.horizontal_position
+        #ExFor:FrameFormat.relative_horizontal_position
+        #ExFor:FrameFormat.horizontal_distance_from_text
+        #ExFor:FrameFormat.vertical_position
+        #ExFor:FrameFormat.relative_vertical_position
+        #ExFor:FrameFormat.vertical_distance_from_text
         #ExSummary:Shows how to get information about formatting properties of paragraphs that are frames.
         doc = aw.Document(MY_DIR + "Paragraph frame.docx")
 
@@ -421,8 +421,8 @@ class ExParagraph(ApiExampleBase):
     def test_is_revision(self):
 
         #ExStart
-        #ExFor:Paragraph.IsDeleteRevision
-        #ExFor:Paragraph.IsInsertRevision
+        #ExFor:Paragraph.is_delete_revision
+        #ExFor:Paragraph.is_insert_revision
         #ExSummary:Shows how to work with revision paragraphs.
         doc = aw.Document()
         body = doc.first_section.body
@@ -458,7 +458,7 @@ class ExParagraph(ApiExampleBase):
         doc.accept_all_revisions()
 
         self.assertEqual(3, paragraphs.count)
-        #self.assertEqual(para, Is.Empty)
+        #self.assertEqual(para, "")
         self.assertEqual(
             "Paragraph 1. \r" +
             "Paragraph 2. \r" +
@@ -468,7 +468,7 @@ class ExParagraph(ApiExampleBase):
     def test_break_is_style_separator(self):
 
         #ExStart
-        #ExFor:Paragraph.BreakIsStyleSeparator
+        #ExFor:Paragraph.break_is_style_separator
         #ExSummary:Shows how to write text to the same line as a TOC heading and have it not show up in the TOC.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -498,14 +498,14 @@ class ExParagraph(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Paragraph.break_is_style_separator.docx")
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOC, "TOC \\o \\h \\z \\u",
+        self.verify_field(aw.fields.FieldType.FIELD_TOC, "TOC \\o \\h \\z \\u",
             "\u0013 HYPERLINK \\l \"_Toc256000000\" \u0014Heading 1. Will appear in the TOC.\t\u0013 PAGEREF _Toc256000000 \\h \u00142\u0015\u0015\r", doc.range.fields[0])
         self.assertFalse(doc.first_section.body.first_paragraph.break_is_style_separator)
 
     def test_tab_stops(self):
 
         #ExStart
-        #ExFor:Paragraph.GetEffectiveTabStops
+        #ExFor:Paragraph.get_effective_tab_stops
         #ExSummary:Shows how to set custom tab stops for a paragraph.
         doc = aw.Document()
         para = doc.first_section.body.first_paragraph
@@ -535,14 +535,14 @@ class ExParagraph(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Paragraph.tab_stops.docx")
         tab_stops = doc.first_section.body.first_paragraph.paragraph_format.tab_stops
 
-        TestUtil.verify_tab_stop(self, 72.0, aw.TabAlignment.LEFT, aw.TabLeader.DOTS, False, tab_stops[0])
-        TestUtil.verify_tab_stop(self, 216.0, aw.TabAlignment.CENTER, aw.TabLeader.DASHES, False, tab_stops[1])
-        TestUtil.verify_tab_stop(self, 360.0, aw.TabAlignment.RIGHT, aw.TabLeader.LINE, False, tab_stops[2])
+        self.verify_tab_stop(72.0, aw.TabAlignment.LEFT, aw.TabLeader.DOTS, False, tab_stops[0])
+        self.verify_tab_stop(216.0, aw.TabAlignment.CENTER, aw.TabLeader.DASHES, False, tab_stops[1])
+        self.verify_tab_stop(360.0, aw.TabAlignment.RIGHT, aw.TabLeader.LINE, False, tab_stops[2])
 
     def test_join_runs(self):
 
         #ExStart
-        #ExFor:Paragraph.JoinRunsWithSameFormatting
+        #ExFor:Paragraph.join_runs_with_same_formatting
         #ExSummary:Shows how to simplify paragraphs by merging superfluous runs.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -571,7 +571,7 @@ class ExParagraph(ApiExampleBase):
         self.assertEqual(2, para.join_runs_with_same_formatting())
 
         # The number of runs left will equal the original count
-        # minus the number of run merges that the "JoinRunsWithSameFormatting" method carried out.
+        # minus the number of run merges that the "join_runs_with_same_formatting" method carried out.
         self.assertEqual(2, para.runs.count)
         self.assertEqual("Run 1. Run 2. Run 3. ", para.runs[0].text)
         self.assertEqual("Run 4. ", para.runs[1].text)

@@ -1,22 +1,22 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 from datetime import datetime
 from typing import List
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExRange(ApiExampleBase):
 
     def test_replace(self):
 
         #ExStart
-        #ExFor:Range.Replace(String, String)
+        #ExFor:Range.replace(str,str)
         #ExSummary:Shows how to perform a find-and-replace text operation on the contents of a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -35,9 +35,9 @@ class ExRange(ApiExampleBase):
         for match_case in (False, True):
             with self.subTest(match_case=match_case):
                 #ExStart
-                #ExFor:Range.Replace(String, String, FindReplaceOptions)
+                #ExFor:Range.replace(str,str,FindReplaceOptions)
                 #ExFor:FindReplaceOptions
-                #ExFor:FindReplaceOptions.MatchCase
+                #ExFor:FindReplaceOptions.match_case
                 #ExSummary:Shows how to toggle case sensitivity when performing a find-and-replace operation.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -63,9 +63,9 @@ class ExRange(ApiExampleBase):
         for find_whole_words_only in (False, True):
             with self.subTest(find_whole_words_on=find_whole_words_only):
                 #ExStart
-                #ExFor:Range.Replace(String, String, FindReplaceOptions)
+                #ExFor:Range.replace(str,str,FindReplaceOptions)
                 #ExFor:FindReplaceOptions
-                #ExFor:FindReplaceOptions.FindWholeWordsOnly
+                #ExFor:FindReplaceOptions.find_whole_words_only
                 #ExSummary:Shows how to toggle standalone word-only find-and-replace operations.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -91,7 +91,7 @@ class ExRange(ApiExampleBase):
         for ignore_text_inside_delete_revisions in (False, True):
             with self.subTest(ignore_text_inside_delete_revisions=ignore_text_inside_delete_revisions):
                 #ExStart
-                #ExFor:FindReplaceOptions.IgnoreDeleted
+                #ExFor:FindReplaceOptions.ignore_deleted
                 #ExSummary:Shows how to include or ignore text inside delete revisions during a find-and-replace operation.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -110,9 +110,9 @@ class ExRange(ApiExampleBase):
                 # We can use a "FindReplaceOptions" object to modify the find and replace process.
                 options = aw.replacing.FindReplaceOptions()
 
-                # Set the "IgnoreDeleted" flag to "True" to get the find-and-replace
+                # Set the "ignore_deleted" flag to "True" to get the find-and-replace
                 # operation to ignore paragraphs that are delete revisions.
-                # Set the "IgnoreDeleted" flag to "False" to get the find-and-replace
+                # Set the "ignore_deleted" flag to "False" to get the find-and-replace
                 # operation to also search for text inside delete revisions.
                 options.ignore_deleted = ignore_text_inside_delete_revisions
 
@@ -128,7 +128,7 @@ class ExRange(ApiExampleBase):
         for ignore_text_inside_insert_revisions in (True, False):
             with self.subTest(ignore_text_inside_insert_revisions=ignore_text_inside_insert_revisions):
                 #ExStart
-                #ExFor:FindReplaceOptions.IgnoreInserted
+                #ExFor:FindReplaceOptions.ignore_inserted
                 #ExSummary:Shows how to include or ignore text inside insert revisions during a find-and-replace operation.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -163,7 +163,7 @@ class ExRange(ApiExampleBase):
         for ignore_text_inside_fields in (True, False):
             with self.subTest(ignore_text_inside_fields=ignore_text_inside_fields):
                 #ExStart
-                #ExFor:FindReplaceOptions.IgnoreFields
+                #ExFor:FindReplaceOptions.ignore_fields
                 #ExSummary:Shows how to ignore text inside fields.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -197,7 +197,7 @@ class ExRange(ApiExampleBase):
         for is_ignore_footnotes in (True, False):
             with self.subTest(is_ignore_footnotes=is_ignore_footnotes):
                 #ExStart
-                #ExFor:FindReplaceOptions.IgnoreFootnotes
+                #ExFor:FindReplaceOptions.ignore_footnotes
                 #ExSummary:Shows how to ignore footnotes during a find-and-replace operation.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -230,14 +230,14 @@ class ExRange(ApiExampleBase):
                     expected_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                 else:
                     expected_text = "Replaced Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                
+
                 self.assertEqual(expected_text, footnotes[0].to_string(aw.SaveFormat.TEXT).strip())
                 self.assertEqual(expected_text, footnotes[1].to_string(aw.SaveFormat.TEXT).strip())
 
     def test_update_fields_in_range(self):
 
         #ExStart
-        #ExFor:Range.UpdateFields
+        #ExFor:Range.update_fields
         #ExSummary:Shows how to update all the fields in a range.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -279,7 +279,7 @@ class ExRange(ApiExampleBase):
     def test_replace_with_regex(self):
 
         #ExStart
-        #ExFor:Range.Replace(Regex, String)
+        #ExFor:Range.replace(Regex,str)
         #ExSummary:Shows how to replace all occurrences of a regular expression pattern with other text.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -292,11 +292,11 @@ class ExRange(ApiExampleBase):
         #ExEnd
 
     ##ExStart
-    ##ExFor:FindReplaceOptions.ReplacingCallback
-    ##ExFor:Range.Replace(Regex, String, FindReplaceOptions)
-    ##ExFor:ReplacingArgs.Replacement
+    ##ExFor:FindReplaceOptions.replacing_callback
+    ##ExFor:Range.replace(Regex,str,FindReplaceOptions)
+    ##ExFor:ReplacingArgs.replacement
     ##ExFor:IReplacingCallback
-    ##ExFor:IReplacingCallback.Replacing
+    ##ExFor:IReplacingCallback.replacing
     ##ExFor:ReplacingArgs
     ##ExSummary:Shows how to replace all occurrences of a regular expression pattern with another string, while tracking all such replacements.
     #def test_replace_with_callback(self):
@@ -343,12 +343,12 @@ class ExRange(ApiExampleBase):
     ##ExEnd
 
     ##ExStart
-    ##ExFor:FindReplaceOptions.ApplyFont
-    ##ExFor:FindReplaceOptions.ReplacingCallback
-    ##ExFor:ReplacingArgs.GroupIndex
-    ##ExFor:ReplacingArgs.GroupName
-    ##ExFor:ReplacingArgs.Match
-    ##ExFor:ReplacingArgs.MatchOffset
+    ##ExFor:FindReplaceOptions.apply_font
+    ##ExFor:FindReplaceOptions.replacing_callback
+    ##ExFor:ReplacingArgs.group_index
+    ##ExFor:ReplacingArgs.group_name
+    ##ExFor:ReplacingArgs.match
+    ##ExFor:ReplacingArgs.match_offset
     ##ExSummary:Shows how to apply a different font to new content via FindReplaceOptions.
     #def test_convert_numbers_to_hexadecimal(self):
 
@@ -375,7 +375,7 @@ class ExRange(ApiExampleBase):
     #    self.assertEqual(4, replacement_count)
     #    self.assertEqual("Numbers that the find-and-replace operation will convert to hexadecimal and highlight:\r" +
     #                    "0x7B, 0x1C8, 0x315 and 0x43E3.", doc.get_text().strip())
-    #    self.assertEqual(4, len([node for node in doc.get_child_nodes(aw.NodeType.RUN, True) 
+    #    self.assertEqual(4, len([node for node in doc.get_child_nodes(aw.NodeType.RUN, True)
     #                             if node.as_run().font.highlight_color.to_argb() == drawing.Color.light_gray.to_argb()]))
 
     #class NumberHexer(aw.replacing.IReplacingCallback):
@@ -411,8 +411,8 @@ class ExRange(ApiExampleBase):
     def test_apply_paragraph_format(self):
 
         #ExStart
-        #ExFor:FindReplaceOptions.ApplyParagraphFormat
-        #ExFor:Range.Replace(String, String)
+        #ExFor:FindReplaceOptions.apply_paragraph_format
+        #ExFor:Range.replace(str,str)
         #ExSummary:Shows how to add formatting to paragraphs in which a find-and-replace operation has found matches.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -449,8 +449,8 @@ class ExRange(ApiExampleBase):
     def test_delete_selection(self):
 
         #ExStart
-        #ExFor:Node.Range
-        #ExFor:Range.Delete
+        #ExFor:Node.range
+        #ExFor:Range.delete
         #ExSummary:Shows how to delete all the nodes from a range.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -474,7 +474,7 @@ class ExRange(ApiExampleBase):
 
         #ExStart
         #ExFor:Range
-        #ExFor:Range.Text
+        #ExFor:Range.text
         #ExSummary:Shows how to get the text contents of all the nodes that a range covers.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -485,7 +485,7 @@ class ExRange(ApiExampleBase):
         #ExEnd
 
     ##ExStart
-    ##ExFor:FindReplaceOptions.UseLegacyOrder
+    ##ExFor:FindReplaceOptions.use_legacy_order
     ##ExSummary:Shows how to change the searching order of nodes when performing a find-and-replace text operation.
     #def test_use_legacy_order(self):
 
@@ -540,7 +540,7 @@ class ExRange(ApiExampleBase):
         for use_substitutions in (False, True):
             with self.subTest(use_substitutions=use_substitutions):
                 #ExStart
-                #ExFor:FindReplaceOptions.UseSubstitutions
+                #ExFor:FindReplaceOptions.use_substitutions
                 #ExSummary:Shows how to replace the text with substitutions.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -570,12 +570,12 @@ class ExRange(ApiExampleBase):
                 #ExEnd
 
     ##ExStart
-    ##ExFor:Range.Replace(Regex, String, FindReplaceOptions)
+    ##ExFor:Range.replace(Regex,str,FindReplaceOptions)
     ##ExFor:IReplacingCallback
     ##ExFor:ReplaceAction
-    ##ExFor:IReplacingCallback.Replacing
+    ##ExFor:IReplacingCallback.replacing
     ##ExFor:ReplacingArgs
-    ##ExFor:ReplacingArgs.MatchNode
+    ##ExFor:ReplacingArgs.match_node
     ##ExSummary:Shows how to insert an entire document's contents as a replacement of a match in a find-and-replace operation.
     #def test_insert_document_at_replace(self):
 
@@ -605,34 +605,34 @@ class ExRange(ApiExampleBase):
 
     #        return aw.replacing.ReplaceAction.SKIP
 
-    @staticmethod
-    def insert_document(insertion_destination: aw.Node, doc_to_insert: aw.Document):
-        """Inserts all the nodes of another document after a paragraph or table."""
+    #@staticmethod
+    #def insert_document(insertion_destination: aw.Node, doc_to_insert: aw.Document):
+    #    """Inserts all the nodes of another document after a paragraph or table."""
 
-        if insertion_destination.node_type == aw.NodeType.PARAGRAPH or insertion_destination.node_type == aw.NodeType.TABLE:
+    #    if insertion_destination.node_type == aw.NodeType.PARAGRAPH or insertion_destination.node_type == aw.NodeType.TABLE:
 
-            dst_story = insertion_destination.parent_node
+    #        dst_story = insertion_destination.parent_node
 
-            importer = aw.NodeImporter(doc_to_insert, insertion_destination.document, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+    #        importer = aw.NodeImporter(doc_to_insert, insertion_destination.document, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
-            for src_section in doc_to_insert.sections:
-                src_section = src_section.as_section()
-                for src_node in src_section.body:
+    #        for src_section in doc_to_insert.sections:
+    #            src_section = src_section.as_section()
+    #            for src_node in src_section.body:
 
-                    # Skip the node if it is the last empty paragraph in a section.
-                    if src_node.node_type == aw.NodeType.PARAGRAPH:
-                        para = src_node.as_paragraph()
-                        if para.is_end_of_section and not para.has_child_nodes:
-                            continue
+    #                # Skip the node if it is the last empty paragraph in a section.
+    #                if src_node.node_type == aw.NodeType.PARAGRAPH:
+    #                    para = src_node.as_paragraph()
+    #                    if para.is_end_of_section and not para.has_child_nodes:
+    #                        continue
 
-                    new_node = importer.import_node(src_node, True)
+    #                new_node = importer.import_node(src_node, True)
 
-                    dst_story.insert_after(new_node, insertion_destination)
-                    insertion_destination = new_node
-        else:
-            raise ValueError("The destination node must be either a paragraph or table.")
+    #                dst_story.insert_after(new_node, insertion_destination)
+    #                insertion_destination = new_node
+    #    else:
+    #        raise ValueError("The destination node must be either a paragraph or table.")
 
-    #ExEnd
+    ##ExEnd
 
     def _test_insert_document_at_replace(self, doc: aw.Document):
 
@@ -641,7 +641,7 @@ class ExRange(ApiExampleBase):
                          "3) At a bookmark:", doc.first_section.body.get_text().strip())
 
     ##ExStart
-    ##ExFor:FindReplaceOptions.Direction
+    ##ExFor:FindReplaceOptions.direction
     ##ExFor:FindReplaceDirection
     ##ExSummary:Shows how to determine which direction a find-and-replace operation traverses the document in.
     #def test_direction(self):

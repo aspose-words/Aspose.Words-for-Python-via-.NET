@@ -1,17 +1,15 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import os
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, image_dir, aspose_logo_url
-from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-IMAGE_DIR = image_dir
-ASPOSE_LOGO_URL = aspose_logo_url
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, ASPOSE_LOGO_URL
 
 # Mostly scenarios that deal with image shapes.
 class ExImage(ApiExampleBase):
@@ -19,7 +17,7 @@ class ExImage(ApiExampleBase):
     def test_from_file(self):
 
         #ExStart
-        #ExFor:Shape.#ctor(DocumentBase,ShapeType)
+        #ExFor:Shape.__init__(DocumentBase,ShapeType)
         #ExFor:ShapeType
         #ExSummary:Shows how to insert a shape with an image from the local file system into a document.
         doc = aw.Document()
@@ -27,7 +25,7 @@ class ExImage(ApiExampleBase):
         # The "Shape" class's public constructor will create a shape with "ShapeMarkupLanguage.VML" markup type.
         # If you need to create a shape of a non-primitive type, such as SingleCornerSnipped, TopCornersSnipped, DiagonalCornersSnipped,
         # TopCornersOneRoundedOneSnipped, SingleCornerRounded, TopCornersRounded, or DiagonalCornersRounded,
-        # please use DocumentBuilder.InsertShape.
+        # please use DocumentBuilder.insert_shape.
         shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.IMAGE)
         shape.image_data.set_image(IMAGE_DIR + "Windows MetaFile.wmf")
         shape.width = 100
@@ -41,14 +39,14 @@ class ExImage(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Image.from_file.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 1600, 1600, aw.drawing.ImageType.WMF, shape)
+        self.verify_image_in_shape(1600, 1600, aw.drawing.ImageType.WMF, shape)
         self.assertEqual(100.0, shape.height)
         self.assertEqual(100.0, shape.width)
 
     def test_from_url(self):
 
         #ExStart
-        #ExFor:DocumentBuilder.InsertImage(String)
+        #ExFor:DocumentBuilder.insert_image(str)
         #ExSummary:Shows how to insert a shape with an image into a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -72,13 +70,13 @@ class ExImage(ApiExampleBase):
         shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
 
         self.assertEqual(2, shapes.count)
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, shapes[0].as_shape())
-        TestUtil.verify_image_in_shape(self, 320, 320, aw.drawing.ImageType.PNG, shapes[1].as_shape())
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shapes[0].as_shape())
+        self.verify_image_in_shape(320, 320, aw.drawing.ImageType.PNG, shapes[1].as_shape())
 
     def test_from_stream(self):
 
         #ExStart
-        #ExFor:DocumentBuilder.InsertImage(Stream)
+        #ExFor:DocumentBuilder.insert_image(BytesIO)
         #ExSummary:Shows how to insert a shape with an image from a stream into a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -92,7 +90,7 @@ class ExImage(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Image.from_stream.docx")
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, doc.get_child_nodes(aw.NodeType.SHAPE, True)[0].as_shape())
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, doc.get_child_nodes(aw.NodeType.SHAPE, True)[0].as_shape())
 
     def test_from_image(self):
 
@@ -113,15 +111,15 @@ class ExImage(ApiExampleBase):
     def test_create_floating_page_center(self):
 
         #ExStart
-        #ExFor:DocumentBuilder.InsertImage(String)
+        #ExFor:DocumentBuilder.insert_image(str)
         #ExFor:Shape
         #ExFor:ShapeBase
-        #ExFor:ShapeBase.WrapType
+        #ExFor:ShapeBase.wrap_type
         #ExFor:ShapeBase.behind_text
-        #ExFor:ShapeBase.RelativeHorizontalPosition
-        #ExFor:ShapeBase.RelativeVerticalPosition
-        #ExFor:ShapeBase.HorizontalAlignment
-        #ExFor:ShapeBase.VerticalAlignment
+        #ExFor:ShapeBase.relative_horizontal_position
+        #ExFor:ShapeBase.relative_vertical_position
+        #ExFor:ShapeBase.horizontal_alignment
+        #ExFor:ShapeBase.vertical_alignment
         #ExFor:WrapType
         #ExFor:RelativeHorizontalPosition
         #ExFor:RelativeVerticalPosition
@@ -146,7 +144,7 @@ class ExImage(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Image.create_floating_page_center.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shape)
         self.assertEqual(aw.drawing.WrapType.NONE, shape.wrap_type)
         self.assertTrue(shape.behind_text)
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.PAGE, shape.relative_horizontal_position)
@@ -157,14 +155,14 @@ class ExImage(ApiExampleBase):
     def test_create_floating_position_size(self):
 
         #ExStart
-        #ExFor:ShapeBase.Left
-        #ExFor:ShapeBase.Right
-        #ExFor:ShapeBase.Top
-        #ExFor:ShapeBase.Bottom
-        #ExFor:ShapeBase.Width
-        #ExFor:ShapeBase.Height
-        #ExFor:DocumentBuilder.CurrentSection
-        #ExFor:PageSetup.PageWidth
+        #ExFor:ShapeBase.left
+        #ExFor:ShapeBase.right
+        #ExFor:ShapeBase.top
+        #ExFor:ShapeBase.bottom
+        #ExFor:ShapeBase.width
+        #ExFor:ShapeBase.height
+        #ExFor:DocumentBuilder.current_section
+        #ExFor:PageSetup.page_width
         #ExSummary:Shows how to insert a floating image, and specify its position and size.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -198,7 +196,7 @@ class ExImage(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Image.create_floating_position_size.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shape)
         self.assertEqual(aw.drawing.WrapType.NONE, shape.wrap_type)
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.PAGE, shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.PAGE, shape.relative_vertical_position)
@@ -212,9 +210,9 @@ class ExImage(ApiExampleBase):
     def test_insert_image_with_hyperlink(self):
 
         #ExStart
-        #ExFor:ShapeBase.HRef
-        #ExFor:ShapeBase.ScreenTip
-        #ExFor:ShapeBase.Target
+        #ExFor:ShapeBase.href
+        #ExFor:ShapeBase.screen_tip
+        #ExFor:ShapeBase.target
         #ExSummary:Shows how to insert a shape which contains an image, and is also a hyperlink.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -232,19 +230,19 @@ class ExImage(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Image.insert_image_with_hyperlink.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_web_response_status_code(HttpStatusCode.OK, shape.href)
-        TestUtil.verify_image_in_shape(self, 400, 400, aw.drawing.ImageType.JPEG, shape)
+        self.verify_web_response_status_code(200, shape.href)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shape)
         self.assertEqual("New Window", shape.target)
         self.assertEqual("Aspose.Words Support Forums", shape.screen_tip)
 
     def test_create_linked_image(self):
 
         #ExStart
-        #ExFor:Shape.ImageData
+        #ExFor:Shape.image_data
         #ExFor:ImageData
-        #ExFor:ImageData.SourceFullName
-        #ExFor:ImageData.SetImage(String)
-        #ExFor:DocumentBuilder.InsertNode
+        #ExFor:ImageData.source_full_name
+        #ExFor:ImageData.set_image(str)
+        #ExFor:DocumentBuilder.insert_node
         #ExSummary:Shows how to insert a linked image into a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -284,7 +282,7 @@ class ExImage(ApiExampleBase):
 
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 1600, 1600, aw.drawing.ImageType.WMF, shape)
+        self.verify_image_in_shape(1600, 1600, aw.drawing.ImageType.WMF, shape)
         self.assertEqual(aw.drawing.WrapType.INLINE, shape.wrap_type)
         self.assertEqual("", shape.image_data.source_full_name.replace("%20", " "))
 
@@ -292,15 +290,15 @@ class ExImage(ApiExampleBase):
 
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(self, 0, 0, aw.drawing.ImageType.WMF, shape)
+        self.verify_image_in_shape(0, 0, aw.drawing.ImageType.WMF, shape)
         self.assertEqual(aw.drawing.WrapType.INLINE, shape.wrap_type)
         self.assertEqual(image_file_name, shape.image_data.source_full_name.replace("%20", " "))
 
     def test_delete_all_images(self):
 
         #ExStart
-        #ExFor:Shape.HasImage
-        #ExFor:Node.Remove
+        #ExFor:Shape.has_image
+        #ExFor:Node.remove
         #ExSummary:Shows how to delete all shapes with images from a document.
         doc = aw.Document(MY_DIR + "Images.docx")
         shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
@@ -318,8 +316,8 @@ class ExImage(ApiExampleBase):
     def test_delete_all_images_pre_order(self):
 
         #ExStart
-        #ExFor:Node.NextPreOrder(Node)
-        #ExFor:Node.PreviousPreOrder(Node)
+        #ExFor:Node.next_pre_order(Node)
+        #ExFor:Node.previous_pre_order(Node)
         #ExSummary:Shows how to traverse the document's node tree using the pre-order traversal algorithm, and delete any encountered shape with an image.
         doc = aw.Document(MY_DIR + "Images.docx")
 
@@ -345,12 +343,12 @@ class ExImage(ApiExampleBase):
     def test_scale_image(self):
 
         #ExStart
-        #ExFor:ImageData.ImageSize
+        #ExFor:ImageData.image_size
         #ExFor:ImageSize
-        #ExFor:ImageSize.WidthPoints
-        #ExFor:ImageSize.HeightPoints
-        #ExFor:ShapeBase.Width
-        #ExFor:ShapeBase.Height
+        #ExFor:ImageSize.width_points
+        #ExFor:ImageSize.height_points
+        #ExFor:ShapeBase.width
+        #ExFor:ShapeBase.height
         #ExSummary:Shows how to resize a shape with an image.
 
         image = drawing.Image.from_file(IMAGE_DIR + "Logo.jpg")

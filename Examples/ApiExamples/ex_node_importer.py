@@ -1,13 +1,12 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExNodeImporter(ApiExampleBase):
 
@@ -16,8 +15,8 @@ class ExNodeImporter(ApiExampleBase):
         for keep_source_numbering in (False, True):
             with self.subTest(keep_source_numbering=keep_source_numbering):
                 #ExStart
-                #ExFor:ImportFormatOptions.KeepSourceNumbering
-                #ExFor:NodeImporter.#ctor(DocumentBase, DocumentBase, ImportFormatMode, ImportFormatOptions)
+                #ExFor:ImportFormatOptions.keep_source_numbering
+                #ExFor:NodeImporter.__init__(DocumentBase,DocumentBase,ImportFormatMode,ImportFormatOptions)
                 #ExSummary:Shows how to resolve list numbering clashes in source and destination documents.
                 # Open a document with a custom list numbering scheme, and then clone it.
                 # Since both have the same numbering format, the formats will clash if we import one document into the other.
@@ -66,12 +65,11 @@ class ExNodeImporter(ApiExampleBase):
                 #ExEnd
 
     #ExStart
-    #ExFor:Paragraph.IsEndOfSection
+    #ExFor:Paragraph.is_end_of_section
     #ExFor:NodeImporter
-    #ExFor:NodeImporter.#ctor(DocumentBase, DocumentBase, ImportFormatMode)
-    #ExFor:NodeImporter.ImportNode(Node, Boolean)
+    #ExFor:NodeImporter.__init__(DocumentBase,DocumentBase,ImportFormatMode)
+    #ExFor:NodeImporter.import_node(Node,bool)
     #ExSummary:Shows how to insert the contents of one document to a bookmark in another document.
-
     def test_insert_at_bookmark(self):
 
         doc = aw.Document()
@@ -86,7 +84,7 @@ class ExNodeImporter(ApiExampleBase):
 
         builder.write("Hello world!")
 
-        doc_to_insert.save(ARTIFACTS_DIR + "NodeImporter.insert_at_merge_field.docx")
+        doc_to_insert.save(ARTIFACTS_DIR + "NodeImporter.insert_at_bookmark.docx")
 
         bookmark = doc.range.bookmarks.get_by_name("InsertionPoint")
         ExNodeImporter.insert_document(bookmark.bookmark_start.parent_node, doc_to_insert)
@@ -94,6 +92,7 @@ class ExNodeImporter(ApiExampleBase):
         self.assertEqual("We will insert a document here: " +
                          "\rHello world!", doc.get_text().strip())
 
+    @staticmethod
     def insert_document(insertion_destination: aw.Node, doc_to_insert: aw.Document):
         """Inserts the contents of a document after the specified node."""
 

@@ -1,4 +1,9 @@
-import unittest
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import io
 import os
 from datetime import datetime, timedelta, timezone
@@ -6,22 +11,15 @@ from datetime import datetime, timedelta, timezone
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, image_dir, fonts_dir
-from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-IMAGE_DIR = image_dir
-FONTS_DIR = fonts_dir
-
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, FONTS_DIR
 
 class ExPdfSaveOptions(ApiExampleBase):
 
     def test_one_page(self):
 
         #ExStart
-        #ExFor:FixedPageSaveOptions.PageSet
-        #ExFor:Document.Save(Stream, SaveOptions)
+        #ExFor:FixedPageSaveOptions.page_set
+        #ExFor:Document.save(BytesIO,SaveOptions)
         #ExSummary:Shows how to convert only some of the pages in a document to PDF.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -59,8 +57,8 @@ class ExPdfSaveOptions(ApiExampleBase):
 
         #ExStart
         #ExFor:ParagraphFormat.is_heading
-        #ExFor:PdfSaveOptions.OutlineOptions
-        #ExFor:PdfSaveOptions.SaveFormat
+        #ExFor:PdfSaveOptions.outline_options
+        #ExFor:PdfSaveOptions.save_format
         #ExSummary:Shows how to limit the headings' level that will appear in the outline of a saved PDF document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -108,8 +106,8 @@ class ExPdfSaveOptions(ApiExampleBase):
         for create_missing_outline_levels in (False, True):
             with self.subTest(create_missing_outline_levels=create_missing_outline_levels):
                 #ExStart
-                #ExFor:OutlineOptions.CreateMissingOutlineLevels
-                #ExFor:PdfSaveOptions.OutlineOptions
+                #ExFor:OutlineOptions.create_missing_outline_levels
+                #ExFor:PdfSaveOptions.outline_options
                 #ExSummary:Shows how to work with outline levels that do not contain any corresponding headings when saving a PDF document.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -159,7 +157,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         for create_outlines_for_headings_in_tables in (False, True):
             with self.subTest(create_outlines_for_headings_in_tables=create_outlines_for_headings_in_tables):
                 #ExStart
-                #ExFor:OutlineOptions.CreateOutlinesForHeadingsInTables
+                #ExFor:OutlineOptions.create_outlines_for_headings_in_tables
                 #ExSummary:Shows how to create PDF document outline entries for headings inside tables.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -216,10 +214,10 @@ class ExPdfSaveOptions(ApiExampleBase):
     def test_expanded_outline_levels(self):
 
         #ExStart
-        #ExFor:Document.Save(String, SaveOptions)
+        #ExFor:Document.save(str,SaveOptions)
         #ExFor:PdfSaveOptions
-        #ExFor:OutlineOptions.HeadingsOutlineLevels
-        #ExFor:OutlineOptions.ExpandedOutlineLevels
+        #ExFor:OutlineOptions.headings_outline_levels
+        #ExFor:OutlineOptions.expanded_outline_levels
         #ExSummary:Shows how to convert a whole document to PDF with three levels in the document outline.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -291,8 +289,8 @@ class ExPdfSaveOptions(ApiExampleBase):
         for update_fields in (False, True):
             with self.subTest(update_fields=update_fields):
                 #ExStart
-                #ExFor:PdfSaveOptions.Clone
-                #ExFor:SaveOptions.UpdateFields
+                #ExFor:PdfSaveOptions.clone
+                #ExFor:SaveOptions.update_fields
                 #ExSummary:Shows how to update all the fields in a document immediately before saving it to PDF.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -336,7 +334,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         for preserve_form_fields in (False, True):
             with self.subTest(preserve_form_fields=preserve_form_fields):
                 #ExStart
-                #ExFor:PdfSaveOptions.PreserveFormFields
+                #ExFor:PdfSaveOptions.preserve_form_fields
                 #ExSummary:Shows how to save a document to the PDF format using the Save method and the PdfSaveOptions class.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -395,7 +393,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                                aw.saving.PdfCompliance.PDF_A2A):
             with self.subTest(pdf_compliance=pdf_compliance):
                 #ExStart
-                #ExFor:PdfSaveOptions.Compliance
+                #ExFor:PdfSaveOptions.compliance
                 #ExFor:PdfCompliance
                 #ExSummary:Shows how to set the PDF standards compliance level of saved PDF documents.
                 doc = aw.Document(MY_DIR + "Images.docx")
@@ -436,7 +434,7 @@ class ExPdfSaveOptions(ApiExampleBase):
             with self.subTest(pdf_text_compression=pdf_text_compression):
                 #ExStart
                 #ExFor:PdfSaveOptions
-                #ExFor:PdfSaveOptions.TextCompression
+                #ExFor:PdfSaveOptions.text_compression
                 #ExFor:PdfTextCompression
                 #ExSummary:Shows how to apply text compression when saving a document to PDF.
                 doc = aw.Document()
@@ -463,9 +461,9 @@ class ExPdfSaveOptions(ApiExampleBase):
                     self.assertLess(60000, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.text_compression.pdf"))
                     with open(ARTIFACTS_DIR + "PdfSaveOptions.text_compression.pdf", "rb") as file:
                         self.assertIn(b"12 0 obj\r\n<</Length 13 0 R>>stream", file.read())
-                
+
                 elif pdf_text_compression == aw.saving.PdfTextCompression.FLATE:
-                    self.assertGreater(30000, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.text_compression.pdf"))    
+                    self.assertGreater(30000, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.text_compression.pdf"))
                     with open(ARTIFACTS_DIR + "PdfSaveOptions.text_compression.pdf", "rb") as file:
                         self.assertIn(b"12 0 obj\r\n<</Length 13 0 R/Filter /FlateDecode>>stream", file.read())
 
@@ -475,8 +473,8 @@ class ExPdfSaveOptions(ApiExampleBase):
                                       aw.saving.PdfImageCompression.JPEG):
             with self.subTest(pdf_image_compression=pdf_image_compression):
                 #ExStart
-                #ExFor:PdfSaveOptions.ImageCompression
-                #ExFor:PdfSaveOptions.JpegQuality
+                #ExFor:PdfSaveOptions.image_compression
+                #ExFor:PdfSaveOptions.jpeg_quality
                 #ExFor:PdfImageCompression
                 #ExSummary:Shows how to specify a compression type for all images in a document that we are converting to PDF.
                 doc = aw.Document()
@@ -506,18 +504,18 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                 #pdf_document = aspose.pdf.Document(ARTIFACTS_DIR + "PdfSaveOptions.image_compression.pdf")
                 #with pdf_document.pages[1].resources.images[1].to_stream() as pdf_doc_image_stream:
-                #    TestUtil.verify_image(400, 400, pdf_doc_image_stream)
+                #    self.verify_image(400, 400, pdf_doc_image_stream)
 
                 #with pdf_document.pages[1].resources.images[2].to_stream() as pdf_doc_image_stream:
                 #    if pdf_image_compression == aw.saving.PdfImageCompression.AUTO:
                 #        self.assertLess(50000, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.image_compression.pdf"))
                 #        with self.assertRaises(Exception):
-                #            TestUtil.verify_image(400, 400, pdf_doc_image_stream)
+                #            self.verify_image(400, 400, pdf_doc_image_stream)
 
                 #    elif pdf_image_compression == aw.saving.PdfImageCompression.JPEG:
                 #        self.assertLess(42000, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.image_compression.pdf"))
                 #        with self.assertRaises(Exception):
-                #            TestUtil.verify_image(400, 400, pdf_doc_image_stream)
+                #            self.verify_image(400, 400, pdf_doc_image_stream)
 
     def test_image_color_space_export_mode(self):
 
@@ -526,7 +524,7 @@ class ExPdfSaveOptions(ApiExampleBase):
             with self.subTest(pdf_image_color_space_export_mode=pdf_image_color_space_export_mode):
                 #ExStart
                 #ExFor:PdfImageColorSpaceExportMode
-                #ExFor:PdfSaveOptions.ImageColorSpaceExportMode
+                #ExFor:PdfSaveOptions.image_color_space_export_mode
                 #ExSummary:Shows how to set a different color space for images in a document as we export it to PDF.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -582,9 +580,9 @@ class ExPdfSaveOptions(ApiExampleBase):
         #ExStart
         #ExFor:DownsampleOptions
         #ExFor:DownsampleOptions.downsample_images
-        #ExFor:DownsampleOptions.Resolution
+        #ExFor:DownsampleOptions.resolution
         #ExFor:DownsampleOptions.resolution_threshold
-        #ExFor:PdfSaveOptions.DownsampleOptions
+        #ExFor:PdfSaveOptions.downsample_options
         #ExSummary:Shows how to change the resolution of images in the PDF document.
         doc = aw.Document(MY_DIR + "Images.docx")
 
@@ -624,7 +622,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                 #ExStart
                 #ExFor:PdfSaveOptions
                 #ExFor:ColorMode
-                #ExFor:FixedPageSaveOptions.ColorMode
+                #ExFor:FixedPageSaveOptions.color_mode
                 #ExSummary:Shows how to change image color with saving options property.
                 doc = aw.Document(MY_DIR + "Images.docx")
 
@@ -635,7 +633,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                 # Set the "color_mode" property to "NORMAL" to render all images in color.
                 pdf_save_options = aw.saving.PdfSaveOptions()
                 pdf_save_options.color_mode = color_mode
-                
+
                 doc.save(ARTIFACTS_DIR + "PdfSaveOptions.color_rendering.pdf", pdf_save_options)
                 #ExEnd
 
@@ -684,8 +682,8 @@ class ExPdfSaveOptions(ApiExampleBase):
         for memory_optimization in (False, True):
             with self.subTest(memory_optimization=memory_optimization):
                 #ExStart
-                #ExFor:SaveOptions.CreateSaveOptions(SaveFormat)
-                #ExFor:SaveOptions.MemoryOptimization
+                #ExFor:SaveOptions.create_save_options(SaveFormat)
+                #ExFor:SaveOptions.memory_optimization
                 #ExSummary:Shows an option to optimize memory consumption when rendering large documents to PDF.
                 doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -730,7 +728,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         for open_hyperlinks_in_new_window in (False, True):
             with self.subTest(open_hyperlinks_in_new_window=open_hyperlinks_in_new_window):
                 #ExStart
-                #ExFor:PdfSaveOptions.OpenHyperlinksInNewWindow
+                #ExFor:PdfSaveOptions.open_hyperlinks_in_new_window
                 #ExSummary:Shows how to save hyperlinks in a document we convert to PDF so that they open new pages when we click on them.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -772,10 +770,10 @@ class ExPdfSaveOptions(ApiExampleBase):
     ##ExStart
     ##ExFor:MetafileRenderingMode
     ##ExFor:MetafileRenderingOptions
-    ##ExFor:MetafileRenderingOptions.EmulateRasterOperations
-    ##ExFor:MetafileRenderingOptions.RenderingMode
+    ##ExFor:MetafileRenderingOptions.emulate_raster_operations
+    ##ExFor:MetafileRenderingOptions.rendering_mode
     ##ExFor:IWarningCallback
-    ##ExFor:FixedPageSaveOptions.MetafileRenderingOptions
+    ##ExFor:FixedPageSaveOptions.metafile_rendering_options
     ##ExSummary:Shows added a fallback to bitmap rendering and changing type of warnings about unsupported metafile records.
     #def test_handle_binary_raster_warnings(self):
 
@@ -828,9 +826,9 @@ class ExPdfSaveOptions(ApiExampleBase):
                 #ExStart
                 #ExFor:HeaderFooterBookmarksExportMode
                 #ExFor:OutlineOptions
-                #ExFor:OutlineOptions.DefaultBookmarksOutlineLevel
-                #ExFor:PdfSaveOptions.HeaderFooterBookmarksExportMode
-                #ExFor:PdfSaveOptions.PageMode
+                #ExFor:OutlineOptions.default_bookmarks_outline_level
+                #ExFor:PdfSaveOptions.header_footer_bookmarks_export_mode
+                #ExFor:PdfSaveOptions.page_mode
                 #ExFor:PdfPageMode
                 #ExSummary:Shows to process bookmarks in headers/footers in a document that we are rendering to PDF.
                 doc = aw.Document(MY_DIR + "Bookmarks in headers and footers.docx")
@@ -869,7 +867,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                 #if header_footer_bookmarks_export_mode == aw.saving.HeaderFooterBookmarksExportMode.NONE:
                 #    self.assertIn(f"<</Type /Catalog/Pages 3 0 R/Lang({input_doc_locale_name})/Metadata 4 0 R>>\r\n", data)
                 #    self.assertEqual(0, pdf_doc.outlines.count)
-                
+
                 #elif header_footer_bookmarks_export_mode in (aw.saving.HeaderFooterBookmarksExportMode.FIRST,
                 #                                             aw.saving.HeaderFooterBookmarksExportMode.ALL):
                 #    self.assertIn(f"<</Type /Catalog/Pages 3 0 R/Outlines 14 0 R/PageMode /UseOutlines/Lang({inputDocLocaleName})/Metadata 4 0 R>>", data)
@@ -918,7 +916,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         for scale_wmf_fonts in (False, True):
             with self.subTest(scale_wmf_fonts=scale_wmf_fonts):
                 #ExStart
-                #ExFor:MetafileRenderingOptions.ScaleWmfFontsToMetafileSize
+                #ExFor:MetafileRenderingOptions.scale_wmf_fonts_to_metafile_size
                 #ExSummary:Shows how to WMF fonts scaling according to metafile size on the page.
                 doc = aw.Document(MY_DIR + "WMF with text.docx")
 
@@ -948,8 +946,8 @@ class ExPdfSaveOptions(ApiExampleBase):
         for embed_full_fonts in (False, True):
             with self.subTest(embed_full_fonts=embed_full_fonts):
                 #ExStart
-                #ExFor:PdfSaveOptions.#ctor
-                #ExFor:PdfSaveOptions.EmbedFullFonts
+                #ExFor:PdfSaveOptions.__init__
+                #ExFor:PdfSaveOptions.embed_full_fonts
                 #ExSummary:Shows how to enable or disable subsetting when embedding fonts while rendering a document to PDF.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -1008,7 +1006,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                                         aw.saving.PdfFontEmbeddingMode.EMBED_NONSTANDARD):
             with self.subTest(pdf_font_embedding_mode=pdf_font_embedding_mode):
                 #ExStart
-                #ExFor:PdfSaveOptions.FontEmbeddingMode
+                #ExFor:PdfSaveOptions.font_embedding_mode
                 #ExFor:PdfFontEmbeddingMode
                 #ExSummary:Shows how to set Aspose.Words to skip embedding Arial and Times New Roman fonts into a PDF document.
                 doc = aw.Document()
@@ -1064,7 +1062,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         for use_core_fonts in (False, True):
             with self.subTest(use_core_fonts=use_core_fonts):
                 #ExStart
-                #ExFor:PdfSaveOptions.UseCoreFonts
+                #ExFor:PdfSaveOptions.use_core_fonts
                 #ExSummary:Shows how enable/disable PDF Type 1 font substitution.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -1110,7 +1108,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         for apply_additional_text_positioning in (False, True):
             with self.subTest(apply_additional_text_positioning=apply_additional_text_positioning):
                 #ExStart
-                #ExFor:PdfSaveOptions.AdditionalTextPositioning
+                #ExFor:PdfSaveOptions.additional_text_positioning
                 #ExSummary:Show how to write additional text positioning operators.
                 doc = aw.Document(MY_DIR + "Text positioning operators.docx")
 
@@ -1145,12 +1143,12 @@ class ExPdfSaveOptions(ApiExampleBase):
                 #        "[(Samsta) -1 (g) 1 (, 10. November) -1 ( ) 1 (2) -1 (018)] TJ",
                 #        tj_operator.to_string())
 
-    def test_save_as_pdf_bookFold(self):
+    def test_save_as_pdf_book_fold(self):
 
         for render_text_as_bookfold in (False, True):
             with self.subTest(render_text_as_bookfold=render_text_as_bookfold):
                 #ExStart
-                #ExFor:PdfSaveOptions.UseBookFoldPrintingSettings
+                #ExFor:PdfSaveOptions.use_book_fold_printing_settings
                 #ExSummary:Shows how to save a document to the PDF format in the form of a book fold.
                 doc = aw.Document(MY_DIR + "Paragraphs.docx")
 
@@ -1164,7 +1162,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                 options.use_book_fold_printing_settings = render_text_as_bookfold
 
                 # If we are rendering the document as a booklet, we must set the "multiple_pages"
-                # properties of the page setup objects of all sections to "MultiplePagesType.BookFoldPrinting".
+                # properties of the page setup objects of all sections to "MultiplePagesType.BOOK-FOLD_PRINTING".
                 if render_text_as_bookfold:
                     for section in doc.sections:
                         section = section.as_section()
@@ -1204,8 +1202,8 @@ class ExPdfSaveOptions(ApiExampleBase):
     def test_zoom_behaviour(self):
 
         #ExStart
-        #ExFor:PdfSaveOptions.ZoomBehavior
-        #ExFor:PdfSaveOptions.ZoomFactor
+        #ExFor:PdfSaveOptions.zoom_behavior
+        #ExFor:PdfSaveOptions.zoom_factor
         #ExFor:PdfZoomBehavior
         #ExSummary:Shows how to set the default zooming that a reader applies when opening a rendered PDF document.
         doc = aw.Document()
@@ -1239,7 +1237,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                           aw.saving.PdfPageMode.USE_NONE):
             with self.subTest(page_mode=page_mode):
                 #ExStart
-                #ExFor:PdfSaveOptions.PageMode
+                #ExFor:PdfSaveOptions.page_mode
                 #ExFor:PdfPageMode
                 #ExSummary:Shows how to set instructions for some PDF readers to follow when opening an output document.
                 doc = aw.Document()
@@ -1273,7 +1271,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                         self.assertIn(
                             f"<</Type /Catalog/Pages 3 0 R/PageMode /FullScreen/Lang({doc_locale_name})/Metadata 4 0 R>>\r\n",
                             content)
-                    
+
                     elif page_mode == aw.saving.PdfPageMode.USE_THUMBS:
                         self.assertIn(
                             f"<</Type /Catalog/Pages 3 0 R/PageMode /UseThumbs/Lang({doc_locale_name})/Metadata 4 0 R>>",
@@ -1283,7 +1281,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                         self.assertIn(
                             f"<</Type /Catalog/Pages 3 0 R/PageMode /UseOC/Lang({doc_locale_name})/Metadata 4 0 R>>\r\n",
                             content)
-                        
+
                     elif page_mode in (aw.saving.PdfPageMode.USE_OUTLINES, aw.saving.PdfPageMode.USE_NONE):
                         self.assertIn(
                             f"<</Type /Catalog/Pages 3 0 R/Lang({doc_locale_name})/Metadata 4 0 R>>\r\n",
@@ -1302,13 +1300,13 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                 #elif page_mode == aw.saving.PdfPageMode.USE_OC:
                 #    self.assertEqual(aspose.pdf.PageMode.USE_OC, pdf_document.page_mode)
-                    
+
     def test_note_hyperlinks(self):
 
         for create_note_hyperlinks in (False, True):
             with self.subTest(create_note_hyperlinks=create_note_hyperlinks):
                 #ExStart
-                #ExFor:PdfSaveOptions.CreateNoteHyperlinks
+                #ExFor:PdfSaveOptions.create_note_hyperlinks
                 #ExSummary:Shows how to make footnotes and endnotes function as hyperlinks.
                 doc = aw.Document(MY_DIR + "Footnotes and endnotes.docx")
 
@@ -1387,7 +1385,7 @@ class ExPdfSaveOptions(ApiExampleBase):
             with self.subTest(pdf_custom_properties_export_mode=pdf_custom_properties_export_mode):
                 #ExStart
                 #ExFor:PdfCustomPropertiesExport
-                #ExFor:PdfSaveOptions.CustomPropertiesExport
+                #ExFor:PdfSaveOptions.custom_properties_export
                 #ExSummary:Shows how to export custom properties while converting a document to PDF.
                 doc = aw.Document()
 
@@ -1461,9 +1459,9 @@ class ExPdfSaveOptions(ApiExampleBase):
                 #ExStart
                 #ExFor:DmlRenderingMode
                 #ExFor:DmlEffectsRenderingMode
-                #ExFor:PdfSaveOptions.DmlEffectsRenderingMode
-                #ExFor:SaveOptions.DmlEffectsRenderingMode
-                #ExFor:SaveOptions.DmlRenderingMode
+                #ExFor:PdfSaveOptions.dml_effects_rendering_mode
+                #ExFor:SaveOptions.dml_effects_rendering_mode
+                #ExFor:SaveOptions.dml_rendering_mode
                 #ExSummary:Shows how to configure the rendering quality of DrawingML effects in a document as we save it to PDF.
                 doc = aw.Document(MY_DIR + "DrawingML shape effects.docx")
 
@@ -1480,10 +1478,10 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                 self.assertEqual(aw.saving.DmlRenderingMode.DRAWING_ML, options.dml_rendering_mode)
 
-                doc.save(ARTIFACTS_DIR + "PdfSaveOptions.drawing_m_l_effects.pdf", options)
+                doc.save(ARTIFACTS_DIR + "PdfSaveOptions.drawing_ml_effects.pdf", options)
                 #ExEnd
 
-                #pdf_document = aspose.pdf.Document(ARTIFACTS_DIR + "PdfSaveOptions.drawing_m_l_effects.pdf")
+                #pdf_document = aspose.pdf.Document(ARTIFACTS_DIR + "PdfSaveOptions.drawing_ml_effects.pdf")
 
                 #image_placement_absorber = aspose.pdf.ImagePlacementAbsorber()
                 #image_placement_absorber.visit(pdf_document.pages[1])
@@ -1517,7 +1515,7 @@ class ExPdfSaveOptions(ApiExampleBase):
             with self.subTest(dml_rendering_mode=dml_rendering_mode):
                 #ExStart
                 #ExFor:DmlRenderingMode
-                #ExFor:SaveOptions.DmlRenderingMode
+                #ExFor:SaveOptions.dml_rendering_mode
                 #ExSummary:Shows how to render fallback shapes when saving to PDF.
                 doc = aw.Document(MY_DIR + "DrawingML shape fallbacks.docx")
 
@@ -1557,7 +1555,7 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                 #if dml_rendering_mode == aw.saving.DmlRenderingMode.DRAWING_ML:
                 #    self.assertEqual(6, table_absorber.table_list.count)
-                        
+
                 #elif dml_rendering_mode == aw.saving.DmlRenderingMode.FALLBACK:
                 #    self.assertEqual(15, table_absorber.table_list.count)
 
@@ -1566,7 +1564,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         for export_document_structure in (False, True):
             with self.subTest(export_document_structure=export_document_structure):
                 #ExStart
-                #ExFor:PdfSaveOptions.ExportDocumentStructure
+                #ExFor:PdfSaveOptions.export_document_structure
                 #ExSummary:Shows how to preserve document structure elements, which can assist in programmatically interpreting our document.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -1610,7 +1608,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         for preblend_images in (False, True):
             with self.subTest(preblend_images=preblend_images):
                 #ExStart
-                #ExFor:PdfSaveOptions.PreblendImages
+                #ExFor:PdfSaveOptions.preblend_images
                 #ExSummary:Shows how to preblend images with transparent backgrounds while saving a document to PDF.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -1651,7 +1649,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         for interpolate_images in (False, True):
             with self.subTest(interpolate_images=interpolate_images):
                 #ExStart
-                #ExFor:PdfSaveOptions.InterpolateImages
+                #ExFor:PdfSaveOptions.interpolate_images
                 #ExSummary:Shows how to perform interpolation on images while saving a document to PDF.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -1723,7 +1721,7 @@ class ExPdfSaveOptions(ApiExampleBase):
     #        return len(self.warnings)
 
     #    def contains(self, source: aw.WarningSource, type: aw.WarningType, description: str) -> bool:
-    #        """Returns true if a warning with the specified properties has been generated."""
+    #        """Returns True if a warning with the specified properties has been generated."""
 
     #        return any(warning for warning in self.warnings
     #                   if warning.source == source and warning.warning_type == type and warning.description == description)
@@ -1732,14 +1730,13 @@ class ExPdfSaveOptions(ApiExampleBase):
 
         #ExStart
         #ExFor:PdfDigitalSignatureDetails
-        #ExFor:PdfDigitalSignatureDetails.#ctor
-        #ExFor:PdfDigitalSignatureDetails.#ctor(CertificateHolder, String, String, DateTime)
-        #ExFor:PdfDigitalSignatureDetails.HashAlgorithm
-        #ExFor:PdfDigitalSignatureDetails.Location
-        #ExFor:PdfDigitalSignatureDetails.Reason
-        #ExFor:PdfDigitalSignatureDetails.SignatureDate
+        #ExFor:PdfDigitalSignatureDetails.__init__(CertificateHolder,str,str,datetime)
+        #ExFor:PdfDigitalSignatureDetails.hash_algorithm
+        #ExFor:PdfDigitalSignatureDetails.location
+        #ExFor:PdfDigitalSignatureDetails.reason
+        #ExFor:PdfDigitalSignatureDetails.signature_date
         #ExFor:PdfDigitalSignatureHashAlgorithm
-        #ExFor:PdfSaveOptions.DigitalSignatureDetails
+        #ExFor:PdfSaveOptions.digital_signature_details
         #ExSummary:Shows how to sign a generated PDF document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1791,15 +1788,14 @@ class ExPdfSaveOptions(ApiExampleBase):
     def test_pdf_digital_signature_timestamp(self):
 
         #ExStart
-        #ExFor:PdfDigitalSignatureDetails.TimestampSettings
+        #ExFor:PdfDigitalSignatureDetails.timestamp_settings
         #ExFor:PdfDigitalSignatureTimestampSettings
-        #ExFor:PdfDigitalSignatureTimestampSettings.#ctor
-        #ExFor:PdfDigitalSignatureTimestampSettings.#ctor(String,String,String)
-        #ExFor:PdfDigitalSignatureTimestampSettings.#ctor(String,String,String,TimeSpan)
-        #ExFor:PdfDigitalSignatureTimestampSettings.Password
-        #ExFor:PdfDigitalSignatureTimestampSettings.ServerUrl
-        #ExFor:PdfDigitalSignatureTimestampSettings.Timeout
-        #ExFor:PdfDigitalSignatureTimestampSettings.UserName
+        #ExFor:PdfDigitalSignatureTimestampSettings.__init__(str,str,str)
+        #ExFor:PdfDigitalSignatureTimestampSettings.__init__(str,str,str,TimeSpan)
+        #ExFor:PdfDigitalSignatureTimestampSettings.password
+        #ExFor:PdfDigitalSignatureTimestampSettings.server_url
+        #ExFor:PdfDigitalSignatureTimestampSettings.timeout
+        #ExFor:PdfDigitalSignatureTimestampSettings.user_name
         #ExSummary:Shows how to sign a saved PDF document digitally and timestamp it.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1832,7 +1828,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         #ExEnd
 
         self.assertFalse(aw.FileFormatUtil.detect_file_format(ARTIFACTS_DIR + "PdfSaveOptions.pdf_digital_signature_timestamp.pdf").has_digital_signature)
-        
+
         with open(ARTIFACTS_DIR + "PdfSaveOptions.pdf_digital_signature_timestamp.pdf", "rb") as file:
             content = file.read()
 
@@ -1864,8 +1860,8 @@ class ExPdfSaveOptions(ApiExampleBase):
             with self.subTest(rendering_mode=rendering_mode):
                 #ExStart
                 #ExFor:EmfPlusDualRenderingMode
-                #ExFor:MetafileRenderingOptions.EmfPlusDualRenderingMode
-                #ExFor:MetafileRenderingOptions.UseEmfEmbeddedToWmf
+                #ExFor:MetafileRenderingOptions.emf_plus_dual_rendering_mode
+                #ExFor:MetafileRenderingOptions.use_emf_embedded_to_wmf
                 #ExSummary:Shows how to configure Enhanced Windows Metafile-related rendering options when saving to PDF.
                 doc = aw.Document(MY_DIR + "EMF.docx")
 
@@ -1913,12 +1909,12 @@ class ExPdfSaveOptions(ApiExampleBase):
     def test_encryption_permissions(self):
 
         #ExStart
-        #ExFor:PdfEncryptionDetails.#ctor
-        #ExFor:PdfSaveOptions.EncryptionDetails
-        #ExFor:PdfEncryptionDetails.Permissions
-        #ExFor:PdfEncryptionDetails.EncryptionAlgorithm
-        #ExFor:PdfEncryptionDetails.OwnerPassword
-        #ExFor:PdfEncryptionDetails.UserPassword
+        #ExFor:PdfEncryptionDetails.__init__
+        #ExFor:PdfSaveOptions.encryption_details
+        #ExFor:PdfEncryptionDetails.permissions
+        #ExFor:PdfEncryptionDetails.encryption_algorithm
+        #ExFor:PdfEncryptionDetails.owner_password
+        #ExFor:PdfEncryptionDetails.user_password
         #ExFor:PdfEncryptionAlgorithm
         #ExFor:PdfPermissions
         #ExFor:PdfEncryptionDetails
@@ -1940,7 +1936,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         # to modify how that method converts the document to .PDF.
         save_options = aw.saving.PdfSaveOptions()
 
-        # Enable encryption via the "Encryption_details" property.
+        # Enable encryption via the "encryption_details" property.
         save_options.encryption_details = encryption_details
 
         # When we open this document, we will need to provide the password before accessing its contents.
@@ -1966,7 +1962,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                                aw.saving.NumeralFormat.SYSTEM):
             with self.subTest(numeral_forma=numeral_format):
                 #ExStart
-                #ExFor:FixedPageSaveOptions.NumeralFormat
+                #ExFor:FixedPageSaveOptions.numeral_format
                 #ExFor:NumeralFormat
                 #ExSummary:Shows how to set the numeral format used when saving to PDF.
                 doc = aw.Document()
@@ -2006,11 +2002,10 @@ class ExPdfSaveOptions(ApiExampleBase):
                 #elif numeral_format == aw.saving.NumeralFormat.EASTERN_ARABIC_INDIC:
                 #    self.assertEqual("۱۰۰ ,۵۰ ,۱۰ ,۹ ,۸ ,۷ ,۶ ,۵ ,۴ ,۳ ,۲ ,۱", text_absorber.text)
 
-
     def test_export_page_set(self):
 
         #ExStart
-        #ExFor:FixedPageSaveOptions.PageSet
+        #ExFor:FixedPageSaveOptions.page_set
         #ExSummary:Shows how to export Odd pages from the document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -2024,7 +2019,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         # to modify how that method converts the document to .PDF.
         options = aw.saving.PdfSaveOptions()
 
-        # Below are three PageSet properties that we can use to filter out a set of pages from
+        # Below are three "page_set" properties that we can use to filter out a set of pages from
         # our document to save in an output PDF document based on the parity of their page numbers.
         # 1 -  Save only the even-numbered pages:
         options.page_set = aw.saving.PageSet.even
@@ -2070,7 +2065,7 @@ class ExPdfSaveOptions(ApiExampleBase):
     def test_export_language_to_span_tag(self):
 
         #ExStart
-        #ExFor:PdfSaveOptions.ExportLanguageToSpanTag
+        #ExFor:PdfSaveOptions.export_language_to_span_tag
         #ExSummary:Shows how to create a "Span" tag in the document structure to export the text language.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -2080,7 +2075,7 @@ class ExPdfSaveOptions(ApiExampleBase):
 
         save_options = aw.saving.PdfSaveOptions()
 
-        # Note, when "export_document_structure" is false, "export_language_to_span_tag" is ignored.
+        # Note, when "export_document_structure" is "False", "export_language_to_span_tag" is ignored.
         save_options.export_document_structure = True
         save_options.export_language_to_span_tag = True
 

@@ -1,4 +1,9 @@
-import unittest
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import io
 import uuid
 from typing import List
@@ -6,28 +11,24 @@ from typing import List
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, image_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-IMAGE_DIR = image_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
 
 class ExSignDocumentCustom(ApiExampleBase):
 
     #ExStart
     #ExFor:CertificateHolder
-    #ExFor:SignatureLineOptions.Signer
-    #ExFor:SignatureLineOptions.SignerTitle
-    #ExFor:SignatureLine.Id
-    #ExFor:SignOptions.SignatureLineId
-    #ExFor:SignOptions.SignatureLineImage
-    #ExFor:DigitalSignatureUtil.Sign(String, String, CertificateHolder, SignOptions)
+    #ExFor:SignatureLineOptions.signer
+    #ExFor:SignatureLineOptions.signer_title
+    #ExFor:SignatureLine.id
+    #ExFor:SignOptions.signature_line_id
+    #ExFor:SignOptions.signature_line_image
+    #ExFor:DigitalSignatureUtil.sign(str,str,CertificateHolder,SignOptions)
     #ExSummary:Shows how to add a signature line to a document, and then sign it using a digital certificate.
     def test_sign(self):
 
         signee_name = "Ron Williams"
         src_document_path = MY_DIR + "Document.docx"
-        dst_document_path = ARTIFACTS_DIR + "SignDocumentCustom.Sign.docx"
+        dst_document_path = ARTIFACTS_DIR + "SignDocumentCustom.sign.docx"
         certificate_path = MY_DIR + "morzal.pfx"
         certificate_password = "aw"
 

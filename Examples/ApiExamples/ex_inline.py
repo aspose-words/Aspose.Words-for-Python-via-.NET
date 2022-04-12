@@ -1,13 +1,12 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR
 
 class ExInline(ApiExampleBase):
 
@@ -15,17 +14,17 @@ class ExInline(ApiExampleBase):
 
         #ExStart
         #ExFor:Inline
-        #ExFor:Inline.IsDeleteRevision
-        #ExFor:Inline.IsFormatRevision
-        #ExFor:Inline.IsInsertRevision
-        #ExFor:Inline.IsMoveFromRevision
-        #ExFor:Inline.IsMoveToRevision
-        #ExFor:Inline.ParentParagraph
-        #ExFor:Paragraph.Runs
-        #ExFor:Revision.ParentNode
+        #ExFor:Inline.is_delete_revision
+        #ExFor:Inline.is_format_revision
+        #ExFor:Inline.is_insert_revision
+        #ExFor:Inline.is_move_from_revision
+        #ExFor:Inline.is_move_to_revision
+        #ExFor:Inline.parent_paragraph
+        #ExFor:Paragraph.runs
+        #ExFor:Revision.parent_node
         #ExFor:RunCollection
-        #ExFor:RunCollection.Item(Int32)
-        #ExFor:RunCollection.ToArray
+        #ExFor:RunCollection.__getitem__(int)
+        #ExFor:RunCollection.to_array
         #ExSummary:Shows how to determine the revision type of an inline node.
         doc = aw.Document(MY_DIR + "Revision runs.docx")
 

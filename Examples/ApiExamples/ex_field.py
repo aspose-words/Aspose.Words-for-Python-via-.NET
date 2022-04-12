@@ -1,19 +1,19 @@
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import unittest
 import io
-from datetime import datetime, date, timedelta
+from datetime import datetime
 from enum import Enum
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, image_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
 from document_helper import DocumentHelper
-from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-IMAGE_DIR = image_dir
-
 
 class ExField(ApiExampleBase):
 
@@ -22,11 +22,11 @@ class ExField(ApiExampleBase):
         #ExStart
         #ExFor:FieldType
         #ExFor:FieldChar
-        #ExFor:FieldChar.FieldType
-        #ExFor:FieldChar.IsDirty
-        #ExFor:FieldChar.IsLocked
-        #ExFor:FieldChar.GetField
-        #ExFor:Field.IsLocked
+        #ExFor:FieldChar.field_type
+        #ExFor:FieldChar.is_dirty
+        #ExFor:FieldChar.is_locked
+        #ExFor:FieldChar.get_field
+        #ExFor:Field.is_locked
         #ExSummary:Shows how to work with a FieldStart node.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -53,13 +53,13 @@ class ExField(ApiExampleBase):
 
         doc = DocumentHelper.save_open(doc)
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DATE, " DATE  \\@ \"dddd, MMMM dd, yyyy\"", datetime.now().strftime("%A, %B %d, %Y"), doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_DATE, " DATE  \\@ \"dddd, MMMM dd, yyyy\"", datetime.now().strftime("%A, %B %d, %Y"), doc.range.fields[0])
 
     def test_get_field_code(self):
 
         #ExStart
-        #ExFor:Field.GetFieldCode
-        #ExFor:Field.GetFieldCode(bool)
+        #ExFor:Field.get_field_code()
+        #ExFor:Field.get_field_code(bool)
         #ExSummary:Shows how to get a field's field code.
         # Open a document which contains a MERGEFIELD inside an IF field.
         doc = aw.Document(MY_DIR + "Nested fields.docx")
@@ -70,17 +70,17 @@ class ExField(ApiExampleBase):
         self.assertEqual(" IF  > 0 \" (surplus of ) \" \"\" ", field_if.get_field_code(False))
 
         # 2 -  Include its inner fields:
-        self.assertEqual(f" IF \u0013 MERGEFIELD NetIncome \u0014\u0015 > 0 \" (surplus of \u0013 MERGEFIELD  NetIncome \\f $ \u0014\u0015) \" \"\" ",
+        self.assertEqual(" IF \u0013 MERGEFIELD NetIncome \u0014\u0015 > 0 \" (surplus of \u0013 MERGEFIELD  NetIncome \\f $ \u0014\u0015) \" \"\" ",
             field_if.get_field_code(True))
 
-        # By default, the GetFieldCode method displays inner fields.
+        # By default, the "get_field_code" method displays inner fields.
         self.assertEqual(field_if.get_field_code(), field_if.get_field_code(True))
         #ExEnd
 
     def test_display_result(self):
 
         #ExStart
-        #ExFor:Field.DisplayResult
+        #ExFor:Field.display_result
         #ExSummary:Shows how to get the real text that a field displays in the document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -89,7 +89,7 @@ class ExField(ApiExampleBase):
         field_author = builder.insert_field(aw.fields.FieldType.FIELD_AUTHOR, True).as_field_author()
         field_author.author_name = "John Doe"
 
-        # We can use the DisplayResult property to verify what exact text
+        # We can use the "display_result" property to verify what exact text
         # a field would display in its place in the document.
         self.assertEqual("", field_author.display_result)
 
@@ -110,8 +110,8 @@ class ExField(ApiExampleBase):
     def test_create_with_field_builder(self):
 
         #ExStart
-        #ExFor:FieldBuilder.#ctor(FieldType)
-        #ExFor:FieldBuilder.BuildAndInsert(Inline)
+        #ExFor:FieldBuilder.__init__(FieldType)
+        #ExFor:FieldBuilder.build_and_insert(Inline)
         #ExSummary:Shows how to create and insert a field using a field builder.
         doc = aw.Document()
 
@@ -135,7 +135,7 @@ class ExField(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Field.create_with_field_builder.docx")
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_BARCODE, " BARCODE 90210 \\f A \\u ", "", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_BARCODE, " BARCODE 90210 \\f A \\u ", "", doc.range.fields[0])
 
         self.assertEqual(doc.first_section.body.first_paragraph.runs[11].previous_sibling, doc.range.fields[0].end)
         self.assertEqual(f"{aw.ControlChar.FIELD_START_CHAR} BARCODE 90210 \\f A \\u {aw.ControlChar.FIELD_END_CHAR} Hello world! This text is one Run, which is an inline node.",
@@ -144,7 +144,7 @@ class ExField(ApiExampleBase):
     def test_rev_num(self):
 
         #ExStart
-        #ExFor:BuiltInDocumentProperties.RevisionNumber
+        #ExFor:BuiltInDocumentProperties.revision_number
         #ExFor:FieldRevNum
         #ExSummary:Shows how to work with REVNUM fields.
         doc = aw.Document()
@@ -172,7 +172,7 @@ class ExField(ApiExampleBase):
         doc = DocumentHelper.save_open(doc)
         self.assertEqual(2, doc.built_in_document_properties.revision_number)
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REVISION_NUM, " REVNUM ", "2", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_REVISION_NUM, " REVNUM ", "2", doc.range.fields[0])
 
     def test_insert_field_none(self):
 
@@ -195,7 +195,7 @@ class ExField(ApiExampleBase):
 
         doc = DocumentHelper.save_open(doc)
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_NONE, " NOTAREALFIELD //a", "Error! Bookmark not defined.", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_NONE, " NOTAREALFIELD //a", "Error! Bookmark not defined.", doc.range.fields[0])
 
     def test_insert_tc_field(self):
 
@@ -219,7 +219,7 @@ class ExField(ApiExampleBase):
 
     #    def __init__(self, text: str, switches: str):
     #        """The display text and switches to use for each TC field. Display name can be an empty String or null."""
-            
+
     #        # Store the text and switches to be used for the TC fields.
     #        self.field_text = text
     #        self.field_switches = switches
@@ -242,7 +242,7 @@ class ExField(ApiExampleBase):
     def test_field_locale(self):
 
         #ExStart
-        #ExFor:Field.LocaleId
+        #ExFor:Field.locale_id
         #ExSummary:Shows how to insert a field and work with its locale.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -259,8 +259,8 @@ class ExField(ApiExampleBase):
         # Another way to get the DATE field to display a date in a different culture is to use its LocaleId property.
         # This way allows us to avoid changing the thread's culture to get this effect.
         doc.field_options.field_update_culture_source = aw.fields.FieldUpdateCultureSource.FIELD_CODE
-        de = CultureInfo("de-DE")
-        field.locale_id = de.LCID
+        de_culture = CultureInfo("de-DE")
+        field.locale_id = de_culture.LCID
         field.update()
 
         print(f"Today's date, as displayed according to the \"{CultureInfo.get_culture_info(field.LocaleId).english_name}\" culture: {field.Result}")
@@ -269,7 +269,7 @@ class ExField(ApiExampleBase):
         doc = DocumentHelper.save_open(doc)
         field = doc.range.fields[0]
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DATE, "DATE", datetime.now.to_string(de.date_time_format.short_date_pattern), field)
+        self.verify_field(aw.fields.FieldType.FIELD_DATE, "DATE", datetime.now.to_string(de.date_time_format.short_date_pattern), field)
         self.assertEqual(CultureInfo("de-DE").lcid, field.locale_id)
 
     @unittest.skip("WORDSNET-16037")
@@ -278,13 +278,13 @@ class ExField(ApiExampleBase):
         for update_dirty_fields in (True, False):
             with self.subTest(update_dirty_fields=update_dirty_fields):
                 #ExStart
-                #ExFor:Field.IsDirty
-                #ExFor:LoadOptions.UpdateDirtyFields
+                #ExFor:Field.is_dirty
+                #ExFor:LoadOptions.update_dirty_fields
                 #ExSummary:Shows how to use special property for updating field result.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
 
-                # Give the document's built-in "Author" property value, and then display it with a field.
+                # Give the document's built-in "author" property value, and then display it with a field.
                 doc.built_in_document_properties.author = "John Doe"
                 field = builder.insert_field(aw.fields.FieldType.FIELD_AUTHOR, True).as_field_author()
 
@@ -315,7 +315,7 @@ class ExField(ApiExampleBase):
 
                     field = doc.range.fields[0].as_field_author()
 
-                    # Updating dirty fields like this automatically set their "is_dirty" flag to false.
+                    # Updating dirty fields like this automatically set their "is_dirty" flag to False.
                     if update_dirty_fields:
                         self.assertEqual("John & Jane Doe", field.result)
                         self.assertFalse(field.is_dirty)
@@ -354,7 +354,7 @@ class ExField(ApiExampleBase):
     #        self.assertEqual("QR", bar_code_reader.found_bar_codes[0].code_type_name)
 
     #def bar_code_reader_pdf(filename: str) -> aspose.barcode.barcoderecognition.BarCodeReader:
-    
+
     #    # Set license for Aspose.BarCode.
     #    licence_bar_code = aspose.barcode.License()
     #    licence_bar_code.set_license(LICENSE_DIR + "Aspose.total.n_e_t.lic")
@@ -385,15 +385,15 @@ class ExField(ApiExampleBase):
 
     #    #ExStart
     #    #ExFor:FieldDatabase
-    #    #ExFor:FieldDatabase.Connection
-    #    #ExFor:FieldDatabase.FileName
-    #    #ExFor:FieldDatabase.FirstRecord
-    #    #ExFor:FieldDatabase.FormatAttributes
-    #    #ExFor:FieldDatabase.InsertHeadings
-    #    #ExFor:FieldDatabase.InsertOnceOnMailMerge
-    #    #ExFor:FieldDatabase.LastRecord
-    #    #ExFor:FieldDatabase.Query
-    #    #ExFor:FieldDatabase.TableFormat
+    #    #ExFor:FieldDatabase.connection
+    #    #ExFor:FieldDatabase.file_name
+    #    #ExFor:FieldDatabase.first_record
+    #    #ExFor:FieldDatabase.format_attributes
+    #    #ExFor:FieldDatabase.insert_headings
+    #    #ExFor:FieldDatabase.insert_once_on_mail_merge
+    #    #ExFor:FieldDatabase.last_record
+    #    #ExFor:FieldDatabase.query
+    #    #ExFor:FieldDatabase.table_format
     #    #ExSummary:Shows how to extract data from a database and insert it as a field into a document.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -454,7 +454,7 @@ class ExField(ApiExampleBase):
     #    self.assertEqual(' DATABASE  \\d "' + database_path + '" \\c "DSN=MS Access Databases" \\s "SELECT * FROM [Products]"',
     #        field.get_field_code())
 
-    #    TestUtil.table_matches_query_result(table, DATABASE_DIR + "Northwind.mdb", field.query)
+    #    self.table_matches_query_result(table, DATABASE_DIR + "Northwind.mdb", field.query)
 
     #    table = doc.get_child(aw.NodeType.TABLE, 1, True).as_table()
     #    field = doc.range.fields[1].as_field_database()
@@ -475,14 +475,14 @@ class ExField(ApiExampleBase):
 
     #    table.rows[0].remove()
 
-    #    TestUtil.table_matches_query_result(table, DATABASE_DIR + "Northwind.mdb", field.query.insert(7, " TOP 10 "))
+    #    self.table_matches_query_result(table, DATABASE_DIR + "Northwind.mdb", field.query.insert(7, " TOP 10 "))
 
     def test_preserve_include_picture(self):
 
         for preserve_include_picture_field in (False, True):
             with self.subTest(preserve_include_picture_field=preserve_include_picture_field):
                 #ExStart
-                #ExFor:Field.Update(bool)
+                #ExFor:Field.update(bool)
                 #ExFor:LoadOptions.preserve_include_picture_field
                 #ExSummary:Shows how to preserve or discard INCLUDEPICTURE fields when loading a document.
                 doc = aw.Document()
@@ -516,20 +516,20 @@ class ExField(ApiExampleBase):
     def test_field_format(self):
 
         #ExStart
-        #ExFor:Field.Format
-        #ExFor:Field.Update
+        #ExFor:Field.format
+        #ExFor:Field.update()
         #ExFor:FieldFormat
-        #ExFor:FieldFormat.DateTimeFormat
-        #ExFor:FieldFormat.NumericFormat
-        #ExFor:FieldFormat.GeneralFormats
+        #ExFor:FieldFormat.date_time_format
+        #ExFor:FieldFormat.numeric_format
+        #ExFor:FieldFormat.general_formats
         #ExFor:GeneralFormat
         #ExFor:GeneralFormatCollection
-        #ExFor:GeneralFormatCollection.Add(GeneralFormat)
-        #ExFor:GeneralFormatCollection.Count
-        #ExFor:GeneralFormatCollection.Item(Int32)
-        #ExFor:GeneralFormatCollection.Remove(GeneralFormat)
-        #ExFor:GeneralFormatCollection.RemoveAt(Int32)
-        #ExFor:GeneralFormatCollection.GetEnumerator
+        #ExFor:GeneralFormatCollection.add(GeneralFormat)
+        #ExFor:GeneralFormatCollection.count
+        #ExFor:GeneralFormatCollection.__getitem__(int)
+        #ExFor:GeneralFormatCollection.remove(GeneralFormat)
+        #ExFor:GeneralFormatCollection.remove_at(int)
+        #ExFor:GeneralFormatCollection.__iter__
         #ExSummary:Shows how to format field results.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -588,7 +588,7 @@ class ExField(ApiExampleBase):
     def test_unlink(self):
 
         #ExStart
-        #ExFor:Document.UnlinkFields
+        #ExFor:Document.unlink_fields
         #ExSummary:Shows how to unlink all fields in the document.
         doc = aw.Document(MY_DIR + "Linked fields.docx")
 
@@ -603,7 +603,7 @@ class ExField(ApiExampleBase):
     def test_unlink_all_fields_in_range(self):
 
         #ExStart
-        #ExFor:Range.UnlinkFields
+        #ExFor:Range.unlink_fields
         #ExSummary:Shows how to unlink all fields in a range.
         doc = aw.Document(MY_DIR + "Linked fields.docx")
 
@@ -622,7 +622,7 @@ class ExField(ApiExampleBase):
     def test_unlink_single_field(self):
 
         #ExStart
-        #ExFor:Field.Unlink
+        #ExFor:Field.unlink
         #ExSummary:Shows how to unlink a field.
         doc = aw.Document(MY_DIR + "Linked fields.docx")
         doc.range.fields[1].unlink()
@@ -687,14 +687,14 @@ class ExField(ApiExampleBase):
             cur_node = next_node
 
     ##ExStart
-    ##ExFor:Fields.FieldAsk
-    ##ExFor:Fields.FieldAsk.BookmarkName
-    ##ExFor:Fields.FieldAsk.DefaultResponse
-    ##ExFor:Fields.FieldAsk.PromptOnceOnMailMerge
-    ##ExFor:Fields.FieldAsk.PromptText
-    ##ExFor:FieldOptions.UserPromptRespondent
+    ##ExFor:Fields.field_ask
+    ##ExFor:Fields.FieldAsk.bookmark_name
+    ##ExFor:Fields.FieldAsk.default_response
+    ##ExFor:Fields.FieldAsk.prompt_once_on_mail_merge
+    ##ExFor:Fields.FieldAsk.prompt_text
+    ##ExFor:FieldOptions.user_prompt_respondent
     ##ExFor:IFieldUserPromptRespondent
-    ##ExFor:IFieldUserPromptRespondent.Respond(String,String)
+    ##ExFor:IFieldUserPromptRespondent.respond(str,str)
     ##ExSummary:Shows how to create an ASK field, and set its properties.
     #def test_field_ask(self):
 
@@ -756,7 +756,7 @@ class ExField(ApiExampleBase):
     #            field_ref = field.as_field_ref()
     #            break
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REF,
+    #    self.verify_field(aw.fields.FieldType.FIELD_REF,
     #        " REF  MyAskField", "Response from MyPromptRespondent. Response from within the field.", field_ref)
 
     #    for field in doc.range.fields:
@@ -764,7 +764,7 @@ class ExField(ApiExampleBase):
     #            field_ask = field.as_field_ask()
     #            break
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_ASK,
+    #    self.verify_field(aw.fields.FieldType.FIELD_ASK,
     #        " ASK  MyAskField \"Please provide a response for this ASK field\" \\d \"Response from within the field.\" \\o",
     #        "Response from MyPromptRespondent. Response from within the field.", field_ask)
 
@@ -773,18 +773,18 @@ class ExField(ApiExampleBase):
     #    self.assertEqual("Response from within the field.", field_ask.default_response)
     #    self.assertEqual(True, field_ask.prompt_once_on_mail_merge)
 
-    #    TestUtil.mail_merge_matches_data_table(data_table, doc, True)
+    #    self.mail_merge_matches_data_table(data_table, doc, True)
 
     def test_field_advance(self):
 
         #ExStart
-        #ExFor:Fields.FieldAdvance
-        #ExFor:Fields.FieldAdvance.DownOffset
-        #ExFor:Fields.FieldAdvance.HorizontalPosition
-        #ExFor:Fields.FieldAdvance.LeftOffset
-        #ExFor:Fields.FieldAdvance.RightOffset
-        #ExFor:Fields.FieldAdvance.UpOffset
-        #ExFor:Fields.FieldAdvance.VerticalPosition
+        #ExFor:FieldAdvance
+        #ExFor:FieldAdvance.down_offset
+        #ExFor:FieldAdvance.horizontal_position
+        #ExFor:FieldAdvance.left_offset
+        #ExFor:FieldAdvance.right_offset
+        #ExFor:FieldAdvance.up_offset
+        #ExFor:FieldAdvance.vertical_position
         #ExSummary:Shows how to insert an ADVANCE field, and edit its properties.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -822,37 +822,37 @@ class ExField(ApiExampleBase):
 
         builder.write("This text is in a custom position.")
 
-        doc.save(ARTIFACTS_DIR + "Field.advance.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_advance.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.advance.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_advance.docx")
 
         field = doc.range.fields[0].as_field_advance()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_ADVANCE, " ADVANCE  \\r 5 \\u 5", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_ADVANCE, " ADVANCE  \\r 5 \\u 5", "", field)
         self.assertEqual("5", field.right_offset)
         self.assertEqual("5", field.up_offset)
 
         field = doc.range.fields[1].as_field_advance()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_ADVANCE, " ADVANCE  \\d 5 \\l 100", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_ADVANCE, " ADVANCE  \\d 5 \\l 100", "", field)
         self.assertEqual("5", field.down_offset)
         self.assertEqual("100", field.left_offset)
 
         field = doc.range.fields[2].as_field_advance()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_ADVANCE, " ADVANCE  \\x -100 \\y 200", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_ADVANCE, " ADVANCE  \\x -100 \\y 200", "", field)
         self.assertEqual("-100", field.horizontal_position)
         self.assertEqual("200", field.vertical_position)
 
     def test_field_address_block(self):
 
         #ExStart
-        #ExFor:Fields.FieldAddressBlock.ExcludedCountryOrRegionName
-        #ExFor:Fields.FieldAddressBlock.FormatAddressOnCountryOrRegion
-        #ExFor:Fields.FieldAddressBlock.IncludeCountryOrRegionName
-        #ExFor:Fields.FieldAddressBlock.LanguageId
-        #ExFor:Fields.FieldAddressBlock.NameAndAddressFormat
+        #ExFor:FieldAddressBlock.excluded_country_or_region_name
+        #ExFor:FieldAddressBlock.format_address_on_country_or_region
+        #ExFor:FieldAddressBlock.include_country_or_region_name
+        #ExFor:FieldAddressBlock.language_id
+        #ExFor:FieldAddressBlock.name_and_address_format
         #ExSummary:Shows how to insert an ADDRESSBLOCK field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -862,7 +862,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(" ADDRESSBLOCK ", field.get_field_code())
 
         # Setting this to "2" will include all countries and regions,
-        # unless it is the one specified in the excluded_country_or_region_name property.
+        # unless it is the one specified in the "excluded_country_or_region_name" property.
         field.include_country_or_region_name = "2"
         field.format_address_on_country_or_region = True
         field.excluded_country_or_region_name = "United States"
@@ -880,7 +880,7 @@ class ExField(ApiExampleBase):
         doc = DocumentHelper.save_open(doc)
         field = doc.range.fields[0].as_field_address_block()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_ADDRESS_BLOCK,
+        self.verify_field(aw.fields.FieldType.FIELD_ADDRESS_BLOCK,
             ' ADDRESSBLOCK  \\c 2 \\d \\e "United States" \\f "<Title> <Forename> <Surname> <Address Line 1> <Region> <Postcode> <Country>" \\l 1033',
             '«AddressBlock»', field)
         self.assertEqual("2", field.include_country_or_region_name)
@@ -892,18 +892,18 @@ class ExField(ApiExampleBase):
 
     ##ExStart
     ##ExFor:FieldCollection
-    ##ExFor:FieldCollection.Count
-    ##ExFor:FieldCollection.GetEnumerator
+    ##ExFor:FieldCollection.count
+    ##ExFor:FieldCollection.__iter__
     ##ExFor:FieldStart
-    ##ExFor:FieldStart.Accept(DocumentVisitor)
+    ##ExFor:FieldStart.accept(DocumentVisitor)
     ##ExFor:FieldSeparator
-    ##ExFor:FieldSeparator.Accept(DocumentVisitor)
+    ##ExFor:FieldSeparator.accept(DocumentVisitor)
     ##ExFor:FieldEnd
-    ##ExFor:FieldEnd.Accept(DocumentVisitor)
-    ##ExFor:FieldEnd.HasSeparator
-    ##ExFor:Field.End
-    ##ExFor:Field.Separator
-    ##ExFor:Field.Start
+    ##ExFor:FieldEnd.accept(DocumentVisitor)
+    ##ExFor:FieldEnd.has_separator
+    ##ExFor:Field.end
+    ##ExFor:Field.separator
+    ##ExFor:Field.start
     ##ExSummary:Shows how to work with a collection of fields.
     #def test_field_collection(self):
 
@@ -947,7 +947,7 @@ class ExField(ApiExampleBase):
 
     #    def get_text(self) -> str:
     #        """Gets the plain text of the document that was accumulated by the visitor."""
-            
+
     #        return self.builder.getvalue()
 
     #    def visit_field_start(self, field_start: aw.fields.FieldStart) -> aw.VisitorAction:
@@ -988,12 +988,12 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldCollection
-        #ExFor:FieldCollection.Count
-        #ExFor:FieldCollection.Clear
-        #ExFor:FieldCollection.Item(Int32)
-        #ExFor:FieldCollection.Remove(Field)
-        #ExFor:FieldCollection.RemoveAt(Int32)
-        #ExFor:Field.Remove
+        #ExFor:FieldCollection.count
+        #ExFor:FieldCollection.clear
+        #ExFor:FieldCollection.__getitem__(int)
+        #ExFor:FieldCollection.remove(Field)
+        #ExFor:FieldCollection.remove_at(int)
+        #ExFor:Field.remove
         #ExSummary:Shows how to remove fields from a field collection.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1033,9 +1033,9 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldCompare
-        #ExFor:FieldCompare.ComparisonOperator
-        #ExFor:FieldCompare.LeftExpression
-        #ExFor:FieldCompare.RightExpression
+        #ExFor:FieldCompare.comparison_operator
+        #ExFor:FieldCompare.left_expression
+        #ExFor:FieldCompare.right_expression
         #ExSummary:Shows how to compare expressions using a COMPARE field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1047,7 +1047,7 @@ class ExField(ApiExampleBase):
         field.update()
 
         # The COMPARE field displays a "0" or a "1", depending on its statement's truth.
-        # The result of this statement is false so that this field will display a "0".
+        # The result of this statement is False so that this field will display a "0".
         self.assertEqual(" COMPARE  3 < 2", field.get_field_code())
         self.assertEqual("0", field.result)
 
@@ -1059,26 +1059,26 @@ class ExField(ApiExampleBase):
         field.right_expression = "2 + 3"
         field.update()
 
-        # This field displays a "1" since the statement is true.
+        # This field displays a "1" since the statement is True.
         self.assertEqual(" COMPARE  5 = \"2 + 3\"", field.get_field_code())
         self.assertEqual("1", field.result)
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.c_o_m_p_a_r_e.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_compare.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.c_o_m_p_a_r_e.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_compare.docx")
 
         field = doc.range.fields[0].as_field_compare()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_COMPARE, " COMPARE  3 < 2", "0", field)
+        self.verify_field(aw.fields.FieldType.FIELD_COMPARE, " COMPARE  3 < 2", "0", field)
         self.assertEqual("3", field.left_expression)
         self.assertEqual("<", field.comparison_operator)
         self.assertEqual("2", field.right_expression)
 
         field = doc.range.fields[1].as_field_compare()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_COMPARE, " COMPARE  5 = \"2 + 3\"", "1", field)
+        self.verify_field(aw.fields.FieldType.FIELD_COMPARE, " COMPARE  5 = \"2 + 3\"", "1", field)
         self.assertEqual("5", field.left_expression)
         self.assertEqual("=", field.comparison_operator)
         self.assertEqual("\"2 + 3\"", field.right_expression)
@@ -1087,11 +1087,11 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldIf
-        #ExFor:FieldIf.ComparisonOperator
-        #ExFor:FieldIf.EvaluateCondition
+        #ExFor:FieldIf.comparison_operator
+        #ExFor:FieldIf.evaluate_condition
         #ExFor:FieldIf.false_text
-        #ExFor:FieldIf.LeftExpression
-        #ExFor:FieldIf.RightExpression
+        #ExFor:FieldIf.left_expression
+        #ExFor:FieldIf.right_expression
         #ExFor:FieldIf.true_text
         #ExFor:FieldIfComparisonResult
         #ExSummary:Shows how to insert an IF field.
@@ -1130,13 +1130,13 @@ class ExField(ApiExampleBase):
         self.assertEqual("True", field.result)
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.i_f.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_if.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.i_f.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_if.docx")
         field = doc.range.fields[0].as_field_if()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_IF, " IF  0 = 1 True False", "False", field)
+        self.verify_field(aw.fields.FieldType.FIELD_IF, " IF  0 = 1 True False", "False", field)
         self.assertEqual("0", field.left_expression)
         self.assertEqual("=", field.comparison_operator)
         self.assertEqual("1", field.right_expression)
@@ -1145,7 +1145,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[1].as_field_if()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_IF, " IF  5 = \"2 + 3\" True False", "True", field)
+        self.verify_field(aw.fields.FieldType.FIELD_IF, " IF  5 = \"2 + 3\" True False", "True", field)
         self.assertEqual("5", field.left_expression)
         self.assertEqual("=", field.comparison_operator)
         self.assertEqual("\"2 + 3\"", field.right_expression)
@@ -1156,7 +1156,7 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldAutoNum
-        #ExFor:FieldAutoNum.SeparatorCharacter
+        #ExFor:FieldAutoNum.separator_character
         #ExSummary:Shows how to number paragraphs using autonum fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1172,7 +1172,7 @@ class ExField(ApiExampleBase):
         field = builder.insert_field(aw.fields.FieldType.FIELD_AUTO_NUM, True).as_field_auto_num()
         builder.writeln("\tParagraph 2.")
 
-        # The separator character, which appears in the field result immediately after the number,is a full stop by default.
+        # The separator character, which appears in the field result immediately after the number, is a full stop by default.
         # If we leave this property null, our second AUTONUM field will display "2." in the document.
         self.assertIsNone(field.separator_character)
 
@@ -1182,18 +1182,18 @@ class ExField(ApiExampleBase):
 
         self.assertEqual(" AUTONUM  \\s :", field.get_field_code())
 
-        doc.save(ARTIFACTS_DIR + "Field.a_u_t_o_n_u_m.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_auto_num.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.a_u_t_o_n_u_m.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_auto_num.docx")
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTO_NUM, " AUTONUM ", "", doc.range.fields[0])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTO_NUM, " AUTONUM  \\s :", "", doc.range.fields[1])
+        self.verify_field(aw.fields.FieldType.FIELD_AUTO_NUM, " AUTONUM ", "", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_AUTO_NUM, " AUTONUM  \\s :", "", doc.range.fields[1])
 
     #ExStart
     #ExFor:FieldAutoNumLgl
-    #ExFor:FieldAutoNumLgl.RemoveTrailingPeriod
-    #ExFor:FieldAutoNumLgl.SeparatorCharacter
+    #ExFor:FieldAutoNumLgl.remove_trailing_period
+    #ExFor:FieldAutoNumLgl.separator_character
     #ExSummary:Shows how to organize a document using AUTONUMLGL fields.
     def test_field_auto_num_lgl(self):
 
@@ -1245,7 +1245,7 @@ class ExField(ApiExampleBase):
                 field.remove_trailing_period = True
                 self.assertEqual(" AUTONUMLGL  \\s : \\e", field.get_field_code())
 
-        doc.save(ARTIFACTS_DIR + "Field.a_u_t_o_n_u_m_l_g_l.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_auto_num_lgl.docx")
         self._test_field_auto_num_lgl(doc) #ExSkip
 
     @staticmethod
@@ -1270,7 +1270,7 @@ class ExField(ApiExampleBase):
         for field in doc.range.fields:
             if field.type == aw.fields.FieldType.FIELD_AUTO_NUM_LEGAL:
                 field = field.as_field_auto_num_lgl()
-                TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTO_NUM_LEGAL, " AUTONUMLGL  \\s : \\e", "", field)
+                self.verify_field(aw.fields.FieldType.FIELD_AUTO_NUM_LEGAL, " AUTONUMLGL  \\s : \\e", "", field)
 
                 self.assertEqual(":", field.separator_character)
                 self.assertTrue(field.remove_trailing_period)
@@ -1301,22 +1301,22 @@ class ExField(ApiExampleBase):
                 field = field.as_field_auto_num_out()
                 self.assertEqual(" AUTONUMOUT ", field.get_field_code())
 
-        doc.save(ARTIFACTS_DIR + "Field.autonumout.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_auto_num_out.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.autonumout.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_auto_num_out.docx")
 
         for field in doc.range.fields:
-            TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTO_NUM_OUTLINE, " AUTONUMOUT ", "", field)
+            self.verify_field(aw.fields.FieldType.FIELD_AUTO_NUM_OUTLINE, " AUTONUMOUT ", "", field)
 
     def test_field_auto_text(self):
 
         #ExStart
-        #ExFor:Fields.FieldAutoText
-        #ExFor:FieldAutoText.EntryName
-        #ExFor:FieldOptions.BuiltInTemplatesPaths
+        #ExFor:FieldAutoText
+        #ExFor:FieldAutoText.entry_name
+        #ExFor:FieldOptions.built_in_templates_paths
         #ExFor:FieldGlossary
-        #ExFor:FieldGlossary.EntryName
+        #ExFor:FieldGlossary.entry_name
         #ExSummary:Shows how to display a building block with AUTOTEXT and GLOSSARY fields.
         doc = aw.Document()
 
@@ -1355,30 +1355,30 @@ class ExField(ApiExampleBase):
         field_glossary.entry_name = "MyBlock"
 
         self.assertEqual(" GLOSSARY  MyBlock", field_glossary.get_field_code())
-        
+
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.autotext.glossary.dotx")
+        doc.save(ARTIFACTS_DIR + "Field.field_auto_text.glossary.dotx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.autotext.glossary.dotx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_auto_text.glossary.dotx")
 
         self.assertEqual(0, len(doc.field_options.built_in_templates_paths))
 
         field_auto_text = doc.range.fields[0].as_field_auto_text()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTO_TEXT, " AUTOTEXT  MyBlock", "Hello World!\r", field_auto_text)
+        self.verify_field(aw.fields.FieldType.FIELD_AUTO_TEXT, " AUTOTEXT  MyBlock", "Hello World!\r", field_auto_text)
         self.assertEqual("MyBlock", field_auto_text.entry_name)
 
         field_glossary = doc.range.fields[1].as_field_glossary()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_GLOSSARY, " GLOSSARY  MyBlock", "Hello World!\r", field_glossary)
+        self.verify_field(aw.fields.FieldType.FIELD_GLOSSARY, " GLOSSARY  MyBlock", "Hello World!\r", field_glossary)
         self.assertEqual("MyBlock", field_glossary.entry_name)
 
     #ExStart
-    #ExFor:Fields.FieldAutoTextList
-    #ExFor:Fields.FieldAutoTextList.EntryName
-    #ExFor:Fields.FieldAutoTextList.ListStyle
-    #ExFor:Fields.FieldAutoTextList.ScreenTip
+    #ExFor:FieldAutoTextList
+    #ExFor:FieldAutoTextList.entry_name
+    #ExFor:FieldAutoTextList.list_style
+    #ExFor:FieldAutoTextList.screen_tip
     #ExSummary:Shows how to use an AUTOTEXTLIST field to select from a list of AutoText entries.
     def test_field_auto_text_list(self):
 
@@ -1404,7 +1404,7 @@ class ExField(ApiExampleBase):
                         "\\s \"Heading 1\" " +
                         "\\t \"Hover tip text for AutoTextList goes here\"", field.get_field_code())
 
-        doc.save(ARTIFACTS_DIR + "Field.autotextlist.dotx")
+        doc.save(ARTIFACTS_DIR + "Field.field_auto_text_list.dotx")
         self._test_field_auto_text_list(doc) #ExSkip
 
     @staticmethod
@@ -1440,7 +1440,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_auto_text_list()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTO_TEXT_LIST,
+        self.verify_field(aw.fields.FieldType.FIELD_AUTO_TEXT_LIST,
             " AUTOTEXTLIST  \"Right click here to select an AutoText block\" \\s \"Heading 1\" \\t \"Hover tip text for AutoTextList goes here\"",
             "", field)
         self.assertEqual("Right click here to select an AutoText block", field.entry_name)
@@ -1451,10 +1451,10 @@ class ExField(ApiExampleBase):
 
     #    #ExStart
     #    #ExFor:FieldGreetingLine
-    #    #ExFor:FieldGreetingLine.AlternateText
-    #    #ExFor:FieldGreetingLine.GetFieldNames
-    #    #ExFor:FieldGreetingLine.LanguageId
-    #    #ExFor:FieldGreetingLine.NameFormat
+    #    #ExFor:FieldGreetingLine.alternate_text
+    #    #ExFor:FieldGreetingLine.get_field_names
+    #    #ExFor:FieldGreetingLine.language_id
+    #    #ExFor:FieldGreetingLine.name_format
     #    #ExSummary:Shows how to insert a GREETINGLINE field.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -1512,10 +1512,10 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldListNum
-        #ExFor:FieldListNum.HasListName
-        #ExFor:FieldListNum.ListLevel
-        #ExFor:FieldListNum.ListName
-        #ExFor:FieldListNum.StartingNumber
+        #ExFor:FieldListNum.has_list_name
+        #ExFor:FieldListNum.list_level
+        #ExFor:FieldListNum.list_name
+        #ExFor:FieldListNum.starting_number
         #ExSummary:Shows how to number paragraphs with LISTNUM fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1548,7 +1548,7 @@ class ExField(ApiExampleBase):
 
         # The next LISTNUM field that we insert will continue the count at the list level
         # that the previous LISTNUM field was on.
-        # We can use the "ListLevel" property to jump to a different list level.
+        # We can use the "list_level" property to jump to a different list level.
         # If this LISTNUM field stayed on list level 3, it would display "ii)",
         # but, since we have moved it to list level 2, it carries on the count at that level and displays "b)".
         field = builder.insert_field(aw.fields.FieldType.FIELD_LIST_NUM, True).as_field_list_num()
@@ -1576,16 +1576,16 @@ class ExField(ApiExampleBase):
         builder.writeln("Paragraph 5")
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.listnum.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_list_num.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.listnum.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_list_num.docx")
 
         self.assertEqual(7, doc.range.fields.count)
 
         field = doc.range.fields[0].as_field_list_num()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_LIST_NUM, " LISTNUM  \\s 0", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_LIST_NUM, " LISTNUM  \\s 0", "", field)
         self.assertEqual("0", field.starting_number)
         self.assertIsNone(field.list_level)
         self.assertFalse(field.has_list_name)
@@ -1595,7 +1595,7 @@ class ExField(ApiExampleBase):
 
             field = doc.range.fields[i].as_field_list_num()
 
-            TestUtil.verify_field(self, aw.fields.FieldType.FIELD_LIST_NUM, " LISTNUM ", "", field)
+            self.verify_field(aw.fields.FieldType.FIELD_LIST_NUM, " LISTNUM ", "", field)
             self.assertIsNone(field.starting_number)
             self.assertIsNone(field.list_level)
             self.assertFalse(field.has_list_name)
@@ -1603,7 +1603,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[4].as_field_list_num()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_LIST_NUM, " LISTNUM  \\l 2", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_LIST_NUM, " LISTNUM  \\l 2", "", field)
         self.assertIsNone(field.starting_number)
         self.assertEqual("2", field.list_level)
         self.assertFalse(field.has_list_name)
@@ -1611,7 +1611,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[5].as_field_list_num()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_LIST_NUM, " LISTNUM  OutlineDefault \\s 1", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_LIST_NUM, " LISTNUM  OutlineDefault \\s 1", "", field)
         self.assertEqual("1", field.starting_number)
         self.assertIsNone(field.list_level)
         self.assertTrue(field.has_list_name)
@@ -1621,12 +1621,12 @@ class ExField(ApiExampleBase):
 
     #    #ExStart
     #    #ExFor:FieldMergeField
-    #    #ExFor:FieldMergeField.FieldName
-    #    #ExFor:FieldMergeField.FieldNameNoPrefix
-    #    #ExFor:FieldMergeField.IsMapped
-    #    #ExFor:FieldMergeField.IsVerticalFormatting
-    #    #ExFor:FieldMergeField.TextAfter
-    #    #ExFor:FieldMergeField.TextBefore
+    #    #ExFor:FieldMergeField.field_name
+    #    #ExFor:FieldMergeField.field_name_no_prefix
+    #    #ExFor:FieldMergeField.is_mapped
+    #    #ExFor:FieldMergeField.is_vertical_formatting
+    #    #ExFor:FieldMergeField.text_after
+    #    #ExFor:FieldMergeField.text_before
     #    #ExSummary:Shows how to use MERGEFIELD fields to perform a mail merge.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -1666,18 +1666,18 @@ class ExField(ApiExampleBase):
 
     #ExStart
     #ExFor:FieldToc
-    #ExFor:FieldToc.BookmarkName
-    #ExFor:FieldToc.CustomStyles
-    #ExFor:FieldToc.EntrySeparator
-    #ExFor:FieldToc.HeadingLevelRange
-    #ExFor:FieldToc.HideInWebLayout
-    #ExFor:FieldToc.InsertHyperlinks
-    #ExFor:FieldToc.PageNumberOmittingLevelRange
-    #ExFor:FieldToc.PreserveLineBreaks
-    #ExFor:FieldToc.PreserveTabs
-    #ExFor:FieldToc.UpdatePageNumbers
-    #ExFor:FieldToc.UseParagraphOutlineLevel
-    #ExFor:FieldOptions.CustomTocStyleSeparator
+    #ExFor:FieldToc.bookmark_name
+    #ExFor:FieldToc.custom_styles
+    #ExFor:FieldToc.entry_separator
+    #ExFor:FieldToc.heading_level_range
+    #ExFor:FieldToc.hide_in_web_layout
+    #ExFor:FieldToc.insert_hyperlinks
+    #ExFor:FieldToc.page_number_omitting_level_range
+    #ExFor:FieldToc.preserve_line_breaks
+    #ExFor:FieldToc.preserve_tabs
+    #ExFor:FieldToc.update_page_numbers
+    #ExFor:FieldToc.use_paragraph_outline_level
+    #ExFor:FieldOptions.custom_toc_style_separator
     #ExSummary:Shows how to insert a TOC, and populate it with entries based on heading styles.
     def test_field_toc(self):
 
@@ -1691,7 +1691,7 @@ class ExField(ApiExampleBase):
         # and the page the heading appears on to the right.
         field = builder.insert_field(aw.fields.FieldType.FIELD_TOC, True).as_field_toc()
 
-        # Use the bookmark_name property to only list headings
+        # Use the "bookmark_name" property to only list headings
         # that appear within the bounds of a bookmark with the "MyBookmark" name.
         field.bookmark_name = "MyBookmark"
 
@@ -1699,7 +1699,7 @@ class ExField(ApiExampleBase):
         # We can name additional styles to be picked up as headings by the TOC in this property and their TOC levels.
         field.custom_styles = "Quote; 6; Intense Quote; 7"
 
-        # By default, Styles/TOC levels are separated in the CustomStyles property by a comma,
+        # By default, Styles/TOC levels are separated in the "custom_styles" property by a comma,
         # but we can set a custom delimiter in this property.
         doc.field_options.custom_toc_style_separator = ";"
 
@@ -1740,7 +1740,7 @@ class ExField(ApiExampleBase):
 
         field.update_page_numbers()
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.t_o_c.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_toc.docx")
         self._test_field_toc(doc) #ExSkip
 
     @staticmethod
@@ -1780,13 +1780,13 @@ class ExField(ApiExampleBase):
                         "\u0013 HYPERLINK \\l \"_Toc256000006\" \u0014Sixth entry\u0015\r", field.result)
 
     #ExStart
-    #ExFor:FieldToc.EntryIdentifier
-    #ExFor:FieldToc.EntryLevelRange
+    #ExFor:FieldToc.entry_identifier
+    #ExFor:FieldToc.entry_level_range
     #ExFor:FieldTC
-    #ExFor:FieldTC.OmitPageNumber
-    #ExFor:FieldTC.Text
-    #ExFor:FieldTC.TypeIdentifier
-    #ExFor:FieldTC.EntryLevel
+    #ExFor:FieldTC.omit_page_number
+    #ExFor:FieldTC.text
+    #ExFor:FieldTC.type_identifier
+    #ExFor:FieldTC.entry_level
     #ExSummary:Shows how to insert a TOC field, and filter which TC fields end up as entries.
     def test_field_toc_entry_identifier(self):
 
@@ -1817,7 +1817,7 @@ class ExField(ApiExampleBase):
 
         doc.update_fields()
         doc.save(ARTIFACTS_DIR + "Field.tc.docx")
-        self._test_field_tocEntryIdentifier(doc) #ExSkip
+        self._test_field_toc_entry_identifier(doc) #ExSkip
 
     @staticmethod
     def insert_toc_entry(builder: aw.DocumentBuilder, text: str, type_identifier: str, entry_level: str):
@@ -1831,18 +1831,18 @@ class ExField(ApiExampleBase):
 
     #ExEnd
 
-    def _test_field_tocEntryIdentifier(self, doc: aw.Document):
+    def _test_field_toc_entry_identifier(self, doc: aw.Document):
 
         doc = DocumentHelper.save_open(doc)
         field_toc = doc.range.fields[0].as_field_toc()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOC, " TOC  \\f A \\l 1-3", "TC field 1\rTC field 2\r", field_toc)
+        self.verify_field(aw.fields.FieldType.FIELD_TOC, " TOC  \\f A \\l 1-3", "TC field 1\rTC field 2\r", field_toc)
         self.assertEqual("A", field_toc.entry_identifier)
         self.assertEqual("1-3", field_toc.entry_level_range)
 
         field_tc = doc.range.fields[1].as_field_tc()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 1\" \\n \\f A \\l 1", "", field_tc)
+        self.verify_field(aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 1\" \\n \\f A \\l 1", "", field_tc)
         self.assertTrue(field_tc.omit_page_number)
         self.assertEqual("TC field 1", field_tc.text)
         self.assertEqual("A", field_tc.type_identifier)
@@ -1850,7 +1850,7 @@ class ExField(ApiExampleBase):
 
         field_tc = doc.range.fields[2].as_field_tc()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 2\" \\n \\f A \\l 2", "", field_tc)
+        self.verify_field(aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 2\" \\n \\f A \\l 2", "", field_tc)
         self.assertTrue(field_tc.omit_page_number)
         self.assertEqual("TC field 2", field_tc.text)
         self.assertEqual("A", field_tc.type_identifier)
@@ -1858,7 +1858,7 @@ class ExField(ApiExampleBase):
 
         field_tc = doc.range.fields[3].as_field_tc()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 3\" \\n \\f B \\l 1", "", field_tc)
+        self.verify_field(aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 3\" \\n \\f B \\l 1", "", field_tc)
         self.assertTrue(field_tc.omit_page_number)
         self.assertEqual("TC field 3", field_tc.text)
         self.assertEqual("B", field_tc.type_identifier)
@@ -1866,7 +1866,7 @@ class ExField(ApiExampleBase):
 
         field_tc = doc.range.fields[4].as_field_tc()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 4\" \\n \\f A \\l 5", "", field_tc)
+        self.verify_field(aw.fields.FieldType.FIELD_TOCENTRY, " TC  \"TC field 4\" \\n \\f A \\l 5", "", field_tc)
         self.assertTrue(field_tc.omit_page_number)
         self.assertEqual("TC field 4", field_tc.text)
         self.assertEqual("A", field_tc.type_identifier)
@@ -1876,11 +1876,11 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldToc
-        #ExFor:FieldToc.TableOfFiguresLabel
-        #ExFor:FieldToc.PrefixedSequenceIdentifier
-        #ExFor:FieldToc.SequenceSeparator
+        #ExFor:FieldToc.table_of_figures_label
+        #ExFor:FieldToc.prefixed_sequence_identifier
+        #ExFor:FieldToc.sequence_separator
         #ExFor:FieldSeq
-        #ExFor:FieldSeq.SequenceIdentifier
+        #ExFor:FieldSeq.sequence_identifier
         #ExSummary:Shows how to populate a TOC field with entries using SEQ fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1892,7 +1892,7 @@ class ExField(ApiExampleBase):
         # SEQ fields display a count that increments at each SEQ field.
         # These fields also maintain separate counts for each unique named sequence
         # identified by the SEQ field's "sequence_identifier" property.
-        # Use the "TableOfFiguresLabel" property to name a main sequence for the TOC.
+        # Use the "table_of_figures_label" property to name a main sequence for the TOC.
         # Now, this TOC will only create entries out of SEQ fields with their "sequence_identifier" set to "MySequence".
         field_toc.table_of_figures_label = "MySequence"
 
@@ -1915,7 +1915,7 @@ class ExField(ApiExampleBase):
         # 1 -  Inserting a SEQ field that belongs to the TOC's prefix sequence:
         # This field will increment the SEQ sequence count for the "PrefixSequence" by 1.
         # Since this field does not belong to the main sequence identified
-        # by the "TableOfFiguresLabel" property of the TOC, it will not appear as an entry.
+        # by the "table_of_figures_label" property of the TOC, it will not appear as an entry.
         field_seq = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
         field_seq.sequence_identifier = "PrefixSequence"
         builder.insert_paragraph()
@@ -1926,7 +1926,7 @@ class ExField(ApiExampleBase):
         # This SEQ field will create an entry in the TOC.
         # The TOC entry will contain the paragraph that the SEQ field is in and the number of the page that it appears on.
         # This entry will also display the count that the prefix sequence is currently at,
-        # separated from the page number by the value in the TOC's SeqenceSeparator property.
+        # separated from the page number by the value in the TOC's "seqence_separator" property.
         # The "PrefixSequence" count is at 1, this main sequence SEQ field is on page 2,
         # and the separator is ">", so entry will display "1>2".
         builder.write("First TOC entry, MySequence #")
@@ -1947,16 +1947,16 @@ class ExField(ApiExampleBase):
         field_seq.sequence_identifier = "MySequence"
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.t_o_c.s_e_q.docx")
+        doc.save(ARTIFACTS_DIR + "Field.toc_seq_prefix.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.t_o_c.s_e_q.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.toc_seq_prefix.docx")
 
         self.assertEqual(9, doc.range.fields.count)
 
         field_toc = doc.range.fields[0].as_field_toc()
         print(field_toc.display_result)
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOC, " TOC  \\c MySequence \\s PrefixSequence \\d >",
+        self.verify_field(aw.fields.FieldType.FIELD_TOC, " TOC  \\c MySequence \\s PrefixSequence \\d >",
             "First TOC entry, MySequence #12\t\u0013 SEQ PrefixSequence _Toc256000000 \\* ARABIC \u00141\u0015>\u0013 PAGEREF _Toc256000000 \\h \u00142\u0015\r2" +
             "Second TOC entry, MySequence #\t\u0013 SEQ PrefixSequence _Toc256000001 \\* ARABIC \u00142\u0015>\u0013 PAGEREF _Toc256000001 \\h \u00143\u0015\r",
             field_toc)
@@ -1966,55 +1966,55 @@ class ExField(ApiExampleBase):
 
         field_seq = doc.range.fields[1].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ PrefixSequence _Toc256000000 \\* ARABIC ", "1", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ PrefixSequence _Toc256000000 \\* ARABIC ", "1", field_seq)
         self.assertEqual("PrefixSequence", field_seq.sequence_identifier)
 
         # Byproduct field created by Aspose.Words
         field_page_ref = doc.range.fields[2].as_field_page_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF _Toc256000000 \\h ", "2", field_page_ref)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF _Toc256000000 \\h ", "2", field_page_ref)
         self.assertEqual("PrefixSequence", field_seq.sequence_identifier)
         self.assertEqual("_Toc256000000", field_page_ref.bookmark_name)
 
         field_seq = doc.range.fields[3].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ PrefixSequence _Toc256000001 \\* ARABIC ", "2", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ PrefixSequence _Toc256000001 \\* ARABIC ", "2", field_seq)
         self.assertEqual("PrefixSequence", field_seq.sequence_identifier)
 
         field_page_ref = doc.range.fields[4].as_field_page_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF _Toc256000001 \\h ", "3", field_page_ref)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF _Toc256000001 \\h ", "3", field_page_ref)
         self.assertEqual("PrefixSequence", field_seq.sequence_identifier)
         self.assertEqual("_Toc256000001", field_page_ref.bookmark_name)
 
         field_seq = doc.range.fields[5].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  PrefixSequence", "1", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  PrefixSequence", "1", field_seq)
         self.assertEqual("PrefixSequence", field_seq.sequence_identifier)
 
         field_seq = doc.range.fields[6].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "1", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "1", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
         field_seq = doc.range.fields[7].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  PrefixSequence", "2", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  PrefixSequence", "2", field_seq)
         self.assertEqual("PrefixSequence", field_seq.sequence_identifier)
 
         field_seq = doc.range.fields[8].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "2", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "2", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
     def test_toc_seq_numbering(self):
 
         #ExStart
         #ExFor:FieldSeq
-        #ExFor:FieldSeq.InsertNextNumber
-        #ExFor:FieldSeq.ResetHeadingLevel
-        #ExFor:FieldSeq.ResetNumber
-        #ExFor:FieldSeq.SequenceIdentifier
+        #ExFor:FieldSeq.insert_next_number
+        #ExFor:FieldSeq.reset_heading_level
+        #ExFor:FieldSeq.reset_number
+        #ExFor:FieldSeq.sequence_identifier
         #ExSummary:Shows create numbering using SEQ fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -2069,31 +2069,31 @@ class ExField(ApiExampleBase):
         self.assertEqual("2", field_seq.result)
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.s_e_q.reset_numbering.docx")
+        doc.save(ARTIFACTS_DIR + "Field.toc_seq_numbering.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.s_e_q.reset_numbering.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.toc_seq_numbering.docx")
 
         self.assertEqual(4, doc.range.fields.count)
 
         field_seq = doc.range.fields[0].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence \\r 100", "100", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence \\r 100", "100", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
         field_seq = doc.range.fields[1].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "101", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "101", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
         field_seq = doc.range.fields[2].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence \\s 1", "1", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence \\s 1", "1", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
         field_seq = doc.range.fields[3].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence \\n", "2", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence \\n", "2", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
     @unittest.skip("WORDSNET-18083")
@@ -2101,7 +2101,7 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldSeq
-        #ExFor:FieldSeq.BookmarkName
+        #ExFor:FieldSeq.bookmark_name
         #ExSummary:Shows how to combine table of contents and sequence fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -2111,7 +2111,7 @@ class ExField(ApiExampleBase):
         # and the number of the page that the field appears on.
         field_toc = builder.insert_field(aw.fields.FieldType.FIELD_TOC, True).as_field_toc()
 
-        # Configure this TOC field to have a SequenceIdentifier property with a value of "MySequence".
+        # Configure this TOC field to have a "sequence_identifier" property with a value of "MySequence".
         field_toc.table_of_figures_label = "MySequence"
 
         # Configure this TOC field to only pick up SEQ fields that are within the bounds of a bookmark
@@ -2125,7 +2125,7 @@ class ExField(ApiExampleBase):
         # These fields also maintain separate counts for each unique named sequence
         # identified by the SEQ field's "sequence_identifier" property.
         # Insert a SEQ field that has a sequence identifier that matches the TOC's
-        # TableOfFiguresLabel property. This field will not create an entry in the TOC since it is outside
+        # "table_of_figures_label" property. This field will not create an entry in the TOC since it is outside
         # the bookmark's bounds designated by "BookmarkName".
         builder.write("MySequence #")
         field_seq = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
@@ -2134,21 +2134,21 @@ class ExField(ApiExampleBase):
 
         builder.start_bookmark("TOCBookmark")
 
-        # This SEQ field's sequence matches the TOC's "TableOfFiguresLabel" property and is within the bookmark's bounds.
+        # This SEQ field's sequence matches the TOC's "table_of_figures_label" property and is within the bookmark's bounds.
         # The paragraph that contains this field will show up in the TOC as an entry.
         builder.write("MySequence #")
         field_seq = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
         field_seq.sequence_identifier = "MySequence"
         builder.writeln(", will show up in the TOC next to the entry for the above caption.")
 
-        # This SEQ field's sequence does not match the TOC's "TableOfFiguresLabel" property,
+        # This SEQ field's sequence does not match the TOC's "table_of_figures_label" property,
         # and is within the bounds of the bookmark. Its paragraph will not show up in the TOC as an entry.
         builder.write("MySequence #")
         field_seq = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
         field_seq.sequence_identifier = "OtherSequence"
         builder.writeln(", will not show up in the TOC because it's from a different sequence identifier.")
 
-        # This SEQ field's sequence matches the TOC's "TableOfFiguresLabel" property and is within the bounds of the bookmark.
+        # This SEQ field's sequence matches the TOC's "table_of_figures_label" property and is within the bounds of the bookmark.
         # This field also references another bookmark. The contents of that bookmark will appear in the TOC entry for this SEQ field.
         # The SEQ field itself will not display the contents of that bookmark.
         field_seq = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
@@ -2168,10 +2168,10 @@ class ExField(ApiExampleBase):
         builder.end_bookmark("TOCBookmark")
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.s_e_q.bookmark.docx")
+        doc.save(ARTIFACTS_DIR + "Field.toc_seq_bookmark.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.s_e_q.bookmark.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.toc_seq_bookmark.docx")
 
         self.assertEqual(8, doc.range.fields.count)
 
@@ -2180,44 +2180,44 @@ class ExField(ApiExampleBase):
 
         self.assertEqual(aw.fields.FieldType.FIELD_TOC, field_toc.type)
         self.assertEqual("MySequence", field_toc.table_of_figures_label)
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOC, " TOC  \\c MySequence \\b TOCBookmark",
+        self.verify_field(aw.fields.FieldType.FIELD_TOC, " TOC  \\c MySequence \\b TOCBookmark",
             f"MySequence #2, will show up in the TOC next to the entry for the above caption.\t\u0013 PAGEREF {page_ref_ids[0]} \\h \u00142\u0015\r" +
             f"3MySequence #3, text from inside SEQBookmark.\t\u0013 PAGEREF {page_ref_ids[1]} \\h \u00142\u0015\r", field_toc)
 
         field_page_ref = doc.range.fields[1].as_field_page_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE_REF, f" PAGEREF {page_ref_ids[0]} \\h ", "2", field_page_ref)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, f" PAGEREF {page_ref_ids[0]} \\h ", "2", field_page_ref)
         self.assertEqual(page_ref_ids[0], field_page_ref.bookmark_name)
 
         field_page_ref = doc.range.fields[2].as_field_page_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE_REF, f" PAGEREF {page_ref_ids[1]} \\h ", "2", field_page_ref)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, f" PAGEREF {page_ref_ids[1]} \\h ", "2", field_page_ref)
         self.assertEqual(page_ref_ids[1], field_page_ref.bookmark_name)
 
         field_seq = doc.range.fields[3].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "1", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "1", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
         field_seq = doc.range.fields[4].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "2", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "2", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
         field_seq = doc.range.fields[5].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  OtherSequence", "1", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  OtherSequence", "1", field_seq)
         self.assertEqual("OtherSequence", field_seq.sequence_identifier)
 
         field_seq = doc.range.fields[6].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence SEQBookmark", "3", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence SEQBookmark", "3", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
         self.assertEqual("SEQBookmark", field_seq.bookmark_name)
 
         field_seq = doc.range.fields[7].as_field_seq()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "3", field_seq)
+        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "3", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
     @unittest.skip("WORDSNET-13854")
@@ -2225,18 +2225,18 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldCitation
-        #ExFor:FieldCitation.AnotherSourceTag
-        #ExFor:FieldCitation.FormatLanguageId
-        #ExFor:FieldCitation.PageNumber
-        #ExFor:FieldCitation.Prefix
-        #ExFor:FieldCitation.SourceTag
-        #ExFor:FieldCitation.Suffix
-        #ExFor:FieldCitation.SuppressAuthor
-        #ExFor:FieldCitation.SuppressTitle
-        #ExFor:FieldCitation.SuppressYear
-        #ExFor:FieldCitation.VolumeNumber
+        #ExFor:FieldCitation.another_source_tag
+        #ExFor:FieldCitation.format_language_id
+        #ExFor:FieldCitation.page_number
+        #ExFor:FieldCitation.prefix
+        #ExFor:FieldCitation.source_tag
+        #ExFor:FieldCitation.suffix
+        #ExFor:FieldCitation.suppress_author
+        #ExFor:FieldCitation.suppress_title
+        #ExFor:FieldCitation.suppress_year
+        #ExFor:FieldCitation.volume_number
         #ExFor:FieldBibliography
-        #ExFor:FieldBibliography.FormatLanguageId
+        #ExFor:FieldBibliography.format_language_id
         #ExSummary:Shows how to work with CITATION and BIBLIOGRAPHY fields.
         # Open a document containing bibliographical sources that we can find in
         # Microsoft Word via References -> Citations & Bibliography -> Manage Sources.
@@ -2283,16 +2283,16 @@ class ExField(ApiExampleBase):
         self.assertEqual(" BIBLIOGRAPHY  \\l 1124", field_bibliography.get_field_code())
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.citation.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_citation.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.citation.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_citation.docx")
 
         self.assertEqual(5, doc.range.fields.count)
 
         field_citation = doc.range.fields[0].as_field_citation()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_CITATION, " CITATION  Book1 \\p 85 \\t \\y", " (Doe, p. 85)", field_citation)
+        self.verify_field(aw.fields.FieldType.FIELD_CITATION, " CITATION  Book1 \\p 85 \\t \\y", " (Doe, p. 85)", field_citation)
         self.assertEqual("Book1", field_citation.source_tag)
         self.assertEqual("85", field_citation.page_number)
         self.assertFalse(field_citation.suppress_author)
@@ -2301,7 +2301,7 @@ class ExField(ApiExampleBase):
 
         field_citation = doc.range.fields[1].as_field_Citation()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_CITATION,
+        self.verify_field(aw.fields.FieldType.FIELD_CITATION,
             " CITATION  Book1 \\m Book2 \\l en-US \\p 19 \\f \"Prefix \" \\s \" Suffix\" \\v VII",
             " (Doe, 2018; Prefix Cardholder, 2018, VII:19 Suffix)", field_citation)
         self.assertEqual("Book1", field_citation.source_tag)
@@ -2317,19 +2317,19 @@ class ExField(ApiExampleBase):
 
         field_bibliography = doc.range.fields[2].as_field_bibliography()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_BIBLIOGRAPHY, " BIBLIOGRAPHY  \\l 1124",
+        self.verify_field(aw.fields.FieldType.FIELD_BIBLIOGRAPHY, " BIBLIOGRAPHY  \\l 1124",
             "Cardholder, A. (2018). My Book, Vol. II. New York: Doe Co. Ltd.\rDoe, J. (2018). My Book, Vol I. London: Doe Co. Ltd.\r", field_bibliography)
         self.assertEqual("1124", field_bibliography.format_language_id)
 
         field_citation = doc.range.fields[3].as_field_citation()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_CITATION, " CITATION Book1 \\l 1033 ", "(Doe, 2018)", field_citation)
+        self.verify_field(aw.fields.FieldType.FIELD_CITATION, " CITATION Book1 \\l 1033 ", "(Doe, 2018)", field_citation)
         self.assertEqual("Book1", field_citation.source_tag)
         self.assertEqual("1033", field_citation.format_language_id)
 
         field_bibliography = doc.range.fields[4].as_field_bibliography()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_BIBLIOGRAPHY, " BIBLIOGRAPHY ",
+        self.verify_field(aw.fields.FieldType.FIELD_BIBLIOGRAPHY, " BIBLIOGRAPHY ",
             "Cardholder, A. (2018). My Book, Vol. II. New York: Doe Co. Ltd.\rDoe, J. (2018). My Book, Vol I. London: Doe Co. Ltd.\r", field_bibliography)
 
     def test_field_data(self):
@@ -2344,16 +2344,16 @@ class ExField(ApiExampleBase):
         self.assertEqual(" DATA ", field.get_field_code())
         #ExEnd
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DATA, " DATA ", "", DocumentHelper.save_open(doc).range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_DATA, " DATA ", "", DocumentHelper.save_open(doc).range.fields[0])
 
     def test_field_include(self):
 
         #ExStart
         #ExFor:FieldInclude
-        #ExFor:FieldInclude.BookmarkName
-        #ExFor:FieldInclude.LockFields
-        #ExFor:FieldInclude.SourceFullName
-        #ExFor:FieldInclude.TextConverter
+        #ExFor:FieldInclude.bookmark_name
+        #ExFor:FieldInclude.lock_fields
+        #ExFor:FieldInclude.source_full_name
+        #ExFor:FieldInclude.text_converter
         #ExSummary:Shows how to create an INCLUDE field, and set its properties.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -2369,10 +2369,10 @@ class ExField(ApiExampleBase):
         self.assertRegex(field.get_field_code(), r' INCLUDE .* MyBookmark1 \\c "Microsoft Word"')
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.include.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_include.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.include.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_include.docx")
         field = doc.range.fields[0].as_field_include()
 
         self.assertEqual(aw.fields.FieldType.FIELD_INCLUDE, field.type)
@@ -2388,15 +2388,15 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldIncludePicture
-        #ExFor:FieldIncludePicture.GraphicFilter
-        #ExFor:FieldIncludePicture.IsLinked
-        #ExFor:FieldIncludePicture.ResizeHorizontally
-        #ExFor:FieldIncludePicture.ResizeVertically
-        #ExFor:FieldIncludePicture.SourceFullName
+        #ExFor:FieldIncludePicture.graphic_filter
+        #ExFor:FieldIncludePicture.is_linked
+        #ExFor:FieldIncludePicture.resize_horizontally
+        #ExFor:FieldIncludePicture.resize_vertically
+        #ExFor:FieldIncludePicture.source_full_name
         #ExFor:FieldImport
-        #ExFor:FieldImport.GraphicFilter
-        #ExFor:FieldImport.IsLinked
-        #ExFor:FieldImport.SourceFullName
+        #ExFor:FieldImport.graphic_filter
+        #ExFor:FieldImport.is_linked
+        #ExFor:FieldImport.source_full_name
         #ExSummary:Shows how to insert images using IMPORT and INCLUDEPICTURE fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -2423,7 +2423,7 @@ class ExField(ApiExampleBase):
         self.assertRegex(field_import.get_field_code(), r" IMPORT  .* \\c PNG32 \\d")
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.import.includepicture.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_include_picture.docx")
         #ExEnd
 
         self.assertEqual(IMAGE_DIR + "Transparent background logo.png", field_include_picture.source_full_name)
@@ -2436,7 +2436,7 @@ class ExField(ApiExampleBase):
         self.assertEqual("PNG32", field_import.graphic_filter)
         self.assertTrue(field_import.is_linked)
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.import.includepicture.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_include_picture.docx")
 
         # The INCLUDEPICTURE fields have been converted into shapes with linked images during loading.
         self.assertEqual(0, doc.range.fields.count)
@@ -2456,15 +2456,15 @@ class ExField(ApiExampleBase):
 
     #ExStart
     #ExFor:FieldIncludeText
-    #ExFor:FieldIncludeText.BookmarkName
-    #ExFor:FieldIncludeText.Encoding
-    #ExFor:FieldIncludeText.LockFields
-    #ExFor:FieldIncludeText.MimeType
-    #ExFor:FieldIncludeText.NamespaceMappings
-    #ExFor:FieldIncludeText.SourceFullName
-    #ExFor:FieldIncludeText.TextConverter
-    #ExFor:FieldIncludeText.XPath
-    #ExFor:FieldIncludeText.XslTransformation
+    #ExFor:FieldIncludeText.bookmark_name
+    #ExFor:FieldIncludeText.encoding
+    #ExFor:FieldIncludeText.lock_fields
+    #ExFor:FieldIncludeText.mime_type
+    #ExFor:FieldIncludeText.namespace_mappings
+    #ExFor:FieldIncludeText.source_full_name
+    #ExFor:FieldIncludeText.text_converter
+    #ExFor:FieldIncludeText.xpath
+    #ExFor:FieldIncludeText.xsl_transformation
     #ExSummary:Shows how to create an INCLUDETEXT field, and set its properties.
     @unittest.skip("WORDSNET-17543") #ExSkip
     def test_field_include_text(self):
@@ -2484,9 +2484,10 @@ class ExField(ApiExampleBase):
         field_include_text.namespace_mappings = "xmlns:n='myNamespace'"
         field_include_text.xpath = "/catalog/cd/title"
 
-        doc.save(ARTIFACTS_DIR + "Field.includetext.docx")
-        self._test_field_include_text(aw.Document(ARTIFACTS_DIR + "Field.includetext.docx")) #ExSkip
+        doc.save(ARTIFACTS_DIR + "Field.field_include_text.docx")
+        self._test_field_include_text(aw.Document(ARTIFACTS_DIR + "Field.field_include_text.docx")) #ExSkip
 
+    @staticmethod
     def create_field_include_text(builder: aw.DocumentBuilder, source_full_name: str, lock_fields: bool, mime_type: str, text_converter: str, encoding: str) -> aw.fields.FieldIncludeText:
         """Use a document builder to insert an INCLUDETEXT field with custom properties."""
 
@@ -2550,7 +2551,7 @@ class ExField(ApiExampleBase):
                     self.assertEqual(drawing.Color.empty(), table.rows[i].cells[j].cell_format.shading.background_pattern_color)
 
                 self.assertEqual(
-                    double.parse(cd_collection_xsl_transformation.select_nodes("//xsl:stylesheet/xsl:template/html/body/table", manager)[0].attributes.get_named_item("border").value) * 0.75,
+                    float(cd_collection_xsl_transformation.select_nodes("//xsl:stylesheet/xsl:template/html/body/table", manager)[0].attributes.get_named_item("border").value) * 0.75,
                     table.first_row.row_format.borders.bottom.line_width)
 
         field_include_text = doc.range.fields[1].as_field_include_text()
@@ -2574,12 +2575,12 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldHyperlink
-        #ExFor:FieldHyperlink.Address
-        #ExFor:FieldHyperlink.IsImageMap
-        #ExFor:FieldHyperlink.OpenInNewWindow
-        #ExFor:FieldHyperlink.ScreenTip
-        #ExFor:FieldHyperlink.SubAddress
-        #ExFor:FieldHyperlink.Target
+        #ExFor:FieldHyperlink.address
+        #ExFor:FieldHyperlink.is_image_map
+        #ExFor:FieldHyperlink.open_in_new_window
+        #ExFor:FieldHyperlink.screen_tip
+        #ExFor:FieldHyperlink.sub_address
+        #ExFor:FieldHyperlink.target
         #ExSummary:Shows how to use HYPERLINK fields to link to documents in the local file system.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -2604,13 +2605,13 @@ class ExField(ApiExampleBase):
         field.is_image_map = False
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.hyperlink.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_hyperlink.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.hyperlink.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_hyperlink.docx")
         field = doc.range.fields[0].as_field_hyperlink()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_HYPERLINK,
+        self.verify_field(aw.fields.FieldType.FIELD_HYPERLINK,
             " HYPERLINK \"" + MY_DIR.replace("\\", "\\\\") + "Bookmarks.docx\" \\l \"MyBookmark3\" \\o \"Open " + MY_DIR + "Bookmarks.docx on bookmark MyBookmark3 in a new window\" ",
             MY_DIR + "Bookmarks.docx - MyBookmark3", field)
         self.assertEqual(MY_DIR + "Bookmarks.docx", field.address)
@@ -2619,7 +2620,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[1].as_field_hyperlink()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_HYPERLINK, " HYPERLINK \"file:///" + MY_DIR.replace("\\", "\\\\").replace(" ", "%20") + "Iframes.html\" \\t \"iframe_3\" \\o \"Open " + MY_DIR.replace("\\", "\\\\") + "Iframes.html\" ",
+        self.verify_field(aw.fields.FieldType.FIELD_HYPERLINK, " HYPERLINK \"file:///" + MY_DIR.replace("\\", "\\\\").replace(" ", "%20") + "Iframes.html\" \\t \"iframe_3\" \\o \"Open " + MY_DIR.replace("\\", "\\\\") + "Iframes.html\" ",
             MY_DIR + "Iframes.html", field)
         self.assertEqual("file:///" + MY_DIR.replace(" ", "%20") + "Iframes.html", field.address)
         self.assertEqual("Open " + MY_DIR + "Iframes.html", field.screen_tip)
@@ -2629,16 +2630,16 @@ class ExField(ApiExampleBase):
 
     ##ExStart
     ##ExFor:MergeFieldImageDimension
-    ##ExFor:MergeFieldImageDimension.#ctor
-    ##ExFor:MergeFieldImageDimension.#ctor(Double)
-    ##ExFor:MergeFieldImageDimension.#ctor(Double,MergeFieldImageDimensionUnit)
-    ##ExFor:MergeFieldImageDimension.Unit
-    ##ExFor:MergeFieldImageDimension.Value
+    ##ExFor:MergeFieldImageDimension.__init__
+    ##ExFor:MergeFieldImageDimension.__init__(float)
+    ##ExFor:MergeFieldImageDimension.__init__(float,MergeFieldImageDimensionUnit)
+    ##ExFor:MergeFieldImageDimension.unit
+    ##ExFor:MergeFieldImageDimension.value
     ##ExFor:MergeFieldImageDimensionUnit
     ##ExFor:ImageFieldMergingArgs
-    ##ExFor:ImageFieldMergingArgs.ImageFileName
-    ##ExFor:ImageFieldMergingArgs.ImageWidth
-    ##ExFor:ImageFieldMergingArgs.ImageHeight
+    ##ExFor:ImageFieldMergingArgs.image_file_name
+    ##ExFor:ImageFieldMergingArgs.image_width
+    ##ExFor:ImageFieldMergingArgs.image_height
     ##ExSummary:Shows how to set the dimensions of images as MERGEFIELDS accepts them during a mail merge.
     #def test_merge_field_image_dimension(self):
 
@@ -2693,7 +2694,7 @@ class ExField(ApiExampleBase):
 
     ##ExEnd
 
-    def _test_merge_field_image_dimension(sefl, doc: aw.Document):
+    def _test_merge_field_image_dimension(self, doc: aw.Document):
 
         doc = DocumentHelper.save_open(doc)
 
@@ -2702,24 +2703,24 @@ class ExField(ApiExampleBase):
 
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shape)
         self.assertEqual(200.0, shape.width)
         self.assertEqual(200.0, shape.height)
 
         shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
 
-        TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, shape)
         self.assertEqual(200.0, shape.width)
         self.assertEqual(200.0, shape.height)
 
         shape = doc.get_child(aw.NodeType.SHAPE, 2, True).as_shape()
 
-        TestUtil.verify_image_in_shape(534, 534, aw.drawing.ImageType.EMF, shape)
+        self.verify_image_in_shape(534, 534, aw.drawing.ImageType.EMF, shape)
         self.assertEqual(200.0, shape.width)
         self.assertEqual(200.0, shape.height)
 
     ##ExStart
-    ##ExFor:ImageFieldMergingArgs.Image
+    ##ExFor:ImageFieldMergingArgs.image
     ##ExSummary:Shows how to use a callback to customize image merging logic.
     #def test_merge_field_images(self):
 
@@ -2782,13 +2783,13 @@ class ExField(ApiExampleBase):
 
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shape)
         self.assertEqual(300.0, shape.width)
         self.assertEqual(300.0, shape.height)
 
         shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
 
-        TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, shape)
         self.assertEqual(300.0, shape.width, 1)
         self.assertEqual(300.0, shape.height, 1)
 
@@ -2797,11 +2798,11 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldIndex
-        #ExFor:FieldIndex.BookmarkName
-        #ExFor:FieldIndex.EntryType
+        #ExFor:FieldIndex.bookmark_name
+        #ExFor:FieldIndex.entry_type
         #ExFor:FieldXE
-        #ExFor:FieldXE.EntryType
-        #ExFor:FieldXE.Text
+        #ExFor:FieldXE.entry_type
+        #ExFor:FieldXE.text
         #ExSummary:Shows how to create an INDEX field, and then use XE fields to populate it with entries.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -2822,7 +2823,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(" INDEX  \\b MainBookmark \\f A", index.get_field_code())
 
         # On a new page, start the bookmark with a name that matches the value
-        # of the INDEX field's "BookmarkName" property.
+        # of the INDEX field's "bookmark_name" property.
         builder.insert_break(aw.BreakType.PAGE_BREAK)
         builder.start_bookmark("MainBookmark")
 
@@ -2850,31 +2851,31 @@ class ExField(ApiExampleBase):
         index_entry.entry_type = "A"
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.index.xe.filtering.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_index_filter.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.index.xe.filtering.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_index_filter.docx")
         index = doc.range.fields[0].as_field_index()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX, " INDEX  \\b MainBookmark \\f A", "Index entry 1, 2\r", index)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX, " INDEX  \\b MainBookmark \\f A", "Index entry 1, 2\r", index)
         self.assertEqual("MainBookmark", index.bookmark_name)
         self.assertEqual("A", index.entry_type)
 
         index_entry = doc.range.fields[1].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Index entry 1\" \\f A", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Index entry 1\" \\f A", "", index_entry)
         self.assertEqual("Index entry 1", index_entry.text)
         self.assertEqual("A", index_entry.entry_type)
 
         index_entry = doc.range.fields[2].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Index entry 2\" \\f B", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Index entry 2\" \\f B", "", index_entry)
         self.assertEqual("Index entry 2", index_entry.text)
         self.assertEqual("B", index_entry.entry_type)
 
         index_entry = doc.range.fields[3].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Index entry 3\" \\f A", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Index entry 3\" \\f A", "", index_entry)
         self.assertEqual("Index entry 3", index_entry.text)
         self.assertEqual("A", index_entry.entry_type)
 
@@ -2883,14 +2884,14 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldIndex
-        #ExFor:FieldIndex.Heading
-        #ExFor:FieldIndex.NumberOfColumns
-        #ExFor:FieldIndex.LanguageId
-        #ExFor:FieldIndex.LetterRange
+        #ExFor:FieldIndex.heading
+        #ExFor:FieldIndex.number_of_columns
+        #ExFor:FieldIndex.language_id
+        #ExFor:FieldIndex.letter_range
         #ExFor:FieldXE
-        #ExFor:FieldXE.IsBold
-        #ExFor:FieldXE.IsItalic
-        #ExFor:FieldXE.Text
+        #ExFor:FieldXE.is_bold
+        #ExFor:FieldXE.is_italic
+        #ExFor:FieldXE.text
         #ExSummary:Shows how to populate an INDEX field with entries using XE fields, and also modify its appearance.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -2898,7 +2899,7 @@ class ExField(ApiExampleBase):
         # Create an INDEX field which will display an entry for each XE field found in the document.
         # Each entry will display the XE field's Text property value on the left side,
         # and the number of the page that contains the XE field on the right.
-        # If the XE fields have the same value in their "Text" property,
+        # If the XE fields have the same value in their "text" property,
         # the INDEX field will group them into one entry.
         index = builder.insert_field(aw.fields.FieldType.FIELD_INDEX, True).as_field_index()
         index.language_id = "1033" # en-US
@@ -2952,10 +2953,10 @@ class ExField(ApiExampleBase):
         index_entry.text = "Durian"
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.index.xe.formatting.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_index_formatting.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.index.xe.formatting.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_index_formatting.docx")
         index = doc.range.fields[0].as_field_index()
 
         self.assertEqual("1033", index.language_id)
@@ -2974,42 +2975,42 @@ class ExField(ApiExampleBase):
 
         index_entry = doc.range.fields[1].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Apple \\i", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Apple \\i", "", index_entry)
         self.assertEqual("Apple", index_entry.text)
         self.assertFalse(index_entry.is_bold)
         self.assertTrue(index_entry.is_italic)
 
         index_entry = doc.range.fields[2].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Apricot \\b", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Apricot \\b", "", index_entry)
         self.assertEqual("Apricot", index_entry.text)
         self.assertTrue(index_entry.is_bold)
         self.assertFalse(index_entry.is_italic)
 
         index_entry = doc.range.fields[3].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Banana", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Banana", "", index_entry)
         self.assertEqual("Banana", index_entry.text)
         self.assertFalse(index_entry.is_bold)
         self.assertFalse(index_entry.is_italic)
 
         index_entry = doc.range.fields[4].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Cherry", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Cherry", "", index_entry)
         self.assertEqual("Cherry", index_entry.text)
         self.assertFalse(index_entry.is_bold)
         self.assertFalse(index_entry.is_italic)
 
         index_entry = doc.range.fields[5].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Avocado", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Avocado", "", index_entry)
         self.assertEqual("Avocado", index_entry.text)
         self.assertFalse(index_entry.is_bold)
         self.assertFalse(index_entry.is_italic)
 
         index_entry = doc.range.fields[6].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Durian", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Durian", "", index_entry)
         self.assertEqual("Durian", index_entry.text)
         self.assertFalse(index_entry.is_bold)
         self.assertFalse(index_entry.is_italic)
@@ -3018,9 +3019,9 @@ class ExField(ApiExampleBase):
     def test_field_index_sequence(self):
 
         #ExStart
-        #ExFor:FieldIndex.HasSequenceName
-        #ExFor:FieldIndex.SequenceName
-        #ExFor:FieldIndex.SequenceSeparator
+        #ExFor:FieldIndex.has_sequence_name
+        #ExFor:FieldIndex.sequence_name
+        #ExFor:FieldIndex.sequence_separator
         #ExSummary:Shows how to split a document into portions by combining INDEX and SEQ fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -3038,7 +3039,7 @@ class ExField(ApiExampleBase):
 
         # Set text that will around the sequence and page numbers to explain their meaning to the user.
         # An entry created with this configuration will display something like "MySequence at 1 on page 1" at its page number.
-        # page_number_separator and sequence_separator cannot be longer than 15 characters.
+        # "page_number_separator" and "sequence_separator" cannot be longer than 15 characters.
         index.page_number_separator = "\tMySequence at "
         index.sequence_separator = " on page "
         self.assertTrue(index.has_sequence_name)
@@ -3071,7 +3072,7 @@ class ExField(ApiExampleBase):
         sequence_field = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
         sequence_field.sequence_identifier = "MySequence"
 
-        # Insert an XE field with the same Text property as the one above.
+        # Insert an XE field with the same "text" property as the one above.
         # The INDEX entry will group XE fields with matching values in the "text" property
         # into one entry as opposed to making an entry for each XE field.
         # Since we are on page 2 with "MySequence" at 3, ", 3 on page 3" will be appended to the same INDEX entry as above.
@@ -3079,17 +3080,17 @@ class ExField(ApiExampleBase):
         index_entry = builder.insert_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, True).as_field_xe()
         index_entry.text = "Cat"
 
-        # Insert an XE field with a new and unique Text property value.
+        # Insert an XE field with a new and unique "text" property value.
         # This will add a new entry, with MySequence at 3 on page 4.
         builder.insert_break(aw.BreakType.PAGE_BREAK)
         index_entry = builder.insert_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, True).as_field_xe()
         index_entry.text = "Dog"
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.index.xe.sequence.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_index_sequence.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.index.xe.sequence.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_index_sequence.docx")
         index = doc.range.fields[0].as_field_index()
 
         self.assertEqual("MySequence", index.sequence_name)
@@ -3106,17 +3107,17 @@ class ExField(ApiExampleBase):
     def test_field_index_page_number_separator(self):
 
         #ExStart
-        #ExFor:FieldIndex.HasPageNumberSeparator
-        #ExFor:FieldIndex.PageNumberSeparator
-        #ExFor:FieldIndex.PageNumberListSeparator
+        #ExFor:FieldIndex.has_page_number_separator
+        #ExFor:FieldIndex.page_number_separator
+        #ExFor:FieldIndex.page_number_list_separator
         #ExSummary:Shows how to edit the page number separator in an INDEX field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # Create an INDEX field which will display an entry for each XE field found in the document.
-        # Each entry will display the XE field's Text property value on the left side,
+        # Each entry will display the XE field's "text" property value on the left side,
         # and the number of the page that contains the XE field on the right.
-        # The INDEX entry will group XE fields with matching values in the "Text" property
+        # The INDEX entry will group XE fields with matching values in the "text" property
         # into one entry as opposed to making an entry for each XE field.
         index = builder.insert_field(aw.fields.FieldType.FIELD_INDEX, True).as_field_index()
 
@@ -3145,13 +3146,13 @@ class ExField(ApiExampleBase):
         index_entry.text = "First entry"
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.index.xe.page_number_list.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_index_page_number_separator.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.index.xe.page_number_list.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_index_page_number_separator.docx")
         index = doc.range.fields[0].as_field_index()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX, " INDEX  \\e \", on page(s) \" \\l \" & \"", "First entry, on page(s) 2 & 3 & 4\r", index)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX, " INDEX  \\e \", on page(s) \" \\l \" & \"", "First entry, on page(s) 2 & 3 & 4\r", index)
         self.assertEqual(", on page(s) ", index.page_number_separator)
         self.assertEqual(" & ", index.page_number_list_separator)
         self.assertTrue(index.has_page_number_separator)
@@ -3160,17 +3161,17 @@ class ExField(ApiExampleBase):
     def test_field_index_page_range_bookmark(self):
 
         #ExStart
-        #ExFor:FieldIndex.PageRangeSeparator
-        #ExFor:FieldXE.HasPageRangeBookmarkName
-        #ExFor:FieldXE.PageRangeBookmarkName
+        #ExFor:FieldIndex.page_range_separator
+        #ExFor:FieldXE.has_page_range_bookmark_name
+        #ExFor:FieldXE.page_range_bookmark_name
         #ExSummary:Shows how to specify a bookmark's spanned pages as a page range for an INDEX field entry.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # Create an INDEX field which will display an entry for each XE field found in the document.
-        # Each entry will display the XE field's Text property value on the left side,
+        # Each entry will display the XE field's "text" property value on the left side,
         # and the number of the page that contains the XE field on the right.
-        # The INDEX entry will collect all XE fields with matching values in the "Text" property
+        # The INDEX entry will collect all XE fields with matching values in the "text" property
         # into one entry as opposed to making an entry for each XE field.
         index = builder.insert_field(aw.fields.FieldType.FIELD_INDEX, True).as_field_index()
 
@@ -3205,19 +3206,19 @@ class ExField(ApiExampleBase):
         builder.end_bookmark("MyBookmark")
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.index.xe.page_range_bookmark.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_index_page_range_bookmark.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.index.xe.page_range_bookmark.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_index_page_range_bookmark.docx")
         index = doc.range.fields[0].as_field_index()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX, " INDEX  \\e \", on page(s) \" \\g \" to \"", "My entry, on page(s) 3 to 5\r", index)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX, " INDEX  \\e \", on page(s) \" \\g \" to \"", "My entry, on page(s) 3 to 5\r", index)
         self.assertEqual(", on page(s) ", index.page_number_separator)
         self.assertEqual(" to ", index.page_range_separator)
 
         index_entry = doc.range.fields[1].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"My entry\" \\r MyBookmark", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"My entry\" \\r MyBookmark", "", index_entry)
         self.assertEqual("My entry", index_entry.text)
         self.assertEqual("MyBookmark", index_entry.page_range_bookmark_name)
         self.assertTrue(index_entry.has_page_range_bookmark_name)
@@ -3226,14 +3227,14 @@ class ExField(ApiExampleBase):
     def test_field_index_cross_reference_separator(self):
 
         #ExStart
-        #ExFor:FieldIndex.CrossReferenceSeparator
-        #ExFor:FieldXE.PageNumberReplacement
+        #ExFor:FieldIndex.cross_reference_separator
+        #ExFor:FieldXE.page_number_replacement
         #ExSummary:Shows how to define cross references in an INDEX field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # Create an INDEX field which will display an entry for each XE field found in the document.
-        # Each entry will display the XE field's Text property value on the left side,
+        # Each entry will display the XE field's "text" property value on the left side,
         # and the number of the page that contains the XE field on the right.
         # The INDEX entry will collect all XE fields with matching values in the "text" property
         # into one entry as opposed to making an entry for each XE field.
@@ -3241,7 +3242,7 @@ class ExField(ApiExampleBase):
 
         # We can configure an XE field to get its INDEX entry to display a string instead of a page number.
         # First, for entries that substitute a page number with a string,
-        # specify a custom separator between the XE field's Text property value and the string.
+        # specify a custom separator between the XE field's "text" property value and the string.
         index.cross_reference_separator = ", see: "
 
         self.assertEqual(" INDEX  \\k \", see: \"", index.get_field_code())
@@ -3255,7 +3256,7 @@ class ExField(ApiExampleBase):
 
         self.assertEqual(" XE  Apple", index_entry.get_field_code())
 
-        # Insert another XE field on page 3 and set a value for the page_number_replacement property.
+        # Insert another XE field on page 3 and set a value for the "page_number_replacement" property.
         # This value will show up instead of the number of the page that this field is on,
         # and the INDEX field's CrossReferenceSeparator value will appear in front of it.
         # The entry for this XE field will display "Banana, see: Tropical fruit".
@@ -3267,26 +3268,26 @@ class ExField(ApiExampleBase):
         self.assertEqual(" XE  Banana \\t \"Tropical fruit\"", index_entry.get_field_code())
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.index.xe.cross_reference_separator.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_index_cross_reference_separator.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.index.xe.cross_reference_separator.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_index_cross_reference_separator.docx")
         index = doc.range.fields[0].as_field_index()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " INDEX  \\k \", see: \"",
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " INDEX  \\k \", see: \"",
             "Apple, 2\r" +
             "Banana, see: Tropical fruit\r", index)
         self.assertEqual(", see: ", index.cross_reference_separator)
 
         index_entry = doc.range.fields[1].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Apple", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Apple", "", index_entry)
         self.assertEqual("Apple", index_entry.text)
         self.assertIsNone(index_entry.page_number_replacement)
 
         index_entry = doc.range.fields[2].as_field_xe()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Banana \\t \"Tropical fruit\"", "", index_entry)
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  Banana \\t \"Tropical fruit\"", "", index_entry)
         self.assertEqual("Banana", index_entry.text)
         self.assertEqual("Tropical fruit", index_entry.page_number_replacement)
 
@@ -3296,13 +3297,13 @@ class ExField(ApiExampleBase):
         for run_subentries_on_the_same_line in (True, False):
             with self.subTest(run_subentries_on_the_same_line=run_subentries_on_the_same_line):
                 #ExStart
-                #ExFor:FieldIndex.RunSubentriesOnSameLine
+                #ExFor:FieldIndex.run_subentries_on_same_line
                 #ExSummary:Shows how to work with subentries in an INDEX field.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
 
                 # Create an INDEX field which will display an entry for each XE field found in the document.
-                # Each entry will display the XE field's Text property value on the left side,
+                # Each entry will display the XE field's "text" property value on the left side,
                 # and the number of the page that contains the XE field on the right.
                 # The INDEX entry will collect all XE fields with matching values in the "text" property
                 # into one entry as opposed to making an entry for each XE field.
@@ -3310,15 +3311,15 @@ class ExField(ApiExampleBase):
                 index.page_number_separator = ", see page "
                 index.heading = "A"
 
-                # XE fields that have a Text property whose value becomes the heading of the INDEX entry.
+                # XE fields that have a "text" property whose value becomes the heading of the INDEX entry.
                 # If this value contains two string segments split by a colon (the INDEX entry will treat :) delimiter,
                 # the first segment is heading, and the second segment will become the subheading.
                 # The INDEX field first groups entries alphabetically, then, if there are multiple XE fields with the same
                 # headings, the INDEX field will further subgroup them by the values of these headings.
                 # There can be multiple subgrouping layers, depending on how many times
-                # the Text properties of XE fields get segmented like this.
+                # the "text" properties of XE fields get segmented like this.
                 # By default, an INDEX field entry group will create a new line for every subheading within this group.
-                # We can set the RunSubentriesOnSameLine flag to true to keep the heading,
+                # We can set the "run_subentries_on_same_line" flag to "True" to keep the heading,
                 # and every subheading for the group on one line instead, which will make the INDEX field more compact.
                 index.run_subentries_on_same_line = run_subentries_on_the_same_line
 
@@ -3329,9 +3330,9 @@ class ExField(ApiExampleBase):
 
                 # Insert two XE fields, each on a new page, and with the same heading named "Heading 1",
                 # which the INDEX field will use to group them.
-                # If run_subentries_on_same_line is false, then the INDEX table will create three lines:
+                # If "run_subentries_on_same_line" is "False", then the INDEX table will create three lines:
                 # one line for the grouping heading "Heading 1", and one more line for each subheading.
-                # If run_subentries_on_same_line is true, then the INDEX table will create a one-line
+                # If "run_subentries_on_same_line" is "True", then the INDEX table will create a one-line
                 # entry that encompasses the heading and every subheading.
                 builder.insert_break(aw.BreakType.PAGE_BREAK)
                 index_entry = builder.insert_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, True).as_field_xe()
@@ -3344,21 +3345,19 @@ class ExField(ApiExampleBase):
                 index_entry.text = "Heading 1:Subheading 2"
 
                 doc.update_fields()
-                doc.save(ARTIFACTS_DIR + f"Field.index.xe.subheading.docx")
+                doc.save(ARTIFACTS_DIR + "Field.field_index_subheading.docx")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + f"Field.index.xe.subheading.docx")
+                doc = aw.Document(ARTIFACTS_DIR + "Field.field_index_subheading.docx")
                 index = doc.range.fields[0].as_field_index()
 
                 if run_subentries_on_the_same_line:
-                    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX, " INDEX  \\r \\e \", see page \" \\h A",
+                    self.verify_field(aw.fields.FieldType.FIELD_INDEX, " INDEX  \\r \\e \", see page \" \\h A",
                         "H\r" +
                         "Heading 1: Subheading 1, see page 2; Subheading 2, see page 3\r", index)
                     self.assertTrue(index.run_subentries_on_same_line)
-
                 else:
-
-                    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX, " INDEX  \\e \", see page \" \\h A",
+                    self.verify_field(aw.fields.FieldType.FIELD_INDEX, " INDEX  \\e \", see page \" \\h A",
                         "H\r" +
                         "Heading 1\r" +
                         "Subheading 1, see page 2\r" +
@@ -3367,12 +3366,12 @@ class ExField(ApiExampleBase):
 
                 index_entry = doc.range.fields[1].as_field_xe()
 
-                TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Heading 1:Subheading 1\"", "", index_entry)
+                self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Heading 1:Subheading 1\"", "", index_entry)
                 self.assertEqual("Heading 1:Subheading 1", index_entry.text)
 
                 index_entry = doc.range.fields[2].as_field_xe()
 
-                TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Heading 1:Subheading 2\"", "", index_entry)
+                self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  \"Heading 1:Subheading 2\"", "", index_entry)
                 self.assertEqual("Heading 1:Subheading 2", index_entry.text)
 
     @unittest.skip("WORDSNET-17524")
@@ -3381,20 +3380,20 @@ class ExField(ApiExampleBase):
         for sort_entries_using_yomi in (True, False):
             with self.subTest(sort_entries_using_yomi=sort_entries_using_yomi):
                 #ExStart
-                #ExFor:FieldIndex.UseYomi
-                #ExFor:FieldXE.Yomi
+                #ExFor:FieldIndex.use_yomi
+                #ExFor:FieldXE.yomi
                 #ExSummary:Shows how to sort INDEX field entries phonetically.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
 
                 # Create an INDEX field which will display an entry for each XE field found in the document.
-                # Each entry will display the XE field's Text property value on the left side,
+                # Each entry will display the XE field's "text" property value on the left side,
                 # and the number of the page that contains the XE field on the right.
                 # The INDEX entry will collect all XE fields with matching values in the "text" property
                 # into one entry as opposed to making an entry for each XE field.
                 index = builder.insert_field(aw.fields.FieldType.FIELD_INDEX, True).as_field_index()
 
-                # The INDEX table automatically sorts its entries by the values of their Text properties in alphabetic order.
+                # The INDEX table automatically sorts its entries by the values of their "text" properties in alphabetic order.
                 # Set the INDEX table to sort entries phonetically using Hiragana instead.
                 index.use_yomi = sort_entries_using_yomi
 
@@ -3404,10 +3403,10 @@ class ExField(ApiExampleBase):
                     self.assertEqual(" INDEX ", index.get_field_code())
 
                 # Insert 4 XE fields, which would show up as entries in the INDEX field's table of contents.
-                # The "Text" property may contain a word's spelling in Kanji, whose pronunciation may be ambiguous,
+                # The "text" property may contain a word's spelling in Kanji, whose pronunciation may be ambiguous,
                 # while the "Yomi" version of the word will spell exactly how it is pronounced using Hiragana.
                 # If we set our INDEX field to use Yomi, it will sort these entries
-                # by the value of their Yomi properties, instead of their Text values.
+                # by the value of their "yomi" properties, instead of their "text" values.
                 builder.insert_break(aw.BreakType.PAGE_BREAK)
                 index_entry = builder.insert_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, True).as_field_xe()
                 index_entry.text = "愛子"
@@ -3431,48 +3430,48 @@ class ExField(ApiExampleBase):
                 index_entry.yomi = "え"
 
                 doc.update_fields()
-                doc.save(ARTIFACTS_DIR + "Field.index.xe.yomi.docx")
+                doc.save(ARTIFACTS_DIR + "Field.field_index_yomi.docx")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + "Field.index.xe.yomi.docx")
+                doc = aw.Document(ARTIFACTS_DIR + "Field.field_index_yomi.docx")
                 index = doc.range.fields[0].as_field_index()
 
                 if sort_entries_using_yomi:
                     self.assertTrue(index.use_yomi)
                     self.assertEqual(" INDEX  \\y", index.get_field_code())
                     self.assertEqual("愛子, 2\r" +
-                                    "明美, 3\r" +
-                                    "恵美, 4\r" +
-                                    "愛美, 5\r", index.result)
+                                     "明美, 3\r" +
+                                     "恵美, 4\r" +
+                                     "愛美, 5\r", index.result)
                 else:
                     self.assertFalse(index.use_yomi)
                     self.assertEqual(" INDEX ", index.get_field_code())
                     self.assertEqual("恵美, 4\r" +
-                                    "愛子, 2\r" +
-                                    "愛美, 5\r" +
-                                    "明美, 3\r", index.result)
+                                     "愛子, 2\r" +
+                                     "愛美, 5\r" +
+                                     "明美, 3\r", index.result)
 
                 index_entry = doc.range.fields[1].as_field_xe()
 
-                TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  愛子 \\y あ", "", index_entry)
+                self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  愛子 \\y あ", "", index_entry)
                 self.assertEqual("愛子", index_entry.text)
                 self.assertEqual("あ", index_entry.yomi)
 
                 index_entry = doc.range.fields[2].as_field_xe()
 
-                TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  明美 \\y あ", "", index_entry)
+                self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  明美 \\y あ", "", index_entry)
                 self.assertEqual("明美", index_entry.text)
                 self.assertEqual("あ", index_entry.yomi)
 
                 index_entry = doc.range.fields[3].as_field_xe()
 
-                TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  恵美 \\y え", "", index_entry)
+                self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  恵美 \\y え", "", index_entry)
                 self.assertEqual("恵美", index_entry.text)
                 self.assertEqual("え", index_entry.yomi)
 
                 index_entry = doc.range.fields[4].as_field_xe()
 
-                TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  愛美 \\y え", "", index_entry)
+                self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " XE  愛美 \\y え", "", index_entry)
                 self.assertEqual("愛美", index_entry.text)
                 self.assertEqual("え", index_entry.yomi)
 
@@ -3480,10 +3479,10 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldBarcode
-        #ExFor:FieldBarcode.FacingIdentificationMark
-        #ExFor:FieldBarcode.IsBookmark
-        #ExFor:FieldBarcode.IsUSPostalAddress
-        #ExFor:FieldBarcode.PostalAddress
+        #ExFor:FieldBarcode.facing_identification_mark
+        #ExFor:FieldBarcode.is_bookmark
+        #ExFor:FieldBarcode.is_uspostal_address
+        #ExFor:FieldBarcode.postal_address
         #ExSummary:Shows how to use the BARCODE field to display U.S. ZIP codes in the form of a barcode.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -3510,30 +3509,30 @@ class ExField(ApiExampleBase):
 
         self.assertEqual(" BARCODE  BarcodeBookmark \\b", field.get_field_code())
 
-        # The bookmark that the BARCODE field references in its postal_address property
+        # The bookmark that the BARCODE field references in its "postal_address" property
         # need to contain nothing besides the valid ZIP code.
         builder.insert_break(aw.BreakType.PAGE_BREAK)
         builder.start_bookmark("BarcodeBookmark")
         builder.writeln("968877")
         builder.end_bookmark("BarcodeBookmark")
 
-        doc.save(ARTIFACTS_DIR + "Field.barcode.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_barcode.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.barcode.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_barcode.docx")
 
         self.assertEqual(0, doc.get_child_nodes(aw.NodeType.SHAPE, True).count)
 
         field = doc.range.fields[0].as_field_barcode()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_BARCODE, " BARCODE  96801 \\u \\f C", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_BARCODE, " BARCODE  96801 \\u \\f C", "", field)
         self.assertEqual("C", field.facing_identification_mark)
         self.assertEqual("96801", field.postal_address)
         self.assertTrue(field.is_uspostal_address)
 
         field = doc.range.fields[1].as_field_barcode()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_BARCODE, " BARCODE  BarcodeBookmark \\b", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_BARCODE, " BARCODE  BarcodeBookmark \\b", "", field)
         self.assertEqual("BarcodeBookmark", field.postal_address)
         self.assertTrue(field.is_bookmark)
 
@@ -3541,19 +3540,19 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldDisplayBarcode
-        #ExFor:FieldDisplayBarcode.AddStartStopChar
-        #ExFor:FieldDisplayBarcode.BackgroundColor
-        #ExFor:FieldDisplayBarcode.BarcodeType
-        #ExFor:FieldDisplayBarcode.BarcodeValue
-        #ExFor:FieldDisplayBarcode.CaseCodeStyle
-        #ExFor:FieldDisplayBarcode.DisplayText
-        #ExFor:FieldDisplayBarcode.ErrorCorrectionLevel
-        #ExFor:FieldDisplayBarcode.FixCheckDigit
-        #ExFor:FieldDisplayBarcode.ForegroundColor
-        #ExFor:FieldDisplayBarcode.PosCodeStyle
-        #ExFor:FieldDisplayBarcode.ScalingFactor
-        #ExFor:FieldDisplayBarcode.SymbolHeight
-        #ExFor:FieldDisplayBarcode.SymbolRotation
+        #ExFor:FieldDisplayBarcode.add_start_stop_char
+        #ExFor:FieldDisplayBarcode.background_color
+        #ExFor:FieldDisplayBarcode.barcode_type
+        #ExFor:FieldDisplayBarcode.barcode_value
+        #ExFor:FieldDisplayBarcode.case_code_style
+        #ExFor:FieldDisplayBarcode.display_text
+        #ExFor:FieldDisplayBarcode.error_correction_level
+        #ExFor:FieldDisplayBarcode.fix_check_digit
+        #ExFor:FieldDisplayBarcode.foreground_color
+        #ExFor:FieldDisplayBarcode.pos_code_style
+        #ExFor:FieldDisplayBarcode.scaling_factor
+        #ExFor:FieldDisplayBarcode.symbol_height
+        #ExFor:FieldDisplayBarcode.symbol_rotation
         #ExSummary:Shows how to insert a DISPLAYBARCODE field, and set its properties.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -3602,16 +3601,16 @@ class ExField(ApiExampleBase):
 
         self.assertEqual(" DISPLAYBARCODE  09312345678907 ITF14 \\c STD", field.get_field_code())
 
-        doc.save(ARTIFACTS_DIR + "Field.displaybarcode.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_display_barcode.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.displaybarcode.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_display_barcode.docx")
 
         self.assertEqual(0, doc.get_child_nodes(aw.NodeType.SHAPE, True).count)
 
         field = doc.range.fields[0].as_field_display_barcode()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  ABC123 QR \\b 0xF8BD69 \\f 0xB5413B \\q 3 \\s 250 \\h 1000 \\r 0", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  ABC123 QR \\b 0xF8BD69 \\f 0xB5413B \\q 3 \\s 250 \\h 1000 \\r 0", "", field)
         self.assertEqual("QR", field.barcode_type)
         self.assertEqual("ABC123", field.barcode_value)
         self.assertEqual("0xF8BD69", field.background_color)
@@ -3623,7 +3622,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[1].as_field_display_barcode()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  501234567890 EAN13 \\t \\p CASE \\x", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  501234567890 EAN13 \\t \\p CASE \\x", "", field)
         self.assertEqual("EAN13", field.barcode_type)
         self.assertEqual("501234567890", field.barcode_value)
         self.assertTrue(field.display_text)
@@ -3632,14 +3631,14 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[2].as_field_display_barcode()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  12345ABCDE CODE39 \\d", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  12345ABCDE CODE39 \\d", "", field)
         self.assertEqual("CODE39", field.barcode_type)
         self.assertEqual("12345ABCDE", field.barcode_value)
         self.assertTrue(field.add_start_stop_char)
 
         field = doc.range.fields[3].as_field_display_barcode()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  09312345678907 ITF14 \\c STD", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, " DISPLAYBARCODE  09312345678907 ITF14 \\c STD", "", field)
         self.assertEqual("ITF14", field.barcode_type)
         self.assertEqual("09312345678907", field.barcode_value)
         self.assertEqual("STD", field.case_code_style)
@@ -3649,14 +3648,14 @@ class ExField(ApiExampleBase):
     #    #ExStart
     #    #ExFor:FieldDisplayBarcode
     #    #ExFor:FieldMergeBarcode
-    #    #ExFor:FieldMergeBarcode.BackgroundColor
-    #    #ExFor:FieldMergeBarcode.BarcodeType
-    #    #ExFor:FieldMergeBarcode.BarcodeValue
-    #    #ExFor:FieldMergeBarcode.ErrorCorrectionLevel
-    #    #ExFor:FieldMergeBarcode.ForegroundColor
-    #    #ExFor:FieldMergeBarcode.ScalingFactor
-    #    #ExFor:FieldMergeBarcode.SymbolHeight
-    #    #ExFor:FieldMergeBarcode.SymbolRotation
+    #    #ExFor:FieldMergeBarcode.background_color
+    #    #ExFor:FieldMergeBarcode.barcode_type
+    #    #ExFor:FieldMergeBarcode.barcode_value
+    #    #ExFor:FieldMergeBarcode.error_correction_level
+    #    #ExFor:FieldMergeBarcode.foreground_color
+    #    #ExFor:FieldMergeBarcode.scaling_factor
+    #    #ExFor:FieldMergeBarcode.symbol_height
+    #    #ExFor:FieldMergeBarcode.symbol_rotation
     #    #ExSummary:Shows how to perform a mail merge on QR barcodes.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -3706,14 +3705,14 @@ class ExField(ApiExampleBase):
 
     #    barcode = doc.range.fields[0].as_field_display_barcode()
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE,
+    #    self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE,
     #        "DISPLAYBARCODE \"ABC123\" QR \\q 3 \\s 250 \\h 1000 \\r 0 \\b 0xF8BD69 \\f 0xB5413B", "", barcode)
     #    self.assertEqual("ABC123", barcode.barcode_value)
     #    self.assertEqual("QR", barcode.barcode_type)
 
     #    barcode = doc.range.fields[1].as_field_display_barcode()
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE,
+    #    self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE,
     #        "DISPLAYBARCODE \"DEF456\" QR \\q 3 \\s 250 \\h 1000 \\r 0 \\b 0xF8BD69 \\f 0xB5413B", "", barcode)
     #    self.assertEqual("DEF456", barcode.barcode_value)
     #    self.assertEqual("QR", barcode.barcode_type)
@@ -3722,11 +3721,11 @@ class ExField(ApiExampleBase):
 
     #    #ExStart
     #    #ExFor:FieldMergeBarcode
-    #    #ExFor:FieldMergeBarcode.BarcodeType
-    #    #ExFor:FieldMergeBarcode.BarcodeValue
-    #    #ExFor:FieldMergeBarcode.DisplayText
-    #    #ExFor:FieldMergeBarcode.FixCheckDigit
-    #    #ExFor:FieldMergeBarcode.PosCodeStyle
+    #    #ExFor:FieldMergeBarcode.barcode_type
+    #    #ExFor:FieldMergeBarcode.barcode_value
+    #    #ExFor:FieldMergeBarcode.display_text
+    #    #ExFor:FieldMergeBarcode.fix_check_digit
+    #    #ExFor:FieldMergeBarcode.pos_code_style
     #    #ExSummary:Shows how to perform a mail merge on EAN13 barcodes.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -3772,13 +3771,13 @@ class ExField(ApiExampleBase):
 
     #    barcode = doc.range.fields[0].as_field_display_barcode()
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"501234567890\" EAN13 \\t \\p CASE \\x", "", barcode)
+    #    self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"501234567890\" EAN13 \\t \\p CASE \\x", "", barcode)
     #    self.assertEqual("501234567890", barcode.barcode_value)
     #    self.assertEqual("EAN13", barcode.barcode_type)
 
     #    barcode = doc.range.fields[1].as_field_display_barcode()
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"123456789012\" EAN13 \\t \\p CASE \\x", "", barcode)
+    #    self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"123456789012\" EAN13 \\t \\p CASE \\x", "", barcode)
     #    self.assertEqual("123456789012", barcode.barcode_value)
     #    self.assertEqual("EAN13", barcode.barcode_type)
 
@@ -3786,8 +3785,8 @@ class ExField(ApiExampleBase):
 
     #    #ExStart
     #    #ExFor:FieldMergeBarcode
-    #    #ExFor:FieldMergeBarcode.AddStartStopChar
-    #    #ExFor:FieldMergeBarcode.BarcodeType
+    #    #ExFor:FieldMergeBarcode.add_start_stop_char
+    #    #ExFor:FieldMergeBarcode.barcode_type
     #    #ExSummary:Shows how to perform a mail merge on CODE39 barcodes.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -3831,13 +3830,13 @@ class ExField(ApiExampleBase):
 
     #    barcode = doc.range.fields[0].as_field_display_barcode()
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"12345ABCDE\" CODE39 \\d", "", barcode)
+    #    self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"12345ABCDE\" CODE39 \\d", "", barcode)
     #    self.assertEqual("12345ABCDE", barcode.barcode_value)
     #    self.assertEqual("CODE39", barcode.barcode_type)
 
     #    barcode = doc.range.fields[1].as_field_display_barcode()
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"67890FGHIJ\" CODE39 \\d", "", barcode)
+    #    self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"67890FGHIJ\" CODE39 \\d", "", barcode)
     #    self.assertEqual("67890FGHIJ", barcode.barcode_value)
     #    self.assertEqual("CODE39", barcode.barcode_type)
 
@@ -3845,8 +3844,8 @@ class ExField(ApiExampleBase):
 
     #    #ExStart
     #    #ExFor:FieldMergeBarcode
-    #    #ExFor:FieldMergeBarcode.BarcodeType
-    #    #ExFor:FieldMergeBarcode.CaseCodeStyle
+    #    #ExFor:FieldMergeBarcode.barcode_type
+    #    #ExFor:FieldMergeBarcode.case_code_style
     #    #ExSummary:Shows how to perform a mail merge on ITF14 barcodes.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -3887,53 +3886,53 @@ class ExField(ApiExampleBase):
 
     #    barcode = doc.range.fields[0].as_field_display_barcode()
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"09312345678907\" ITF14 \\c STD", "", barcode)
+    #    self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"09312345678907\" ITF14 \\c STD", "", barcode)
     #    self.assertEqual("09312345678907", barcode.barcode_value)
     #    self.assertEqual("ITF14", barcode.barcode_type)
 
     #    barcode = doc.range.fields[1].as_field_display_barcode()
 
-    #    TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"1234567891234\" ITF14 \\c STD", "", barcode)
+    #    self.verify_field(aw.fields.FieldType.FIELD_DISPLAY_BARCODE, "DISPLAYBARCODE \"1234567891234\" ITF14 \\c STD", "", barcode)
     #    self.assertEqual("1234567891234", barcode.barcode_value)
     #    self.assertEqual("ITF14", barcode.barcode_type)
 
     #ExStart
     #ExFor:FieldLink
-    #ExFor:FieldLink.AutoUpdate
-    #ExFor:FieldLink.FormatUpdateType
-    #ExFor:FieldLink.InsertAsBitmap
-    #ExFor:FieldLink.InsertAsHtml
-    #ExFor:FieldLink.InsertAsPicture
-    #ExFor:FieldLink.InsertAsRtf
-    #ExFor:FieldLink.InsertAsText
-    #ExFor:FieldLink.InsertAsUnicode
-    #ExFor:FieldLink.IsLinked
-    #ExFor:FieldLink.ProgId
-    #ExFor:FieldLink.SourceFullName
-    #ExFor:FieldLink.SourceItem
+    #ExFor:FieldLink.auto_update
+    #ExFor:FieldLink.format_update_type
+    #ExFor:FieldLink.insert_as_bitmap
+    #ExFor:FieldLink.insert_as_html
+    #ExFor:FieldLink.insert_as_picture
+    #ExFor:FieldLink.insert_as_rtf
+    #ExFor:FieldLink.insert_as_text
+    #ExFor:FieldLink.insert_as_unicode
+    #ExFor:FieldLink.is_linked
+    #ExFor:FieldLink.prog_id
+    #ExFor:FieldLink.source_full_name
+    #ExFor:FieldLink.source_item
     #ExFor:FieldDde
-    #ExFor:FieldDde.AutoUpdate
-    #ExFor:FieldDde.InsertAsBitmap
-    #ExFor:FieldDde.InsertAsHtml
-    #ExFor:FieldDde.InsertAsPicture
-    #ExFor:FieldDde.InsertAsRtf
-    #ExFor:FieldDde.InsertAsText
-    #ExFor:FieldDde.InsertAsUnicode
-    #ExFor:FieldDde.IsLinked
-    #ExFor:FieldDde.ProgId
-    #ExFor:FieldDde.SourceFullName
-    #ExFor:FieldDde.SourceItem
+    #ExFor:FieldDde.auto_update
+    #ExFor:FieldDde.insert_as_bitmap
+    #ExFor:FieldDde.insert_as_html
+    #ExFor:FieldDde.insert_as_picture
+    #ExFor:FieldDde.insert_as_rtf
+    #ExFor:FieldDde.insert_as_text
+    #ExFor:FieldDde.insert_as_unicode
+    #ExFor:FieldDde.is_linked
+    #ExFor:FieldDde.prog_id
+    #ExFor:FieldDde.source_full_name
+    #ExFor:FieldDde.source_item
     #ExFor:FieldDdeAuto
-    #ExFor:FieldDdeAuto.InsertAsBitmap
-    #ExFor:FieldDdeAuto.InsertAsHtml
-    #ExFor:FieldDdeAuto.InsertAsPicture
-    #ExFor:FieldDdeAuto.InsertAsRtf
-    #ExFor:FieldDdeAuto.InsertAsText
-    #ExFor:FieldDdeAuto.InsertAsUnicode
-    #ExFor:FieldDdeAuto.IsLinked
-    #ExFor:FieldDdeAuto.ProgId
-    #ExFor:FieldDdeAuto.SourceFullName
-    #ExFor:FieldDdeAuto.SourceItem
+    #ExFor:FieldDdeAuto.insert_as_bitmap
+    #ExFor:FieldDdeAuto.insert_as_html
+    #ExFor:FieldDdeAuto.insert_as_picture
+    #ExFor:FieldDdeAuto.insert_as_rtf
+    #ExFor:FieldDdeAuto.insert_as_text
+    #ExFor:FieldDdeAuto.insert_as_unicode
+    #ExFor:FieldDdeAuto.is_linked
+    #ExFor:FieldDdeAuto.prog_id
+    #ExFor:FieldDdeAuto.source_full_name
+    #ExFor:FieldDdeAuto.source_item
     #ExSummary:Shows how to use various field types to link to other documents in the local file system, and display their contents.
     @unittest.skip("WORDSNET-16226") #ExSkip
     def test_field_linked_objects_as_text(self):
@@ -3962,7 +3961,7 @@ class ExField(ApiExampleBase):
                     "Sheet1!R1C1", True)
 
                 doc.update_fields()
-                doc.save(ARTIFACTS_DIR + "Field.link.dde.ddeauto.docx")
+                doc.save(ARTIFACTS_DIR + "Field.field_linked_objects_as_text.docx")
 
     @unittest.skip("WORDSNET-16226") #ExSkip
     def test_field_linked_objects_as_image(self):
@@ -3990,7 +3989,7 @@ class ExField(ApiExampleBase):
                     "Sheet1!R1C1", True)
 
                 doc.update_fields()
-                doc.save(ARTIFACTS_DIR + "Field.link.dde.ddeauto.as_image.docx")
+                doc.save(ARTIFACTS_DIR + "Field.field_linked_objects_as_image.docx")
 
     @staticmethod
     def insert_field_link(builder: aw.DocumentBuilder, insert_linked_object_as: 'ExField.InsertLinkedObjectAs',
@@ -4001,7 +4000,7 @@ class ExField(ApiExampleBase):
 
         if insert_linked_object_as == ExField.InsertLinkedObjectAs.TEXT:
             field.insert_as_text = True
-            
+
         elif insert_linked_object_as == ExField.InsertLinkedObjectAs.UNICODE:
             field.insert_as_unicode = True
 
@@ -4104,7 +4103,7 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldUserAddress
-        #ExFor:FieldUserAddress.UserAddress
+        #ExFor:FieldUserAddress.user_address
         #ExSummary:Shows how to use the USERADDRESS field.
         doc = aw.Document()
 
@@ -4133,21 +4132,21 @@ class ExField(ApiExampleBase):
         self.assertEqual("123 Main Street", doc.field_options.current_user.address)
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.useraddress.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_user_address.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.useraddress.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_user_address.docx")
 
         field_user_address = doc.range.fields[0].as_field_user_address()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_USER_ADDRESS, " USERADDRESS  \"456 North Road\"", "456 North Road", field_user_address)
+        self.verify_field(aw.fields.FieldType.FIELD_USER_ADDRESS, " USERADDRESS  \"456 North Road\"", "456 North Road", field_user_address)
         self.assertEqual("456 North Road", field_user_address.user_address)
 
     def test_field_user_initials(self):
 
         #ExStart
         #ExFor:FieldUserInitials
-        #ExFor:FieldUserInitials.UserInitials
+        #ExFor:FieldUserInitials.user_initials
         #ExSummary:Shows how to use the USERINITIALS field.
         doc = aw.Document()
 
@@ -4176,21 +4175,21 @@ class ExField(ApiExampleBase):
         self.assertEqual("J. D.", doc.field_options.current_user.initials)
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.userinitials.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_user_initials.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.userinitials.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_user_initials.docx")
 
         field_user_initials = doc.range.fields[0].as_field_user_initials()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_USER_INITIALS, " USERINITIALS  \"J. C.\"", "J. C.", field_user_initials)
+        self.verify_field(aw.fields.FieldType.FIELD_USER_INITIALS, " USERINITIALS  \"J. C.\"", "J. C.", field_user_initials)
         self.assertEqual("J. C.", field_user_initials.user_initials)
 
     def test_field_user_name(self):
 
         #ExStart
         #ExFor:FieldUserName
-        #ExFor:FieldUserName.UserName
+        #ExFor:FieldUserName.user_name
         #ExSummary:Shows how to use the USERNAME field.
         doc = aw.Document()
 
@@ -4220,14 +4219,14 @@ class ExField(ApiExampleBase):
         self.assertEqual("John Doe", doc.field_options.current_user.name)
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.username.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_user_name.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.username.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_user_name.docx")
 
         field_user_name = doc.range.fields[0].as_field_user_name()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_USER_NAME, " USERNAME  \"Jane Doe\"", "Jane Doe", field_user_name)
+        self.verify_field(aw.fields.FieldType.FIELD_USER_NAME, " USERNAME  \"Jane Doe\"", "Jane Doe", field_user_name)
         self.assertEqual("Jane Doe", field_user_name.user_name)
 
     @unittest.skip("WORDSNET-17657")
@@ -4235,13 +4234,13 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldStyleRef
-        #ExFor:FieldStyleRef.InsertParagraphNumber
-        #ExFor:FieldStyleRef.InsertParagraphNumberInFullContext
-        #ExFor:FieldStyleRef.InsertParagraphNumberInRelativeContext
-        #ExFor:FieldStyleRef.InsertRelativePosition
-        #ExFor:FieldStyleRef.SearchFromBottom
-        #ExFor:FieldStyleRef.StyleName
-        #ExFor:FieldStyleRef.SuppressNonDelimiters
+        #ExFor:FieldStyleRef.insert_paragraph_number
+        #ExFor:FieldStyleRef.insert_paragraph_number_in_full_context
+        #ExFor:FieldStyleRef.insert_paragraph_number_in_relative_context
+        #ExFor:FieldStyleRef.insert_relative_position
+        #ExFor:FieldStyleRef.search_from_bottom
+        #ExFor:FieldStyleRef.style_name
+        #ExFor:FieldStyleRef.suppress_non_delimiters
         #ExSummary:Shows how to use STYLEREF fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -4302,43 +4301,43 @@ class ExField(ApiExampleBase):
         field.suppress_non_delimiters = True
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.styleref.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_style_ref_paragraph_numbers.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.styleref.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_style_ref_paragraph_numbers.docx")
 
         field = doc.range.fields[0].as_field_style_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  \"List Paragraph\"", "Item 1", field)
+        self.verify_field(aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  \"List Paragraph\"", "Item 1", field)
         self.assertEqual("List Paragraph", field.style_name)
 
         field = doc.range.fields[1].as_field_style_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  \"List Paragraph\" \\l", "Item 3", field)
+        self.verify_field(aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  \"List Paragraph\" \\l", "Item 3", field)
         self.assertEqual("List Paragraph", field.style_name)
         self.assertTrue(field.search_from_bottom)
 
         field = doc.range.fields[2].as_field_style_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\n", "b )", field)
+        self.verify_field(aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\n", "b )", field)
         self.assertEqual("Quote", field.style_name)
         self.assertTrue(field.insert_paragraph_number)
 
         field = doc.range.fields[3].as_field_style_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\r", "b )", field)
+        self.verify_field(aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\r", "b )", field)
         self.assertEqual("Quote", field.style_name)
         self.assertTrue(field.insert_paragraph_number_in_relative_context)
 
         field = doc.range.fields[4].as_field_style_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\w", "1.b )", field)
+        self.verify_field(aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\w", "1.b )", field)
         self.assertEqual("Quote", field.style_name)
         self.assertTrue(field.insert_paragraph_number_in_full_context)
 
         field = doc.range.fields[5].as_field_style_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\w \\t", "1.b)", field)
+        self.verify_field(aw.fields.FieldType.FIELD_STYLE_REF, " STYLEREF  Quote \\w \\t", "1.b)", field)
         self.assertEqual("Quote", field.style_name)
         self.assertTrue(field.insert_paragraph_number_in_full_context)
         self.assertTrue(field.suppress_non_delimiters)
@@ -4347,10 +4346,10 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldDate
-        #ExFor:FieldDate.UseLunarCalendar
-        #ExFor:FieldDate.UseSakaEraCalendar
-        #ExFor:FieldDate.UseUmAlQuraCalendar
-        #ExFor:FieldDate.UseLastFormat
+        #ExFor:FieldDate.use_lunar_calendar
+        #ExFor:FieldDate.use_saka_era_calendar
+        #ExFor:FieldDate.use_um_al_qura_calendar
+        #ExFor:FieldDate.use_last_format
         #ExSummary:Shows how to use DATE fields to display dates according to different kinds of calendars.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -4383,10 +4382,10 @@ class ExField(ApiExampleBase):
         builder.writeln()
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.date.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_date.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.date.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_date.docx")
 
         field = doc.range.fields[0].as_field_date()
 
@@ -4397,17 +4396,17 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[1].as_field_date()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DATE, " DATE  \\u", datetime.now().strftime("%d/%m/%Y"), field)
+        self.verify_field(aw.fields.FieldType.FIELD_DATE, " DATE  \\u", datetime.now().strftime("%d/%m/%Y"), field)
         self.assertTrue(field.use_um_al_qura_calendar)
 
         field = doc.range.fields[2].as_field_date()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DATE, " DATE  \\s", datetime.now().strftime("%d/%m/%Y"), field)
+        self.verify_field(aw.fields.FieldType.FIELD_DATE, " DATE  \\s", datetime.now().strftime("%d/%m/%Y"), field)
         self.assertTrue(field.use_saka_era_calendar)
 
         field = doc.range.fields[3].as_field_date()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DATE, " DATE  \\l", datetime.now().strftime("%d/%m/%Y"), field)
+        self.verify_field(aw.fields.FieldType.FIELD_DATE, " DATE  \\l", datetime.now().strftime("%d/%m/%Y"), field)
         self.assertTrue(field.use_last_format)
 
     @unittest.skip("WORDSNET-17669")
@@ -4415,9 +4414,9 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldCreateDate
-        #ExFor:FieldCreateDate.UseLunarCalendar
-        #ExFor:FieldCreateDate.UseSakaEraCalendar
-        #ExFor:FieldCreateDate.UseUmAlQuraCalendar
+        #ExFor:FieldCreateDate.use_lunar_calendar
+        #ExFor:FieldCreateDate.use_saka_era_calendar
+        #ExFor:FieldCreateDate.use_um_al_qura_calendar
         #ExSummary:Shows how to use the CREATEDATE field to display the creation date/time of the document.
         doc = aw.Document(MY_DIR + "Document.docx")
         builder = aw.DocumentBuilder(doc)
@@ -4448,10 +4447,10 @@ class ExField(ApiExampleBase):
         self.assertEqual(" CREATEDATE  \\s", field.get_field_code())
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.createdate.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_create_date.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.createdate.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_create_date.docx")
 
         self.assertEqual(datetime(2017, 12, 5, 9, 56, 0), doc.built_in_document_properties.created_time)
 
@@ -4459,7 +4458,7 @@ class ExField(ApiExampleBase):
         field = doc.range.fields[0].as_field_create_date()
         um_al_qura_calendar = UmAlQuraCalendar()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_CREATE_DATE, " CREATEDATE  \\h",
+        self.verify_field(aw.fields.FieldType.FIELD_CREATE_DATE, " CREATEDATE  \\h",
             f"{umAlQuraCalendar.get_month(expected_date)}/{umAlQuraCalendar.get_day_of_month(expected_date)}/{umAlQuraCalendar.get_year(expected_date)} " +
             expected_date.add_hours(1).to_string("hh:mm:ss tt"), field)
         self.assertEqual(aw.fields.FieldType.FIELD_CREATE_DATE, field.type)
@@ -4467,7 +4466,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[1].as_field_create_date()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_CREATE_DATE, " CREATEDATE  \\u",
+        self.verify_field(aw.fields.FieldType.FIELD_CREATE_DATE, " CREATEDATE  \\u",
             f"{umAlQuraCalendar.get_month(expected_date)}/{umAlQuraCalendar.get_day_of_month(expected_date)}/{umAlQuraCalendar.get_year(expected_date)} " +
             expected_date.add_hours(1).to_string("hh:mm:ss tt"), field)
         self.assertEqual(aw.fields.FieldType.FIELD_CREATE_DATE, field.type)
@@ -4477,11 +4476,11 @@ class ExField(ApiExampleBase):
     def test_field_save_date(self):
 
         #ExStart
-        #ExFor:BuiltInDocumentProperties.LastSavedTime
+        #ExFor:BuiltInDocumentProperties.last_saved_time
         #ExFor:FieldSaveDate
-        #ExFor:FieldSaveDate.UseLunarCalendar
-        #ExFor:FieldSaveDate.UseSakaEraCalendar
-        #ExFor:FieldSaveDate.UseUmAlQuraCalendar
+        #ExFor:FieldSaveDate.use_lunar_calendar
+        #ExFor:FieldSaveDate.use_saka_era_calendar
+        #ExFor:FieldSaveDate.use_um_al_qura_calendar
         #ExSummary:Shows how to use the SAVEDATE field to display the date/time of the document's most recent save operation performed using Microsoft Word.
         doc = aw.Document(MY_DIR + "Document.docx")
         builder = aw.DocumentBuilder(doc)
@@ -4490,7 +4489,7 @@ class ExField(ApiExampleBase):
 
         # We can use the SAVEDATE field to display the last save operation's date and time on the document.
         # The save operation that these fields refer to is the manual save in an application like Microsoft Word,
-        # not the document's Save method.
+        # not the document's "save" method.
         # Below are three different calendar types according to which the SAVEDATE field can display the date/time.
         # 1 -  Islamic Lunar Calendar:
         builder.write("According to the Lunar Calendar - ")
@@ -4513,15 +4512,15 @@ class ExField(ApiExampleBase):
 
         self.assertEqual(" SAVEDATE  \\s", field.get_field_code())
 
-        # The SAVEDATE fields draw their date/time values from the LastSavedTime built-in property.
+        # The SAVEDATE fields draw their date/time values from the "last_saved_time" built-in property.
         # The document's Save method will not update this value, but we can still update it manually.
         doc.built_in_document_properties.last_saved_time = datetime.now()
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.savedate.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_save_date.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.savedate.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_save_date.docx")
 
         print(doc.built_in_document_properties.last_saved_time)
 
@@ -4544,20 +4543,20 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldBuilder
-        #ExFor:FieldBuilder.AddArgument(Int32)
-        #ExFor:FieldBuilder.AddArgument(FieldArgumentBuilder)
-        #ExFor:FieldBuilder.AddArgument(String)
-        #ExFor:FieldBuilder.AddArgument(Double)
-        #ExFor:FieldBuilder.AddArgument(FieldBuilder)
-        #ExFor:FieldBuilder.AddSwitch(String)
-        #ExFor:FieldBuilder.AddSwitch(String, Double)
-        #ExFor:FieldBuilder.AddSwitch(String, Int32)
-        #ExFor:FieldBuilder.AddSwitch(String, String)
-        #ExFor:FieldBuilder.BuildAndInsert(Paragraph)
+        #ExFor:FieldBuilder.add_argument(int)
+        #ExFor:FieldBuilder.add_argument(FieldArgumentBuilder)
+        #ExFor:FieldBuilder.add_argument(str)
+        #ExFor:FieldBuilder.add_argument(float)
+        #ExFor:FieldBuilder.add_argument(FieldBuilder)
+        #ExFor:FieldBuilder.add_switch(str)
+        #ExFor:FieldBuilder.add_switch(str,float)
+        #ExFor:FieldBuilder.add_switch(str,int)
+        #ExFor:FieldBuilder.add_switch(str,str)
+        #ExFor:FieldBuilder.build_and_insert(Paragraph)
         #ExFor:FieldArgumentBuilder
-        #ExFor:FieldArgumentBuilder.AddField(FieldBuilder)
-        #ExFor:FieldArgumentBuilder.AddText(String)
-        #ExFor:FieldArgumentBuilder.AddNode(Inline)
+        #ExFor:FieldArgumentBuilder.add_field(FieldBuilder)
+        #ExFor:FieldArgumentBuilder.add_text(str)
+        #ExFor:FieldArgumentBuilder.add_node(Inline)
         #ExSummary:Shows how to construct fields using a field builder, and then insert them into the document.
         doc = aw.Document()
 
@@ -4592,7 +4591,7 @@ class ExField(ApiExampleBase):
 
         # 3 -  Multiple nested fields and arguments:
         # Now, we will use a builder to create an IF field, which displays one of two custom string values,
-        # depending on the true/false value of its expression. To get a true/false value
+        # depending on the True/False value of its expression. To get a True/False value
         # that determines which string the IF field displays, the IF field will test two numeric expressions for equality.
         # We will provide the two expressions in the form of formula fields, which we will nest inside the IF field.
         left_expression = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_FORMULA)
@@ -4605,7 +4604,7 @@ class ExField(ApiExampleBase):
         right_expression.add_argument("*")
         right_expression.add_argument(5.2)
 
-        # Next, we will build two field arguments, which will serve as the true/false output strings for the IF field.
+        # Next, we will build two field arguments, which will serve as the True/False output strings for the IF field.
         # These arguments will reuse the output values of our numeric expressions.
         true_output = aw.fields.FieldArgumentBuilder()
         true_output.add_text("True, both expressions amount to ")
@@ -4631,58 +4630,58 @@ class ExField(ApiExampleBase):
                         "\"False, \u0013 = 2 + 3 \u0014\u0015 does not equal \u0013 = 2.5 * 5.2 \u0014\u0015\" ", field.get_field_code())
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.symbol.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_builder.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.symbol.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_builder.docx")
 
         field_symbol = doc.range.fields[0].as_field_symbol()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL 402 \\f Arial \\s 25 \\u ", "", fieldSymbol)
+        self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL 402 \\f Arial \\s 25 \\u ", "", field_symbol)
         self.assertEqual("ƒ", field_symbol.display_result)
 
         field_symbol = doc.range.fields[1].as_field_symbol()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL \u0013 = 100 + 74 \u0014174\u0015 ", "", fieldSymbol)
+        self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL \u0013 = 100 + 74 \u0014174\u0015 ", "", field_symbol)
         self.assertEqual("®", field_symbol.display_result)
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FORMULA, " = 100 + 74 ", "174", doc.range.fields[2])
+        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, " = 100 + 74 ", "174", doc.range.fields[2])
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_IF,
+        self.verify_field(aw.fields.FieldType.FIELD_IF,
             " IF \u0013 = 2 + 3 \u00145\u0015 = \u0013 = 2.5 * 5.2 \u001413\u0015 " +
             "\"True, both expressions amount to \u0013 = 2 + 3 \u0014\u0015\" " +
             "\"False, \u0013 = 2 + 3 \u00145\u0015 does not equal \u0013 = 2.5 * 5.2 \u001413\u0015\" ",
             "False, 5 does not equal 13", doc.range.fields[3])
 
         with self.assertRaises(Exception):
-            TestUtil.fields_are_nested(doc.range.fields[2], doc.range.fields[3])
+            self.fields_are_nested(doc.range.fields[2], doc.range.fields[3])
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FORMULA, " = 2 + 3 ", "5", doc.range.fields[4])
-        TestUtil.fields_are_nested(doc.range.fields[4], doc.range.fields[3])
+        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, " = 2 + 3 ", "5", doc.range.fields[4])
+        self.fields_are_nested(doc.range.fields[4], doc.range.fields[3])
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FORMULA, " = 2.5 * 5.2 ", "13", doc.range.fields[5])
-        TestUtil.fields_are_nested(doc.range.fields[5], doc.range.fields[3])
+        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, " = 2.5 * 5.2 ", "13", doc.range.fields[5])
+        self.fields_are_nested(doc.range.fields[5], doc.range.fields[3])
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FORMULA, " = 2 + 3 ", "", doc.range.fields[6])
-        TestUtil.fields_are_nested(doc.range.fields[6], doc.range.fields[3])
+        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, " = 2 + 3 ", "", doc.range.fields[6])
+        self.fields_are_nested(doc.range.fields[6], doc.range.fields[3])
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FORMULA, " = 2 + 3 ", "5", doc.range.fields[7])
-        TestUtil.fields_are_nested(doc.range.fields[7], doc.range.fields[3])
+        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, " = 2 + 3 ", "5", doc.range.fields[7])
+        self.fields_are_nested(doc.range.fields[7], doc.range.fields[3])
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FORMULA, " = 2.5 * 5.2 ", "13", doc.range.fields[8])
-        TestUtil.fields_are_nested(doc.range.fields[8], doc.range.fields[3])
+        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, " = 2.5 * 5.2 ", "13", doc.range.fields[8])
+        self.fields_are_nested(doc.range.fields[8], doc.range.fields[3])
 
     def test_field_author(self):
 
         #ExStart
         #ExFor:FieldAuthor
-        #ExFor:FieldAuthor.AuthorName
-        #ExFor:FieldOptions.DefaultDocumentAuthor
+        #ExFor:FieldAuthor.author_name
+        #ExFor:FieldOptions.default_document_author
         #ExSummary:Shows how to use an AUTHOR field to display a document creator's name.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # AUTHOR fields source their results from the built-in document property called "Author".
+        # AUTHOR fields source their results from the built-in document property called "author".
         # If we create and save a document in Microsoft Word,
         # it will have our username in that property.
         # However, if we create a document programmatically using Aspose.Words,
@@ -4701,7 +4700,7 @@ class ExField(ApiExampleBase):
         self.assertEqual("Joe Bloggs", field.result)
 
         # Updating an AUTHOR field that contains a value
-        # will apply that value to the "Author" built-in property.
+        # will apply that value to the "author" built-in property.
         self.assertEqual("Joe Bloggs", doc.built_in_document_properties.author)
 
         # Changing this property, then updating the AUTHOR field will apply this value to the field.
@@ -4719,21 +4718,21 @@ class ExField(ApiExampleBase):
         self.assertEqual(" AUTHOR  \"Jane Doe\"", field.get_field_code())
         self.assertEqual("Jane Doe", field.result)
 
-        # AUTHOR fields do not affect the DefaultDocumentAuthor property.
+        # AUTHOR fields do not affect the "default_document_author" property.
         self.assertEqual("Jane Doe", doc.built_in_document_properties.author)
         self.assertEqual("Joe Bloggs", doc.field_options.default_document_author)
 
-        doc.save(ARTIFACTS_DIR + "Field.author.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_author.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.author.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_author.docx")
 
         self.assertIsNone(doc.field_options.default_document_author)
         self.assertEqual("Jane Doe", doc.built_in_document_properties.author)
 
         field = doc.range.fields[0].as_field_author()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_AUTHOR, " AUTHOR  \"Jane Doe\"", "Jane Doe", field)
+        self.verify_field(aw.fields.FieldType.FIELD_AUTHOR, " AUTHOR  \"Jane Doe\"", "Jane Doe", field)
         self.assertEqual("Jane Doe", field.author_name)
 
     def test_field_doc_variable(self):
@@ -4741,14 +4740,14 @@ class ExField(ApiExampleBase):
         #ExStart
         #ExFor:FieldDocProperty
         #ExFor:FieldDocVariable
-        #ExFor:FieldDocVariable.VariableName
+        #ExFor:FieldDocVariable.variable_name
         #ExSummary:Shows how to use DOCPROPERTY fields to display document properties and variables.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # Below are two ways of using DOCPROPERTY fields.
         # 1 -  Display a built-in property:
-        # Set a custom value for the "Category" built-in property, then insert a DOCPROPERTY field that references it.
+        # Set a custom value for the "category" built-in property, then insert a DOCPROPERTY field that references it.
         doc.built_in_document_properties.category = "My category"
 
         field_doc_property = builder.insert_field(" DOCPROPERTY Category ").as_field_doc_property()
@@ -4771,27 +4770,27 @@ class ExField(ApiExampleBase):
         self.assertEqual(" DOCVARIABLE  \"My Variable\"", field_doc_variable.get_field_code())
         self.assertEqual("My variable's value", field_doc_variable.result)
 
-        doc.save(ARTIFACTS_DIR + "Field.docproperty.docvariable.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_doc_variable.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.docproperty.docvariable.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_doc_variable.docx")
 
         self.assertEqual("My category", doc.built_in_document_properties.category)
 
         field_doc_property = doc.range.fields[0].as_field_doc_property()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DOC_PROPERTY, " DOCPROPERTY Category ", "My category", field_doc_property)
+        self.verify_field(aw.fields.FieldType.FIELD_DOC_PROPERTY, " DOCPROPERTY Category ", "My category", field_doc_property)
 
         field_doc_variable = doc.range.fields[1].as_field_doc_variable()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_DOC_VARIABLE, " DOCVARIABLE  \"My Variable\"", "My variable's value", field_doc_variable)
+        self.verify_field(aw.fields.FieldType.FIELD_DOC_VARIABLE, " DOCVARIABLE  \"My Variable\"", "My variable's value", field_doc_variable)
         self.assertEqual("My Variable", field_doc_variable.variable_name)
 
     def test_field_subject(self):
 
         #ExStart
         #ExFor:FieldSubject
-        #ExFor:FieldSubject.Text
+        #ExFor:FieldSubject.text
         #ExSummary:Shows how to use the SUBJECT field.
         doc = aw.Document()
 
@@ -4806,7 +4805,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(" SUBJECT ", field.get_field_code())
         self.assertEqual("My subject", field.result)
 
-        # If we give the SUBJECT field's Text property value and update it, the field will
+        # If we give the SUBJECT field's "text" property value and update it, the field will
         # overwrite the current value of the "subject" built-in property with the value of its Text property,
         # and then display the new value.
         field.text = "My new subject"
@@ -4817,28 +4816,28 @@ class ExField(ApiExampleBase):
 
         self.assertEqual("My new subject", doc.built_in_document_properties.subject)
 
-        doc.save(ARTIFACTS_DIR + "Field.subject.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_subject.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.subject.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_subject.docx")
 
         self.assertEqual("My new subject", doc.built_in_document_properties.subject)
 
         field = doc.range.fields[0].as_field_subject()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SUBJECT, " SUBJECT  \"My new subject\"", "My new subject", field)
+        self.verify_field(aw.fields.FieldType.FIELD_SUBJECT, " SUBJECT  \"My new subject\"", "My new subject", field)
         self.assertEqual("My new subject", field.text)
 
     def test_field_comments(self):
 
         #ExStart
         #ExFor:FieldComments
-        #ExFor:FieldComments.Text
+        #ExFor:FieldComments.text
         #ExSummary:Shows how to use the COMMENTS field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # Set a value for the document's "Comments" built-in property.
+        # Set a value for the document's "comments" built-in property.
         doc.built_in_document_properties.comments = "My comment."
 
         # Create a COMMENTS field to display the value of that built-in property.
@@ -4857,24 +4856,24 @@ class ExField(ApiExampleBase):
         self.assertEqual(" COMMENTS  \"My overriding comment.\"", field.get_field_code())
         self.assertEqual("My overriding comment.", field.result)
 
-        doc.save(ARTIFACTS_DIR + "Field.comments.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_comments.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.comments.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_comments.docx")
 
         self.assertEqual("My overriding comment.", doc.built_in_document_properties.comments)
 
         field = doc.range.fields[0].as_field_comments()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_COMMENTS, " COMMENTS  \"My overriding comment.\"", "My overriding comment.", field)
+        self.verify_field(aw.fields.FieldType.FIELD_COMMENTS, " COMMENTS  \"My overriding comment.\"", "My overriding comment.", field)
         self.assertEqual("My overriding comment.", field.text)
 
     def test_field_file_size(self):
 
         #ExStart
         #ExFor:FieldFileSize
-        #ExFor:FieldFileSize.IsInKilobytes
-        #ExFor:FieldFileSize.IsInMegabytes
+        #ExFor:FieldFileSize.is_in_kilobytes
+        #ExFor:FieldFileSize.is_in_megabytes
         #ExSummary:Shows how to display the file size of a document with a FILESIZE field.
         doc = aw.Document(MY_DIR + "Document.docx")
 
@@ -4913,34 +4912,34 @@ class ExField(ApiExampleBase):
 
         # To update the values of these fields while editing in Microsoft Word,
         # we must first save the changes, and then manually update these fields.
-        doc.save(ARTIFACTS_DIR + "Field.filesize.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_file_size.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.filesize.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_file_size.docx")
 
         field = doc.range.fields[0].as_field_file_size()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FILE_SIZE, " FILESIZE ", "18105", field)
+        self.verify_field(aw.fields.FieldType.FIELD_FILE_SIZE, " FILESIZE ", "18105", field)
 
         # These fields will need to be updated to produce an accurate result.
         doc.update_fields()
 
         field = doc.range.fields[1].as_field_file_size()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FILE_SIZE, " FILESIZE  \\k", "13", field)
+        self.verify_field(aw.fields.FieldType.FIELD_FILE_SIZE, " FILESIZE  \\k", "13", field)
         self.assertTrue(field.is_in_kilobytes)
 
         field = doc.range.fields[2].as_field_file_size()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FILE_SIZE, " FILESIZE  \\m", "0", field)
+        self.verify_field(aw.fields.FieldType.FIELD_FILE_SIZE, " FILESIZE  \\m", "0", field)
         self.assertTrue(field.is_in_megabytes)
 
     def test_field_go_to_button(self):
 
         #ExStart
         #ExFor:FieldGoToButton
-        #ExFor:FieldGoToButton.DisplayText
-        #ExFor:FieldGoToButton.Location
+        #ExFor:FieldGoToButton.display_text
+        #ExFor:FieldGoToButton.location
         #ExSummary:Shows to insert a GOTOBUTTON field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -4960,21 +4959,21 @@ class ExField(ApiExampleBase):
         builder.end_bookmark(field.location)
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.gotobutton.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_go_to_button.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.gotobutton.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_go_to_button.docx")
         field = doc.range.fields[0].as_field_go_to_button()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_GO_TO_BUTTON, " GOTOBUTTON  MyBookmark My Button", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_GO_TO_BUTTON, " GOTOBUTTON  MyBookmark My Button", "", field)
         self.assertEqual("My Button", field.display_text)
         self.assertEqual("MyBookmark", field.location)
 
     ##ExStart
     ##ExFor:FieldFillIn
-    ##ExFor:FieldFillIn.DefaultResponse
-    ##ExFor:FieldFillIn.PromptOnceOnMailMerge
-    ##ExFor:FieldFillIn.PromptText
+    ##ExFor:FieldFillIn.default_response
+    ##ExFor:FieldFillIn.prompt_once_on_mail_merge
+    ##ExFor:FieldFillIn.prompt_text
     ##ExSummary:Shows how to use the FILLIN field to prompt the user for a response.
     #def test_field_fill_in(self):
 
@@ -5022,7 +5021,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_fill_in()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FILL_IN, " FILLIN  \"Please enter a response:\" \\d \"A default response.\" \\o",
+        self.verify_field(aw.fields.FieldType.FIELD_FILL_IN, " FILLIN  \"Please enter a response:\" \\d \"A default response.\" \\o",
             "Response modified by PromptRespondent. A default response.", field)
         self.assertEqual("Please enter a response:", field.prompt_text)
         self.assertEqual("A default response.", field.default_response)
@@ -5032,13 +5031,13 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldInfo
-        #ExFor:FieldInfo.InfoType
-        #ExFor:FieldInfo.NewValue
+        #ExFor:FieldInfo.info_type
+        #ExFor:FieldInfo.new_value
         #ExSummary:Shows how to work with INFO fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # Set a value for the "Comments" built-in property and then insert an INFO field to display that property's value.
+        # Set a value for the "comments" built-in property and then insert an INFO field to display that property's value.
         doc.built_in_document_properties.comments = "My comment"
         field = builder.insert_field(aw.fields.FieldType.FIELD_INFO, True).as_field_info()
         field.info_type = "Comments"
@@ -5049,7 +5048,7 @@ class ExField(ApiExampleBase):
 
         builder.writeln()
 
-        # Setting a value for the field's NewValue property and updating
+        # Setting a value for the field's "new_value" property and updating
         # the field will also overwrite the corresponding built-in property with the new value.
         field = builder.insert_field(aw.fields.FieldType.FIELD_INFO, True).as_field_info()
         field.info_type = "Comments"
@@ -5060,38 +5059,38 @@ class ExField(ApiExampleBase):
         self.assertEqual("New comment", field.result)
         self.assertEqual("New comment", doc.built_in_document_properties.comments)
 
-        doc.save(ARTIFACTS_DIR + "Field.info.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_info.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.info.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_info.docx")
 
         self.assertEqual("New comment", doc.built_in_document_properties.comments)
 
         field = doc.range.fields[0].as_field_info()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INFO, " INFO  Comments", "My comment", field)
+        self.verify_field(aw.fields.FieldType.FIELD_INFO, " INFO  Comments", "My comment", field)
         self.assertEqual("Comments", field.info_type)
 
         field = doc.range.fields[1].as_field_info()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_INFO, " INFO  Comments \"New comment\"", "New comment", field)
+        self.verify_field(aw.fields.FieldType.FIELD_INFO, " INFO  Comments \"New comment\"", "New comment", field)
         self.assertEqual("Comments", field.info_type)
         self.assertEqual("New comment", field.new_value)
 
     def test_field_macro_button(self):
 
         #ExStart
-        #ExFor:Document.HasMacros
+        #ExFor:Document.has_macros
         #ExFor:FieldMacroButton
-        #ExFor:FieldMacroButton.DisplayText
-        #ExFor:FieldMacroButton.MacroName
+        #ExFor:FieldMacroButton.display_text
+        #ExFor:FieldMacroButton.macro_name
         #ExSummary:Shows how to use MACROBUTTON fields to allow us to run a document's macros by clicking.
         doc = aw.Document(MY_DIR + "Macro.docm")
         builder = aw.DocumentBuilder(doc)
 
         self.assertTrue(doc.has_macros)
 
-        # Insert a MACROBUTTON field, and reference one of the document's macros by name in the MacroName property.
+        # Insert a MACROBUTTON field, and reference one of the document's macros by name in the "macro_name" property.
         field = builder.insert_field(aw.fields.FieldType.FIELD_MACRO_BUTTON, True).as_field_macro_button()
         field.macro_name = "MyMacro"
         field.display_text = "Double click to run macro: " + field.macro_name
@@ -5111,20 +5110,20 @@ class ExField(ApiExampleBase):
         self.assertEqual(" MACROBUTTON  ViewZoom200 Run ViewZoom200", field.get_field_code())
 
         # Save the document as a macro-enabled document type.
-        doc.save(ARTIFACTS_DIR + "Field.macrobutton.docm")
+        doc.save(ARTIFACTS_DIR + "Field.field_macro_button.docm")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.macrobutton.docm")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_macro_button.docm")
 
         field = doc.range.fields[0].as_field_macro_button()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_MACRO_BUTTON, " MACROBUTTON  MyMacro Double click to run macro: MyMacro", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_MACRO_BUTTON, " MACROBUTTON  MyMacro Double click to run macro: MyMacro", "", field)
         self.assertEqual("MyMacro", field.macro_name)
         self.assertEqual("Double click to run macro: MyMacro", field.display_text)
 
         field = doc.range.fields[1].as_field_macro_button()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_MACRO_BUTTON, " MACROBUTTON  ViewZoom200 Run ViewZoom200", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_MACRO_BUTTON, " MACROBUTTON  ViewZoom200 Run ViewZoom200", "", field)
         self.assertEqual("ViewZoom200", field.macro_name)
         self.assertEqual("Run ViewZoom200", field.display_text)
 
@@ -5132,7 +5131,7 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldKeywords
-        #ExFor:FieldKeywords.Text
+        #ExFor:FieldKeywords.text
         #ExSummary:Shows to insert a KEYWORDS field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -5147,7 +5146,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(" KEYWORDS ", field.get_field_code())
         self.assertEqual("Keyword1, Keyword2", field.result)
 
-        # Setting a value for the field's Text property,
+        # Setting a value for the field's "text" property,
         # and then updating the field will also overwrite the corresponding built-in property with the new value.
         field.text = "OverridingKeyword"
         field.update()
@@ -5156,16 +5155,16 @@ class ExField(ApiExampleBase):
         self.assertEqual("OverridingKeyword", field.result)
         self.assertEqual("OverridingKeyword", doc.built_in_document_properties.keywords)
 
-        doc.save(ARTIFACTS_DIR + "Field.keywords.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_keywords.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.keywords.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_keywords.docx")
 
         self.assertEqual("OverridingKeyword", doc.built_in_document_properties.keywords)
 
         field = doc.range.fields[0].as_field_keywords()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_KEYWORD, " KEYWORDS  OverridingKeyword", "OverridingKeyword", field)
+        self.verify_field(aw.fields.FieldType.FIELD_KEYWORD, " KEYWORDS  OverridingKeyword", "OverridingKeyword", field)
         self.assertEqual("OverridingKeyword", field.text)
 
     def test_field_num(self):
@@ -5208,23 +5207,23 @@ class ExField(ApiExampleBase):
         # while we edit the document programmatically using Aspose.Words, or in Microsoft Word.
         # We need to update them every we need to see an up-to-date value.
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.numchars.numwords.numpages.page.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_num.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.numchars.numwords.numpages.page.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_num.docx")
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_NUM_CHARS, " NUMCHARS ", "6009", doc.range.fields[0])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_NUM_WORDS, " NUMWORDS ", "1054", doc.range.fields[1])
+        self.verify_field(aw.fields.FieldType.FIELD_NUM_CHARS, " NUMCHARS ", "6009", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_NUM_WORDS, " NUMWORDS ", "1054", doc.range.fields[1])
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE, " PAGE ", "6", doc.range.fields[2])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_NUM_PAGES, " NUMPAGES ", "6", doc.range.fields[3])
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE, " PAGE ", "6", doc.range.fields[2])
+        self.verify_field(aw.fields.FieldType.FIELD_NUM_PAGES, " NUMPAGES ", "6", doc.range.fields[3])
 
     def test_field_print(self):
 
         #ExStart
         #ExFor:FieldPrint
-        #ExFor:FieldPrint.PostScriptGroup
-        #ExFor:FieldPrint.PrinterInstructions
+        #ExFor:FieldPrint.post_script_group
+        #ExFor:FieldPrint.printer_instructions
         #ExSummary:Shows to insert a PRINT field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -5239,20 +5238,20 @@ class ExField(ApiExampleBase):
         field.post_script_group = "para"
 
         # When we use a printer that supports PostScript to print our document,
-        # this command will turn the entire area that we specified in "field.post_script_group" white.
+        # this command will turn the entire area that we specified in "post_script_group" white.
         field.printer_instructions = "erasepage"
 
         self.assertEqual(" PRINT  erasepage \\p para", field.get_field_code())
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.print.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_print.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.print.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_print.docx")
 
         field = doc.range.fields[0].as_field_print()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PRINT, " PRINT  erasepage \\p para", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_PRINT, " PRINT  erasepage \\p para", "", field)
         self.assertEqual("para", field.post_script_group)
         self.assertEqual("erasepage", field.printer_instructions)
 
@@ -5260,9 +5259,9 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldPrintDate
-        #ExFor:FieldPrintDate.UseLunarCalendar
-        #ExFor:FieldPrintDate.UseSakaEraCalendar
-        #ExFor:FieldPrintDate.UseUmAlQuraCalendar
+        #ExFor:FieldPrintDate.use_lunar_calendar
+        #ExFor:FieldPrintDate.use_saka_era_calendar
+        #ExFor:FieldPrintDate.use_um_al_qura_calendar
         #ExSummary:Shows read PRINTDATE fields.
         doc = aw.Document(MY_DIR + "Field sample - PRINTDATE.docx")
 
@@ -5302,8 +5301,8 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldQuote
-        #ExFor:FieldQuote.Text
-        #ExFor:Document.UpdateFields
+        #ExFor:FieldQuote.text
+        #ExFor:Document.update_fields
         #ExSummary:Shows to use the QUOTE field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -5330,22 +5329,22 @@ class ExField(ApiExampleBase):
 
         self.assertEqual("\"Quoted text\"", doc.range.fields[0].result)
 
-        doc.save(ARTIFACTS_DIR + "Field.quote.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_quote.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.quote.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_quote.docx")
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_QUOTE, " QUOTE  \"\\\"Quoted text\\\"\"", "\"Quoted text\"", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_QUOTE, " QUOTE  \"\\\"Quoted text\\\"\"", "\"Quoted text\"", doc.range.fields[0])
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_QUOTE, " QUOTE \u0013 DATE \u0014" + datetime.now().strftime("%d/%m/%Y") + "\u0015",
+        self.verify_field(aw.fields.FieldType.FIELD_QUOTE, " QUOTE \u0013 DATE \u0014" + datetime.now().strftime("%d/%m/%Y") + "\u0015",
             datetime.now().strftime("%d/%m/%Y"), doc.range.fields[1])
 
     ##ExStart
     ##ExFor:FieldNext
     ##ExFor:FieldNextIf
-    ##ExFor:FieldNextIf.ComparisonOperator
-    ##ExFor:FieldNextIf.LeftExpression
-    ##ExFor:FieldNextIf.RightExpression
+    ##ExFor:FieldNextIf.comparison_operator
+    ##ExFor:FieldNextIf.left_expression
+    ##ExFor:FieldNextIf.right_expression
     ##ExSummary:Shows how to use NEXT/NEXTIF fields to merge multiple rows into one page during a mail merge.
     #def test_field_next(self):
 
@@ -5378,7 +5377,7 @@ class ExField(ApiExampleBase):
     #    ExField.insert_merge_fields(builder, "Second row: ")
 
     #    # A NEXTIF field has the same function as a NEXT field,
-    #    # but it skips to the next row only if a statement constructed by the following 3 properties is true.
+    #    # but it skips to the next row only if a statement constructed by the following 3 properties is True.
     #    field_next_if = builder.insert_field(aw.fields.FieldType.FIELD_NEXT_IF, True).as_field_next_if()
     #    field_next_if.left_expression = "5"
     #    field_next_if.right_expression = "2 + 3"
@@ -5398,25 +5397,25 @@ class ExField(ApiExampleBase):
     #    doc.save(ARTIFACTS_DIR + "Field.next.nextif.docx")
     #    self._test_field_next(doc) #ExSKip
 
-    @staticmethod
-    def insert_merge_fields(builder: aw.DocumentBuilder, first_field_text_before: str):
-        """Uses a document builder to insert MERGEFIELDs for a data source that contains columns named "Courtesy Title", "First Name" and "Last Name"."""
+    #@staticmethod
+    #def insert_merge_fields(builder: aw.DocumentBuilder, first_field_text_before: str):
+    #    """Uses a document builder to insert MERGEFIELDs for a data source that contains columns named "Courtesy Title", "First Name" and "Last Name"."""
 
-        ExField.insert_merge_field(builder, "Courtesy Title", first_field_text_before, " ")
-        ExFieldinsert_merge_field(builder, "First Name", None, " ")
-        ExFieldinsert_merge_field(builder, "Last Name", None, None)
-        builder.insert_paragraph()
+    #    ExField.insert_merge_field(builder, "Courtesy Title", first_field_text_before, " ")
+    #    ExField.insert_merge_field(builder, "First Name", None, " ")
+    #    ExField.insert_merge_field(builder, "Last Name", None, None)
+    #    builder.insert_paragraph()
 
-    @staticmethod
-    def insert_merge_field(builder: aw.DocumentBuilder, field_name: str, text_before: str, text_after: str):
-        """Uses a document builder to insert a MERRGEFIELD with specified properties."""
+    #@staticmethod
+    #def insert_merge_field(builder: aw.DocumentBuilder, field_name: str, text_before: str, text_after: str):
+    #    """Uses a document builder to insert a MERRGEFIELD with specified properties."""
 
-        field = builder.insert_field(aw.fields.FieldType.FIELD_MERGE_FIELD, True).as_field_merge_field()
-        field.field_name = field_name
-        field.text_before = text_before
-        field.text_after = text_after
+    #    field = builder.insert_field(aw.fields.FieldType.FIELD_MERGE_FIELD, True).as_field_merge_field()
+    #    field.field_name = field_name
+    #    field.text_before = text_before
+    #    field.text_after = text_after
 
-    #ExEnd
+    ##ExEnd
 
     def _test_field_next(self, doc: aw.Document):
 
@@ -5429,10 +5428,10 @@ class ExField(ApiExampleBase):
 
     #ExStart
     #ExFor:FieldNoteRef
-    #ExFor:FieldNoteRef.BookmarkName
-    #ExFor:FieldNoteRef.InsertHyperlink
-    #ExFor:FieldNoteRef.InsertReferenceMark
-    #ExFor:FieldNoteRef.InsertRelativePosition
+    #ExFor:FieldNoteRef.bookmark_name
+    #ExFor:FieldNoteRef.insert_hyperlink
+    #ExFor:FieldNoteRef.insert_reference_mark
+    #ExFor:FieldNoteRef.insert_relative_position
     #ExSummary:Shows to insert NOTEREF fields, and modify their appearance.
     @unittest.skip("WORDSNET-17845") #ExSkip
     def test_field_note_ref(self):
@@ -5444,7 +5443,7 @@ class ExField(ApiExampleBase):
         ExField.insert_bookmark_with_footnote(builder, "MyBookmark1", "Contents of MyBookmark1", "Footnote from MyBookmark1")
 
         # This NOTEREF field will display the number of the footnote inside the referenced bookmark.
-        # Setting the insert_hyperlink property lets us jump to the bookmark by Ctrl + clicking the field in Microsoft Word.
+        # Setting the "insert_hyperlink" property lets us jump to the bookmark by Ctrl + clicking the field in Microsoft Word.
         self.assertEqual(" NOTEREF  MyBookmark2 \\h",
             ExField.insert_field_note_ref(builder, "MyBookmark2", True, False, False, "Hyperlink to Bookmark2, with footnote number ").get_field_code())
 
@@ -5462,8 +5461,8 @@ class ExField(ApiExampleBase):
         ExField.insert_bookmark_with_footnote(builder, "MyBookmark2", "Contents of MyBookmark2", "Footnote from MyBookmark2")
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.noteref.docx")
-        self._test_note_ref(aw.Document(ARTIFACTS_DIR + "Field.noteref.docx")) #ExSkip
+        doc.save(ARTIFACTS_DIR + "Field.field_note_ref.docx")
+        self._test_note_ref(aw.Document(ARTIFACTS_DIR + "Field.field_note_ref.docx")) #ExSkip
 
     @staticmethod
     def insert_field_note_ref(builder: aw.DocumentBuilder, bookmark_name: str, insert_hyperlink: bool, insert_relative_position: bool, insert_reference_mark: bool, text_before: str) -> aw.fields.FieldNoteRef:
@@ -5496,7 +5495,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_note_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_NOTE_REF, " NOTEREF  MyBookmark2 \\h", "2", field)
+        self.verify_field(aw.fields.FieldType.FIELD_NOTE_REF, " NOTEREF  MyBookmark2 \\h", "2", field)
         self.assertEqual("MyBookmark2", field.bookmark_name)
         self.assertTrue(field.insert_hyperlink)
         self.assertFalse(field.insert_relative_position)
@@ -5504,7 +5503,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[1].as_field_note_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_NOTE_REF, " NOTEREF  MyBookmark1 \\h \\p", "1 above", field)
+        self.verify_field(aw.fields.FieldType.FIELD_NOTE_REF, " NOTEREF  MyBookmark1 \\h \\p", "1 above", field)
         self.assertEqual("MyBookmark1", field.bookmark_name)
         self.assertTrue(field.insert_hyperlink)
         self.assertTrue(field.insert_relative_position)
@@ -5512,14 +5511,14 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[2].as_field_note_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_NOTE_REF, " NOTEREF  MyBookmark2 \\h \\p \\f", "2 below", field)
+        self.verify_field(aw.fields.FieldType.FIELD_NOTE_REF, " NOTEREF  MyBookmark2 \\h \\p \\f", "2 below", field)
         self.assertEqual("MyBookmark2", field.bookmark_name)
         self.assertTrue(field.insert_hyperlink)
         self.assertTrue(field.insert_relative_position)
         self.assertTrue(field.insert_reference_mark)
 
     @unittest.skip("WORDSNET-17845")
-    def test_footnote_ref(self):
+    def test_field_footnote_ref(self):
 
         #ExStart
         #ExFor:FieldFootnoteRef
@@ -5547,21 +5546,21 @@ class ExField(ApiExampleBase):
         doc.update_fields()
 
         # This field works only in older versions of Microsoft Word.
-        doc.save(ARTIFACTS_DIR + "Field.footnoteref.doc")
+        doc.save(ARTIFACTS_DIR + "Field.field_footnote_ref.doc")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.footnoteref.doc")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_footnote_ref.doc")
         field = doc.range.fields[0].as_field_footnote_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FOOTNOTE_REF, " FOOTNOTEREF CrossRefBookmark", "1", field)
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "", "Cross referenced footnote.",
+        self.verify_field(aw.fields.FieldType.FIELD_FOOTNOTE_REF, " FOOTNOTEREF CrossRefBookmark", "1", field)
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "", "Cross referenced footnote.",
             doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
 
     #ExStart
     #ExFor:FieldPageRef
-    #ExFor:FieldPageRef.BookmarkName
-    #ExFor:FieldPageRef.InsertHyperlink
-    #ExFor:FieldPageRef.InsertRelativePosition
+    #ExFor:FieldPageRef.bookmark_name
+    #ExFor:FieldPageRef.insert_hyperlink
+    #ExFor:FieldPageRef.insert_relative_position
     #ExSummary:Shows to insert PAGEREF fields to display the relative location of bookmarks.
     @unittest.skip("WORDSNET-17836") #ExSkip
     def test_field_page_ref(self):
@@ -5595,8 +5594,8 @@ class ExField(ApiExampleBase):
         ExField.insert_and_name_bookmark(builder, "MyBookmark3")
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.pageref.docx")
-        self._test_page_ref(aw.Document(ARTIFACTS_DIR + "Field.pageref.docx")) #ExSkip
+        doc.save(ARTIFACTS_DIR + "Field.field_page_ref.docx")
+        self._test_page_ref(aw.Document(ARTIFACTS_DIR + "Field.field_page_ref.docx")) #ExSkip
 
     @staticmethod
     def insert_field_page_ref(builder: aw.DocumentBuilder, bookmark_name: str, insert_hyperlink: bool, insert_relative_position: bool, text_before: str) -> aw.fields.FieldPageRef:
@@ -5626,43 +5625,43 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_page_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF  MyBookmark3 \\h", "2", field)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF  MyBookmark3 \\h", "2", field)
         self.assertEqual("MyBookmark3", field.bookmark_name)
         self.assertTrue(field.insert_hyperlink)
         self.assertFalse(field.insert_relative_position)
 
         field = doc.range.fields[1].as_field_page_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF  MyBookmark1 \\h \\p", "above", field)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF  MyBookmark1 \\h \\p", "above", field)
         self.assertEqual("MyBookmark1", field.bookmark_name)
         self.assertTrue(field.insert_hyperlink)
         self.assertTrue(field.insert_relative_position)
 
         field = doc.range.fields[2].as_field_page_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF  MyBookmark2 \\h \\p", "below", field)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF  MyBookmark2 \\h \\p", "below", field)
         self.assertEqual("MyBookmark2", field.bookmark_name)
         self.assertTrue(field.insert_hyperlink)
         self.assertTrue(field.insert_relative_position)
 
         field = doc.range.fields[3].as_field_page_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF  MyBookmark3 \\h \\p", "on page 2", field)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF  MyBookmark3 \\h \\p", "on page 2", field)
         self.assertEqual("MyBookmark3", field.bookmark_name)
         self.assertTrue(field.insert_hyperlink)
         self.assertTrue(field.insert_relative_position)
 
     #ExStart
     #ExFor:FieldRef
-    #ExFor:FieldRef.BookmarkName
-    #ExFor:FieldRef.IncludeNoteOrComment
-    #ExFor:FieldRef.InsertHyperlink
-    #ExFor:FieldRef.InsertParagraphNumber
-    #ExFor:FieldRef.InsertParagraphNumberInFullContext
-    #ExFor:FieldRef.InsertParagraphNumberInRelativeContext
-    #ExFor:FieldRef.InsertRelativePosition
-    #ExFor:FieldRef.NumberSeparator
-    #ExFor:FieldRef.SuppressNonDelimiters
+    #ExFor:FieldRef.bookmark_name
+    #ExFor:FieldRef.include_note_or_comment
+    #ExFor:FieldRef.insert_hyperlink
+    #ExFor:FieldRef.insert_paragraph_number
+    #ExFor:FieldRef.insert_paragraph_number_in_full_context
+    #ExFor:FieldRef.insert_paragraph_number_in_relative_context
+    #ExFor:FieldRef.insert_relative_position
+    #ExFor:FieldRef.number_separator
+    #ExFor:FieldRef.suppress_non_delimiters
     #ExSummary:Shows how to insert REF fields to reference bookmarks.
     @unittest.skip("WORDSNET-18067") #ExSkip
     def test_field_ref(self):
@@ -5731,8 +5730,8 @@ class ExField(ApiExampleBase):
         builder.list_format.list_level.number_format = ">>> \x0002"
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.r_e_f.docx")
-        self._test_field_ref(aw.Document(ARTIFACTS_DIR + "Field.r_e_f.docx")) #ExSkip
+        doc.save(ARTIFACTS_DIR + "Field.field_ref.docx")
+        self._test_field_ref(aw.Document(ARTIFACTS_DIR + "Field.field_ref.docx")) #ExSkip
 
     @staticmethod
     def insert_field_ref(builder: aw.DocumentBuilder, bookmark_name: str, text_before: str, text_after: str) -> aw.fields.FieldRef:
@@ -5748,14 +5747,14 @@ class ExField(ApiExampleBase):
 
     def _test_field_ref(self, doc: aw.Document):
 
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "", "MyBookmark footnote #1",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "", "MyBookmark footnote #1",
             doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
-        TestUtil.verify_footnote(self, aw.notes.FootnoteType.FOOTNOTE, True, "", "MyBookmark footnote #2",
+        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "", "MyBookmark footnote #2",
             doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
 
         field = doc.range.fields[0].as_field_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\f \\h",
+        self.verify_field(aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\f \\h",
             "\u0002 MyBookmark footnote #1\r" +
             "Text that will appear in REF field\u0002 MyBookmark footnote #2\r", field)
         self.assertEqual("MyBookmark", field.bookmark_name)
@@ -5764,13 +5763,13 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[1].as_field_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\p", "below", field)
+        self.verify_field(aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\p", "below", field)
         self.assertEqual("MyBookmark", field.bookmark_name)
         self.assertTrue(field.insert_relative_position)
 
         field = doc.range.fields[2].as_field_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\n", ">>> i", field)
+        self.verify_field(aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\n", ">>> i", field)
         self.assertEqual("MyBookmark", field.bookmark_name)
         self.assertTrue(field.insert_paragraph_number)
         self.assertEqual(" REF  MyBookmark \\n", field.get_field_code())
@@ -5778,20 +5777,20 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[3].as_field_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\n \\t", "i", field)
+        self.verify_field(aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\n \\t", "i", field)
         self.assertEqual("MyBookmark", field.bookmark_name)
         self.assertTrue(field.insert_paragraph_number)
         self.assertTrue(field.suppress_non_delimiters)
 
         field = doc.range.fields[4].as_field_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\w", "> 4>> c>>> i", field)
+        self.verify_field(aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\w", "> 4>> c>>> i", field)
         self.assertEqual("MyBookmark", field.bookmark_name)
         self.assertTrue(field.insert_paragraph_number_in_full_context)
 
         field = doc.range.fields[5].as_field_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\r", ">> c>>> i", field)
+        self.verify_field(aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\r", ">> c>>> i", field)
         self.assertEqual("MyBookmark", field.bookmark_name)
         self.assertTrue(field.insert_paragraph_number_in_relative_context)
 
@@ -5800,8 +5799,8 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldRD
-        #ExFor:FieldRD.FileName
-        #ExFor:FieldRD.IsPathRelative
+        #ExFor:FieldRD.file_name
+        #ExFor:FieldRD.is_path_relative
         #ExSummary:Shows to use the RD field to create a table of contents entries from headings in other documents.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -5830,10 +5829,10 @@ class ExField(ApiExampleBase):
         referenced_doc.save(ARTIFACTS_DIR + "ReferencedDocument.docx")
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.r_d.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_rd.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.r_d.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_rd.docx")
 
         field_toc = doc.range.fields[0].as_field_toc()
 
@@ -5842,11 +5841,11 @@ class ExField(ApiExampleBase):
 
         field_page_ref = doc.range.fields[1].as_field_page_ref()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF _Toc36149519 \\h ", "2", field_page_ref)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF _Toc36149519 \\h ", "2", field_page_ref)
 
         field = doc.range.fields[2].as_field_rd()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REF_DOC, " RD  ReferencedDocument.docx \\f", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_REF_DOC, " RD  ReferencedDocument.docx \\f", "", field)
         self.assertEqual("ReferencedDocument.docx", field.file_name)
         self.assertTrue(field.is_path_relative)
 
@@ -5854,9 +5853,9 @@ class ExField(ApiExampleBase):
 
     #    #ExStart
     #    #ExFor:FieldSkipIf
-    #    #ExFor:FieldSkipIf.ComparisonOperator
-    #    #ExFor:FieldSkipIf.LeftExpression
-    #    #ExFor:FieldSkipIf.RightExpression
+    #    #ExFor:FieldSkipIf.comparison_operator
+    #    #ExFor:FieldSkipIf.left_expression
+    #    #ExFor:FieldSkipIf.right_expression
     #    #ExSummary:Shows how to skip pages in a mail merge using the SKIPIF field.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -5906,10 +5905,10 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldRef
-        #ExFor:FieldRef.BookmarkName
+        #ExFor:FieldRef.bookmark_name
         #ExFor:FieldSet
-        #ExFor:FieldSet.BookmarkName
-        #ExFor:FieldSet.BookmarkText
+        #ExFor:FieldSet.bookmark_name
+        #ExFor:FieldSet.bookmark_text
         #ExSummary:Shows how to create bookmarked text with a SET field, and then display it in the document using a REF field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -5931,33 +5930,33 @@ class ExField(ApiExampleBase):
         self.assertEqual(" REF  MyBookmark", field_ref.get_field_code())
         self.assertEqual("Hello world!", field_ref.result)
 
-        doc.save(ARTIFACTS_DIR + "Field.set.ref.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_set_ref.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.set.ref.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_set_ref.docx")
 
         self.assertEqual("Hello world!", doc.range.bookmarks[0].text)
 
         field_set = doc.range.fields[0].as_field_set()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SET, " SET  MyBookmark \"Hello world!\"", "Hello world!", field_set)
+        self.verify_field(aw.fields.FieldType.FIELD_SET, " SET  MyBookmark \"Hello world!\"", "Hello world!", field_set)
         self.assertEqual("MyBookmark", field_set.bookmark_name)
         self.assertEqual("Hello world!", field_set.bookmark_text)
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_REF, " REF  MyBookmark", "Hello world!", field_ref)
+        self.verify_field(aw.fields.FieldType.FIELD_REF, " REF  MyBookmark", "Hello world!", field_ref)
         self.assertEqual("Hello world!", field_ref.result)
 
     def test_field_template(self):
 
         #ExStart
         #ExFor:FieldTemplate
-        #ExFor:FieldTemplate.IncludeFullPath
-        #ExFor:FieldOptions.TemplateName
+        #ExFor:FieldTemplate.include_full_path
+        #ExFor:FieldOptions.template_name
         #ExSummary:Shows how to use a TEMPLATE field to display the local file system location of a document's template.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # We can set a template name using by the fields. This property is used when the "doc.AttachedTemplate" is empty.
+        # We can set a template name using by the fields. This property is used when the "doc.attached_template" is empty.
         # If this property is empty the default template file name "Normal.dotm" is used.
         doc.field_options.template_name = ""
 
@@ -5971,10 +5970,10 @@ class ExField(ApiExampleBase):
         self.assertEqual(" TEMPLATE  \\p", field.get_field_code())
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.template.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_template.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.template.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_template.docx")
 
         field = doc.range.fields[0].as_field_template()
         self.assertEqual(" TEMPLATE ", field.get_field_code())
@@ -5988,13 +5987,13 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldSymbol
-        #ExFor:FieldSymbol.CharacterCode
-        #ExFor:FieldSymbol.DontAffectsLineSpacing
-        #ExFor:FieldSymbol.FontName
-        #ExFor:FieldSymbol.FontSize
-        #ExFor:FieldSymbol.IsAnsi
-        #ExFor:FieldSymbol.IsShiftJis
-        #ExFor:FieldSymbol.IsUnicode
+        #ExFor:FieldSymbol.character_code
+        #ExFor:FieldSymbol.dont_affects_line_spacing
+        #ExFor:FieldSymbol.font_name
+        #ExFor:FieldSymbol.font_size
+        #ExFor:FieldSymbol.is_ansi
+        #ExFor:FieldSymbol.is_shift_jis
+        #ExFor:FieldSymbol.is_unicode
         #ExSummary:Shows how to use the SYMBOL field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -6041,21 +6040,21 @@ class ExField(ApiExampleBase):
 
         builder.write("Line 3")
 
-        doc.save(ARTIFACTS_DIR + "Field.symbol.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_symbol.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.symbol.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_symbol.docx")
 
         field = doc.range.fields[0].as_field_symbol()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL  169 \\a", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL  169 \\a", "", field)
         self.assertEqual(0x00a9.to_string(), field.character_code)
         self.assertTrue(field.is_ansi)
         self.assertEqual("©", field.display_result)
 
         field = doc.range.fields[1].as_field_symbol()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL  8734 \\u \\f Calibri \\s 24 \\h", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL  8734 \\u \\f Calibri \\s 24 \\h", "", field)
         self.assertEqual(0x221E.to_string(), field.character_code)
         self.assertEqual("Calibri", field.font_name)
         self.assertEqual("24", field.font_size)
@@ -6065,7 +6064,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[2].as_field_symbol()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL  33440 \\f \"MS Gothic\" \\j", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, " SYMBOL  33440 \\f \"MS Gothic\" \\j", "", field)
         self.assertEqual(0x82A0.to_string(), field.character_code)
         self.assertEqual("MS Gothic", field.font_name)
         self.assertTrue(field.is_shift_jis)
@@ -6074,11 +6073,11 @@ class ExField(ApiExampleBase):
 
         #ExStart
         #ExFor:FieldTitle
-        #ExFor:FieldTitle.Text
+        #ExFor:FieldTitle.text
         #ExSummary:Shows how to use the TITLE field.
         doc = aw.Document()
 
-        # Set a value for the "Title" built-in document property.
+        # Set a value for the "title" built-in document property.
         doc.built_in_document_properties.title = "My Title"
 
         # We can use the TITLE field to display the value of this property in the document.
@@ -6089,7 +6088,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(" TITLE ", field.get_field_code())
         self.assertEqual("My Title", field.result)
 
-        # Setting a value for the field's Text property,
+        # Setting a value for the field's "text" property,
         # and then updating the field will also overwrite the corresponding built-in property with the new value.
         builder.writeln()
         field = builder.insert_field(aw.fields.FieldType.FIELD_TITLE, False).as_field_title()
@@ -6101,41 +6100,41 @@ class ExField(ApiExampleBase):
         self.assertEqual("My New Title", doc.built_in_document_properties.title)
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.title.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_title.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.title.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_title.docx")
 
         self.assertEqual("My New Title", doc.built_in_document_properties.title)
 
         field = doc.range.fields[0].as_field_title()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TITLE, " TITLE ", "My New Title", field)
+        self.verify_field(aw.fields.FieldType.FIELD_TITLE, " TITLE ", "My New Title", field)
 
         field = doc.range.fields[1].as_field_title()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TITLE, " TITLE  \"My New Title\"", "My New Title", field)
+        self.verify_field(aw.fields.FieldType.FIELD_TITLE, " TITLE  \"My New Title\"", "My New Title", field)
         self.assertEqual("My New Title", field.text)
 
     #ExStart
     #ExFor:FieldToa
-    #ExFor:FieldToa.BookmarkName
-    #ExFor:FieldToa.EntryCategory
-    #ExFor:FieldToa.EntrySeparator
-    #ExFor:FieldToa.PageNumberListSeparator
-    #ExFor:FieldToa.PageRangeSeparator
-    #ExFor:FieldToa.RemoveEntryFormatting
-    #ExFor:FieldToa.SequenceName
-    #ExFor:FieldToa.SequenceSeparator
-    #ExFor:FieldToa.UseHeading
-    #ExFor:FieldToa.UsePassim
+    #ExFor:FieldToa.bookmark_name
+    #ExFor:FieldToa.entry_category
+    #ExFor:FieldToa.entry_separator
+    #ExFor:FieldToa.page_number_list_separator
+    #ExFor:FieldToa.page_range_separator
+    #ExFor:FieldToa.remove_entry_formatting
+    #ExFor:FieldToa.sequence_name
+    #ExFor:FieldToa.sequence_separator
+    #ExFor:FieldToa.use_heading
+    #ExFor:FieldToa.use_passim
     #ExFor:FieldTA
-    #ExFor:FieldTA.EntryCategory
-    #ExFor:FieldTA.IsBold
-    #ExFor:FieldTA.IsItalic
-    #ExFor:FieldTA.LongCitation
-    #ExFor:FieldTA.PageRangeBookmarkName
-    #ExFor:FieldTA.ShortCitation
+    #ExFor:FieldTA.entry_category
+    #ExFor:FieldTA.is_bold
+    #ExFor:FieldTA.is_italic
+    #ExFor:FieldTA.long_citation
+    #ExFor:FieldTA.page_range_bookmark_name
+    #ExFor:FieldTA.short_citation
     #ExSummary:Shows how to build and customize a table of authorities using TOA and TA fields.
     def test_field_toa(self):
 
@@ -6147,11 +6146,11 @@ class ExField(ApiExampleBase):
         field_toa = builder.insert_field(aw.fields.FieldType.FIELD_TOA, False).as_field_toa()
 
         # Set the entry category for our table. This TOA will now only include TA fields
-        # that have a matching value in their EntryCategory property.
+        # that have a matching value in their "entry_category" property.
         field_toa.entry_category = "1"
 
         # Moreover, the Table of Authorities category at index 1 is "Cases",
-        # which will show up as our table's title if we set this variable to true.
+        # which will show up as our table's title if we set this variable to True.
         field_toa.use_heading = True
 
         # We can further filter TA fields by naming a bookmark that they will need to be within the TOA bounds.
@@ -6167,7 +6166,7 @@ class ExField(ApiExampleBase):
         # We can use this property to specify a string that will separate their page numbers.
         field_toa.page_number_list_separator = " & p. "
 
-        # We can set this to true to get our table to display the word "passim"
+        # We can set this to True to get our table to display the word "passim"
         # if there are five or more page numbers in one row.
         field_toa.use_passim = True
 
@@ -6176,7 +6175,7 @@ class ExField(ApiExampleBase):
         field_toa.page_range_separator = " to "
 
         # The format from the TA fields will carry over into our table.
-        # We can disable this by setting the RemoveEntryFormatting flag.
+        # We can disable this by setting the "remove_entry_formatting" flag.
         field_toa.remove_entry_formatting = True
         builder.font.color = drawing.Color.green
         builder.font.name = "Arial Black"
@@ -6186,7 +6185,7 @@ class ExField(ApiExampleBase):
         builder.insert_break(aw.BreakType.PAGE_BREAK)
 
         # This TA field will not appear as an entry in the TOA since it is outside
-        # the bookmark's bounds that the TOA's BookmarkName property specifies.
+        # the bookmark's bounds that the TOA's "bookmark_name" property specifies.
         field_ta = ExField.insert_toa_entry(builder, "1", "Source 1")
 
         self.assertEqual(" TA  \\c 1 \\l \"Source 1\"", field_ta.get_field_code())
@@ -6235,8 +6234,8 @@ class ExField(ApiExampleBase):
         builder.end_bookmark("MyBookmark")
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.toa.ta.docx")
-        self._test_field_toa(aw.Document(ARTIFACTS_DIR + "Field.toa.ta.docx")) #ExSKip
+        doc.save(ARTIFACTS_DIR + "Field.field_toa.docx")
+        self._test_field_toa(aw.Document(ARTIFACTS_DIR + "Field.field_toa.docx")) #ExSKip
 
     @staticmethod
     def insert_toa_entry(builder: aw.DocumentBuilder, entry_category: str, long_citation: str) -> aw.fields.FieldTA:
@@ -6271,26 +6270,26 @@ class ExField(ApiExampleBase):
 
         field_ta = doc.range.fields[1].as_field_ta()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 1\"", "", field_ta)
+        self.verify_field(aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 1\"", "", field_ta)
         self.assertEqual("1", field_ta.entry_category)
         self.assertEqual("Source 1", field_ta.long_citation)
 
         field_ta = doc.range.fields[2].as_field_ta()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 2 \\l \"Source 2\"", "", field_ta)
+        self.verify_field(aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 2 \\l \"Source 2\"", "", field_ta)
         self.assertEqual("2", field_ta.entry_category)
         self.assertEqual("Source 2", field_ta.long_citation)
 
         field_ta = doc.range.fields[3].as_field_ta()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 3\" \\s S.3", "", field_ta)
+        self.verify_field(aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 3\" \\s S.3", "", field_ta)
         self.assertEqual("1", field_ta.entry_category)
         self.assertEqual("Source 3", field_ta.long_citation)
         self.assertEqual("S.3", field_ta.short_citation)
 
         field_ta = doc.range.fields[4].as_field_ta()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 2\" \\b \\i", "", field_ta)
+        self.verify_field(aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 2\" \\b \\i", "", field_ta)
         self.assertEqual("1", field_ta.entry_category)
         self.assertEqual("Source 2", field_ta.long_citation)
         self.assertTrue(field_ta.is_bold)
@@ -6298,7 +6297,7 @@ class ExField(ApiExampleBase):
 
         field_ta = doc.range.fields[5].as_field_ta()
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 3\" \\r MyMultiPageBookmark", "", field_ta)
+        self.verify_field(aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 3\" \\r MyMultiPageBookmark", "", field_ta)
         self.assertEqual("1", field_ta.entry_category)
         self.assertEqual("Source 3", field_ta.long_citation)
         self.assertEqual("MyMultiPageBookmark", field_ta.page_range_bookmark_name)
@@ -6306,7 +6305,7 @@ class ExField(ApiExampleBase):
         for i in range(6, 11):
             field_ta = doc.range.fields[i].as_field_ta()
 
-            TestUtil.verify_field(self, aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 4\"", "", field_ta)
+            self.verify_field(aw.fields.FieldType.FIELD_TOAENTRY, " TA  \\c 1 \\l \"Source 4\"", "", field_ta)
             self.assertEqual("1", field_ta.entry_category)
             self.assertEqual("Source 4", field_ta.long_citation)
 
@@ -6325,7 +6324,7 @@ class ExField(ApiExampleBase):
 
         doc = DocumentHelper.save_open(doc)
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_ADDIN, " ADDIN \"My value\" ", "", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_ADDIN, " ADDIN \"My value\" ", "", doc.range.fields[0])
 
     def test_field_edit_time(self):
 
@@ -6353,14 +6352,14 @@ class ExField(ApiExampleBase):
         # The field does not update itself in real-time, and will also have to be
         # manually updated in Microsoft Word anytime we need an accurate value.
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.edittime.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_edit_time.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.edittime.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_edit_time.docx")
 
         self.assertEqual(10, doc.built_in_document_properties.total_editing_time)
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EDIT_TIME, " EDITTIME ", "10", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_EDIT_TIME, " EDITTIME ", "10", doc.range.fields[0])
 
     #ExStart
     #ExFor:FieldEQ
@@ -6422,8 +6421,8 @@ class ExField(ApiExampleBase):
         ExField.insert_field_eq(builder, r"\i (,,  \b(\f(x,x2 + 3x + 2))) \s \up10(2)")
         ExField.insert_field_eq(builder, r"\i \in( tan x, \s \up2(sec x), \b(\r(3) )\s \up4(t) \s \up7(2)  dt)")
 
-        doc.save(ARTIFACTS_DIR + "Field.e_q.docx")
-        self._test_field_eq(aw.Document(ARTIFACTS_DIR + "Field.e_q.docx")) #ExSkip
+        doc.save(ARTIFACTS_DIR + "Field.field_eq.docx")
+        self._test_field_eq(aw.Document(ARTIFACTS_DIR + "Field.field_eq.docx")) #ExSkip
 
     @staticmethod
     def insert_field_eq(builder: aw.DocumentBuilder, args: str) -> aw.fields.FieldEQ:
@@ -6441,20 +6440,20 @@ class ExField(ApiExampleBase):
 
     def _test_field_eq(self, doc: aw.Document):
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \f(1,4)", "", doc.range.fields[0])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \a \al \co2 \vs3 \hs3(4x,- 4y,-4x,+ y)", "", doc.range.fields[1])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \b \bc\[ (\a \al \co3 \vs3 \hs3(1,0,0,0,1,0,0,0,1))", "", doc.range.fields[2])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ A \d \fo30 \li() B", "", doc.range.fields[3])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \f(d,dx)(u + v) = \f(du,dx) + \f(dv,dx)", "", doc.range.fields[4])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \i \su(n=1,5,n)", "", doc.range.fields[5])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \l(1,1,2,3,n,8,13)", "", doc.range.fields[6])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \r (3,x)", "", doc.range.fields[7])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \s \up8(Superscript) Text \s \do8(Subscript)", "", doc.range.fields[8])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \x \to \bo \le \ri(5)", "", doc.range.fields[9])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \a \ac \vs1 \co1(lim,n→∞) \b (\f(n,n2 + 12) + \f(n,n2 + 22) + ... + \f(n,n2 + n2))", "", doc.range.fields[10])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \i (,,  \b(\f(x,x2 + 3x + 2))) \s \up10(2)", "", doc.range.fields[11])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_EQUATION, r" EQ \i \in( tan x, \s \up2(sec x), \b(\r(3) )\s \up4(t) \s \up7(2)  dt)", "", doc.range.fields[12])
-        #TestUtil.verify_web_response_status_code(HttpStatusCode.OK, "https://blogs.msdn.microsoft.com/murrays/2018/01/23/microsoft-word-eq-field/")
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \f(1,4)", "", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \a \al \co2 \vs3 \hs3(4x,- 4y,-4x,+ y)", "", doc.range.fields[1])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \b \bc\[ (\a \al \co3 \vs3 \hs3(1,0,0,0,1,0,0,0,1))", "", doc.range.fields[2])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ A \d \fo30 \li() B", "", doc.range.fields[3])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \f(d,dx)(u + v) = \f(du,dx) + \f(dv,dx)", "", doc.range.fields[4])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \i \su(n=1,5,n)", "", doc.range.fields[5])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \l(1,1,2,3,n,8,13)", "", doc.range.fields[6])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \r (3,x)", "", doc.range.fields[7])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \s \up8(Superscript) Text \s \do8(Subscript)", "", doc.range.fields[8])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \x \to \bo \le \ri(5)", "", doc.range.fields[9])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \a \ac \vs1 \co1(lim,n→∞) \b (\f(n,n2 + 12) + \f(n,n2 + 22) + ... + \f(n,n2 + n2))", "", doc.range.fields[10])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \i (,,  \b(\f(x,x2 + 3x + 2))) \s \up10(2)", "", doc.range.fields[11])
+        self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \i \in( tan x, \s \up2(sec x), \b(\r(3) )\s \up4(t) \s \up7(2)  dt)", "", doc.range.fields[12])
+        self.verify_web_response_status_code(200, "https://blogs.msdn.microsoft.com/murrays/2018/01/23/microsoft-word-eq-field/")
 
     def test_field_forms(self):
 
@@ -6498,12 +6497,12 @@ class ExField(ApiExampleBase):
         self.assertEqual("10", field.result)
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.formula.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_formula.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.formula.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_formula.docx")
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_FORMULA, " = 2 * 5 ", "10", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, " = 2 * 5 ", "10", doc.range.fields[0])
 
     def test_field_last_saved_by(self):
 
@@ -6523,13 +6522,13 @@ class ExField(ApiExampleBase):
         self.assertEqual(" LASTSAVEDBY ", field.get_field_code())
         self.assertEqual("John Doe", field.result)
 
-        doc.save(ARTIFACTS_DIR + "Field.lastsavedby.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_last_saved_by.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.lastsavedby.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_last_saved_by.docx")
 
         self.assertEqual("John Doe", doc.built_in_document_properties.last_saved_by)
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_LAST_SAVED_BY, " LASTSAVEDBY ", "John Doe", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_LAST_SAVED_BY, " LASTSAVEDBY ", "John Doe", doc.range.fields[0])
 
     #@unittest.skip("WORDSNET-18173")
     #def test_field_merge_rec(self):
@@ -6538,9 +6537,9 @@ class ExField(ApiExampleBase):
     #    #ExFor:FieldMergeRec
     #    #ExFor:FieldMergeSeq
     #    #ExFor:FieldSkipIf
-    #    #ExFor:FieldSkipIf.ComparisonOperator
-    #    #ExFor:FieldSkipIf.LeftExpression
-    #    #ExFor:FieldSkipIf.RightExpression
+    #    #ExFor:FieldSkipIf.comparison_operator
+    #    #ExFor:FieldSkipIf.left_expression
+    #    #ExFor:FieldSkipIf.right_expression
     #    #ExSummary:Shows how to use MERGEREC and MERGESEQ fields to the number and count mail merge records in a mail merge's output documents.
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -6611,10 +6610,10 @@ class ExField(ApiExampleBase):
         self.assertEqual(" OCX ", field.get_field_code())
         #ExEnd
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_OCX, " OCX ", "", field)
+        self.verify_field(aw.fields.FieldType.FIELD_OCX, " OCX ", "", field)
 
     ##ExStart
-    ##ExFor:Field.Remove
+    ##ExFor:Field.remove
     ##ExFor:FieldPrivate
     ##ExSummary:Shows how to process PRIVATE fields.
     #def test_field_private(self):
@@ -6715,14 +6714,14 @@ class ExField(ApiExampleBase):
         builder.insert_break(aw.BreakType.PAGE_BREAK)
 
         doc.update_fields()
-        doc.save(ARTIFACTS_DIR + "Field.section.sectionpages.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_section.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.section.sectionpages.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_section.docx")
 
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SECTION, " SECTION ", "2", doc.range.fields[0])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_PAGE, " PAGE ", "2", doc.range.fields[1])
-        TestUtil.verify_field(self, aw.fields.FieldType.FIELD_SECTION_PAGES, " SECTIONPAGES ", "2", doc.range.fields[2])
+        self.verify_field(aw.fields.FieldType.FIELD_SECTION, " SECTION ", "2", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE, " PAGE ", "2", doc.range.fields[1])
+        self.verify_field(aw.fields.FieldType.FIELD_SECTION_PAGES, " SECTIONPAGES ", "2", doc.range.fields[2])
 
     #ExStart
     #ExFor:FieldTime
@@ -6747,8 +6746,8 @@ class ExField(ApiExampleBase):
 
         self.assertEqual(" TIME \\@ \"M/d/yyyy h mm:ss am/pm\"", field.get_field_code())
 
-        doc.save(ARTIFACTS_DIR + "Field.time.docx")
-        self._test_field_time(aw.Document(ARTIFACTS_DIR + "Field.time.docx")) #ExSkip
+        doc.save(ARTIFACTS_DIR + "Field.field_time.docx")
+        self._test_field_time(aw.Document(ARTIFACTS_DIR + "Field.field_time.docx")) #ExSkip
 
     @staticmethod
     def insert_field_time(builder: aw.DocumentBuilder, format: str) -> aw.fields.FieldTime:
@@ -6787,13 +6786,13 @@ class ExField(ApiExampleBase):
         self.assertEqual(aw.fields.FieldType.FIELD_TIME, field.type)
         self.assertEqual(field.result, doc_loading_time.strftime("%I:%M %p").lower().lstrip('0'))
 
-    def test_bidi_outline(self):
+    def test_field_bidi_outline(self):
 
         #ExStart
         #ExFor:FieldBidiOutline
         #ExFor:FieldShape
-        #ExFor:FieldShape.Text
-        #ExFor:ParagraphFormat.Bidi
+        #ExFor:FieldShape.text
+        #ExFor:ParagraphFormat.bidi
         #ExSummary:Shows how to create right-to-left language-compatible lists with BIDIOUTLINE fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -6819,20 +6818,20 @@ class ExField(ApiExampleBase):
 
         # If we enable a right-to-left editing language in Microsoft Word, our fields will display numbers.
         # Otherwise, they will display "###".
-        doc.save(ARTIFACTS_DIR + "Field.bidioutline.docx")
+        doc.save(ARTIFACTS_DIR + "Field.field_bidi_outline.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Field.bidioutline.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Field.field_bidi_outline.docx")
 
         for field_bidi_outline in doc.range.fields:
-            TestUtil.verify_field(self, aw.fields.FieldType.FIELD_BIDI_OUTLINE, " BIDIOUTLINE ", "", field_bidi_outline)
+            self.verify_field(aw.fields.FieldType.FIELD_BIDI_OUTLINE, " BIDIOUTLINE ", "", field_bidi_outline)
 
     def test_legacy(self):
 
         #ExStart
         #ExFor:FieldEmbed
         #ExFor:FieldShape
-        #ExFor:FieldShape.Text
+        #ExFor:FieldShape.text
         #ExSummary:Shows how some older Microsoft Word fields such as SHAPE and EMBED are handled during loading.
         # Open a document that was created in Microsoft Word 2003.
         doc = aw.Document(MY_DIR + "Legacy fields.doc")
@@ -6867,7 +6866,7 @@ class ExField(ApiExampleBase):
     def test_set_field_index_format(self):
 
         #ExStart
-        #ExFor:FieldOptions.FieldIndexFormat
+        #ExFor:FieldOptions.field_index_format
         #ExSummary:Shows how to formatting FieldIndex fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -6885,14 +6884,14 @@ class ExField(ApiExampleBase):
         #ExEnd
 
     ##ExStart
-    ##ExFor:ComparisonEvaluationResult.#ctor(bool)
-    ##ExFor:ComparisonEvaluationResult.#ctor(string)
+    ##ExFor:ComparisonEvaluationResult.__init__(bool)
+    ##ExFor:ComparisonEvaluationResult.__init__(string)
     ##ExFor:ComparisonEvaluationResult
     ##ExFor:ComparisonExpression
-    ##ExFor:ComparisonExpression.LeftExpression
-    ##ExFor:ComparisonExpression.ComparisonOperator
-    ##ExFor:ComparisonExpression.RightExpression
-    ##ExFor:FieldOptions.ComparisonExpressionEvaluator
+    ##ExFor:ComparisonExpression.left_expression
+    ##ExFor:ComparisonExpression.comparison_operator
+    ##ExFor:ComparisonExpression.right_expression
+    ##ExFor:FieldOptions.comparison_expression_evaluator
     ##ExSummary:Shows how to implement custom evaluation for the IF and COMPARE fields.
     #def test_condition_evaluation_extension_point(self):
 
@@ -7063,8 +7062,8 @@ class ExField(ApiExampleBase):
 
     ##ExStart
     ##ExFor:IFieldUpdatingCallback
-    ##ExFor:IFieldUpdatingCallback.FieldUpdating(Field)
-    ##ExFor:IFieldUpdatingCallback.FieldUpdated(Field)
+    ##ExFor:IFieldUpdatingCallback.field_updating(Field)
+    ##ExFor:IFieldUpdatingCallback.field_updated(Field)
     ##ExSummary:Shows how to use callback methods during a field update.
     #def test_field_updating_callback_test(self):
 

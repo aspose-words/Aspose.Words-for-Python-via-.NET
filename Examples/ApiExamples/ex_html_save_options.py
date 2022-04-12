@@ -1,4 +1,9 @@
-import unittest
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import io
 import os
 import glob
@@ -8,13 +13,8 @@ import shutil
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, image_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
 from document_helper import DocumentHelper
-from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-IMAGE_DIR = image_dir
 
 class ExHtmlSaveOptions(ApiExampleBase):
 
@@ -31,7 +31,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 save_options.export_page_margins = True
 
                 doc.save(
-                    ARTIFACTS_DIR + "HtmlSaveOptions.ExportPageMarginsEpub" +
+                    ARTIFACTS_DIR + "HtmlSaveOptions.export_page_margins_epub" +
                     aw.FileFormatUtil.save_format_to_extension(save_format), save_options)
 
     def test_export_office_math_epub(self):
@@ -49,7 +49,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 save_options.office_math_output_mode = output_mode
 
                 doc.save(
-                    ARTIFACTS_DIR + "HtmlSaveOptions.ExportOfficeMathEpub" +
+                    ARTIFACTS_DIR + "HtmlSaveOptions.export_office_math_epub" +
                     aw.FileFormatUtil.save_format_to_extension(save_format), save_options)
 
     def test_export_text_box_as_svg_epub(self):
@@ -71,7 +71,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 save_options = aw.saving.HtmlSaveOptions(save_format)
                 save_options.export_text_box_as_svg = is_text_box_as_svg
 
-                doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.ExportTextBoxAsSvgEpub" + aw.FileFormatUtil.save_format_to_extension(save_format), save_options)
+                doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.export_text_box_as_svg_epub" + aw.FileFormatUtil.save_format_to_extension(save_format), save_options)
 
                 if save_format == aw.SaveFormat.HTML:
                     dir_files = glob.glob(ARTIFACTS_DIR + "**/HtmlSaveOptions.export_text_box_as_svg_epub.001.png", recursive=True)
@@ -133,7 +133,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         save_options = aw.saving.HtmlSaveOptions()
         save_options.export_roundtrip_information = True
 
-        doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.roundtrip_information.html", save_options)
+        doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.export_roundtrip_information.html", save_options)
 
     def test_roundtrip_information_defaul_value(self):
 
@@ -303,7 +303,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
     def test_css_class_names_prefix(self):
 
         #ExStart
-        #ExFor:HtmlSaveOptions.CssClassNamePrefix
+        #ExFor:HtmlSaveOptions.css_class_name_prefix
         #ExSummary:Shows how to save a document to HTML, and add a prefix to all of its CSS class names.
         doc = aw.Document(MY_DIR + "Paragraphs.docx")
 
@@ -342,7 +342,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         save_options.css_style_sheet_type = aw.saving.CssStyleSheetType.EMBEDDED
         save_options.css_class_name_prefix = None
 
-        doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.css_class_name_prefix.html", save_options)
+        doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.css_class_names_null_prefix.html", save_options)
 
     def test_content_id_scheme(self):
 
@@ -360,7 +360,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         for resolve_font_names in (False, True):
             with self.subTest(resolve_font_names=resolve_font_names):
                 #ExStart
-                #ExFor:HtmlSaveOptions.ResolveFontNames
+                #ExFor:HtmlSaveOptions.resolve_font_names
                 #ExSummary:Shows how to resolve all font names before writing them to HTML.
                 doc = aw.Document(MY_DIR + "Missing font.docx")
 
@@ -394,7 +394,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
     def test_heading_levels(self):
 
         #ExStart
-        #ExFor:HtmlSaveOptions.DocumentSplitHeadingLevel
+        #ExFor:HtmlSaveOptions.document_split_heading_level
         #ExSummary:Shows how to split an output HTML document by headings into several parts.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -454,8 +454,8 @@ class ExHtmlSaveOptions(ApiExampleBase):
             with self.subTest(allow_negative_indent=allow_negative_indent):
                 #ExStart
                 #ExFor:HtmlElementSizeOutputMode
-                #ExFor:HtmlSaveOptions.AllowNegativeIndent
-                #ExFor:HtmlSaveOptions.TableWidthOutputMode
+                #ExFor:HtmlSaveOptions.allow_negative_indent
+                #ExFor:HtmlSaveOptions.table_width_output_mode
                 #ExSummary:Shows how to preserve negative indents in the output .html.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -514,13 +514,13 @@ class ExHtmlSaveOptions(ApiExampleBase):
     def test_folder_alias(self):
 
         #ExStart
-        #ExFor:HtmlSaveOptions.ExportOriginalUrlForLinkedImages
-        #ExFor:HtmlSaveOptions.FontsFolder
-        #ExFor:HtmlSaveOptions.FontsFolderAlias
-        #ExFor:HtmlSaveOptions.ImageResolution
-        #ExFor:HtmlSaveOptions.ImagesFolderAlias
-        #ExFor:HtmlSaveOptions.ResourceFolder
-        #ExFor:HtmlSaveOptions.ResourceFolderAlias
+        #ExFor:HtmlSaveOptions.export_original_url_for_linked_images
+        #ExFor:HtmlSaveOptions.fonts_folder
+        #ExFor:HtmlSaveOptions.fonts_folder_alias
+        #ExFor:HtmlSaveOptions.image_resolution
+        #ExFor:HtmlSaveOptions.images_folder_alias
+        #ExFor:HtmlSaveOptions.resource_folder
+        #ExFor:HtmlSaveOptions.resource_folder_alias
         #ExSummary:Shows how to set folders and folder aliases for externally saved resources that Aspose.Words will create when saving a document to HTML.
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -541,22 +541,22 @@ class ExHtmlSaveOptions(ApiExampleBase):
         #ExEnd
 
     ##ExStart
-    ##ExFor:HtmlSaveOptions.ExportFontResources
-    ##ExFor:HtmlSaveOptions.FontSavingCallback
+    ##ExFor:HtmlSaveOptions.export_font_resources
+    ##ExFor:HtmlSaveOptions.font_saving_callback
     ##ExFor:IFontSavingCallback
-    ##ExFor:IFontSavingCallback.FontSaving
+    ##ExFor:IFontSavingCallback.font_saving
     ##ExFor:FontSavingArgs
-    ##ExFor:FontSavingArgs.Bold
-    ##ExFor:FontSavingArgs.Document
-    ##ExFor:FontSavingArgs.FontFamilyName
-    ##ExFor:FontSavingArgs.FontFileName
-    ##ExFor:FontSavingArgs.FontStream
+    ##ExFor:FontSavingArgs.bold
+    ##ExFor:FontSavingArgs.document
+    ##ExFor:FontSavingArgs.font_family_name
+    ##ExFor:FontSavingArgs.font_file_name
+    ##ExFor:FontSavingArgs.font_stream
     ##ExFor:FontSavingArgs.is_export_needed
     ##ExFor:FontSavingArgs.is_subsetting_needed
-    ##ExFor:FontSavingArgs.Italic
-    ##ExFor:FontSavingArgs.KeepFontStreamOpen
-    ##ExFor:FontSavingArgs.OriginalFileName
-    ##ExFor:FontSavingArgs.OriginalFileSize
+    ##ExFor:FontSavingArgs.italic
+    ##ExFor:FontSavingArgs.keep_font_stream_open
+    ##ExFor:FontSavingArgs.original_file_name
+    ##ExFor:FontSavingArgs.original_file_size
     ##ExSummary:Shows how to define custom logic for exporting fonts when saving to HTML.
     #def test_save_exported_fonts(self):
 
@@ -610,8 +610,8 @@ class ExHtmlSaveOptions(ApiExampleBase):
                              aw.saving.HtmlVersion.XHTML):
             with self.subTest(html_version=html_version):
                 #ExStart
-                #ExFor:HtmlSaveOptions.#ctor(SaveFormat)
-                #ExFor:HtmlSaveOptions.HtmlVersion
+                #ExFor:HtmlSaveOptions.__init__(SaveFormat)
+                #ExFor:HtmlSaveOptions.html_version
                 #ExFor:HtmlVersion
                 #ExSummary:Shows how to save a document to a specific version of HTML.
                 doc = aw.Document(MY_DIR + "Rendering.docx")
@@ -655,8 +655,8 @@ class ExHtmlSaveOptions(ApiExampleBase):
         for show_doctype_declaration in (False, True):
             with self.subTest(show_doctype_declaration=show_doctype_declaration):
                 #ExStart
-                #ExFor:HtmlSaveOptions.ExportXhtmlTransitional
-                #ExFor:HtmlSaveOptions.HtmlVersion
+                #ExFor:HtmlSaveOptions.export_xhtml_transitional
+                #ExFor:HtmlSaveOptions.html_version
                 #ExFor:HtmlVersion
                 #ExSummary:Shows how to display a DOCTYPE heading when converting documents to the Xhtml 1.0 transitional standard.
                 doc = aw.Document()
@@ -688,7 +688,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
     def test_epub_headings(self):
 
         #ExStart
-        #ExFor:HtmlSaveOptions.EpubNavigationMapLevel
+        #ExFor:HtmlSaveOptions.epub_navigation_map_level
         #ExSummary:Shows how to filter headings that appear in the navigation panel of a saved Epub document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -721,21 +721,21 @@ class ExHtmlSaveOptions(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.epub_headings.epub", options)
         #ExEnd
 
-        TestUtil.doc_package_file_contains_string("<navLabel><text>Heading #1</text></navLabel>",
+        self.verify_doc_package_file_contains_string("<navLabel><text>Heading #1</text></navLabel>",
             ARTIFACTS_DIR + "HtmlSaveOptions.epub_headings.epub", "OEBPS/HtmlSaveOptions.epub_headings.ncx")
-        TestUtil.doc_package_file_contains_string("<navLabel><text>Heading #2</text></navLabel>",
+        self.verify_doc_package_file_contains_string("<navLabel><text>Heading #2</text></navLabel>",
             ARTIFACTS_DIR + "HtmlSaveOptions.epub_headings.epub", "OEBPS/HtmlSaveOptions.epub_headings.ncx")
-        TestUtil.doc_package_file_contains_string("<navLabel><text>Heading #4</text></navLabel>",
+        self.verify_doc_package_file_contains_string("<navLabel><text>Heading #4</text></navLabel>",
             ARTIFACTS_DIR + "HtmlSaveOptions.epub_headings.epub", "OEBPS/HtmlSaveOptions.epub_headings.ncx")
-        TestUtil.doc_package_file_contains_string("<navLabel><text>Heading #5</text></navLabel>",
+        self.verify_doc_package_file_contains_string("<navLabel><text>Heading #5</text></navLabel>",
             ARTIFACTS_DIR + "HtmlSaveOptions.epub_headings.epub", "OEBPS/HtmlSaveOptions.epub_headings.ncx")
 
         with self.assertRaises(Exception):
-            TestUtil.doc_package_file_contains_string("<navLabel><text>Heading #3</text></navLabel>",
+            self.verify_doc_package_file_contains_string("<navLabel><text>Heading #3</text></navLabel>",
                 ARTIFACTS_DIR + "HtmlSaveOptions.epub_headings.epub", "OEBPS/HtmlSaveOptions.epub_headings.ncx")
 
         with self.assertRaises(Exception):
-            TestUtil.doc_package_file_contains_string("<navLabel><text>Heading #6</text></navLabel>",
+            self.verify_doc_package_file_contains_string("<navLabel><text>Heading #6</text></navLabel>",
                 ARTIFACTS_DIR + "HtmlSaveOptions.epub_headings.epub", "OEBPS/HtmlSaveOptions.epub_headings.ncx")
 
     def test_doc2_epub_save_options(self):
@@ -743,13 +743,13 @@ class ExHtmlSaveOptions(ApiExampleBase):
         #ExStart
         #ExFor:DocumentSplitCriteria
         #ExFor:HtmlSaveOptions
-        #ExFor:HtmlSaveOptions.#ctor
-        #ExFor:HtmlSaveOptions.Encoding
-        #ExFor:HtmlSaveOptions.DocumentSplitCriteria
-        #ExFor:HtmlSaveOptions.ExportDocumentProperties
-        #ExFor:HtmlSaveOptions.SaveFormat
+        #ExFor:HtmlSaveOptions.__init__()
+        #ExFor:HtmlSaveOptions.encoding
+        #ExFor:HtmlSaveOptions.document_split_criteria
+        #ExFor:HtmlSaveOptions.export_document_properties
+        #ExFor:HtmlSaveOptions.save_format
         #ExFor:SaveOptions
-        #ExFor:SaveOptions.SaveFormat
+        #ExFor:SaveOptions.save_format
         #ExSummary:Shows how to use a specific encoding when saving a document to .epub.
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -775,7 +775,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         for export_cid_urls_for_mhtml_resources in (False, True):
             with self.subTest(export_cid_urls_for_mhtml_resources=export_cid_urls_for_mhtml_resources):
                 #ExStart
-                #ExFor:HtmlSaveOptions.ExportCidUrlsForMhtmlResources
+                #ExFor:HtmlSaveOptions.export_cid_urls_for_mhtml_resources
                 #ExSummary:Shows how to enable content IDs for output MHTML documents.
                 doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -810,7 +810,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         for export_drop_down_form_field_as_text in (False, True):
             with self.subTest(export_drop_down_form_field_as_text=export_drop_down_form_field_as_text):
                 #ExStart
-                #ExFor:HtmlSaveOptions.ExportDropDownFormFieldAsText
+                #ExFor:HtmlSaveOptions.export_drop_down_form_field_as_text
                 #ExSummary:Shows how to get drop-down combo box form fields to blend in with paragraph text when saving to html.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -848,8 +848,8 @@ class ExHtmlSaveOptions(ApiExampleBase):
         for export_items_as_base64 in (False, True):
             with self.subTest(export_items_as_base64=export_items_as_base64):
                 #ExStart
-                #ExFor:HtmlSaveOptions.ExportFontsAsBase64
-                #ExFor:HtmlSaveOptions.ExportImagesAsBase64
+                #ExFor:HtmlSaveOptions.export_fonts_as_base64
+                #ExFor:HtmlSaveOptions.export_images_as_base64
                 #ExSummary:Shows how to save a .html document with images embedded inside it.
                 doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -872,8 +872,8 @@ class ExHtmlSaveOptions(ApiExampleBase):
     def test_export_fonts_as_base64(self):
 
         #ExStart
-        #ExFor:HtmlSaveOptions.ExportFontsAsBase64
-        #ExFor:HtmlSaveOptions.ExportImagesAsBase64
+        #ExFor:HtmlSaveOptions.export_fonts_as_base64
+        #ExFor:HtmlSaveOptions.export_images_as_base64
         #ExSummary:Shows how to embed fonts inside a saved HTML document.
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -890,7 +890,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         for export_language_information in (False, True):
             with self.subTest(export_language_information=export_language_information):
                 #ExStart
-                #ExFor:HtmlSaveOptions.ExportLanguageInformation
+                #ExFor:HtmlSaveOptions.export_language_information
                 #ExSummary:Shows how to preserve language information when saving to .html.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -909,7 +909,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 # to either preserve or discard each formatted text's locale.
                 # If we set the "export_language_information" flag to "True",
                 # the output HTML document will contain the locales in "lang" attributes of <span> tags.
-                # If we set the "export_language_information" flag to "false',
+                # If we set the "export_language_information" flag to "False',
                 # the text in the output HTML document will not contain any locale information.
                 options = aw.saving.HtmlSaveOptions()
                 options.export_language_information = export_language_information
@@ -939,7 +939,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
             with self.subTest(export_list_labels=export_list_labels):
                 #ExStart
                 #ExFor:ExportListLabels
-                #ExFor:HtmlSaveOptions.ExportListLabels
+                #ExFor:HtmlSaveOptions.export_list_labels
                 #ExSummary:Shows how to configure list exporting to HTML.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -978,7 +978,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 options.export_list_labels = export_list_labels
 
                 doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.list.html", options)
-                
+
                 with open(ARTIFACTS_DIR + "HtmlSaveOptions.list.html", "rt", encoding="utf-8") as file:
                     out_doc_contents = file.read()
 
@@ -1043,7 +1043,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         for export_page_margins in (False, True):
             with self.subTest(export_page_margins=export_page_margins):
                 #ExStart
-                #ExFor:HtmlSaveOptions.ExportPageMargins
+                #ExFor:HtmlSaveOptions.export_page_margins
                 #ExSummary:Shows how to show out-of-bounds objects in output HTML documents.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -1086,7 +1086,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         for export_page_setup in (False, True):
             with self.subTest(export_page_setup=export_page_setup):
                 #ExStart
-                #ExFor:HtmlSaveOptions.ExportPageSetup
+                #ExFor:HtmlSaveOptions.export_page_setup
                 #ExSummary:Shows how decide whether to preserve section structure/page setup information when saving to HTML.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -1144,7 +1144,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         for export_relative_font_size in (False, True):
             with self.subTest(export_relative_font_size=export_relative_font_size):
                 #ExStart
-                #ExFor:HtmlSaveOptions.ExportRelativeFontSize
+                #ExFor:HtmlSaveOptions.export_relative_font_size
                 #ExSummary:Shows how to use relative font sizes when saving to .html.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -1207,7 +1207,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         for export_text_box_as_svg in (False, True):
             with self.subTest(export_text_box_as_svg=export_text_box_as_svg):
                 #ExStart
-                #ExFor:HtmlSaveOptions.ExportTextBoxAsSvg
+                #ExFor:HtmlSaveOptions.export_text_box_as_svg
                 #ExSummary:Shows how to export text boxes as scalable vector graphics.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -1249,13 +1249,13 @@ class ExHtmlSaveOptions(ApiExampleBase):
         for export_roundtrip_information in (False, True):
             with self.subTest(export_roundtrip_information=export_roundtrip_information):
                 #ExStart
-                #ExFor:HtmlSaveOptions.ExportRoundtripInformation
+                #ExFor:HtmlSaveOptions.export_roundtrip_information
                 #ExSummary:Shows how to preserve hidden elements when converting to .html.
                 doc = aw.Document(MY_DIR + "Rendering.docx")
 
                 # When converting a document to .html, some elements such as hidden bookmarks, original shape positions,
                 # or footnotes will be either removed or converted to plain text and effectively be lost.
-                # Saving with a HtmlSaveOptions object with ExportRoundtripInformation set to true will preserve these elements.
+                # Saving with a HtmlSaveOptions object with "export_roundtrip_information" set to True will preserve these elements.
 
                 # When we save the document to HTML, we can pass a SaveOptions object to determine
                 # how the saving operation will export document elements that HTML does not support or use,
@@ -1331,7 +1331,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         for export_toc_page_numbers in (False, True):
             with self.subTest(export_toc_page_numbers=export_toc_page_numbers):
                 #ExStart
-                #ExFor:HtmlSaveOptions.ExportTocPageNumbers
+                #ExFor:HtmlSaveOptions.export_toc_page_numbers
                 #ExSummary:Shows how to display page numbers when saving a document with a table of contents to .html.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -1388,7 +1388,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         for font_resources_subsetting_size_threshold in (0, 1000000, 2**31 - 1):
             with self.subTest(font_resources_subsetting_size_threshold=font_resources_subsetting_size_threshold):
                 #ExStart
-                #ExFor:HtmlSaveOptions.FontResourcesSubsettingSizeThreshold
+                #ExFor:HtmlSaveOptions.font_resources_subsetting_size_threshold
                 #ExSummary:Shows how to work with font subsetting.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -1444,8 +1444,8 @@ class ExHtmlSaveOptions(ApiExampleBase):
             with self.subTest(html_metafile_format=html_metafile_format):
                 #ExStart
                 #ExFor:HtmlMetafileFormat
-                #ExFor:HtmlSaveOptions.MetafileFormat
-                #ExFor:HtmlLoadOptions.ConvertSvgToEmf
+                #ExFor:HtmlSaveOptions.metafile_format
+                #ExFor:HtmlLoadOptions.convert_svg_to_emf
                 #ExSummary:Shows how to convert SVG objects to a different format when saving HTML documents.
                 html = """
                     <html>
@@ -1508,7 +1508,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
             with self.subTest(html_office_math_output_mode=html_office_math_output_mode):
                 #ExStart
                 #ExFor:HtmlOfficeMathOutputMode
-                #ExFor:HtmlSaveOptions.OfficeMathOutputMode
+                #ExFor:HtmlSaveOptions.office_math_output_mode
                 #ExSummary:Shows how to specify how to export Microsoft OfficeMath objects to HTML.
                 doc = aw.Document(MY_DIR + "Office math.docx")
 
@@ -1524,7 +1524,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 options.office_math_output_mode = html_office_math_output_mode
 
                 doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.office_math_output_mode.html", options)
-                
+
                 with open(ARTIFACTS_DIR + "HtmlSaveOptions.office_math_output_mode.html", "rt", encoding="utf-8") as file:
                     out_doc_contents = file.read()
 
@@ -1565,7 +1565,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         for scale_image_to_shape_size in (False, True):
             with self.subTest(scale_image_to_shape_size=scale_image_to_shape_size):
                 #ExStart
-                #ExFor:HtmlSaveOptions.ScaleImageToShapeSize
+                #ExFor:HtmlSaveOptions.scale_image_to_shape_size
                 #ExSummary:Shows how to disable the scaling of images to their parent shape dimensions when saving to .html.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -1606,8 +1606,8 @@ class ExHtmlSaveOptions(ApiExampleBase):
 
         #ExStart
         #ExFor:HtmlSaveOptions
-        #ExFor:HtmlSaveOptions.ExportTextInputFormFieldAsText
-        #ExFor:HtmlSaveOptions.ImagesFolder
+        #ExFor:HtmlSaveOptions.export_text_input_form_field_as_text
+        #ExFor:HtmlSaveOptions.images_folder
         #ExSummary:Shows how to specify the folder for storing linked images after saving to .html.
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -1616,27 +1616,27 @@ class ExHtmlSaveOptions(ApiExampleBase):
         if os.path.exists(images_dir):
             shutil.rmtree(images_dir)
 
-        os.mkdir(images_dir)
+        os.makedirs(images_dir)
 
         # Set an option to export form fields as plain text instead of HTML input elements.
         options = aw.saving.HtmlSaveOptions(aw.SaveFormat.HTML)
         options.export_text_input_form_field_as_text = True
         options.images_folder = images_dir
 
-        doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.save_html_with_options.html", options)
+        doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.image_folder.html", options)
         #ExEnd
 
-        self.assertTrue(os.path.exists(ARTIFACTS_DIR + "HtmlSaveOptions.save_html_with_options.html"))
+        self.assertTrue(os.path.exists(ARTIFACTS_DIR + "HtmlSaveOptions.image_folder.html"))
         self.assertEqual(9, len(os.listdir(images_dir)))
 
         shutil.rmtree(images_dir)
 
     ##ExStart
-    ##ExFor:ImageSavingArgs.CurrentShape
-    ##ExFor:ImageSavingArgs.Document
-    ##ExFor:ImageSavingArgs.ImageStream
-    ##ExFor:ImageSavingArgs.IsImageAvailable
-    ##ExFor:ImageSavingArgs.KeepImageStreamOpen
+    ##ExFor:ImageSavingArgs.current_shape
+    ##ExFor:ImageSavingArgs.document
+    ##ExFor:ImageSavingArgs.image_stream
+    ##ExFor:ImageSavingArgs.is_image_available
+    ##ExFor:ImageSavingArgs.keep_image_stream_open
     ##ExSummary:Shows how to involve an image saving callback in an HTML conversion process.
     #def test_image_saving_callback(self):
 
@@ -1679,7 +1679,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         for use_pretty_format in (False, True):
             with self.subTest(use_pretty_format=use_pretty_format):
                 #ExStart
-                #ExFor:SaveOptions.PrettyFormat
+                #ExFor:SaveOptions.pretty_format
                 #ExSummary:Shows how to enhance the readability of the raw code of a saved .html document.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)

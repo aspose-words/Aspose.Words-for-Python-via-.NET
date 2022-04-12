@@ -1,21 +1,20 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR
 
 class ExTabStop(ApiExampleBase):
 
     def test_add_tab_stops(self):
 
         #ExStart
-        #ExFor:TabStopCollection.Add(TabStop)
-        #ExFor:TabStopCollection.Add(Double, TabAlignment, TabLeader)
+        #ExFor:TabStopCollection.add(TabStop)
+        #ExFor:TabStopCollection.add(float,TabAlignment,TabLeader)
         #ExSummary:Shows how to add custom tab stops to a document.
         doc = aw.Document()
         paragraph = doc.get_child(aw.NodeType.PARAGRAPH, 0, True).as_paragraph()
@@ -39,34 +38,33 @@ class ExTabStop(ApiExampleBase):
         builder = aw.DocumentBuilder(doc)
         builder.writeln("Start\tTab 1\tTab 2\tTab 3\tTab 4")
 
-        doc.save(ARTIFACTS_DIR + "TabStopCollection.AddTabStops.docx")
+        doc.save(ARTIFACTS_DIR + "TabStopCollection.add_tab_stops.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "TabStopCollection.AddTabStops.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "TabStopCollection.add_tab_stops.docx")
         tab_stops = doc.first_section.body.paragraphs[0].paragraph_format.tab_stops
 
-        #TestUtil.verify_tab_stop(141.75d, TabAlignment.Left, TabLeader.Dashes, False, tab_stops[0])
-        #TestUtil.verify_tab_stop(216.0d, TabAlignment.Left, TabLeader.Dashes, False, tab_stops[1])
-        #TestUtil.verify_tab_stop(283.45d, TabAlignment.Left, TabLeader.Dashes, False, tab_stops[2])
+        #self.verify_tab_stop(141.75d, TabAlignment.Left, TabLeader.Dashes, False, tab_stops[0])
+        #self.verify_tab_stop(216.0d, TabAlignment.Left, TabLeader.Dashes, False, tab_stops[1])
+        #self.verify_tab_stop(283.45d, TabAlignment.Left, TabLeader.Dashes, False, tab_stops[2])
 
     def test_tab_stop_collection(self):
 
         #ExStart
-        #ExFor:TabStop.#ctor
-        #ExFor:TabStop.#ctor(Double)
-        #ExFor:TabStop.#ctor(Double,TabAlignment,TabLeader)
-        #ExFor:TabStop.Equals(TabStop)
-        #ExFor:TabStop.IsClear
+        #ExFor:TabStop.__init__
+        #ExFor:TabStop.__init__(float)
+        #ExFor:TabStop.__init__(float,TabAlignment,TabLeader)
+        #ExFor:TabStop.__eq__(TabStop)
+        #ExFor:TabStop.is_clear
         #ExFor:TabStopCollection
-        #ExFor:TabStopCollection.After(Double)
-        #ExFor:TabStopCollection.Before(Double)
-        #ExFor:TabStopCollection.Clear
-        #ExFor:TabStopCollection.Count
-        #ExFor:TabStopCollection.Equals(TabStopCollection)
-        #ExFor:TabStopCollection.Equals(Object)
-        #ExFor:TabStopCollection.GetHashCode
-        #ExFor:TabStopCollection.Item(Double)
-        #ExFor:TabStopCollection.Item(Int32)
+        #ExFor:TabStopCollection.after(float)
+        #ExFor:TabStopCollection.before(float)
+        #ExFor:TabStopCollection.clear
+        #ExFor:TabStopCollection.count
+        #ExFor:TabStopCollection.__eq__(TabStopCollection)
+        #ExFor:TabStopCollection.get_hash_code
+        #ExFor:TabStopCollection.__getitem__(float)
+        #ExFor:TabStopCollection.__getitem__(int)
         #ExSummary:Shows how to work with a document's collection of tab stops.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -101,15 +99,15 @@ class ExTabStop(ApiExampleBase):
 
         self.assertEqual(0, paragraphs[1].paragraph_format.tab_stops.count)
 
-        doc.save(ARTIFACTS_DIR + "TabStopCollection.TabStopCollection.docx")
+        doc.save(ARTIFACTS_DIR + "TabStopCollection.tab_stop_collection.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "TabStopCollection.TabStopCollection.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "TabStopCollection.tab_stop_collection.docx")
         tab_stops = doc.first_section.body.paragraphs[0].paragraph_format.tab_stops
 
         self.assertEqual(2, tab_stops.count)
-        #TestUtil.verify_tab_stop(72.0d, TabAlignment.Left, TabLeader.None, False, tab_stops[0])
-        #TestUtil.verify_tab_stop(432.0d, TabAlignment.Right, TabLeader.Dashes, False, tab_stops[1])
+        #self.verify_tab_stop(72.0d, TabAlignment.Left, TabLeader.None, False, tab_stops[0])
+        #self.verify_tab_stop(432.0d, TabAlignment.Right, TabLeader.Dashes, False, tab_stops[1])
 
         tab_stops = doc.first_section.body.paragraphs[1].paragraph_format.tab_stops
 
@@ -118,7 +116,7 @@ class ExTabStop(ApiExampleBase):
     def test_remove_by_index(self):
 
         #ExStart
-        #ExFor:TabStopCollection.RemoveByIndex
+        #ExFor:TabStopCollection.remove_by_index
         #ExSummary:Shows how to select a tab stop in a document by its index and remove it.
         doc = aw.Document()
         tab_stops = doc.first_section.body.paragraphs[0].paragraph_format.tab_stops
@@ -133,17 +131,17 @@ class ExTabStop(ApiExampleBase):
 
         self.assertEqual(1, tab_stops.count)
 
-        doc.save(ARTIFACTS_DIR + "TabStopCollection.RemoveByIndex.docx")
+        doc.save(ARTIFACTS_DIR + "TabStopCollection.remove_by_index.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "TabStopCollection.RemoveByIndex.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "TabStopCollection.remove_by_index.docx")
 
-        #TestUtil.verify_tab_stop(170.1d, TabAlignment.Left, TabLeader.Dashes, False, doc.first_section.Body.Paragraphs[0].paragraph_format.TabStops[0])
+        #self.verify_tab_stop(170.1d, TabAlignment.Left, TabLeader.Dashes, False, doc.first_section.Body.Paragraphs[0].paragraph_format.TabStops[0])
 
     def test_get_position_by_index(self):
 
         #ExStart
-        #ExFor:TabStopCollection.GetPositionByIndex
+        #ExFor:TabStopCollection.get_position_by_index
         #ExSummary:Shows how to find a tab, stop by its index and verify its position.
         doc = aw.Document()
         tab_stops = doc.first_section.body.paragraphs[0].paragraph_format.tab_stops
@@ -158,7 +156,7 @@ class ExTabStop(ApiExampleBase):
     def test_get_index_by_position(self):
 
         #ExStart
-        #ExFor:TabStopCollection.GetIndexByPosition
+        #ExFor:TabStopCollection.get_index_by_position
         #ExSummary:Shows how to look up a position to see if a tab stop exists there and obtain its index.
         doc = aw.Document()
         tab_stops = doc.first_section.body.paragraphs[0].paragraph_format.tab_stops
@@ -166,11 +164,11 @@ class ExTabStop(ApiExampleBase):
         # Add a tab stop at a position of 30mm.
         tab_stops.add(aw.ConvertUtil.millimeter_to_point(30), aw.TabAlignment.LEFT, aw.TabLeader.DASHES)
 
-        # A result of "0" returned by "GetIndexByPosition" confirms that a tab stop
+        # A result of "0" returned by "get_index_by_position" confirms that a tab stop
         # at 30mm exists in this collection, and it is at index 0.
         self.assertEqual(0, tab_stops.get_index_by_position(aw.ConvertUtil.millimeter_to_point(30)))
 
-        # A "-1" returned by "GetIndexByPosition" confirms that
+        # A "-1" returned by "get_index_by_position" confirms that
         # there is no tab stop in this collection with a position of 60mm.
         self.assertEqual(-1, tab_stops.get_index_by_position(aw.ConvertUtil.millimeter_to_point(60)))
         #ExEnd

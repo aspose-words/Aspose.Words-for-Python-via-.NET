@@ -1,14 +1,14 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 from document_helper import DocumentHelper
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
 
 class ExTable(ApiExampleBase):
 
@@ -18,7 +18,7 @@ class ExTable(ApiExampleBase):
         #ExFor:Table
         #ExFor:Row
         #ExFor:Cell
-        #ExFor:Table.#ctor(DocumentBase)
+        #ExFor:Table.__init__(DocumentBase)
         #ExSummary:Shows how to create a table.
         doc = aw.Document()
         table = aw.tables.Table(doc)
@@ -77,10 +77,10 @@ class ExTable(ApiExampleBase):
         table.bottom_padding = 90
         table.preferred_width = aw.tables.PreferredWidth.from_points(250)
 
-        doc.save(ARTIFACTS_DIR + "DocumentBuilder.SetRowFormatting.docx")
+        doc.save(ARTIFACTS_DIR + "Table.padding.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "DocumentBuilder.SetRowFormatting.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Table.padding.docx")
         table = doc.first_section.body.tables[0]
 
         self.assertEqual(30.0, table.left_padding)
@@ -116,17 +116,17 @@ class ExTable(ApiExampleBase):
         # of the contents of all cells in this row.
         row_format = table.first_row.row_format
         row_format.height = 25
-        row_format.borders[aw.BorderType.BOTTOM].color = drawing.Color.red
+        row_format.borders.bottom.color = drawing.Color.red
 
         # Use the "cell_format" property of the first cell in the last row to modify the formatting of that cell's contents.
         cell_format = table.last_row.first_cell.cell_format
         cell_format.width = 100
         cell_format.shading.background_pattern_color = drawing.Color.orange
 
-        doc.save(ARTIFACTS_DIR + "Table.RowCellFormat.docx")
+        doc.save(ARTIFACTS_DIR + "Table.row_cell_format.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Table.RowCellFormat.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Table.row_cell_format.docx")
         table = doc.first_section.body.tables[0]
 
         self.assertEqual("City\aCountry\a\aLondon\aU.K.\a\a", table.get_text().strip())
@@ -134,7 +134,7 @@ class ExTable(ApiExampleBase):
         row_format = table.first_row.row_format
 
         self.assertEqual(25.0, row_format.height)
-        self.assertEqual(drawing.Color.red.to_argb(), row_format.borders[aw.BorderType.BOTTOM].color.to_argb())
+        self.assertEqual(drawing.Color.red.to_argb(), row_format.borders.bottom.color.to_argb())
 
         cell_format = table.last_row.first_cell.cell_format
 
@@ -146,17 +146,17 @@ class ExTable(ApiExampleBase):
         #ExStart
         #ExFor:Cell
         #ExFor:CellCollection
-        #ExFor:CellCollection.Item(System.Int32)
-        #ExFor:CellCollection.ToArray
+        #ExFor:CellCollection.__getitem__(int)
+        #ExFor:CellCollection.to_array
         #ExFor:Row
         #ExFor:Row.cells
         #ExFor:RowCollection
-        #ExFor:RowCollection.Item(System.Int32)
-        #ExFor:RowCollection.ToArray
+        #ExFor:RowCollection.__getitem__(int)
+        #ExFor:RowCollection.to_array
         #ExFor:Table
         #ExFor:Table.rows
-        #ExFor:TableCollection.Item(System.Int32)
-        #ExFor:TableCollection.ToArray
+        #ExFor:TableCollection.__getitem__(int)
+        #ExFor:TableCollection.to_array
         #ExSummary:Shows how to iterate through all tables in the document and print the contents of each cell.
         doc = aw.Document(MY_DIR + "Tables.docx")
         tables = doc.first_section.body.tables
@@ -191,9 +191,8 @@ class ExTable(ApiExampleBase):
         #ExEnd
 
     #ExStart
-    #ExFor:Node.GetAncestor(NodeType)
-    #ExFor:Node.GetAncestor(System.Type)
-    #ExFor:Table.NodeType
+    #ExFor:Node.get_ancestor(NodeType)
+    #ExFor:Table.node_type
     #ExFor:Cell.tables
     #ExFor:TableCollection
     #ExFor:NodeCollection.count
@@ -202,7 +201,7 @@ class ExTable(ApiExampleBase):
 
         doc = aw.Document(MY_DIR + "Nested tables.docx")
         tables = doc.get_child_nodes(aw.NodeType.TABLE, True)
-        self.assertEqual(5, tables.count); #ExSkip
+        self.assertEqual(5, tables.count) #ExSkip
 
         for i in range(tables.count):
             table = tables[i].as_table()
@@ -222,7 +221,7 @@ class ExTable(ApiExampleBase):
     @staticmethod
     def get_nested_depth_of_table(table: aw.tables.Table) -> int:
         """Calculates what level a table is nested inside other tables.
-        
+
         :return: An integer indicating the nesting depth of the table (number of parent table nodes).
         """
 
@@ -238,11 +237,11 @@ class ExTable(ApiExampleBase):
     @staticmethod
     def get_child_table_count(table: aw.tables.Table) -> int:
         """Determines if a table contains any immediate child table within its cells.
-        
+
         Do not recursively traverse through those tables to check for further tables.
-        
-        :return: Returns true if at least one child cell contains a table.
-                 Returns false if no cells in the table contain a table.
+
+        :return: Returns True if at least one child cell contains a table.
+                 Returns False if no cells in the table contain a table.
         """
 
         child_table_count = 0
@@ -265,7 +264,7 @@ class ExTable(ApiExampleBase):
     def test_ensure_table_minimum(self):
 
         #ExStart
-        #ExFor:Table.EnsureMinimum
+        #ExFor:Table.ensure_minimum
         #ExSummary:Shows how to ensure that a table node contains the nodes we need to add content.
         doc = aw.Document()
         table = aw.tables.Table(doc)
@@ -287,7 +286,7 @@ class ExTable(ApiExampleBase):
     def test_ensure_row_minimum(self):
 
         #ExStart
-        #ExFor:Row.EnsureMinimum
+        #ExFor:Row.ensure_minimum
         #ExSummary:Shows how to ensure a row node contains the nodes we need to begin adding content to it.
         doc = aw.Document()
         table = aw.tables.Table(doc)
@@ -310,7 +309,7 @@ class ExTable(ApiExampleBase):
     def test_ensure_cell_minimum(self):
 
         #ExStart
-        #ExFor:Cell.EnsureMinimum
+        #ExFor:Cell.ensure_minimum
         #ExSummary:Shows how to ensure a cell node contains the nodes we need to begin adding content to it.
         doc = aw.Document()
         table = aw.tables.Table(doc)
@@ -335,13 +334,13 @@ class ExTable(ApiExampleBase):
     def test_set_outline_borders(self):
 
         #ExStart
-        #ExFor:Table.Alignment
+        #ExFor:Table.alignment
         #ExFor:TableAlignment
-        #ExFor:Table.ClearBorders
-        #ExFor:Table.ClearShading
-        #ExFor:Table.SetBorder
+        #ExFor:Table.clear_borders
+        #ExFor:Table.clear_shading
+        #ExFor:Table.set_border
         #ExFor:TextureIndex
-        #ExFor:Table.SetShading
+        #ExFor:Table.set_shading
         #ExSummary:Shows how to apply an outline border to a table.
         doc = aw.Document(MY_DIR + "Tables.docx")
         table = doc.first_section.body.tables[0]
@@ -362,10 +361,10 @@ class ExTable(ApiExampleBase):
         # Fill the cells with a light green solid color.
         table.set_shading(aw.TextureIndex.TEXTURE_SOLID, drawing.Color.light_green, drawing.Color.empty())
 
-        doc.save(ARTIFACTS_DIR + "Table.SetOutlineBorders.docx")
+        doc.save(ARTIFACTS_DIR + "Table.set_outline_borders.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Table.SetOutlineBorders.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Table.set_outline_borders.docx")
         table = doc.first_section.body.tables[0]
 
         self.assertEqual(aw.tables.TableAlignment.CENTER, table.alignment)
@@ -383,7 +382,7 @@ class ExTable(ApiExampleBase):
     def test_set_borders(self):
 
         #ExStart
-        #ExFor:Table.SetBorders
+        #ExFor:Table.set_borders
         #ExSummary:Shows how to format of all of a table's borders at once.
         doc = aw.Document(MY_DIR + "Tables.docx")
         table = doc.first_section.body.tables[0]
@@ -394,10 +393,10 @@ class ExTable(ApiExampleBase):
         # Set a single green line to serve as every outer and inner border of this table.
         table.set_borders(aw.LineStyle.SINGLE, 1.5, drawing.Color.green)
 
-        doc.save(ARTIFACTS_DIR + "Table.SetBorders.docx")
+        doc.save(ARTIFACTS_DIR + "Table.set_borders.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Table.SetBorders.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Table.set_borders.docx")
         table = doc.first_section.body.tables[0]
 
         self.assertEqual(drawing.Color.green.to_argb(), table.first_row.row_format.borders.top.color.to_argb())
@@ -442,7 +441,7 @@ class ExTable(ApiExampleBase):
         table = doc.first_section.body.tables[0]
         first_cell = table.first_row.first_cell
 
-        # Use a cell's "CellFormat" property to set formatting that modifies the appearance of that cell.
+        # Use a cell's "cell_format" property to set formatting that modifies the appearance of that cell.
         first_cell.cell_format.width = 30
         first_cell.cell_format.orientation = aw.TextOrientation.DOWNWARD
         first_cell.cell_format.shading.foreground_pattern_color = drawing.Color.light_green
@@ -478,7 +477,7 @@ class ExTable(ApiExampleBase):
     def test_borders(self):
 
         #ExStart
-        #ExFor:Table.ClearBorders
+        #ExFor:Table.clear_borders
         #ExSummary:Shows how to remove all borders from a table.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -489,7 +488,7 @@ class ExTable(ApiExampleBase):
         builder.end_table()
 
         # Modify the color and thickness of the top border.
-        top_border = table.first_row.row_format.borders[aw.BorderType.TOP]
+        top_border = table.first_row.row_format.borders.top
         table.set_border(aw.BorderType.TOP, aw.LineStyle.DOUBLE, 1.5, drawing.Color.red, True)
 
         self.assertEqual(1.5, top_border.line_width)
@@ -499,12 +498,12 @@ class ExTable(ApiExampleBase):
         # Clear the borders of all cells in the table, and then save the document.
         table.clear_borders()
         self.assertNotEqual(drawing.Color.empty().to_argb(), top_border.color.to_argb()) #ExSkip
-        doc.save(ARTIFACTS_DIR + "Table.ClearBorders.docx")
+        doc.save(ARTIFACTS_DIR + "Table.borders.docx")
 
         # Verify the values of the table's properties after re-opening the document.
-        doc = aw.Document(ARTIFACTS_DIR + "Table.ClearBorders.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Table.borders.docx")
         table = doc.first_section.body.tables[0]
-        top_border = table.first_row.row_format.borders[aw.BorderType.TOP]
+        top_border = table.first_row.row_format.borders.top
 
         self.assertEqual(0.0, top_border.line_width)
         self.assertEqual(drawing.Color.empty().to_argb(), top_border.color.to_argb())
@@ -514,7 +513,7 @@ class ExTable(ApiExampleBase):
     def test_replace_cell_text(self):
 
         #ExStart
-        #ExFor:Range.Replace(String, String, FindReplaceOptions)
+        #ExFor:Range.replace(str,str,FindReplaceOptions)
         #ExSummary:Shows how to replace all instances of String of text in a table and cell.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -549,7 +548,7 @@ class ExTable(ApiExampleBase):
         for is_smart_paragraph_break_replacement in (True, False):
             with self.subTest(is_smart_paragraph_break_replacement=is_smart_paragraph_break_replacement):
                 #ExStart
-                #ExFor:FindReplaceOptions.SmartParagraphBreakReplacement
+                #ExFor:FindReplaceOptions.smart_paragraph_break_replacement
                 #ExSummary:Shows how to remove paragraph from a table cell with a nested table.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -565,16 +564,16 @@ class ExTable(ApiExampleBase):
                 builder.writeln()
 
                 options = aw.replacing.FindReplaceOptions()
-                # When the following option is set to 'true', Aspose.Words will remove paragraph's text
+                # When the following option is set to 'True', Aspose.Words will remove paragraph's text
                 # completely with its paragraph mark. Otherwise, Aspose.Words will mimic Word and remove
                 # only paragraph's text and leaves the paragraph mark intact (when a table follows the text).
                 options.smart_paragraph_break_replacement = is_smart_paragraph_break_replacement
                 doc.range.replace("TEXT1&p", "", options)
 
-                doc.save(ARTIFACTS_DIR + "Table.RemoveParagraphTextAndMark.docx")
+                doc.save(ARTIFACTS_DIR + "Table.remove_paragraph_text_and_mark.docx")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + "Table.RemoveParagraphTextAndMark.docx")
+                doc = aw.Document(ARTIFACTS_DIR + "Table.remove_paragraph_text_and_mark.docx")
 
                 self.assertEqual(1 if is_smart_paragraph_break_replacement else 2,
                     doc.first_section.body.tables[0].rows[0].cells[0].paragraphs.count)
@@ -617,7 +616,7 @@ class ExTable(ApiExampleBase):
         # Insert an empty paragraph between the two tables.
         table.parent_node.insert_after(aw.Paragraph(doc), table)
 
-        doc.save(ARTIFACTS_DIR + "Table.CloneTable.doc")
+        doc.save(ARTIFACTS_DIR + "Table.clone_table.doc")
 
         self.assertEqual(3, doc.get_child_nodes(aw.NodeType.TABLE, True).count)
         self.assertEqual(table.range.text, table_clone.range.text)
@@ -707,9 +706,9 @@ class ExTable(ApiExampleBase):
 
         #ExStart
         #ExFor:ParagraphFormat.keep_with_next
-        #ExFor:Row.Islast_row
+        #ExFor:Row.is_last_row
         #ExFor:Paragraph.is_end_of_cell
-        #ExFor:Paragraph.IsInCell
+        #ExFor:Paragraph.is_in_cell
         #ExFor:Cell.parent_row
         #ExFor:Cell.paragraphs
         #ExSummary:Shows how to set a table to stay together on the same page.
@@ -728,10 +727,10 @@ class ExTable(ApiExampleBase):
                 if not cell.parent_row.is_last_row and para.is_end_of_cell:
                     para.paragraph_format.keep_with_next = True
 
-        doc.save(ARTIFACTS_DIR + "Table.KeepTableTogether.docx")
+        doc.save(ARTIFACTS_DIR + "Table.keep_table_together.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Table.KeepTableTogether.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Table.keep_table_together.docx")
         table = doc.first_section.body.tables[0]
 
         for para in table.get_child_nodes(aw.NodeType.PARAGRAPH, True):
@@ -766,8 +765,8 @@ class ExTable(ApiExampleBase):
 
         #ExStart
         #ExFor:PreferredWidthType
-        #ExFor:preferred_width.Type
-        #ExFor:preferred_width.Value
+        #ExFor:PreferredWidth.type
+        #ExFor:PreferredWidth.value
         #ExSummary:Shows how to verify the preferred width type and value of a table cell.
         doc = aw.Document(MY_DIR + "Tables.docx")
 
@@ -843,11 +842,11 @@ class ExTable(ApiExampleBase):
     #ExFor:Table
     #ExFor:Row
     #ExFor:Cell
-    #ExFor:Table.#ctor(DocumentBase)
+    #ExFor:Table.__init__(DocumentBase)
     #ExFor:Table.title
     #ExFor:Table.description
-    #ExFor:Row.#ctor(DocumentBase)
-    #ExFor:Cell.#ctor(DocumentBase)
+    #ExFor:Row.__init__(DocumentBase)
+    #ExFor:Cell.__init__(DocumentBase)
     #ExFor:Cell.first_paragraph
     #ExSummary:Shows how to build a nested table without using a document builder.
     def test_create_nested_table(self):
@@ -862,9 +861,10 @@ class ExTable(ApiExampleBase):
         inner_table = ExTable.create_table(doc, 2, 2, "Inner Table")
         outer_table.first_row.first_cell.append_child(inner_table)
 
-        doc.save(ARTIFACTS_DIR + "Table.CreateNestedTable.docx")
-        self.create_and_test_nested_table(aw.Document(ARTIFACTS_DIR + "Table.CreateNestedTable.docx")) #ExSkip
+        doc.save(ARTIFACTS_DIR + "Table.create_nested_table.docx")
+        self.create_and_test_nested_table(aw.Document(ARTIFACTS_DIR + "Table.create_nested_table.docx")) #ExSkip
 
+    @staticmethod
     def create_table(doc: aw.Document, row_count: int, cell_count: int, cell_text: str) -> aw.tables.Table:
         """Creates a new table in the document with the given dimensions and text in each cell."""
         table = aw.tables.Table(doc)
@@ -950,7 +950,7 @@ class ExTable(ApiExampleBase):
         # Merge all the cells between the two specified cells into one.
         self.merge_cells(cell_start_range, cell_end_range)
 
-        doc.save(ARTIFACTS_DIR + "Table.MergeCellRange.doc")
+        doc.save(ARTIFACTS_DIR + "Table.merge_cell_range.doc")
 
         merged_cells_count = 0
         for node in table.get_child_nodes(aw.NodeType.CELL, True):
@@ -1008,8 +1008,8 @@ class ExTable(ApiExampleBase):
         #ExFor:CellFormat.borders
         #ExFor:Table.rows
         #ExFor:Table.first_row
-        #ExFor:CellFormat.ClearFormatting
-        #ExFor:CompositeNode.HasChildNodes
+        #ExFor:CellFormat.clear_formatting
+        #ExFor:CompositeNode.has_child_nodes
         #ExSummary:Shows how to combine the rows from two tables into one.
         doc = aw.Document(MY_DIR + "Tables.docx")
 
@@ -1027,10 +1027,10 @@ class ExTable(ApiExampleBase):
         # Remove the empty table container.
         second_table.remove()
 
-        doc.save(ARTIFACTS_DIR + "Table.CombineTables.docx")
+        doc.save(ARTIFACTS_DIR + "Table.combine_tables.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Table.CombineTables.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Table.combine_tables.docx")
 
         self.assertEqual(1, doc.get_child_nodes(aw.NodeType.TABLE, True).count)
         self.assertEqual(9, doc.first_section.body.tables[0].rows.count)
@@ -1092,10 +1092,10 @@ class ExTable(ApiExampleBase):
         table.absolute_horizontal_distance = 100
         table.absolute_vertical_distance = 20
 
-        doc.save(ARTIFACTS_DIR + "Table.WrapText.docx")
+        doc.save(ARTIFACTS_DIR + "Table.wrap_text.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Table.WrapText.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Table.wrap_text.docx")
         table = doc.first_section.body.tables[0]
 
         self.assertEqual(aw.tables.TextWrapping.AROUND, table.text_wrapping)
@@ -1132,8 +1132,8 @@ class ExTable(ApiExampleBase):
     def test_change_floating_table_properties(self):
 
         #ExStart
-        #ExFor:Table.RelativeHorizontalAlignment
-        #ExFor:Table.RelativeVerticalAlignment
+        #ExFor:Table.relative_horizontal_alignment
+        #ExFor:Table.relative_vertical_alignment
         #ExFor:Table.absolute_horizontal_distance
         #ExFor:Table.absolute_vertical_distance
         #ExSummary:Shows how set the location of floating tables.
@@ -1160,10 +1160,10 @@ class ExTable(ApiExampleBase):
         table.absolute_vertical_distance = 50
         table.absolute_horizontal_distance = 100
 
-        doc.save(ARTIFACTS_DIR + "Table.ChangeFloatingTableProperties.docx")
+        doc.save(ARTIFACTS_DIR + "Table.change_floating_table_properties.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Table.ChangeFloatingTableProperties.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Table.change_floating_table_properties.docx")
         table = doc.first_section.body.tables[0]
 
         self.assertEqual(aw.drawing.VerticalAlignment.BOTTOM, table.relative_vertical_alignment)
@@ -1177,13 +1177,13 @@ class ExTable(ApiExampleBase):
     def test_table_style_creation(self):
 
         #ExStart
-        #ExFor:Table.Bidi
+        #ExFor:Table.bidi
         #ExFor:Table.cell_spacing
-        #ExFor:Table.Style
-        #ExFor:Table.StyleName
+        #ExFor:Table.style
+        #ExFor:Table.style_name
         #ExFor:TableStyle
         #ExFor:TableStyle.allow_break_across_pages
-        #ExFor:TableStyle.Bidi
+        #ExFor:TableStyle.bidi
         #ExFor:TableStyle.cell_spacing
         #ExFor:TableStyle.bottom_padding
         #ExFor:TableStyle.left_padding
@@ -1191,7 +1191,7 @@ class ExTable(ApiExampleBase):
         #ExFor:TableStyle.top_padding
         #ExFor:TableStyle.shading
         #ExFor:TableStyle.borders
-        #ExFor:TableStyle.verticalAlignment
+        #ExFor:TableStyle.vertical_alignment
         #ExSummary:Shows how to create custom style settings for the table.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1226,10 +1226,10 @@ class ExTable(ApiExampleBase):
         self.assertEqual(5.0, table.cell_spacing)
         self.assertEqual("MyTableStyle1", table.style_name)
 
-        doc.save(ARTIFACTS_DIR + "Table.TableStyleCreation.docx")
+        doc.save(ARTIFACTS_DIR + "Table.table_style_creation.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Table.TableStyleCreation.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Table.table_style_creation.docx")
         table = doc.first_section.body.tables[0]
 
         self.assertTrue(table.bidi)
@@ -1259,8 +1259,8 @@ class ExTable(ApiExampleBase):
     def test_set_table_alignment(self):
 
         #ExStart
-        #ExFor:TableStyle.Alignment
-        #ExFor:TableStyle.leftIndent
+        #ExFor:TableStyle.alignment
+        #ExFor:TableStyle.left_indent
         #ExSummary:Shows how to set the position of a table.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1295,10 +1295,10 @@ class ExTable(ApiExampleBase):
 
         table.style = table_style
 
-        doc.save(ARTIFACTS_DIR + "Table.SetTableAlignment.docx")
+        doc.save(ARTIFACTS_DIR + "Table.set_table_alignment.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Table.SetTableAlignment.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Table.set_table_alignment.docx")
 
         table_style = doc.styles.get_by_name("MyTableStyle1").as_table_style()
 
@@ -1322,24 +1322,24 @@ class ExTable(ApiExampleBase):
         #ExFor:ConditionalStyle.right_padding
         #ExFor:ConditionalStyle.top_padding
         #ExFor:ConditionalStyle.font
-        #ExFor:ConditionalStyle.Type
-        #ExFor:ConditionalStyleCollection.GetEnumerator
+        #ExFor:ConditionalStyle.type
+        #ExFor:ConditionalStyleCollection.__iter__
         #ExFor:ConditionalStyleCollection.first_row
         #ExFor:ConditionalStyleCollection.last_row
-        #ExFor:ConditionalStyleCollection.LastColumn
+        #ExFor:ConditionalStyleCollection.last_column
         #ExFor:ConditionalStyleCollection.count
         #ExFor:ConditionalStyleCollection
-        #ExFor:ConditionalStyleCollection.bottomLeftCell
-        #ExFor:ConditionalStyleCollection.bottomRightCell
-        #ExFor:ConditionalStyleCollection.EvenColumnBanding
-        #ExFor:ConditionalStyleCollection.EvenRowBanding
-        #ExFor:ConditionalStyleCollection.FirstColumn
-        #ExFor:ConditionalStyleCollection.Item(ConditionalStyleType)
-        #ExFor:ConditionalStyleCollection.Item(Int32)
-        #ExFor:ConditionalStyleCollection.OddColumnBanding
-        #ExFor:ConditionalStyleCollection.OddRowBanding
-        #ExFor:ConditionalStyleCollection.topLeftCell
-        #ExFor:ConditionalStyleCollection.topRightCell
+        #ExFor:ConditionalStyleCollection.bottom_left_cell
+        #ExFor:ConditionalStyleCollection.bottom_right_cell
+        #ExFor:ConditionalStyleCollection.even_column_banding
+        #ExFor:ConditionalStyleCollection.even_row_banding
+        #ExFor:ConditionalStyleCollection.first_column
+        #ExFor:ConditionalStyleCollection.__getitem__(ConditionalStyleType)
+        #ExFor:ConditionalStyleCollection.__getitem__(int)
+        #ExFor:ConditionalStyleCollection.odd_column_banding
+        #ExFor:ConditionalStyleCollection.odd_row_banding
+        #ExFor:ConditionalStyleCollection.top_left_cell
+        #ExFor:ConditionalStyleCollection.top_right_cell
         #ExFor:ConditionalStyleType
         #ExFor:TableStyle.conditional_styles
         #ExSummary:Shows how to work with certain area styles of a table.
@@ -1385,7 +1385,7 @@ class ExTable(ApiExampleBase):
         # List all possible style conditions.
         for conditional_style in table_style.conditional_styles:
             if conditional_style is not None:
-               print(conditional_style.type)
+                print(conditional_style.type)
 
         # Apply the custom style, which contains all conditional styles, to the table.
         table.style = table_style
@@ -1424,8 +1424,8 @@ class ExTable(ApiExampleBase):
     def test_clear_table_style_formatting(self):
 
         #ExStart
-        #ExFor:ConditionalStyle.ClearFormatting
-        #ExFor:ConditionalStyleCollection.ClearFormatting
+        #ExFor:ConditionalStyle.clear_formatting
+        #ExFor:ConditionalStyleCollection.clear_formatting
         #ExSummary:Shows how to reset conditional table styles.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1463,8 +1463,8 @@ class ExTable(ApiExampleBase):
     def test_alternating_row_styles(self):
 
         #ExStart
-        #ExFor:TableStyle.ColumnStripe
-        #ExFor:TableStyle.RowStripe
+        #ExFor:TableStyle.column_stripe
+        #ExFor:TableStyle.row_stripe
         #ExSummary:Shows how to create conditional table styles that alternate between rows.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1506,10 +1506,10 @@ class ExTable(ApiExampleBase):
         # Use the "style_options" property also to enable column banding.
         table.style_options = table.style_options | aw.tables.TableStyleOptions.COLUMN_BANDS
 
-        doc.save(ARTIFACTS_DIR + "Table.AlternatingRowStyles.docx")
+        doc.save(ARTIFACTS_DIR + "Table.alternating_row_styles.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Table.AlternatingRowStyles.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Table.alternating_row_styles.docx")
         table = doc.first_section.body.tables[0]
         table_style = doc.styles.get_by_name("MyTableStyle1").as_table_style()
 
@@ -1527,7 +1527,7 @@ class ExTable(ApiExampleBase):
     def test_convert_to_horizontally_merged_cells(self):
 
         #ExStart
-        #ExFor:Table.ConvertToHorizontallyMergedCells
+        #ExFor:Table.convert_to_horizontally_merged_cells
         #ExSummary:Shows how to convert cells horizontally merged by width to cells merged by CellFormat.horizontal_merge.
         doc = aw.Document(MY_DIR + "Table with merged cells.docx")
 

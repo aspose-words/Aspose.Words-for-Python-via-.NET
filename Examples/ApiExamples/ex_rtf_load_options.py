@@ -1,13 +1,12 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR
 
 class ExRtfLoadOptions(ApiExampleBase):
 
@@ -17,8 +16,8 @@ class ExRtfLoadOptions(ApiExampleBase):
             with self.subTest(recognize_utf8_text=recognize_utf8_text):
                 #ExStart
                 #ExFor:RtfLoadOptions
-                #ExFor:RtfLoadOptions.#ctor
-                #ExFor:RtfLoadOptions.RecognizeUtf8Text
+                #ExFor:RtfLoadOptions.__init__
+                #ExFor:RtfLoadOptions.recognize_utf8_text
                 #ExSummary:Shows how to detect UTF-8 characters while loading an RTF document.
                 # Create an "RtfLoadOptions" object to modify how we load an RTF document.
                 load_options = aw.loading.RtfLoadOptions()

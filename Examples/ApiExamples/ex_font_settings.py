@@ -1,23 +1,22 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import platform
 import xml.etree.ElementTree as ET
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, fonts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-FONTS_DIR = fonts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, FONTS_DIR
 
 class ExFontSettings(ApiExampleBase):
 
     def test_default_font_instance(self):
 
         #ExStart
-        #ExFor:Fonts.FontSettings.DefaultInstance
+        #ExFor:FontSettings.default_instance
         #ExSummary:Shows how to configure the default font settings instance.
         # Configure the default font settings instance to use the "Courier New" font
         # as a backup substitute when we attempt to use an unknown font.
@@ -42,7 +41,7 @@ class ExFontSettings(ApiExampleBase):
     def test_default_font_name(self):
 
         #ExStart
-        #ExFor:DefaultFontSubstitutionRule.DefaultFontName
+        #ExFor:DefaultFontSubstitutionRule.default_font_name
         #ExSummary:Shows how to specify a default font.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -121,8 +120,8 @@ class ExFontSettings(ApiExampleBase):
 
     ##ExStart
     ##ExFor:IWarningCallback
-    ##ExFor:DocumentBase.WarningCallback
-    ##ExFor:Fonts.FontSettings.DefaultInstance
+    ##ExFor:DocumentBase.warning_callback
+    ##ExFor:Fonts.FontSettings.default_instance
     ##ExSummary:Shows how to use the IWarningCallback interface to monitor font substitution warnings.
     #def test_substitution_warning(self):
 
@@ -168,7 +167,7 @@ class ExFontSettings(ApiExampleBase):
     ##ExEnd
 
     ##ExStart
-    ##ExFor:FontSourceBase.WarningCallback
+    ##ExFor:FontSourceBase.warning_callback
     ##ExSummary:Shows how to call warning callback when the font sources working with.
 
     #def test_font_source_warning(self):
@@ -200,19 +199,19 @@ class ExFontSettings(ApiExampleBase):
     ##ExEnd
 
     ##ExStart
-    ##ExFor:Fonts.FontInfoSubstitutionRule
-    ##ExFor:Fonts.FontSubstitutionSettings.FontInfoSubstitution
+    ##ExFor:Fonts.font_info_substitution_rule
+    ##ExFor:Fonts.FontSubstitutionSettings.font_info_substitution
     ##ExFor:IWarningCallback
-    ##ExFor:IWarningCallback.Warning(WarningInfo)
+    ##ExFor:IWarningCallback.warning(WarningInfo)
     ##ExFor:WarningInfo
-    ##ExFor:WarningInfo.Description
-    ##ExFor:WarningInfo.WarningType
+    ##ExFor:WarningInfo.description
+    ##ExFor:WarningInfo.warning_type
     ##ExFor:WarningInfoCollection
-    ##ExFor:WarningInfoCollection.Warning(WarningInfo)
-    ##ExFor:WarningInfoCollection.GetEnumerator
-    ##ExFor:WarningInfoCollection.Clear
+    ##ExFor:WarningInfoCollection.warning(WarningInfo)
+    ##ExFor:WarningInfoCollection.__iter__
+    ##ExFor:WarningInfoCollection.clear
     ##ExFor:WarningType
-    ##ExFor:DocumentBase.WarningCallback
+    ##ExFor:DocumentBase.warning_callback
     ##ExSummary:Shows how to set the property for finding the closest match for a missing font from the available font sources.
 
     #def test_enable_font_substitution(self):
@@ -336,15 +335,15 @@ class ExFontSettings(ApiExampleBase):
     def test_font_source_file(self):
 
         #ExStart
-        #ExFor:Fonts.FileFontSource
-        #ExFor:Fonts.FileFontSource.#ctor(String)
-        #ExFor:Fonts.FileFontSource.#ctor(String, Int32)
-        #ExFor:Fonts.FileFontSource.FilePath
-        #ExFor:Fonts.FileFontSource.Type
-        #ExFor:Fonts.FontSourceBase
-        #ExFor:Fonts.FontSourceBase.Priority
-        #ExFor:Fonts.FontSourceBase.Type
-        #ExFor:Fonts.FontSourceType
+        #ExFor:FileFontSource
+        #ExFor:FileFontSource.__init__(str)
+        #ExFor:FileFontSource.__init__(str,int)
+        #ExFor:FileFontSource.file_path
+        #ExFor:FileFontSource.type
+        #ExFor:FontSourceBase
+        #ExFor:FontSourceBase.priority
+        #ExFor:FontSourceBase.type
+        #ExFor:FontSourceType
         #ExSummary:Shows how to use a font file in the local file system as a font source.
         file_font_source = aw.fonts.FileFontSource(MY_DIR + "Alte DIN 1451 Mittelschrift.ttf", 0)
 
@@ -360,12 +359,12 @@ class ExFontSettings(ApiExampleBase):
     def test_font_source_folder(self):
 
         #ExStart
-        #ExFor:Fonts.FolderFontSource
-        #ExFor:Fonts.FolderFontSource.#ctor(String, Boolean)
-        #ExFor:Fonts.FolderFontSource.#ctor(String, Boolean, Int32)
-        #ExFor:Fonts.FolderFontSource.FolderPath
-        #ExFor:Fonts.FolderFontSource.scan_subfolders
-        #ExFor:Fonts.FolderFontSource.Type
+        #ExFor:FolderFontSource
+        #ExFor:FolderFontSource.__init__(str,bool)
+        #ExFor:FolderFontSource.__init__(str,bool,int)
+        #ExFor:FolderFontSource.folder_path
+        #ExFor:FolderFontSource.scan_subfolders
+        #ExFor:FolderFontSource.type
         #ExSummary:Shows how to use a local system folder which contains fonts as a font source.
 
         # Create a font source from a folder that contains font files.
@@ -387,7 +386,7 @@ class ExFontSettings(ApiExampleBase):
             with self.subTest(recursive=recursive):
                 #ExStart
                 #ExFor:FontSettings
-                #ExFor:FontSettings.SetFontsFolder(String, Boolean)
+                #ExFor:FontSettings.set_fonts_folder(str,bool)
                 #ExSummary:Shows how to set a font source directory.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -442,7 +441,7 @@ class ExFontSettings(ApiExampleBase):
             with self.subTest(recursive=recursive):
                 #ExStart
                 #ExFor:FontSettings
-                #ExFor:FontSettings.SetFontsFolders(String[], Boolean)
+                #ExFor:FontSettings.set_fonts_folders(List[str],bool)
                 #ExSummary:Shows how to set multiple font source directories.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -495,8 +494,8 @@ class ExFontSettings(ApiExampleBase):
 
         #ExStart
         #ExFor:FontSettings
-        #ExFor:FontSettings.GetFontsSources()
-        #ExFor:FontSettings.SetFontsSources()
+        #ExFor:FontSettings.get_fonts_sources()
+        #ExFor:FontSettings.set_fonts_sources(List[FontSourceBase])
         #ExSummary:Shows how to add a font source to our existing font sources.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -558,8 +557,8 @@ class ExFontSettings(ApiExampleBase):
     def test_table_substitution(self):
 
         #ExStart
-        #ExFor:Document.FontSettings
-        #ExFor:TableSubstitutionRule.SetSubstitutes(String, String[])
+        #ExFor:Document.font_settings
+        #ExFor:TableSubstitutionRule.set_substitutes(str,List[str])
         #ExSummary:Shows how set font substitution rules.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -623,25 +622,25 @@ class ExFontSettings(ApiExampleBase):
         doc = aw.Document(MY_DIR + "Rendering.docx")
         doc.font_settings = font_settings
 
-        alternative_fonts = [font for font in doc.font_settings.substitution_settings.table_substitution.get_substitutes("Slab")]
-        self.assertEqual(["Times New Roman", "Arial"], alternative_fonts)
+        alternative_fonts = doc.font_settings.substitution_settings.table_substitution.get_substitutes("Slab")
+        self.assertListEqual(["Times New Roman", "Arial"], list(alternative_fonts))
 
-        alternative_fonts = [font for font in doc.font_settings.substitution_settings.table_substitution.get_substitutes("Arvo")]
-        self.assertEqual(["Open Sans", "Arial"], alternative_fonts)
+        alternative_fonts = doc.font_settings.substitution_settings.table_substitution.get_substitutes("Arvo")
+        self.assertListEqual(["Open Sans", "Arial"], list(alternative_fonts))
 
     def test_font_source_memory(self):
 
         #ExStart
-        #ExFor:Fonts.MemoryFontSource
-        #ExFor:Fonts.MemoryFontSource.#ctor(Byte[])
-        #ExFor:Fonts.MemoryFontSource.#ctor(Byte[], Int32)
-        #ExFor:Fonts.MemoryFontSource.FontData
-        #ExFor:Fonts.MemoryFontSource.Type
+        #ExFor:MemoryFontSource
+        #ExFor:MemoryFontSource.__init__(bytes)
+        #ExFor:MemoryFontSource.__init__(bytes,int)
+        #ExFor:MemoryFontSource.font_data
+        #ExFor:MemoryFontSource.type
         #ExSummary:Shows how to use a byte array with data from a font file as a font source.
 
         with open(MY_DIR + "Alte DIN 1451 Mittelschrift.ttf", "rb") as file:
             font_bytes = file.read()
-        
+
         memory_font_source = aw.fonts.MemoryFontSource(font_bytes, 0)
 
         doc = aw.Document()
@@ -655,17 +654,15 @@ class ExFontSettings(ApiExampleBase):
     def test_font_source_system(self):
 
         #ExStart
-        #ExFor:TableSubstitutionRule.AddSubstitutes(String, String[])
-        #ExFor:FontSubstitutionRule.Enabled
-        #ExFor:TableSubstitutionRule.GetSubstitutes(String)
-        #ExFor:Fonts.FontSettings.ResetFontSources
-        #ExFor:Fonts.FontSettings.SubstitutionSettings
-        #ExFor:Fonts.FontSubstitutionSettings
-        #ExFor:Fonts.SystemFontSource
-        #ExFor:Fonts.SystemFontSource.#ctor
-        #ExFor:Fonts.SystemFontSource.#ctor(Int32)
-        #ExFor:Fonts.SystemFontSource.GetSystemFontFolders
-        #ExFor:Fonts.SystemFontSource.Type
+        #ExFor:TableSubstitutionRule.add_substitutes(str,List[str])
+        #ExFor:FontSubstitutionRule.enabled
+        #ExFor:TableSubstitutionRule.get_substitutes(str)
+        #ExFor:FontSettings.reset_font_sources
+        #ExFor:FontSettings.substitution_settings
+        #ExFor:FontSubstitutionSettings
+        #ExFor:SystemFontSource
+        #ExFor:SystemFontSource.get_system_font_folders
+        #ExFor:SystemFontSource.type
         #ExSummary:Shows how to access a document's system font source and set font substitutes.
         doc = aw.Document()
         doc.font_settings = aw.fonts.FontSettings()
@@ -708,8 +705,8 @@ class ExFontSettings(ApiExampleBase):
     def test_load_font_fallback_settings_from_file(self):
 
         #ExStart
-        #ExFor:FontFallbackSettings.Load(String)
-        #ExFor:FontFallbackSettings.Save(String)
+        #ExFor:FontFallbackSettings.load(str)
+        #ExFor:FontFallbackSettings.save(str)
         #ExSummary:Shows how to load and save font fallback settings to/from an XML document in the local file system.
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -727,8 +724,8 @@ class ExFontSettings(ApiExampleBase):
     def test_load_font_fallback_settings_from_stream(self):
 
         #ExStart
-        #ExFor:FontFallbackSettings.Load(Stream)
-        #ExFor:FontFallbackSettings.Save(Stream)
+        #ExFor:FontFallbackSettings.load(BytesIO)
+        #ExFor:FontFallbackSettings.save(BytesIO)
         #ExSummary:Shows how to load and save font fallback settings to/from a stream.
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -774,7 +771,7 @@ class ExFontSettings(ApiExampleBase):
     def test_load_noto_fonts_fallback_settings(self):
 
         #ExStart
-        #ExFor:FontFallbackSettings.LoadNotoFallbackSettings
+        #ExFor:FontFallbackSettings.load_noto_fallback_settings
         #ExSummary:Shows how to add predefined font fallback settings for Google Noto fonts.
         font_settings = aw.fonts.FontSettings()
 
@@ -794,14 +791,14 @@ class ExFontSettings(ApiExampleBase):
         doc.font_settings = font_settings
         #ExEnd
 
-        #TestUtil.verify_web_response_status_code(HttpStatusCode.OK, "https://www.google.com/get/noto/#sans-lgc")
+        self.verify_web_response_status_code(200, "https://www.google.com/get/noto/#sans-lgc")
 
     def test_default_font_substitution_rule(self):
 
         #ExStart
-        #ExFor:Fonts.DefaultFontSubstitutionRule
-        #ExFor:Fonts.DefaultFontSubstitutionRule.DefaultFontName
-        #ExFor:Fonts.FontSubstitutionSettings.DefaultFontSubstitution
+        #ExFor:DefaultFontSubstitutionRule
+        #ExFor:DefaultFontSubstitutionRule.default_font_name
+        #ExFor:FontSubstitutionSettings.default_font_substitution
         #ExSummary:Shows how to set the default font substitution rule.
         doc = aw.Document()
         font_settings = aw.fonts.FontSettings()
@@ -831,13 +828,13 @@ class ExFontSettings(ApiExampleBase):
     def test_font_config_substitution(self):
 
         #ExStart
-        #ExFor:Fonts.FontConfigSubstitutionRule
-        #ExFor:Fonts.FontConfigSubstitutionRule.Enabled
-        #ExFor:Fonts.FontConfigSubstitutionRule.IsFontConfigAvailable
-        #ExFor:Fonts.FontConfigSubstitutionRule.ResetCache
-        #ExFor:Fonts.FontSubstitutionRule
-        #ExFor:Fonts.FontSubstitutionRule.Enabled
-        #ExFor:Fonts.FontSubstitutionSettings.FontConfigSubstitution
+        #ExFor:FontConfigSubstitutionRule
+        #ExFor:FontConfigSubstitutionRule.enabled
+        #ExFor:FontConfigSubstitutionRule.is_font_config_available
+        #ExFor:FontConfigSubstitutionRule.reset_cache
+        #ExFor:FontSubstitutionRule
+        #ExFor:FontSubstitutionRule.enabled
+        #ExFor:FontSubstitutionSettings.font_config_substitution
         #ExSummary:Shows operating system-dependent font config substitution.
         font_settings = aw.fonts.FontSettings()
         font_config_substitution = font_settings.substitution_settings.font_config_substitution
@@ -859,8 +856,8 @@ class ExFontSettings(ApiExampleBase):
     def test_fallback_settings(self):
 
         #ExStart
-        #ExFor:Fonts.FontFallbackSettings.LoadMsOfficeFallbackSettings
-        #ExFor:Fonts.FontFallbackSettings.LoadNotoFallbackSettings
+        #ExFor:FontFallbackSettings.load_ms_office_fallback_settings
+        #ExFor:FontFallbackSettings.load_noto_fallback_settings
         #ExSummary:Shows how to load pre-defined fallback font settings.
         doc = aw.Document()
 
@@ -894,9 +891,9 @@ class ExFontSettings(ApiExampleBase):
     def test_fallback_settings_custom(self):
 
         #ExStart
-        #ExFor:Fonts.FontSettings.FallbackSettings
-        #ExFor:Fonts.FontFallbackSettings
-        #ExFor:Fonts.FontFallbackSettings.BuildAutomatic
+        #ExFor:FontSettings.fallback_settings
+        #ExFor:FontFallbackSettings
+        #ExFor:FontFallbackSettings.build_automatic
         #ExSummary:Shows how to distribute fallback fonts across Unicode character code ranges.
         doc = aw.Document()
 
@@ -958,11 +955,11 @@ class ExFontSettings(ApiExampleBase):
     def test_table_substitution_rule(self):
 
         #ExStart
-        #ExFor:Fonts.TableSubstitutionRule
-        #ExFor:Fonts.TableSubstitutionRule.LoadLinuxSettings
-        #ExFor:Fonts.TableSubstitutionRule.LoadWindowsSettings
-        #ExFor:Fonts.TableSubstitutionRule.Save(System.IO.Stream)
-        #ExFor:Fonts.TableSubstitutionRule.Save(System.String)
+        #ExFor:TableSubstitutionRule
+        #ExFor:TableSubstitutionRule.load_linux_settings
+        #ExFor:TableSubstitutionRule.load_windows_settings
+        #ExFor:TableSubstitutionRule.save(BytesIO)
+        #ExFor:TableSubstitutionRule.save(str)
         #ExSummary:Shows how to access font substitution tables for Windows and Linux.
         doc = aw.Document()
         font_settings = aw.fonts.FontSettings()
@@ -1009,12 +1006,12 @@ class ExFontSettings(ApiExampleBase):
     def test_table_substitution_rule_custom(self):
 
         #ExStart
-        #ExFor:Fonts.FontSubstitutionSettings.TableSubstitution
-        #ExFor:Fonts.TableSubstitutionRule.AddSubstitutes(System.String,System.String[])
-        #ExFor:Fonts.TableSubstitutionRule.GetSubstitutes(System.String)
-        #ExFor:Fonts.TableSubstitutionRule.Load(System.IO.Stream)
-        #ExFor:Fonts.TableSubstitutionRule.Load(System.String)
-        #ExFor:Fonts.TableSubstitutionRule.SetSubstitutes(System.String,System.String[])
+        #ExFor:FontSubstitutionSettings.table_substitution
+        #ExFor:TableSubstitutionRule.add_substitutes(str,List[str])
+        #ExFor:TableSubstitutionRule.get_substitutes(str)
+        #ExFor:TableSubstitutionRule.load(System.IO.Stream)
+        #ExFor:TableSubstitutionRule.load(str)
+        #ExFor:TableSubstitutionRule.set_substitutes(str,List[str])
         #ExSummary:Shows how to work with custom font substitution tables.
         doc = aw.Document()
         font_settings = aw.fonts.FontSettings()
@@ -1051,7 +1048,7 @@ class ExFontSettings(ApiExampleBase):
         table_substitution_rule.add_substitutes("Times New Roman", "M+ 2m")
         self.assertListEqual(["Arvo", "M+ 2m"], list(table_substitution_rule.get_substitutes("Times New Roman")))
 
-        # SetSubstitutes() can set a new list of substitute fonts for a font.
+        # set_substitutes() can set a new list of substitute fonts for a font.
         table_substitution_rule.set_substitutes("Times New Roman", ["Squarish Sans CT", "M+ 2m"])
         self.assertListEqual(["Squarish Sans CT", "M+ 2m"], list(table_substitution_rule.get_substitutes("Times New Roman")))
 
@@ -1063,13 +1060,13 @@ class ExFontSettings(ApiExampleBase):
         builder.font.name = "Times New Roman"
         builder.writeln("Text written in Times New Roman, to be substituted by Squarish Sans CT.")
 
-        doc.save(ARTIFACTS_DIR + "FontSettings.table_substitution_rule.custom.pdf")
+        doc.save(ARTIFACTS_DIR + "FontSettings.table_substitution_rule_custom.pdf")
         #ExEnd
 
     def test_resolve_fonts_before_loading_document(self):
 
         #ExStart
-        #ExFor:LoadOptions.FontSettings
+        #ExFor:LoadOptions.font_settings
         #ExSummary:Shows how to designate font substitutes during loading.
         load_options = aw.loading.LoadOptions()
         load_options.font_settings = aw.fonts.FontSettings()
@@ -1092,7 +1089,7 @@ class ExFontSettings(ApiExampleBase):
 
     ##ExStart
     ##ExFor:StreamFontSource
-    ##ExFor:StreamFontSource.OpenFontDataStream
+    ##ExFor:StreamFontSource.open_font_data_stream
     ##ExSummary:Shows how to load fonts from stream.
     #def test_stream_font_source_file_rendering(self):
 

@@ -1,14 +1,15 @@
-import unittest
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import io
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, image_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-IMAGE_DIR = image_dir
+from api_example_base import ApiExampleBase, MY_DIR, IMAGE_DIR
 
 class ExNode(ApiExampleBase):
 
@@ -16,7 +17,7 @@ class ExNode(ApiExampleBase):
 
         #ExStart
         #ExFor:Node
-        #ExFor:Node.Clone
+        #ExFor:Node.clone
         #ExSummary:Shows how to clone a composite node.
         doc = aw.Document()
         para = doc.first_section.body.first_paragraph
@@ -39,7 +40,7 @@ class ExNode(ApiExampleBase):
     def test_get_parent_node(self):
 
         #ExStart
-        #ExFor:Node.ParentNode
+        #ExFor:Node.parent_node
         #ExSummary:Shows how to access a node's parent node.
         doc = aw.Document()
         para = doc.first_section.body.first_paragraph
@@ -59,8 +60,8 @@ class ExNode(ApiExampleBase):
     def test_owner_document(self):
 
         #ExStart
-        #ExFor:Node.Document
-        #ExFor:Node.ParentNode
+        #ExFor:Node.document
+        #ExFor:Node.parent_node
         #ExSummary:Shows how to create a node and set its owning document.
         doc = aw.Document()
         para = aw.Paragraph(doc)
@@ -93,14 +94,14 @@ class ExNode(ApiExampleBase):
 
         #ExStart
         #ExFor:Node
-        #ExFor:Node.CustomNodeId
+        #ExFor:Node.custom_node_id
         #ExFor:NodeType
         #ExFor:CompositeNode
-        #ExFor:CompositeNode.GetChild
-        #ExFor:CompositeNode.ChildNodes
-        #ExFor:CompositeNode.GetEnumerator
-        #ExFor:NodeCollection.Count
-        #ExFor:NodeCollection.Item
+        #ExFor:CompositeNode.get_child
+        #ExFor:CompositeNode.child_nodes
+        #ExFor:CompositeNode.__iter__
+        #ExFor:NodeCollection.count
+        #ExFor:NodeCollection.__getitem__
         #ExSummary:Shows how to traverse through a composite node's collection of child nodes.
         doc = aw.Document()
 
@@ -111,7 +112,7 @@ class ExNode(ApiExampleBase):
         shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.RECTANGLE)
         shape.width = 200
         shape.height = 200
-        # Note that the 'CustomNodeId' is not saved to an output file and exists only during the node lifetime.
+        # Note that the 'custom_node_id' is not saved to an output file and exists only during the node lifetime.
         shape.custom_node_id = 100
         shape.wrap_type = aw.drawing.WrapType.INLINE
         paragraph.append_child(shape)
@@ -128,7 +129,7 @@ class ExNode(ApiExampleBase):
             if child.node_type == aw.NodeType.RUN:
                 print("Run contents:")
                 print(f"\t\"{child.get_text().strip()}\"")
-                
+
             elif child.node_type == aw.NodeType.SHAPE:
                 child_shape = child.as_shape()
                 print("Shape:")
@@ -141,35 +142,35 @@ class ExNode(ApiExampleBase):
         self.assertEqual("Hello world! Hello again!", doc.get_text().strip())
 
     #ExStart
-    #ExFor:Node.NextSibling
-    #ExFor:CompositeNode.FirstChild
-    #ExFor:Node.IsComposite
-    #ExFor:CompositeNode.IsComposite
-    #ExFor:Node.NodeTypeToString
-    #ExFor:Paragraph.NodeType
-    #ExFor:Table.NodeType
-    #ExFor:Node.NodeType
-    #ExFor:Footnote.NodeType
-    #ExFor:FormField.NodeType
-    #ExFor:SmartTag.NodeType
-    #ExFor:Cell.NodeType
-    #ExFor:Row.NodeType
-    #ExFor:Document.NodeType
-    #ExFor:Comment.NodeType
-    #ExFor:Run.NodeType
-    #ExFor:Section.NodeType
-    #ExFor:SpecialChar.NodeType
-    #ExFor:Shape.NodeType
-    #ExFor:FieldEnd.NodeType
-    #ExFor:FieldSeparator.NodeType
-    #ExFor:FieldStart.NodeType
-    #ExFor:BookmarkStart.NodeType
-    #ExFor:CommentRangeEnd.NodeType
-    #ExFor:BuildingBlock.NodeType
-    #ExFor:GlossaryDocument.NodeType
-    #ExFor:BookmarkEnd.NodeType
-    #ExFor:GroupShape.NodeType
-    #ExFor:CommentRangeStart.NodeType
+    #ExFor:Node.next_sibling
+    #ExFor:CompositeNode.first_child
+    #ExFor:Node.is_composite
+    #ExFor:CompositeNode.is_composite
+    #ExFor:Node.node_type_to_string
+    #ExFor:Paragraph.node_type
+    #ExFor:Table.node_type
+    #ExFor:Node.node_type
+    #ExFor:Footnote.node_type
+    #ExFor:FormField.node_type
+    #ExFor:SmartTag.node_type
+    #ExFor:Cell.node_type
+    #ExFor:Row.node_type
+    #ExFor:Document.node_type
+    #ExFor:Comment.node_type
+    #ExFor:Run.node_type
+    #ExFor:Section.node_type
+    #ExFor:SpecialChar.node_type
+    #ExFor:Shape.node_type
+    #ExFor:FieldEnd.node_type
+    #ExFor:FieldSeparator.node_type
+    #ExFor:FieldStart.node_type
+    #ExFor:BookmarkStart.node_type
+    #ExFor:CommentRangeEnd.node_type
+    #ExFor:BuildingBlock.node_type
+    #ExFor:GlossaryDocument.node_type
+    #ExFor:BookmarkEnd.node_type
+    #ExFor:GroupShape.node_type
+    #ExFor:CommentRangeStart.node_type
     #ExSummary:Shows how to traverse a composite node's tree of child nodes.
     def test_recurse_children(self):
 
@@ -210,8 +211,8 @@ class ExNode(ApiExampleBase):
 
         #ExStart
         #ExFor:Node
-        #ExFor:Node.NodeType
-        #ExFor:Node.Remove
+        #ExFor:Node.node_type
+        #ExFor:Node.remove
         #ExSummary:Shows how to remove all child nodes of a specific type from a composite node.
         doc = aw.Document(MY_DIR + "Tables.docx")
 
@@ -237,11 +238,11 @@ class ExNode(ApiExampleBase):
     def test_enum_next_sibling(self):
 
         #ExStart
-        #ExFor:CompositeNode.FirstChild
-        #ExFor:Node.NextSibling
-        #ExFor:Node.NodeTypeToString
-        #ExFor:Node.NodeType
-        #ExSummary:Shows how to use a node's NextSibling property to enumerate through its immediate children.
+        #ExFor:CompositeNode.first_child
+        #ExFor:Node.next_sibling
+        #ExFor:Node.node_type_to_string
+        #ExFor:Node.node_type
+        #ExSummary:Shows how to use a node's next_sibling property to enumerate through its immediate children.
         doc = aw.Document(MY_DIR + "Paragraphs.docx")
 
         node = doc.first_section.body.first_child
@@ -251,16 +252,16 @@ class ExNode(ApiExampleBase):
 
             contents = node.get_text().strip()
             print("This node contains no text" if contents == "" else f'Contents: "{node.get_text().strip()}"')
-            
+
             node = node.next_sibling
         #ExEnd
 
     def test_typed_access(self):
 
         #ExStart
-        #ExFor:Story.Tables
-        #ExFor:Table.FirstRow
-        #ExFor:Table.LastRow
+        #ExFor:Story.tables
+        #ExFor:Table.first_row
+        #ExFor:Table.last_row
         #ExFor:TableCollection
         #ExSummary:Shows how to remove the first and last rows of all tables in a document.
         doc = aw.Document(MY_DIR + "Tables.docx")
@@ -272,10 +273,10 @@ class ExNode(ApiExampleBase):
 
         for table in tables:
             table = table.as_table()
-            
+
             if table.first_row is not None:
                 table.first_row.remove()
-            
+
             if table.last_row is not None:
                 table.last_row.remove()
 
@@ -286,9 +287,9 @@ class ExNode(ApiExampleBase):
     def test_remove_child(self):
 
         #ExStart
-        #ExFor:CompositeNode.LastChild
-        #ExFor:Node.PreviousSibling
-        #ExFor:CompositeNode.RemoveChild
+        #ExFor:CompositeNode.last_child
+        #ExFor:Node.previous_sibling
+        #ExFor:CompositeNode.remove_child
         #ExSummary:Shows how to use of methods of Node and CompositeNode to remove a section before the last section in the document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -312,10 +313,10 @@ class ExNode(ApiExampleBase):
     def test_select_composite_nodes(self):
 
         #ExStart
-        #ExFor:CompositeNode.SelectSingleNode
-        #ExFor:CompositeNode.SelectNodes
-        #ExFor:NodeList.GetEnumerator
-        #ExFor:NodeList.ToArray
+        #ExFor:CompositeNode.select_single_node
+        #ExFor:CompositeNode.select_nodes
+        #ExFor:NodeList.__iter__
+        #ExFor:NodeList.to_array
         #ExSummary:Shows how to select certain nodes by using an XPath expression.
         doc = aw.Document(MY_DIR + "Tables.docx")
 
@@ -336,16 +337,16 @@ class ExNode(ApiExampleBase):
         # We can treat the list as an array.
         self.assertEqual(4, len(node_list.to_array()))
 
-        # Use SelectSingleNode to select the first result of the same expression as above.
+        # Use "select_single_node" to select the first result of the same expression as above.
         node = doc.select_single_node("//Body/Paragraph")
 
         self.assertIsInstance(node, aw.Paragraph)
         #ExEnd
 
-    def test_test_node_is_inside_field(self):
+    def test_node_is_inside_field(self):
 
         #ExStart
-        #ExFor:CompositeNode.SelectNodes
+        #ExFor:CompositeNode.select_nodes
         #ExSummary:Shows how to use an XPath expression to test whether a node is inside a field.
         doc = aw.Document(MY_DIR + "Mail merge destination - Northwind employees.docx")
 
@@ -373,7 +374,7 @@ class ExNode(ApiExampleBase):
     def test_remove_smart_tags_from_composite_node(self):
 
         #ExStart
-        #ExFor:CompositeNode.RemoveSmartTags
+        #ExFor:CompositeNode.remove_smart_tags
         #ExSummary:Removes all smart tags from descendant nodes of a composite node.
         doc = aw.Document(MY_DIR + "Smart tags.doc")
 
@@ -387,7 +388,7 @@ class ExNode(ApiExampleBase):
     def test_get_index_of_node(self):
 
         #ExStart
-        #ExFor:CompositeNode.IndexOf
+        #ExFor:CompositeNode.index_of
         #ExSummary:Shows how to get the index of a given child node from its parent.
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -400,14 +401,14 @@ class ExNode(ApiExampleBase):
     def test_convert_node_to_html_with_default_options(self):
 
         #ExStart
-        #ExFor:Node.ToString(SaveFormat)
-        #ExFor:Node.ToString(SaveOptions)
+        #ExFor:Node.to_string(SaveFormat)
+        #ExFor:Node.to_string(SaveOptions)
         #ExSummary:Exports the content of a node to String in HTML format.
         doc = aw.Document(MY_DIR + "Document.docx")
 
         node = doc.last_section.body.last_paragraph
 
-        # When we call the ToString method using the html SaveFormat overload,
+        # When we call the "to_string" method using the html SaveFormat overload,
         # it converts the node's contents to their raw html representation.
         self.assertEqual('<p style="margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:12pt">' +
                          '<span style="font-family:\'Times New Roman\'">Hello World!</span>' +
@@ -425,7 +426,7 @@ class ExNode(ApiExampleBase):
     def test_typed_node_collection_to_array(self):
 
         #ExStart
-        #ExFor:ParagraphCollection.ToArray
+        #ExFor:ParagraphCollection.to_array
         #ExSummary:Shows how to create an array from a NodeCollection.
         doc = aw.Document(MY_DIR + "Paragraphs.docx")
 
@@ -437,7 +438,7 @@ class ExNode(ApiExampleBase):
     def test_node_enumeration_hot_remove(self):
 
         #ExStart
-        #ExFor:ParagraphCollection.ToArray
+        #ExFor:ParagraphCollection.to_array
         #ExSummary:Shows how to use "hot remove" to remove a node during enumeration.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -457,7 +458,7 @@ class ExNode(ApiExampleBase):
         #ExEnd
 
     #ExStart
-    #ExFor:CompositeNode.CreateNavigator
+    #ExFor:CompositeNode.create_navigator
     #ExSummary:Shows how to create an XPathNavigator, and then use it to traverse and read nodes.
     def test_node_xpath_navigator(self):
 
@@ -486,6 +487,7 @@ class ExNode(ApiExampleBase):
             print(string_stream.getvalue())
             self._test_node_xpath_navigator(string_stream.getvalue(), doc) #ExSkip
 
+    @staticmethod
     def map_document(navigator, string_stream: io.StringIO, depth: int):
         """Traverses all children of a composite node and map the structure in the style of a directory tree.
         The amount of space indentation indicates depth relative to the initial node.
@@ -510,7 +512,7 @@ class ExNode(ApiExampleBase):
 
     #ExEnd
 
-    def _test_node_xpath_navigator(navigator_result: str, doc: aw.Document):
+    def _test_node_xpath_navigator(self, navigator_result: str, doc: aw.Document):
 
         for run in doc.get_child_nodes(aw.NodeType.RUN, True):
             run = run.as_run()
@@ -518,9 +520,9 @@ class ExNode(ApiExampleBase):
 
     ##ExStart
     ##ExFor:NodeChangingAction
-    ##ExFor:NodeChangingArgs.Action
-    ##ExFor:NodeChangingArgs.NewParent
-    ##ExFor:NodeChangingArgs.OldParent
+    ##ExFor:NodeChangingArgs.action
+    ##ExFor:NodeChangingArgs.new_parent
+    ##ExFor:NodeChangingArgs.old_parent
     ##ExSummary:Shows how to use a NodeChangingCallback to monitor changes to the document tree in real-time as we edit it.
     #def test_node_changing_callback(self):
 
@@ -578,9 +580,9 @@ class ExNode(ApiExampleBase):
     def test_node_collection(self):
 
         #ExStart
-        #ExFor:NodeCollection.Contains(Node)
-        #ExFor:NodeCollection.Insert(Int32,Node)
-        #ExFor:NodeCollection.Remove(Node)
+        #ExFor:NodeCollection.contains(Node)
+        #ExFor:NodeCollection.insert(int,Node)
+        #ExFor:NodeCollection.remove(Node)
         #ExSummary:Shows how to work with a NodeCollection.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -614,8 +616,8 @@ class ExNode(ApiExampleBase):
     def test_node_list(self):
 
         #ExStart
-        #ExFor:NodeList.Count
-        #ExFor:NodeList.Item(System.Int32)
+        #ExFor:NodeList.count
+        #ExFor:NodeList.__getitem__(int)
         #ExSummary:Shows how to use XPaths to navigate a NodeList.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

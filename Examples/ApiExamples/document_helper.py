@@ -1,9 +1,15 @@
-import api_example_base as aeb
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import aspose.words as aw
+from api_example_base import ApiExampleBase, TEMP_DIR
 
+class DocumentHelper(ApiExampleBase):
 
-class DocumentHelper(aeb.ApiExampleBase):
-
+    @staticmethod
     def create_document_without_dummy_text() -> aw.Document:
         """Create simple document without run in the paragraph"""
         doc = aw.Document()
@@ -19,7 +25,6 @@ class DocumentHelper(aeb.ApiExampleBase):
         builder.writeln()
 
         return doc
-
 
     @staticmethod
     def find_text_in_file(path: str, expression: str):
@@ -104,9 +109,10 @@ class DocumentHelper(aeb.ApiExampleBase):
 
         return doc1.get_text() == doc2.get_text()
 
+    @staticmethod
     def insert_new_run(doc: aw.Document, text: str, para_index: int) -> aw.Run:
         """Insert run into the current document.
-        
+
         :param doc: Current document.
         :param text: Custom text.
         :param para_index: Paragraph index."""
@@ -122,7 +128,7 @@ class DocumentHelper(aeb.ApiExampleBase):
     @staticmethod
     def insert_builder_text(builder: aw.DocumentBuilder, text_strings):
         """Insert text into the current document.
-        
+
         :param builder: Current document builder.
         :param text_strings: Custom text."""
         for text_string in text_strings :
@@ -131,7 +137,7 @@ class DocumentHelper(aeb.ApiExampleBase):
     @staticmethod
     def get_paragraph_text(doc: aw.Document, para_index: int) -> str:
         """Get paragraph text of the current document.
-        
+
         :param doc: Current document.
         :param para_index: Paragraph number from collection."""
         return doc.first_section.body.paragraphs[para_index].get_text()
@@ -139,7 +145,7 @@ class DocumentHelper(aeb.ApiExampleBase):
     @staticmethod
     def insert_table(builder: aw.DocumentBuilder):
         """Insert new table in the document.
-        
+
         :param builder: Current document builder."""
         # Start creating a new table
         table = builder.start_table()
@@ -174,7 +180,7 @@ class DocumentHelper(aeb.ApiExampleBase):
     @staticmethod
     def insert_toc(builder: aw.DocumentBuilder):
         """Insert TOC entries in the document.
-        
+
         :param builder: The builder."""
         # Creating TOC entries
         builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING1
@@ -197,9 +203,10 @@ class DocumentHelper(aeb.ApiExampleBase):
 
         builder.writeln("Heading 1.1.1.1.1.1.1.1.1")
 
+    @staticmethod
     def get_section_text(doc: aw.Document, sec_index: int) -> str:
         """Get section text of the current document.
-        
+
         :param doc: Current document.
         :param sec_index: Section number from collection."""
         return doc.sections[sec_index].get_text()
@@ -207,7 +214,7 @@ class DocumentHelper(aeb.ApiExampleBase):
     @staticmethod
     def get_paragraph(doc: aw.Document, para_index: int) -> aw.Paragraph:
         """Get paragraph of the current document.
-        
+
         :param doc: Current document.
         :param para_index: Paragraph number from collection."""
         return doc.first_section.body.paragraphs[para_index]
@@ -221,22 +228,22 @@ class DocumentHelper(aeb.ApiExampleBase):
     # <param name="doc">The document we wish to re-open</param>
     @staticmethod
     def save_open(doc):
-        tmp_file_name = aeb.temp_dir + "tmp.docx"
+        tmp_file_name = TEMP_DIR + "tmp.docx"
         doc.save(tmp_file_name, aw.SaveFormat.DOCX)
         return aw.Document(tmp_file_name)
 
     # Rude workaround to get style by name.
     @staticmethod
     def get_style_by_name(doc, style_name):
-        for s in doc.styles:
-            if s.name == style_name:
-                return s
+        for style in doc.styles:
+            if style.name == style_name:
+                return style
         return None
 
     # Rude workaround to get style by name.
     @staticmethod
     def get_vba_module_by_name(doc, module_name):
-        for m in doc.vba_project.modules:
-            if m.name == module_name:
-                return m
+        for module in doc.vba_project.modules:
+            if module.name == module_name:
+                return module
         return None

@@ -1,15 +1,18 @@
-import unittest
-
-import api_example_base as aeb
-from document_helper import DocumentHelper
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-class ExBorder(aeb.ApiExampleBase):
-    
-    def test_font_border(self) :
-        
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
+
+class ExBorder(ApiExampleBase):
+
+    def test_font_border(self):
+
         #ExStart
         #ExFor:Border
         #ExFor:Border.color
@@ -19,7 +22,7 @@ class ExBorder(aeb.ApiExampleBase):
         #ExFor:LineStyle
         #ExFor:Font
         #ExFor:DocumentBuilder.font
-        #ExFor:DocumentBuilder.write(String)
+        #ExFor:DocumentBuilder.write(str)
         #ExSummary:Shows how to insert a string surrounded by a border into a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -30,19 +33,18 @@ class ExBorder(aeb.ApiExampleBase):
 
         builder.write("Text surrounded by green border.")
 
-        doc.save(aeb.artifacts_dir + "Border.font_border.docx")
+        doc.save(ARTIFACTS_DIR + "Border.font_border.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.artifacts_dir + "Border.font_border.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Border.font_border.docx")
         border = doc.first_section.body.first_paragraph.runs[0].font.border
 
         self.assertEqual(drawing.Color.green.to_argb(), border.color.to_argb())
         self.assertEqual(2.5, border.line_width)
         self.assertEqual(aw.LineStyle.DASH_DOT_STROKER, border.line_style)
-        
 
-    def test_paragraph_top_border(self) :
-        
+    def test_paragraph_top_border(self):
+
         #ExStart
         #ExFor:BorderCollection
         #ExFor:Border
@@ -52,31 +54,30 @@ class ExBorder(aeb.ApiExampleBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        topBorder = builder.paragraph_format.borders.top
-        topBorder.color = drawing.Color.red
-        topBorder.line_width = 4.0
-        topBorder.line_style = aw.LineStyle.DASH_SMALL_GAP
+        top_border = builder.paragraph_format.borders.top
+        top_border.color = drawing.Color.red
+        top_border.line_width = 4.0
+        top_border.line_style = aw.LineStyle.DASH_SMALL_GAP
 
         builder.writeln("Text with a red top border.")
 
-        doc.save(aeb.artifacts_dir + "Border.paragraph_top_border.docx")
+        doc.save(ARTIFACTS_DIR + "Border.paragraph_top_border.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.artifacts_dir + "Border.paragraph_top_border.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Border.paragraph_top_border.docx")
         border = doc.first_section.body.first_paragraph.paragraph_format.borders.top
 
         self.assertEqual(drawing.Color.red.to_argb(), border.color.to_argb())
         self.assertEqual(4.0, border.line_width)
         self.assertEqual(aw.LineStyle.DASH_SMALL_GAP, border.line_style)
-        
 
-    def test_clear_formatting(self) :
-        
+    def test_clear_formatting(self):
+
         #ExStart
         #ExFor:Border.clear_formatting
         #ExFor:Border.is_visible
         #ExSummary:Shows how to remove borders from a paragraph.
-        doc = aw.Document(aeb.my_dir + "Borders.docx")
+        doc = aw.Document(MY_DIR + "Borders.docx")
 
         # Each paragraph has an individual set of borders.
         # We can access the settings for the appearance of these borders via the paragraph format object.
@@ -87,38 +88,35 @@ class ExBorder(aeb.ApiExampleBase):
         self.assertEqual(aw.LineStyle.SINGLE, borders[0].line_style)
         self.assertTrue(borders[0].is_visible)
 
-        # We can remove a border at once by running the ClearFormatting method. 
+        # We can remove a border at once by running the "clear_formatting" method.
         # Running this method on every border of a paragraph will remove all its borders.
         for border in borders:
             border.clear_formatting()
 
-        #self.assertEqual(Color.empty.to_argb(), borders[0].color.to_argb())
+        self.assertEqual(drawing.Color.empty().to_argb(), borders[0].color.to_argb())
         self.assertEqual(0.0, borders[0].line_width)
         self.assertEqual(aw.LineStyle.NONE, borders[0].line_style)
         self.assertFalse(borders[0].is_visible)
 
-        doc.save(aeb.artifacts_dir + "Border.clear_formatting.docx")
+        doc.save(ARTIFACTS_DIR + "Border.clear_formatting.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.artifacts_dir + "Border.clear_formatting.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Border.clear_formatting.docx")
 
-        for testBorder in doc.first_section.body.first_paragraph.paragraph_format.borders :
-            
-            #self.assertEqual(Color.empty.to_argb(), testBorder.color.to_argb())
-            self.assertEqual(0.0, testBorder.line_width)
-            self.assertEqual(aw.LineStyle.NONE, testBorder.line_style)
-            
-        
+        for test_border in doc.first_section.body.first_paragraph.paragraph_format.borders:
 
-    def test_shared_elements(self) :
-        
+            self.assertEqual(drawing.Color.empty().to_argb(), test_border.color.to_argb())
+            self.assertEqual(0.0, test_border.line_width)
+            self.assertEqual(aw.LineStyle.NONE, test_border.line_style)
+
+    def test_shared_elements(self):
+
         #ExStart
-        #ExFor:Border.equals(Object)
-        #ExFor:Border.equals(Border)
+        #ExFor:Border.__eq__(Border)
         #ExFor:Border.get_hash_code
         #ExFor:BorderCollection.count
-        #ExFor:BorderCollection.equals(BorderCollection)
-        #ExFor:BorderCollection.item(Int32)
+        #ExFor:BorderCollection.__eq__(BorderCollection)
+        #ExFor:BorderCollection.__getitem__(int)
         #ExSummary:Shows how border collections can share elements.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -128,46 +126,41 @@ class ExBorder(aeb.ApiExampleBase):
 
         # Since we used the same border configuration while creating
         # these paragraphs, their border collections share the same elements.
-        firstParagraphBorders = doc.first_section.body.first_paragraph.paragraph_format.borders
-        secondParagraphBorders = builder.current_paragraph.paragraph_format.borders
-        self.assertEqual(6, firstParagraphBorders.count) #ExSkip
+        first_paragraph_borders = doc.first_section.body.first_paragraph.paragraph_format.borders
+        second_paragraph_borders = builder.current_paragraph.paragraph_format.borders
+        self.assertEqual(6, first_paragraph_borders.count) #ExSkip
 
-        for i in range(0, firstParagraphBorders.count) :
-            
-            self.assertTrue(firstParagraphBorders[i].equals(secondParagraphBorders[i]))
-            self.assertEqual(firstParagraphBorders[i].get_hash_code(), secondParagraphBorders[i].get_hash_code())
-            self.assertFalse(firstParagraphBorders[i].is_visible)
-            
+        for i in range(first_paragraph_borders.count):
+            self.assertEqual(first_paragraph_borders[i], second_paragraph_borders[i])
+            self.assertIs(first_paragraph_borders[i], second_paragraph_borders[i])
+            self.assertFalse(first_paragraph_borders[i].is_visible)
 
-        for border in secondParagraphBorders :
+        for border in second_paragraph_borders:
             border.line_style = aw.LineStyle.DOT_DASH
 
         # After changing the line style of the borders in just the second paragraph,
         # the border collections no longer share the same elements.
-        for i in range(0, firstParagraphBorders.count) :
-            
-            self.assertFalse(firstParagraphBorders[i].equals(secondParagraphBorders[i]))
-            self.assertNotEqual(firstParagraphBorders[i].get_hash_code(), secondParagraphBorders[i].get_hash_code())
+        for i in range(first_paragraph_borders.count):
+            self.assertNotEqual(first_paragraph_borders[i], second_paragraph_borders[i])
+            self.assertIsNot(first_paragraph_borders[i], second_paragraph_borders[i])
 
             # Changing the appearance of an empty border makes it visible.
-            self.assertTrue(secondParagraphBorders[i].is_visible)
-            
+            self.assertTrue(second_paragraph_borders[i].is_visible)
 
-        doc.save(aeb.artifacts_dir + "Border.shared_elements.docx")
+        doc.save(ARTIFACTS_DIR + "Border.shared_elements.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.artifacts_dir + "Border.shared_elements.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Border.shared_elements.docx")
         paragraphs = doc.first_section.body.paragraphs
 
-        for testBorder in paragraphs[0].paragraph_format.borders :
-            self.assertEqual(aw.LineStyle.NONE, testBorder.line_style)
+        for test_border in paragraphs[0].paragraph_format.borders:
+            self.assertEqual(aw.LineStyle.NONE, test_border.line_style)
 
-        for testBorder in paragraphs[1].paragraph_format.borders :
-            self.assertEqual(aw.LineStyle.DOT_DASH, testBorder.line_style)
-        
+        for test_border in paragraphs[1].paragraph_format.borders:
+            self.assertEqual(aw.LineStyle.DOT_DASH, test_border.line_style)
 
-    def test_horizontal_borders(self) :
-        
+    def test_horizontal_borders(self):
+
         #ExStart
         #ExFor:BorderCollection.horizontal
         #ExSummary:Shows how to apply settings to horizontal borders to a paragraph's format.
@@ -188,18 +181,17 @@ class ExBorder(aeb.ApiExampleBase):
         builder.insert_paragraph()
         builder.write("Paragraph below horizontal border.")
 
-        doc.save(aeb.artifacts_dir + "Border.horizontal_borders.docx")
+        doc.save(ARTIFACTS_DIR + "Border.horizontal_borders.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.artifacts_dir + "Border.horizontal_borders.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Border.horizontal_borders.docx")
         paragraphs = doc.first_section.body.paragraphs
 
         self.assertEqual(aw.LineStyle.DASH_SMALL_GAP, paragraphs[0].paragraph_format.borders.horizontal.line_style)
         self.assertEqual(aw.LineStyle.DASH_SMALL_GAP, paragraphs[1].paragraph_format.borders.horizontal.line_style)
-        
 
-    def test_vertical_borders(self) :
-        
+    def test_vertical_borders(self):
+
         #ExStart
         #ExFor:BorderCollection.horizontal
         #ExFor:BorderCollection.vertical
@@ -211,8 +203,7 @@ class ExBorder(aeb.ApiExampleBase):
         # Create a table with red and blue inner borders.
         table = builder.start_table()
 
-        for i in range(0, 3) :
-            
+        for i in range(3):
             builder.insert_cell()
             builder.write(f"Row {i + 1}, Column 1")
             builder.insert_cell()
@@ -230,19 +221,18 @@ class ExBorder(aeb.ApiExampleBase):
             borders.vertical.color = drawing.Color.blue
             borders.vertical.line_style = aw.LineStyle.DOT
             borders.vertical.line_width = 2.0
-            
 
         # A row format, and a cell's inner paragraph use different border settings.
         border = table.first_row.first_cell.last_paragraph.paragraph_format.borders.vertical
 
-        #self.assertEqual(Color.empty.to_argb(), border.color.to_argb())
+        self.assertEqual(drawing.Color.empty().to_argb(), border.color.to_argb())
         self.assertEqual(0.0, border.line_width)
         self.assertEqual(aw.LineStyle.NONE, border.line_style)
 
-        doc.save(aeb.artifacts_dir + "Border.vertical_borders.docx")
+        doc.save(ARTIFACTS_DIR + "Border.vertical_borders.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.artifacts_dir + "Border.vertical_borders.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Border.vertical_borders.docx")
         table = doc.first_section.body.tables[0]
 
         for row in table.get_child_nodes(aw.NodeType.ROW, True):
@@ -255,7 +245,3 @@ class ExBorder(aeb.ApiExampleBase):
             self.assertEqual(drawing.Color.blue.to_argb(), row.row_format.borders.vertical.color.to_argb())
             self.assertEqual(aw.LineStyle.DOT, row.row_format.borders.vertical.line_style)
             self.assertEqual(2.0, row.row_format.borders.vertical.line_width)
-            
-
-if __name__ == '__main__':
-    unittest.main()    

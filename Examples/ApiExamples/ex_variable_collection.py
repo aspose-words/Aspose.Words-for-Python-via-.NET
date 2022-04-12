@@ -1,29 +1,28 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase
 
 class ExVariableCollection(ApiExampleBase):
 
     def test_primer(self):
 
         #ExStart
-        #ExFor:Document.Variables
+        #ExFor:Document.variables
         #ExFor:VariableCollection
-        #ExFor:VariableCollection.Add
-        #ExFor:VariableCollection.Clear
-        #ExFor:VariableCollection.Contains
-        #ExFor:VariableCollection.Count
-        #ExFor:VariableCollection.GetEnumerator
-        #ExFor:VariableCollection.IndexOfKey
-        #ExFor:VariableCollection.Remove
-        #ExFor:VariableCollection.RemoveAt
+        #ExFor:VariableCollection.add
+        #ExFor:VariableCollection.clear
+        #ExFor:VariableCollection.contains
+        #ExFor:VariableCollection.count
+        #ExFor:VariableCollection.__iter__
+        #ExFor:VariableCollection.index_of_key
+        #ExFor:VariableCollection.remove
+        #ExFor:VariableCollection.remove_at
         #ExSummary:Shows how to work with a document's variable collection.
         doc = aw.Document()
         variables = doc.variables
@@ -65,7 +64,7 @@ class ExVariableCollection(ApiExampleBase):
 
         # Enumerate over the collection of variables.
         for entry in doc.variables:
-             print(f"Name: {entry.key}, Value: {entry.value}")
+            print(f"Name: {entry.key}, Value: {entry.value}")
 
         # Below are three ways of removing document variables from a collection.
         # 1 -  By name:

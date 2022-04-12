@@ -1,20 +1,19 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR
 
 class ExPdf2Word(ApiExampleBase):
 
     def test_load_pdf(self):
 
         #ExStart
-        #ExFor:Document.#ctor(String)
+        #ExFor:Document.__init__(str)
         #ExSummary:Shows how to load a PDF.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -42,8 +41,8 @@ class ExPdf2Word(ApiExampleBase):
     def convert_pdf_to_docx():
 
         #ExStart
-        #ExFor:Document.#ctor(String)
-        #ExFor:Document.Save(String)
+        #ExFor:Document.__init__(str)
+        #ExFor:Document.save(str)
         #ExSummary:Shows how to convert a PDF to a .docx.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -62,7 +61,7 @@ class ExPdf2Word(ApiExampleBase):
     def convert_pdf_to_docx_custom():
 
         #ExStart
-        #ExFor:Document.Save(String, SaveOptions)
+        #ExFor:Document.save(str,SaveOptions)
         #ExSummary:Shows how to convert a PDF to a .docx and customize the saving process with a SaveOptions object.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -76,14 +75,13 @@ class ExPdf2Word(ApiExampleBase):
 
         save_options = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
 
-        # Set the "Password" property to encrypt the saved document with a password.
+        # Set the "password" property to encrypt the saved document with a password.
         save_options.password = "MyPassword"
 
         pdf_doc.save(ARTIFACTS_DIR + "PDF2Word.convert_pdf_to_docx_custom.docx", save_options)
         #ExEnd
 
-    @staticmethod
-    def load_pdf_using_plugin():
+    def load_pdf_using_plugin(self):
 
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -106,8 +104,7 @@ class ExPdf2Word(ApiExampleBase):
 
         self.assertEqual("Hello world! We are editing a PDF document that was loaded into Aspose.Words!", pdf_doc.get_text().strip())
 
-    @staticmethod
-    def load_encrypted_pdf_using_plugin():
+    def load_encrypted_pdf_using_plugin(self):
 
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -137,5 +134,4 @@ class ExPdf2Word(ApiExampleBase):
             # the same way we would pass it into a document's "load" method.
             pdf2word.read(stream, aw.loading.LoadOptions("MyPassword"), pdf_doc)
 
-        self.assertEqual("Hello world! This is an encrypted PDF document.",
-            pdf_doc.get_text().strip())
+        self.assertEqual("Hello world! This is an encrypted PDF document.", pdf_doc.get_text().strip())

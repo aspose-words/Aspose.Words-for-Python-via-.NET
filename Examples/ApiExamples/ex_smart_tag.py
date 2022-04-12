@@ -1,28 +1,27 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExSmartTag(ApiExampleBase):
 
     #ExStart
-    #ExFor:CompositeNode.RemoveSmartTags
+    #ExFor:CompositeNode.remove_smart_tags
     #ExFor:CustomXmlProperty
-    #ExFor:CustomXmlProperty.#ctor(String,String,String)
-    #ExFor:CustomXmlProperty.Name
-    #ExFor:CustomXmlProperty.Value
-    #ExFor:Markup.SmartTag
-    #ExFor:Markup.SmartTag.#ctor(DocumentBase)
-    #ExFor:Markup.SmartTag.Accept(DocumentVisitor)
-    #ExFor:Markup.SmartTag.element
-    #ExFor:Markup.SmartTag.properties
-    #ExFor:Markup.SmartTag.Uri
+    #ExFor:CustomXmlProperty.__init__(str,str,str)
+    #ExFor:CustomXmlProperty.name
+    #ExFor:CustomXmlProperty.value
+    #ExFor:SmartTag
+    #ExFor:SmartTag.__init__(DocumentBase)
+    #ExFor:SmartTag.accept(DocumentVisitor)
+    #ExFor:SmartTag.element
+    #ExFor:SmartTag.properties
+    #ExFor:SmartTag.uri
     #ExSummary:Shows how to create smart tags.
     def test_create(self):
 
@@ -65,7 +64,7 @@ class ExSmartTag(ApiExampleBase):
         #doc.accept(ExSmartTag.SmartTagPrinter())
 
         # Older versions of Microsoft Word support smart tags.
-        doc.save(ARTIFACTS_DIR + "SmartTag.Create.doc")
+        doc.save(ARTIFACTS_DIR + "SmartTag.create.doc")
 
         # Use the "remove_smart_tags" method to remove all smart tags from a document.
         self.assertEqual(2, doc.get_child_nodes(aw.NodeType.SMART_TAG, True).count)
@@ -73,7 +72,7 @@ class ExSmartTag(ApiExampleBase):
         doc.remove_smart_tags()
 
         self.assertEqual(0, doc.get_child_nodes(aw.NodeType.SMART_TAG, True).count)
-        self._test_create(aw.Document(ARTIFACTS_DIR + "SmartTag.Create.doc")) #ExSkip
+        self._test_create(aw.Document(ARTIFACTS_DIR + "SmartTag.create.doc")) #ExSkip
 
     #class SmartTagPrinter(aw.DocumentVisitor):
     #    """Prints visited smart tags and their contents."""
@@ -135,18 +134,18 @@ class ExSmartTag(ApiExampleBase):
     def test_properties(self):
 
         #ExStart
-        #ExFor:CustomXmlProperty.Uri
+        #ExFor:CustomXmlProperty.uri
         #ExFor:CustomXmlPropertyCollection
-        #ExFor:CustomXmlPropertyCollection.Add(CustomXmlProperty)
-        #ExFor:CustomXmlPropertyCollection.Clear
-        #ExFor:CustomXmlPropertyCollection.Contains(String)
-        #ExFor:CustomXmlPropertyCollection.Count
-        #ExFor:CustomXmlPropertyCollection.GetEnumerator
-        #ExFor:CustomXmlPropertyCollection.IndexOfKey(String)
-        #ExFor:CustomXmlPropertyCollection.Item(Int32)
-        #ExFor:CustomXmlPropertyCollection.Item(String)
-        #ExFor:CustomXmlPropertyCollection.Remove(String)
-        #ExFor:CustomXmlPropertyCollection.RemoveAt(Int32)
+        #ExFor:CustomXmlPropertyCollection.add(CustomXmlProperty)
+        #ExFor:CustomXmlPropertyCollection.clear
+        #ExFor:CustomXmlPropertyCollection.contains(str)
+        #ExFor:CustomXmlPropertyCollection.count
+        #ExFor:CustomXmlPropertyCollection.__iter__
+        #ExFor:CustomXmlPropertyCollection.index_of_key(str)
+        #ExFor:CustomXmlPropertyCollection.__getitem__(int)
+        #ExFor:CustomXmlPropertyCollection.__getitem__(str)
+        #ExFor:CustomXmlPropertyCollection.remove(str)
+        #ExFor:CustomXmlPropertyCollection.remove_at(int)
         #ExSummary:Shows how to work with smart tag properties to get in depth information about smart tags.
         doc = aw.Document(MY_DIR + "Smart tags.doc")
 

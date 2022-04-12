@@ -1,15 +1,14 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import re
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR
 
 class ExRenameMergeFields(ApiExampleBase):
     """Shows how to rename merge fields in a Word document."""
@@ -64,11 +63,11 @@ class MergeField:
     def name(self) -> str:
         """Gets the name of the merge field."""
         return MergeField.get_text_same_parent(self.field_separator.next_sibling, self.field_end).strip("«»")
-       
+
     @name.setter
     def name(self, value: str):
         """Sets the name of the merge field."""
-    
+
         # Merge field name is stored in the field result which is a Run
         # node between field separator and field end.
         field_result = self.field_separator.next_sibling.as_run()

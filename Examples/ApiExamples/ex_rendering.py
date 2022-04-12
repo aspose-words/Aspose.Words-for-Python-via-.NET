@@ -1,22 +1,23 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 from typing import Dict, List, Tuple
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExRendering(ApiExampleBase):
 
     ##ExStart
-    ##ExFor:NodeRendererBase.RenderToScale(Graphics, Single, Single, Single)
-    ##ExFor:NodeRendererBase.RenderToSize(Graphics, Single, Single, Single, Single)
+    ##ExFor:NodeRendererBase.render_to_scale(Graphics,float,float,float)
+    ##ExFor:NodeRendererBase.render_to_size(Graphics,float,float,float,float)
     ##ExFor:ShapeRenderer
-    ##ExFor:ShapeRenderer.#ctor(ShapeBase)
+    ##ExFor:ShapeRenderer.__init__(ShapeBase)
     ##ExSummary:Shows how to render a shape with a Graphics object and display it using a Windows Form.
     #def test_render_shapes_on_form(self):
 
@@ -106,51 +107,51 @@ class ExRendering(ApiExampleBase):
     def test_render_to_size(self):
 
         #ExStart
-        #ExFor:Document.RenderToSize
+        #ExFor:Document.render_to_size
         #ExSummary:Shows how to render a document to a bitmap at a specified location and size.
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         with drawing.Bitmap(700, 700) as bmp:
 
-            with drawing.Graphics.from_image(bmp) as gr:
+            with drawing.Graphics.from_image(bmp) as graphics:
 
-                gr.text_rendering_hint = drawing.text.TextRenderingHint.ANTI_ALIAS_GRID_FIT
+                graphics.text_rendering_hint = drawing.text.TextRenderingHint.ANTI_ALIAS_GRID_FIT
 
                 # Set the "page_unit" property to "GraphicsUnit.INCH" to use inches as the
                 # measurement unit for any transformations and dimensions that we will define.
-                gr.page_unit = drawing.GraphicsUnit.INCH
+                graphics.page_unit = drawing.GraphicsUnit.INCH
 
                 # Offset the output 0.5" from the edge.
-                gr.translate_transform(0.5, 0.5)
+                graphics.translate_transform(0.5, 0.5)
 
                 # Rotate the output by 10 degrees.
-                gr.rotate_transform(10)
+                graphics.rotate_transform(10)
 
                 # Draw a 3"x3" rectangle.
-                gr.draw_rectangle(drawing.Pen(drawing.Color.black, 3 / 72), 0, 0, 3, 3)
+                graphics.draw_rectangle(drawing.Pen(drawing.Color.black, 3 / 72), 0, 0, 3, 3)
 
                 # Draw the first page of our document with the same dimensions and transformation as the rectangle.
                 # The rectangle will frame the first page.
-                returned_scale = doc.render_to_size(0, gr, 0, 0, 3, 3)
+                returned_scale = doc.render_to_size(0, graphics, 0, 0, 3, 3)
 
                 # This is the scaling factor that the "render_to_size" method applied to the first page to fit the specified size.
                 self.assertEqual(0.2566, returned_scale, 0.0001)
 
                 # Set the "page_unit" property to "GraphicsUnit.MILLIMETER" to use millimeters as the
                 # measurement unit for any transformations and dimensions that we will define.
-                gr.page_unit = drawing.GraphicsUnit.MILLIMETER
+                graphics.page_unit = drawing.GraphicsUnit.MILLIMETER
 
                 # Reset the transformations that we used from the previous rendering.
-                gr.reset_transform()
+                graphics.reset_transform()
 
                 # Apply another set of transformations.
-                gr.translate_transform(10, 10)
-                gr.scale_transform(0.5, 0.5)
-                gr.page_scale = 2
+                graphics.translate_transform(10, 10)
+                graphics.scale_transform(0.5, 0.5)
+                graphics.page_scale = 2
 
                 # Create another rectangle and use it to frame another page from the document.
-                gr.draw_rectangle(drawing.Pen(drawing.Color.black, 1), 90, 10, 50, 100)
-                doc.render_to_size(1, gr, 90, 10, 50, 100)
+                graphics.draw_rectangle(drawing.Pen(drawing.Color.black, 1), 90, 10, 50, 100)
+                doc.render_to_size(1, graphics, 90, 10, 50, 100)
 
                 bmp.save(ARTIFACTS_DIR + "Rendering.render_to_size.png")
 
@@ -159,7 +160,7 @@ class ExRendering(ApiExampleBase):
     def test_thumbnails(self):
 
         #ExStart
-        #ExFor:Document.RenderToScale
+        #ExFor:Document.render_to_scale
         #ExSummary:Shows how to the individual pages of a document to graphics to create one image with thumbnails of all pages.
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -181,12 +182,12 @@ class ExRendering(ApiExampleBase):
 
         with drawing.Bitmap(img_width, img_height) as img:
 
-            with drawing.Graphics.from_image(img) as gr:
+            with drawing.Graphics.from_image(img) as graphics:
 
-                gr.text_rendering_hint = drawing.text.TextRenderingHint.ANTI_ALIAS_GRID_FIT
+                graphics.text_rendering_hint = drawing.text.TextRenderingHint.ANTI_ALIAS_GRID_FIT
 
                 # Fill the background, which is transparent by default, in white.
-                gr.fill_rectangle(drawing.SolidBrush(drawing.Color.white), 0, 0, img_width, img_height)
+                graphics.fill_rectangle(drawing.SolidBrush(drawing.Color.white), 0, 0, img_width, img_height)
 
                 for page_index in range(doc.page_count):
 
@@ -198,8 +199,8 @@ class ExRendering(ApiExampleBase):
                     thumb_top = row_idx * thumb_size.height
 
                     # Render a page as a thumbnail, and then frame it in a rectangle of the same size.
-                    size = doc.render_to_scale(page_index, gr, thumb_left, thumb_top, scale)
-                    gr.draw_rectangle(drawing.Pens.black, thumb_left, thumb_top, size.width, size.height)
+                    size = doc.render_to_scale(page_index, graphics, thumb_left, thumb_top, scale)
+                    graphics.draw_rectangle(drawing.Pens.black, thumb_left, thumb_top, size.width, size.height)
 
                 img.save(ARTIFACTS_DIR + "Rendering.thumbnails.png")
 

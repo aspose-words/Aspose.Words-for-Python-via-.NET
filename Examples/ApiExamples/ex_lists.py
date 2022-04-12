@@ -1,29 +1,27 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, image_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
 from document_helper import DocumentHelper
-from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-IMAGE_DIR = image_dir
 
 class ExLists(ApiExampleBase):
 
     def test_apply_default_bullets_and_numbers(self):
 
         #ExStart
-        #ExFor:DocumentBuilder.ListFormat
-        #ExFor:ListFormat.ApplyNumberDefault
-        #ExFor:ListFormat.ApplyBulletDefault
-        #ExFor:ListFormat.ListIndent
-        #ExFor:ListFormat.ListOutdent
-        #ExFor:ListFormat.RemoveNumbers
-        #ExFor:ListFormat.ListLevelNumber
+        #ExFor:DocumentBuilder.list_format
+        #ExFor:ListFormat.apply_number_default
+        #ExFor:ListFormat.apply_bullet_default
+        #ExFor:ListFormat.list_indent
+        #ExFor:ListFormat.list_outdent
+        #ExFor:ListFormat.remove_numbers
+        #ExFor:ListFormat.list_level_number
         #ExSummary:Shows how to create bulleted and numbered lists.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -72,7 +70,7 @@ class ExLists(ApiExampleBase):
         builder.writeln("PDF")
         builder.writeln("HTML")
 
-        # Call the "ListOutdent" method to return to the previous list level.
+        # Call the "list_outdent" method to return to the previous list level.
         builder.list_format.list_outdent()
 
         self.assertEqual(0, builder.list_format.list_level_number)
@@ -104,9 +102,9 @@ class ExLists(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Lists.apply_default_bullets_and_numbers.docx")
 
-        TestUtil.verify_list_level(self, "\0.", 18.0, aw.NumberStyle.ARABIC, doc.lists[1].list_levels[0])
-        TestUtil.verify_list_level(self, "\u0001.", 54.0, aw.NumberStyle.LOWERCASE_LETTER, doc.lists[1].list_levels[1])
-        TestUtil.verify_list_level(self, "\uf0b7", 18.0, aw.NumberStyle.BULLET, doc.lists[0].list_levels[0])
+        self.verify_list_level("\0.", 18.0, aw.NumberStyle.ARABIC, doc.lists[1].list_levels[0])
+        self.verify_list_level("\u0001.", 54.0, aw.NumberStyle.LOWERCASE_LETTER, doc.lists[1].list_levels[1])
+        self.verify_list_level("\uf0b7", 18.0, aw.NumberStyle.BULLET, doc.lists[0].list_levels[0])
 
     def test_specify_list_level(self):
 
@@ -114,12 +112,12 @@ class ExLists(ApiExampleBase):
         #ExFor:ListCollection
         #ExFor:List
         #ExFor:ListFormat
-        #ExFor:ListFormat.IsListItem
-        #ExFor:ListFormat.ListLevelNumber
-        #ExFor:ListFormat.List
+        #ExFor:ListFormat.is_list_item
+        #ExFor:ListFormat.list_level_number
+        #ExFor:ListFormat.list
         #ExFor:ListTemplate
-        #ExFor:DocumentBase.Lists
-        #ExFor:ListCollection.Add(ListTemplate)
+        #ExFor:DocumentBase.lists
+        #ExFor:ListCollection.add(ListTemplate)
         #ExSummary:Shows how to work with list levels.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -165,16 +163,16 @@ class ExLists(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Lists.specify_list_level.docx")
 
-        TestUtil.verify_list_level(self, "\0.", 18.0, aw.NumberStyle.ARABIC, doc.lists[0].list_levels[0])
+        self.verify_list_level("\0.", 18.0, aw.NumberStyle.ARABIC, doc.lists[0].list_levels[0])
 
     def test_nested_lists(self):
 
         #ExStart
-        #ExFor:ListFormat.List
-        #ExFor:ParagraphFormat.ClearFormatting
-        #ExFor:ParagraphFormat.DropCapPosition
-        #ExFor:ParagraphFormat.IsListItem
-        #ExFor:Paragraph.IsListItem
+        #ExFor:ListFormat.list
+        #ExFor:ParagraphFormat.clear_formatting
+        #ExFor:ParagraphFormat.drop_cap_position
+        #ExFor:ParagraphFormat.is_list_item
+        #ExFor:Paragraph.is_list_item
         #ExSummary:Shows how to nest a list inside another list.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -224,31 +222,31 @@ class ExLists(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Lists.nested_lists.docx")
 
-        TestUtil.verify_list_level(self, "\0)", 0.0, aw.NumberStyle.ARABIC, doc.lists[0].list_levels[0])
-        TestUtil.verify_list_level(self, "\0.", 18.0, aw.NumberStyle.ARABIC, doc.lists[1].list_levels[0])
-        TestUtil.verify_list_level(self, "\uf0b7", 18.0, aw.NumberStyle.BULLET, doc.lists[2].list_levels[0])
+        self.verify_list_level("\0)", 0.0, aw.NumberStyle.ARABIC, doc.lists[0].list_levels[0])
+        self.verify_list_level("\0.", 18.0, aw.NumberStyle.ARABIC, doc.lists[1].list_levels[0])
+        self.verify_list_level("\uf0b7", 18.0, aw.NumberStyle.BULLET, doc.lists[2].list_levels[0])
 
     def test_create_custom_list(self):
 
         #ExStart
         #ExFor:List
-        #ExFor:List.ListLevels
-        #ExFor:ListFormat.ListLevel
+        #ExFor:List.list_levels
+        #ExFor:ListFormat.list_level
         #ExFor:ListLevelCollection
-        #ExFor:ListLevelCollection.Item
+        #ExFor:ListLevelCollection.__getitem__
         #ExFor:ListLevel
-        #ExFor:ListLevel.Alignment
-        #ExFor:ListLevel.Font
-        #ExFor:ListLevel.NumberStyle
-        #ExFor:ListLevel.StartAt
-        #ExFor:ListLevel.TrailingCharacter
+        #ExFor:ListLevel.alignment
+        #ExFor:ListLevel.font
+        #ExFor:ListLevel.number_style
+        #ExFor:ListLevel.start_at
+        #ExFor:ListLevel.trailing_character
         #ExFor:ListLevelAlignment
         #ExFor:NumberStyle
         #ExFor:ListTrailingCharacter
-        #ExFor:ListLevel.NumberFormat
-        #ExFor:ListLevel.NumberPosition
-        #ExFor:ListLevel.TextPosition
-        #ExFor:ListLevel.TabPosition
+        #ExFor:ListLevel.number_format
+        #ExFor:ListLevel.number_position
+        #ExFor:ListLevel.text_position
+        #ExFor:ListLevel.tab_position
         #ExSummary:Shows how to apply custom list formatting to paragraphs when using DocumentBuilder.
         doc = aw.Document()
 
@@ -305,14 +303,14 @@ class ExLists(ApiExampleBase):
 
         list_level = doc.lists[0].list_levels[0]
 
-        TestUtil.verify_list_level(self, "\0", -36.0, aw.NumberStyle.ORDINAL_TEXT, list_level)
+        self.verify_list_level("\0", -36.0, aw.NumberStyle.ORDINAL_TEXT, list_level)
         self.assertEqual(drawing.Color.red.to_argb(), list_level.font.color.to_argb())
         self.assertEqual(24.0, list_level.font.size)
         self.assertEqual(21, list_level.start_at)
 
         list_level = doc.lists[0].list_levels[1]
 
-        TestUtil.verify_list_level(self, "\xf0af", 144.0, aw.NumberStyle.BULLET, list_level)
+        self.verify_list_level("\xf0af", 144.0, aw.NumberStyle.BULLET, list_level)
         self.assertEqual(drawing.Color.blue.to_argb(), list_level.font.color.to_argb())
         self.assertEqual(24.0, list_level.font.size)
         self.assertEqual(1, list_level.start_at)
@@ -323,9 +321,9 @@ class ExLists(ApiExampleBase):
         #ExStart
         #ExFor:List
         #ExFor:ListCollection
-        #ExFor:ListCollection.Add(ListTemplate)
-        #ExFor:ListCollection.AddCopy(List)
-        #ExFor:ListLevel.StartAt
+        #ExFor:ListCollection.add(ListTemplate)
+        #ExFor:ListCollection.add_copy(List)
+        #ExFor:ListLevel.start_at
         #ExFor:ListTemplate
         #ExSummary:Shows how to restart numbering in a list by copying a list.
         doc = aw.Document()
@@ -367,13 +365,13 @@ class ExLists(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Lists.restart_numbering_using_list_copy.docx")
 
         list1 = doc.lists[0]
-        TestUtil.verify_list_level(self, "\0)", 18.0, aw.NumberStyle.ARABIC, list1.list_levels[0])
+        self.verify_list_level("\0)", 18.0, aw.NumberStyle.ARABIC, list1.list_levels[0])
         self.assertEqual(drawing.Color.red.to_argb(), list1.list_levels[0].font.color.to_argb())
         self.assertEqual(10.0, list1.list_levels[0].font.size)
         self.assertEqual(1, list1.list_levels[0].start_at)
 
         list2 = doc.lists[1]
-        TestUtil.verify_list_level(self, "\0)", 18.0, aw.NumberStyle.ARABIC, list2.list_levels[0])
+        self.verify_list_level("\0)", 18.0, aw.NumberStyle.ARABIC, list2.list_levels[0])
         self.assertEqual(drawing.Color.blue.to_argb(), list2.list_levels[0].font.color.to_argb())
         self.assertEqual(10.0, list2.list_levels[0].font.size)
         self.assertEqual(10, list2.list_levels[0].start_at)
@@ -381,17 +379,17 @@ class ExLists(ApiExampleBase):
     def test_create_and_use_list_style(self):
 
         #ExStart
-        #ExFor:StyleCollection.Add(StyleType,String)
-        #ExFor:Style.List
+        #ExFor:StyleCollection.add(StyleType,str)
+        #ExFor:Style.list
         #ExFor:StyleType
         #ExFor:List.is_list_style_definition
         #ExFor:List.is_list_style_reference
         #ExFor:List.is_multi_level
-        #ExFor:List.Style
+        #ExFor:List.style
         #ExFor:ListLevelCollection
-        #ExFor:ListLevelCollection.Count
-        #ExFor:ListLevelCollection.Item
-        #ExFor:ListCollection.Add(Style)
+        #ExFor:ListLevelCollection.count
+        #ExFor:ListLevelCollection.__getitem__
+        #ExFor:ListCollection.add(Style)
         #ExSummary:Shows how to create a list style and use it in a document.
         doc = aw.Document()
 
@@ -448,7 +446,7 @@ class ExLists(ApiExampleBase):
 
         list1 = doc.lists[0]
 
-        TestUtil.verify_list_level(self, "\0.", 18.0, aw.NumberStyle.ARABIC, list1.list_levels[0])
+        self.verify_list_level("\0.", 18.0, aw.NumberStyle.ARABIC, list1.list_levels[0])
         self.assertTrue(list1.is_list_style_definition)
         self.assertFalse(list1.is_list_style_reference)
         self.assertTrue(list1.is_multi_level)
@@ -458,14 +456,14 @@ class ExLists(ApiExampleBase):
 
         list2 = doc.lists[1]
 
-        TestUtil.verify_list_level(self, "\0.", 18.0, aw.NumberStyle.ARABIC, list2.list_levels[0])
+        self.verify_list_level("\0.", 18.0, aw.NumberStyle.ARABIC, list2.list_levels[0])
         self.assertFalse(list2.is_list_style_definition)
         self.assertTrue(list2.is_list_style_reference)
         self.assertTrue(list2.is_multi_level)
 
         list3 = doc.lists[2]
 
-        TestUtil.verify_list_level(self, "\0.", 18.0, aw.NumberStyle.ARABIC, list3.list_levels[0])
+        self.verify_list_level("\0.", 18.0, aw.NumberStyle.ARABIC, list3.list_levels[0])
         self.assertFalse(list3.is_list_style_definition)
         self.assertTrue(list3.is_list_style_reference)
         self.assertTrue(list3.is_multi_level)
@@ -473,10 +471,10 @@ class ExLists(ApiExampleBase):
     def test_detect_bulleted_paragraphs(self):
 
         #ExStart
-        #ExFor:Paragraph.ListFormat
-        #ExFor:ListFormat.IsListItem
-        #ExFor:CompositeNode.GetText
-        #ExFor:List.ListId
+        #ExFor:Paragraph.list_format
+        #ExFor:ListFormat.is_list_item
+        #ExFor:CompositeNode.get_text
+        #ExFor:List.list_id
         #ExSummary:Shows how to output all paragraphs in a document that are list items.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -511,7 +509,7 @@ class ExLists(ApiExampleBase):
     def test_remove_bullets_from_paragraphs(self):
 
         #ExStart
-        #ExFor:ListFormat.RemoveNumbers
+        #ExFor:ListFormat.remove_numbers
         #ExSummary:Shows how to remove list formatting from all paragraphs in the main text of a section.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -535,7 +533,7 @@ class ExLists(ApiExampleBase):
     def test_apply_existing_list_to_paragraphs(self):
 
         #ExStart
-        #ExFor:ListCollection.Item(Int32)
+        #ExFor:ListCollection.__getitem__(int)
         #ExSummary:Shows how to apply list formatting of an existing list to a collection of paragraphs.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -567,7 +565,7 @@ class ExLists(ApiExampleBase):
     def test_apply_new_list_to_paragraphs(self):
 
         #ExStart
-        #ExFor:ListCollection.Add(ListTemplate)
+        #ExFor:ListCollection.add(ListTemplate)
         #ExSummary:Shows how to create a list by applying a new list format to a collection of paragraphs.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -618,7 +616,7 @@ class ExLists(ApiExampleBase):
         ExLists.add_outline_heading_paragraphs(builder, list, "Aspose.Words Outline - \"Chapters\"")
 
         doc.save(ARTIFACTS_DIR + "Lists.outline_heading_templates.docx")
-        self._test_outline_heading_templates(aw.Document(ARTIFACTS_DIR + "Lists.outline_heading_templates.docx")); #ExSkip
+        self._test_outline_heading_templates(aw.Document(ARTIFACTS_DIR + "Lists.outline_heading_templates.docx")) #ExSkip
 
     @staticmethod
     def add_outline_heading_paragraphs(builder: aw.DocumentBuilder, list: aw.lists.List, title: str):
@@ -642,56 +640,56 @@ class ExLists(ApiExampleBase):
 
         list = doc.lists[0] # Article section list template.
 
-        TestUtil.verify_list_level(self, "Article \0.", 0.0, aw.NumberStyle.UPPERCASE_ROMAN, list.list_levels[0])
-        TestUtil.verify_list_level(self, "Section \0.\u0001", 0.0, aw.NumberStyle.LEADING_ZERO, list.list_levels[1])
-        TestUtil.verify_list_level(self, "(\u0002)", 14.4, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[2])
-        TestUtil.verify_list_level(self, "(\u0003)", 36.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[3])
-        TestUtil.verify_list_level(self, "\u0004)", 28.8, aw.NumberStyle.ARABIC, list.list_levels[4])
-        TestUtil.verify_list_level(self, "\u0005)", 36.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[5])
-        TestUtil.verify_list_level(self, "\u0006)", 50.4, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[6])
-        TestUtil.verify_list_level(self, "\a.", 50.4, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[7])
-        TestUtil.verify_list_level(self, "\b.", 72.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[8])
+        self.verify_list_level("Article \0.", 0.0, aw.NumberStyle.UPPERCASE_ROMAN, list.list_levels[0])
+        self.verify_list_level("Section \0.\u0001", 0.0, aw.NumberStyle.LEADING_ZERO, list.list_levels[1])
+        self.verify_list_level("(\u0002)", 14.4, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[2])
+        self.verify_list_level("(\u0003)", 36.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[3])
+        self.verify_list_level("\u0004)", 28.8, aw.NumberStyle.ARABIC, list.list_levels[4])
+        self.verify_list_level("\u0005)", 36.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[5])
+        self.verify_list_level("\u0006)", 50.4, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[6])
+        self.verify_list_level("\a.", 50.4, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[7])
+        self.verify_list_level("\b.", 72.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[8])
 
         list = doc.lists[1] # Legal list template.
 
-        TestUtil.verify_list_level(self, "\0", 0.0, aw.NumberStyle.ARABIC, list.list_levels[0])
-        TestUtil.verify_list_level(self, "\0.\u0001", 0.0, aw.NumberStyle.ARABIC, list.list_levels[1])
-        TestUtil.verify_list_level(self, "\0.\u0001.\u0002", 0.0, aw.NumberStyle.ARABIC, list.list_levels[2])
-        TestUtil.verify_list_level(self, "\0.\u0001.\u0002.\u0003", 0.0, aw.NumberStyle.ARABIC, list.list_levels[3])
-        TestUtil.verify_list_level(self, "\0.\u0001.\u0002.\u0003.\u0004", 0.0, aw.NumberStyle.ARABIC, list.list_levels[4])
-        TestUtil.verify_list_level(self, "\0.\u0001.\u0002.\u0003.\u0004.\u0005", 0.0, aw.NumberStyle.ARABIC, list.list_levels[5])
-        TestUtil.verify_list_level(self, "\0.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006", 0.0, aw.NumberStyle.ARABIC, list.list_levels[6])
-        TestUtil.verify_list_level(self, "\0.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006.\a", 0.0, aw.NumberStyle.ARABIC, list.list_levels[7])
-        TestUtil.verify_list_level(self, "\0.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006.\a.\b", 0.0, aw.NumberStyle.ARABIC, list.list_levels[8])
+        self.verify_list_level("\0", 0.0, aw.NumberStyle.ARABIC, list.list_levels[0])
+        self.verify_list_level("\0.\u0001", 0.0, aw.NumberStyle.ARABIC, list.list_levels[1])
+        self.verify_list_level("\0.\u0001.\u0002", 0.0, aw.NumberStyle.ARABIC, list.list_levels[2])
+        self.verify_list_level("\0.\u0001.\u0002.\u0003", 0.0, aw.NumberStyle.ARABIC, list.list_levels[3])
+        self.verify_list_level("\0.\u0001.\u0002.\u0003.\u0004", 0.0, aw.NumberStyle.ARABIC, list.list_levels[4])
+        self.verify_list_level("\0.\u0001.\u0002.\u0003.\u0004.\u0005", 0.0, aw.NumberStyle.ARABIC, list.list_levels[5])
+        self.verify_list_level("\0.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006", 0.0, aw.NumberStyle.ARABIC, list.list_levels[6])
+        self.verify_list_level("\0.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006.\a", 0.0, aw.NumberStyle.ARABIC, list.list_levels[7])
+        self.verify_list_level("\0.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006.\a.\b", 0.0, aw.NumberStyle.ARABIC, list.list_levels[8])
 
         list = doc.lists[2] # Numbered list template.
 
-        TestUtil.verify_list_level(self, "\0.", 0.0, aw.NumberStyle.UPPERCASE_ROMAN, list.list_levels[0])
-        TestUtil.verify_list_level(self, "\u0001.", 36.0, aw.NumberStyle.UPPERCASE_LETTER, list.list_levels[1])
-        TestUtil.verify_list_level(self, "\u0002.", 72.0, aw.NumberStyle.ARABIC, list.list_levels[2])
-        TestUtil.verify_list_level(self, "\u0003)", 108.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[3])
-        TestUtil.verify_list_level(self, "(\u0004)", 144.0, aw.NumberStyle.ARABIC, list.list_levels[4])
-        TestUtil.verify_list_level(self, "(\u0005)", 180.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[5])
-        TestUtil.verify_list_level(self, "(\u0006)", 216.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[6])
-        TestUtil.verify_list_level(self, "(\a)", 252.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[7])
-        TestUtil.verify_list_level(self, "(\b)", 288.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[8])
+        self.verify_list_level("\0.", 0.0, aw.NumberStyle.UPPERCASE_ROMAN, list.list_levels[0])
+        self.verify_list_level("\u0001.", 36.0, aw.NumberStyle.UPPERCASE_LETTER, list.list_levels[1])
+        self.verify_list_level("\u0002.", 72.0, aw.NumberStyle.ARABIC, list.list_levels[2])
+        self.verify_list_level("\u0003)", 108.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[3])
+        self.verify_list_level("(\u0004)", 144.0, aw.NumberStyle.ARABIC, list.list_levels[4])
+        self.verify_list_level("(\u0005)", 180.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[5])
+        self.verify_list_level("(\u0006)", 216.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[6])
+        self.verify_list_level("(\a)", 252.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[7])
+        self.verify_list_level("(\b)", 288.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[8])
 
         list = doc.lists[3] # Chapter list template.
 
-        TestUtil.verify_list_level(self, "Chapter \0", 0.0, aw.NumberStyle.ARABIC, list.list_levels[0])
-        TestUtil.verify_list_level(self, "", 0.0, aw.NumberStyle.NONE, list.list_levels[1])
-        TestUtil.verify_list_level(self, "", 0.0, aw.NumberStyle.NONE, list.list_levels[2])
-        TestUtil.verify_list_level(self, "", 0.0, aw.NumberStyle.NONE, list.list_levels[3])
-        TestUtil.verify_list_level(self, "", 0.0, aw.NumberStyle.NONE, list.list_levels[4])
-        TestUtil.verify_list_level(self, "", 0.0, aw.NumberStyle.NONE, list.list_levels[5])
-        TestUtil.verify_list_level(self, "", 0.0, aw.NumberStyle.NONE, list.list_levels[6])
-        TestUtil.verify_list_level(self, "", 0.0, aw.NumberStyle.NONE, list.list_levels[7])
-        TestUtil.verify_list_level(self, "", 0.0, aw.NumberStyle.NONE, list.list_levels[8])
+        self.verify_list_level("Chapter \0", 0.0, aw.NumberStyle.ARABIC, list.list_levels[0])
+        self.verify_list_level("", 0.0, aw.NumberStyle.NONE, list.list_levels[1])
+        self.verify_list_level("", 0.0, aw.NumberStyle.NONE, list.list_levels[2])
+        self.verify_list_level("", 0.0, aw.NumberStyle.NONE, list.list_levels[3])
+        self.verify_list_level("", 0.0, aw.NumberStyle.NONE, list.list_levels[4])
+        self.verify_list_level("", 0.0, aw.NumberStyle.NONE, list.list_levels[5])
+        self.verify_list_level("", 0.0, aw.NumberStyle.NONE, list.list_levels[6])
+        self.verify_list_level("", 0.0, aw.NumberStyle.NONE, list.list_levels[7])
+        self.verify_list_level("", 0.0, aw.NumberStyle.NONE, list.list_levels[8])
 
     #ExStart
     #ExFor:ListCollection
-    #ExFor:ListCollection.AddCopy(List)
-    #ExFor:ListCollection.GetEnumerator
+    #ExFor:ListCollection.add_copy(List)
+    #ExFor:ListCollection.__iter__
     #ExSummary:Shows how to create a document with a sample of all the lists from another document.
     def test_print_out_all_lists(self):
 
@@ -725,9 +723,9 @@ class ExLists(ApiExampleBase):
 
         for list in out_doc.lists:
             for i in range(list.list_levels.count):
-                for l in list_source_doc.lists:
-                    if l.list_id == list.list_id:
-                        expected_list_level = l.list_levels[i]
+                for src_list in list_source_doc.lists:
+                    if src_list.list_id == list.list_id:
+                        expected_list_level = src_list.list_levels[i]
                         self.assertEqual(expected_list_level.number_format, list.list_levels[i].number_format)
                         self.assertEqual(expected_list_level.number_position, list.list_levels[i].number_position)
                         self.assertEqual(expected_list_level.number_style, list.list_levels[i].number_style)
@@ -736,12 +734,12 @@ class ExLists(ApiExampleBase):
     def test_list_document(self):
 
         #ExStart
-        #ExFor:ListCollection.Document
-        #ExFor:ListCollection.Count
-        #ExFor:ListCollection.Item(Int32)
-        #ExFor:ListCollection.GetListByListId
-        #ExFor:List.Document
-        #ExFor:List.ListId
+        #ExFor:ListCollection.document
+        #ExFor:ListCollection.count
+        #ExFor:ListCollection.__getitem__(int)
+        #ExFor:ListCollection.get_list_by_list_id
+        #ExFor:List.document
+        #ExFor:List.list_id
         #ExSummary:Shows how to verify owner document properties of lists.
         doc = aw.Document()
 
@@ -770,12 +768,12 @@ class ExLists(ApiExampleBase):
     def test_create_list_restart_after_higher(self):
 
         #ExStart
-        #ExFor:ListLevel.NumberStyle
-        #ExFor:ListLevel.NumberFormat
-        #ExFor:ListLevel.IsLegal
-        #ExFor:ListLevel.RestartAfterLevel
-        #ExFor:ListLevel.LinkedStyle
-        #ExFor:ListLevelCollection.GetEnumerator
+        #ExFor:ListLevel.number_style
+        #ExFor:ListLevel.number_format
+        #ExFor:ListLevel.is_legal
+        #ExFor:ListLevel.restart_after_level
+        #ExFor:ListLevel.linked_style
+        #ExFor:ListLevelCollection.__iter__
         #ExSummary:Shows advances ways of customizing list labels.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -798,7 +796,7 @@ class ExLists(ApiExampleBase):
         list.list_levels[1].number_style = aw.NumberStyle.LEADING_ZERO
 
         # Note that the higher-level uses UppercaseLetter numbering.
-        # We can set the "IsLegal" property to use Arabic numbers for the higher list levels.
+        # We can set the "is_legal" property to use Arabic numbers for the higher list levels.
         list.list_levels[1].is_legal = True
         list.list_levels[1].restart_after_level = 0
 
@@ -830,14 +828,14 @@ class ExLists(ApiExampleBase):
 
         list_level = doc.lists[0].list_levels[0]
 
-        TestUtil.verify_list_level(self, "Appendix \0", 18.0, aw.NumberStyle.UPPERCASE_LETTER, list_level)
+        self.verify_list_level("Appendix \0", 18.0, aw.NumberStyle.UPPERCASE_LETTER, list_level)
         self.assertFalse(list_level.is_legal)
         self.assertEqual(-1, list_level.restart_after_level)
         self.assertEqual("Heading 1", list_level.linked_style.name)
 
         list_level = doc.lists[0].list_levels[1]
 
-        TestUtil.verify_list_level(self, "Section (\0.\u0001)", 54.0, aw.NumberStyle.LEADING_ZERO, list_level)
+        self.verify_list_level("Section (\0.\u0001)", 54.0, aw.NumberStyle.LEADING_ZERO, list_level)
         self.assertTrue(list_level.is_legal)
         self.assertEqual(0, list_level.restart_after_level)
         self.assertIsNone(list_level.linked_style)
@@ -845,12 +843,12 @@ class ExLists(ApiExampleBase):
     def test_get_list_labels(self):
 
         #ExStart
-        #ExFor:Document.UpdateListLabels()
-        #ExFor:Node.ToString(SaveFormat)
+        #ExFor:Document.update_list_labels()
+        #ExFor:Node.to_string(SaveFormat)
         #ExFor:ListLabel
-        #ExFor:Paragraph.ListLabel
-        #ExFor:ListLabel.LabelValue
-        #ExFor:ListLabel.LabelString
+        #ExFor:Paragraph.list_label
+        #ExFor:ListLabel.label_value
+        #ExFor:ListLabel.label_string
         #ExSummary:Shows how to extract the list labels of all paragraphs that are list items.
         doc = aw.Document(MY_DIR + "Rendering.docx")
         doc.update_list_labels()
@@ -864,7 +862,7 @@ class ExLists(ApiExampleBase):
                 print(f"List item paragraph #{paras.index(paragraph)}")
 
                 # This is the text we get when getting when we output this node to text format.
-                # This text output will omit list labels. Trim any paragraph formatting characters.
+                # This text output will omit list labels. Strip any paragraph formatting characters.
                 paragraph_text = paragraph.to_string(aw.SaveFormat.TEXT).strip()
                 print(f"\tExported Text: {paragraph_text}")
 
@@ -884,8 +882,8 @@ class ExLists(ApiExampleBase):
     def test_create_picture_bullet(self):
 
         #ExStart
-        #ExFor:ListLevel.CreatePictureBullet
-        #ExFor:ListLevel.DeletePictureBullet
+        #ExFor:ListLevel.create_picture_bullet
+        #ExFor:ListLevel.delete_picture_bullet
         #ExSummary:Shows how to set a custom image icon for list item labels.
         doc = aw.Document()
 
@@ -918,8 +916,8 @@ class ExLists(ApiExampleBase):
     def test_custom_number_style_format(self):
 
         #ExStart
-        #ExFor:ListLevel.CustomNumberStyleFormat
-        #ExFor:ListLevel.GetEffectiveValue(Int32, NumberStyle, String)
+        #ExFor:ListLevel.custom_number_style_format
+        #ExFor:ListLevel.get_effective_value(int,NumberStyle,str)
         #ExSummary:Shows how to get the format for a list with the custom number style.
         doc = aw.Document(MY_DIR + "List with leading zero.docx")
 

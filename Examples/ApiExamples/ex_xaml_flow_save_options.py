@@ -1,25 +1,25 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import os
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExXamlFlowSaveOptions(ApiExampleBase):
 
     #ExStart
     #ExFor:XamlFlowSaveOptions
-    #ExFor:XamlFlowSaveOptions.#ctor
-    #ExFor:XamlFlowSaveOptions.#ctor(SaveFormat)
-    #ExFor:XamlFlowSaveOptions.ImageSavingCallback
-    #ExFor:XamlFlowSaveOptions.ImagesFolder
-    #ExFor:XamlFlowSaveOptions.ImagesFolderAlias
-    #ExFor:XamlFlowSaveOptions.SaveFormat
+    #ExFor:XamlFlowSaveOptions.__init__()
+    #ExFor:XamlFlowSaveOptions.__init__(SaveFormat)
+    #ExFor:XamlFlowSaveOptions.image_saving_callback
+    #ExFor:XamlFlowSaveOptions.images_folder
+    #ExFor:XamlFlowSaveOptions.images_folder_alias
+    #ExFor:XamlFlowSaveOptions.save_format
     #ExSummary:Shows how to print the filenames of linked images created while converting a document to flow-form .xaml.
     def test_image_folder(self):
 
@@ -45,14 +45,14 @@ class ExXamlFlowSaveOptions(ApiExampleBase):
 
         # A folder specified by "images_folder_alias" will need to contain the resources instead of "images_folder".
         # We must ensure the folder exists before the callback's streams can put their resources into it.
-        os.mkdir(options.images_folder_alias)
+        os.makedirs(options.images_folder_alias)
 
-        doc.save(ARTIFACTS_DIR + "XamlFlowSaveOptions.ImageFolder.xaml", options)
+        doc.save(ARTIFACTS_DIR + "XamlFlowSaveOptions.image_folder.xaml", options)
 
         for resource in callback.Resources:
             print(f"{callback.images_folder_alias}/{resource}")
 
-        TestImageFolder(callback); #ExSkip
+        self._test_image_folder(callback) #ExSkip
 
     class ImageUriPrinter(aw.saving.IImageSavingCallback):
         """Counts and prints filenames of images while their parent document is converted to flow-form .xaml."""
@@ -68,12 +68,12 @@ class ExXamlFlowSaveOptions(ApiExampleBase):
 
             # If we specified an image folder alias, we would also need
             # to redirect each stream to put its image in the alias folder.
-            args.image_stream = FileStream(f"{images_folder_alias}/{args.image_file_name}", FileMode.Create)
-            args.keep_image_stream_open = false
+            args.image_stream = open(f"{self.images_folder_alias}/{args.image_file_name}", "wb")
+            args.keep_image_stream_open = False
 
     #ExEnd
 
-    def test_image_folder(callback: ExXamlFlowSaveOptions.ImageUriPrinter):
+    def _test_image_folder(self, callback: ExXamlFlowSaveOptions.ImageUriPrinter):
 
         self.assertEqual(9, len(callback.resources))
         for resource in callback.resources:

@@ -1,26 +1,25 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExVbaProject(ApiExampleBase):
 
     def test_create_new_vba_project(self):
 
         #ExStart
-        #ExFor:VbaProject.#ctor
-        #ExFor:VbaProject.Name
-        #ExFor:VbaModule.#ctor
-        #ExFor:VbaModule.Name
-        #ExFor:VbaModule.Type
-        #ExFor:VbaModule.SourceCode
-        #ExFor:VbaModuleCollection.Add(VbaModule)
+        #ExFor:VbaProject.__init__
+        #ExFor:VbaProject.name
+        #ExFor:VbaModule.__init__
+        #ExFor:VbaModule.name
+        #ExFor:VbaModule.type
+        #ExFor:VbaModule.source_code
+        #ExFor:VbaModuleCollection.add(VbaModule)
         #ExFor:VbaModuleType
         #ExSummary:Shows how to create a VBA project using macros.
         doc = aw.Document()
@@ -39,10 +38,10 @@ class ExVbaProject(ApiExampleBase):
         # Add the module to the VBA project.
         doc.vba_project.modules.add(module)
 
-        doc.save(ARTIFACTS_DIR + "VbaProject.CreateVBAMacros.docm")
+        doc.save(ARTIFACTS_DIR + "VbaProject.create_new_vba_project.docm")
         #ExEnd
 
-        project = aw.Document(ARTIFACTS_DIR + "VbaProject.CreateVBAMacros.docm").vba_project
+        project = aw.Document(ARTIFACTS_DIR + "VbaProject.create_new_vba_project.docm").vba_project
 
         self.assertEqual("Aspose.Project", project.name)
 
@@ -61,8 +60,8 @@ class ExVbaProject(ApiExampleBase):
     def test_clone_vba_project(self):
 
         #ExStart
-        #ExFor:VbaProject.Clone
-        #ExFor:VbaModule.Clone
+        #ExFor:VbaProject.clone
+        #ExFor:VbaModule.clone
         #ExSummary:Shows how to deep clone a VBA project and module.
         doc = aw.Document(MY_DIR + "VBA project.docm")
         dest_doc = aw.Document()
@@ -77,10 +76,10 @@ class ExVbaProject(ApiExampleBase):
         dest_doc.vba_project.modules.remove(old_vba_module)
         dest_doc.vba_project.modules.add(copy_vba_module)
 
-        dest_doc.save(ARTIFACTS_DIR + "VbaProject.CloneVbaProject.docm")
+        dest_doc.save(ARTIFACTS_DIR + "VbaProject.clone_vba_project.docm")
         #ExEnd
 
-        original_vba_project = aw.Document(ARTIFACTS_DIR + "VbaProject.CloneVbaProject.docm").vba_project
+        original_vba_project = aw.Document(ARTIFACTS_DIR + "VbaProject.clone_vba_project.docm").vba_project
 
         self.assertEqual(copy_vba_project.name, original_vba_project.name)
         self.assertEqual(copy_vba_project.code_page, original_vba_project.code_page)
@@ -94,17 +93,16 @@ class ExVbaProject(ApiExampleBase):
 
     #ExStart
     #ExFor:VbaReference
-    #ExFor:VbaReference.LibId
+    #ExFor:VbaReference.lib_id
     #ExFor:VbaReferenceCollection
-    #ExFor:VbaReferenceCollection.Count
-    #ExFor:VbaReferenceCollection.RemoveAt(int)
-    #ExFor:VbaReferenceCollection.Remove(VbaReference)
+    #ExFor:VbaReferenceCollection.count
+    #ExFor:VbaReferenceCollection.remove_at(int)
+    #ExFor:VbaReferenceCollection.remove(VbaReference)
     #ExFor:VbaReferenceType
     #ExSummary:Shows how to get/remove an element from the VBA reference collection.
-
     def test_remove_vba_reference(self):
 
-        BROKEN_PATH = r"X:\broken.dll"
+        broken_path = r"X:\broken.dll"
         doc = aw.Document(MY_DIR + "VBA project.docm")
 
         references = doc.vba_project.references
@@ -115,7 +113,7 @@ class ExVbaProject(ApiExampleBase):
             reference = doc.vba_project.references[i]
             path = self.get_lib_id_path(reference)
 
-            if path == BROKEN_PATH:
+            if path == broken_path:
                 references.remove_at(i)
 
         self.assertEqual(4, references.count)
@@ -123,7 +121,7 @@ class ExVbaProject(ApiExampleBase):
         references.remove(references[1])
         self.assertEqual(3, references.count)
 
-        doc.save(ARTIFACTS_DIR + "VbaProject.RemoveVbaReference.docm")
+        doc.save(ARTIFACTS_DIR + "VbaProject.remove_vba_reference.docm")
 
     def get_lib_id_path(self, reference: aw.vba.VbaReference) -> str:
         """Returns string representing LibId path of a specified reference."""
@@ -132,7 +130,7 @@ class ExVbaProject(ApiExampleBase):
                               aw.vba.VbaReferenceType.ORIGINAL,
                               aw.vba.VbaReferenceType.CONTROL):
             return self.get_lib_id_reference_path(reference.lib_id)
-        
+
         if reference.type == aw.vba.VbaReferenceType.PROJECT:
             return self.get_lib_id_project_path(reference.lib_id)
 

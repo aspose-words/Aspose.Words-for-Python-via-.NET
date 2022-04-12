@@ -1,14 +1,14 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 from typing import List
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExTableColumn(ApiExampleBase):
 
@@ -100,7 +100,7 @@ class ExTableColumn(ApiExampleBase):
         column = ExTableColumn.Column.from_index(table, 2)
         column.remove()
 
-        doc.save(ARTIFACTS_DIR + "TableColumn.RemoveColumn.doc")
+        doc.save(ARTIFACTS_DIR + "TableColumn.remove_column.doc")
 
         self.assertEqual(16, table.get_child_nodes(aw.NodeType.CELL, True).count)
         self.assertEqual("Cell 7 contents", table.rows[2].cells[2].to_string(aw.SaveFormat.TEXT).strip())
@@ -121,7 +121,7 @@ class ExTableColumn(ApiExampleBase):
         for cell in new_column.cells:
             cell.first_paragraph.append_child(aw.Run(doc, "Column Text " + str(new_column.index_of(cell))))
 
-        doc.save(ARTIFACTS_DIR + "TableColumn.Insert.doc")
+        doc.save(ARTIFACTS_DIR + "TableColumn.insert.doc")
 
         self.assertEqual(24, table.get_child_nodes(aw.NodeType.CELL, True).count)
         self.assertEqual("Column Text 0", table.first_row.cells[1].to_string(aw.SaveFormat.TEXT).strip())

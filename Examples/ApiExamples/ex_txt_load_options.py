@@ -1,23 +1,24 @@
-import unittest
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import io
 import textwrap
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR
 
 class ExTxtLoadOptions(ApiExampleBase):
 
     def test_detect_numbering_with_whitespaces(self):
-    
+
         for detect_numbering_with_whitespaces in (False, True):
             with self.subTest(detect_numbering_with_whitespaces=detect_numbering_with_whitespaces):
                 #ExStart
-                #ExFor:TxtLoadOptions.DetectNumberingWithWhitespaces
+                #ExFor:TxtLoadOptions.detect_numbering_with_whitespaces
                 #ExSummary:Shows how to detect lists when loading plaintext documents.
                 # Create a plaintext document in a string with four separate parts that we may interpret as lists,
                 # with different delimiters. Upon loading the plaintext document into a "Document" object,
@@ -77,8 +78,8 @@ class ExTxtLoadOptions(ApiExampleBase):
         for txt_leading_spaces_options, txt_trailing_spaces_options in parameters:
             with self.subTest(txt_leading_spaces_options=txt_leading_spaces_options, txt_trailing_spaces_options=txt_trailing_spaces_options):
                 #ExStart
-                #ExFor:TxtLoadOptions.TrailingSpacesOptions
-                #ExFor:TxtLoadOptions.LeadingSpacesOptions
+                #ExFor:TxtLoadOptions.trailing_spaces_options
+                #ExFor:TxtLoadOptions.leading_spaces_options
                 #ExFor:TxtTrailingSpacesOptions
                 #ExFor:TxtLeadingSpacesOptions
                 #ExSummary:Shows how to trim whitespace when loading plaintext documents.
@@ -117,15 +118,15 @@ class ExTxtLoadOptions(ApiExampleBase):
                     self.assertTrue(paragraphs[0].get_text().startswith("Line 1"))
                     self.assertTrue(paragraphs[1].get_text().startswith("Line 2"))
                     self.assertTrue(paragraphs[2].get_text().startswith("Line 3"))
-                
+
                 elif txt_leading_spaces_options == aw.loading.TxtLeadingSpacesOptions.PRESERVE:
-                    self.assertTrue(all(p.as_paragraph().paragraph_format.first_line_indent == 0.0 
+                    self.assertTrue(all(p.as_paragraph().paragraph_format.first_line_indent == 0.0
                                         for p in paragraphs))
 
                     self.assertTrue(paragraphs[0].get_text().startswith("      Line 1"))
                     self.assertTrue(paragraphs[1].get_text().startswith("    Line 2"))
                     self.assertTrue(paragraphs[2].get_text().startswith(" Line 3"))
-                
+
                 elif txt_leading_spaces_options == aw.loading.TxtLeadingSpacesOptions.TRIM:
                     self.assertTrue(all(p.as_paragraph().paragraph_format.first_line_indent == 0.0
                                         for p in paragraphs))
@@ -138,7 +139,7 @@ class ExTxtLoadOptions(ApiExampleBase):
                     self.assertTrue(paragraphs[0].get_text().endswith("Line 1 \r"))
                     self.assertTrue(paragraphs[1].get_text().endswith("Line 2   \r"))
                     self.assertTrue(paragraphs[2].get_text().endswith("Line 3       \f"))
-                
+
                 elif txt_trailing_spaces_options == aw.loading.TxtTrailingSpacesOptions.TRIM:
                     self.assertTrue(paragraphs[0].get_text().endswith("Line 1\r"))
                     self.assertTrue(paragraphs[1].get_text().endswith("Line 2\r"))
@@ -148,8 +149,8 @@ class ExTxtLoadOptions(ApiExampleBase):
     def test_detect_document_direction(self):
 
         #ExStart
-        #ExFor:TxtLoadOptions.DocumentDirection
-        #ExFor:ParagraphFormat.Bidi
+        #ExFor:TxtLoadOptions.document_direction
+        #ExFor:ParagraphFormat.bidi
         #ExSummary:Shows how to detect plaintext document text direction.
         # Create a "TxtLoadOptions" object, which we can pass to a document's constructor
         # to modify how we load a plaintext document.

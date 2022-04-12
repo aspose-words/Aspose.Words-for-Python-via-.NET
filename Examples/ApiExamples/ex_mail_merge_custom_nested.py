@@ -1,20 +1,19 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 from typing import List
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR
 
 class ExMailMergeCustomNested(ApiExampleBase):
 
     #ExStart
-    #ExFor:MailMerge.ExecuteWithRegions(IMailMergeDataSource)
+    #ExFor:MailMerge.execute_with_regions(IMailMergeDataSource)
     #ExSummary:Shows how to use mail merge regions to execute a nested mail merge.
     def test_custom_data_source(self):
 
@@ -62,7 +61,7 @@ class ExMailMergeCustomNested(ApiExampleBase):
         doc.mail_merge.execute_with_regions(customers_data_source)
 
         doc.save(ARTIFACTS_DIR + "NestedMailMergeCustom.custom_data_source.docx")
-        self._test_custom_data_source(customers, aw.Document(ARTIFACTS_DIR + "NestedMailMergeCustom.custom_data_source.docx")); #ExSkip
+        self._test_custom_data_source(customers, aw.Document(ARTIFACTS_DIR + "NestedMailMergeCustom.custom_data_source.docx")) #ExSkip
 
     class Customer:
         """An example of a "data entity" class in your application."""
@@ -122,16 +121,16 @@ class ExMailMergeCustomNested(ApiExampleBase):
 
             return not self.is_eof
 
-        def GetChildDataSource(self, table_name: str):
+        def get_child_data_source(self, table_name: str):
 
             # Get the child data source, whose name matches the mail merge region that uses its columns.
             if table_name == "Orders":
-                ExMailMergeCustomNested.OrderMailMergeDataSource(self.ustomers[self.record_index].orders)
-            
+                return ExMailMergeCustomNested.OrderMailMergeDataSource(self.ustomers[self.record_index].orders)
+
             return None
 
         @property
-        def is_eof() -> bool:
+        def is_eof(self) -> bool:
 
             return self.record_index >= len(self.customers)
 
@@ -145,7 +144,7 @@ class ExMailMergeCustomNested(ApiExampleBase):
             self.record_index = -1
 
         @property
-        def table_name() -> str:
+        def table_name(self) -> str:
             """The name of the data source. Used by Aspose.Words only when executing mail merge with repeatable regions."""
 
             return "Orders"
@@ -163,7 +162,7 @@ class ExMailMergeCustomNested(ApiExampleBase):
             # that we could not find a field with this name.
             return None
 
-        def MoveNext() -> bool:
+        def move_next(self) -> bool:
             """A standard implementation for moving to a next record in a collection."""
 
             if not self.is_eof:
@@ -192,4 +191,4 @@ class ExMailMergeCustomNested(ApiExampleBase):
                 mail_merge_data.add([order.name, order.quantity.to_string()])
             mail_merge_data.add([customer.full_name, customer.address])
 
-        TestUtil.mail_merge_matches_array(mail_merge_data.to_array(), doc, False)
+        self.mail_merge_matches_array(mail_merge_data.to_array(), doc, False)

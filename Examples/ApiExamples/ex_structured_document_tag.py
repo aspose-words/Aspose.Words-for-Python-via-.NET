@@ -1,17 +1,17 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import uuid
 from datetime import datetime
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, golds_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR
 from document_helper import DocumentHelper
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-GOLDS_DIR = golds_dir
 
 class ExStructuredDocumentTag(ApiExampleBase):
 
@@ -33,9 +33,9 @@ class ExStructuredDocumentTag(ApiExampleBase):
 
         #ExStart
         #ExFor:StructuredDocumentTag
-        #ExFor:StructuredDocumentTag.NodeType
-        #ExFor:StructuredDocumentTag.Style
-        #ExFor:StructuredDocumentTag.StyleName
+        #ExFor:StructuredDocumentTag.node_type
+        #ExFor:StructuredDocumentTag.style
+        #ExFor:StructuredDocumentTag.style_name
         #ExFor:MarkupLevel
         #ExFor:SdtType
         #ExSummary:Shows how to work with styles for content control elements.
@@ -70,10 +70,10 @@ class ExStructuredDocumentTag(ApiExampleBase):
     def test_check_box(self):
 
         #ExStart
-        #ExFor:StructuredDocumentTag.#ctor(DocumentBase, SdtType, MarkupLevel)
-        #ExFor:StructuredDocumentTag.Checked
-        #ExFor:StructuredDocumentTag.SetCheckedSymbol(System.Int32, System.String)
-        #ExFor:StructuredDocumentTag.SetUncheckedSymbol(System.Int32, System.String)
+        #ExFor:StructuredDocumentTag.__init__(DocumentBase,SdtType,MarkupLevel)
+        #ExFor:StructuredDocumentTag.checked
+        #ExFor:StructuredDocumentTag.set_checked_symbol(int,str)
+        #ExFor:StructuredDocumentTag.set_unchecked_symbol(int,str)
         #ExSummary:Show how to create a structured document tag in the form of a check box.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -87,24 +87,24 @@ class ExStructuredDocumentTag(ApiExampleBase):
 
         builder.insert_node(sdt_check_box)
 
-        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.CheckBox.docx")
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.check_box.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.CheckBox.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.check_box.docx")
 
         tags = [node.as_structured_document_tag() for node in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)]
 
         self.assertTrue(tags[0].checked)
-        self.assertEquals(tags[0].xml_mapping.store_item_id, "")
+        self.assertEqual(tags[0].xml_mapping.store_item_id, "")
 
     def test_date(self):
 
         #ExStart
-        #ExFor:StructuredDocumentTag.CalendarType
-        #ExFor:StructuredDocumentTag.DateDisplayFormat
-        #ExFor:StructuredDocumentTag.DateDisplayLocale
-        #ExFor:StructuredDocumentTag.DateStorageFormat
-        #ExFor:StructuredDocumentTag.FullDate
+        #ExFor:StructuredDocumentTag.calendar_type
+        #ExFor:StructuredDocumentTag.date_display_format
+        #ExFor:StructuredDocumentTag.date_display_locale
+        #ExFor:StructuredDocumentTag.date_storage_format
+        #ExFor:StructuredDocumentTag.full_date
         #ExSummary:Shows how to prompt the user to enter a date with a structured document tag.
         doc = aw.Document()
 
@@ -132,21 +132,22 @@ class ExStructuredDocumentTag(ApiExampleBase):
         builder = aw.DocumentBuilder(doc)
         builder.insert_node(sdt_date)
 
-        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.Date.docx")
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.date.docx")
         #ExEnd
 
     def test_plain_text(self):
 
         #ExStart
-        #ExFor:StructuredDocumentTag.Color
+        #ExFor:StructuredDocumentTag.color
         #ExFor:StructuredDocumentTag.contents_font
         #ExFor:StructuredDocumentTag.end_character_font
-        #ExFor:StructuredDocumentTag.Id
-        #ExFor:StructuredDocumentTag.Level
-        #ExFor:StructuredDocumentTag.Multiline
-        #ExFor:StructuredDocumentTag.Tag
-        #ExFor:StructuredDocumentTag.Title
-        #ExFor:StructuredDocumentTag.RemoveSelfOnly
+        #ExFor:StructuredDocumentTag.id
+        #ExFor:StructuredDocumentTag.level
+        #ExFor:StructuredDocumentTag.multiline
+        #ExFor:StructuredDocumentTag.tag
+        #ExFor:StructuredDocumentTag.title
+        #ExFor:StructuredDocumentTag.remove_self_only
+        #ExFor:StructuredDocumentTag.appearance
         #ExSummary:Shows how to create a structured document tag in a plain text box and modify its appearance.
         doc = aw.Document()
 
@@ -171,13 +172,17 @@ class ExStructuredDocumentTag(ApiExampleBase):
         # Any text that we type in the document body after moving out of the tag with arrow keys will use this font.
         tag.end_character_font.name = "Arial Black"
 
-        # By default, this is false and pressing enter while inside a structured document tag does nothing.
-        # When set to true, our structured document tag can have multiple lines.
+        # By default, this is False and pressing enter while inside a structured document tag does nothing.
+        # When set to True, our structured document tag can have multiple lines.
 
         # Set the "multiline" property to "False" to only allow the contents
         # of this structured document tag to span a single line.
         # Set the "multiline" property to "True" to allow the tag to contain multiple lines of content.
         tag.multiline = True
+
+        # Set the "Appearance" property to "SdtAppearance.TAGS" to show tags around content.
+        # By default structured document tag shows as BoundingBox.
+        tag.appearance = aw.markup.SdtAppearance.TAGS
 
         builder = aw.DocumentBuilder(doc)
         builder.insert_node(tag)
@@ -190,10 +195,10 @@ class ExStructuredDocumentTag(ApiExampleBase):
         # Use the "remove_self_only" method to remove a structured document tag, while keeping its contents in the document.
         tag_clone.remove_self_only()
 
-        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.PlainText.docx")
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.plain_text.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.PlainText.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.plain_text.docx")
         tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
 
         self.assertEqual("My plain text", tag.title)
@@ -203,13 +208,14 @@ class ExStructuredDocumentTag(ApiExampleBase):
         self.assertEqual("Arial", tag.contents_font.name)
         self.assertEqual("Arial Black", tag.end_character_font.name)
         self.assertTrue(tag.multiline)
+        self.assertTrue(aw.markup.SdtAppearance.TAGS, tag.appearance)
 
     def test_is_temporary(self):
 
         for is_temporary in (False, True):
             with self.subTest(is_temporary=is_temporary):
                 #ExStart
-                #ExFor:StructuredDocumentTag.IsTemporary
+                #ExFor:StructuredDocumentTag.is_temporary
                 #ExSummary:Shows how to make single-use controls.
                 doc = aw.Document()
 
@@ -239,10 +245,10 @@ class ExStructuredDocumentTag(ApiExampleBase):
                 builder.write("\nPlease click the check box: ")
                 builder.insert_node(tag)
 
-                doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.IsTemporary.docx")
+                doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.is_temporary.docx")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.IsTemporary.docx")
+                doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.is_temporary.docx")
 
                 self.assertEqual(2, len([sdt.as_structured_document_tag().is_temporary == is_temporary for sdt in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)]))
 
@@ -251,13 +257,13 @@ class ExStructuredDocumentTag(ApiExampleBase):
         for is_showing_placeholder_text in (False, True):
             with self.subTest(is_showing_placeholder_text=is_showing_placeholder_text):
                 #ExStart
-                #ExFor:StructuredDocumentTag.IsShowingPlaceholderText
-                #ExFor:StructuredDocumentTag.Placeholder
+                #ExFor:StructuredDocumentTag.is_showing_placeholder_text
+                #ExFor:StructuredDocumentTag.placeholder
                 #ExFor:StructuredDocumentTag.placeholder_name
                 #ExSummary:Shows how to use a building block's contents as a custom placeholder text for a structured document tag.
                 doc = aw.Document()
 
-                # Insert a plain text structured document tag of the "PlainText" type, which will function as a text box.
+                # Insert a plain text structured document tag of the "PLAIN_TEXT" type, which will function as a text box.
                 # The contents that it will display by default are a "Click here to enter text." prompt.
                 tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.INLINE)
 
@@ -291,10 +297,10 @@ class ExStructuredDocumentTag(ApiExampleBase):
                 builder = aw.DocumentBuilder(doc)
                 builder.insert_node(tag)
 
-                doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.PlaceholderBuildingBlock.docx")
+                doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.placeholder_building_block.docx")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.PlaceholderBuildingBlock.docx")
+                doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.placeholder_building_block.docx")
                 tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
                 substitute_block = doc.glossary_document.get_child(aw.NodeType.BUILDING_BLOCK, 0, True).as_building_block()
 
@@ -330,10 +336,10 @@ class ExStructuredDocumentTag(ApiExampleBase):
         builder.write("This structured document tag cannot be deleted but its contents can be edited: ")
         builder.insert_node(tag)
 
-        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.Lock.docx")
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.lock.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.Lock.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.lock.docx")
         tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
 
         self.assertTrue(tag.lock_contents)
@@ -348,18 +354,18 @@ class ExStructuredDocumentTag(ApiExampleBase):
 
         #ExStart
         #ExFor:SdtListItem
-        #ExFor:SdtListItem.#ctor(System.String)
-        #ExFor:SdtListItem.#ctor(System.String,System.String)
-        #ExFor:SdtListItem.DisplayText
-        #ExFor:SdtListItem.Value
+        #ExFor:SdtListItem.__init__(str)
+        #ExFor:SdtListItem.__init__(str,str)
+        #ExFor:SdtListItem.display_text
+        #ExFor:SdtListItem.value
         #ExFor:SdtListItemCollection
-        #ExFor:SdtListItemCollection.Add(Aspose.Words.Markup.SdtListItem)
-        #ExFor:SdtListItemCollection.Clear
+        #ExFor:SdtListItemCollection.add(SdtListItem)
+        #ExFor:SdtListItemCollection.clear
         #ExFor:SdtListItemCollection.count
-        #ExFor:SdtListItemCollection.GetEnumerator
-        #ExFor:SdtListItemCollection.Item(System.Int32)
-        #ExFor:SdtListItemCollection.RemoveAt(System.Int32)
-        #ExFor:SdtListItemCollection.SelectedValue
+        #ExFor:SdtListItemCollection.__iter__
+        #ExFor:SdtListItemCollection.__getitem__(int)
+        #ExFor:SdtListItemCollection.remove_at(int)
+        #ExFor:SdtListItemCollection.selected_value
         #ExFor:StructuredDocumentTag.list_items
         #ExSummary:Shows how to work with drop down-list structured document tags.
         doc = aw.Document()
@@ -400,7 +406,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         # Since our drop-down control is set to display the removed item by default, give it an item to display which exists.
         list_items.selected_value = list_items[1]
 
-        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.ListItemCollection.docx")
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.list_item_collection.docx")
 
         # Use the "clear" method to empty the entire drop-down item collection at once.
         list_items.clear()
@@ -412,23 +418,23 @@ class ExStructuredDocumentTag(ApiExampleBase):
 
         #ExStart
         #ExFor:CustomXmlPart
-        #ExFor:CustomXmlPart.Clone
-        #ExFor:CustomXmlPart.Data
-        #ExFor:CustomXmlPart.Id
-        #ExFor:CustomXmlPart.Schemas
+        #ExFor:CustomXmlPart.clone
+        #ExFor:CustomXmlPart.data
+        #ExFor:CustomXmlPart.id
+        #ExFor:CustomXmlPart.schemas
         #ExFor:CustomXmlPartCollection
-        #ExFor:CustomXmlPartCollection.Add(CustomXmlPart)
-        #ExFor:CustomXmlPartCollection.Add(String, String)
-        #ExFor:CustomXmlPartCollection.Clear
-        #ExFor:CustomXmlPartCollection.Clone
+        #ExFor:CustomXmlPartCollection.add(CustomXmlPart)
+        #ExFor:CustomXmlPartCollection.add(str,str)
+        #ExFor:CustomXmlPartCollection.clear
+        #ExFor:CustomXmlPartCollection.clone
         #ExFor:CustomXmlPartCollection.count
-        #ExFor:CustomXmlPartCollection.GetById(String)
-        #ExFor:CustomXmlPartCollection.GetEnumerator
-        #ExFor:CustomXmlPartCollection.Item(Int32)
-        #ExFor:CustomXmlPartCollection.RemoveAt(Int32)
+        #ExFor:CustomXmlPartCollection.get_by_id(str)
+        #ExFor:CustomXmlPartCollection.__iter__
+        #ExFor:CustomXmlPartCollection.__getitem__(int)
+        #ExFor:CustomXmlPartCollection.remove_at(int)
         #ExFor:Document.custom_xml_parts
-        #ExFor:StructuredDocumentTag.XmlMapping
-        #ExFor:XmlMapping.SetMapping(CustomXmlPart, String, String)
+        #ExFor:StructuredDocumentTag.xml_mapping
+        #ExFor:XmlMapping.set_mapping(CustomXmlPart,str,str)
         #ExSummary:Shows how to create a structured document tag with custom XML data.
         doc = aw.Document()
 
@@ -479,12 +485,12 @@ class ExStructuredDocumentTag(ApiExampleBase):
 
         doc.first_section.body.append_child(tag)
 
-        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.CustomXml.docx")
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.creating_custom_xml.docx")
         #ExEnd
 
-        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "StructuredDocumentTag.CustomXml.docx", GOLDS_DIR + "StructuredDocumentTag.CustomXml Gold.docx"))
+        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "StructuredDocumentTag.creating_custom_xml.docx", GOLDS_DIR + "StructuredDocumentTag.CustomXml Gold.docx"))
 
-        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.CustomXml.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.creating_custom_xml.docx")
         xml_part = doc.custom_xml_parts[0]
 
         xml_part_id = uuid.UUID(xml_part.id)
@@ -500,7 +506,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
     def test_data_checksum(self):
 
         #ExStart
-        #ExFor:CustomXmlPart.DataChecksum
+        #ExFor:CustomXmlPart.data_checksum
         #ExSummary:Shows how the checksum is calculated in a runtime.
         doc = aw.Document()
 
@@ -528,11 +534,11 @@ class ExStructuredDocumentTag(ApiExampleBase):
 
         #ExStart
         #ExFor:XmlMapping
-        #ExFor:XmlMapping.CustomXmlPart
-        #ExFor:XmlMapping.Delete
-        #ExFor:XmlMapping.IsMapped
-        #ExFor:XmlMapping.PrefixMappings
-        #ExFor:XmlMapping.XPath
+        #ExFor:XmlMapping.custom_xml_part
+        #ExFor:XmlMapping.delete
+        #ExFor:XmlMapping.is_mapped
+        #ExFor:XmlMapping.prefix_mappings
+        #ExFor:XmlMapping.xpath
         #ExSummary:Shows how to set XML mappings for custom XML parts.
         doc = aw.Document()
 
@@ -575,7 +581,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
     def test_structured_document_tag_range_start_xml_mapping(self):
 
         #ExStart
-        #ExFor:StructuredDocumentTagRangeStart.XmlMapping
+        #ExFor:StructuredDocumentTagRangeStart.xml_mapping
         #ExSummary:Shows how to set XML mappings for the range start of a structured document tag.
         doc = aw.Document(MY_DIR + "Multi-section structured document tags.docx")
 
@@ -594,10 +600,10 @@ class ExStructuredDocumentTag(ApiExampleBase):
         # This XPath will point to the contents second "<text>" element of the first "<root>" element of our CustomXmlPart.
         sdt_range_start.xml_mapping.set_mapping(xml_part, "/root[1]/text[2]", None)
 
-        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.StructuredDocumentTagRangeStartXmlMapping.docx")
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.structured_document_tag_range_start_xml_mapping.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.StructuredDocumentTagRangeStartXmlMapping.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.structured_document_tag_range_start_xml_mapping.docx")
         xml_part = doc.custom_xml_parts[0]
 
         xml_part_id = uuid.UUID(xml_part.id)
@@ -610,15 +616,15 @@ class ExStructuredDocumentTag(ApiExampleBase):
 
         #ExStart
         #ExFor:CustomXmlSchemaCollection
-        #ExFor:CustomXmlSchemaCollection.Add(System.String)
-        #ExFor:CustomXmlSchemaCollection.Clear
-        #ExFor:CustomXmlSchemaCollection.Clone
+        #ExFor:CustomXmlSchemaCollection.add(str)
+        #ExFor:CustomXmlSchemaCollection.clear
+        #ExFor:CustomXmlSchemaCollection.clone
         #ExFor:CustomXmlSchemaCollection.count
-        #ExFor:CustomXmlSchemaCollection.GetEnumerator
-        #ExFor:CustomXmlSchemaCollection.IndexOf(System.String)
-        #ExFor:CustomXmlSchemaCollection.Item(System.Int32)
-        #ExFor:CustomXmlSchemaCollection.Remove(System.String)
-        #ExFor:CustomXmlSchemaCollection.RemoveAt(System.Int32)
+        #ExFor:CustomXmlSchemaCollection.__iter__
+        #ExFor:CustomXmlSchemaCollection.index_of(str)
+        #ExFor:CustomXmlSchemaCollection.__getitem__(int)
+        #ExFor:CustomXmlSchemaCollection.remove(str)
+        #ExFor:CustomXmlSchemaCollection.remove_at(int)
         #ExSummary:Shows how to work with an XML schema collection.
         doc = aw.Document()
 
@@ -658,7 +664,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
     def test_custom_xml_part_store_item_id_read_only(self):
 
         #ExStart
-        #ExFor:XmlMapping.StoreItemId
+        #ExFor:XmlMapping.store_item_id
         #ExSummary:Shows how to get the custom XML data identifier of an XML part.
         doc = aw.Document(MY_DIR + "Custom XML part in structured document tag.docx")
 
@@ -686,7 +692,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
     def test_clear_text_from_structured_document_tags(self):
 
         #ExStart
-        #ExFor:StructuredDocumentTag.Clear
+        #ExFor:StructuredDocumentTag.clear
         #ExSummary:Shows how to delete contents of structured document tag elements.
         doc = aw.Document()
 
@@ -721,7 +727,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
 
         self.assertEqual("New text.", tag.get_text().strip())
 
-        # Use the "Clear" method to clear this structured document tag's contents and display the placeholder again.
+        # Use the "clear" method to clear this structured document tag's contents and display the placeholder again.
         tag.clear()
 
         self.assertTrue(tag.is_showing_placeholder_text)
@@ -750,8 +756,8 @@ class ExStructuredDocumentTag(ApiExampleBase):
     def test_building_block_categories(self):
 
         #ExStart
-        #ExFor:StructuredDocumentTag.BuildingBlockCategory
-        #ExFor:StructuredDocumentTag.BuildingBlockGallery
+        #ExFor:StructuredDocumentTag.building_block_category
+        #ExFor:StructuredDocumentTag.building_block_gallery
         #ExSummary:Shows how to insert a structured document tag as a building block, and set its category and gallery.
         doc = aw.Document()
 
@@ -775,7 +781,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         for update_sdt_content in (False, True):
             with self.subTest(update_sdt_content=update_sdt_content):
                 #ExStart
-                #ExFor:SaveOptions.UpdateSdtContent
+                #ExFor:SaveOptions.update_sdt_content
                 #ExSummary:Shows how to update structured document tags while saving a document to PDF.
                 doc = aw.Document()
 
@@ -801,7 +807,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
                 # Set the "update_sdt_content" property to "True" to make sure the tags display updated values in the PDF.
                 options.update_sdt_content = update_sdt_content
 
-                doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.UpdateSdtContent.pdf", options)
+                doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.update_sdt_content.pdf", options)
                 #ExEnd
 
                 #pdf_doc = aspose.pdf.Document(ARTIFACTS_DIR + "StructuredDocumentTag.UpdateSdtContent.pdf")
@@ -868,10 +874,10 @@ class ExStructuredDocumentTag(ApiExampleBase):
         author_sdt.xml_mapping.set_mapping(xml_part, "/books[1]/book[1]/author[1]", "")
         row.append_child(author_sdt)
 
-        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.RepeatingSectionItem.docx")
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.fill_table_using_repeating_section_item.docx")
 		#ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.RepeatingSectionItem.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.fill_table_using_repeating_section_item.docx")
         tags = [node.as_structured_document_tag() for node in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)]
 
         self.assertEqual("/books[1]/book", tags[0].xml_mapping.xpath)
@@ -922,19 +928,19 @@ class ExStructuredDocumentTag(ApiExampleBase):
 
         #ExStart
         #ExFor:StructuredDocumentTagRangeStart
-        #ExFor:StructuredDocumentTagRangeStart.Id
-        #ExFor:StructuredDocumentTagRangeStart.Title
+        #ExFor:StructuredDocumentTagRangeStart.id
+        #ExFor:StructuredDocumentTagRangeStart.title
         #ExFor:StructuredDocumentTagRangeStart.placeholder_name
-        #ExFor:StructuredDocumentTagRangeStart.IsShowingPlaceholderText
+        #ExFor:StructuredDocumentTagRangeStart.is_showing_placeholder_text
         #ExFor:StructuredDocumentTagRangeStart.lock_content_control
         #ExFor:StructuredDocumentTagRangeStart.lock_contents
-        #ExFor:StructuredDocumentTagRangeStart.Level
-        #ExFor:StructuredDocumentTagRangeStart.RangeEnd
-        #ExFor:StructuredDocumentTagRangeStart.Color
+        #ExFor:StructuredDocumentTagRangeStart.level
+        #ExFor:StructuredDocumentTagRangeStart.range_end
+        #ExFor:StructuredDocumentTagRangeStart.color
         #ExFor:StructuredDocumentTagRangeStart.sdt_type
-        #ExFor:StructuredDocumentTagRangeStart.Tag
+        #ExFor:StructuredDocumentTagRangeStart.tag
         #ExFor:StructuredDocumentTagRangeEnd
-        #ExFor:StructuredDocumentTagRangeEnd.Id
+        #ExFor:StructuredDocumentTagRangeEnd.id
         #ExSummary:Shows how to get the properties of multi-section structured document tags.
         doc = aw.Document(MY_DIR + "Multi-section structured document tags.docx")
 
@@ -967,8 +973,8 @@ class ExStructuredDocumentTag(ApiExampleBase):
     def test_sdt_child_nodes(self):
 
         #ExStart
-        #ExFor:StructuredDocumentTagRangeStart.ChildNodes
-        #ExFor:StructuredDocumentTagRangeStart.GetChildNodes(NodeType, bool)
+        #ExFor:StructuredDocumentTagRangeStart.child_nodes
+        #ExFor:StructuredDocumentTagRangeStart.get_child_nodes(NodeType,bool)
         #ExSummary:Shows how to get child nodes of StructuredDocumentTagRangeStart.
         doc = aw.Document(MY_DIR + "Multi-section structured document tags.docx")
         tag = doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, True)[0].as_structured_document_tag_range_start()
@@ -984,10 +990,10 @@ class ExStructuredDocumentTag(ApiExampleBase):
         #ExEnd
 
     #ExStart
-    #ExFor:StructuredDocumentTagRangeStart.#ctor(DocumentBase, SdtType)
-    #ExFor:StructuredDocumentTagRangeEnd.#ctor(DocumentBase, int)
-    #ExFor:StructuredDocumentTagRangeStart.RemoveSelfOnly
-    #ExFor:StructuredDocumentTagRangeStart.RemoveAllChildren
+    #ExFor:StructuredDocumentTagRangeStart.__init__(DocumentBase,SdtType)
+    #ExFor:StructuredDocumentTagRangeEnd.__init__(DocumentBase,int)
+    #ExFor:StructuredDocumentTagRangeStart.remove_self_only
+    #ExFor:StructuredDocumentTagRangeStart.remove_all_children
     #ExSummary:Shows how to create/remove structured document tag and its content.
     def test_sdt_range_extended_methods(self):
 
@@ -1002,7 +1008,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         range_start.remove_self_only()
 
         range_start = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, False).as_structured_document_tag_range_start()
-        self.assertEqual(null, range_start)
+        self.assertIsNone(range_start)
 
         range_end = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_END, 0, False).as_structured_document_tag_range_end()
 

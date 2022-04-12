@@ -1,14 +1,14 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 from datetime import datetime, date
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExRevision(ApiExampleBase):
 
@@ -16,19 +16,19 @@ class ExRevision(ApiExampleBase):
 
         #ExStart
         #ExFor:Revision
-        #ExFor:Revision.Accept
-        #ExFor:Revision.Author
-        #ExFor:Revision.DateTime
-        #ExFor:Revision.Group
-        #ExFor:Revision.Reject
-        #ExFor:Revision.RevisionType
+        #ExFor:Revision.accept
+        #ExFor:Revision.author
+        #ExFor:Revision.date_time
+        #ExFor:Revision.group
+        #ExFor:Revision.reject
+        #ExFor:Revision.revision_type
         #ExFor:RevisionCollection
-        #ExFor:RevisionCollection.Item(Int32)
-        #ExFor:RevisionCollection.Count
+        #ExFor:RevisionCollection.__getitem__(int)
+        #ExFor:RevisionCollection.count
         #ExFor:RevisionType
-        #ExFor:Document.HasRevisions
-        #ExFor:Document.TrackRevisions
-        #ExFor:Document.Revisions
+        #ExFor:Document.has_revisions
+        #ExFor:Document.track_revisions
+        #ExFor:Document.revisions
         #ExSummary:Shows how to work with revisions in a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -106,11 +106,11 @@ class ExRevision(ApiExampleBase):
     def test_revision_collection(self):
 
         #ExStart
-        #ExFor:Revision.ParentStyle
-        #ExFor:RevisionCollection.GetEnumerator
-        #ExFor:RevisionCollection.Groups
-        #ExFor:RevisionCollection.RejectAll
-        #ExFor:RevisionGroupCollection.GetEnumerator
+        #ExFor:Revision.parent_style
+        #ExFor:RevisionCollection.__iter__
+        #ExFor:RevisionCollection.groups
+        #ExFor:RevisionCollection.reject_all
+        #ExFor:RevisionGroupCollection.__iter__
         #ExSummary:Shows how to work with a document's collection of revisions.
         doc = aw.Document(MY_DIR + "Revisions.docx")
         revisions = doc.revisions
@@ -152,11 +152,11 @@ class ExRevision(ApiExampleBase):
 
         #ExStart
         #ExFor:RevisionGroup
-        #ExFor:RevisionGroup.Author
-        #ExFor:RevisionGroup.RevisionType
-        #ExFor:RevisionGroup.Text
+        #ExFor:RevisionGroup.author
+        #ExFor:RevisionGroup.revision_type
+        #ExFor:RevisionGroup.text
         #ExFor:RevisionGroupCollection
-        #ExFor:RevisionGroupCollection.Count
+        #ExFor:RevisionGroupCollection.count
         #ExSummary:Shows how to print info about a group of revisions in a document.
         doc = aw.Document(MY_DIR + "Revisions.docx")
 
@@ -171,7 +171,7 @@ class ExRevision(ApiExampleBase):
 
         #ExStart
         #ExFor:RevisionGroupCollection
-        #ExFor:RevisionGroupCollection.Item(Int32)
+        #ExFor:RevisionGroupCollection.__getitem__(int)
         #ExSummary:Shows how to get a group of revisions in a document.
         doc = aw.Document(MY_DIR + "Revisions.docx")
 
@@ -185,7 +185,7 @@ class ExRevision(ApiExampleBase):
     def test_show_revision_balloons(self):
 
         #ExStart
-        #ExFor:RevisionOptions.ShowInBalloons
+        #ExFor:RevisionOptions.show_in_balloons
         #ExSummary:Shows how to display revisions in balloons.
         doc = aw.Document(MY_DIR + "Revisions.docx")
 
@@ -199,21 +199,21 @@ class ExRevision(ApiExampleBase):
 
         #ExStart
         #ExFor:ShowInBalloons
-        #ExFor:RevisionOptions.ShowInBalloons
-        #ExFor:RevisionOptions.CommentColor
-        #ExFor:RevisionOptions.DeletedTextColor
-        #ExFor:RevisionOptions.DeletedTextEffect
-        #ExFor:RevisionOptions.InsertedTextEffect
-        #ExFor:RevisionOptions.MovedFromTextColor
-        #ExFor:RevisionOptions.MovedFromTextEffect
-        #ExFor:RevisionOptions.MovedToTextColor
-        #ExFor:RevisionOptions.MovedToTextEffect
-        #ExFor:RevisionOptions.RevisedPropertiesColor
-        #ExFor:RevisionOptions.RevisedPropertiesEffect
-        #ExFor:RevisionOptions.RevisionBarsColor
-        #ExFor:RevisionOptions.RevisionBarsWidth
-        #ExFor:RevisionOptions.ShowOriginalRevision
-        #ExFor:RevisionOptions.ShowRevisionMarks
+        #ExFor:RevisionOptions.show_in_balloons
+        #ExFor:RevisionOptions.comment_color
+        #ExFor:RevisionOptions.deleted_text_color
+        #ExFor:RevisionOptions.deleted_text_effect
+        #ExFor:RevisionOptions.inserted_text_effect
+        #ExFor:RevisionOptions.moved_from_text_color
+        #ExFor:RevisionOptions.moved_from_text_effect
+        #ExFor:RevisionOptions.moved_to_text_color
+        #ExFor:RevisionOptions.moved_to_text_effect
+        #ExFor:RevisionOptions.revised_properties_color
+        #ExFor:RevisionOptions.revised_properties_effect
+        #ExFor:RevisionOptions.revision_bars_color
+        #ExFor:RevisionOptions.revision_bars_width
+        #ExFor:RevisionOptions.show_original_revision
+        #ExFor:RevisionOptions.show_revision_marks
         #ExFor:RevisionTextEffect
         #ExSummary:Shows how to modify the appearance of revisions.
         doc = aw.Document(MY_DIR + "Revisions.docx")

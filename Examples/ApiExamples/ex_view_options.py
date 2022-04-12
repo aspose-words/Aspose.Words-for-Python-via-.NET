@@ -1,24 +1,25 @@
-import unittest
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import io
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR
 
 class ExViewOptions(ApiExampleBase):
 
     def test_set_zoom_percentage(self):
 
         #ExStart
-        #ExFor:Document.ViewOptions
+        #ExFor:Document.view_options
         #ExFor:ViewOptions
-        #ExFor:ViewOptions.ViewType
-        #ExFor:ViewOptions.ZoomPercent
-        #ExFor:ViewOptions.ZoomType
+        #ExFor:ViewOptions.view_type
+        #ExFor:ViewOptions.zoom_percent
+        #ExFor:ViewOptions.zoom_type
         #ExFor:ViewType
         #ExSummary:Shows how to set a custom zoom factor, which older versions of Microsoft Word will apply to a document upon loading.
         doc = aw.Document()
@@ -31,10 +32,10 @@ class ExViewOptions(ApiExampleBase):
         self.assertEqual(aw.settings.ZoomType.CUSTOM, doc.view_options.zoom_type)
         self.assertEqual(aw.settings.ZoomType.NONE, doc.view_options.zoom_type)
 
-        doc.save(ARTIFACTS_DIR + "ViewOptions.SetZoomPercentage.doc")
+        doc.save(ARTIFACTS_DIR + "ViewOptions.set_zoom_percentage.doc")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "ViewOptions.SetZoomPercentage.doc")
+        doc = aw.Document(ARTIFACTS_DIR + "ViewOptions.set_zoom_percentage.doc")
 
         self.assertEqual(aw.settings.ViewType.PAGE_LAYOUT, doc.view_options.view_type)
         self.assertEqual(50.0, doc.view_options.zoom_percent)
@@ -45,9 +46,9 @@ class ExViewOptions(ApiExampleBase):
         for zoom_type in (aw.settings.ZoomType.PAGE_WIDTH, aw.settings.ZoomType.FULL_PAGE, aw.settings.ZoomType.TEXT_FIT):
             with self.subTest(zoom_type=zoom_type):
                 #ExStart
-                #ExFor:Document.ViewOptions
+                #ExFor:Document.view_options
                 #ExFor:ViewOptions
-                #ExFor:ViewOptions.ZoomType
+                #ExFor:ViewOptions.zoom_type
                 #ExSummary:Shows how to set a custom zoom type, which older versions of Microsoft Word will apply to a document upon loading.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -61,10 +62,10 @@ class ExViewOptions(ApiExampleBase):
                 # to automatically zoom the document to fit the inner text margins of the first page.
                 doc.view_options.zoom_type = zoom_type
 
-                doc.save(ARTIFACTS_DIR + "ViewOptions.SetZoomType.doc")
+                doc.save(ARTIFACTS_DIR + "ViewOptions.set_zoom_type.doc")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + "ViewOptions.SetZoomType.doc")
+                doc = aw.Document(ARTIFACTS_DIR + "ViewOptions.set_zoom_type.doc")
 
                 self.assertEqual(zoom_type, doc.view_options.zoom_type)
 
@@ -73,7 +74,7 @@ class ExViewOptions(ApiExampleBase):
         for display_background_shape in (False, True):
             with self.subTest(display_background_shape=display_background_shape):
                 #ExStart
-                #ExFor:ViewOptions.DisplayBackgroundShape
+                #ExFor:ViewOptions.display_background_shape
                 #ExSummary:Shows how to hide/display document background images in view options.
                 # Use an HTML string to create a new document with a flat background color.
                 html = """
@@ -94,19 +95,19 @@ class ExViewOptions(ApiExampleBase):
                 # Set the "display_background_shape" to "False" to not display the background color.
                 doc.view_options.display_background_shape = display_background_shape
 
-                doc.save(ARTIFACTS_DIR + "ViewOptions.DisplayBackgroundShape.docx")
+                doc.save(ARTIFACTS_DIR + "ViewOptions.display_background_shape.docx")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + "ViewOptions.DisplayBackgroundShape.docx")
+                doc = aw.Document(ARTIFACTS_DIR + "ViewOptions.display_background_shape.docx")
 
                 self.assertEqual(display_background_shape, doc.view_options.display_background_shape)
 
     def test_display_page_boundaries(self):
-        
+
         for do_not_display_page_boundaries in (False, True):
             with self.subTest(do_not_display_page_boundaries=do_not_display_page_boundaries):
                 #ExStart
-                #ExFor:ViewOptions.DoNotDisplayPageBoundaries
+                #ExFor:ViewOptions.do_not_display_page_boundaries
                 #ExSummary:Shows how to hide vertical whitespace and headers/footers in view options.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -131,10 +132,10 @@ class ExViewOptions(ApiExampleBase):
                 # to normally display our document.
                 doc.view_options.do_not_display_page_boundaries = do_not_display_page_boundaries
 
-                doc.save(ARTIFACTS_DIR + "ViewOptions.DisplayPageBoundaries.doc")
+                doc.save(ARTIFACTS_DIR + "ViewOptions.display_page_boundaries.doc")
                 #ExEnd
 
-                doc = aw.Document(ARTIFACTS_DIR + "ViewOptions.DisplayPageBoundaries.doc")
+                doc = aw.Document(ARTIFACTS_DIR + "ViewOptions.display_page_boundaries.doc")
 
                 self.assertEqual(do_not_display_page_boundaries, doc.view_options.do_not_display_page_boundaries)
 
@@ -143,7 +144,7 @@ class ExViewOptions(ApiExampleBase):
         for use_forms_design in (False, True):
             with self.subTest(use_forms_design=use_forms_design):
                 #ExStart
-                #ExFor:ViewOptions.FormsDesign
+                #ExFor:ViewOptions.forms_design
                 #ExSummary:Shows how to enable/disable forms design mode.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -153,8 +154,8 @@ class ExViewOptions(ApiExampleBase):
                 # Set the "forms_design" property to "True" to enable forms design mode.
                 doc.view_options.forms_design = use_forms_design
 
-                doc.save(ARTIFACTS_DIR + "ViewOptions.FormsDesign.xml")
+                doc.save(ARTIFACTS_DIR + "ViewOptions.forms_design.xml")
 
-                with open(ARTIFACTS_DIR + "ViewOptions.FormsDesign.xml") as file:
+                with open(ARTIFACTS_DIR + "ViewOptions.forms_design.xml") as file:
                     self.assertEqual(use_forms_design, "<w:formsDesign />" in file.read())
                 #ExEnd

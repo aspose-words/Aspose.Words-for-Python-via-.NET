@@ -1,23 +1,23 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, image_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-IMAGE_DIR = image_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
+from document_helper import DocumentHelper
 
 class ExSection(ApiExampleBase):
 
     def test_protect(self):
 
         #ExStart
-        #ExFor:Document.Protect(ProtectionType)
+        #ExFor:Document.protect(ProtectionType)
         #ExFor:ProtectionType
-        #ExFor:Section.ProtectedForForms
+        #ExFor:Section.protected_for_forms
         #ExSummary:Shows how to turn off protection for a section.
         doc = aw.Document()
 
@@ -48,10 +48,10 @@ class ExSection(ApiExampleBase):
     def test_add_remove(self):
 
         #ExStart
-        #ExFor:Document.Sections
-        #ExFor:Section.Clone
+        #ExFor:Document.sections
+        #ExFor:Section.clone()
         #ExFor:SectionCollection
-        #ExFor:NodeCollection.RemoveAt(Int32)
+        #ExFor:NodeCollection.remove_at(int)
         #ExSummary:Shows how to add and remove sections in a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -78,8 +78,8 @@ class ExSection(ApiExampleBase):
     def test_first_and_last(self):
 
         #ExStart
-        #ExFor:Document.FirstSection
-        #ExFor:Document.LastSection
+        #ExFor:Document.first_section
+        #ExFor:Document.last_section
         #ExSummary:Shows how to create a new section with a document builder.
         doc = aw.Document()
 
@@ -107,10 +107,10 @@ class ExSection(ApiExampleBase):
         self.assertEqual(1, doc.first_section.page_setup.text_columns.count)
         self.assertEqual(2, doc.last_section.page_setup.text_columns.count)
 
-        doc.save(ARTIFACTS_DIR + "Section.create.docx")
+        doc.save(ARTIFACTS_DIR + "Section.first_and_last.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Section.create.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Section.first_and_last.docx")
 
         self.assertEqual(1, doc.first_section.page_setup.text_columns.count)
         self.assertEqual(2, doc.last_section.page_setup.text_columns.count)
@@ -118,34 +118,34 @@ class ExSection(ApiExampleBase):
     def test_create_manually(self):
 
         #ExStart
-        #ExFor:Node.GetText
-        #ExFor:CompositeNode.RemoveAllChildren
-        #ExFor:CompositeNode.AppendChild
+        #ExFor:Node.get_text
+        #ExFor:CompositeNode.remove_all_children
+        #ExFor:CompositeNode.append_child
         #ExFor:Section
-        #ExFor:Section.#ctor
-        #ExFor:Section.PageSetup
-        #ExFor:PageSetup.SectionStart
-        #ExFor:PageSetup.PaperSize
+        #ExFor:Section.__init__
+        #ExFor:Section.page_setup
+        #ExFor:PageSetup.section_start
+        #ExFor:PageSetup.paper_size
         #ExFor:SectionStart
         #ExFor:PaperSize
         #ExFor:Body
-        #ExFor:Body.#ctor
+        #ExFor:Body.__init__
         #ExFor:Paragraph
-        #ExFor:Paragraph.#ctor
-        #ExFor:Paragraph.ParagraphFormat
+        #ExFor:Paragraph.__init__
+        #ExFor:Paragraph.paragraph_format
         #ExFor:ParagraphFormat
-        #ExFor:ParagraphFormat.StyleName
-        #ExFor:ParagraphFormat.Alignment
+        #ExFor:ParagraphFormat.style_name
+        #ExFor:ParagraphFormat.alignment
         #ExFor:ParagraphAlignment
         #ExFor:Run
-        #ExFor:Run.#ctor(DocumentBase)
-        #ExFor:Run.Text
-        #ExFor:Inline.Font
+        #ExFor:Run.__init__(DocumentBase)
+        #ExFor:Run.text
+        #ExFor:Inline.font
         #ExSummary:Shows how to construct an Aspose.Words document by hand.
         doc = aw.Document()
 
         # A blank document contains one section, one body and one paragraph.
-        # Call the "RemoveAllChildren" method to remove all those nodes,
+        # Call the "remove_all_children" method to remove all those nodes,
         # and end up with a document node with no children.
         doc.remove_all_children()
 
@@ -187,9 +187,9 @@ class ExSection(ApiExampleBase):
     def test_ensure_minimum(self):
 
         #ExStart
-        #ExFor:NodeCollection.Add
-        #ExFor:Section.EnsureMinimum
-        #ExFor:SectionCollection.Item(Int32)
+        #ExFor:NodeCollection.add
+        #ExFor:Section.ensure_minimum
+        #ExFor:SectionCollection.__getitem__(int)
         #ExSummary:Shows how to prepare a new section node for editing.
         doc = aw.Document()
 
@@ -204,7 +204,7 @@ class ExSection(ApiExampleBase):
 
         self.assertEqual(0, doc.sections[1].get_child_nodes(aw.NodeType.ANY, True).count)
 
-        # Run the "EnsureMinimum" method to add a body and a paragraph to this section to begin editing it.
+        # Run the "ensure_minimum" method to add a body and a paragraph to this section to begin editing it.
         doc.last_section.ensure_minimum()
 
         self.assertEqual(aw.NodeType.BODY, doc.sections[1].get_child(aw.NodeType.ANY, 0, True).node_type)
@@ -218,8 +218,8 @@ class ExSection(ApiExampleBase):
     def test_body_ensure_minimum(self):
 
         #ExStart
-        #ExFor:Section.Body
-        #ExFor:Body.EnsureMinimum
+        #ExFor:Section.body
+        #ExFor:Body.ensure_minimum
         #ExSummary:Clears main text from all sections from the document leaving the sections themselves.
         doc = aw.Document()
 
@@ -254,9 +254,9 @@ class ExSection(ApiExampleBase):
     def test_body_child_nodes(self):
 
         #ExStart
-        #ExFor:Body.NodeType
-        #ExFor:HeaderFooter.NodeType
-        #ExFor:Document.FirstSection
+        #ExFor:Body.node_type
+        #ExFor:HeaderFooter.node_type
+        #ExFor:Document.first_section
         #ExSummary:Shows how to iterate through the children of a composite node.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -288,7 +288,7 @@ class ExSection(ApiExampleBase):
     def test_clear(self):
 
         #ExStart
-        #ExFor:NodeCollection.Clear
+        #ExFor:NodeCollection.clear
         #ExSummary:Shows how to remove all sections from a document.
         doc = aw.Document(MY_DIR + "Document.docx")
 
@@ -307,8 +307,8 @@ class ExSection(ApiExampleBase):
     def test_prepend_append_content(self):
 
         #ExStart
-        #ExFor:Section.AppendContent
-        #ExFor:Section.PrependContent
+        #ExFor:Section.append_content
+        #ExFor:Section.prepend_content
         #ExSummary:Shows how to append the contents of a section to another section.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -331,7 +331,7 @@ class ExSection(ApiExampleBase):
         section_to_append = doc.sections[1]
         section.append_content(section_to_append)
 
-        # The "PrependContent" and "AppendContent" methods did not create any new sections.
+        # The "prepend_content" and "append_content" methods did not create any new sections.
         self.assertEqual(3, doc.sections.count)
         self.assertEqual("Section 1" + aw.ControlChar.PARAGRAPH_BREAK +
                          "Section 3" + aw.ControlChar.PARAGRAPH_BREAK +
@@ -341,7 +341,7 @@ class ExSection(ApiExampleBase):
     def test_clear_content(self):
 
         #ExStart
-        #ExFor:Section.ClearContent
+        #ExFor:Section.clear_content
         #ExSummary:Shows how to clear the contents of a section.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -362,7 +362,7 @@ class ExSection(ApiExampleBase):
     def test_clear_headers_footers(self):
 
         #ExStart
-        #ExFor:Section.ClearHeadersFooters
+        #ExFor:Section.clear_headers_footers
         #ExSummary:Shows how to clear the contents of all headers and footers in a section.
         doc = aw.Document()
 
@@ -393,7 +393,7 @@ class ExSection(ApiExampleBase):
     def test_delete_header_footer_shapes(self):
 
         #ExStart
-        #ExFor:Section.DeleteHeaderFooterShapes
+        #ExFor:Section.delete_header_footer_shapes
         #ExSummary:Shows how to remove all shapes from all headers footers in a section.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -495,7 +495,7 @@ class ExSection(ApiExampleBase):
         section_de.page_setup.footer_distance = 35.4 # 1.25 cm
         section_de.page_setup.text_columns.spacing = 35.4 # 1.25 cm
 
-        doc_de = DocumentHelper.save_open(docDe)
+        doc_de = DocumentHelper.save_open(doc_de)
 
         section_de_after = doc_de.sections[0]
         self.assertEqual(90.0, section_de_after.page_setup.left_margin) # 3.17 cm

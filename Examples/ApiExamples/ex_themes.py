@@ -1,41 +1,41 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExThemes(ApiExampleBase):
 
     def test_custom_colors_and_fonts(self):
 
         #ExStart
-        #ExFor:Document.Theme
+        #ExFor:Document.theme
         #ExFor:Theme
-        #ExFor:Theme.Colors
+        #ExFor:Theme.colors
         #ExFor:Theme.major_fonts
         #ExFor:Theme.minor_fonts
-        #ExFor:Themes.ThemeColors
-        #ExFor:Themes.ThemeColors.Accent1
-        #ExFor:Themes.ThemeColors.Accent2
-        #ExFor:Themes.ThemeColors.Accent3
-        #ExFor:Themes.ThemeColors.Accent4
-        #ExFor:Themes.ThemeColors.Accent5
-        #ExFor:Themes.ThemeColors.Accent6
-        #ExFor:Themes.ThemeColors.Dark1
-        #ExFor:Themes.ThemeColors.Dark2
-        #ExFor:Themes.ThemeColors.FollowedHyperlink
-        #ExFor:Themes.ThemeColors.Hyperlink
-        #ExFor:Themes.ThemeColors.Light1
-        #ExFor:Themes.ThemeColors.Light2
-        #ExFor:Themes.ThemeFonts
-        #ExFor:Themes.ThemeFonts.ComplexScript
-        #ExFor:Themes.ThemeFonts.EastAsian
-        #ExFor:Themes.ThemeFonts.Latin
+        #ExFor:ThemeColors
+        #ExFor:ThemeColors.accent1
+        #ExFor:ThemeColors.accent2
+        #ExFor:ThemeColors.accent3
+        #ExFor:ThemeColors.accent4
+        #ExFor:ThemeColors.accent5
+        #ExFor:ThemeColors.accent6
+        #ExFor:ThemeColors.dark1
+        #ExFor:ThemeColors.dark2
+        #ExFor:ThemeColors.followed_hyperlink
+        #ExFor:ThemeColors.hyperlink
+        #ExFor:ThemeColors.light1
+        #ExFor:ThemeColors.light2
+        #ExFor:ThemeFonts
+        #ExFor:ThemeFonts.complex_script
+        #ExFor:ThemeFonts.east_asian
+        #ExFor:ThemeFonts.latin
         #ExSummary:Shows how to set custom colors and fonts for themes.
         doc = aw.Document(MY_DIR + "Theme colors.docx")
 
@@ -74,10 +74,10 @@ class ExThemes(ApiExampleBase):
         colors.hyperlink = drawing.Color.black
         colors.followed_hyperlink = drawing.Color.gray
 
-        doc.save(ARTIFACTS_DIR + "Themes.CustomColorsAndFonts.docx")
+        doc.save(ARTIFACTS_DIR + "Themes.custom_colors_and_fonts.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Themes.CustomColorsAndFonts.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Themes.custom_colors_and_fonts.docx")
 
         self.assertEqual(drawing.Color.orange_red.to_argb(), doc.theme.colors.accent1.to_argb())
         self.assertEqual(drawing.Color.midnight_blue.to_argb(), doc.theme.colors.dark1.to_argb())

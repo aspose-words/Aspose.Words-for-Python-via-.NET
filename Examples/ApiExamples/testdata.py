@@ -1,3 +1,9 @@
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import io
 from typing import Optional, Iterable, List
 from datetime import datetime
@@ -7,7 +13,7 @@ import aspose.pydrawing as drawing
 
 
 class ClientTestClass:
-    
+
     def __init__(self, name: str, country: Optional[str] = None, local_address: Optional[str] = None):
         self.name = name
         self.country = country
@@ -84,15 +90,15 @@ class NumericTestClass:
         self.date = date
 
     def sum(self, value1: int, value2: int) -> int:
-        result = value1 + value2;
+        result = value1 + value2
         return result
 
 
 class Common:
-    
+
     @staticmethod
     def get_managers() -> List[ManagerTestClass]:
-    
+
         managers: List[ManagerTestClass] = []
 
         manager = ManagerTestClass(name="John Smith", age=36, contracts=[])

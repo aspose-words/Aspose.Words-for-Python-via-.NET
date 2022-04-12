@@ -1,15 +1,14 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 from document_helper import DocumentHelper
-from testutil import TestUtil
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
 
 class ExFormFields(ApiExampleBase):
 
@@ -17,9 +16,9 @@ class ExFormFields(ApiExampleBase):
 
         #ExStart
         #ExFor:FormField
-        #ExFor:FormField.Result
-        #ExFor:FormField.Type
-        #ExFor:FormField.Name
+        #ExFor:FormField.result
+        #ExFor:FormField.type
+        #ExFor:FormField.name
         #ExSummary:Shows how to insert a combo box.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -47,7 +46,7 @@ class ExFormFields(ApiExampleBase):
     def test_text_input(self):
 
         #ExStart
-        #ExFor:DocumentBuilder.InsertTextInput
+        #ExFor:DocumentBuilder.insert_text_input
         #ExSummary:Shows how to insert a text input form field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -76,7 +75,7 @@ class ExFormFields(ApiExampleBase):
     def test_delete_form_field(self):
 
         #ExStart
-        #ExFor:FormField.RemoveField
+        #ExFor:FormField.remove_field
         #ExSummary:Shows how to delete a form field.
         doc = aw.Document(MY_DIR + "Form fields.docx")
 
@@ -133,35 +132,35 @@ class ExFormFields(ApiExampleBase):
         #ExEnd
 
     ##ExStart
-    ##ExFor:FormField.Accept(DocumentVisitor)
-    ##ExFor:FormField.CalculateOnExit
-    ##ExFor:FormField.CheckBoxSize
-    ##ExFor:FormField.Checked
-    ##ExFor:FormField.Default
-    ##ExFor:FormField.DropDownItems
-    ##ExFor:FormField.DropDownSelectedIndex
-    ##ExFor:FormField.Enabled
-    ##ExFor:FormField.EntryMacro
-    ##ExFor:FormField.ExitMacro
-    ##ExFor:FormField.HelpText
-    ##ExFor:FormField.IsCheckBoxExactSize
-    ##ExFor:FormField.MaxLength
-    ##ExFor:FormField.OwnHelp
-    ##ExFor:FormField.OwnStatus
-    ##ExFor:FormField.SetTextInputValue(Object)
-    ##ExFor:FormField.StatusText
-    ##ExFor:FormField.TextInputDefault
-    ##ExFor:FormField.TextInputFormat
-    ##ExFor:FormField.TextInputType
+    ##ExFor:FormField.accept(DocumentVisitor)
+    ##ExFor:FormField.calculate_on_exit
+    ##ExFor:FormField.check_box_size
+    ##ExFor:FormField.checked
+    ##ExFor:FormField.default
+    ##ExFor:FormField.drop_down_items
+    ##ExFor:FormField.drop_down_selected_index
+    ##ExFor:FormField.enabled
+    ##ExFor:FormField.entry_macro
+    ##ExFor:FormField.exit_macro
+    ##ExFor:FormField.help_text
+    ##ExFor:FormField.is_check_box_exact_size
+    ##ExFor:FormField.max_length
+    ##ExFor:FormField.own_help
+    ##ExFor:FormField.own_status
+    ##ExFor:FormField.set_text_input_value(object)
+    ##ExFor:FormField.status_text
+    ##ExFor:FormField.text_input_default
+    ##ExFor:FormField.text_input_format
+    ##ExFor:FormField.text_input_type
     ##ExFor:FormFieldCollection
-    ##ExFor:FormFieldCollection.Clear
-    ##ExFor:FormFieldCollection.Count
-    ##ExFor:FormFieldCollection.GetEnumerator
-    ##ExFor:FormFieldCollection.Item(Int32)
-    ##ExFor:FormFieldCollection.Item(String)
-    ##ExFor:FormFieldCollection.Remove(String)
-    ##ExFor:FormFieldCollection.RemoveAt(Int32)
-    ##ExFor:Range.FormFields
+    ##ExFor:FormFieldCollection.clear
+    ##ExFor:FormFieldCollection.count
+    ##ExFor:FormFieldCollection.__iter__
+    ##ExFor:FormFieldCollection.__getitem__(int)
+    ##ExFor:FormFieldCollection.__getitem__(str)
+    ##ExFor:FormFieldCollection.remove(str)
+    ##ExFor:FormFieldCollection.remove_at(int)
+    ##ExFor:Range.form_fields
     ##ExSummary:Shows how insert different kinds of form fields into a document, and process them with using a document visitor implementation.
     #def test_visitor(self):
 
@@ -275,9 +274,9 @@ class ExFormFields(ApiExampleBase):
         fields = doc.range.fields
         self.assertEqual(3, fields.count)
 
-        TestUtil.verify_field(aw.fields.FieldType.FIELD_FORM_DROP_DOWN, " FORMDROPDOWN \u0001", "", doc.range.fields[0])
-        TestUtil.verify_field(aw.fields.FieldType.FIELD_FORM_CHECK_BOX, " FORMCHECKBOX \u0001", "", doc.range.fields[1])
-        TestUtil.verify_field(aw.fields.FieldType.FIELD_FORM_TEXT_INPUT, " FORMTEXT \u0001", "New placeholder text", doc.range.fields[2])
+        self.verify_field(aw.fields.FieldType.FIELD_FORM_DROP_DOWN, " FORMDROPDOWN \u0001", "", doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_FORM_CHECK_BOX, " FORMCHECKBOX \u0001", "", doc.range.fields[1])
+        self.verify_field(aw.fields.FieldType.FIELD_FORM_TEXT_INPUT, " FORMTEXT \u0001", "New placeholder text", doc.range.fields[2])
 
         form_fields = doc.range.form_fields
         self.assertEqual(3, form_fields.count)
@@ -312,17 +311,17 @@ class ExFormFields(ApiExampleBase):
     def test_drop_down_item_collection(self):
 
         #ExStart
-        #ExFor:Fields.DropDownItemCollection
-        #ExFor:Fields.DropDownItemCollection.Add(String)
-        #ExFor:Fields.DropDownItemCollection.Clear
-        #ExFor:Fields.DropDownItemCollection.Contains(String)
-        #ExFor:Fields.DropDownItemCollection.Count
-        #ExFor:Fields.DropDownItemCollection.GetEnumerator
-        #ExFor:Fields.DropDownItemCollection.IndexOf(String)
-        #ExFor:Fields.DropDownItemCollection.Insert(Int32, String)
-        #ExFor:Fields.DropDownItemCollection.Item(Int32)
-        #ExFor:Fields.DropDownItemCollection.Remove(String)
-        #ExFor:Fields.DropDownItemCollection.RemoveAt(Int32)
+        #ExFor:DropDownItemCollection
+        #ExFor:DropDownItemCollection.add(str)
+        #ExFor:DropDownItemCollection.clear
+        #ExFor:DropDownItemCollection.contains(str)
+        #ExFor:DropDownItemCollection.count
+        #ExFor:DropDownItemCollection.__iter__
+        #ExFor:DropDownItemCollection.index_of(str)
+        #ExFor:DropDownItemCollection.insert(int,str)
+        #ExFor:DropDownItemCollection.__getitem__(int)
+        #ExFor:DropDownItemCollection.remove(str)
+        #ExFor:DropDownItemCollection.remove_at(int)
         #ExSummary:Shows how to insert a combo box field, and edit the elements in its item collection.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

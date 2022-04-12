@@ -1,19 +1,18 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 from datetime import datetime
 from typing import List, Optional
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, image_dir, golds_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, GOLDS_DIR
 from document_helper import DocumentHelper
 from testdata import Common, ClientTestClass, ColorItemTestClass, DocumentTestClass, ImageTestClass, MessageTestClass, NumericTestClass
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-IMAGE_DIR = image_dir
-GOLDS_DIR = golds_dir
 
 class ExReportingEngine(ApiExampleBase):
 
@@ -52,14 +51,14 @@ class ExReportingEngine(ApiExampleBase):
             "<<[s.Value1]:alphabetic>> : <<[s.Value2]:roman:lower>>, <<[s.Value3]:ordinal>>, <<[s.Value1]:ordinalText:upper>>" +
             ", <<[s.Value2]:cardinal>>, <<[s.Value3]:hex>>, <<[s.Value3]:arabicDash>>")
 
-        sender = NumericTestClass(1, 2.2, 200, None, date=datetime.strptime("%d-%m-%Y %H:%M:%S", "10.09.2016 10:00:00"))
+        sender = NumericTestClass(1, 2.2, 200, None, date=datetime(2016, 10, 9, 10, 0, 0))
         self.build_report(doc, sender, "s")
 
         doc = DocumentHelper.save_open(doc)
 
         self.assertEqual("A : ii, 200th, FIRST, Two, C8, - 200 -\f", doc.get_text())
 
-    def test_test_data_table(self):
+    def test_data_table(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Data table.docx")
 
@@ -67,7 +66,7 @@ class ExReportingEngine(ApiExampleBase):
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.test_data_table.docx")
 
-        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.test_data_table.docx", GOLDS_DIR + "ReportingEngine.TestDataTable Gold.docx"))
+        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.data_table.docx", GOLDS_DIR + "ReportingEngine.TestDataTable Gold.docx"))
 
     def test_total(self):
 
@@ -79,15 +78,15 @@ class ExReportingEngine(ApiExampleBase):
 
         self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.total.docx", GOLDS_DIR + "ReportingEngine.Total Gold.docx"))
 
-    def test_test_nested_data_table(self):
+    def test_nested_data_table(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Nested data table.docx")
 
         self.build_report(doc, Common.get_managers(), "Managers")
 
-        doc.save(ARTIFACTS_DIR + "ReportingEngine.test_nested_data_table.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.nested_data_table.docx")
 
-        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.test_nested_data_table.docx", GOLDS_DIR + "ReportingEngine.TestNestedDataTable Gold.docx"))
+        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.nested_data_table.docx", GOLDS_DIR + "ReportingEngine.TestNestedDataTable Gold.docx"))
 
     def test_restarting_list_numbering_dynamically(self):
 
@@ -125,25 +124,25 @@ class ExReportingEngine(ApiExampleBase):
 
         self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.restarting_list_numbering_dynamically_while_multiple_insertions_document_dynamically.docx", GOLDS_DIR + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDynamically Gold.docx"))
 
-    def test_chart_test(self):
+    def test_chart(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Chart.docx")
 
         self.build_report(doc, Common.get_managers(), "managers")
 
-        doc.save(ARTIFACTS_DIR + "ReportingEngine.test_chart.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.chart.docx")
 
-        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.test_chart.docx", GOLDS_DIR + "ReportingEngine.TestChart Gold.docx"))
+        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.chart.docx", GOLDS_DIR + "ReportingEngine.TestChart Gold.docx"))
 
-    def test_bubble_chart_test(self):
+    def test_bubble_chart(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Bubble chart.docx")
 
         self.build_report(doc, Common.get_managers(), "managers")
 
-        doc.save(ARTIFACTS_DIR + "ReportingEngine.test_bubble_chart.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.bubble_chart.docx")
 
-        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.test_bubble_chart.docx", GOLDS_DIR + "ReportingEngine.TestBubbleChart Gold.docx"))
+        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.bubble_chart.docx", GOLDS_DIR + "ReportingEngine.TestBubbleChart Gold.docx"))
 
     def test_set_chart_series_colors_dynamically(self):
 
@@ -180,9 +179,9 @@ class ExReportingEngine(ApiExampleBase):
         condition = 3
         self.build_report(doc, [Common.get_managers(), condition], ["managers", "condition"])
 
-        doc.save(ARTIFACTS_DIR + "ReportingEngine.test_leave_chart_series.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.conditional_expression_for_leave_chart_series.docx")
 
-        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.test_leave_chart_series.docx", GOLDS_DIR + "ReportingEngine.TestLeaveChartSeries Gold.docx"))
+        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.conditional_expression_for_leave_chart_series.docx", GOLDS_DIR + "ReportingEngine.TestLeaveChartSeries Gold.docx"))
 
     def test_conditional_expression_for_remove_chart_series(self):
 
@@ -191,9 +190,9 @@ class ExReportingEngine(ApiExampleBase):
         condition = 2
         self.build_report(doc, [Common.get_managers(), condition], ["managers", "condition"])
 
-        doc.save(ARTIFACTS_DIR + "ReportingEngine.test_remove_chart_series.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.conditional_expression_for_remove_chart_series.docx")
 
-        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.test_remove_chart_series.docx", GOLDS_DIR + "ReportingEngine.TestRemoveChartSeries Gold.docx"))
+        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.conditional_expression_for_remove_chart_series.docx", GOLDS_DIR + "ReportingEngine.TestRemoveChartSeries Gold.docx"))
 
     def test_index_of(self):
 
@@ -282,10 +281,10 @@ class ExReportingEngine(ApiExampleBase):
         doc = DocumentTestClass(doc=aw.Document(MY_DIR + "Reporting engine template - Data table.docx"))
 
         self.build_report(template, doc, "src", options=aw.reporting.ReportBuildOptions.NONE)
-        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically.docx")
+        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_with_styles.docx")
 
         self.assertTrue(DocumentHelper.compare_docs(
-            ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically.docx",
+            ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_with_styles.docx",
             GOLDS_DIR + "ReportingEngine.insert_document_dynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by document")
 
     def test_insert_document_dynamically_by_stream(self):
@@ -295,10 +294,10 @@ class ExReportingEngine(ApiExampleBase):
         doc_stream = DocumentTestClass(doc_stream=open(self.document, "rb"))
 
         self.build_report(template, doc_stream, "src", options=aw.reporting.ReportBuildOptions.NONE)
-        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically.docx")
+        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_stream.docx")
 
         self.assertTrue(DocumentHelper.compare_docs(
-            ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically.docx",
+            ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_stream.docx",
             GOLDS_DIR + "ReportingEngine.insert_document_dynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by stream")
 
     def test_insert_document_dynamically_by_bytes(self):
@@ -308,10 +307,10 @@ class ExReportingEngine(ApiExampleBase):
         doc_bytes = DocumentTestClass(doc_bytes=open(MY_DIR + "Reporting engine template - Data table.docx", "rb").read())
 
         self.build_report(template, doc_bytes, "src", options=aw.reporting.ReportBuildOptions.NONE)
-        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically.docx")
+        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_bytes.docx")
 
         self.assertTrue(DocumentHelper.compare_docs(
-            ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically.docx",
+            ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_bytes.docx",
             GOLDS_DIR + "ReportingEngine.insert_document_dynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes")
 
     def test_insert_document_dynamically_by_uri(self):
@@ -321,10 +320,10 @@ class ExReportingEngine(ApiExampleBase):
         doc_uri = DocumentTestClass(doc_string="http://www.snee.com/xml/xslt/sample.doc")
 
         self.build_report(template, doc_uri, "src", options=aw.reporting.ReportBuildOptions.NONE)
-        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically.docx")
+        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_uri.docx")
 
         self.assertTrue(DocumentHelper.compare_docs(
-            ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically.docx",
+            ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_uri.docx",
             GOLDS_DIR + "ReportingEngine.insert_document_dynamically(uri) Gold.docx"), "Fail inserting document by uri")
 
     def test_insert_document_dynamically_by_base64(self):
@@ -335,10 +334,10 @@ class ExReportingEngine(ApiExampleBase):
 
         doc_base64 = DocumentTestClass(doc_string=base64_template)
 
-        self.build_report(template, docBase64, "src", options=aw.reporting.ReportBuildOptions.NONE)
-        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically.docx")
+        self.build_report(template, doc_base64, "src", options=aw.reporting.ReportBuildOptions.NONE)
+        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_base64.docx")
 
-        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically.docx", GOLDS_DIR + "ReportingEngine.insert_document_dynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by uri")
+        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_base64.docx", GOLDS_DIR + "ReportingEngine.insert_document_dynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by uri")
 
     def test_insert_image_dynamically(self):
 
@@ -359,10 +358,10 @@ class ExReportingEngine(ApiExampleBase):
         image_stream = ImageTestClass(image_stream=open(self.image, "rb"))
 
         self.build_report(template, image_stream, "src", options=aw.reporting.ReportBuildOptions.NONE)
-        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically.docx")
+        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_stream.docx")
 
         self.assertTrue(DocumentHelper.compare_docs(
-            ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically.docx",
+            ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_stream.docx",
             GOLDS_DIR + "ReportingEngine.insert_image_dynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes")
 
     def test_insert_image_dynamically_by_bytes(self):
@@ -371,9 +370,9 @@ class ExReportingEngine(ApiExampleBase):
         image_bytes = ImageTestClass(image_bytes=open(self.image, "rb").read())
 
         self.build_report(template, image_bytes, "src", options=aw.reporting.ReportBuildOptions.NONE)
-        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically.docx")
+        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_bytes.docx")
 
-        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically.docx", GOLDS_DIR + "ReportingEngine.insert_image_dynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes")
+        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_bytes.docx", GOLDS_DIR + "ReportingEngine.insert_image_dynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes")
 
     def test_insert_image_dynamically_by_uri(self):
 
@@ -381,11 +380,11 @@ class ExReportingEngine(ApiExampleBase):
         image_uri = ImageTestClass(image_string="http://joomla-aspose.dynabic.com/templates/aspose/App_Themes/V3/images/customers/americanexpress.png")
 
         self.build_report(template, image_uri, "src", options=aw.reporting.ReportBuildOptions.NONE)
-        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically.docx")
+        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_uri.docx")
 
         self.assertTrue(
             DocumentHelper.compare_docs(
-                ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically.docx",
+                ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_uri.docx",
                 GOLDS_DIR + "ReportingEngine.insert_image_dynamically(uri) Gold.docx"),
             "Fail inserting document by bytes")
 
@@ -398,11 +397,11 @@ class ExReportingEngine(ApiExampleBase):
         image_base64 = ImageTestClass(image_string=base64_template)
 
         self.build_report(template, image_base64, "src", options=aw.reporting.ReportBuildOptions.NONE)
-        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically.docx")
+        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_base64.docx")
 
         self.assertTrue(
             DocumentHelper.compare_docs(
-                ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically.docx",
+                ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_base64.docx",
                 GOLDS_DIR + "ReportingEngine.insert_image_dynamically(stream,doc,bytes) Gold.docx"),
             "Fail inserting document by bytes")
 
@@ -473,9 +472,9 @@ class ExReportingEngine(ApiExampleBase):
 
         self.build_report(doc, "", [type(datetime)])
 
-        doc.save(ARTIFACTS_DIR + "ReportingEngine.known_types.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.work_with_known_types.docx")
 
-        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.known_types.docx", GOLDS_DIR + "ReportingEngine.KnownTypes Gold.docx"))
+        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.work_with_known_types.docx", GOLDS_DIR + "ReportingEngine.KnownTypes Gold.docx"))
 
     def test_work_with_content_controls(self):
 
@@ -681,10 +680,10 @@ class ExReportingEngine(ApiExampleBase):
 
         self.build_report(doc, colors, "Colors")
 
-        doc.save(ARTIFACTS_DIR + "ReportingEngine.back_color.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.set_background_color.docx")
 
         self.assertTrue(DocumentHelper.compare_docs(
-            ARTIFACTS_DIR + "ReportingEngine.back_color.docx",
+            ARTIFACTS_DIR + "ReportingEngine.set_background_color.docx",
             GOLDS_DIR + "ReportingEngine.BackColor Gold.docx"))
 
     def test_do_not_remove_empty_paragraphs(self):
@@ -752,10 +751,10 @@ class ExReportingEngine(ApiExampleBase):
         data_source = aw.reporting.XmlDataSource(MY_DIR + "List of people.xml")
         self.build_report(doc, data_source, "persons")
 
-        doc.save(ARTIFACTS_DIR + "ReportingEngine.xml_data_string.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.xml_data_string_without_schema.docx")
 
         self.assertTrue(DocumentHelper.compare_docs(
-            ARTIFACTS_DIR + "ReportingEngine.xml_data_string.docx",
+            ARTIFACTS_DIR + "ReportingEngine.xml_data_string_without_schema.docx",
             GOLDS_DIR + "ReportingEngine.DataSource Gold.docx"))
 
     def test_xml_data_stream_without_schema(self):
@@ -766,10 +765,10 @@ class ExReportingEngine(ApiExampleBase):
             data_source = aw.reporting.XmlDataSource(stream)
             self.build_report(doc, data_source, "persons")
 
-        doc.save(ARTIFACTS_DIR + "ReportingEngine.xml_data_stream.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.xml_data_stream_without_schema.docx")
 
         self.assertTrue(DocumentHelper.compare_docs(
-            ARTIFACTS_DIR + "ReportingEngine.xml_data_stream.docx",
+            ARTIFACTS_DIR + "ReportingEngine.xml_data_stream_without_schema.docx",
             GOLDS_DIR + "ReportingEngine.DataSource Gold.docx"))
 
     def test_xml_data_with_nested_elements(self):
@@ -818,7 +817,7 @@ class ExReportingEngine(ApiExampleBase):
 
         options = aw.reporting.JsonDataLoadOptions()
         options.exact_date_time_parse_formats = ["MM/dd/yyyy", "MM.d.yy", "MM d yy"]
-        
+
         with open(MY_DIR + "List of people.json", "rb") as stream:
             data_source = aw.reporting.JsonDataSource(stream, options)
             self.build_report(doc, data_source, "persons")
@@ -900,9 +899,9 @@ class ExReportingEngine(ApiExampleBase):
 
                 self.build_report(doc, object(), "")
 
-                doc.save(ARTIFACTS_DIR + f"ReportingEngine.InsertComboboxDropdownListItemsDynamically_{sdtType}.docx")
+                doc.save(ARTIFACTS_DIR + f"ReportingEngine.insert_combobox_dropdown_list_items_dynamically_{sdt_type}.docx")
 
-                doc = aw.Document(ARTIFACTS_DIR + f"ReportingEngine.InsertComboboxDropdownListItemsDynamically_{sdtType}.docx")
+                doc = aw.Document(ARTIFACTS_DIR + f"ReportingEngine.insert_combobox_dropdown_list_items_dynamically_{sdt_type}.docx")
 
                 sdt = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
 
@@ -915,15 +914,15 @@ class ExReportingEngine(ApiExampleBase):
 
                 self.assertEqual(len(expected_items), sdt.list_items.count)
 
-                for i in range(len(expected_items)):
-                    self.assertEqual(expected_items[i].value, sdt.list_items[i].value)
-                    self.assertEqual(expected_items[i].display_text, sdt.list_items[i].display_text)
+                for i, expected_item in enumerate(expected_items):
+                    self.assertEqual(expected_item.value, sdt.list_items[i].value)
+                    self.assertEqual(expected_item.display_text, sdt.list_items[i].display_text)
 
     def build_report(self, document: aw.Document, data_source, data_source_name = None,
                      known_types = None, options: Optional[aw.reporting.ReportBuildOptions] = None):
 
         engine = aw.reporting.ReportingEngine()
-        
+
         if options is not None:
             engine.options = options
 

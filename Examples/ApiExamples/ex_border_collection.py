@@ -1,17 +1,20 @@
-import unittest
-
-import api_example_base as aeb
-from document_helper import DocumentHelper
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-class ExBorderCollection(aeb.ApiExampleBase):
-    
-    def test_get_borders_enumerator(self) :
-        
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
+
+class ExBorderCollection(ApiExampleBase):
+
+    def test_get_borders_enumerator(self):
+
         #ExStart
-        #ExFor:BorderCollection.get_enumerator
+        #ExFor:BorderCollection.__iter__
         #ExSummary:Shows how to iterate over and edit all of the borders in a paragraph format object.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -19,69 +22,54 @@ class ExBorderCollection(aeb.ApiExampleBase):
         # Configure the builder's paragraph format settings to create a green wave border on all sides.
         borders = builder.paragraph_format.borders
 
-        for border in borders :
+        for border in borders:
             border.color = drawing.Color.green
             border.line_style = aw.LineStyle.WAVE
             border.line_width = 3
-                
-            
 
         # Insert a paragraph. Our border settings will determine the appearance of its border.
         builder.writeln("Hello world!")
 
-        doc.save(aeb.artifacts_dir + "BorderCollection.get_borders_enumerator.docx")
+        doc.save(ARTIFACTS_DIR + "BorderCollection.get_borders_enumerator.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.artifacts_dir + "BorderCollection.get_borders_enumerator.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "BorderCollection.get_borders_enumerator.docx")
 
-        for border in doc.first_section.body.first_paragraph.paragraph_format.borders :
+        for border in doc.first_section.body.first_paragraph.paragraph_format.borders:
             self.assertEqual(drawing.Color.green.to_argb(), border.color.to_argb())
             self.assertEqual(aw.LineStyle.WAVE, border.line_style)
             self.assertEqual(3.0, border.line_width)
-            
-        
 
-    def test_remove_all_borders(self) :
-        
+    def test_remove_all_borders(self):
+
         #ExStart
         #ExFor:BorderCollection.clear_formatting
         #ExSummary:Shows how to remove all borders from all paragraphs in a document.
-        doc = aw.Document(aeb.my_dir + "Borders.docx")
+        doc = aw.Document(MY_DIR + "Borders.docx")
 
         # The first paragraph of this document has visible borders with these settings.
-        firstParagraphBorders = doc.first_section.body.first_paragraph.paragraph_format.borders
+        first_paragraph_borders = doc.first_section.body.first_paragraph.paragraph_format.borders
 
-        self.assertEqual(drawing.Color.red.to_argb(), firstParagraphBorders.color.to_argb())
-        self.assertEqual(aw.LineStyle.SINGLE, firstParagraphBorders.line_style)
-        self.assertEqual(3.0, firstParagraphBorders.line_width)
+        self.assertEqual(drawing.Color.red.to_argb(), first_paragraph_borders.color.to_argb())
+        self.assertEqual(aw.LineStyle.SINGLE, first_paragraph_borders.line_style)
+        self.assertEqual(3.0, first_paragraph_borders.line_width)
 
-        # Use the "ClearFormatting" method on each paragraph to remove all borders.
-        for i in range(0, doc.first_section.body.paragraphs.count) :
-            
-            paragraph = doc.first_section.body.paragraphs[i]
-
+        # Use the "clear_formatting" method on each paragraph to remove all borders.
+        for paragraph in doc.first_section.body.paragraphs:
+            paragraph = paragraph.as_paragraph()
             paragraph.paragraph_format.borders.clear_formatting()
 
-            for border in paragraph.paragraph_format.borders :
-                
-                #self.assertEqual(Color.empty.to_argb(), border.color.to_argb())
+            for border in paragraph.paragraph_format.borders:
+                self.assertEqual(drawing.Color.empty().to_argb(), border.color.to_argb())
                 self.assertEqual(aw.LineStyle.NONE, border.line_style)
                 self.assertEqual(0.0, border.line_width)
-                
-            
-            
-        doc.save(aeb.artifacts_dir + "BorderCollection.remove_all_borders.docx")
+
+        doc.save(ARTIFACTS_DIR + "BorderCollection.remove_all_borders.docx")
         #ExEnd
 
-        doc = aw.Document(aeb.artifacts_dir + "BorderCollection.remove_all_borders.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "BorderCollection.remove_all_borders.docx")
 
-        for border in doc.first_section.body.first_paragraph.paragraph_format.borders :
-            
-            #self.assertEqual(Color.empty.to_argb(), border.color.to_argb())
+        for border in doc.first_section.body.first_paragraph.paragraph_format.borders:
+            self.assertEqual(drawing.Color.empty().to_argb(), border.color.to_argb())
             self.assertEqual(aw.LineStyle.NONE, border.line_style)
             self.assertEqual(0.0, border.line_width)
-            
-        
-    
-if __name__ == '__main__':
-    unittest.main()    

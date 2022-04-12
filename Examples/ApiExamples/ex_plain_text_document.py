@@ -1,13 +1,12 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR
 
 class ExPlainTextDocument(ApiExampleBase):
 
@@ -15,8 +14,8 @@ class ExPlainTextDocument(ApiExampleBase):
 
         #ExStart
         #ExFor:PlainTextDocument
-        #ExFor:PlainTextDocument.#ctor(String)
-        #ExFor:PlainTextDocument.Text
+        #ExFor:PlainTextDocument.__init__(str)
+        #ExFor:PlainTextDocument.text
         #ExSummary:Shows how to load the contents of a Microsoft Word document in plaintext.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -32,7 +31,7 @@ class ExPlainTextDocument(ApiExampleBase):
     def test_load_from_stream(self):
 
         #ExStart
-        #ExFor:PlainTextDocument.#ctor(Stream)
+        #ExFor:PlainTextDocument.__init__(BytesIO)
         #ExSummary:Shows how to load the contents of a Microsoft Word document in plaintext using stream.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -51,7 +50,7 @@ class ExPlainTextDocument(ApiExampleBase):
     def test_load_encrypted(self):
 
         #ExStart
-        #ExFor:PlainTextDocument.#ctor(String, LoadOptions)
+        #ExFor:PlainTextDocument.__init__(str,LoadOptions)
         #ExSummary:Shows how to load the contents of an encrypted Microsoft Word document in plaintext.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -73,7 +72,7 @@ class ExPlainTextDocument(ApiExampleBase):
     def test_load_encrypted_using_stream(self):
 
         #ExStart
-        #ExFor:PlainTextDocument.#ctor(Stream, LoadOptions)
+        #ExFor:PlainTextDocument.__init__(BytesIO,LoadOptions)
         #ExSummary:Shows how to load the contents of an encrypted Microsoft Word document in plaintext using stream.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -83,12 +82,12 @@ class ExPlainTextDocument(ApiExampleBase):
         save_options = aw.saving.OoxmlSaveOptions()
         save_options.password = "MyPassword"
 
-        doc.save(ARTIFACTS_DIR + "PlainTextDocument.load_from_stream_with_options.docx", save_options)
+        doc.save(ARTIFACTS_DIR + "PlainTextDocument.load_encrypted_using_stream.docx", save_options)
 
         load_options = aw.loading.LoadOptions()
         load_options.password = "MyPassword"
 
-        with open(ARTIFACTS_DIR + "PlainTextDocument.load_from_stream_with_options.docx", "rb") as stream:
+        with open(ARTIFACTS_DIR + "PlainTextDocument.load_encrypted_using_stream.docx", "rb") as stream:
 
             plaintext = aw.PlainTextDocument(stream, load_options)
 
@@ -99,7 +98,7 @@ class ExPlainTextDocument(ApiExampleBase):
     def test_built_in_properties(self):
 
         #ExStart
-        #ExFor:PlainTextDocument.BuiltInDocumentProperties
+        #ExFor:PlainTextDocument.built_in_document_properties
         #ExSummary:Shows how to load the contents of a Microsoft Word document in plaintext and then access the original document's built-in properties.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -118,7 +117,7 @@ class ExPlainTextDocument(ApiExampleBase):
     def test_custom_document_properties(self):
 
         #ExStart
-        #ExFor:PlainTextDocument.CustomDocumentProperties
+        #ExFor:PlainTextDocument.custom_document_properties
         #ExSummary:Shows how to load the contents of a Microsoft Word document in plaintext and then access the original document's custom properties.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

@@ -1,27 +1,27 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR
 from document_helper import DocumentHelper
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
 
 class ExPageSetup(ApiExampleBase):
 
     def test_clear_formatting(self):
 
         #ExStart
-        #ExFor:DocumentBuilder.PageSetup
-        #ExFor:DocumentBuilder.InsertBreak
-        #ExFor:DocumentBuilder.Document
+        #ExFor:DocumentBuilder.page_setup
+        #ExFor:DocumentBuilder.insert_break
+        #ExFor:DocumentBuilder.document
         #ExFor:PageSetup
-        #ExFor:PageSetup.Orientation
-        #ExFor:PageSetup.VerticalAlignment
-        #ExFor:PageSetup.ClearFormatting
+        #ExFor:PageSetup.orientation
+        #ExFor:PageSetup.vertical_alignment
+        #ExFor:PageSetup.clear_formatting
         #ExFor:Orientation
         #ExFor:PageVerticalAlignment
         #ExFor:BreakType
@@ -65,7 +65,7 @@ class ExPageSetup(ApiExampleBase):
         for different_first_page_header_footer in (False, True):
             with self.subTest(different_first_page_header_footer=different_first_page_header_footer):
                 #ExStart
-                #ExFor:PageSetup.DifferentFirstPageHeaderFooter
+                #ExFor:PageSetup.different_first_page_header_footer
                 #ExSummary:Shows how to enable or disable primary headers/footers.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -95,8 +95,8 @@ class ExPageSetup(ApiExampleBase):
 
                 # Each section has a "page_setup" object that specifies page appearance-related properties
                 # such as orientation, size, and borders.
-                # Set the "DifferentFirstPageHeaderFooter" property to "True" to apply the first header/footer to the first page.
-                # Set the "DifferentFirstPageHeaderFooter" property to "False"
+                # Set the "different_first_page_header_footer" property to "True" to apply the first header/footer to the first page.
+                # Set the "different_first_page_header_footer" property to "False"
                 # to make the first page display the primary header/footer.
                 builder.page_setup.different_first_page_header_footer = different_first_page_header_footer
 
@@ -112,7 +112,7 @@ class ExPageSetup(ApiExampleBase):
         for odd_and_even_pages_header_footer in (False, True):
             with self.subTest(odd_and_even_pages_header_footer=odd_and_even_pages_header_footer):
                 #ExStart
-                #ExFor:PageSetup.OddAndEvenPagesHeaderFooter
+                #ExFor:PageSetup.odd_and_even_pages_header_footer
                 #ExSummary:Shows how to enable or disable even page headers/footers.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -158,8 +158,8 @@ class ExPageSetup(ApiExampleBase):
     def test_characters_per_line(self):
 
         #ExStart
-        #ExFor:PageSetup.CharactersPerLine
-        #ExFor:PageSetup.LayoutMode
+        #ExFor:PageSetup.characters_per_line
+        #ExFor:PageSetup.layout_mode
         #ExFor:SectionLayoutMode
         #ExSummary:Shows how to specify a for the number of characters that each line may have.
         doc = aw.Document()
@@ -187,9 +187,9 @@ class ExPageSetup(ApiExampleBase):
     def test_lines_per_page(self):
 
         #ExStart
-        #ExFor:PageSetup.LinesPerPage
-        #ExFor:PageSetup.LayoutMode
-        #ExFor:ParagraphFormat.SnapToGrid
+        #ExFor:PageSetup.lines_per_page
+        #ExFor:PageSetup.layout_mode
+        #ExFor:ParagraphFormat.snap_to_grid
         #ExFor:SectionLayoutMode
         #ExSummary:Shows how to specify a limit for the number of lines that each page may have.
         doc = aw.Document()
@@ -221,8 +221,8 @@ class ExPageSetup(ApiExampleBase):
 
         #ExStart
         #ExFor:SectionStart
-        #ExFor:PageSetup.SectionStart
-        #ExFor:Document.Sections
+        #ExFor:PageSetup.section_start
+        #ExFor:Document.sections
         #ExSummary:Shows how to specify how a new section separates itself from the previous.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -279,8 +279,8 @@ class ExPageSetup(ApiExampleBase):
     #def test_default_paper_tray(self):
 
     #    #ExStart
-    #    #ExFor:PageSetup.FirstPageTray
-    #    #ExFor:PageSetup.OtherPagesTray
+    #    #ExFor:PageSetup.first_page_tray
+    #    #ExFor:PageSetup.other_pages_tray
     #    #ExSummary:Shows how to get all the sections in a document to use the default paper tray of the selected printer.
     #    doc = aw.Document()
 
@@ -307,8 +307,8 @@ class ExPageSetup(ApiExampleBase):
     #def test_paper_tray_for_different_paper_type(self):
 
     #    #ExStart
-    #    #ExFor:PageSetup.FirstPageTray
-    #    #ExFor:PageSetup.OtherPagesTray
+    #    #ExFor:PageSetup.first_page_tray
+    #    #ExFor:PageSetup.other_pages_tray
     #    #ExSummary:Shows how to set up printing using different printer trays for different paper sizes.
     #    doc = aw.Document()
 
@@ -352,16 +352,16 @@ class ExPageSetup(ApiExampleBase):
 
         #ExStart
         #ExFor:ConvertUtil
-        #ExFor:ConvertUtil.InchToPoint
+        #ExFor:ConvertUtil.inch_to_point
         #ExFor:PaperSize
-        #ExFor:PageSetup.PaperSize
-        #ExFor:PageSetup.Orientation
-        #ExFor:PageSetup.TopMargin
-        #ExFor:PageSetup.BottomMargin
-        #ExFor:PageSetup.LeftMargin
-        #ExFor:PageSetup.RightMargin
-        #ExFor:PageSetup.HeaderDistance
-        #ExFor:PageSetup.FooterDistance
+        #ExFor:PageSetup.paper_size
+        #ExFor:PageSetup.orientation
+        #ExFor:PageSetup.top_margin
+        #ExFor:PageSetup.bottom_margin
+        #ExFor:PageSetup.left_margin
+        #ExFor:PageSetup.right_margin
+        #ExFor:PageSetup.header_distance
+        #ExFor:PageSetup.footer_distance
         #ExSummary:Shows how to adjust paper size, orientation, margins, along with other settings for a section.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -397,13 +397,13 @@ class ExPageSetup(ApiExampleBase):
 
         #ExStart
         #ExFor:PaperSize
-        #ExFor:PageSetup.PaperSize
+        #ExFor:PageSetup.paper_size
         #ExSummary:Shows how to set page sizes.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         # We can change the current page's size to a pre-defined size
-        # by using the "PaperSize" property of this section's PageSetup object.
+        # by using the "paper_size" property of this section's PageSetup object.
         builder.page_setup.paper_size = aw.PaperSize.TABLOID
 
         self.assertEqual(792.0, builder.page_setup.page_width)
@@ -451,10 +451,10 @@ class ExPageSetup(ApiExampleBase):
     def test_columns_same_width(self):
 
         #ExStart
-        #ExFor:PageSetup.TextColumns
+        #ExFor:PageSetup.text_columns
         #ExFor:TextColumnCollection
-        #ExFor:TextColumnCollection.Spacing
-        #ExFor:TextColumnCollection.SetCount
+        #ExFor:TextColumnCollection.spacing
+        #ExFor:TextColumnCollection.set_count
         #ExSummary:Shows how to create multiple evenly spaced columns in a section.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -478,11 +478,11 @@ class ExPageSetup(ApiExampleBase):
     def test_custom_column_width(self):
 
         #ExStart
-        #ExFor:TextColumnCollection.EvenlySpaced
-        #ExFor:TextColumnCollection.Item
+        #ExFor:TextColumnCollection.evenly_spaced
+        #ExFor:TextColumnCollection.__getitem__
         #ExFor:TextColumn
-        #ExFor:TextColumn.Width
-        #ExFor:TextColumn.SpaceAfter
+        #ExFor:TextColumn.width
+        #ExFor:TextColumn.space_after
         #ExSummary:Shows how to create unevenly spaced columns.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -528,7 +528,7 @@ class ExPageSetup(ApiExampleBase):
         for line_between in (False, True):
             with self.subTest(line_between=line_between):
                 #ExStart
-                #ExFor:TextColumnCollection.LineBetween
+                #ExFor:TextColumnCollection.line_between
                 #ExSummary:Shows how to separate columns with a vertical line.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -556,11 +556,11 @@ class ExPageSetup(ApiExampleBase):
     def test_line_numbers(self):
 
         #ExStart
-        #ExFor:PageSetup.LineStartingNumber
-        #ExFor:PageSetup.LineNumberDistanceFromText
-        #ExFor:PageSetup.LineNumberCountBy
-        #ExFor:PageSetup.LineNumberRestartMode
-        #ExFor:ParagraphFormat.SuppressLineNumbers
+        #ExFor:PageSetup.line_starting_number
+        #ExFor:PageSetup.line_number_distance_from_text
+        #ExFor:PageSetup.line_number_count_by
+        #ExFor:PageSetup.line_number_restart_mode
+        #ExFor:ParagraphFormat.suppress_line_numbers
         #ExFor:LineNumberRestartMode
         #ExSummary:Shows how to enable line numbering for a section.
         doc = aw.Document()
@@ -600,13 +600,13 @@ class ExPageSetup(ApiExampleBase):
     def test_page_border_properties(self):
 
         #ExStart
-        #ExFor:Section.PageSetup
-        #ExFor:PageSetup.BorderAlwaysInFront
-        #ExFor:PageSetup.BorderDistanceFrom
-        #ExFor:PageSetup.BorderAppliesTo
+        #ExFor:Section.page_setup
+        #ExFor:PageSetup.border_always_in_front
+        #ExFor:PageSetup.border_distance_from
+        #ExFor:PageSetup.border_applies_to
         #ExFor:PageBorderDistanceFrom
         #ExFor:PageBorderAppliesTo
-        #ExFor:Border.DistanceFromText
+        #ExFor:Border.distance_from_text
         #ExSummary:Shows how to create a wide blue band border at the top of the first page.
         doc = aw.Document()
 
@@ -615,7 +615,7 @@ class ExPageSetup(ApiExampleBase):
         page_setup.border_distance_from = aw.PageBorderDistanceFrom.PAGE_EDGE
         page_setup.border_applies_to = aw.PageBorderAppliesTo.FIRST_PAGE
 
-        border = page_setup.borders[aw.BorderType.TOP]
+        border = page_setup.borders.top
         border.line_style = aw.LineStyle.SINGLE
         border.line_width = 30
         border.color = drawing.Color.blue
@@ -631,7 +631,7 @@ class ExPageSetup(ApiExampleBase):
         self.assertEqual(aw.PageBorderDistanceFrom.PAGE_EDGE, page_setup.border_distance_from)
         self.assertEqual(aw.PageBorderAppliesTo.FIRST_PAGE, page_setup.border_applies_to)
 
-        border = page_setup.borders[aw.BorderType.TOP]
+        border = page_setup.borders.top
 
         self.assertEqual(aw.LineStyle.SINGLE, border.line_style)
         self.assertEqual(30.0, border.line_width)
@@ -641,13 +641,13 @@ class ExPageSetup(ApiExampleBase):
     def test_page_borders(self):
 
         #ExStart
-        #ExFor:PageSetup.Borders
-        #ExFor:Border.Shadow
-        #ExFor:BorderCollection.LineStyle
-        #ExFor:BorderCollection.LineWidth
-        #ExFor:BorderCollection.Color
-        #ExFor:BorderCollection.DistanceFromText
-        #ExFor:BorderCollection.Shadow
+        #ExFor:PageSetup.borders
+        #ExFor:Border.shadow
+        #ExFor:BorderCollection.line_style
+        #ExFor:BorderCollection.line_width
+        #ExFor:BorderCollection.color
+        #ExFor:BorderCollection.distance_from_text
+        #ExFor:BorderCollection.shadow
         #ExSummary:Shows how to create green wavy page border with a shadow.
         doc = aw.Document()
         page_setup = doc.sections[0].page_setup
@@ -675,10 +675,10 @@ class ExPageSetup(ApiExampleBase):
     def test_page_numbering(self):
 
         #ExStart
-        #ExFor:PageSetup.RestartPageNumbering
-        #ExFor:PageSetup.PageStartingNumber
-        #ExFor:PageSetup.PageNumberStyle
-        #ExFor:DocumentBuilder.InsertField(String, String)
+        #ExFor:PageSetup.restart_page_numbering
+        #ExFor:PageSetup.page_starting_number
+        #ExFor:PageSetup.page_number_style
+        #ExFor:DocumentBuilder.insert_field(str,str)
         #ExSummary:Shows how to set up page numbering in a section.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -745,8 +745,8 @@ class ExPageSetup(ApiExampleBase):
     def test_footnote_options(self):
 
         #ExStart
-        #ExFor:PageSetup.EndnoteOptions
-        #ExFor:PageSetup.FootnoteOptions
+        #ExFor:PageSetup.endnote_options
+        #ExFor:PageSetup.footnote_options
         #ExSummary:Shows how to configure options affecting footnotes/endnotes in a section.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -792,7 +792,7 @@ class ExPageSetup(ApiExampleBase):
         for reverse_columns in (False, True):
             with self.subTest(reverse_columns=reverse_columns):
                 #ExStart
-                #ExFor:PageSetup.Bidi
+                #ExFor:PageSetup.bidi
                 #ExSummary:Shows how to set the order of text columns in a section.
                 doc = aw.Document()
 
@@ -824,8 +824,8 @@ class ExPageSetup(ApiExampleBase):
     def test_page_border(self):
 
         #ExStart
-        #ExFor:PageSetup.BorderSurroundsFooter
-        #ExFor:PageSetup.BorderSurroundsHeader
+        #ExFor:PageSetup.border_surrounds_footer
+        #ExFor:PageSetup.border_surrounds_header
         #ExSummary:Shows how to apply a border to the page and header/footer.
         doc = aw.Document()
 
@@ -861,9 +861,9 @@ class ExPageSetup(ApiExampleBase):
     def test_gutter(self):
 
         #ExStart
-        #ExFor:PageSetup.Gutter
-        #ExFor:PageSetup.RtlGutter
-        #ExFor:PageSetup.MultiplePages
+        #ExFor:PageSetup.gutter
+        #ExFor:PageSetup.rtl_gutter
+        #ExFor:PageSetup.multiple_pages
         #ExSummary:Shows how to set gutter margins.
         doc = aw.Document()
 
@@ -903,9 +903,9 @@ class ExPageSetup(ApiExampleBase):
     def test_booklet(self):
 
         #ExStart
-        #ExFor:PageSetup.Gutter
-        #ExFor:PageSetup.MultiplePages
-        #ExFor:PageSetup.SheetsPerBooklet
+        #ExFor:PageSetup.gutter
+        #ExFor:PageSetup.multiple_pages
+        #ExFor:PageSetup.sheets_per_booklet
         #ExSummary:Shows how to configure a document that can be printed as a book fold.
         doc = aw.Document()
 
@@ -939,7 +939,7 @@ class ExPageSetup(ApiExampleBase):
     def test_set_text_orientation(self):
 
         #ExStart
-        #ExFor:PageSetup.TextOrientation
+        #ExFor:PageSetup.text_orientation
         #ExSummary:Shows how to set text orientation.
         doc = aw.Document()
 
@@ -960,8 +960,8 @@ class ExPageSetup(ApiExampleBase):
         self.assertEqual(aw.TextOrientation.UPWARD, page_setup.text_orientation)
 
     #ExStart
-    #ExFor:PageSetup.SuppressEndnotes
-    #ExFor:Body.ParentSection
+    #ExFor:PageSetup.suppress_endnotes
+    #ExFor:Body.parent_section
     #ExSummary:Shows how to store endnotes at the end of each section, and modify their positions.
     def test_suppress_endnotes(self):
 

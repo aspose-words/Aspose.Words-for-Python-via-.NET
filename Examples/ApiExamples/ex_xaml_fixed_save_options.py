@@ -1,23 +1,23 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import os
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExXamlFixedSaveOptions(ApiExampleBase):
 
     #ExStart
     #ExFor:XamlFixedSaveOptions
-    #ExFor:XamlFixedSaveOptions.ResourceSavingCallback
-    #ExFor:XamlFixedSaveOptions.ResourcesFolder
-    #ExFor:XamlFixedSaveOptions.ResourcesFolderAlias
-    #ExFor:XamlFixedSaveOptions.SaveFormat
+    #ExFor:XamlFixedSaveOptions.resource_saving_callback
+    #ExFor:XamlFixedSaveOptions.resources_folder
+    #ExFor:XamlFixedSaveOptions.resources_folder_alias
+    #ExFor:XamlFixedSaveOptions.save_format
     #ExSummary:Shows how to print the URIs of linked resources created while converting a document to fixed-form .xaml.
     def test_resource_folder(self):
 
@@ -42,23 +42,23 @@ class ExXamlFixedSaveOptions(ApiExampleBase):
 
         # A folder specified by "resources_folder_alias" will need to contain the resources instead of "resources_folder".
         # We must ensure the folder exists before the callback's streams can put their resources into it.
-        os.mkdir(options.resources_folder_alias)
+        os.makedirs(options.resources_folder_alias)
 
-        doc.save(ARTIFACTS_DIR + "XamlFixedSaveOptions.ResourceFolder.xaml", options)
+        doc.save(ARTIFACTS_DIR + "XamlFixedSaveOptions.resource_folder.xaml", options)
 
         for resource in callback.resources:
             print(resource)
 
-        test_resource_folder(callback) #ExSkip
+        self._test_resource_folder(callback) #ExSkip
 
     class ResourceUriPrinter(aw.saving.IResourceSavingCallback):
         """Counts and prints URIs of resources created during conversion to fixed .xaml."""
 
         def __init__(self):
 
-            self.resources = [] # type: List[str[
+            self.resources = [] # type: List[str]
 
-        def resource_saving(args: aw.saving.ResourceSavingArgs):
+        def resource_saving(self, args: aw.saving.ResourceSavingArgs):
 
             self.resources.add(f"Resource \"{args.resource_file_name}\"\n\t{args.resource_file_uri}")
 
@@ -69,7 +69,7 @@ class ExXamlFixedSaveOptions(ApiExampleBase):
 
     #ExEnd
 
-    def test_resource_folder(callback: ExXamlFixedSaveOptions.ResourceUriPrinter):
+    def _test_resource_folder(self, callback: ExXamlFixedSaveOptions.ResourceUriPrinter):
 
         self.assertEqual(15, len(callback.resources))
         for resource in callback.resources:

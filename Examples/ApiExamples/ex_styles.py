@@ -1,30 +1,30 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 from document_helper import DocumentHelper
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
 
 class ExStyles(ApiExampleBase):
 
     def test_styles(self):
 
         #ExStart
-        #ExFor:DocumentBase.Styles
-        #ExFor:Style.Document
+        #ExFor:DocumentBase.styles
+        #ExFor:Style.document
         #ExFor:Style.name
-        #ExFor:Style.IsHeading
-        #ExFor:Style.IsQuickStyle
-        #ExFor:Style.NextParagraphStyleName
-        #ExFor:Style.Styles
-        #ExFor:Style.Type
-        #ExFor:StyleCollection.Document
-        #ExFor:StyleCollection.GetEnumerator
+        #ExFor:Style.is_heading
+        #ExFor:Style.is_quick_style
+        #ExFor:Style.next_paragraph_style_name
+        #ExFor:Style.styles
+        #ExFor:Style.type
+        #ExFor:StyleCollection.document
+        #ExFor:StyleCollection.__iter__
         #ExSummary:Shows how to access a document's style collection.
         doc = aw.Document()
 
@@ -46,7 +46,7 @@ class ExStyles(ApiExampleBase):
         #ExStart
         #ExFor:Style.font
         #ExFor:Style
-        #ExFor:Style.Remove
+        #ExFor:Style.remove
         #ExSummary:Shows how to create and apply a custom style.
         doc = aw.Document()
 
@@ -80,12 +80,12 @@ class ExStyles(ApiExampleBase):
     def test_style_collection(self):
 
         #ExStart
-        #ExFor:StyleCollection.Add(StyleType,String)
+        #ExFor:StyleCollection.add(StyleType,str)
         #ExFor:StyleCollection.count
         #ExFor:StyleCollection.default_font
         #ExFor:StyleCollection.default_paragraph_format
-        #ExFor:StyleCollection.Item(StyleIdentifier)
-        #ExFor:StyleCollection.Item(Int32)
+        #ExFor:StyleCollection.__getitem__(StyleIdentifier)
+        #ExFor:StyleCollection.__getitem__(int)
         #ExSummary:Shows how to add a Style to a document's styles collection.
         doc = aw.Document()
         styles = doc.styles
@@ -107,14 +107,14 @@ class ExStyles(ApiExampleBase):
     def test_remove_styles_from_style_gallery(self):
 
         #ExStart
-        #ExFor:StyleCollection.ClearQuickStyleGallery
+        #ExFor:StyleCollection.clear_quick_style_gallery
         #ExSummary:Shows how to remove styles from Style Gallery panel.
         doc = aw.Document()
 
         # Note that remove styles work only with DOCX format for now.
         doc.styles.clear_quick_style_gallery()
 
-        doc.save(ARTIFACTS_DIR + "Styles.RemoveStylesFromStyleGallery.docx")
+        doc.save(ARTIFACTS_DIR + "Styles.remove_styles_from_style_gallery.docx")
         #ExEnd
 
     def test_change_tocs_tab_stops(self):
@@ -122,8 +122,8 @@ class ExStyles(ApiExampleBase):
         #ExStart
         #ExFor:TabStop
         #ExFor:ParagraphFormat.tab_stops
-        #ExFor:Style.StyleIdentifier
-        #ExFor:TabStopCollection.RemoveByPosition
+        #ExFor:Style.style_identifier
+        #ExFor:TabStopCollection.remove_by_position
         #ExFor:TabStop.alignment
         #ExFor:TabStop.position
         #ExFor:TabStop.leader
@@ -143,10 +143,10 @@ class ExStyles(ApiExampleBase):
                 para.paragraph_format.tab_stops.remove_by_position(tab.position)
                 para.paragraph_format.tab_stops.add(tab.position - 50, tab.alignment, tab.leader)
 
-        doc.save(ARTIFACTS_DIR + "Styles.ChangeTocstab_stops.docx")
+        doc.save(ARTIFACTS_DIR + "Styles.change_tocs_tab_stops.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Styles.ChangeTocstab_stops.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Styles.change_tocs_tab_stops.docx")
 
         for para in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True):
             para = para.as_paragraph()
@@ -161,7 +161,7 @@ class ExStyles(ApiExampleBase):
     def test_copy_style_same_document(self):
 
         #ExStart
-        #ExFor:StyleCollection.AddCopy
+        #ExFor:StyleCollection.add_copy
         #ExFor:Style.name
         #ExSummary:Shows how to clone a document's style.
         doc = aw.Document()
@@ -170,7 +170,7 @@ class ExStyles(ApiExampleBase):
         # automatically generates a new name for the style, such as "Heading 1_0".
         new_style = doc.styles.add_copy(doc.styles.get_by_name("Heading 1"))
 
-        # Use the style's "Name" property to change the style's identifying name.
+        # Use the style's "name" property to change the style's identifying name.
         new_style.name = "My Heading 1"
 
         # Our document now has two identical looking styles with different names.
@@ -189,7 +189,7 @@ class ExStyles(ApiExampleBase):
     def test_copy_style_different_document(self):
 
         #ExStart
-        #ExFor:StyleCollection.AddCopy
+        #ExFor:StyleCollection.add_copy
         #ExSummary:Shows how to import a style from one document into a different document.
         src_doc = aw.Document()
 
@@ -227,13 +227,13 @@ class ExStyles(ApiExampleBase):
 
         #ExStart
         #ExFor:StyleCollection
-        #ExFor:DocumentBase.Styles
+        #ExFor:DocumentBase.styles
         #ExFor:Style
         #ExFor:Font
         #ExFor:Style.font
-        #ExFor:Style.ParagraphFormat
+        #ExFor:Style.paragraph_format
         #ExFor:Style.list_format
-        #ExFor:ParagraphFormat.Style
+        #ExFor:ParagraphFormat.style
         #ExSummary:Shows how to create and use a paragraph style with list formatting.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -256,10 +256,10 @@ class ExStyles(ApiExampleBase):
         builder.paragraph_format.style = doc.styles.get_by_name("Normal")
         builder.writeln("Hello World: Normal.")
 
-        builder.document.save(ARTIFACTS_DIR + "Styles.ParagraphStyleBulletedList.docx")
+        builder.document.save(ARTIFACTS_DIR + "Styles.paragraph_style_bulleted_list.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Styles.ParagraphStyleBulletedList.docx")
+        doc = aw.Document(ARTIFACTS_DIR + "Styles.paragraph_style_bulleted_list.docx")
 
         style = doc.styles.get_by_name("MyStyle1")
 
@@ -271,10 +271,10 @@ class ExStyles(ApiExampleBase):
     def test_style_aliases(self):
 
         #ExStart
-        #ExFor:Style.Aliases
-        #ExFor:Style.BaseStyleName
-        #ExFor:Style.Equals(Aspose.Words.Style)
-        #ExFor:Style.LinkedStyleName
+        #ExFor:Style.aliases
+        #ExFor:Style.base_style_name
+        #ExFor:Style.__eq__(Style)
+        #ExFor:Style.linked_style_name
         #ExSummary:Shows how to use style aliases.
         doc = aw.Document(MY_DIR + "Style with alias.docx")
 

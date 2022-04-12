@@ -1,17 +1,15 @@
-import unittest
-import io
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
 import os
 import shutil
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, license_dir, assembly_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-LICENSE_DIR = license_dir
-ASSEMBLY_DIR = assembly_dir
+from api_example_base import ApiExampleBase, LICENSE_DIR, ASSEMBLY_DIR
 
 class ExLicense(ApiExampleBase):
 
@@ -19,8 +17,8 @@ class ExLicense(ApiExampleBase):
 
         #ExStart
         #ExFor:License
-        #ExFor:License.#ctor
-        #ExFor:License.SetLicense(String)
+        #ExFor:License.__init__
+        #ExFor:License.set_license(str)
         #ExSummary:Shows how initialize a license for Aspose.Words using a license file in the local file system.
         # Set the license for our Aspose.Words product by passing the local file system filename of a valid license file.
         license_file_name = os.path.join(LICENSE_DIR, "Aspose.Words.Python.lic")
@@ -44,10 +42,10 @@ class ExLicense(ApiExampleBase):
     def test_license_from_stream(self):
 
         #ExStart
-        #ExFor:License.SetLicense(Stream)
+        #ExFor:License.set_license(BytesIO)
         #ExSummary:Shows how to initialize a license for Aspose.Words from a stream.
         # Set the license for our Aspose.Words product by passing a stream for a valid license file in our local file system.
-        with open(os.path.join(LICENSE_DIR, "Aspose.words.n_e_t.lic", "rb")) as my_stream:
+        with open(os.path.join(LICENSE_DIR, "Aspose.Words.net.lic", "rb")) as my_stream:
             license = aw.License()
             license.set_license(my_stream)
 

@@ -1,15 +1,14 @@
-import unittest
-import io
-from datetime import datetime, date
+# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+
+from datetime import date
 
 import aspose.words as aw
-import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, my_dir, artifacts_dir, image_dir
-
-MY_DIR = my_dir
-ARTIFACTS_DIR = artifacts_dir
-IMAGE_DIR = image_dir
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
 
 class ExHeaderFooter(ApiExampleBase):
 
@@ -17,14 +16,14 @@ class ExHeaderFooter(ApiExampleBase):
 
         #ExStart
         #ExFor:HeaderFooter
-        #ExFor:HeaderFooter.#ctor(DocumentBase, HeaderFooterType)
-        #ExFor:HeaderFooter.HeaderFooterType
-        #ExFor:HeaderFooter.IsHeader
+        #ExFor:HeaderFooter.__init__(DocumentBase,HeaderFooterType)
+        #ExFor:HeaderFooter.header_footer_type
+        #ExFor:HeaderFooter.is_header
         #ExFor:HeaderFooterCollection
-        #ExFor:Paragraph.IsEndOfHeaderFooter
+        #ExFor:Paragraph.is_end_of_header_footer
         #ExFor:Paragraph.parent_section
-        #ExFor:Paragraph.ParentStory
-        #ExFor:Story.AppendParagraph
+        #ExFor:Paragraph.parent_story
+        #ExFor:Story.append_paragraph
         #ExSummary:Shows how to create a header and a footer.
         doc = aw.Document()
 
@@ -63,10 +62,10 @@ class ExHeaderFooter(ApiExampleBase):
     def test_link(self):
 
         #ExStart
-        #ExFor:HeaderFooter.IsLinkedToPrevious
-        #ExFor:HeaderFooterCollection.Item(System.Int32)
-        #ExFor:HeaderFooterCollection.LinkToPrevious(Aspose.Words.HeaderFooterType,System.Boolean)
-        #ExFor:HeaderFooterCollection.LinkToPrevious(System.Boolean)
+        #ExFor:HeaderFooter.is_linked_to_previous
+        #ExFor:HeaderFooterCollection.__getitem__(int)
+        #ExFor:HeaderFooterCollection.link_to_previous(HeaderFooterType,bool)
+        #ExFor:HeaderFooterCollection.link_to_previous(bool)
         #ExFor:HeaderFooter.parent_section
         #ExSummary:Shows how to link headers and footers between sections.
         doc = aw.Document()
@@ -140,9 +139,9 @@ class ExHeaderFooter(ApiExampleBase):
     def test_remove_footers(self):
 
         #ExStart
-        #ExFor:Section.HeadersFooters
+        #ExFor:Section.headers_footers
         #ExFor:HeaderFooterCollection
-        #ExFor:HeaderFooterCollection.Item(HeaderFooterType)
+        #ExFor:HeaderFooterCollection.__getitem__(HeaderFooterType)
         #ExFor:HeaderFooter
         #ExSummary:Shows how to delete all footers from a document.
         doc = aw.Document(MY_DIR + "Header and footer types.docx")
@@ -181,7 +180,7 @@ class ExHeaderFooter(ApiExampleBase):
     def test_export_mode(self):
 
         #ExStart
-        #ExFor:HtmlSaveOptions.ExportHeadersFootersMode
+        #ExFor:HtmlSaveOptions.export_headers_footers_mode
         #ExFor:ExportHeadersFootersMode
         #ExSummary:Shows how to omit headers/footers when saving a document to HTML.
         doc = aw.Document(MY_DIR + "Header and footer types.docx")
@@ -207,11 +206,11 @@ class ExHeaderFooter(ApiExampleBase):
     def test_replace_text(self):
 
         #ExStart
-        #ExFor:Document.FirstSection
-        #ExFor:Section.HeadersFooters
-        #ExFor:HeaderFooterCollection.Item(HeaderFooterType)
+        #ExFor:Document.first_section
+        #ExFor:Section.headers_footers
+        #ExFor:HeaderFooterCollection.__getitem__(HeaderFooterType)
         #ExFor:HeaderFooter
-        #ExFor:Range.Replace(String, String, FindReplaceOptions)
+        #ExFor:Range.replace(str,str,FindReplaceOptions)
         #ExSummary:Shows how to replace text in a document's footer.
         doc = aw.Document(MY_DIR + "Footer.docx")
 
@@ -230,11 +229,11 @@ class ExHeaderFooter(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "HeaderFooter.replace_text.docx")
 
-        self.assertIn(f"Copyright (C) {currentYear} by Aspose Pty Ltd.", doc.range.text)
+        self.assertIn(f"Copyright (C) {current_year} by Aspose Pty Ltd.", doc.range.text)
 
     ##ExStart
     ##ExFor:IReplacingCallback
-    ##ExFor:PageSetup.DifferentFirstPageHeaderFooter
+    ##ExFor:PageSetup.different_first_page_header_footer
     ##ExSummary:Shows how to track the order in which a text replacement operation traverses nodes.
     #def test_order(self):
 
@@ -286,7 +285,7 @@ class ExHeaderFooter(ApiExampleBase):
         page_setup = current_section.page_setup
 
         # Specify if we want headers/footers of the first page to be different from other pages.
-        # You can also use PageSetup.odd_and_even_pages_header_footer property to specify
+        # You can also use "PageSetup.odd_and_even_pages_header_footer" property to specify
         # different headers/footers for odd and even pages.
         page_setup.different_first_page_header_footer = True
 
@@ -362,7 +361,7 @@ class ExHeaderFooter(ApiExampleBase):
         page_setup.different_first_page_header_footer = False
 
         # This section displays headers/footers from the previous section by default.
-        # Call current_section.headers_footers.link_to_previous(false) to cancel this.
+        # Call "current_section.headers_footers.link_to_previous(False)" to cancel this.
         # Page width is different for the new section and therefore we need to set
         # a different cell widths for a footer table.
         current_section.headers_footers.link_to_previous(False)
