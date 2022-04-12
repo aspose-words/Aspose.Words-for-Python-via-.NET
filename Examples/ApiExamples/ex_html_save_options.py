@@ -9,6 +9,7 @@ import os
 import glob
 import textwrap
 import shutil
+import unittest
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
@@ -354,7 +355,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
 
         doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.content_id_scheme.mhtml", save_options)
 
-    #[Ignore("Bug")]
+    @unittest.skip("Bug")
     def test_resolve_font_names(self):
 
         for resolve_font_names in (False, True):
@@ -1414,6 +1415,9 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 # Setting a threshold of 0 applies subsetting to all fonts,
                 # and setting it to "2**31 - 1" effectively disables subsetting.
                 fonts_folder = ARTIFACTS_DIR + "HtmlSaveOptions.font_subsetting.fonts"
+                
+                if os.path.exists(fonts_folder):
+                    shutil.rmtree(fonts_folder)
 
                 options = aw.saving.HtmlSaveOptions()
                 options.export_font_resources = True

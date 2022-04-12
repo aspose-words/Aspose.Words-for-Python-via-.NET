@@ -160,7 +160,7 @@ class ExParagraph(ApiExampleBase):
 
     def test_insert_field_after_text_in_paragraph(self):
 
-        today = str(date.today().strftime("%d/%m/%Y"))
+        today = date.today().strftime("%d/%m/%Y").lstrip('0')
 
         doc = DocumentHelper.create_document_fill_with_dummy_text()
 

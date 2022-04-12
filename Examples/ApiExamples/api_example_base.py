@@ -19,13 +19,27 @@ ROOT_DIR = os.path.abspath(os.curdir) + "/"
 ROOT_DIR = ROOT_DIR[:ROOT_DIR.find("Aspose.Words-for-Python-via-.NET")]
 API_EXAMPLES_ROOT = ROOT_DIR + "Aspose.Words-for-Python-via-.NET/Examples/"
 LICENSE_PATH = os.getenv("ASPOSE_WORDS_PYTHON_LICENSE", "Aspose.Words.Python.NET.lic")
+
+# Path to the documents used by the code examples.
 MY_DIR = API_EXAMPLES_ROOT + "Data/"
+
+# Path to the documents used by the code examples.
 ARTIFACTS_DIR = MY_DIR + "Artifacts/"
+
+# Path to the documents used by the code examples.
 GOLDS_DIR = MY_DIR + "Golds/"
+
+# Path to the temporary directory.
 TEMP_DIR = MY_DIR + "Temp/"
+
+# Path to the images used by the code examples.
 IMAGE_DIR = MY_DIR + "Images/"
+
+# Path to the free fonts.
 FONTS_DIR = MY_DIR + "MyFonts/"
-ASPOSE_LOGO_URL = "https://www.aspose.cloud/templates/aspose/App_Themes/V3/images/words/header/aspose_words-for-net.png"
+
+# URL of the test image.
+IMAGE_URL = "https://images.pexels.com/photos/239548/pexels-photo-239548.jpeg"
 
 
 class ApiExampleBase(unittest.TestCase):
@@ -311,6 +325,27 @@ class ApiExampleBase(unittest.TestCase):
         :param delta: Margin of error for expectedResult.</param>"""
 
         self.assertAlmostEqual(expected, actual, delta=delta)
+
+    def fields_are_nested(self, inner_field, outer_field):
+        """Checks whether a field contains another complete field as a sibling within its nodes.
+
+        If two fields have the same immediate parent node and therefore their nodes are siblings,
+        the "field_start" of the outer field appears before the "field_start" of the inner node,
+        and the "field_end" of the outer node appears after the "field_end" of the inner node,
+        then the inner field is considered to be nested within the outer field. 
+
+        :param inner_field: The field that we expect to be fully within "outer_field".
+        :param outer_field: The field that we to contain "inner_field.
+        """
+        inner_field_parent = inner_field.start.parent_node.as_composite_node()
+
+        self.assertEqual(inner_field_parent, outer_field.start.parent_node)
+        self.assertGreater(
+            inner_field_parent.child_nodes.index_of(inner_field.start),
+            inner_field_parent.child_nodes.index_of(outer_field.start))
+        self.assertLess(
+            inner_field_parent.child_nodes.index_of(inner_field.end),
+            inner_field_parent.child_nodes.index_of(outer_field.end))
 
     ## <summary>
     ## Checks whether an SQL query performed on a database file stored in the local file system

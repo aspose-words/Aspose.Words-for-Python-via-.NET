@@ -168,7 +168,7 @@ class WorkingWithFields(DocsExamplesBase):
         #  { TA  \c 1 \l "Value 0" }
         #  { TOA  \c 1 }
 
-        field_ta = para.append_field(aw.fields.FieldType.FIELD_TOAENTRY, False).as_field_ta()
+        field_ta = para.append_field(aw.fields.FieldType.FIELD_TOA_ENTRY, False).as_field_ta()
         field_ta.entry_category = "1"
         field_ta.long_citation = "Value 0"
 

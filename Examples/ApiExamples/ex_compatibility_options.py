@@ -67,7 +67,7 @@ class ExCompatibilityOptions(ApiExampleBase):
         self.assertTrue(compatibility_options.do_not_break_constrained_forced_table)
         self.assertFalse(compatibility_options.do_not_break_wrapped_tables)
         self.assertFalse(compatibility_options.do_not_snap_to_grid_in_cell)
-        self.assertFalse(compatibility_options.do_not_use_htmlparagraph_auto_spacing)
+        self.assertFalse(compatibility_options.do_not_use_html_paragraph_auto_spacing)
         self.assertTrue(compatibility_options.do_not_vert_align_cell_with_sp)
         self.assertFalse(compatibility_options.forget_last_tab_alignment)
         self.assertTrue(compatibility_options.grow_autofit)
@@ -134,8 +134,8 @@ class ExCompatibilityOptions(ApiExampleBase):
 
         self.assertFalse(compatibility_options.suppress_top_spacing_wp)
         self.assertFalse(compatibility_options.truncate_font_heights_like_wp6)
-        self.assertFalse(compatibility_options.wpjustification)
-        self.assertFalse(compatibility_options.wpspace_width)
+        self.assertFalse(compatibility_options.wp_justification)
+        self.assertFalse(compatibility_options.wp_space_width)
         self.assertFalse(compatibility_options.wrap_trail_spaces)
 
         # In the output document, these settings can be accessed in Microsoft Word via
@@ -167,9 +167,9 @@ class ExCompatibilityOptions(ApiExampleBase):
 
         self.assertFalse(compatibility_options.footnote_layout_like_ww8)
         self.assertFalse(compatibility_options.line_wrap_like_word6)
-        self.assertFalse(compatibility_options.mwsmall_caps)
+        self.assertFalse(compatibility_options.mw_small_caps)
         self.assertFalse(compatibility_options.shape_layout_like_ww8)
-        self.assertFalse(compatibility_options.uicompat97_to2003)
+        self.assertFalse(compatibility_options.ui_compat_97_to_2003)
 
         # In the output document, these settings can be accessed in Microsoft Word via
         # File -> Options -> Advanced -> Compatibility options for...
@@ -209,7 +209,7 @@ class ExCompatibilityOptions(ApiExampleBase):
         self.assertFalse(compatibility_options.swap_borders_facing_pgs)
         self.assertFalse(compatibility_options.transparent_metafiles)
         self.assertTrue(compatibility_options.use_ansi_kerning_pairs)
-        self.assertFalse(compatibility_options.use_felayout)
+        self.assertFalse(compatibility_options.use_fe_layout)
         self.assertFalse(compatibility_options.use_printer_metrics)
 
         # In the output document, these settings can be accessed in Microsoft Word via

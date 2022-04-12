@@ -132,7 +132,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
 
         builder.page_setup.orientation = aw.Orientation.LANDSCAPE
         builder.page_setup.left_margin = 50
-        builder.page_setup.paper_size = aw.PaperSize.PAPER10X14
+        builder.page_setup.paper_size = aw.PaperSize.PAPER_10X14
 
         doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.set_page_setup_and_section_formatting.docx")
         #ExEnd:DocumentBuilderSetPageSetupAndSectionFormatting

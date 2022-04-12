@@ -245,9 +245,9 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.PdfSaveOptions()
-        save_options.dml3_deffects_rendering_mode = aw.saving.Dml3DEffectsRenderingMode.ADVANCED
+        save_options.dml_3d_effects_rendering_mode = aw.saving.Dml3DEffectsRenderingMode.ADVANCED
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.dml_3_d_effects_rendering.pdf", save_options)
+        doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.dml_3d_effects_rendering.pdf", save_options)
         #ExEnd:Dml3DEffectsRendering
 
     def test_interpolate_images(self):

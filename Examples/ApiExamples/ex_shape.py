@@ -260,7 +260,7 @@ class ExShape(ApiExampleBase):
         # Insert a rectangle, and then insert a slightly smaller rectangle in the same place with an image.
         # Newer shapes that we add to the group overlap older shapes. The light blue rectangle will partially overlap the red star,
         # and then the shape with the image will overlap the light blue rectangle, using it as a frame.
-        # We cannot use the "ZOrder" properties of shapes to manipulate their arrangement within a group shape.
+        # We cannot use the "z_order" properties of shapes to manipulate their arrangement within a group shape.
         blue_rectangle = aw.drawing.Shape(doc, aw.drawing.ShapeType.RECTANGLE)
         blue_rectangle.width = 250
         blue_rectangle.height = 250
@@ -1029,7 +1029,7 @@ class ExShape(ApiExampleBase):
     def test_z_order(self):
 
         #ExStart
-        #ExFor:ShapeBase.zorder
+        #ExFor:ShapeBase.z_order
         #ExSummary:Shows how to manipulate the order of shapes.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1052,15 +1052,15 @@ class ExShape(ApiExampleBase):
 
         shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
 
-        # The "zorder" property of a shape determines its stacking priority among other overlapping shapes.
-        # If two overlapping shapes have different "zorder" values,
+        # The "z_order" property of a shape determines its stacking priority among other overlapping shapes.
+        # If two overlapping shapes have different "z_order" values,
         # Microsoft Word will place the shape with a higher value over the shape with the lower value.
-        # Set the "zorder" values of our shapes to place the first orange rectangle over the second light blue one
+        # Set the "z_order" values of our shapes to place the first orange rectangle over the second light blue one
         # and the second light blue rectangle over the third light green rectangle.
         # This will reverse their original stacking order.
-        shapes[0].zorder = 3
-        shapes[1].zorder = 2
-        shapes[2].zorder = 1
+        shapes[0].z_order = 3
+        shapes[1].z_order = 2
+        shapes[2].z_order = 1
 
         doc.save(ARTIFACTS_DIR + "Shape.z_order.docx")
         #ExEnd
@@ -1086,9 +1086,9 @@ class ExShape(ApiExampleBase):
 
         self.assertIsNone(ole_control.name)
 
-        if ole_control.is_forms2ole_control:
+        if ole_control.is_forms2_ole_control:
 
-            check_box = ole_control.as_forms2ole_control()
+            check_box = ole_control.as_forms2_ole_control()
             self.assertEqual("Первый", check_box.caption)
             self.assertEqual("0", check_box.value)
             self.assertEqual(True, check_box.enabled)
@@ -1219,7 +1219,7 @@ class ExShape(ApiExampleBase):
 
         self.assertEqual("6e182020-f460-11ce-9bcd-00aa00608e01", str(shape.ole_format.clsid))
 
-        ole_control = shape.ole_format.ole_control.as_forms2ole_control()
+        ole_control = shape.ole_format.ole_control.as_forms2_ole_control()
 
         # Some OLE controls may contain child controls, such as the one in this document with three options buttons.
         ole_control_collection = ole_control.child_nodes
@@ -1330,7 +1330,7 @@ class ExShape(ApiExampleBase):
 
         # OfficeMath nodes that are children of other OfficeMath nodes are always inline.
         # The node we are working with is the base node to change its location and display type.
-        self.assertEqual(aw.math.MathObjectType.OMATH_PARA, office_math.math_object_type)
+        self.assertEqual(aw.math.MathObjectType.O_MATH_PARA, office_math.math_object_type)
         self.assertEqual(aw.NodeType.OFFICE_MATH, office_math.node_type)
         self.assertEqual(office_math.parent_node, office_math.parent_paragraph)
 
@@ -1378,11 +1378,11 @@ class ExShape(ApiExampleBase):
     def def_work_with_math_object_type(self):
 
         parameters = [
-            (0, aw.math.MathObjectType.OMathPara),
-            (1, aw.math.MathObjectType.OMath),
-            (2, aw.math.MathObjectType.Supercript),
-            (3, aw.math.MathObjectType.Argument),
-            (4, aw.math.MathObjectType.SuperscriptPart)]
+            (0, aw.math.MathObjectType.O_MATH_PARA),
+            (1, aw.math.MathObjectType.O_MATH),
+            (2, aw.math.MathObjectType.SUPERSCRIPT),
+            (3, aw.math.MathObjectType.ARGUMENT),
+            (4, aw.math.MathObjectType.SUPERSCRIPT_PART)]
 
         for index, object_type in parameters:
             with self.subTest(index=index, object_type=object_type):
@@ -2177,7 +2177,7 @@ class ExShape(ApiExampleBase):
     #ExFor:TextPath.text_path_alignment
     #ExFor:TextPath.trim
     #ExFor:TextPath.underline
-    #ExFor:TextPath.xscale
+    #ExFor:TextPath.x_scale
     #ExFor:TextPathAlignment
     #ExSummary:Shows how to work with WordArt.
     def test_insert_text_paths(self):
@@ -2198,7 +2198,7 @@ class ExShape(ApiExampleBase):
         self.assertFalse(shape.text_path.shadow)
         self.assertFalse(shape.text_path.strike_through)
         self.assertFalse(shape.text_path.reverse_rows)
-        self.assertFalse(shape.text_path.xscale)
+        self.assertFalse(shape.text_path.x_scale)
         self.assertFalse(shape.text_path.trim)
         self.assertFalse(shape.text_path.small_caps)
 

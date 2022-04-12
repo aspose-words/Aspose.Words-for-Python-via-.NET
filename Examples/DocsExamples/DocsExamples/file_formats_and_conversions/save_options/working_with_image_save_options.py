@@ -48,7 +48,7 @@ class WorkingWithImageSaveOptions(DocsExamplesBase):
 
         save_options.page_set = aw.saving.PageSet(1)
         save_options.image_color_mode = aw.saving.ImageColorMode.BLACK_AND_WHITE
-        save_options.pixel_format = aw.saving.ImagePixelFormat.FORMAT1BPP_INDEXED
+        save_options.pixel_format = aw.saving.ImagePixelFormat.FORMAT_1BPP_INDEXED
 
         doc.save(ARTIFACTS_DIR + "WorkingWithImageSaveOptions.format_1_bpp_indexed.png", save_options)
         #ExEnd:Format1BppIndexed

@@ -45,7 +45,7 @@ class WorkingWithFonts(DocsExamplesBase):
 
         # One run might have several Dml text effects applied.
         print(run_font.has_dml_effect(aw.TextDmlEffect.SHADOW))
-        print(run_font.has_dml_effect(aw.TextDmlEffect.EFFECT3_D))
+        print(run_font.has_dml_effect(aw.TextDmlEffect.EFFECT_3D))
         print(run_font.has_dml_effect(aw.TextDmlEffect.REFLECTION))
         print(run_font.has_dml_effect(aw.TextDmlEffect.OUTLINE))
         print(run_font.has_dml_effect(aw.TextDmlEffect.FILL))

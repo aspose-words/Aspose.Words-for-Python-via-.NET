@@ -9,7 +9,7 @@ import os
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, ASPOSE_LOGO_URL
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, IMAGE_URL
 
 # Mostly scenarios that deal with image shapes.
 class ExImage(ApiExampleBase):
@@ -60,7 +60,7 @@ class ExImage(ApiExampleBase):
 
         # 2 -  Pass a URL which points to an image.
         builder.write("Image from a URL: ")
-        builder.insert_image(ASPOSE_LOGO_URL)
+        builder.insert_image(IMAGE_URL)
         builder.writeln()
 
         doc.save(ARTIFACTS_DIR + "Image.from_url.docx")
@@ -71,7 +71,7 @@ class ExImage(ApiExampleBase):
 
         self.assertEqual(2, shapes.count)
         self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shapes[0].as_shape())
-        self.verify_image_in_shape(320, 320, aw.drawing.ImageType.PNG, shapes[1].as_shape())
+        self.verify_image_in_shape(5184, 3456, aw.drawing.ImageType.JPEG, shapes[1].as_shape())
 
     def test_from_stream(self):
 
