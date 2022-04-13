@@ -249,7 +249,7 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
         self.assertRegex(out_doc_contents,
             '<div class="myprefixdiv myprefixpage" style="width:595[.]3pt; height:841[.]9pt;">' +
             '<div class="myprefixdiv" style="left:85[.]05pt; top:36pt; clip:rect[(]0pt,510[.]25pt,74[.]95pt,-85.05pt[)];">' +
-            '<span class="myprefixspan myprefixtext001" style="font-size:11pt; left:294[.]73pt; top:0[.]36pt;">')
+            '<span class="myprefixspan myprefixtext001" style="font-size:11pt; left:294[.]73pt; top:0[.]36pt; line-height:12[.]29pt;">')
 
         with open(ARTIFACTS_DIR + "HtmlFixedSaveOptions.add_css_class_names_prefix/styles.css", "rt", encoding="utf-8") as file:
             out_doc_contents = file.read()
@@ -334,10 +334,10 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
 
                 # The size of the optimized version of the document is almost a third of the size of the unoptimized document.
                 if optimize_output:
-                    self.assertAlmostEqual(57220,
+                    self.assertAlmostEqual(62521,
                         os.path.getsize(ARTIFACTS_DIR + "HtmlFixedSaveOptions.optimize_graphics_output.html"), delta=200)
                 else:
-                    self.assertAlmostEqual(160535,
+                    self.assertAlmostEqual(191770,
                         os.path.getsize(ARTIFACTS_DIR + "HtmlFixedSaveOptions.optimize_graphics_output.html"), delta=200)
                 #ExEnd
 

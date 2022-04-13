@@ -112,7 +112,7 @@ class ExPdf2Word(ApiExampleBase):
         builder.writeln("Hello world! This is an encrypted PDF document.")
 
         # Configure a SaveOptions object to encrypt this PDF document while saving it to the local file system.
-        encryption_details = aw.saving.PdfEncryptionDetails("MyPassword", "", aw.saving.PdfEncryptionAlgorithm.RC4_128)
+        encryption_details = aw.saving.PdfEncryptionDetails("MyPassword", "")
 
         self.assertEqual(aw.saving.PdfPermissions.DISALLOW_ALL, encryption_details.permissions)
 
