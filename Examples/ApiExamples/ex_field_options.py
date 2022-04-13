@@ -435,10 +435,10 @@ class ExFieldOptions(ApiExampleBase):
     #    doc.save(ARTIFACTS_DIR + "FieldOptions.barcode_generator.docx")
     #    #ExEnd
 
-    #    self.verify_image(223, 223, ARTIFACTS_DIR + "FieldOptions.barcode_generator.q_r.jpg")
-    #    self.verify_image(117, 108, ARTIFACTS_DIR + "FieldOptions.barcode_generator.e_a_n13.jpg")
-    #    self.verify_image(395, 70, ARTIFACTS_DIR + "FieldOptions.barcode_generator.c_o_d_e39.jpg")
-    #    self.verify_image(633, 134, ARTIFACTS_DIR + "FieldOptions.barcode_generator.i_t_f14.jpg")
+    #    self.verify_image(223, 223, ARTIFACTS_DIR + "FieldOptions.barcode_generator.qr.jpg")
+    #    self.verify_image(117, 108, ARTIFACTS_DIR + "FieldOptions.barcode_generator.ean13.jpg")
+    #    self.verify_image(395, 70, ARTIFACTS_DIR + "FieldOptions.barcode_generator.code39.jpg")
+    #    self.verify_image(633, 134, ARTIFACTS_DIR + "FieldOptions.barcode_generator.itf14.jpg")
 
     #    doc = aw.Document(ARTIFACTS_DIR + "FieldOptions.barcode_generator.docx")
     #    barcode = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()

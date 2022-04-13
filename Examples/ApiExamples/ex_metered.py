@@ -5,6 +5,7 @@
 # "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
+import time
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
@@ -35,6 +36,10 @@ class ExMetered(ApiExampleBase):
         # Operate using Aspose.Words, and then print our metered stats again to see how much we spent.
         doc = aw.Document(MY_DIR + "Document.docx")
         doc.save(ARTIFACTS_DIR + "Metered.usage.pdf")
+
+        # Aspose Metered Licensing mechanism does not send the usage data to purchase server every time,
+        # you need to use waiting.
+        time.sleep(10)
 
         print(f"Credit after operation: {metered.get_consumption_credit()}")
         print(f"Consumption quantity after operation: {metered.get_consumption_quantity()}")

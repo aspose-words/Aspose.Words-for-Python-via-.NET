@@ -1779,7 +1779,7 @@ class ExPdfSaveOptions(ApiExampleBase):
 
         #self.assertEqual("AsposeDigitalSignature", signature_field.full_name)
         #self.assertEqual("AsposeDigitalSignature", signature_field.partial_name)
-        #self.assertEqual(type(aspose.pdf.forms.PKCS7), signature_field.signature.get_type())
+        #self.assertEqual(type(aspose.pdf.forms.PKCS7_DETACHED), signature_field.signature.get_type())
         #self.assertEqual(date.today(), signature_field.signature.date.date())
         #self.assertEqual("\xFE\xFF\0M\0o\0r\0z\0a\0l\0.\0M\0e", signature_field.signature.authority)
         #self.assertEqual("\xFE\xFF\0M\0y\0 \0O\0f\0f\0i\0c\0e", signature_field.signature.location)
@@ -1845,7 +1845,7 @@ class ExPdfSaveOptions(ApiExampleBase):
 
         #self.assertEqual("AsposeDigitalSignature", signature_field.full_name)
         #self.assertEqual("AsposeDigitalSignature", signature_field.partial_name)
-        #self.assertEqual(type(aspose.pdf.forms.PKCS7), signature_field.signature.get_type())
+        #self.assertEqual(type(aspose.pdf.forms.PKCS7_DETACHED), signature_field.signature.get_type())
         #self.assertEqual(datetime(1, 1, 1, 0, 0, 0), signature_field.signature.date)
         #self.assertEqual("\xFE\xFF\0M\0o\0r\0z\0a\0l\0.\0M\0e", signature_field.signature.authority)
         #self.assertEqual("\xFE\xFF\0A\0s\0p\0o\0s\0e\0 \0O\0f\0f\0i\0c\0e", signature_field.signature.location)
@@ -1912,10 +1912,8 @@ class ExPdfSaveOptions(ApiExampleBase):
         #ExFor:PdfEncryptionDetails.__init__
         #ExFor:PdfSaveOptions.encryption_details
         #ExFor:PdfEncryptionDetails.permissions
-        #ExFor:PdfEncryptionDetails.encryption_algorithm
         #ExFor:PdfEncryptionDetails.owner_password
         #ExFor:PdfEncryptionDetails.user_password
-        #ExFor:PdfEncryptionAlgorithm
         #ExFor:PdfPermissions
         #ExFor:PdfEncryptionDetails
         #ExSummary:Shows how to set permissions on a saved PDF document.
@@ -1924,7 +1922,7 @@ class ExPdfSaveOptions(ApiExampleBase):
 
         builder.writeln("Hello world!")
 
-        encryption_details = aw.saving.PdfEncryptionDetails("password", "", aw.saving.PdfEncryptionAlgorithm.RC4_128)
+        encryption_details = aw.saving.PdfEncryptionDetails("password", "")
 
         # Start by disallowing all permissions.
         encryption_details.permissions = aw.saving.PdfPermissions.DISALLOW_ALL

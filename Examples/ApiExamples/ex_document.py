@@ -160,7 +160,7 @@ class ExDocument(ApiExampleBase):
         doc = aw.Document(MY_DIR + "Pdf Document.pdf")
 
         save_options = aw.saving.PdfSaveOptions()
-        save_options.encryption_details = aw.saving.PdfEncryptionDetails("Aspose", None, aw.saving.PdfEncryptionAlgorithm.RC4_40)
+        save_options.encryption_details = aw.saving.PdfEncryptionDetails("Aspose", None)
 
         doc.save(ARTIFACTS_DIR + "Document.open_protected_pdf_document.pdf", save_options)
 
@@ -915,38 +915,6 @@ class ExDocument(ApiExampleBase):
             ARTIFACTS_DIR + "Document.table_style_to_direct_formatting.docx", "word/document.xml")
         self.verify_doc_package_file_contains_string("<w:tblBorders><w:top w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:left w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:bottom w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:right w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:insideH w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:insideV w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /></w:tblBorders>",
             ARTIFACTS_DIR + "Document.table_style_to_direct_formatting.docx", "word/document.xml")
-
-    def test_update_table_layout(self):
-
-        #ExStart
-        #ExFor:Document.update_table_layout
-        #ExSummary:Shows how to preserve a table's layout when saving to .txt.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-
-        table = builder.start_table()
-        builder.insert_cell()
-        builder.write("Cell 1")
-        builder.insert_cell()
-        builder.write("Cell 2")
-        builder.insert_cell()
-        builder.write("Cell 3")
-        builder.end_table()
-
-        # Use a TxtSaveOptions object to preserve the table's layout when converting the document to plaintext.
-        options = aw.saving.TxtSaveOptions()
-        options.preserve_table_layout = True
-
-        # Previewing the appearance of the document in .txt form shows that the table will not be represented accurately.
-        self.assertEqual(0.0, table.first_row.cells[0].cell_format.width)
-        self.assertEqual("CCC\r\neee\r\nlll\r\nlll\r\n   \r\n123\r\n\r\n", doc.to_string(options))
-
-        # We can call update_table_layout() to fix some of these issues.
-        doc.update_table_layout()
-
-        self.assertEqual("Cell 1                                       Cell 2                                       Cell 3\r\n\r\n", doc.to_string(options))
-        self.assertAlmostEqual(155.0, table.first_row.cells[0].cell_format.width, delta=2)
-        #ExEnd
 
     def test_get_original_file_info(self):
 

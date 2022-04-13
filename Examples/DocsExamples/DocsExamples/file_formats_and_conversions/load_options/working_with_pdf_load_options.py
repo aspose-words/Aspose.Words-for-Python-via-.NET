@@ -9,7 +9,7 @@ class WorkingWithPdfLoadOptions(DocsExamplesBase):
         doc = aw.Document(MY_DIR + "Pdf Document.pdf")
 
         save_options = aw.saving.PdfSaveOptions()
-        save_options.encryption_details = aw.saving.PdfEncryptionDetails("Aspose", None, aw.saving.PdfEncryptionAlgorithm.RC4_40)
+        save_options.encryption_details = aw.saving.PdfEncryptionDetails("Aspose", None)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfLoadOptions.load_encrypted_pdf.pdf", save_options)
 
