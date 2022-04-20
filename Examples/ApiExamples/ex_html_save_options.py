@@ -149,6 +149,9 @@ class ExHtmlSaveOptions(ApiExampleBase):
 
     def test_external_resource_saving_config(self):
 
+        for filepath in glob.glob(ARTIFACTS_DIR + "Resources/HtmlSaveOptions.external_resource_saving_config*"):
+            os.remove(filepath)
+
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.HtmlSaveOptions()

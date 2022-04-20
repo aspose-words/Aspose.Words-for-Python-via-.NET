@@ -4,6 +4,8 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
+import io
+import json
 from datetime import datetime
 from typing import List, Optional
 
@@ -27,7 +29,7 @@ class ExReportingEngine(ApiExampleBase):
         doc = DocumentHelper.create_simple_document("<<[s.Name]>> says: <<[s.Message]>>")
 
         sender = MessageTestClass("LINQ Reporting Engine", "Hello World")
-        self.build_report(doc, sender, "s", options=aw.reporting.ReportBuildOptions.INLINE_ERROR_MESSAGES)
+        self.build_report(doc, self.create_json_data_source(sender), "s", options=aw.reporting.ReportBuildOptions.INLINE_ERROR_MESSAGES)
 
         doc = DocumentHelper.save_open(doc)
 
@@ -39,7 +41,7 @@ class ExReportingEngine(ApiExampleBase):
             "<<[s.Name]:lower>> says: <<[s.Message]:upper>>, <<[s.Message]:caps>>, <<[s.Message]:firstCap>>")
 
         sender = MessageTestClass("LINQ Reporting Engine", "hello world")
-        self.build_report(doc, sender, "s")
+        self.build_report(doc, self.create_json_data_source(sender), "s")
 
         doc = DocumentHelper.save_open(doc)
 
@@ -51,8 +53,8 @@ class ExReportingEngine(ApiExampleBase):
             "<<[s.Value1]:alphabetic>> : <<[s.Value2]:roman:lower>>, <<[s.Value3]:ordinal>>, <<[s.Value1]:ordinalText:upper>>" +
             ", <<[s.Value2]:cardinal>>, <<[s.Value3]:hex>>, <<[s.Value3]:arabicDash>>")
 
-        sender = NumericTestClass(1, 2.2, 200, None, date=datetime(2016, 10, 9, 10, 0, 0))
-        self.build_report(doc, sender, "s")
+        sender = NumericTestClass(1, 2.2, 200, None)
+        self.build_report(doc, self.create_json_data_source(sender), "s")
 
         doc = DocumentHelper.save_open(doc)
 
@@ -62,7 +64,7 @@ class ExReportingEngine(ApiExampleBase):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Data table.docx")
 
-        self.build_report(doc, Common.get_contracts(), "Contracts")
+        self.build_report(doc, self.create_json_data_source(Common.get_contracts()), "Contracts")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.test_data_table.docx")
 
@@ -72,7 +74,7 @@ class ExReportingEngine(ApiExampleBase):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Total.docx")
 
-        self.build_report(doc, Common.get_contracts(), "Contracts")
+        self.build_report(doc, self.create_json_data_source(Common.get_contracts()), "Contracts")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.total.docx")
 
@@ -82,7 +84,7 @@ class ExReportingEngine(ApiExampleBase):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Nested data table.docx")
 
-        self.build_report(doc, Common.get_managers(), "Managers")
+        self.build_report(doc, self.create_json_data_source(Common.get_managers()), "Managers")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.nested_data_table.docx")
 
@@ -92,7 +94,7 @@ class ExReportingEngine(ApiExampleBase):
 
         template = aw.Document(MY_DIR + "Reporting engine template - List numbering.docx")
 
-        self.build_report(template, Common.get_managers(), "Managers", options=aw.reporting.ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS)
+        self.build_report(template, self.create_json_data_source(Common.get_managers()), "Managers", options=aw.reporting.ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS)
 
         template.save(ARTIFACTS_DIR + "ReportingEngine.restarting_list_numbering_dynamically.docx")
 
@@ -118,7 +120,10 @@ class ExReportingEngine(ApiExampleBase):
 
         doc = DocumentTestClass(doc=aw.Document(MY_DIR + "Reporting engine template - List numbering.docx"))
 
-        self.build_report(main_template, [template1, template2, doc, Common.get_managers()] , ["src", "src1", "src2", "Managers"], options=aw.reporting.ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS)
+        self.build_report(main_template,
+                          [template1, template2, doc, Common.get_managers()],
+                          ["src", "src1", "src2", "Managers"],
+                          options=aw.reporting.ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS)
 
         main_template.save(ARTIFACTS_DIR + "ReportingEngine.restarting_list_numbering_dynamically_while_multiple_insertions_document_dynamically.docx")
 
@@ -128,7 +133,7 @@ class ExReportingEngine(ApiExampleBase):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Chart.docx")
 
-        self.build_report(doc, Common.get_managers(), "managers")
+        self.build_report(doc, self.create_json_data_source(Common.get_managers()), "managers")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.chart.docx")
 
@@ -138,7 +143,7 @@ class ExReportingEngine(ApiExampleBase):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Bubble chart.docx")
 
-        self.build_report(doc, Common.get_managers(), "managers")
+        self.build_report(doc, self.create_json_data_source(Common.get_managers()), "managers")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.bubble_chart.docx")
 
@@ -177,7 +182,7 @@ class ExReportingEngine(ApiExampleBase):
         doc = aw.Document(MY_DIR + "Reporting engine template - Chart series.docx")
 
         condition = 3
-        self.build_report(doc, [Common.get_managers(), condition], ["managers", "condition"])
+        self.build_report(doc, [self.create_json_data_source(Common.get_managers()), condition], ["managers", "condition"])
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.conditional_expression_for_leave_chart_series.docx")
 
@@ -188,7 +193,7 @@ class ExReportingEngine(ApiExampleBase):
         doc = aw.Document(MY_DIR + "Reporting engine template - Chart series.docx")
 
         condition = 2
-        self.build_report(doc, [Common.get_managers(), condition], ["managers", "condition"])
+        self.build_report(doc, [self.create_json_data_source(Common.get_managers()), condition], ["managers", "condition"])
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.conditional_expression_for_remove_chart_series.docx")
 
@@ -198,7 +203,7 @@ class ExReportingEngine(ApiExampleBase):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Index of.docx")
 
-        self.build_report(doc, Common.get_managers(), "Managers")
+        self.build_report(doc, self.create_json_data_source(Common.get_managers()), "Managers")
 
         doc = DocumentHelper.save_open(doc)
 
@@ -208,7 +213,7 @@ class ExReportingEngine(ApiExampleBase):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - If-else.docx")
 
-        self.build_report(doc, Common.get_managers(), "m")
+        self.build_report(doc, self.create_json_data_source(Common.get_managers()), "m")
 
         doc = DocumentHelper.save_open(doc)
 
@@ -228,7 +233,7 @@ class ExReportingEngine(ApiExampleBase):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Extension methods.docx")
 
-        self.build_report(doc, Common.get_managers(), "Managers")
+        self.build_report(doc, self.create_json_data_source(Common.get_managers()), "Managers")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.extension_methods.docx")
 
@@ -252,7 +257,7 @@ class ExReportingEngine(ApiExampleBase):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Contextual object member access.docx")
 
-        self.build_report(doc, Common.get_managers(), "Managers")
+        self.build_report(doc, self.create_json_data_source(Common.get_managers()), "Managers")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.contextual_object_member_access.docx")
 
@@ -319,12 +324,12 @@ class ExReportingEngine(ApiExampleBase):
 
         doc_uri = DocumentTestClass(doc_string="http://www.snee.com/xml/xslt/sample.doc")
 
-        self.build_report(template, doc_uri, "src", options=aw.reporting.ReportBuildOptions.NONE)
+        self.build_report(template, self.create_json_data_source(doc_uri), "src", options=aw.reporting.ReportBuildOptions.NONE)
         template.save(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_uri.docx")
 
         self.assertTrue(DocumentHelper.compare_docs(
             ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_uri.docx",
-            GOLDS_DIR + "ReportingEngine.insert_document_dynamically(uri) Gold.docx"), "Fail inserting document by uri")
+            GOLDS_DIR + "ReportingEngine.InsertDocumentDynamically(uri) Gold.docx"), "Fail inserting document by uri")
 
     def test_insert_document_dynamically_by_base64(self):
 
@@ -334,10 +339,12 @@ class ExReportingEngine(ApiExampleBase):
 
         doc_base64 = DocumentTestClass(doc_string=base64_template)
 
-        self.build_report(template, doc_base64, "src", options=aw.reporting.ReportBuildOptions.NONE)
+        self.build_report(template, self.create_json_data_source(doc_base64), "src", options=aw.reporting.ReportBuildOptions.NONE)
         template.save(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_base64.docx")
 
-        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_base64.docx", GOLDS_DIR + "ReportingEngine.insert_document_dynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by uri")
+        self.assertTrue(DocumentHelper.compare_docs(
+            ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_base64.docx",
+            GOLDS_DIR + "ReportingEngine.InsertDocumentDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by uri")
 
     def test_insert_image_dynamically(self):
 
@@ -379,13 +386,13 @@ class ExReportingEngine(ApiExampleBase):
         template = DocumentHelper.create_template_document_with_draw_objects("<<image [src.ImageString]>>", aw.drawing.ShapeType.TEXT_BOX)
         image_uri = ImageTestClass(image_string="http://joomla-aspose.dynabic.com/templates/aspose/App_Themes/V3/images/customers/americanexpress.png")
 
-        self.build_report(template, image_uri, "src", options=aw.reporting.ReportBuildOptions.NONE)
+        self.build_report(template, self.create_json_data_source(image_uri), "src", options=aw.reporting.ReportBuildOptions.NONE)
         template.save(ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_uri.docx")
 
         self.assertTrue(
             DocumentHelper.compare_docs(
                 ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_uri.docx",
-                GOLDS_DIR + "ReportingEngine.insert_image_dynamically(uri) Gold.docx"),
+                GOLDS_DIR + "ReportingEngine.InsertImageDynamically(uri) Gold.docx"),
             "Fail inserting document by bytes")
 
     def test_insert_image_dynamically_by_base64(self):
@@ -396,13 +403,13 @@ class ExReportingEngine(ApiExampleBase):
 
         image_base64 = ImageTestClass(image_string=base64_template)
 
-        self.build_report(template, image_base64, "src", options=aw.reporting.ReportBuildOptions.NONE)
+        self.build_report(template, self.create_json_data_source(image_base64), "src", options=aw.reporting.ReportBuildOptions.NONE)
         template.save(ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_base64.docx")
 
         self.assertTrue(
             DocumentHelper.compare_docs(
                 ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_base64.docx",
-                GOLDS_DIR + "ReportingEngine.insert_image_dynamically(stream,doc,bytes) Gold.docx"),
+                GOLDS_DIR + "ReportingEngine.InsertImageDynamically(stream,doc,bytes) Gold.docx"),
             "Fail inserting document by bytes")
 
     def test_dynamic_stretching_image_within_text_box(self):
@@ -443,7 +450,7 @@ class ExReportingEngine(ApiExampleBase):
         doc = DocumentHelper.create_simple_document(
             "<<bookmark [bookmark_expression]>><<foreach [m in Contracts]>><<[m.client.Name]>><</foreach>><</bookmark>>")
 
-        self.build_report(doc, ["BookmarkOne", Common.get_contracts()],
+        self.build_report(doc, ["BookmarkOne", self.create_json_data_source(Common.get_contracts())],
             ["bookmark_expression", "Contracts"])
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.insert_bookmarks_dynamically.docx")
@@ -470,7 +477,7 @@ class ExReportingEngine(ApiExampleBase):
         builder.writeln("<<[new DateTime(2016, 1, 20)]:”yyyy”>>")
         builder.writeln("<<[new DateTime(2016, 1, 20).month]>>")
 
-        self.build_report(doc, "", [type(datetime)])
+        self.build_report(doc, "", known_types=[type(datetime)])
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.work_with_known_types.docx")
 
@@ -479,21 +486,21 @@ class ExReportingEngine(ApiExampleBase):
     def test_work_with_content_controls(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - CheckBox Content Control.docx")
-        self.build_report(doc, Common.get_managers(), "Managers")
+        self.build_report(doc, self.create_json_data_source(Common.get_managers()), "Managers")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.work_with_content_controls.docx")
 
     def test_work_with_single_column_table_row(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Table row.docx")
-        self.build_report(doc, Common.get_managers(), "Managers")
+        self.build_report(doc, self.create_json_data_source(Common.get_managers()), "Managers")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.single_column_table_row.docx")
 
     def test_work_with_single_column_table_row_greedy(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Table row greedy.docx")
-        self.build_report(doc, Common.get_managers(), "Managers")
+        self.build_report(doc, self.create_json_data_source(Common.get_managers()), "Managers")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.single_column_table_row_greedy.docx")
 
@@ -515,8 +522,8 @@ class ExReportingEngine(ApiExampleBase):
                 country="New Zealand",
                 local_address="Wellington 6004"),
             ]
-
-        self.build_report(doc, clients, "clients")
+        
+        self.build_report(doc, self.create_json_data_source(clients), "clients")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.table_row_conditional_blocks.docx")
 
@@ -533,7 +540,7 @@ class ExReportingEngine(ApiExampleBase):
     class AsposeData:
 
         def __init__(self, list: List[str]):
-            self.list = list
+            self.List = list
 
     def test_stretch_imagefit_height(self):
 
@@ -640,7 +647,7 @@ class ExReportingEngine(ApiExampleBase):
         DocumentHelper.insert_builder_text(builder,
             ["<<[missingObject.first().id]>>", "<<foreach [in missingObject]>><<[id]>><</foreach>>"])
 
-        self.build_report(builder.document, DataSet(), "", aw.reporting.ReportBuildOptions.ALLOW_MISSING_MEMBERS)
+        self.build_report(builder.document, self.create_json_data_source({}), "", options=aw.reporting.ReportBuildOptions.ALLOW_MISSING_MEMBERS)
 
         #Assert that build report success with "ReportBuildOptions.ALLOW_MISSING_MEMBERS"
         self.assertEqual(
@@ -650,7 +657,7 @@ class ExReportingEngine(ApiExampleBase):
     def test_inline_error_messages(self):
 
         parameters = [
-            ("<<[missingObject.first().id]>>", "<<[missingObject.first( Error! Can not get the value of member 'missingObject' on type 'System.data.DataSet'. ).id]>>", "Can not get the value of member"),
+            ("<<[missingObject.First().id]>>", "<<[missingObject.First( Error! Can not get the value of member 'missingObject' on type 'System.Collections.ArrayList'. ).id]>>", "Can not get the value of member"),
             ("<<[new DateTime()]:\"dd.m_m.yyyy\">>", "<<[new DateTime( Error! A type identifier is expected. )]:\"dd.m_m.yyyy\">>", "A type identifier is expected"),
             ("<<]>>", "<<] Error! Character ']' is unexpected. >>", "Character is unexpected"),
             ("<<[>>", "<<[>> Error! An expression is expected.", "An expression is expected"),
@@ -662,10 +669,10 @@ class ExReportingEngine(ApiExampleBase):
                 builder = aw.DocumentBuilder()
                 DocumentHelper.insert_builder_text(builder, [template_text])
 
-                self.build_report(builder.document, DataSet(), "", options=aw.reporting.ReportBuildOptions.INLINE_ERROR_MESSAGES)
+                self.build_report(builder.document, self.create_json_data_source({}), "", options=aw.reporting.ReportBuildOptions.INLINE_ERROR_MESSAGES)
 
                 self.assertEqual(
-                    builder.document.first_section.body.paragraphs[0].get_text().trim_end(),
+                    builder.document.first_section.body.paragraphs[0].get_text().rstrip(),
                     result)
 
     def test_set_background_color(self):
@@ -690,7 +697,7 @@ class ExReportingEngine(ApiExampleBase):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Remove empty paragraphs.docx")
 
-        self.build_report(doc, Common.get_managers(), "Managers")
+        self.build_report(doc, self.create_json_data_source(Common.get_managers()), "Managers")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.do_not_remove_empty_paragraphs.docx")
 
@@ -702,7 +709,7 @@ class ExReportingEngine(ApiExampleBase):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Remove empty paragraphs.docx")
 
-        self.build_report(doc, Common.get_managers(), "Managers", options=aw.reporting.ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS)
+        self.build_report(doc, self.create_json_data_source(Common.get_managers()), "Managers", options=aw.reporting.ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS)
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.remove_empty_paragraphs.docx")
 
@@ -713,8 +720,8 @@ class ExReportingEngine(ApiExampleBase):
     def test_merging_table_cells_dynamically(self):
 
         parameters = [
-            ("Hello", "Hello", "ReportingEngine.merging_table_cells_dynamically.Merged", "Cells in the first two tables must be merged"),
-            ("Hello", "Name", "ReportingEngine.merging_table_cells_dynamically.NotMerged", "Only last table cells must be merge"),
+            ("Hello", "Hello", "ReportingEngine.MergingTableCellsDynamically.Merged", "Cells in the first two tables must be merged"),
+            ("Hello", "Name", "ReportingEngine.MergingTableCellsDynamically.NotMerged", "Only last table cells must be merge"),
             ]
 
         for value1, value2, result_document_name, test_name in parameters:
@@ -739,7 +746,7 @@ class ExReportingEngine(ApiExampleBase):
                         local_address="Wellington 6004"),
                     ]
 
-                self.build_report(doc, [value1, value2, clients], ["value1", "value2", "clients"])
+                self.build_report(doc, [value1, value2, self.create_json_data_source(clients)], ["value1", "value2", "clients"])
                 doc.save(artifact_path)
 
                 self.assertTrue(DocumentHelper.compare_docs(artifact_path, gold_path))
@@ -880,7 +887,7 @@ class ExReportingEngine(ApiExampleBase):
 
         for sdt_type in (aw.markup.SdtType.COMBO_BOX, aw.markup.SdtType.DROP_DOWN_LIST):
             with self.subTest(sdt_type=sdt_type):
-                template = "<<item[\"three\"] [\"3\"]>><<if [False]>><<item [\"four\"] [null]>><</if>><<item[\"five\"] [\"5\"]>>"
+                template = "<<item[\"three\"] [\"3\"]>><<if [false]>><<item [\"four\"] [null]>><</if>><<item[\"five\"] [\"5\"]>>"
 
                 static_items = [
                     aw.markup.SdtListItem("1", "one"),
@@ -897,7 +904,7 @@ class ExReportingEngine(ApiExampleBase):
 
                 doc.first_section.body.append_child(sdt)
 
-                self.build_report(doc, object(), "")
+                self.build_report(doc, self.create_json_data_source({}), "")
 
                 doc.save(ARTIFACTS_DIR + f"ReportingEngine.insert_combobox_dropdown_list_items_dynamically_{sdt_type}.docx")
 
@@ -934,3 +941,13 @@ class ExReportingEngine(ApiExampleBase):
             engine.build_report(document, data_source, data_source_name)
         else:
             engine.build_report(document, data_source)
+
+    def create_json_data_source(self, obj: object) -> aw.reporting.JsonDataSource:
+        def default(item):
+            if isinstance(item, datetime):
+                return item.isoformat()
+            return vars(item)
+
+        json_data = json.dumps(obj, default=default)
+        with io.BytesIO(json_data.encode('utf-8')) as stream:
+            return aw.reporting.JsonDataSource(stream)

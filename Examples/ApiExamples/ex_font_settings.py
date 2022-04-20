@@ -1040,12 +1040,12 @@ class ExFontSettings(ApiExampleBase):
 
         # We can expand this table programmatically. We will add an entry that substitutes "Times New Roman" with "Arvo"
         self.assertIsNone(table_substitution_rule.get_substitutes("Times New Roman"))
-        table_substitution_rule.add_substitutes("Times New Roman", "Arvo")
+        table_substitution_rule.add_substitutes("Times New Roman", ["Arvo"])
         self.assertListEqual(["Arvo"], list(table_substitution_rule.get_substitutes("Times New Roman")))
 
         # We can add a secondary fallback substitute for an existing font entry with AddSubstitutes().
         # In case "Arvo" is unavailable, our table will look for "M+ 2m" as a second substitute option.
-        table_substitution_rule.add_substitutes("Times New Roman", "M+ 2m")
+        table_substitution_rule.add_substitutes("Times New Roman", ["M+ 2m"])
         self.assertListEqual(["Arvo", "M+ 2m"], list(table_substitution_rule.get_substitutes("Times New Roman")))
 
         # set_substitutes() can set a new list of substitute fonts for a font.

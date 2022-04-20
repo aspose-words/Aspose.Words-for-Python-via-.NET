@@ -340,7 +340,7 @@ class ExNode(ApiExampleBase):
         # Use "select_single_node" to select the first result of the same expression as above.
         node = doc.select_single_node("//Body/Paragraph")
 
-        self.assertIsInstance(node, aw.Paragraph)
+        self.assertIsInstance(node.as_paragraph(), aw.Paragraph)
         #ExEnd
 
     def test_node_is_inside_field(self):

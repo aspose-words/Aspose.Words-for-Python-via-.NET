@@ -132,7 +132,6 @@ class ExBorder(ApiExampleBase):
 
         for i in range(first_paragraph_borders.count):
             self.assertEqual(first_paragraph_borders[i], second_paragraph_borders[i])
-            self.assertIs(first_paragraph_borders[i], second_paragraph_borders[i])
             self.assertFalse(first_paragraph_borders[i].is_visible)
 
         for border in second_paragraph_borders:
@@ -142,8 +141,7 @@ class ExBorder(ApiExampleBase):
         # the border collections no longer share the same elements.
         for i in range(first_paragraph_borders.count):
             self.assertNotEqual(first_paragraph_borders[i], second_paragraph_borders[i])
-            self.assertIsNot(first_paragraph_borders[i], second_paragraph_borders[i])
-
+            
             # Changing the appearance of an empty border makes it visible.
             self.assertTrue(second_paragraph_borders[i].is_visible)
 

@@ -55,7 +55,7 @@ class ExVariableCollection(ApiExampleBase):
 
         # Verify that the document variables with a certain name or value exist.
         self.assertTrue(variables.contains("City"))
-        self.assertTrue(any(var.value == "London" for var in variables))
+        self.assertTrue(any(str(var) == "London" for var in variables))
 
         # The collection of variables automatically sorts variables alphabetically by name.
         self.assertEqual(0, variables.index_of_key("Bedrooms"))

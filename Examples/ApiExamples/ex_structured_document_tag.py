@@ -44,7 +44,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
 
         # Below are two ways to apply a style from the document to a structured document tag.
         # 1 -  Apply a style object from the document's style collection:
-        quote_style = doc.styles[aw.StyleIdentifier.QUOTE]
+        quote_style = doc.styles.get_by_style_identifier(aw.StyleIdentifier.QUOTE)
         sdt_plain_text = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.INLINE)
         sdt_plain_text.style = quote_style
 

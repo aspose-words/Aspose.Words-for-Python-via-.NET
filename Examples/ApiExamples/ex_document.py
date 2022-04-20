@@ -447,7 +447,7 @@ class ExDocument(ApiExampleBase):
                 src_doc = aw.Document(MY_DIR + "List source.docx")
                 dst_doc = aw.Document(MY_DIR + "List destination.docx")
 
-                self.assertEqual(2, dst_doc.lists.count)
+                self.assertEqual(4, dst_doc.lists.count)
 
                 options = aw.ImportFormatOptions()
 
@@ -461,9 +461,9 @@ class ExDocument(ApiExampleBase):
                 dst_doc.update_list_labels()
 
                 if is_keep_source_numbering:
-                    self.assertEqual(3, dst_doc.lists.count)
+                    self.assertEqual(5, dst_doc.lists.count)
                 else:
-                    self.assertEqual(2, dst_doc.lists.count)
+                    self.assertEqual(4, dst_doc.lists.count)
                 #ExEnd
 
     def test_keep_source_numbering_same_list_ids(self):
