@@ -6,6 +6,7 @@
 
 import os
 import glob
+import unittest
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
@@ -112,6 +113,7 @@ class ExImageSaveOptions(ApiExampleBase):
         self.verify_image(816, 1056, filename=ARTIFACTS_DIR + "ImageSaveOptions.page_set.page 3.gif")
         self.assertFalse(os.path.exists(ARTIFACTS_DIR + "ImageSaveOptions.page_set.page 4.gif"))
 
+    @unittest.skip("GraphicsQualityOptions is not supported by Aspose.Words for Python")
     def test_graphics_quality(self):
 
         #ExStart
@@ -402,7 +404,7 @@ class ExImageSaveOptions(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "ImageSaveOptions.edit_image.png", options)
         #ExEnd
 
-        self.verify_image(817, 1057, filename=ARTIFACTS_DIR + "ImageSaveOptions.edit_image.png")
+        self.verify_image(816, 1057, filename=ARTIFACTS_DIR + "ImageSaveOptions.edit_image.png")
 
     def test_jpeg_quality(self):
 

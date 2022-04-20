@@ -5,7 +5,7 @@
 # "as is", without warranty of any kind, either expressed or implied.
 
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 import aspose.words as aw
 
@@ -99,7 +99,9 @@ class ExDocSaveOptions(ApiExampleBase):
                 #ExFor:SaveOptions.update_last_printed_property
                 #ExSummary:Shows how to update a document's "Last printed" property when saving.
                 doc = aw.Document()
-                doc.built_in_document_properties.last_printed = datetime(2019, 12, 20)
+                
+                last_printed = datetime(2019, 12, 20, tzinfo=timezone.utc)
+                doc.built_in_document_properties.last_printed = last_printed
 
                 # This flag determines whether the last printed date, which is a built-in property, is updated.
                 # If so, then the date of the document's most recent save operation
@@ -114,7 +116,10 @@ class ExDocSaveOptions(ApiExampleBase):
                 # Open the saved document, then verify the value of the property.
                 doc = aw.Document(ARTIFACTS_DIR + "DocSaveOptions.update_last_printed_property.doc")
 
-                self.assertNotEqual(is_update_last_printed_property, datetime(2019, 12, 20) == doc.built_in_document_properties.last_printed)
+                if is_update_last_printed_property:
+                    self.assertNotEqual(last_printed, doc.built_in_document_properties.last_printed)
+                else:
+                    self.assertEqual(last_printed, doc.built_in_document_properties.last_printed)
                 #ExEnd
 
     def test_update_created_time_property(self):
@@ -125,7 +130,9 @@ class ExDocSaveOptions(ApiExampleBase):
                 #ExFor:SaveOptions.update_last_printed_property
                 #ExSummary:Shows how to update a document's "created_time" property when saving.
                 doc = aw.Document()
-                doc.built_in_document_properties.created_time = datetime(2019, 12, 20)
+
+                created_time = datetime(2019, 12, 20, tzinfo=timezone.utc)
+                doc.built_in_document_properties.created_time = created_time
 
                 # This flag determines whether the created time, which is a built-in property, is updated.
                 # If so, then the date of the document's most recent save operation
@@ -138,7 +145,10 @@ class ExDocSaveOptions(ApiExampleBase):
                 # Open the saved document, then verify the value of the property.
                 doc = aw.Document(ARTIFACTS_DIR + "DocSaveOptions.update_created_time_property.docx")
 
-                self.assertNotEqual(is_update_created_time_property, datetime(2019, 12, 20) == doc.built_in_document_properties.created_time)
+                if is_update_created_time_property:
+                    self.assertNotEqual(created_time, doc.built_in_document_properties.created_time)
+                else:
+                    self.assertEqual(created_time, doc.built_in_document_properties.created_time)
                 #ExEnd
 
     def test_always_compress_metafiles(self):

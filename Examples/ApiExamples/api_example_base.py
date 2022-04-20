@@ -38,6 +38,9 @@ IMAGE_DIR = MY_DIR + "Images/"
 # Path to the free fonts.
 FONTS_DIR = MY_DIR + "MyFonts/"
 
+# Path to the demo database directory.
+DATABASE_DIR = MY_DIR + "Database/"
+
 # URL of the test image.
 IMAGE_URL = "https://images.pexels.com/photos/239548/pexels-photo-239548.jpeg"
 

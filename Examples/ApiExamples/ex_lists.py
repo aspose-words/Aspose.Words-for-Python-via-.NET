@@ -262,7 +262,7 @@ class ExLists(ApiExampleBase):
         list_level.font.size = 24
         list_level.number_style = aw.NumberStyle.ORDINAL_TEXT
         list_level.start_at = 21
-        list_level.number_format = "\x0000"
+        list_level.number_format = "\u0000"
 
         list_level.number_position = -36
         list_level.text_position = 144
@@ -276,7 +276,7 @@ class ExLists(ApiExampleBase):
         list_level.font.size = 24
 
         # This NumberFormat value will create star-shaped bullet list symbols.
-        list_level.number_format = "\xf0af"
+        list_level.number_format = "\uf0af"
         list_level.trailing_character = aw.lists.ListTrailingCharacter.SPACE
         list_level.number_position = 144
 
@@ -310,7 +310,7 @@ class ExLists(ApiExampleBase):
 
         list_level = doc.lists[0].list_levels[1]
 
-        self.verify_list_level("\xf0af", 144.0, aw.NumberStyle.BULLET, list_level)
+        self.verify_list_level("\uf0af", 144.0, aw.NumberStyle.BULLET, list_level)
         self.assertEqual(drawing.Color.blue.to_argb(), list_level.font.color.to_argb())
         self.assertEqual(24.0, list_level.font.size)
         self.assertEqual(1, list_level.start_at)
@@ -786,13 +786,13 @@ class ExLists(ApiExampleBase):
 
         # Level 1 labels will be formatted according to the "Heading 1" paragraph style and will have a prefix.
         # These will look like "Appendix A", "Appendix B"...
-        list.list_levels[0].number_format = "Appendix \x0000"
+        list.list_levels[0].number_format = "Appendix \u0000"
         list.list_levels[0].number_style = aw.NumberStyle.UPPERCASE_LETTER
         list.list_levels[0].linked_style = doc.styles.get_by_name("Heading 1")
 
         # Level 2 labels will display the current numbers of the first and the second list levels and have leading zeroes.
         # If the first list level is at 1, then the list labels from these will look like "Section (1.01)", "Section (1.02)"...
-        list.list_levels[1].number_format = "Section (\x0000.\x0001)"
+        list.list_levels[1].number_format = "Section (\u0000.\u0001)"
         list.list_levels[1].number_style = aw.NumberStyle.LEADING_ZERO
 
         # Note that the higher-level uses UppercaseLetter numbering.
@@ -802,7 +802,7 @@ class ExLists(ApiExampleBase):
 
         # Level 3 labels will be upper case Roman numerals with a prefix and a suffix and will restart at each List level 1 item.
         # These list labels will look like "-I-", "-II-"...
-        list.list_levels[2].number_format = "-\x0002-"
+        list.list_levels[2].number_format = "-\u0002-"
         list.list_levels[2].number_style = aw.NumberStyle.UPPERCASE_ROMAN
         list.list_levels[2].restart_after_level = 1
 
