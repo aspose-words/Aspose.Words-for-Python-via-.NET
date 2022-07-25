@@ -70,7 +70,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 builder.write("Hello world!")
 
                 save_options = aw.saving.HtmlSaveOptions(save_format)
-                save_options.export_text_box_as_svg = is_text_box_as_svg
+                save_options.export_shapes_as_svg = is_text_box_as_svg
 
                 doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.export_text_box_as_svg_epub" + aw.FileFormatUtil.save_format_to_extension(save_format), save_options)
 
@@ -799,12 +799,12 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 if export_cid_urls_for_mhtml_resources:
                     self.assertIn("Content-ID: <document.html>", out_doc_contents)
                     self.assertIn("<link href=3D\"cid:styles.css\" type=3D\"text/css\" rel=3D\"stylesheet\" />", out_doc_contents)
-                    self.assertIn("@font-face { font-family:'Arial Black'; src:url('cid:ariblk.ttf') }", out_doc_contents)
+                    self.assertIn("@font-face { font-family:'Arial Black'; font-weight:bold; src:url('cid:arib=\r\nlk.ttf') }", out_doc_contents)
                     self.assertIn("<img src=3D\"cid:image.003.jpeg\" width=3D\"350\" height=3D\"180\" alt=3D\"\" />", out_doc_contents)
                 else:
                     self.assertIn("Content-Location: document.html", out_doc_contents)
                     self.assertIn("<link href=3D\"styles.css\" type=3D\"text/css\" rel=3D\"stylesheet\" />", out_doc_contents)
-                    self.assertIn("@font-face { font-family:'Arial Black'; src:url('ariblk.ttf') }", out_doc_contents)
+                    self.assertIn("@font-face { font-family:'Arial Black'; font-weight:bold; src:url('ariblk.t=\r\ntf') }", out_doc_contents)
                     self.assertIn("<img src=3D\"image.003.jpeg\" width=3D\"350\" height=3D\"180\" alt=3D\"\" />",out_doc_contents)
 
                 #ExEnd
@@ -1211,7 +1211,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         for export_text_box_as_svg in (False, True):
             with self.subTest(export_text_box_as_svg=export_text_box_as_svg):
                 #ExStart
-                #ExFor:HtmlSaveOptions.export_text_box_as_svg
+                #ExFor:HtmlSaveOptions.export_shapes_as_svg
                 #ExSummary:Shows how to export text boxes as scalable vector graphics.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -1222,12 +1222,12 @@ class ExHtmlSaveOptions(ApiExampleBase):
 
                 # When we save the document to HTML, we can pass a SaveOptions object
                 # to determine how the saving operation will export text box shapes.
-                # If we set the "export_text_box_as_svg" flag to "True",
+                # If we set the "export_shapes_as_svg" flag to "True",
                 # the save operation will convert shapes with text into SVG objects.
-                # If we set the "export_text_box_as_svg" flag to "False",
+                # If we set the "export_shapes_as_svg" flag to "False",
                 # the save operation will convert shapes with text into images.
                 options = aw.saving.HtmlSaveOptions()
-                options.export_text_box_as_svg = export_text_box_as_svg
+                options.export_shapes_as_svg = export_text_box_as_svg
 
                 doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.export_text_box.html", options)
 
