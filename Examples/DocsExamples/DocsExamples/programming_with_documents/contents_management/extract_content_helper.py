@@ -196,11 +196,11 @@ class ExtractContentHelper():
 
         # Process the corresponding node in our cloned node by index.
         current_clone_node = clone_node
-        for i in range(len(node_branch) - 1, -1):
+        for i in range(len(node_branch) - 1, -1, -1):
 
             current_node = node_branch[i]
             node_index = current_node.parent_node.index_of(current_node)
-            current_clone_node = current_clone_node.as_composite_node.child_nodes[node_index]
+            current_clone_node = current_clone_node.as_composite_node().child_nodes[node_index]
 
             ExtractContentHelper.remove_nodes_outside_of_range(current_clone_node, is_inclusive or (i > 0), is_start_marker)
 
@@ -249,9 +249,9 @@ class ExtractContentHelper():
     @staticmethod
     def include_next_paragraph(node: aw.Node, nodes):
 
-        paragraph = ExtractContentHelper.find_next_node(aw.NodeType.PARAGRAPH, node.next_sibling).as_paragraph()
+        paragraph = ExtractContentHelper.find_next_node(aw.NodeType.PARAGRAPH, node.next_sibling)
         if paragraph is not None:
-
+            paragraph = paragraph.as_paragraph()
             # Move to the first child to include paragraphs without content.
             marker_node = paragraph.first_child if paragraph.has_child_nodes else paragraph
             root_node = ExtractContentHelper.get_ancestor_in_body(paragraph)
