@@ -68,86 +68,14 @@ class WorkingWithFields(DocsExamplesBase):
         builder.insert_field("MERGEFIELD MyMergeField1 \\* MERGEFORMAT")
         builder.insert_field("MERGEFIELD MyMergeField2 \\* MERGEFORMAT")
 
-        # Select all field start nodes so we can find the merge fields.
-        field_starts = doc.get_child_nodes(aw.NodeType.FIELD_START, True)
-        for start in field_starts:
-            field_start = start.as_field_start()
-            if field_start.field_type == aw.fields.FieldType.FIELD_MERGE_FIELD:
-                merge_field = self.MergeField(field_start)
-                merge_field.set_name(merge_field.get_name() + "_Renamed")
+        for f in doc.range.fields:
+            if f.field_type == aw.fields.FieldType.FIELD_MERGE_FIELD:
+                merge_field = f.as_field_merge_field()
+                merge_field.field_name = merge_field.field_name + "_Renamed"
+                merge_field.update()
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithFields.rename_merge_fields.doc")
-        #ExEnd:RenameMergeFields
-
-
-    #ExStart:MergeField
-    class MergeField:
-        """Represents a facade object for a merge field in a Microsoft Word document."""
-
-        mergefield_regex = re.compile("\\s*(MERGEFIELD\\s|)(\\s|)(\\S+)\\s+")
-
-        def __init__(self, field_start):
-
-            if field_start is None:
-                raise ValueError("fieldStart")
-            if field_start.field_type != aw.fields.FieldType.FIELD_MERGE_FIELD:
-                raise ValueError("Field start type must be FieldMergeField.")
-
-            self.field_start = field_start
-
-            # Find the field separator node.
-            self.field_separator = field_start.get_field().separator
-            if self.field_separator is None:
-                raise RuntimeError("Cannot find field separator.")
-
-            self.field_end = field_start.get_field().end
-
-        def get_name(self) -> str:
-            """Gets the name of the merge field."""
-            print(type(self.field_start))
-            return self.field_start.get_field().result.replace("«", "").replace("»", "")
-
-        def set_name(self, name: str):
-            """Sets the name of the merge field."""
-
-            # Merge field name is stored in the field result which is a Run
-            # node between field separator and field end.
-            field_result = self.field_separator.next_sibling.as_run()
-            field_result.text = f"«{name}»"
-
-            # But sometimes the field result can consist of more than one run, delete these runs.
-            self.remove_same_parent(field_result.next_sibling, self.field_end)
-
-            self.update_field_code(name)
-
-        def update_field_code(self, field_name: str):
-
-            # Field code is stored in a Run node between field start and field separator.
-            field_code = self.field_start.next_sibling.as_run()
-
-            match = self.mergefield_regex.match(self.field_start.get_field().get_field_code())
-
-            new_field_code = f" {match.group(1)}{field_name} "
-            field_code.text = new_field_code
-
-            # But sometimes the field code can consist of more than one run, delete these runs.
-            self.remove_same_parent(field_code.next_sibling, self.field_separator)
-
-        @staticmethod
-        def remove_same_parent(start_node, end_node):
-            """Removes nodes from start up to but not including the end node.
-            Start and end are assumed to have the same parent."""
-
-            if end_node is not None and start_node.parent_node != end_node.parent_node:
-                raise ValueError("Start and end nodes are expected to have the same parent.")
-
-            cur_child = start_node
-            while cur_child is not None and cur_child != end_node:
-                next_child = cur_child.next_sibling
-                cur_child.remove()
-                cur_child = next_child
-
-    #ExEnd:MergeField
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.rename_merge_fields.docx")
+        #ExEnd:RenameMergeFields    
 
     def test_remove_field(self):
 
