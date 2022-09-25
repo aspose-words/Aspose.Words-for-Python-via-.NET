@@ -1121,8 +1121,8 @@ class ExFont(ApiExampleBase):
 
     def _test_remove_hidden_content(self, doc: aw.Document):
 
-        self.assertEqual(20, doc.get_child_nodes(aw.NodeType.PARAGRAPH, True).count) #ExSkip
-        self.assertEqual(1, doc.get_child_nodes(aw.NodeType.TABLE, True).count) #ExSkip
+        self.assertEqual(20, doc.get_child_nodes(aw.NodeType.PARAGRAPH, True).count)
+        self.assertEqual(1, doc.get_child_nodes(aw.NodeType.TABLE, True).count)
 
         for node in doc.get_child_nodes(aw.NodeType.ANY, True):
 
