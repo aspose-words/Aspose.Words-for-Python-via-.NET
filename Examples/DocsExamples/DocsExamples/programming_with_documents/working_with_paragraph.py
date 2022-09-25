@@ -49,7 +49,7 @@ class WorkingWithParagraph(DocsExamplesBase):
             max_chars = 16
             para_text = paragraph.get_text()
             if len(para_text) > max_chars:
-                para_text = f"{para_text[:max_chars]}..."
+                para_text = para_text[:max_chars] + "..."
 
-            print(f"Paragraph '{para_text}' has {count} line(-s).")
+            print("Paragraph '{}' has {} line(-s).".format(para_text, count))
         #ExEnd:CountLinesInParagraph

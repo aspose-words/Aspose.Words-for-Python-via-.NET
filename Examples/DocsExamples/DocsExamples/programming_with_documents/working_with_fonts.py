@@ -32,7 +32,7 @@ class WorkingWithFonts(DocsExamplesBase):
         builder.writeln("qText")
 
         font = builder.document.first_section.body.first_paragraph.runs[0].font
-        print(f"lineSpacing = {font.line_spacing}")
+        print("lineSpacing =", font.line_spacing)
         #ExEnd:GetFontLineSpacing
 
     def test_check_dml_text_effect(self):

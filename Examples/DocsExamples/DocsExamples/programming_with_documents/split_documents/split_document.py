@@ -45,7 +45,7 @@ class SplitDocument(DocsExamplesBase):
             new_doc.sections.add(new_section)
 
             # Save each section as a separate document.
-            new_doc.save(ARTIFACTS_DIR + f"SplitDocument.by_sections_{i}.docx")
+            new_doc.save(ARTIFACTS_DIR + "SplitDocument.by_sections_{}.docx".format(i))
 
         #ExEnd:SplitDocumentBySections
 
@@ -59,7 +59,7 @@ class SplitDocument(DocsExamplesBase):
         for page in range(page_count):
             # Save each page as a separate document.
             extracted_page = doc.extract_pages(page, 1)
-            extracted_page.save(ARTIFACTS_DIR + f"SplitDocument.page_by_page_{page + 1}.docx")
+            extracted_page.save(ARTIFACTS_DIR + "SplitDocument.page_by_page_{}.docx".format(page + 1))
 
         #ExEnd:SplitDocumentPageByPage
 

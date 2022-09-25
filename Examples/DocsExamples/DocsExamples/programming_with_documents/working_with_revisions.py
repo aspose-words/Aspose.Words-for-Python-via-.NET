@@ -57,9 +57,9 @@ class WorkingWithRevisions(DocsExamplesBase):
         paragraphs = doc.first_section.body.paragraphs
         for i in range(paragraphs.count):
             if paragraphs[i].is_move_from_revision:
-                print(f"The paragraph {i} has been moved (deleted).")
+                print("The paragraph " + str(i) + " has been moved (deleted).")
             if paragraphs[i].is_move_to_revision:
-                print(f"The paragraph {i} has been moved (inserted).")
+                print("The paragraph " + str(i) + " has been moved (inserted).")
 
         #ExEnd:GetRevisionTypes
 
@@ -70,7 +70,7 @@ class WorkingWithRevisions(DocsExamplesBase):
 
         for group in doc.revisions.groups:
 
-            print(f"{group.author}, {group.revision_type}:")
+            print("{}, {}:".format(group.author, group.revision_type))
             print(group.text)
 
         #ExEnd:GetRevisionGroups
@@ -112,10 +112,10 @@ class WorkingWithRevisions(DocsExamplesBase):
         for revision in doc.revisions:
             group_text = "Revision group text: " + (revision.group.text if revision.group is not None else "Revision has no group")
 
-            print(f"Type: {revision.revision_type}")
-            print(f"Author: {revision.author}")
-            print(f"Date: {revision.date_time}")
-            print(f"Revision text: {revision.parent_node.to_string(aw.SaveFormat.TEXT)}")
+            print("Type:", revision.revision_type)
+            print("Author:", revision.author)
+            print("Date:", revision.date_time)
+            print("Revision text:", revision.parent_node.to_string(aw.SaveFormat.TEXT))
             print(group_text)
 
         #ExEnd:GetRevisionGroupDetails

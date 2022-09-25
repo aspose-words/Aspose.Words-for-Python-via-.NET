@@ -225,7 +225,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         save_options_a2u.image_compression = aw.saving.PdfImageCompression.JPEG
         save_options_a2u.jpeg_quality = 100 # Use JPEG compression at 50% quality to reduce file size.
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.pdf_image_compression__a_2u.pdf", save_options_a2u)
+        doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.pdf_image_compression_a2u.pdf", save_options_a2u)
         #ExEnd:PdfImageComppression
 
     def test_update_last_printed_property(self):

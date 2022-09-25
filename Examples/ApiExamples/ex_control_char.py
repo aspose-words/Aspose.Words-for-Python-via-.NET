@@ -26,13 +26,13 @@ class ExControlChar(ApiExampleBase):
 
         # Converting the document to text form reveals that control characters
         # represent some of the document's structural elements, such as page breaks.
-        self.assertEqual(f"Hello world!{aw.ControlChar.CR}" +
-                         f"Hello again!{aw.ControlChar.CR}" +
+        self.assertEqual("Hello world!" + aw.ControlChar.CR +
+                         "Hello again!" + aw.ControlChar.CR +
                          aw.ControlChar.PAGE_BREAK, doc.get_text())
 
         # When converting a document to string form,
         # we can omit some of the control characters with the "strip" method.
-        self.assertEqual(f"Hello world!{aw.ControlChar.CR}" +
+        self.assertEqual("Hello world!" + aw.ControlChar.CR +
                          "Hello again!", doc.get_text().strip())
         #ExEnd
 

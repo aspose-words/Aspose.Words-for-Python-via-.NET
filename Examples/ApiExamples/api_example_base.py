@@ -54,6 +54,18 @@ class ApiExampleBase(unittest.TestCase):
         if not os.path.exists(ARTIFACTS_DIR):
             os.makedirs(ARTIFACTS_DIR)
 
+    def assertIn(self, member, container, msg=None):
+        if member in container:
+            return
+
+        if isinstance(container, str) and len(container) > 256:
+            container = container[:256] + '...'
+
+        if isinstance(container, bytes) and len(container) > 256:
+            container = container[:256] + b'...'
+
+        unittest.TestCase.assertIn(self, member, container, msg=msg)
+
     def verify_image(self, expected_width: int, expected_height: int, filename: Optional[str] = None, image_stream: Optional[io.BytesIO] = None):
         """Checks whether a file or a stream contains a valid image with specified dimensions.
 
@@ -88,7 +100,7 @@ class ApiExampleBase(unittest.TestCase):
                     if image.get_pixel(x, y).a != 255:
                         return
 
-        raise Exception(f"The image from \"{filename}\" does not contain any transparency.")
+        raise Exception("The image from \"" + filename + "\" does not contain any transparency.")
 
     def verify_web_response_status_code(self, expected_http_status_code: int, web_address: str):
         """Checks whether an HTTP request sent to the specified address produces an expected web response.
@@ -260,7 +272,7 @@ class ApiExampleBase(unittest.TestCase):
 
         result = ""
         while count > 0:
-            result += f"{data[start]:02X} "
+            result += "{:02X} ".format(data[start])
             start += 1
             count -= 1
 

@@ -341,7 +341,7 @@ class WorkingWithFields(DocsExamplesBase):
 
         field_names = doc.mail_merge.get_field_names()
         #ExEnd:GetFieldNames
-        print(f"\nDocument have {len(field_names)} fields.")
+        print("\nDocument have {} fields.".format(len(field_names)))
 
     def test_mapped_data_fields(self):
 

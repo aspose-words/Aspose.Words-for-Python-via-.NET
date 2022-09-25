@@ -118,7 +118,7 @@ class ExRevision(ApiExampleBase):
         # This collection itself has a collection of revision groups.
         # Each group is a sequence of adjacent revisions.
         self.assertEqual(7, revisions.groups.count) #ExSkip
-        print(f"{revisions.groups.count} revision groups:")
+        print(revisions.groups.count, "revision groups:")
 
         # Iterate over the collection of groups and print the text that the revision concerns.
         for group in revisions.groups:

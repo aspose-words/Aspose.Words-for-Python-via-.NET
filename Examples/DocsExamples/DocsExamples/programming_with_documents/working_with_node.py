@@ -21,7 +21,7 @@ class WorkingWithNode(DocsExamplesBase):
         section = doc.first_child
 
         # The section's parent node is the document.
-        print(f"Section parent is the document: {doc == section.parent_node}")
+        print("Section parent is the document:", doc == section.parent_node)
         #ExEnd:GetParentNode
 
     def test_owner_document(self):
@@ -33,10 +33,10 @@ class WorkingWithNode(DocsExamplesBase):
         para = aw.Paragraph(doc)
 
         # The new paragraph node does not yet have a parent.
-        print(f"Paragraph has no parent node: {para.parent_node is None}")
+        print("Paragraph has no parent node:", para.parent_node is None)
 
         # But the paragraph node knows its document.
-        print(f"Both nodes' documents are the same: {para.document == doc}")
+        print("Both nodes' documents are the same:", para.document == doc)
 
         # The fact that a node always belongs to a document allows us to access and modify
         # properties that reference the document-wide data, such as styles or lists.
@@ -46,7 +46,7 @@ class WorkingWithNode(DocsExamplesBase):
         doc.first_section.body.append_child(para)
 
         # The paragraph node is now a child of the Body node.
-        print(f"Paragraph has a parent node: {para.parent_node is not None}")
+        print("Paragraph has a parent node:", para.parent_node is not None)
         #ExEnd:OwnerDocument
 
     def test_enumerate_child_nodes(self):

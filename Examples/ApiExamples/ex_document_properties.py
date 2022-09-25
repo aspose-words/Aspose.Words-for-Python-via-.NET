@@ -161,9 +161,9 @@ class ExDocumentProperties(ApiExampleBase):
         # these properties via "Properties" -> "Details" -> "Origin" category.
         # Fields such as PRINTDATE and EDITTIME can display these values in the document body.
         print(f"Created using {properties.name_of_application}, on {properties.created_time}")
-        print(f"Minutes spent editing: {properties.total_editing_time}")
-        print(f"Date/time last printed: {properties.last_printed}")
-        print(f"Template document: {properties.template}")
+        print("Minutes spent editing:", properties.total_editing_time)
+        print("Date/time last printed:", properties.last_printed)
+        print("Template document:", properties.template)
 
         # We can also change the values of built-in properties.
         properties.company = "Doe Ltd."

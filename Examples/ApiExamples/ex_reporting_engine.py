@@ -906,9 +906,9 @@ class ExReportingEngine(ApiExampleBase):
 
                 self.build_report(doc, self.create_json_data_source({}), "")
 
-                doc.save(ARTIFACTS_DIR + f"ReportingEngine.insert_combobox_dropdown_list_items_dynamically_{sdt_type}.docx")
+                doc.save(ARTIFACTS_DIR + "ReportingEngine.insert_combobox_dropdown_list_items_dynamically_{}.docx".format(sdt_type))
 
-                doc = aw.Document(ARTIFACTS_DIR + f"ReportingEngine.insert_combobox_dropdown_list_items_dynamically_{sdt_type}.docx")
+                doc = aw.Document(ARTIFACTS_DIR + "ReportingEngine.insert_combobox_dropdown_list_items_dynamically_{}.docx".format(sdt_type))
 
                 sdt = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
 

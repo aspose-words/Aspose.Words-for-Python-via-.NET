@@ -164,7 +164,7 @@ class WorkingWithImages(DocsExamplesBase):
 
         print("\nGets the actual bounds of the shape in points.")
         rect = shape.get_shape_renderer().bounds_in_points
-        print(f"{rect.x}, {rect.y}, {rect.width}, {rect.height}")
+        print("{}, {}, {}, {}".format(rect.x, rect.y, rect.width, rect.height))
         #ExEnd:GetActualShapeBoundsPoints
 
     def test_crop_image_call(self):

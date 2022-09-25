@@ -18,7 +18,7 @@ class WorkingWithList(DocsExamplesBase):
         builder.list_format.list = list_
 
         for i in range(1, 45):
-            builder.writeln(f"List Item {i}")
+            builder.writeln("List Item " + str(i))
             if i == 15:
                 builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
 
@@ -42,7 +42,7 @@ class WorkingWithList(DocsExamplesBase):
         # There are nine levels in this list, let's try them all.
         for i in range(9):
             builder.list_format.list_level_number = i
-            builder.writeln(f"Level {i}")
+            builder.writeln("Level " + str(i))
 
         # Create a bulleted list based on one of the Microsoft Word list templates
         # and apply it to the document builder's current paragraph.
@@ -50,7 +50,7 @@ class WorkingWithList(DocsExamplesBase):
 
         for i in range(9):
             builder.list_format.list_level_number = i
-            builder.writeln(f"Level {i}")
+            builder.writeln("Level " + str(i))
 
         # This is a way to stop list formatting.
         builder.list_format.list = None
