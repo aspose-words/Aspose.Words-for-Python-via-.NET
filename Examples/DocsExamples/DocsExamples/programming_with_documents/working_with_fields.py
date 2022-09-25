@@ -69,7 +69,7 @@ class WorkingWithFields(DocsExamplesBase):
         builder.insert_field("MERGEFIELD MyMergeField2 \\* MERGEFORMAT")
 
         for f in doc.range.fields:
-            if f.field_type == aw.fields.FieldType.FIELD_MERGE_FIELD:
+            if f.type == aw.fields.FieldType.FIELD_MERGE_FIELD:
                 merge_field = f.as_field_merge_field()
                 merge_field.field_name = merge_field.field_name + "_Renamed"
                 merge_field.update()
