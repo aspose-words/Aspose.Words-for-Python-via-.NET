@@ -260,14 +260,14 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
         # First print the color of the cell shading.
         # This should be empty as the current shading is stored in the table style.
         cell_shading_before = first_cell.cell_format.shading.background_pattern_color
-        print(f"Cell shading before style expansion: {cell_shading_before}")
+        print("Cell shading before style expansion:", cell_shading_before)
 
         doc.expand_table_styles_to_direct_formatting()
 
         # Now print the cell shading after expanding table styles.
         # A blue background pattern color should have been applied from the table style.
         cell_shading_after = first_cell.cell_format.shading.background_pattern_color
-        print(f"Cell shading after style expansion: {cell_shading_after}")
+        print("Cell shading after style expansion:", cell_shading_after)
         #ExEnd:ExpandFormattingOnCellsAndRowFromStyle
 
     def test_create_table_style(self):

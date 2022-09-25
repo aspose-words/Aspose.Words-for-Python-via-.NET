@@ -25,12 +25,12 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
         print("2. Built-in Properties")
 
         for prop in doc.built_in_document_properties:
-            print(f"{prop.name}: {prop.value}")
+            print(prop.name + '"', prop.value)
 
         print("3. Custom Properties")
 
         for prop in doc.custom_document_properties:
-            print(f"{prop.name}: {prop.value}")
+            print(prop.name + '"', prop.value)
         #ExEnd:EnumerateProperties
 
     def test_add_custom_document_properties(self):

@@ -160,7 +160,7 @@ class BaseConversions(DocsExamplesBase):
        :param input_file_name: File name of input image file.
        :param output_file_name: Output PDF file name.
         """
-        print(f"Converting {input_file_name} to PDF ....")
+        print("Converting " + input_file_name + " to PDF...")
 
         #ExStart:ConvertImageToPdf
         doc = aw.Document()

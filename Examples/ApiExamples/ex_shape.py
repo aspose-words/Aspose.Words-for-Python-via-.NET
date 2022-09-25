@@ -1107,7 +1107,10 @@ class ExShape(ApiExampleBase):
         for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True):
             ole_format = shape.as_shape().ole_format
             if ole_format is not None:
-                print(f"This is {'a linked' if ole_format.is_link else 'an embedded'} object")
+                if ole_format.is_link:
+                    print("This is a linked object")
+                else:
+                    print("This is an embedded object")
                 ole_raw_data = ole_format.get_raw_data()
 
                 self.assertEqual(24576, len(ole_raw_data))
@@ -1603,7 +1606,7 @@ class ExShape(ApiExampleBase):
             watermark.text_path.text = str(num)
             watermark.text_path.font_family = "Arial"
 
-            watermark.name = f"Watermark_{num}"
+            watermark.name = "Watermark_" + str(num)
             num += 1
 
             watermark.behind_text = True
@@ -1619,7 +1622,7 @@ class ExShape(ApiExampleBase):
         self.assertEqual(31, len(shapes))
 
         for shape in shapes:
-            self.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, f"Watermark_{shapes.index(shape) + 1}",
+            self.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, "Watermark_" + str(shapes.index(shape) + 1),
                 30.0, 30.0, 0.0, 0.0, shape)
 
     def test_is_layout_in_cell(self):
@@ -2471,7 +2474,7 @@ class ExShape(ApiExampleBase):
             shape = shape.as_shape()
             renderer = shape.get_shape_renderer()
             options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
-            renderer.save(ARTIFACTS_DIR + f"Shape.render_all_shapes.{shape.name}.png", options)
+            renderer.save(ARTIFACTS_DIR + "Shape.render_all_shapes." + shape.name + ".png", options)
 
         #ExEnd
 

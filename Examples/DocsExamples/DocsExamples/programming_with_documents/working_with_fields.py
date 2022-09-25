@@ -69,7 +69,7 @@ class WorkingWithFields(DocsExamplesBase):
         builder.insert_field("MERGEFIELD MyMergeField2 \\* MERGEFORMAT")
 
         for f in doc.range.fields:
-            if f.field_type == aw.fields.FieldType.FIELD_MERGE_FIELD:
+            if f.type == aw.fields.FieldType.FIELD_MERGE_FIELD:
                 merge_field = f.as_field_merge_field()
                 merge_field.field_name = merge_field.field_name + "_Renamed"
                 merge_field.update()
@@ -341,7 +341,7 @@ class WorkingWithFields(DocsExamplesBase):
 
         field_names = doc.mail_merge.get_field_names()
         #ExEnd:GetFieldNames
-        print(f"\nDocument have {len(field_names)} fields.")
+        print("\nDocument have {} fields.".format(len(field_names)))
 
     def test_mapped_data_fields(self):
 

@@ -32,8 +32,8 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
         # Combined with the built-in styles, the document now has eight styles.
         # A custom style is marked as "used" while there is any text within the document
         # formatted in that style. This means that the 4 styles we added are currently unused.
-        print(f"Count of styles before Cleanup: {doc.styles.count}\n" +
-                            f"Count of lists before Cleanup: {doc.lists.count}")
+        print("Count of styles before Cleanup:", doc.styles.count)
+        print("Count of lists before Cleanup:", doc.lists.count)
 
         # Cleans unused styles and lists from the document depending on given CleanupOptions.
         cleanup_options = aw.CleanupOptions()
@@ -41,8 +41,8 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
         cleanup_options.unused_styles = True
         doc.cleanup(cleanup_options)
 
-        print(f"Count of styles after Cleanup was decreased: {doc.styles.count}\n" +
-                            f"Count of lists after Cleanup is the same: {doc.lists.count}")
+        print("Count of styles after Cleanup was decreased:", doc.styles.count)
+        print("Count of lists after Cleanup is the same:", doc.lists.count)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.cleanup_unused_styles_and_lists.docx")
         #ExEnd:CleanupUnusedStylesandLists

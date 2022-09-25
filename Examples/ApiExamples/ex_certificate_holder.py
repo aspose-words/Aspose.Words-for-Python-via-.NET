@@ -33,7 +33,7 @@ class ExCertificateHolder(ApiExampleBase):
             pkcs12_store = Pkcs12Store(cert_stream, "aw")
             for alias in pkcs12_store.aliases:
                 if pkcs12_store.is_key_entry(alias) and pkcs12_store.get_key(alias).key.is_private:
-                    print(f"Valid alias found: {alias}")
+                    print("Valid alias found:", alias)
 
         # 3 -  Use a valid alias:
         aw.digitalsignatures.CertificateHolder.create(MY_DIR + "morzal.pfx", "aw", "c20be521-11ea-4976-81ed-865fbbfc9f24")

@@ -1269,22 +1269,22 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                     if page_mode == aw.saving.PdfPageMode.FULL_SCREEN:
                         self.assertIn(
-                            f"<</Type /Catalog/Pages 3 0 R/PageMode /FullScreen/Lang({doc_locale_name})/Metadata 4 0 R>>\r\n",
+                            "<</Type /Catalog/Pages 3 0 R/PageMode /FullScreen/Lang({})/Metadata 4 0 R>>\r\n".format(doc_locale_name),
                             content)
 
                     elif page_mode == aw.saving.PdfPageMode.USE_THUMBS:
                         self.assertIn(
-                            f"<</Type /Catalog/Pages 3 0 R/PageMode /UseThumbs/Lang({doc_locale_name})/Metadata 4 0 R>>",
+                            "<</Type /Catalog/Pages 3 0 R/PageMode /UseThumbs/Lang({})/Metadata 4 0 R>>".format(doc_locale_name),
                             content)
 
                     elif page_mode == aw.saving.PdfPageMode.USE_OC:
                         self.assertIn(
-                            f"<</Type /Catalog/Pages 3 0 R/PageMode /UseOC/Lang({doc_locale_name})/Metadata 4 0 R>>\r\n",
+                            "<</Type /Catalog/Pages 3 0 R/PageMode /UseOC/Lang({})/Metadata 4 0 R>>\r\n".format(doc_locale_name),
                             content)
 
                     elif page_mode in (aw.saving.PdfPageMode.USE_OUTLINES, aw.saving.PdfPageMode.USE_NONE):
                         self.assertIn(
-                            f"<</Type /Catalog/Pages 3 0 R/Lang({doc_locale_name})/Metadata 4 0 R>>\r\n",
+                            "<</Type /Catalog/Pages 3 0 R/Lang({})/Metadata 4 0 R>>\r\n".format(doc_locale_name),
                             content)
 
                 #pdf_document = aspose.pdf.Document(ARTIFACTS_DIR + "PdfSaveOptions.page_mode.pdf")
@@ -2009,7 +2009,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         builder = aw.DocumentBuilder(doc)
 
         for i in range(5):
-            builder.writeln(f"Page {i + 1} ({'odd' if i % 2 == 0 else 'even'})")
+            builder.writeln("Page " + str(i + 1) + "(" + ("odd" if i % 2 == 0 else "even") + ")")
             if i < 4:
                 builder.insert_break(aw.BreakType.PAGE_BREAK)
 

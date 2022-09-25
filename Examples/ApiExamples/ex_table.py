@@ -37,7 +37,7 @@ class ExTable(ApiExampleBase):
         paragraph = aw.Paragraph(doc)
         first_cell.append_child(paragraph)
 
-        # Add text to the first call in the first row of the table.
+        # Add text to the first cell in the first row of the table.
         run = aw.Run(doc, "Hello world!")
         paragraph.append_child(run)
 
@@ -164,7 +164,7 @@ class ExTable(ApiExampleBase):
         self.assertEqual(2, len(tables.to_array()))
 
         for i in range(tables.count):
-            print(f"Start of Table {i}")
+            print("Start of Table", i)
 
             rows = tables[i].rows
 
@@ -173,7 +173,7 @@ class ExTable(ApiExampleBase):
             #Assert.are_not_same(rows, rows.to_array())
 
             for j in range(rows.count):
-                print(f"\tStart of Row {j}")
+                print("\tStart of Row", j)
 
                 cells = rows[j].cells
 

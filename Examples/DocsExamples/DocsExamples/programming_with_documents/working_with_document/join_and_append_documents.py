@@ -162,7 +162,7 @@ class JoinAndAppendDocuments(DocsExamplesBase):
                     # Insert a PAGEREF field at the same position as the field.
                     builder.move_to(previous_node)
 
-                    new_field = builder.insert_field(f" {page_ref_field_name} bookmarkPrefixsubDocumentCount {field_switches} ")
+                    new_field = builder.insert_field(" {} bookmarkPrefixsubDocumentCount {} ".format(page_ref_field_name, field_switches))
 
                     # The field will be inserted before the referenced node. Move the node before the field instead.
                     previous_node.parent_node.insert_before(previous_node, new_field.start)

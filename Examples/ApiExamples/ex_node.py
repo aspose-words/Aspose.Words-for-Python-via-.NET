@@ -248,7 +248,7 @@ class ExNode(ApiExampleBase):
         node = doc.first_section.body.first_child
         while node is not None:
             print()
-            print(f"Node type: {aw.Node.node_type_to_string(node.node_type)}")
+            print("Node type:", aw.Node.node_type_to_string(node.node_type))
 
             contents = node.get_text().strip()
             print("This node contains no text" if contents == "" else f'Contents: "{node.get_text().strip()}"')
@@ -358,7 +358,7 @@ class ExNode(ApiExampleBase):
         # Check if the specified run is one of the nodes that are inside the field.
         for node in result_list:
             if node.node_type == aw.NodeType.RUN:
-                print(f"Contents of the first Run node that's part of a field: {node.get_text().strip()}")
+                print("Contents of the first Run node that's part of a field:", node.get_text().strip())
                 break
         #ExEnd
 

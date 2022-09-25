@@ -195,13 +195,13 @@ class ExtractContent(DocsExamplesBase):
         run_style = "Intense Emphasis"
 
         paragraphs = ExtractContent.paragraphs_by_style_name(doc, para_style)
-        print(f'Paragraphs with "{para_style}" styles ({len(paragraphs)}):')
+        print('Paragraphs with "{}" styles ({}):'.format(para_style, len(paragraphs)))
 
         for paragraph in paragraphs:
             print(paragraph.to_string(aw.SaveFormat.TEXT))
 
         runs = ExtractContent.runs_by_style_name(doc, run_style)
-        print(f'\nRuns with "{run_style}" styles ({len(runs)}):')
+        print('\nRuns with "{}" styles ({}):'.format(run_style, len(runs)))
 
         for run in runs:
             print(run.range.text)
@@ -273,7 +273,8 @@ class ExtractContent(DocsExamplesBase):
         for shape in shapes:
             shape = shape.as_shape()
             if shape.has_image:
-                image_file_name = f"Image.ExportImages.{image_index}_{aw.FileFormatUtil.image_type_to_extension(shape.image_data.image_type)}"
+                image_extension = aw.FileFormatUtil.image_type_to_extension(shape.image_data.image_type)
+                image_file_name = "Image.ExportImages." + str(image_index) + image_extension
 
                 shape.image_data.save(ARTIFACTS_DIR + image_file_name)
                 image_index += 1

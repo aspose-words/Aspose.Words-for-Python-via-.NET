@@ -33,7 +33,7 @@ class WorkingWithTables(DocsExamplesBase):
         new_column = column.insert_column_before()
 
         for cell in new_column.get_column_cells():
-            cell.first_paragraph.append_child(aw.Run(doc, f"Column Text {new_column.index_of(cell)}"))
+            cell.first_paragraph.append_child(aw.Run(doc, "Column Text " + str(new_column.index_of(cell))))
         #ExEnd:InsertBlankColumn
 
     #ExStart:ColumnClass
@@ -273,18 +273,18 @@ class WorkingWithTables(DocsExamplesBase):
         all_tables = doc.get_child_nodes(aw.NodeType.TABLE, True)
         table_index = all_tables.index_of(table)
         #ExEnd:RetrieveTableIndex
-        print(f"\nTable index is {table_index}")
+        print("\nTable index is " + str(table_index))
 
         #ExStart:RetrieveRowIndex
         row_index = table.index_of(table.last_row)
         #ExEnd:RetrieveRowIndex
-        print(f"\nRow index is {row_index}")
+        print("\nRow index is " + str(row_index))
 
         row = table.last_row
         #ExStart:RetrieveCellIndex
         cell_index = row.index_of(row.cells[4])
         #ExEnd:RetrieveCellIndex
-        print(f"\nCell index is {cell_index}")
+        print("\nCell index is " + str(cell_index))
 
     def test_insert_table_directly(self):
 
@@ -582,18 +582,20 @@ class WorkingWithTables(DocsExamplesBase):
         is_horizontally_merged = cell.cell_format.horizontal_merge != aw.tables.CellMerge.NONE
         is_vertically_merged = cell.cell_format.vertical_merge != aw.tables.CellMerge.NONE
 
-        cell_location = f"R{cell.parent_row.parent_table.index_of(cell.parent_row) + 1}, C{cell.parent_row.index_of(cell) + 1}"
+        cell_location = "R{}, C{}".format(
+            cell.parent_row.parent_table.index_of(cell.parent_row) + 1,
+            cell.parent_row.index_of(cell) + 1)
 
         if is_horizontally_merged and is_vertically_merged:
-            return f"The cell at {cell_location} is both horizontally and vertically merged"
+            return "The cell at " + cell_location + " is both horizontally and vertically merged"
 
         if is_horizontally_merged:
-            return f"The cell at {cell_location} is horizontally merged."
+            return "The cell at " + cell_location + " is horizontally merged."
 
         if is_vertically_merged:
-            return f"The cell at {cell_location} is vertically merged"
+            return "The cell at " + cell_location + " is vertically merged"
 
-        return f"The cell at {cell_location} is not merged"
+        return "The cell at " + cell_location + " is not merged"
 
     #ExEnd:PrintCellMergeType
 
