@@ -4,6 +4,7 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
+import io
 import platform
 import xml.etree.ElementTree as ET
 
@@ -1110,4 +1111,42 @@ class ExFontSettings(ApiExampleBase):
 
     #        return open(FONTS_DIR + "Kreon-Regular.ttf", "rb")
 
+    ##ExEnd
+
+    ##ExStart
+    ##ExFor:FileFontSource.__init__(str, int, str)
+    ##ExFor:MemoryFontSource._init__(bytes, int, str)
+    ##ExFor:FontSettings.save_search_cache(BytesIO)
+    ##ExFor:FontSettings.set_fonts_sources(List[FontSourceBase], BytesIO)
+    ##ExSummary:Shows how to speed up the font cache initialization process.
+    #def test_load_font_search_cache(self):
+    #
+    #    cache_key1 = "Arvo"
+    #    cache_key2 = "Arvo-Bold"
+    #    parsed_fonts = aw.fonts.FontSettings()
+    #    loaded_cache = aw.fonts.FontSettings()
+    #
+    #    parsed_fonts.set_fonts_sources([
+    #        aw.fonts.FileFontSource(FONTS_DIR + "Arvo-Regular.ttf", 0, cache_key1),
+    #        aw.fonts.FileFontSource(FONTS_DIR + "Arvo-Bold.ttf", 0, cache_key2),
+    #        ])
+    #
+    #    with io.BytesIO() as cache_stream:
+    #        parsed_fonts.save_search_cache(cache_stream);
+    #        loaded_cache.set_fonts_sources([
+    #            ExFontSettings.SearchCacheStream(cache_key1),                    
+    #            aw.fonts.MemoryFontSource(open(FONTS_DIR + "Arvo-Bold.ttf", "rb").read(), 0, cache_key2)
+    #        ], cache_stream)
+    #
+    #    self.assertEqual(len(parsed_fonts.get_fonts_sources()), len(loaded_cache.get_fonts_sources()));
+    #
+    #class SearchCacheStream(aw.fonts.StreamFontSource):
+    #    """Load the font data only when required instead of storing it in the memory
+    #    for the entire lifetime of the "FontSettings" object."""
+    #
+    #    def __init__(self, cache_key: str):
+    #        aw.fonts.StreamFontSource.__init__(self, 0, cache_key)
+    #
+    #    def open_font_fata_stream(self) -> io.BytesIO:
+    #        return open(FONTS_DIR + "Arvo-Regular.ttf", "rb")
     ##ExEnd

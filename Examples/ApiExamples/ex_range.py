@@ -192,6 +192,32 @@ class ExRange(ApiExampleBase):
                         doc.get_text().strip())
                 #ExEnd
 
+    def test_ignore_field_codes(self):
+
+        for ignore_field_codes in (True, False):
+            with self.subTest(ignore_field_codes=ignore_field_codes):
+                #ExStart
+                #ExFor:FindReplaceOptions.ignore_field_codes
+                #ExSummary:Shows how to ignore text inside field codes.
+                doc = aw.Document()
+                builder = aw.DocumentBuilder(doc)
+
+                builder.insert_field("INCLUDETEXT", "Test IT!")
+
+                options = aw.replacing.FindReplaceOptions()
+                options.ignore_field_codes = ignore_field_codes
+
+                # Replace 'T' in document ignoring text inside field code or not.
+                doc.range.replace_regex("T", "*", options)
+                print(doc.get_text())
+
+                if ignore_field_codes:
+                    self.assertEqual("\u0013INCLUDETEXT\u0014*est I*!\u0015", doc.get_text().strip())
+                else:
+                    self.assertEqual("\u0013INCLUDE*EX*\u0014*est I*!\u0015", doc.get_text().strip())
+
+        #ExEnd
+
     def test_ignore_footnote(self):
 
         for is_ignore_footnotes in (True, False):

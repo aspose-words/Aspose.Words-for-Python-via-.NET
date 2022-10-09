@@ -253,6 +253,16 @@ class ExReportingEngine(ApiExampleBase):
 
         self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.operators.docx", GOLDS_DIR + "ReportingEngine.Operators Gold.docx"))
 
+    def test_header_variable(self):
+
+        doc = aw.Document(MY_DIR + "Reporting engine template - Header variable.docx")
+
+        self.build_report(doc, self.create_json_data_source({}), data_source_name="", options=aw.reporting.ReportBuildOptions.USE_LEGACY_HEADER_FOOTER_VISITING)
+
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.HeaderVariable.docx");
+
+        self.assertEqual("Value of myHeaderVariable is: I am header variable", doc.first_section.body.first_paragraph.get_text().strip())
+
     def test_contextual_object_member_access(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Contextual object member access.docx")
@@ -296,7 +306,8 @@ class ExReportingEngine(ApiExampleBase):
 
         template = DocumentHelper.create_simple_document("<<doc [src.DocumentStream]>>")
 
-        doc_stream = DocumentTestClass(doc_stream=open(self.document, "rb"))
+        with open(self.document, "rb") as stream:
+            doc_stream = DocumentTestClass(doc_stream=stream)
 
         self.build_report(template, doc_stream, "src", options=aw.reporting.ReportBuildOptions.NONE)
         template.save(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_stream.docx")
@@ -309,7 +320,8 @@ class ExReportingEngine(ApiExampleBase):
 
         template = DocumentHelper.create_simple_document("<<doc [src.DocumentBytes]>>")
 
-        doc_bytes = DocumentTestClass(doc_bytes=open(MY_DIR + "Reporting engine template - Data table.docx", "rb").read())
+        with open(MY_DIR + "Reporting engine template - Data table.docx", "rb") as stream:
+            doc_bytes = DocumentTestClass(doc_bytes=stream.read())
 
         self.build_report(template, doc_bytes, "src", options=aw.reporting.ReportBuildOptions.NONE)
         template.save(ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_bytes.docx")
@@ -362,19 +374,21 @@ class ExReportingEngine(ApiExampleBase):
     def test_insert_image_dynamically_by_stream(self):
 
         template = DocumentHelper.create_template_document_with_draw_objects("<<image [src.ImageStream]>>", aw.drawing.ShapeType.TEXT_BOX)
-        image_stream = ImageTestClass(image_stream=open(self.image, "rb"))
+        with open(self.image, "rb") as stream:
+            image_stream = ImageTestClass(image_stream=stream)
 
-        self.build_report(template, image_stream, "src", options=aw.reporting.ReportBuildOptions.NONE)
-        template.save(ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_stream.docx")
+            self.build_report(template, image_stream, "src", options=aw.reporting.ReportBuildOptions.NONE)
+            template.save(ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_stream.docx")
 
-        self.assertTrue(DocumentHelper.compare_docs(
-            ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_stream.docx",
-            GOLDS_DIR + "ReportingEngine.insert_image_dynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes")
+            self.assertTrue(DocumentHelper.compare_docs(
+                ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_stream.docx",
+                GOLDS_DIR + "ReportingEngine.insert_image_dynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes")
 
     def test_insert_image_dynamically_by_bytes(self):
 
         template = DocumentHelper.create_template_document_with_draw_objects("<<image [src.ImageBytes]>>", aw.drawing.ShapeType.TEXT_BOX)
-        image_bytes = ImageTestClass(image_bytes=open(self.image, "rb").read())
+        with open(self.image, "rb") as stream:
+            image_bytes = ImageTestClass(image_bytes=stream.read())
 
         self.build_report(template, image_bytes, "src", options=aw.reporting.ReportBuildOptions.NONE)
         template.save(ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_bytes.docx")
@@ -547,85 +561,89 @@ class ExReportingEngine(ApiExampleBase):
         doc = DocumentHelper.create_template_document_with_draw_objects(
             "<<image [src.ImageStream] -fitHeight>>", aw.drawing.ShapeType.TEXT_BOX)
 
-        image_stream = ImageTestClass(image_stream=open(self.image, "rb"))
-        self.build_report(doc, image_stream, "src", options=aw.reporting.ReportBuildOptions.NONE)
+        with open(self.image, "rb") as stream:
+            image_stream = ImageTestClass(image_stream=stream)
+            self.build_report(doc, image_stream, "src", options=aw.reporting.ReportBuildOptions.NONE)
 
-        doc = DocumentHelper.save_open(doc)
+            doc = DocumentHelper.save_open(doc)
 
-        shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
+            shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
 
-        for shape in shapes:
-            shape = shape.as_shape()
+            for shape in shapes:
+                shape = shape.as_shape()
 
-            # Assert that the image is really insert in textbox
-            self.assertIsNotNone(shape.fill.image_bytes)
+                # Assert that the image is really insert in textbox
+                self.assertIsNotNone(shape.fill.image_bytes)
 
-            # Assert that the width is preserved, and the height is changed
-            self.assertNotEqual(346.35, shape.height)
-            self.assertEqual(431.5, shape.width)
+                # Assert that the width is preserved, and the height is changed
+                self.assertNotEqual(346.35, shape.height)
+                self.assertEqual(431.5, shape.width)
 
     def test_stretch_imagefit_width(self):
 
         doc = DocumentHelper.create_template_document_with_draw_objects(
             "<<image [src.ImageStream] -fitWidth>>", aw.drawing.ShapeType.TEXT_BOX)
 
-        image_stream = ImageTestClass(image_stream=open(self.image, "rb"))
-        self.build_report(doc, image_stream, "src", options=aw.reporting.ReportBuildOptions.NONE)
+        with open(self.image, "rb") as stream:
+            image_stream = ImageTestClass(image_stream=stream)
+            self.build_report(doc, image_stream, "src", options=aw.reporting.ReportBuildOptions.NONE)
 
-        doc = DocumentHelper.save_open(doc)
+            doc = DocumentHelper.save_open(doc)
 
-        shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
+            shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
 
-        for shape in shapes:
-            shape = shape.as_shape()
+            for shape in shapes:
+                shape = shape.as_shape()
 
-            self.assertIsNotNone(shape.fill.image_bytes)
+                self.assertIsNotNone(shape.fill.image_bytes)
 
-            # Assert that the height is preserved, and the width is changed
-            self.assertNotEqual(431.5, shape.width)
-            self.assertEqual(346.35, shape.height)
+                # Assert that the height is preserved, and the width is changed
+                self.assertNotEqual(431.5, shape.width)
+                self.assertEqual(346.35, shape.height)
 
     def test_stretch_imagefit_size(self):
 
         doc = DocumentHelper.create_template_document_with_draw_objects(
             "<<image [src.ImageStream] -fitSize>>", aw.drawing.ShapeType.TEXT_BOX)
 
-        image_stream = ImageTestClass(image_stream=open(self.image, "rb"))
-        self.build_report(doc, image_stream, "src", options=aw.reporting.ReportBuildOptions.NONE)
+        with open(self.image, "rb") as stream:
+            image_stream = ImageTestClass(image_stream=stream)
+            self.build_report(doc, image_stream, "src", options=aw.reporting.ReportBuildOptions.NONE)
 
-        doc = DocumentHelper.save_open(doc)
+            doc = DocumentHelper.save_open(doc)
 
-        shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
+            shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
 
-        for shape in shapes:
-            shape = shape.as_shape()
+            for shape in shapes:
+                shape = shape.as_shape()
 
-            self.assertNotNone(shape.fill.image_bytes)
+                self.assertNotNone(shape.fill.image_bytes)
 
-            # Assert that the height and the width are changed
-            self.assertNotEqual(346.35, shape.height)
-            self.assertNotEqual(431.5, shape.width)
+                # Assert that the height and the width are changed
+                self.assertNotEqual(346.35, shape.height)
+                self.assertNotEqual(431.5, shape.width)
 
     def test_stretch_imagefit_size_lim(self):
 
         doc = DocumentHelper.create_template_document_with_draw_objects(
             "<<image [src.ImageStream] -fitSizeLim>>", aw.drawing.ShapeType.TEXT_BOX)
 
-        image_stream = ImageTestClass(image_stream=open(self.image, "rb"))
-        self.build_report(doc, image_stream, "src", options=aw.reporting.ReportBuildOptions.NONE)
+        with open(self.image, "rb") as stream:
+            image_stream = ImageTestClass(image_stream=stream)
+            self.build_report(doc, image_stream, "src", options=aw.reporting.ReportBuildOptions.NONE)
 
-        doc = DocumentHelper.save_open(doc)
+            doc = DocumentHelper.save_open(doc)
 
-        shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
+            shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
 
-        for shape in shapes:
-            shape = shape.as_shape()
+            for shape in shapes:
+                shape = shape.as_shape()
 
-            self.assertNotNone(shape.fill.image_bytes)
+                self.assertNotNone(shape.fill.image_bytes)
 
-            # Assert that textbox size are equal image size
-            self.assertEqual(300.0, shape.height)
-            self.assertEqual(300.0, shape.width)
+                # Assert that textbox size are equal image size
+                self.assertEqual(300.0, shape.height)
+                self.assertEqual(300.0, shape.width)
 
     def test_without_missing_members(self):
 
@@ -675,7 +693,7 @@ class ExReportingEngine(ApiExampleBase):
                     builder.document.first_section.body.paragraphs[0].get_text().rstrip(),
                     result)
 
-    def test_set_background_color(self):
+    def test_set_background_color_dynamically(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Background color.docx")
 
@@ -687,11 +705,27 @@ class ExReportingEngine(ApiExampleBase):
 
         self.build_report(doc, colors, "Colors")
 
-        doc.save(ARTIFACTS_DIR + "ReportingEngine.set_background_color.docx")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.set_background_color_dynamically.docx")
 
         self.assertTrue(DocumentHelper.compare_docs(
-            ARTIFACTS_DIR + "ReportingEngine.set_background_color.docx",
-            GOLDS_DIR + "ReportingEngine.BackColor Gold.docx"))
+            ARTIFACTS_DIR + "ReportingEngine.set_background_color_dynamically.docx",
+            GOLDS_DIR + "ReportingEngine.SetBackgroundColorDynamically Gold.docx"))
+    
+    def test_set_text_color_dynamically(self):
+        doc = aw.Document(MY_DIR + "Reporting engine template - Text color.docx")
+
+        colors = [
+            ColorItemTestClass("Black", drawing.Color.black),
+            ColorItemTestClass("Red", drawing.Color.from_argb(255, 0, 0)),
+            ColorItemTestClass("Empty", drawing.Color.empty()),
+        ]
+
+        self.build_report(doc, colors, "Colors")
+
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.set_text_color_dynamically.docx");
+
+        self.assertTrue(DocumentHelper.CompareDocs(ARTIFACTS_DIR + "ReportingEngine.set_text_color_dynamically.docx",
+            GOLDS_DIR + "ReportingEngine.SetTextColorDynamically Gold.docx"));
 
     def test_do_not_remove_empty_paragraphs(self):
 

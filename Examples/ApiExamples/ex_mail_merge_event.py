@@ -287,7 +287,7 @@ class ExMailMergeEvent(ApiExampleBase):
 
         image_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        self.verify_image_in_shape(5184, 3456, aw.drawing.image_type.JPEG, image_shape)
+        self.verify_image_in_shape(252, 213, aw.drawing.image_type.PNG, image_shape)
 
     #ExStart
     #ExFor:MailMerge.field_merging_callback

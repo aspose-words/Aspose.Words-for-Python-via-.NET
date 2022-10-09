@@ -4,6 +4,7 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
+import datetime
 import os
 from typing import List
 
@@ -298,38 +299,43 @@ class ExLoadOptions(ApiExampleBase):
 
         doc = aw.Document(MY_DIR + "HTML help.chm", load_options)
 
-    def test_flat_opc_xml_mapping_only(self):
-
-        for is_flat_opc_xml_mapping_only in (True, False):
-            with self.subTest(is_flat_opc_xml_mapping_only=is_flat_opc_xml_mapping_only):
-                #ExStart
-                #ExFor:SaveOptions.flat_opc_xml_mapping_only
-                #ExSummary:Shows how to binding structured document tags to any format.
-                # If True - SDT will contain raw HTML text.
-                # If False - mapped HTML will parsed and resulting document will be inserted into SDT content.
-                load_options = aw.loading.LoadOptions()
-                load_options.flat_opc_xml_mapping_only = is_flat_opc_xml_mapping_only
-                doc = aw.Document(MY_DIR + "Structured document tag with HTML content.docx", load_options)
-
-                save_options = aw.saving.SaveOptions.create_save_options(aw.SaveFormat.PDF)
-                save_options.flat_opc_xml_mapping_only = is_flat_opc_xml_mapping_only
-
-                doc.save(ARTIFACTS_DIR + "LoadOptions.flat_opc_xml_mapping_only.pdf", save_options)
-                #ExEnd
-
-                #pdf_document = aspose.pdf.Document(ARTIFACTS_DIR + "LoadOptions.flat_opc_xml_mapping_only.pdf")
-                #text_absorber = aspose.pdf.text.TextAbsorber()
-                #pdf_document.pages.accept(text_absorber)
-
-                #if is_flat_opc_xml_mapping_only:
-                #    self.assertIn(
-                #        "TCSVerify vData1: <!DOCTYPE html><html><body><h1>My First Heading</h1><p>My first \r\nparagraph.</p></body></html>\r\n\r\n" +
-                #        "TCSVerify vData2: <html><body><b>This is BOLD</b><i>This is Italics</i></body></html>\r\n\r\n" +
-                #        "TCSVerify vData3: <!DOCTYPE HTML PUBLIC",
-                #        textAbsorber.text)
-                #else:
-                #    self.assertIn(
-                #        "TCSVerify vData1: \r\nMy First Heading\r\n\r\nMy first paragraph.\r\n\r\n\r\n" +
-                #        "TCSVerify vData2: This is BOLDThis is Italics\r\n\r\n" +
-                #        "TCSVerify vData3: \r\n\r\nDepression Program\r\n\r\nDepression Abuse",
-                #        textAbsorber.text)
+    ##ExStart
+    ##ExFor:LoadOptions.progress_callback
+    ##ExFor:IDocumentLoadingCallback
+    ##ExFor:IDocumentLoadingCallback.notify
+    ##ExSummary:Shows how to notify the user if document loading exceeded expected loading time.
+    #def test_progressCallback(self):
+    #
+    #    progress_callback = ExLoadOptions.LoadingProgressCallback()
+    #
+    #    load_options = aw.LoadOptions()
+    #    load_options.progress_callback = progress_callback
+    #
+    #    try:
+    #        doc = aw.Document(MY_DIR + "Big document.docx", load_options)
+    #    except OperationCanceledException as exception:
+    #        print(exception)
+    #        # Handle loading duration issue.
+    #
+    #class LoadingProgressCallback(aw.loading.IDocumentLoadingCallback):
+    #    """Cancel a document loading after the "max_duration" seconds."""
+    #
+    #    def __init__(self):
+    #        # Date and time when document loading is started.
+    #        self.loading_started_at = datetime.datetime.now()
+    #
+    #        # Maximum allowed duration in sec.
+    #        self.max_duration = 0.5
+    #
+    #    def notify(self, args: aw.loading.DocumentLoadingArgs):
+    #        """Callback method which called during document loading.
+    #        
+    #        :param args: Loading arguments.
+    #        """
+    #        canceled_at = datetime.datetime.now()
+    #        ellapsed_seconds = (canceled_at - self.loading_started_at).total_seconds()
+    #
+    #        if ellapsed_seconds > self.max_duration:
+    #            raise OperationCanceledException(f"estimated_progress = {args.estimated_progress}; canceled_at = {canceled_at}")
+    #
+    ##ExEnd

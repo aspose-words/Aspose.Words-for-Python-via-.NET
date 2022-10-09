@@ -830,7 +830,7 @@ class ExTable(ApiExampleBase):
                     text = file.read().decode('utf-8')
                     if allow_cell_spacing:
                         self.assertIn(
-                            "<td style=\"border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border:0.5pt single\">",
+                            "<td style=\"border-style:solid; border-width:0.75pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top; -aw-border:0.5pt single\">",
                             text)
                     else:
                         self.assertIn(

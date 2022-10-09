@@ -71,7 +71,7 @@ class WorkWithWatermark(DocsExamplesBase):
         doc = aw.Document(MY_DIR + "Document.docx")
 
         self.insert_watermark_text(doc, "CONFIDENTIAL")
-        doc.save(ARTIFACTS_DIR + "TestFile.watermark.docx")
+        doc.save(ARTIFACTS_DIR + "WorkWithWatermark.add_watermark.docx")
 
         self.remove_watermark_text(doc)
         doc.save(ARTIFACTS_DIR + "WorkWithWatermark.remove_watermark.docx")

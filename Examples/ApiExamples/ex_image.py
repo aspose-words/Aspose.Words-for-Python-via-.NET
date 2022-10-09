@@ -71,7 +71,7 @@ class ExImage(ApiExampleBase):
 
         self.assertEqual(2, shapes.count)
         self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shapes[0].as_shape())
-        self.verify_image_in_shape(5184, 3456, aw.drawing.ImageType.JPEG, shapes[1].as_shape())
+        self.verify_image_in_shape(252, 213, aw.drawing.ImageType.PNG, shapes[1].as_shape())
 
     def test_from_stream(self):
 

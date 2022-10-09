@@ -4,6 +4,7 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
+import datetime
 import io
 import os
 import time
@@ -270,3 +271,51 @@ class ExOoxmlSaveOptions(ApiExampleBase):
 
         doc.save(ARTIFACTS_DIR + "OoxmlSaveOptions.export_generator_name.docx", save_options)
         #ExEnd
+
+    ##ExStart
+    ##ExFor:SaveOptions.progress_callback
+    ##ExFor:IDocumentSavingCallback
+    ##ExFor:IDocumentSavingCallback.notify(DocumentSavingArgs)
+    ##ExFor:DocumentSavingArgs.estimated_progress
+    ##ExSummary:Shows how to manage a document while saving to docx.
+    #def test_progress_callback(self):
+    #    parameters = [
+    #        (aw.SaveFormat.DOCX, "docx"),
+    #        (aw.SaveFormat.DOCM, "docm"),
+    #        (aw.SaveFormat.DOTM, "dotm"),
+    #        (aw.SaveFormat.DOTX, "dotx"),
+    #        (aw.SaveFormat.FLAT_OPC, "flatopc"),
+    #        ]
+    #
+    #    for save_format, ext in parameters:
+    #        with self.subTest(compression_level=compression_level):
+    #            doc = aw.Document(MY_DIR + "Big document.docx")
+    #
+    #            # Following formats are supported: Docx, FlatOpc, Docm, Dotm, Dotx.
+    #            save_options = aw.saving.OoxmlSaveOptions(save_format)
+    #            save_options.progress_callback = ExOoxmlSaveOptions.SavingProgressCallback()
+    #
+    #            with self.assertRaises(OperationCanceledException):
+    #                doc.Save(ARTIFACTS_DIR + f"OoxmlSaveOptions.ProgressCallback.{ext}", save_options)
+    #
+    #class SavingProgressCallback(aw.saving.IDocumentSavingCallback):
+    #    """Saving progress callback. Cancel a document saving after the "max_duration" seconds."""
+    #
+    #    def __init__(self):
+    #        # Date and time when document saving is started.
+    #        self.saving_started_at = datetime.datetime.now()
+    #
+    #        # Maximum allowed duration in sec.
+    #        self.max_duration = 0.01
+    #
+    #    def notify(self, args: aw.saving.DocumentSavingArgs):
+    #        """Callback method which called during document saving.
+    #        
+    #        :param args: Saving arguments.
+    #        """
+    #        canceled_at = datetime.datetime.now()
+    #        ellapsed_seconds = (canceled_at - self.saving_started_at).total_seconds()
+    #        if ellapsed_seconds > self.max_duration:
+    #            raise OperationCanceledException(f"estimated_progress = {args.estimated_progress}; canceled_at = {canceled_at}")
+    #
+    ##ExEnd

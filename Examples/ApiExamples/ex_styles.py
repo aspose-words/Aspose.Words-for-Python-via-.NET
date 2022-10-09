@@ -161,7 +161,7 @@ class ExStyles(ApiExampleBase):
     def test_copy_style_same_document(self):
 
         #ExStart
-        #ExFor:StyleCollection.add_copy
+        #ExFor:StyleCollection.add_copy(Style)
         #ExFor:Style.name
         #ExSummary:Shows how to clone a document's style.
         doc = aw.Document()
@@ -189,7 +189,7 @@ class ExStyles(ApiExampleBase):
     def test_copy_style_different_document(self):
 
         #ExStart
-        #ExFor:StyleCollection.add_copy
+        #ExFor:StyleCollection.add_copy(Style)
         #ExSummary:Shows how to import a style from one document into a different document.
         src_doc = aw.Document()
 
@@ -299,3 +299,24 @@ class ExStyles(ApiExampleBase):
             doc.first_section.body.paragraphs[0].paragraph_format.style,
             doc.first_section.body.paragraphs[1].paragraph_format.style)
         #ExEnd
+
+    def test_latent_styles(self):
+
+        # This test is to check that after re-saving a document it doesn't lose LatentStyle information
+        # for 4 styles from documents created in Microsoft Word.
+        doc = aw.Document(MY_DIR + "Blank.docx")
+
+        doc.save(ARTIFACTS_DIR + "Styles.latent_styles.docx")
+
+        self.verify_doc_package_file_contains_string(
+            "<w:lsdException w:name=\"Mention\" w:semiHidden=\"1\" w:unhideWhenUsed=\"1\" />",
+            ARTIFACTS_DIR + "Styles.latent_styles.docx", "word/styles.xml")
+        self.verify_doc_package_file_contains_string(
+            "<w:lsdException w:name=\"Smart Hyperlink\" w:semiHidden=\"1\" w:unhideWhenUsed=\"1\" />",
+            ARTIFACTS_DIR + "Styles.latent_styles.docx", "word/styles.xml")
+        self.verify_doc_package_file_contains_string(
+            "<w:lsdException w:name=\"Hashtag\" w:semiHidden=\"1\" w:unhideWhenUsed=\"1\" />",
+            ARTIFACTS_DIR + "Styles.latent_styles.docx", "word/styles.xml")
+        self.verify_doc_package_file_contains_string(
+            "<w:lsdException w:name=\"Unresolved Mention\" w:semiHidden=\"1\" w:unhideWhenUsed=\"1\" />",
+            ARTIFACTS_DIR + "Styles.latent_styles.docx", "word/styles.xml")

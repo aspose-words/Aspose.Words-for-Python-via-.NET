@@ -65,15 +65,10 @@ class ExHtmlLoadOptions(ApiExampleBase):
     #    # This linked image will require a web request to load, which will have to complete within our time limit.
     #    html = '<html><img src="{IMAGE_URL}" alt="Aspose logo" style="width:400px;height:400px;"></html>'
 
-    #    doc = aw.Document(io.BytesIO(html.encode("utf-8")), options)
-    #    image_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-
-    #    self.assertEqual(1109843, len(image_shape.image_data.image_bytes))
-    #    self.assertEqual(0, warning_callback.warnings().count)
-
     #    # Set an unreasonable timeout limit and try load the document again.
     #    options.web_request_timeout = 0
     #    doc = aw.Document(io.BytesIO(html.encode("utf-8")), options)
+    #    self.assertEqual(2, warning_callback.warnings().count)
 
     #    # A web request that fails to obtain an image within the time limit will still produce an image.
     #    # However, the image will be the red 'x' that commonly signifies missing images.

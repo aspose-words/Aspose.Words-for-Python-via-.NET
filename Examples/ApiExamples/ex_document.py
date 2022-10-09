@@ -506,6 +506,27 @@ class ExDocument(ApiExampleBase):
         dst_doc.save(ARTIFACTS_DIR + "Document.merge_pasted_lists.docx")
         #ExEnd
 
+    def test_force_copy_styles(self):
+
+        #ExStart
+        #ExFor:ImportFormatOptions.force_copy_styles
+        #ExSummary:Shows how to copy source styles with unique names forcibly.
+        
+        # Both documents contain MyStyle1 and MyStyle2, MyStyle3 exists only in a source document.
+        src_doc = aw.Document(MY_DIR + "Styles source.docx");
+        dst_doc = aw.Document(MY_DIR + "Styles destination.docx");
+
+        options = aw.ImportFormatOptions()
+        options.force_copy_styles = True
+        dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, options)
+
+        paras = dst_doc.sections[1].body.paragraphs
+
+        self.assertEqual(paras[0].paragraph_format.style.name, "MyStyle1_0")
+        self.assertEqual(paras[1].paragraph_format.style.name, "MyStyle2_0")
+        self.assertEqual(paras[2].paragraph_format.style.name, "MyStyle3")
+        #ExEnd
+
     def test_validate_individual_document_signatures(self):
 
         #ExStart
@@ -2379,3 +2400,11 @@ class ExDocument(ApiExampleBase):
             "https://github.com/aspose-words/Aspose.Words-for-.NET/blob/master/Examples/Data/Absolute%20position%20tab.docx",
             doc.frameset.child_framesets[0].child_framesets[0].frame_default_url)
         self.assertFalse(doc.frameset.child_framesets[0].child_framesets[0].is_frame_link_to_file)
+
+    def test_open_azw(self):
+
+        info = aw.FileFormatUtil.detect_file_format(MY_DIR + "Azw3 document.azw3")
+        self.assertEqual(info.load_format, aw.LoadFormat.AZW3);
+
+        doc = aw.Document(MY_DIR + "Azw3 document.azw3")
+        self.assertIn("Hachette Book Group USA", doc.get_text())

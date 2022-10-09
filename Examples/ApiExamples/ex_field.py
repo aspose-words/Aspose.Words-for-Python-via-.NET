@@ -55,6 +55,16 @@ class ExField(ApiExampleBase):
 
         self.verify_field(aw.fields.FieldType.FIELD_DATE, " DATE  \\@ \"dddd, MMMM dd, yyyy\"", datetime.now().strftime("%A, %B %d, %Y"), doc.range.fields[0])
 
+    def test_get_field_data(self):
+        #ExStart
+        #ExFor:FieldStart.field_data
+        #ExSummary:Shows how to get data associated with the field.
+        doc = aw.Document(MY_DIR + "Field sample - Field with data.docx")
+
+        field = doc.range.fields[2]
+        print(field.Start.field_data)
+        #ExEnd
+
     def test_get_field_code(self):
 
         #ExStart

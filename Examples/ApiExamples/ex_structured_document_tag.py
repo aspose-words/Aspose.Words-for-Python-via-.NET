@@ -22,11 +22,26 @@ class ExStructuredDocumentTag(ApiExampleBase):
         #ExSummary:Shows how to get the type of a structured document tag.
         doc = aw.Document(MY_DIR + "Structured document tags.docx")
 
-        sd_tags = [node.as_structured_document_tag() for node in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)]
+        tags = [node.as_structured_document_tag() for node in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)]
 
-        self.assertEqual(aw.markup.SdtType.REPEATING_SECTION, sd_tags[0].sdt_type)
-        self.assertEqual(aw.markup.SdtType.REPEATING_SECTION_ITEM, sd_tags[1].sdt_type)
-        self.assertEqual(aw.markup.SdtType.RICH_TEXT, sd_tags[2].sdt_type)
+        self.assertEqual(aw.markup.SdtType.REPEATING_SECTION, tags[0].sdt_type)
+        self.assertEqual(aw.markup.SdtType.REPEATING_SECTION_ITEM, tags[1].sdt_type)
+        self.assertEqual(aw.markup.SdtType.RICH_TEXT, tags[2].sdt_type)
+        #ExEnd
+
+    def test_flat_opc_content(self):
+
+        #ExStart
+        #ExFor:StructuredDocumentTag.word_open_xml
+        #ExSummary:Shows how to get XML contained within the node in the FlatOpc format.
+        doc = aw.Document(MY_DIR + "Structured document tags.docx")
+
+        tags = [node.as_structured_document_tag()
+                for node in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)]
+
+        self.assertIn(
+            "<pkg:part pkg:name=\"/docProps/app.xml\" pkg:contentType=\"application/vnd.openxmlformats-officedocument.extended-properties+xml\">",
+            tags[0].word_open_xml)
         #ExEnd
 
     def test_apply_style(self):
@@ -778,45 +793,32 @@ class ExStructuredDocumentTag(ApiExampleBase):
 
     def test_update_sdt_content(self):
 
-        for update_sdt_content in (False, True):
-            with self.subTest(update_sdt_content=update_sdt_content):
-                #ExStart
-                #ExFor:SaveOptions.update_sdt_content
-                #ExSummary:Shows how to update structured document tags while saving a document to PDF.
-                doc = aw.Document()
+        #ExStart
+        #ExFor:SaveOptions.update_sdt_content
+        #ExSummary:Shows how to update structured document tags while saving a document to PDF.
+        doc = aw.Document()
 
-                # Insert a drop-down list structured document tag.
-                tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.DROP_DOWN_LIST, aw.markup.MarkupLevel.BLOCK)
-                tag.list_items.add(aw.markup.SdtListItem("Value 1"))
-                tag.list_items.add(aw.markup.SdtListItem("Value 2"))
-                tag.list_items.add(aw.markup.SdtListItem("Value 3"))
+        # Insert a drop-down list structured document tag.
+        tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.DROP_DOWN_LIST, aw.markup.MarkupLevel.BLOCK)
+        tag.list_items.add(aw.markup.SdtListItem("Value 1"))
+        tag.list_items.add(aw.markup.SdtListItem("Value 2"))
+        tag.list_items.add(aw.markup.SdtListItem("Value 3"))
 
-                # The drop-down list currently displays "Choose an item" as the default text.
-                # Set the "selected_value" property to one of the list items to get the tag to
-                # display that list item's value instead of the default text.
-                tag.list_items.selected_value = tag.list_items[1]
+        # The drop-down list currently displays "Choose an item" as the default text.
+        # Set the "selected_value" property to one of the list items to get the tag to
+        # display that list item's value instead of the default text.
+        tag.list_items.selected_value = tag.list_items[1]
 
-                doc.first_section.body.append_child(tag)
+        doc.first_section.body.append_child(tag)
 
-                # Create a "PdfSaveOptions" object to pass to the document's "Save" method
-                # to modify how that method saves the document to .PDF.
-                options = aw.saving.PdfSaveOptions()
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.update_sdt_content.pdf")
+        #ExEnd
 
-                # Set the "update_sdt_content" property to "False" not to update the structured document tags
-                # while saving the document to PDF. They will display their default values as they were at the time of construction.
-                # Set the "update_sdt_content" property to "True" to make sure the tags display updated values in the PDF.
-                options.update_sdt_content = update_sdt_content
+        #pdf_doc = aspose.pdf.Document(ARTIFACTS_DIR + "StructuredDocumentTag.UpdateSdtContent.pdf")
+        #text_absorber = aspose.pdf.text.TextAbsorber()
+        #text_absorber.visit(pdf_doc)
 
-                doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.update_sdt_content.pdf", options)
-                #ExEnd
-
-                #pdf_doc = aspose.pdf.Document(ARTIFACTS_DIR + "StructuredDocumentTag.UpdateSdtContent.pdf")
-                #text_absorber = aspose.pdf.text.TextAbsorber()
-                #text_absorber.visit(pdf_doc)
-
-                #self.assertEqual(
-                #    "Value 2" if update_sdt_content else "Choose an item.",
-                #    text_absorber.text)
+        #self.assertEqual("Value 2", text_absorber.text)
 
     def test_fill_table_using_repeating_section_item(self):
 
@@ -938,6 +940,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         #ExFor:StructuredDocumentTagRangeStart.range_end
         #ExFor:StructuredDocumentTagRangeStart.color
         #ExFor:StructuredDocumentTagRangeStart.sdt_type
+        #ExFor:StructuredDocumentTagRangeStart.word_open_xml
         #ExFor:StructuredDocumentTagRangeStart.tag
         #ExFor:StructuredDocumentTagRangeEnd
         #ExFor:StructuredDocumentTagRangeEnd.id
@@ -963,6 +966,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         print(f"\t|range_end: {range_start_tag.range_end}")
         print(f"\t|color: {range_start_tag.color.to_argb()}")
         print(f"\t|sdt_type: {range_start_tag.sdt_type}")
+        print(f"\t|flat_opc_content: {range_start_tag.word_open_xml}")
         print(f"\t|tag: {range_start_tag.tag}\n")
 
         print("StructuredDocumentTagRangeEnd values:")
