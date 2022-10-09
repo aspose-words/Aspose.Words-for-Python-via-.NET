@@ -390,7 +390,8 @@ class ExPdfSaveOptions(ApiExampleBase):
 
         for pdf_compliance in (aw.saving.PdfCompliance.PDF_A2U,
                                aw.saving.PdfCompliance.PDF17,
-                               aw.saving.PdfCompliance.PDF_A2A):
+                               aw.saving.PdfCompliance.PDF_A2A,
+                               aw.saving.PdfCompliance.PDF_UA1):
             with self.subTest(pdf_compliance=pdf_compliance):
                 #ExStart
                 #ExFor:PdfSaveOptions.compliance
@@ -400,6 +401,8 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                 # Create a "PdfSaveOptions" object that we can pass to the document's "save" method
                 # to modify how that method converts the document to .PDF.
+                # Note that some PdfSaveOptions are prohibited when saving to one of the standards and automatically fixed.
+                # Use IWarningCallback to know which options are automatically fixed.
                 save_options = aw.saving.PdfSaveOptions()
 
                 # Set the "compliance" property to "PdfCompliance.PDF_A1B" to comply with the "PDF/A-1b" standard,
@@ -407,6 +410,8 @@ class ExPdfSaveOptions(ApiExampleBase):
                 # Set the "compliance" property to "PdfCompliance.PDF17" to comply with the "1.7" standard.
                 # Set the "compliance" property to "PdfCompliance.PDF_A1A" to comply with the "PDF/A-1a" standard,
                 # which complies with "PDF/A-1b" as well as preserving the document structure of the original document.
+                # Set the "compliance" property to "PdfCompliance.PDF_UA1" to comply with the "PDF/UA-1" (ISO 14289-1) standard,
+                # which aims to define represent electronic documents in PDF that allow the file to be accessible.
                 # This helps with making documents searchable but may significantly increase the size of already large documents.
                 save_options.compliance = pdf_compliance
 
@@ -425,6 +430,10 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                 #elif pdf_compliance == aw.saving.PdfCompliance.PDF_A2U:
                 #    self.assertEqual(aspose.pdf.PdfFormat.PDF_A_2U, pdf_document.pdf_format)
+                #    self.assertEqual("1.7", pdf_document.version)
+
+                #elif pdf_compliance == aw.saving.PdfCompliance.PDF_UA1:
+                #    self.assertEqual(aspose.pdf.PdfFormat.PDF_UA_1, pdf_document.pdf_format)
                 #    self.assertEqual("1.7", pdf_document.version)
 
     def test_text_compression(self):
@@ -1234,7 +1243,8 @@ class ExPdfSaveOptions(ApiExampleBase):
                           aw.saving.PdfPageMode.USE_THUMBS,
                           aw.saving.PdfPageMode.USE_OC,
                           aw.saving.PdfPageMode.USE_OUTLINES,
-                          aw.saving.PdfPageMode.USE_NONE):
+                          aw.saving.PdfPageMode.USE_NONE,
+                          aw.saving.PdfPageMode.USE_ATTACHMENTS):
             with self.subTest(page_mode=page_mode):
                 #ExStart
                 #ExFor:PdfSaveOptions.page_mode
@@ -1257,6 +1267,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                 # Set the "page_mode" property to "PdfPageMode.USE_OUTLINES" to get the PDF reader
                 # also to display the outline, if possible.
                 # Set the "page_mode" property to "PdfPageMode.USE_NONE" to get the PDF reader to display just the document itself.
+                # Set the "page_mode" property to "PdfPageMode.USE_ATTACHMENTS" to make visible attachments panel.
                 options.page_mode = page_mode
 
                 doc.save(ARTIFACTS_DIR + "PdfSaveOptions.page_mode.pdf", options)
@@ -1286,6 +1297,11 @@ class ExPdfSaveOptions(ApiExampleBase):
                         self.assertIn(
                             "<</Type /Catalog/Pages 3 0 R/Lang({})/Metadata 4 0 R>>\r\n".format(doc_locale_name),
                             content)
+                     
+                    elif page_mode == aw.saving.PdfPageMode.USE_ATTACHMENTS:
+                        self.assertIn(
+                            f"<</Type /Catalog/Pages 3 0 R/PageMode /UseAttachments/Lang({doc_locale_name})/Metadata 4 0 R>>\r\n",
+                            content)
 
                 #pdf_document = aspose.pdf.Document(ARTIFACTS_DIR + "PdfSaveOptions.page_mode.pdf")
 
@@ -1300,6 +1316,9 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                 #elif page_mode == aw.saving.PdfPageMode.USE_OC:
                 #    self.assertEqual(aspose.pdf.PageMode.USE_OC, pdf_document.page_mode)
+
+                #elif page_mode == aw.saving.PdfPageMode.USE_ATTACHMENTS:
+                #    self.assertEqual(aspose.pdf.PageMode.USE_ATTACHMENTS, pdf_document.page_mode)
 
     def test_note_hyperlinks(self):
 

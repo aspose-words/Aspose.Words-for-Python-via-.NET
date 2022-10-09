@@ -42,7 +42,7 @@ FONTS_DIR = MY_DIR + "MyFonts/"
 DATABASE_DIR = MY_DIR + "Database/"
 
 # URL of the test image.
-IMAGE_URL = "https://images.pexels.com/photos/239548/pexels-photo-239548.jpeg"
+IMAGE_URL = "https://www.aspose.cloud/templates/aspose/img/products/words/aspose_words.svg"
 
 
 class ApiExampleBase(unittest.TestCase):

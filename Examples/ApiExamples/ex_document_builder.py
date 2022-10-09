@@ -1692,7 +1692,7 @@ class ExDocumentBuilder(ApiExampleBase):
 
         image = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
 
-        self.verify_image_in_shape(5184, 3456, aw.drawing.ImageType.JPEG, image)
+        self.verify_image_in_shape(252, 213, aw.drawing.ImageType.PNG, image)
         self.assertEqual(100.0, image.left)
         self.assertEqual(250.0, image.top)
         self.assertEqual(200.0, image.width)
@@ -3168,97 +3168,6 @@ class ExDocumentBuilder(ApiExampleBase):
 
                     self.assertTrue(shapes_collection.count == 1)
                     self.assertTrue(horizontal_rule_shape.is_horizontal_rule)
-
-    def test_markdown_document_table_content_alignment(self):
-
-        for table_content_alignment in (aw.saving.TableContentAlignment.LEFT,
-                                        aw.saving.TableContentAlignment.RIGHT,
-                                        aw.saving.TableContentAlignment.CENTER,
-                                        aw.saving.TableContentAlignment.AUTO):
-            with self.subTest(table_content_alignment=table_content_alignment):
-                builder = aw.DocumentBuilder()
-
-                builder.insert_cell()
-                builder.paragraph_format.alignment = aw.ParagraphAlignment.RIGHT
-                builder.write("Cell1")
-                builder.insert_cell()
-                builder.paragraph_format.alignment = aw.ParagraphAlignment.CENTER
-                builder.write("Cell2")
-
-                save_options = aw.saving.MarkdownSaveOptions()
-                save_options.table_content_alignment = table_content_alignment
-
-                builder.document.save(ARTIFACTS_DIR + "DocumentBuilder.markdown_document_table_content_alignment.md", save_options)
-
-                doc = aw.Document(ARTIFACTS_DIR + "DocumentBuilder.markdown_document_table_content_alignment.md")
-                table = doc.first_section.body.tables[0]
-
-                if table_content_alignment == aw.saving.TableContentAlignment.AUTO:
-                    self.assertEqual(aw.ParagraphAlignment.RIGHT,
-                        table.first_row.cells[0].first_paragraph.paragraph_format.alignment)
-                    self.assertEqual(aw.ParagraphAlignment.CENTER,
-                        table.first_row.cells[1].first_paragraph.paragraph_format.alignment)
-
-                elif table_content_alignment == aw.saving.TableContentAlignment.LEFT:
-                    self.assertEqual(aw.ParagraphAlignment.LEFT,
-                        table.first_row.cells[0].first_paragraph.paragraph_format.alignment)
-                    self.assertEqual(aw.ParagraphAlignment.LEFT,
-                        table.first_row.cells[1].first_paragraph.paragraph_format.alignment)
-
-                elif table_content_alignment == aw.saving.TableContentAlignment.CENTER:
-                    self.assertEqual(aw.ParagraphAlignment.CENTER,
-                        table.first_row.cells[0].first_paragraph.paragraph_format.alignment)
-                    self.assertEqual(aw.ParagraphAlignment.CENTER,
-                        table.first_row.cells[1].first_paragraph.paragraph_format.alignment)
-
-                elif table_content_alignment == aw.saving.TableContentAlignment.RIGHT:
-                    self.assertEqual(aw.ParagraphAlignment.RIGHT,
-                        table.first_row.cells[0].first_paragraph.paragraph_format.alignment)
-                    self.assertEqual(aw.ParagraphAlignment.RIGHT,
-                        table.first_row.cells[1].first_paragraph.paragraph_format.alignment)
-
-    ##ExStart
-    ##ExFor:MarkdownSaveOptions.image_saving_callback
-    ##ExFor:IImageSavingCallback
-    ##ExSummary:Shows how to rename the image name during saving into Markdown document.
-    #def test_rename_images(self):
-
-    #    doc = aw.Document(MY_DIR + "Rendering.docx")
-
-    #    options = aw.saving.MarkdownSaveOptions()
-
-    #    # If we convert a document that contains images into Markdown, we will end up with one Markdown file which links to several images.
-    #    # Each image will be in the form of a file in the local file system.
-    #    # There is also a callback that can customize the name and file system location of each image.
-    #    options.image_saving_callback = ExDocumentBuilder.SavedImageRename("DocumentBuilder.handle_document.md")
-
-    #    # The ImageSaving() method of our callback will be run at this time.
-    #    doc.save(ARTIFACTS_DIR + "DocumentBuilder.handle_document.md", options)
-
-    #    self.assertEqual(1, len(glog.glob(ARTIFACTS_DIR + "DocumentBuilder.handle_document.md shape*.jpeg")))
-    #    self.assertEqual(8, len(glob.glob(ARTIFACTS_DIR + "DocumentBuilder.handle_document.md shape*.png")))
-
-    #class SavedImageRename(aw.saving.IImageSavingCallback):
-    #    """Renames saved images that are produced when an Markdown document is saved."""
-
-    #    def __init__(self, out_file_name: str):
-
-    #        self.out_file_name = out_file_name
-    #        self.count = 0
-
-    #    def image_saving(self, args: aw.saving.ImageSavingArgs):
-
-    #        self.count += 1
-    #        image_file_name = f"{self.out_file_name} shape {self.count}, of type {args.current_shape.shape_type}{os.path.splitext(args.image_file_name)[-1]}"
-
-    #        args.image_file_name = image_file_name
-    #        args.image_stream = open(ARTIFACTS_DIR + image_file_name, "rb")
-
-    #        self.assertTrue(args.image_stream.can_write)
-    #        self.assertTrue(args.is_image_available)
-    #        self.assertFalse(args.keep_image_stream_open)
-
-    ##ExEnd
 
     def test_insert_online_video(self):
 

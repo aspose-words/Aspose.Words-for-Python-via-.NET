@@ -1117,6 +1117,18 @@ class ExShape(ApiExampleBase):
 
         #ExEnd
 
+    def test_linked_chart_source_full_name(self):
+        
+        #ExStart
+        #ExFor:Chart.source_full_name
+        #ExSummary:Shows how to get the full name of the external xls/xlsx document if the chart is linked.
+        doc = aw.Document(MY_DIR + "Shape with linked chart.docx")
+
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+
+        self.assertIn("Examples\\Data\\Spreadsheet.xlsx", shape.chart.source_full_name)
+        #ExEnd
+
     def test_ole_control(self):
 
         #ExStart
@@ -2601,4 +2613,31 @@ class ExShape(ApiExampleBase):
         shape.is_decorative = True
 
         doc.save(ARTIFACTS_DIR + "Shape.is_decorative.docx")
+        #ExEnd
+
+    def test_fill_image(self):
+
+        #ExStart
+        #ExFor:Fill.set_image(str)
+        #ExSummary:Shows how to set shape fill type as image.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        # There are several ways of setting image.
+        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, 80, 80)
+        # 1 -  Using a local system filename:
+        shape.fill.set_image(IMAGE_DIR + "Logo.jpg")
+        doc.save(ARTIFACTS_DIR + "Shape.fill_image.file_name.docx")
+
+        # 2 -  Load a file into a byte array:
+        with open(IMAGE_DIR + "Logo.jpg", "rb") as stream:
+            shape.fill.set_image(stream.read())
+
+        doc.save(ARTIFACTS_DIR + "Shape.fill_image.byte_array.docx")
+
+        # 3 -  From a stream:
+        with open(IMAGE_DIR + "Logo.jpg", "rb") as stream:
+            shape.fill.set_image(stream)
+
+        doc.save(ARTIFACTS_DIR + "Shape.fill_image.stream.docx")
         #ExEnd

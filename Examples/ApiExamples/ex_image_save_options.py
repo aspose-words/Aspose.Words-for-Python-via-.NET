@@ -144,6 +144,25 @@ class ExImageSaveOptions(ApiExampleBase):
 
         self.verify_image(794, 1122, filename=(ARTIFACTS_DIR + "ImageSaveOptions.graphics_quality.jpg"))
 
+    @unittest.skip("GraphicsQualityOptions is not supported")
+    def test_use_tile_flip_mode(self):
+        #ExStart
+        #ExFor:GraphicsQualityOptions.use_tile_flip_mode
+        #ExSummary:Shows how to prevent the white line appears when rendering with a high resolution.
+        doc = aw.Document(MY_DIR + "Shape high dpi.docx")
+
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        renderer = shape.get_shape_renderer()
+
+        save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
+        save_options.vertical_resolution = 500
+        save_options.horizontal_resolution = 500
+        save_options.graphics_quality_options = aw.saving.GraphicsQualityOptions()
+        save_options.graphics_quality_options.use_tile_flip_mode = True
+
+        renderer.save(ARTIFACTS_DIR + "ImageSaveOptions.UseTileFlipMode.png", save_options)
+        #ExEnd
+
     def test_windows_meta_file(self):
 
         for metafile_rendering_mode in (aw.saving.MetafileRenderingMode.VECTOR,

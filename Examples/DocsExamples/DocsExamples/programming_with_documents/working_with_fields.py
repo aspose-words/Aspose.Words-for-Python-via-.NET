@@ -7,6 +7,14 @@ from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithFields(DocsExamplesBase):
 
+    def test_field_code(self):
+
+        doc = aw.Document(MY_DIR + "Hyperlinks.docx")
+
+        for field in doc.range.fields:
+            field_code = field.get_field_code()
+            field_result = field.result
+
     def test_change_field_update_culture_source(self):
 
         #ExStart:ChangeFieldUpdateCultureSource
@@ -85,6 +93,13 @@ class WorkingWithFields(DocsExamplesBase):
         field = doc.range.fields[0]
         field.remove()
         #ExEnd:RemoveField
+
+    def test_unlink_fields(self):
+
+        #ExStart:UnlinkFields
+        doc = aw.Document(MY_DIR + "Various fields.docx")
+        doc.unlink_fields()
+        #ExEnd:UnlinkFields
 
     def test_insert_toa_field_without_document_builder(self):
 
@@ -251,6 +266,30 @@ class WorkingWithFields(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_field.docx")
         #ExEnd:InsertField
+
+    def test_insert_field_using_field_builder(self):
+
+        doc = aw.Document()
+
+        # Prepare IF field with two nested MERGEFIELD fields: { IF "left expression" = "right expression" "Firstname: { MERGEFIELD firstname }" "Lastname: { MERGEFIELD lastname }"}
+        field_builder = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_IF)
+        field_builder.add_argument("left expression")
+        field_builder.add_argument("=")
+        field_builder.add_argument("right expression")
+        field_builder.add_argument(
+            aw.fields.FieldArgumentBuilder()
+                .add_text("Firstname: ")
+                .add_field(aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_MERGE_FIELD).add_argument("firstname")))
+        field_builder.add_argument(
+            aw.fields.FieldArgumentBuilder()
+                .add_text("Lastname: ")
+                .add_field(aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_MERGE_FIELD).add_argument("lastname")))
+
+        # Insert IF field in exact location            
+        field = field_builder.build_and_insert(doc.first_section.body.first_paragraph)
+        field.update()
+
+        doc.save(ARTIFACTS_DIR + "Field.insert_field_using_field_builder.docx")
 
     def test_insert_author_field(self):
 

@@ -514,12 +514,10 @@ class ExCharts(ApiExampleBase):
     #ExFor:ChartDataLabel.show_value
     #ExFor:ChartDataLabel.is_hidden
     #ExFor:ChartDataLabelCollection
-    #ExFor:ChartDataLabelCollection.add(int)
-    #ExFor:ChartDataLabelCollection.clear
+    #ExFor:ChartDataLabelCollection.clear_format
     #ExFor:ChartDataLabelCollection.count
     #ExFor:ChartDataLabelCollection.__iter__
     #ExFor:ChartDataLabelCollection.__getitem__(int)
-    #ExFor:ChartDataLabelCollection.remove_at(int)
     #ExSummary:Shows how to apply labels to data points in a line chart.
     def test_data_labels(self):
 

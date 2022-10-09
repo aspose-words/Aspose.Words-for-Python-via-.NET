@@ -4,6 +4,7 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
+import datetime
 import os
 
 import aspose.words as aw
@@ -78,3 +79,49 @@ class ExXamlFlowSaveOptions(ApiExampleBase):
         self.assertEqual(9, len(callback.resources))
         for resource in callback.resources:
             self.assertTrue(os.path.exists(f"{callback.images_folder_alias}/{resource}"))
+
+    ##ExStart
+    ##ExFor:SaveOptions.progress_callback
+    ##ExFor:IDocumentSavingCallback
+    ##ExFor:IDocumentSavingCallback.notify(DocumentSavingArgs)
+    ##ExFor:DocumentSavingArgs.estimated_progress
+    ##ExSummary:Shows how to manage a document while saving to xamlflow.
+    #def test_progress_callback(self):
+    #
+    #    parameters = [
+    #        (aw.SaveFormat.XAML_FLOW, "xamlflow"),
+    #        (aw.SaveFormat.XAML_FLOW_PACK, "xamlflowpack"),
+    #        ]
+    #
+    #    for save_format, ext in parameters:
+    #        with self.subTest(save_format=save_format, ext=ext):
+    #            doc = aw.Document(MY_DIR + "Big document.docx")
+    #
+    #            # Following formats are supported: XamlFlow, XamlFlowPack.
+    #            save_options = aw.saving.XamlFlowSaveOptions(save_format)
+    #            save_options.progress_callback = ExXamlFlowSaveOptions.SavingProgressCallback()
+    #
+    #            with self.assertRaises(OperationCanceledException):
+    #                doc.save(ARTIFACTS_DIR + f"XamlFlowSaveOptions.progress_callback.{ext}", save_options)
+    #
+    #class SavingProgressCallback(aw.saving.IDocumentSavingCallback):
+    #    """Saving progress callback. Cancel a document saving after the "max_duration" seconds."""
+    #
+    #    def __init__(self):
+    #        # Date and time when document saving is started.
+    #        self.saving_started_at = datetime.datetime.now()
+    #
+    #        # Maximum allowed duration in sec.
+    #        self.max_duration = 0.01
+    #
+    #    def notify(self, args: aw.saving.DocumentSavingArgs):
+    #        """Callback method which called during document saving.
+    #        
+    #        :param args: Saving arguments.
+    #        """
+    #        canceled_at = datetime.datetime.now()
+    #        ellapsed_seconds = (canceled_at - self.saving_started_at).total_seconds()
+    #        if ellapsed_seconds > self.max_duration:
+    #            raise OperationCanceledException(f"estimated_progress = {args.estimated_progress}; canceled_at = {canceled_at}")
+    #
+    ##ExEnd

@@ -4,6 +4,7 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
+import datetime
 import io
 import os
 import glob
@@ -849,8 +850,8 @@ class ExHtmlSaveOptions(ApiExampleBase):
 
     def test_export_images_as_base64(self):
 
-        for export_items_as_base64 in (False, True):
-            with self.subTest(export_items_as_base64=export_items_as_base64):
+        for export_images_as_base64 in (False, True):
+            with self.subTest(export_images_as_base64=export_images_as_base64):
                 #ExStart
                 #ExFor:HtmlSaveOptions.export_fonts_as_base64
                 #ExFor:HtmlSaveOptions.export_images_as_base64
@@ -858,7 +859,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 doc = aw.Document(MY_DIR + "Rendering.docx")
 
                 options = aw.saving.HtmlSaveOptions()
-                options.export_images_as_base64 = export_items_as_base64
+                options.export_images_as_base64 = export_images_as_base64
                 options.pretty_format = True
 
                 doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.export_images_as_base64.html", options)
@@ -866,7 +867,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 with open(ARTIFACTS_DIR + "HtmlSaveOptions.export_images_as_base64.html", "rt", encoding="utf-8") as file:
                     out_doc_contents = file.read()
 
-                if export_items_as_base64:
+                if export_images_as_base64:
                     self.assertIn("<img src=\"data:image/png;base64", out_doc_contents)
                 else:
                     self.assertIn("<img src=\"HtmlSaveOptions.export_images_as_base64.001.png\"", out_doc_contents)
@@ -1078,10 +1079,10 @@ class ExHtmlSaveOptions(ApiExampleBase):
 
                 if export_page_margins:
                     self.assertIn("<style type=\"text/css\">div.Section1 { margin:70.85pt }</style>", out_doc_contents)
-                    self.assertIn("<div class=\"Section1\"><p style=\"margin-top:0pt; margin-left:151pt; margin-bottom:0pt\">", out_doc_contents)
+                    self.assertIn("<div class=\"Section1\"><p style=\"margin-top:0pt; margin-left:150pt; margin-bottom:0pt\">", out_doc_contents)
                 else:
                     self.assertNotIn("style type=\"text/css\">", out_doc_contents)
-                    self.assertIn("<div><p style=\"margin-top:0pt; margin-left:221.85pt; margin-bottom:0pt\">", out_doc_contents)
+                    self.assertIn("<div><p style=\"margin-top:0pt; margin-left:220.85pt; margin-bottom:0pt\">", out_doc_contents)
 
                 #ExEnd
 
@@ -1206,13 +1207,13 @@ class ExHtmlSaveOptions(ApiExampleBase):
 
                 #ExEnd
 
-    def test_export_text_box(self):
+    def test_export_shape(self):
 
-        for export_text_box_as_svg in (False, True):
-            with self.subTest(export_text_box_as_svg=export_text_box_as_svg):
+        for export_shape_as_svg in (False, True):
+            with self.subTest(export_shape_as_svg=export_shape_as_svg):
                 #ExStart
                 #ExFor:HtmlSaveOptions.export_shapes_as_svg
-                #ExSummary:Shows how to export text boxes as scalable vector graphics.
+                #ExSummary:Shows how to export shape as scalable vector graphics.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
 
@@ -1227,14 +1228,14 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 # If we set the "export_shapes_as_svg" flag to "False",
                 # the save operation will convert shapes with text into images.
                 options = aw.saving.HtmlSaveOptions()
-                options.export_shapes_as_svg = export_text_box_as_svg
+                options.export_shapes_as_svg = export_shape_as_svg
 
                 doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.export_text_box.html", options)
 
                 with open(ARTIFACTS_DIR + "HtmlSaveOptions.export_text_box.html", "rt", encoding="utf-8") as file:
                     out_doc_contents = file.read()
 
-                if export_text_box_as_svg:
+                if export_shape_as_svg:
                     self.assertIn(
                         "<span style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\">" +
                         "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"133\" height=\"80\">",
@@ -1732,3 +1733,49 @@ class ExHtmlSaveOptions(ApiExampleBase):
                         "<p style=\"margin-top:0pt; margin-bottom:0pt\"><span style=\"-aw-import:ignore\">&#xa0;</span></p></div></body></html>",
                         html)
                 #ExEnd
+    
+    ##ExStart
+    ##ExFor:SaveOptions.progress_callback
+    ##ExFor:IDocumentSavingCallback
+    ##ExFor:IDocumentSavingCallback.notify(DocumentSavingArgs)
+    ##ExFor:DocumentSavingArgs.estimated_progress
+    ##ExSummary:Shows how to manage a document while saving to html.
+    #def test_progressCallback(self, save_format: aw.SaveFormat, ext: str):
+    #    parameters = [
+    #        (aw.SaveFormat.HTML, "html"),
+    #        (aw.SaveFormat.MHTML, "mhtml"),
+    #        (aw.SaveFormat.EPUB, "epub"),
+    #        ]
+    #
+    #    for save_format, ext in parameters:
+    #        with self.subTest(save_format=save_format, ext=ext):
+    #            doc = aw.Document(MY_DIR + "Big document.docx")
+    #
+    #            # Following formats are supported: HTML, MHTML, EPUB.
+    #            save_options = aw.saving.HtmlSaveOptions(save_format)
+    #            save_options.progress_callback = ExHtmlSaveOptions.SavingProgressCallback()
+    #
+    #            with self.assertRaises(OperationCanceledException):
+    #                doc.save(ARTIFACTS_DIR + f"HtmlSaveOptions.ProgressCallback.{ext}", save_options)
+    #
+    #class SavingProgressCallback(aw.saving.IDocumentSavingCallback):
+    #    """Saving progress callback. Cancel a document saving after the "max_duration" seconds."""
+    #
+    #    def __init__(self):
+    #        # Date and time when document saving is started.
+    #        self.saving_started_at = datetime.datetime.now()
+    #
+    #        # Maximum allowed duration in sec.
+    #        self.max_duration = 0.1
+    #
+    #    def notify(self, args: aw.saving.DocumentSavingArgs):
+    #        """Callback method which called during document saving.
+    #        
+    #        :param args: Saving arguments.
+    #        """
+    #        canceled_at = datetime.datetime.now()
+    #        ellapsed_seconds = (canceled_at - self.saving_started_at).total_seconds()
+    #        if ellapsed_seconds > self.max_duration:
+    #            raise OperationCanceledException(f"estimated_progress = {args.estimated_progress}; canceled_at = {canceled_at}")
+    #
+    ##ExEnd
