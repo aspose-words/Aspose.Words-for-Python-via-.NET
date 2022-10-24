@@ -95,9 +95,9 @@ class ExDocumentBuilder(ApiExampleBase):
         headers_footers = aw.Document(ARTIFACTS_DIR + "DocumentBuilder.headers_and_footers.docx").first_section.headers_footers
 
         self.assertEqual(3, headers_footers.count)
-        self.assertEqual("Header for the first page", headers_footers[aw.HeaderFooterType.HEADER_FIRST].get_text().strip())
-        self.assertEqual("Header for even pages", headers_footers[aw.HeaderFooterType.HEADER_EVEN].get_text().strip())
-        self.assertEqual("Header for all other pages", headers_footers[aw.HeaderFooterType.HEADER_PRIMARY].get_text().strip())
+        self.assertEqual("Header for the first page", headers_footers.header_first.get_text().strip())
+        self.assertEqual("Header for even pages", headers_footers.header_even.get_text().strip())
+        self.assertEqual("Header for all other pages", headers_footers.header_primary.get_text().strip())
 
     def test_merge_fields(self):
 

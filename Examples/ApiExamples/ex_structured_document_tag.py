@@ -1027,8 +1027,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         # Removes ranged structured document tag and content inside.
         range_start.remove_all_children()
 
-        paragraph_node = range_start.last_child
-        self.assertIsNone(None, paragraph_node.get_text())
+        self.assertEquals(0, range_start.child_nodes.count)
 
     def insert_structured_document_tag_ranges(self, doc: aw.Document) -> aw.markup.StructuredDocumentTagRangeStart:
 

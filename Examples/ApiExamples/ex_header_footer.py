@@ -56,8 +56,8 @@ class ExHeaderFooter(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "HeaderFooter.create.docx")
 
-        self.assertIn("My header.", doc.first_section.headers_footers[aw.HeaderFooterType.HEADER_PRIMARY].range.text)
-        self.assertIn("My footer.", doc.first_section.headers_footers[aw.HeaderFooterType.FOOTER_PRIMARY].range.text)
+        self.assertIn("My header.", doc.first_section.headers_footers.header_primary.range.text)
+        self.assertIn("My footer.", doc.first_section.headers_footers.footer_primary.range.text)
 
     def test_link(self):
 
@@ -208,14 +208,14 @@ class ExHeaderFooter(ApiExampleBase):
         #ExStart
         #ExFor:Document.first_section
         #ExFor:Section.headers_footers
-        #ExFor:HeaderFooterCollection.__getitem__(HeaderFooterType)
+        #ExFor:HeaderFooterCollection.get_by_header_footer_type(HeaderFooterType)
         #ExFor:HeaderFooter
         #ExFor:Range.replace(str,str,FindReplaceOptions)
         #ExSummary:Shows how to replace text in a document's footer.
         doc = aw.Document(MY_DIR + "Footer.docx")
 
         headers_footers = doc.first_section.headers_footers
-        footer = headers_footers[aw.HeaderFooterType.FOOTER_PRIMARY]
+        footer = headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_PRIMARY)
 
         options = aw.replacing.FindReplaceOptions()
         options.match_case = False
@@ -371,7 +371,7 @@ class ExHeaderFooter(ApiExampleBase):
         # from the previous section and apply the necessary modifications where we want them.
         ExHeaderFooter.copy_headers_footers_from_previous_section(current_section)
 
-        primary_footer = current_section.headers_footers[aw.HeaderFooterType.FOOTER_PRIMARY]
+        primary_footer = current_section.headers_footers.footer_primary
 
         row = primary_footer.tables[0].first_row
         row.first_cell.cell_format.preferred_width = aw.tables.PreferredWidth.from_percent(100.0 / 3)

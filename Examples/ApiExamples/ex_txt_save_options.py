@@ -104,13 +104,13 @@ class ExTxtSaveOptions(ApiExampleBase):
                 # Insert even and primary headers/footers into the document.
                 # The primary header/footers will override the even headers/footers.
                 doc.first_section.headers_footers.add(aw.HeaderFooter(doc, aw.HeaderFooterType.HEADER_EVEN))
-                doc.first_section.headers_footers[aw.HeaderFooterType.HEADER_EVEN].append_paragraph("Even header")
+                doc.first_section.headers_footers.header_even.append_paragraph("Even header")
                 doc.first_section.headers_footers.add(aw.HeaderFooter(doc, aw.HeaderFooterType.FOOTER_EVEN))
-                doc.first_section.headers_footers[aw.HeaderFooterType.FOOTER_EVEN].append_paragraph("Even footer")
+                doc.first_section.headers_footers.footer_even.append_paragraph("Even footer")
                 doc.first_section.headers_footers.add(aw.HeaderFooter(doc, aw.HeaderFooterType.HEADER_PRIMARY))
-                doc.first_section.headers_footers[aw.HeaderFooterType.HEADER_PRIMARY].append_paragraph("Primary header")
+                doc.first_section.headers_footers.header_primary.append_paragraph("Primary header")
                 doc.first_section.headers_footers.add(aw.HeaderFooter(doc, aw.HeaderFooterType.FOOTER_PRIMARY))
-                doc.first_section.headers_footers[aw.HeaderFooterType.FOOTER_PRIMARY].append_paragraph("Primary footer")
+                doc.first_section.headers_footers.footer_primary.append_paragraph("Primary footer")
 
                 # Insert pages to display these headers and footers.
                 builder = aw.DocumentBuilder(doc)
@@ -364,8 +364,8 @@ class ExTxtSaveOptions(ApiExampleBase):
 
                 if preserve_table_layout:
                     self.assertEqual(
-                        "Row 1, cell 1                                            Row 1, cell 2\r\n" +
-                        "Row 2, cell 1                                            Row 2, cell 2\r\n\r\n", doc_text)
+                        "Row 1, cell 1                                           Row 1, cell 2\r\n" +
+                        "Row 2, cell 1                                           Row 2, cell 2\r\n\r\n", doc_text)
                 else:
                     self.assertEqual(
                         "Row 1, cell 1\r" +

@@ -377,8 +377,8 @@ class ExSection(ApiExampleBase):
 
         self.assertEqual(2, doc.first_section.headers_footers.count)
 
-        self.assertEqual("This is the primary header.", doc.first_section.headers_footers[aw.HeaderFooterType.HEADER_PRIMARY].get_text().strip())
-        self.assertEqual("This is the primary footer.", doc.first_section.headers_footers[aw.HeaderFooterType.FOOTER_PRIMARY].get_text().strip())
+        self.assertEqual("This is the primary header.", doc.first_section.headers_footers.header_primary.get_text().strip())
+        self.assertEqual("This is the primary footer.", doc.first_section.headers_footers.footer_primary.get_text().strip())
 
         # Empty all the headers and footers in this section of all their contents.
         # The headers and footers themselves will still be present but will have nothing to display.
@@ -386,8 +386,8 @@ class ExSection(ApiExampleBase):
 
         self.assertEqual(2, doc.first_section.headers_footers.count)
 
-        self.assertEqual("", doc.first_section.headers_footers[aw.HeaderFooterType.HEADER_PRIMARY].get_text().strip())
-        self.assertEqual("", doc.first_section.headers_footers[aw.HeaderFooterType.FOOTER_PRIMARY].get_text().strip())
+        self.assertEqual("", doc.first_section.headers_footers.header_primary.get_text().strip())
+        self.assertEqual("", doc.first_section.headers_footers.footer_primary.get_text().strip())
         #ExEnd
 
     def test_delete_header_footer_shapes(self):
@@ -406,14 +406,14 @@ class ExSection(ApiExampleBase):
         builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_PRIMARY)
         builder.insert_image(IMAGE_DIR + "Logo Icon.ico")
 
-        self.assertEqual(1, doc.first_section.headers_footers[aw.HeaderFooterType.HEADER_PRIMARY].get_child_nodes(aw.NodeType.SHAPE, True).count)
-        self.assertEqual(1, doc.first_section.headers_footers[aw.HeaderFooterType.FOOTER_PRIMARY].get_child_nodes(aw.NodeType.SHAPE, True).count)
+        self.assertEqual(1, doc.first_section.headers_footers.header_primary.get_child_nodes(aw.NodeType.SHAPE, True).count)
+        self.assertEqual(1, doc.first_section.headers_footers.footer_primary.get_child_nodes(aw.NodeType.SHAPE, True).count)
 
         # Remove all shapes from the headers and footers in the first section.
         doc.first_section.delete_header_footer_shapes()
 
-        self.assertEqual(0, doc.first_section.headers_footers[aw.HeaderFooterType.HEADER_PRIMARY].get_child_nodes(aw.NodeType.SHAPE, True).count)
-        self.assertEqual(0, doc.first_section.headers_footers[aw.HeaderFooterType.FOOTER_PRIMARY].get_child_nodes(aw.NodeType.SHAPE, True).count)
+        self.assertEqual(0, doc.first_section.headers_footers.header_primary.get_child_nodes(aw.NodeType.SHAPE, True).count)
+        self.assertEqual(0, doc.first_section.headers_footers.footer_primary.get_child_nodes(aw.NodeType.SHAPE, True).count)
         #ExEnd
 
     def test_sections_clone_section(self):
@@ -458,7 +458,7 @@ class ExSection(ApiExampleBase):
 
     def test_culture_info_page_setup_defaults(self):
 
-        #Thread.current_thread.current_culture = CultureInfo("en-us")
+        Thread.current_thread.current_culture = CultureInfo("en-us")
 
         doc_en = aw.Document()
 
