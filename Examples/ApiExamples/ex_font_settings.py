@@ -550,7 +550,7 @@ class ExFontSettings(ApiExampleBase):
 
         doc = aw.Document(MY_DIR + "Rendering.docx", load_options)
 
-        folder_source = doc.font_settings.get_fonts_sources()[0]
+        folder_source = doc.font_settings.get_fonts_sources()[0].as_folder_font_source()
 
         self.assertEqual(FONTS_DIR, folder_source.folder_path)
         self.assertFalse(folder_source.scan_subfolders)
@@ -606,11 +606,11 @@ class ExFontSettings(ApiExampleBase):
         load_options.font_settings = font_settings
         doc = aw.Document(MY_DIR + "Rendering.docx", load_options)
 
-        folder_source = doc.font_settings.get_fonts_sources()[0]
+        folder_source = doc.font_settings.get_fonts_sources()[0].as_folder_font_source()
         self.assertEqual(FONTS_DIR, folder_source.folder_path)
         self.assertTrue(folder_source.scan_subfolders)
 
-        folder_source = doc.font_settings.get_fonts_sources()[1]
+        folder_source = doc.font_settings.get_fonts_sources()[1].as_folder_font_source()
         self.assertEqual("C:\\Windows\\Fonts\\", folder_source.folder_path)
         self.assertTrue(folder_source.scan_subfolders)
 

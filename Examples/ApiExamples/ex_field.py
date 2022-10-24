@@ -62,7 +62,7 @@ class ExField(ApiExampleBase):
         doc = aw.Document(MY_DIR + "Field sample - Field with data.docx")
 
         field = doc.range.fields[2]
-        print(field.Start.field_data)
+        print(field.start.field_data)
         #ExEnd
 
     def test_get_field_code(self):

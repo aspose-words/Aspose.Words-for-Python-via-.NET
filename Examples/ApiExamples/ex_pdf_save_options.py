@@ -759,12 +759,12 @@ class ExPdfSaveOptions(ApiExampleBase):
                     content = file.read()
                     if open_hyperlinks_in_new_window:
                         self.assertIn(
-                            b"<</Type /Annot/Subtype /Link/Rect [70.84999847 707.35101318 110.17799377 721.15002441]/BS " +
-                            b"<</Type/Border/S/S/W 0>>/A<</Type /Action/S /JavaScript/JS(app.launchURL\\(\"https://www.google.com/search?q=%20aspose\", True\\);)>>>>",
+                            b"<</Type /Annot/Subtype /Link/Rect [72 706.20098877 111.32800293 720]/BS " +
+                            b"<</Type/Border/S/S/W 0>>/A<</Type /Action/S /JavaScript/JS(app.launchURL\\(\"https://www.google.com/search?q=%20aspose\", true\\);)>>>>",
                             content)
                     else:
                         self.assertIn(
-                            b"<</Type /Annot/Subtype /Link/Rect [70.84999847 707.35101318 110.17799377 721.15002441]/BS " +
+                            b"<</Type /Annot/Subtype /Link/Rect [72 706.20098877 111.32800293 720]/BS " +
                             b"<</Type/Border/S/S/W 0>>/A<</Type /Action/S /URI/URI(https://www.google.com/search?q=%20aspose)>>>>",
                             content)
 
@@ -1048,7 +1048,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                     self.assertLess(480000, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.embed_windows_fonts.pdf"))
 
                 elif pdf_font_embedding_mode == aw.saving.PdfFontEmbeddingMode.EMBED_NONE:
-                    self.assertGreater(4217, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.embed_windows_fonts.pdf"))
+                    self.assertGreater(4243, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.embed_windows_fonts.pdf"))
 
                 #ExEnd
 

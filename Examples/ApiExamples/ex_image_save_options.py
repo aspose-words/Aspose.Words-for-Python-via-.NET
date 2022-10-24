@@ -456,7 +456,7 @@ class ExImageSaveOptions(ApiExampleBase):
 
         doc.save(ARTIFACTS_DIR + "ImageSaveOptions.jpeg_quality.high_quality.jpg", image_options)
 
-        self.assertLess(60000, os.path.getsize(ARTIFACTS_DIR + "ImageSaveOptions.jpeg_quality.high_quality.jpg"))
+        self.assertLess(40000, os.path.getsize(ARTIFACTS_DIR + "ImageSaveOptions.jpeg_quality.high_quality.jpg"))
         #ExEnd
 
     def test_save_to_tiff_default(self):
