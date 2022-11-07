@@ -73,7 +73,7 @@ class ExUtilityClasses(ApiExampleBase):
         page_setup.right_margin = aw.ConvertUtil.millimeter_to_point(40)
 
         # A centimeter is approximately 28.3 points.
-        self.assertAlmostEqual(28.34, aw.ConvertUtil.millimeter_to_point(10), 1)
+        self.assertAlmostEqual(28.34, aw.ConvertUtil.millimeter_to_point(10), delta=0.01)
 
         # Add content to demonstrate the new margins.
         builder.writeln(
@@ -156,7 +156,7 @@ class ExUtilityClasses(ApiExampleBase):
         page_setup = builder.page_setup
         page_setup.top_margin = aw.ConvertUtil.pixel_to_point(100, my_dpi)
 
-        self.assertAlmostEqual(37.5, page_setup.top_margin, 2)
+        self.assertAlmostEqual(37.5, page_setup.top_margin, delta=0.01)
 
         # At the default DPI of 96, a pixel is 0.75 points.
         self.assertEqual(0.75, aw.ConvertUtil.pixel_to_point(1))
@@ -168,7 +168,7 @@ class ExUtilityClasses(ApiExampleBase):
         # Set a new DPI and adjust the top margin value accordingly.
         new_dpi = 300
         page_setup.top_margin = aw.ConvertUtil.pixel_to_new_dpi(page_setup.top_margin, my_dpi, new_dpi)
-        self.assertEqual(59.0, page_setup.top_margin, 0.01)
+        self.assertAlmostEqual(59.0, page_setup.top_margin, delta=0.01)
 
         builder.writeln(
             f"At a DPI of {new_dpi}, the text is now {page_setup.top_margin} points/{aw.ConvertUtil.point_to_pixel(page_setup.top_margin, my_dpi)} " +
