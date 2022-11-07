@@ -135,7 +135,7 @@ class ExRendering(ApiExampleBase):
                 returned_scale = doc.render_to_size(0, graphics, 0, 0, 3, 3)
 
                 # This is the scaling factor that the "render_to_size" method applied to the first page to fit the specified size.
-                self.assertEqual(0.2566, returned_scale, 0.0001)
+                self.assertAlmostEqual(0.2566, returned_scale, delta=0.0001)
 
                 # Set the "page_unit" property to "GraphicsUnit.MILLIMETER" to use millimeters as the
                 # measurement unit for any transformations and dimensions that we will define.
