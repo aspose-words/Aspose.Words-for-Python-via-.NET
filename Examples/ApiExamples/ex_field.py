@@ -10,6 +10,8 @@ from datetime import datetime
 from enum import Enum
 
 import aspose.words as aw
+import aspose.words.fields as awf
+import aspose.words.notes as awn
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
@@ -2494,6 +2496,7 @@ class ExField(ApiExampleBase):
         field_include_text.namespace_mappings = "xmlns:n='myNamespace'"
         field_include_text.xpath = "/catalog/cd/title"
 
+        doc.update_fields()
         doc.save(ARTIFACTS_DIR + "Field.field_include_text.docx")
         self._test_field_include_text(aw.Document(ARTIFACTS_DIR + "Field.field_include_text.docx")) #ExSkip
 
@@ -2860,6 +2863,7 @@ class ExField(ApiExampleBase):
         index_entry.text = "Index entry 3"
         index_entry.entry_type = "A"
 
+        doc.update_page_layout()
         doc.update_fields()
         doc.save(ARTIFACTS_DIR + "Field.field_index_filter.docx")
         #ExEnd
@@ -2962,6 +2966,7 @@ class ExField(ApiExampleBase):
         index_entry = builder.insert_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, True).as_field_xe()
         index_entry.text = "Durian"
 
+        doc.update_page_layout()
         doc.update_fields()
         doc.save(ARTIFACTS_DIR + "Field.field_index_formatting.docx")
         #ExEnd
@@ -3096,6 +3101,7 @@ class ExField(ApiExampleBase):
         index_entry = builder.insert_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, True).as_field_xe()
         index_entry.text = "Dog"
 
+        doc.update_page_layout()
         doc.update_fields()
         doc.save(ARTIFACTS_DIR + "Field.field_index_sequence.docx")
         #ExEnd
@@ -3155,6 +3161,7 @@ class ExField(ApiExampleBase):
         index_entry = builder.insert_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, True).as_field_xe()
         index_entry.text = "First entry"
 
+        doc.update_page_layout()
         doc.update_fields()
         doc.save(ARTIFACTS_DIR + "Field.field_index_page_number_separator.docx")
         #ExEnd
@@ -3214,6 +3221,7 @@ class ExField(ApiExampleBase):
         builder.write("End of MyBookmark")
         builder.end_bookmark("MyBookmark")
 
+        doc.update_page_layout()
         doc.update_fields()
         doc.save(ARTIFACTS_DIR + "Field.field_index_page_range_bookmark.docx")
         #ExEnd
@@ -3275,6 +3283,7 @@ class ExField(ApiExampleBase):
 
         self.assertEqual(" XE  Banana \\t \"Tropical fruit\"", index_entry.get_field_code())
 
+        doc.update_page_layout()
         doc.update_fields()
         doc.save(ARTIFACTS_DIR + "Field.field_index_cross_reference_separator.docx")
         #ExEnd
@@ -3282,7 +3291,7 @@ class ExField(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_index_cross_reference_separator.docx")
         index = doc.range.fields[0].as_field_index()
 
-        self.verify_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, " INDEX  \\k \", see: \"",
+        self.verify_field(aw.fields.FieldType.FIELD_INDEX, " INDEX  \\k \", see: \"",
             "Apple, 2\r" +
             "Banana, see: Tropical fruit\r", index)
         self.assertEqual(", see: ", index.cross_reference_separator)
@@ -3352,6 +3361,7 @@ class ExField(ApiExampleBase):
                 index_entry = builder.insert_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, True).as_field_xe()
                 index_entry.text = "Heading 1:Subheading 2"
 
+                doc.update_page_layout()
                 doc.update_fields()
                 doc.save(ARTIFACTS_DIR + "Field.field_index_subheading.docx")
                 #ExEnd
@@ -3360,7 +3370,7 @@ class ExField(ApiExampleBase):
                 index = doc.range.fields[0].as_field_index()
 
                 if run_subentries_on_the_same_line:
-                    self.verify_field(aw.fields.FieldType.FIELD_INDEX, " INDEX  \\r \\e \", see page \" \\h A",
+                    self.verify_field(aw.fields.FieldType.FIELD_INDEX, " INDEX  \\e \", see page \" \\h A \\r",
                         "H\r" +
                         "Heading 1: Subheading 1, see page 2; Subheading 2, see page 3\r", index)
                     self.assertTrue(index.run_subentries_on_same_line)
@@ -3437,6 +3447,7 @@ class ExField(ApiExampleBase):
                 index_entry.text = "愛美"
                 index_entry.yomi = "え"
 
+                doc.update_page_layout()
                 doc.update_fields()
                 doc.save(ARTIFACTS_DIR + "Field.field_index_yomi.docx")
                 #ExEnd
@@ -4308,6 +4319,7 @@ class ExField(ApiExampleBase):
         field.insert_paragraph_number_in_full_context = True
         field.suppress_non_delimiters = True
 
+        doc.update_page_layout()
         doc.update_fields()
         doc.save(ARTIFACTS_DIR + "Field.field_style_ref_paragraph_numbers.docx")
         #ExEnd
@@ -5472,6 +5484,7 @@ class ExField(ApiExampleBase):
         builder.insert_break(aw.BreakType.PAGE_BREAK)
         ExField.insert_bookmark_with_footnote(builder, "MyBookmark2", "Contents of MyBookmark2", "Footnote from MyBookmark2")
 
+        doc.update_page_layout()
         doc.update_fields()
         doc.save(ARTIFACTS_DIR + "Field.field_note_ref.docx")
         self._test_note_ref(aw.Document(ARTIFACTS_DIR + "Field.field_note_ref.docx")) #ExSkip
@@ -5530,42 +5543,41 @@ class ExField(ApiExampleBase):
         self.assertTrue(field.insert_reference_mark)
 
     @unittest.skip("WORDSNET-17845")
-    def test_field_footnote_ref(self):
+    def test_note_ref(self):
 
         #ExStart
-        #ExFor:FieldFootnoteRef
-        #ExSummary:Shows how to cross-reference footnotes with the FOOTNOTEREF field.
+        #ExFor:FieldNoteRef
+        #ExSummary:Shows how to cross-reference footnotes with the NOTEREF field.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
+
+        builder.write("CrossReference: ")
+
+        # <--- don't update field
+        field = builder.insert_field(awf.FieldType.FIELD_NOTE_REF, False)
+        field.bookmark_name = "CrossRefBookmark"
+        field.insert_hyperlink = True
+        field.insert_reference_mark = True
+        field.insert_relative_position = False
+        builder.writeln()
 
         builder.start_bookmark("CrossRefBookmark")
         builder.write("Hello world!")
         builder.insert_footnote(aw.notes.FootnoteType.FOOTNOTE, "Cross referenced footnote.")
         builder.end_bookmark("CrossRefBookmark")
-        builder.insert_paragraph()
-
-        # Insert a FOOTNOTEREF field, which lets us reference a footnote more than once while re-using the same footnote marker.
-        builder.write("CrossReference: ")
-        field = builder.insert_field(aw.fields.FieldType.FIELD_FOOTNOTE_REF, True).as_field_footnote_ref()
-
-        # Reference the bookmark that we have created with the FOOTNOTEREF field. That bookmark contains a footnote marker
-        # belonging to the footnote we inserted. The field will display that footnote marker.
-        builder.move_to(field.separator)
-        builder.write("CrossRefBookmark")
-
-        self.assertEqual(" FOOTNOTEREF CrossRefBookmark", field.get_field_code())
+        builder.writeln()
 
         doc.update_fields()
 
         # This field works only in older versions of Microsoft Word.
-        doc.save(ARTIFACTS_DIR + "Field.field_footnote_ref.doc")
+        doc.save(ARTIFACTS_DIR + "Field.field_note_ref.doc")
         #ExEnd
 
         doc = aw.Document(ARTIFACTS_DIR + "Field.field_footnote_ref.doc")
         field = doc.range.fields[0].as_field_footnote_ref()
 
-        self.verify_field(aw.fields.FieldType.FIELD_FOOTNOTE_REF, " FOOTNOTEREF CrossRefBookmark", "1", field)
-        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "", "Cross referenced footnote.",
+        self.verify_field(awf.FieldType.FIELD_NOTE_REF, " NOTEREF  CrossRefBookmark \\h \\f", "1", field)
+        self.verify_footnote(awn.FootnoteType.FOOTNOTE, True, "", "Cross referenced footnote.",
             doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
 
     #ExStart
@@ -5605,6 +5617,7 @@ class ExField(ApiExampleBase):
         builder.insert_break(aw.BreakType.PAGE_BREAK)
         ExField.insert_and_name_bookmark(builder, "MyBookmark3")
 
+        doc.update_page_layout()
         doc.update_fields()
         doc.save(ARTIFACTS_DIR + "Field.field_page_ref.docx")
         self._test_page_ref(aw.Document(ARTIFACTS_DIR + "Field.field_page_ref.docx")) #ExSkip
@@ -5762,7 +5775,7 @@ class ExField(ApiExampleBase):
         self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "", "MyBookmark footnote #1",
             doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
         self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, "", "MyBookmark footnote #2",
-            doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
+            doc.get_child(aw.NodeType.FOOTNOTE, 1, True).as_footnote())
 
         field = doc.range.fields[0].as_field_ref()
 
@@ -6606,8 +6619,8 @@ class ExField(ApiExampleBase):
     #                    "Row number of record in data source: 1\r" +
     #                    "Successful merge number: 1\fDear Joe Bloggs,\r" +
     #                    "\r" +
-    #                    "Row number of record in data source: 2\r" +
-    #                    "Successful merge number: 3", doc.get_text().strip())
+    #                    "Row number of record in data source: 3\r" +
+    #                    "Successful merge number: 2", doc.get_text().strip())
 
     def test_field_ocx(self):
 
