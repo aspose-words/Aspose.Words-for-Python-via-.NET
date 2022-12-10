@@ -5840,10 +5840,9 @@ class ExField(ApiExampleBase):
         # Insert an RD field, which references another local file system document in its FileName property.
         # The TOC will also now accept all headings from the referenced document as entries for its table.
         field = builder.insert_field(aw.fields.FieldType.FIELD_REF_DOC, True).as_field_rd()
-        field.file_name = "ReferencedDocument.docx"
-        field.is_path_relative = True
+        field.file_name = ARTIFACTS_DIR + "ReferencedDocument.docx"
 
-        self.assertEqual(" RD  ReferencedDocument.docx \\f", field.get_field_code())
+        self.assertEqual(r' RD  {ArtifactsDir.Replace(@"\",@"\\")}ReferencedDocument.docx', field.get_field_code())
 
         # Create the document that the RD field is referencing and insert a heading.
         # This heading will show up as an entry in the TOC field in our first document.
@@ -5861,18 +5860,18 @@ class ExField(ApiExampleBase):
 
         field_toc = doc.range.fields[0].as_field_toc()
 
-        self.assertEqual("TOC entry from within this document\t\u0013 PAGEREF _Toc36149519 \\h \u00142\u0015\r" +
+        self.assertEqual("TOC entry from within this document\t\u0013 PAGEREF _Toc256000000 \\h \u00142\u0015\r" +
                         "TOC entry from referenced document\t1\r", field_toc.result)
 
         field_page_ref = doc.range.fields[1].as_field_page_ref()
 
-        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF _Toc36149519 \\h ", "2", field_page_ref)
+        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, " PAGEREF _Toc256000000 \\h ", "2", field_page_ref)
 
         field = doc.range.fields[2].as_field_rd()
 
-        self.verify_field(aw.fields.FieldType.FIELD_REF_DOC, " RD  ReferencedDocument.docx \\f", "", field)
-        self.assertEqual("ReferencedDocument.docx", field.file_name)
-        self.assertTrue(field.is_path_relative)
+        self.verify_field(aw.fields.FieldType.FIELD_REF_DOC, r' RD  {ArtifactsDir.Replace(@"\",@"\\")}ReferencedDocument.docx', "", field)
+        self.assertEqual(ARTIFACTS_DIR.replace("\\", "\\\\") + "ReferencedDocument.docx", field.file_name)
+        self.assertFalse(field.is_path_relative)
 
     #def test_skip_if(self):
 
