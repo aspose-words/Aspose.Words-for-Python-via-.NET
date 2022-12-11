@@ -391,7 +391,9 @@ class ExPdfSaveOptions(ApiExampleBase):
         for pdf_compliance in (aw.saving.PdfCompliance.PDF_A2U,
                                aw.saving.PdfCompliance.PDF17,
                                aw.saving.PdfCompliance.PDF_A2A,
-                               aw.saving.PdfCompliance.PDF_UA1):
+                               aw.saving.PdfCompliance.PDF_UA1,
+                               aw.saving.PdfCompliance.PDF_20,
+                               aw.saving.PdfCompliance.PDF_A4):
             with self.subTest(pdf_compliance=pdf_compliance):
                 #ExStart
                 #ExFor:PdfSaveOptions.compliance
@@ -412,6 +414,9 @@ class ExPdfSaveOptions(ApiExampleBase):
                 # which complies with "PDF/A-1b" as well as preserving the document structure of the original document.
                 # Set the "compliance" property to "PdfCompliance.PDF_UA1" to comply with the "PDF/UA-1" (ISO 14289-1) standard,
                 # which aims to define represent electronic documents in PDF that allow the file to be accessible.
+                # Set the "Compliance" property to "PdfCompliance.Pdf20" to comply with the "PDF 2.0" (ISO 32000-2) standard.
+                # Set the "Compliance" property to "PdfCompliance.PdfA4" to comply with the "PDF/A-4" (ISO 19004:2020) standard,
+                # which preserving document static visual appearance over time.
                 # This helps with making documents searchable but may significantly increase the size of already large documents.
                 save_options.compliance = pdf_compliance
 
@@ -435,6 +440,14 @@ class ExPdfSaveOptions(ApiExampleBase):
                 #elif pdf_compliance == aw.saving.PdfCompliance.PDF_UA1:
                 #    self.assertEqual(aspose.pdf.PdfFormat.PDF_UA_1, pdf_document.pdf_format)
                 #    self.assertEqual("1.7", pdf_document.version)
+
+                #elif pdf_compliance == aw.saving.PdfCompliance.PDF_20:
+                #    self.assertEqual(aspose.pdf.PdfFormat.PDF_V_2_0, pdf_document.pdf_format)
+                #    self.assertEqual("2.0", pdf_document.version)
+
+                #elif pdf_compliance == aw.saving.PdfCompliance.PDF_A4:
+                #    self.assertEqual(aspose.pdf.PdfFormat.PDF_A_4, pdf_document.pdf_format)
+                #    self.assertEqual("2.0", pdf_document.version)
 
     def test_text_compression(self):
 
@@ -1770,8 +1783,9 @@ class ExPdfSaveOptions(ApiExampleBase):
         # Configure the "digital_signature_details" object of the "SaveOptions" object to
         # digitally sign the document as we render it with the "save" method.
         signing_time = datetime.now()
+        import aspose.words.saving as aws
         options.digital_signature_details = aw.saving.PdfDigitalSignatureDetails(certificate_holder, "Test Signing", "My Office", signing_time)
-        options.digital_signature_details.hash_algorithm = aw.saving.PdfDigitalSignatureHashAlgorithm.SHA256
+        options.digital_signature_details.hash_algorithm = aw.saving.PdfDigitalSignatureHashAlgorithm.RIPE_MD160
 
         self.assertEqual("Test Signing", options.digital_signature_details.reason)
         self.assertEqual("My Office", options.digital_signature_details.location)

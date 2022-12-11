@@ -426,6 +426,15 @@ class ExReportingEngine(ApiExampleBase):
                 GOLDS_DIR + "ReportingEngine.InsertImageDynamically(stream,doc,bytes) Gold.docx"),
             "Fail inserting document by bytes")
 
+    def test_image_exif_orientation(self):
+        template = aw.Document(MY_DIR + "Reporting engine template - Image exif orientation.docx")
+        with open(IMAGE_DIR + "RightF.jpg", "rb") as source1:
+            image1_bytes = source1.read()
+        with open(IMAGE_DIR + "WrongF.jpg", "rb") as source2:
+            image2_bytes = source2.read()
+        self.build_report(template, [image1_bytes, image2_bytes], ["image1", "image2"], options=aw.reporting.ReportBuildOptions.RESPECT_JPEG_EXIF_ORIENTATION)
+        template.save(ARTIFACTS_DIR + "ReportingEngine.ImageExifOrientation.docx")
+
     def test_dynamic_stretching_image_within_text_box(self):
 
         template = aw.Document(MY_DIR + "Reporting engine template - Dynamic stretching.docx")

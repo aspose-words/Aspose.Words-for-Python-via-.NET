@@ -1039,3 +1039,39 @@ class ExStructuredDocumentTag(ApiExampleBase):
         return range_start
 
     #ExEnd
+
+    def test_get_sdt(self):
+        #ExStart
+        #ExFor:StructuredDocumentTagCollection.Remove(int)
+        #ExFor:StructuredDocumentTagCollection.RemoveAt(int)
+        #ExSummary:Shows how to remove structured document tag.
+        doc = aw.Document(MY_DIR + "Structured document tags.docx")
+        structured_document_tags = doc.range.structured_document_tags
+        for index in range(structured_document_tags.count()):
+            print(structured_document_tags[index].title)
+        structured_document_tag = structured_document_tags.get_by_id(1691867797)
+        self.assertEqual(1691867797, structured_document_tag.id)
+        self.assertEqual(3, structured_document_tags.count)
+        # Remove the structured document tag by Id.
+        structured_document_tags.remove(1691867797)
+        # Remove the structured document tag at position 0.
+        structured_document_tags.remove_at(0)
+        self.assertEqual(1, structured_document_tags.count)
+        #ExEnd
+
+    def test_range_sdt(self):
+        #ExStart
+        #ExFor:StructuredDocumentTagCollection.GetById(int)
+        #ExFor:StructuredDocumentTagCollection.GetByTitle(String)
+        #ExFor:IStructuredDocumentTag.IsRanged()
+        #ExFor:IStructuredDocumentTag.Title
+        #ExSummary:Shows how to get structured document tag.
+        doc = aw.Document(MY_DIR + "Structured document tags by id.docx")
+        # Get the structured document tag by Id.
+        sdt = doc.range.structured_document_tags.get_by_id(1160505028)
+        print(sdt.is_ranged())
+        print(sdt.title)
+        # Get the structured document tag or ranged tag by Title.
+        sdt = doc.range.structured_document_tags.get_by_title("Alias4")
+        print(sdt.id)
+        #ExEnd

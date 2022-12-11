@@ -8,6 +8,7 @@ import io
 from datetime import datetime
 
 import aspose.words as aw
+import aspose.words.loading as awl
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_URL, IMAGE_DIR
 
@@ -233,3 +234,13 @@ class ExHtmlLoadOptions(ApiExampleBase):
                 #text_absorber.visit(pdf_doc)
 
                 #self.assertEqual("" if ignore_noscript_elements else "Your browser does not support JavaScript!", text_absorber.text)
+
+    def test_block_import(self):
+        for block_import_mode in [awl.BlockImportMode.PRESERVE, awl.BlockImportMode.MERGE]:
+            html = "<html><div style='border:dotted'><div style='border:solid'><p>paragraph 1</p><p>paragraph 2</p></div></div></html>"
+            with io.BytesIO(html.encode("utf-8")) as stream:
+                load_options = awl.HtmlLoadOptions()
+                # Set the new mode of import HTML block-level elements.
+                load_options.block_import_mode = block_import_mode
+                doc = aw.Document(stream, load_options)
+                doc.save(ARTIFACTS_DIR + "HtmlLoadOptions.BlockImport.docx")

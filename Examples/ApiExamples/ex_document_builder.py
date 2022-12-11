@@ -3298,3 +3298,15 @@ class ExDocumentBuilder(ApiExampleBase):
 
         doc.save(ARTIFACTS_DIR + "DocumentBuilder.insert_ole_object_as_icon.docx")
         #ExEnd
+
+    def test_preserve_blocks(self):
+        #ExStart
+        #ExFor:HtmlInsertOptions
+        #ExSummary:Shows how to allows better preserve borders and margins seen.
+        html = "<html><div style='border:dotted'><div style='border:solid'><p>paragraph 1</p><p>paragraph 2</p></div></div></html>"
+        # Set the new mode of import HTML block-level elements.
+        insert_options = aw.HtmlInsertOptions.PRESERVE_BLOCKS
+        builder = aw.DocumentBuilder()
+        builder.insert_html(html, insert_options)
+        builder.document.save(ARTIFACTS_DIR + "DocumentBuilder.PreserveBlocks.docx")
+        #ExEnd
