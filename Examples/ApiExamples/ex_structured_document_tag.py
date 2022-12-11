@@ -1047,7 +1047,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         #ExSummary:Shows how to remove structured document tag.
         doc = aw.Document(MY_DIR + "Structured document tags.docx")
         structured_document_tags = doc.range.structured_document_tags
-        for index in range(structured_document_tags.count()):
+        for index in range(structured_document_tags.count):
             print(structured_document_tags[index].title)
         structured_document_tag = structured_document_tags.get_by_id(1691867797)
         self.assertEqual(1691867797, structured_document_tag.id)

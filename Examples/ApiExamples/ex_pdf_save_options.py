@@ -392,7 +392,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                                aw.saving.PdfCompliance.PDF17,
                                aw.saving.PdfCompliance.PDF_A2A,
                                aw.saving.PdfCompliance.PDF_UA1,
-                               aw.saving.PdfCompliance.PDF_20,
+                               aw.saving.PdfCompliance.PDF20,
                                aw.saving.PdfCompliance.PDF_A4):
             with self.subTest(pdf_compliance=pdf_compliance):
                 #ExStart
