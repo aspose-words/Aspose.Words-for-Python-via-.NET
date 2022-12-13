@@ -5,6 +5,7 @@
 # "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
+import aspose.words.saving as aws
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR
@@ -150,9 +151,11 @@ class ExDocumentBase(ApiExampleBase):
 
         self.assertTrue(doc.background_shape.has_image)
 
+        save_options = aws.PdfSaveOptions()
+        save_options.cache_background_graphics = False
         # Microsoft Word does not support shapes with images as backgrounds,
         # but we can still see these backgrounds in other save formats such as .pdf.
-        doc.save(ARTIFACTS_DIR + "DocumentBase.background_shape.image.pdf")
+        doc.save(ARTIFACTS_DIR + "DocumentBase.background_shape.image.pdf", save_options)
         #ExEnd
 
         doc = aw.Document(ARTIFACTS_DIR + "DocumentBase.background_shape.flat_color.docx")

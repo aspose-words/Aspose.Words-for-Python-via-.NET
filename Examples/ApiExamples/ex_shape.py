@@ -7,6 +7,7 @@
 import os
 
 import aspose.words as aw
+import aspose.words.drawing as awd
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, IMAGE_DIR
@@ -48,12 +49,12 @@ class ExShape(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Shape.alt_text.html")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
-        self.verify_shape(aw.drawing.ShapeType.IMAGE, "", 153.0, 153.0, 0, 0, shape)
+        self.verify_shape(aw.drawing.ShapeType.IMAGE, "", 151.5, 151.5, 0, 0, shape)
         self.assertEqual("Alt text for MyCube.", shape.alternative_text)
 
         with open(ARTIFACTS_DIR + "Shape.alt_text.html", 'rb') as file:
             self.assertIn(
-                "<img src=\"Shape.alt_text.001.png\" width=\"204\" height=\"204\" alt=\"Alt text for MyCube.\" " +
+                "<img src=\"Shape.alt_text.001.png\" width=\"202\" height=\"202\" alt=\"Alt text for MyCube.\" " +
                 "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />",
                 file.read().decode('utf-8'))
 
@@ -712,7 +713,11 @@ class ExShape(ApiExampleBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         self.verify_shape(aw.drawing.ShapeType.CLOUD_CALLOUT, "CloudCallout 100002", 250.0, 150.0, 25.0, 25.0, shape)
-        self.assertEqual(drawing.Color.light_blue.to_argb(), shape.fill_color.to_argb())
+        colorWithOpacity = drawing.Color.from_argb(255 * shape.fill.opacity,
+            drawing.Color.light_blue.r,
+            drawing.Color.light_blue.g,
+            drawing.Color.light_blue.b)
+        self.assertEqual(colorWithOpacity.to_argb(), shape.fill_color.to_argb())
         self.assertEqual(drawing.Color.cadet_blue.to_argb(), shape.stroke_color.to_argb())
         self.assertAlmostEqual(0.3, shape.fill.opacity, delta=0.01)
 
@@ -1118,15 +1123,13 @@ class ExShape(ApiExampleBase):
         #ExEnd
 
     def test_linked_chart_source_full_name(self):
-        
         #ExStart
         #ExFor:Chart.source_full_name
         #ExSummary:Shows how to get the full name of the external xls/xlsx document if the chart is linked.
         doc = aw.Document(MY_DIR + "Shape with linked chart.docx")
-
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-
-        self.assertIn("Examples\\Data\\Spreadsheet.xlsx", shape.chart.source_full_name)
+        source_fullname = shape.chart.source_full_name
+        self.assertTrue(source_fullname.find("Examples\\Data\\Spreadsheet.xlsx") != -1)
         #ExEnd
 
     def test_ole_control(self):
@@ -1931,8 +1934,13 @@ class ExShape(ApiExampleBase):
 
                 self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, "TextBox 100002", 150.0, 100.0, 0.0, 0.0, text_box_shape)
 
-                if layout_flow in (aw.drawing.LayoutFlow.BOTTOM_TO_TOP, aw.drawing.LayoutFlow.HORIZONTAL, aw.drawing.LayoutFlow.TOP_TO_BOTTOM_IDEOGRAPHIC):
+                if layout_flow in [aw.drawing.LayoutFlow.BOTTOM_TO_TOP,
+                                   aw.drawing.LayoutFlow.HORIZONTAL,
+                                   aw.drawing.LayoutFlow.TOP_TO_BOTTOM_IDEOGRAPHIC,
+                                   aw.drawing.LayoutFlow.VERTICAL]:
                     expected_layout_flow = layout_flow
+                elif layout_flow == aw.drawing.LayoutFlow.TOP_TO_BOTTOM:
+                    expected_layout_flow = aw.drawing.LayoutFlow.VERTICAL
                 else:
                     expected_layout_flow = aw.drawing.LayoutFlow.HORIZONTAL
 
@@ -2642,3 +2650,18 @@ class ExShape(ApiExampleBase):
 
         doc.save(ARTIFACTS_DIR + "Shape.fill_image.stream.docx")
         #ExEnd
+
+    def test_shadow_format(self):
+        #ExStart
+        #ExFor:ShadowFormat.Visible
+        #ExFor:ShadowFormat.Clear()
+        #ExFor:ShadowType
+        #ExSummary:Shows how to work with a shadow formatting for the shape.
+        doc = aw.Document(MY_DIR + "Shape stroke pattern border.docx")
+        shape = doc.get_child_nodes(aw.NodeType.SHAPE, True)[0].as_shape()
+        if shape.shadow_format.visible and shape.shadow_format.type == awd.ShadowType.SHADOW2:
+            shape.shadow_format.type == awd.ShadowType.SHADOW7
+        if shape.shadow_format.type == awd.ShadowType.SHADOW_MIXED:
+            shape.shadow_format.clear()
+        #ExEnd
+        pass

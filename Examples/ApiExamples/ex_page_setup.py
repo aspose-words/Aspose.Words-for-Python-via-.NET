@@ -7,7 +7,7 @@
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-from api_example_base import ApiExampleBase, ARTIFACTS_DIR
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 from document_helper import DocumentHelper
 
 class ExPageSetup(ApiExampleBase):
@@ -1017,3 +1017,16 @@ class ExPageSetup(ApiExampleBase):
         page_setup = doc.sections[1].page_setup
 
         self.assertTrue(page_setup.suppress_endnotes)
+
+    def test_chapter_page_separator(self):
+        #ExStart
+        #ExFor:PageSetup.HeadingLevelForChapter
+        #ExFor:ChapterPageSeparator
+        #ExFor:PageSetup.ChapterPageSeparator
+        #ExSummary:Shows how to work with page chapters.
+        doc = aw.Document(MY_DIR + "Big document.docx")
+        page_setup = doc.first_section.page_setup
+        page_setup.page_number_style = aw.NumberStyle.UPPERCASE_ROMAN
+        page_setup.chapter_page_separator = aw.ChapterPageSeparator.COLON
+        page_setup.heading_level_for_chapter = 1
+        #ExEnd
