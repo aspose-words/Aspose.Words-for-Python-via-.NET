@@ -1089,7 +1089,7 @@ class ExShape(ApiExampleBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
         ole_control = shape.ole_format.ole_control
 
-        self.assertIsNone(ole_control.name)
+        self.assertEqual("CheckBox1", ole_control.name);
 
         if ole_control.is_forms2_ole_control:
 
