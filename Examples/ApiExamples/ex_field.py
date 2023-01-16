@@ -6479,6 +6479,26 @@ class ExField(ApiExampleBase):
         self.verify_field(aw.fields.FieldType.FIELD_EQUATION, r" EQ \i \in( tan x, \s \up2(sec x), \b(\r(3) )\s \up4(t) \s \up7(2)  dt)", "", doc.range.fields[12])
         self.verify_web_response_status_code(200, "https://blogs.msdn.microsoft.com/murrays/2018/01/23/microsoft-word-eq-field/")
 
+    def test_field_eq_as_office_math(self):
+        #ExStart
+        #ExFor:FieldEQ
+        #ExSummary:Shows how to replace the EQ field with Office Math.
+        doc = aw.Document(MY_DIR + "Field sample - EQ.docx")
+        import aspose.words.fields as awf
+        field_eq = None
+        for field in doc.range.fields:
+            if field.type == awf.FieldType.FIELD_EQUATION:
+                field_eq = field.as_field_eq()
+                break
+
+        officeMath = field_eq.as_office_math()
+
+        field_eq.start.parent_node.insert_before(officeMath, field_eq.start)
+        field_eq.remove()
+
+        doc.save(ARTIFACTS_DIR + "Field.EQAsOfficeMath.docx")
+        #ExEnd
+
     def test_field_forms(self):
 
         #ExStart
@@ -7086,6 +7106,11 @@ class ExField(ApiExampleBase):
 
     ##ExStart
     ##ExFor:IFieldUpdatingCallback
+    ##ExFor:IFieldUpdatingProgressCallback
+    ##ExFor:IFieldUpdatingProgressCallback.notify(FieldUpdatingProgressArgs)
+    ##ExFor:FieldUpdatingProgressArgs.update_completed
+    ##ExFor:FieldUpdatingProgressArgs.total_fields_count
+    ##ExFor:FieldUpdatingProgressArgs.updated_fields_count
     ##ExFor:IFieldUpdatingCallback.field_updating(Field)
     ##ExFor:IFieldUpdatingCallback.field_updated(Field)
     ##ExSummary:Shows how to use callback methods during a field update.
@@ -7108,23 +7133,24 @@ class ExField(ApiExampleBase):
 
     #    self.assertTrue(callback.field_updated_calls.contains("Updating John Doe"))
 
-    #class FieldUpdatingCallback(aw.fields.IFieldUpdatingCallback):
+    #class FieldUpdatingCallback(aw.fields.IFieldUpdatingCallback, aw.fields.IFieldUpdatingProgressCallback):
     #    """Implement this interface if you want to have your own custom methods called during a field update."""
 
     #    def __init__(self):
-
     #        self.field_updated_calls: List[str] = []
 
     #    def field_updating(self, field: aw.fields.Field):
     #        """A user defined method that is called just before a field is updated."""
-
     #        if field.type == aw.fields.FieldType.FIELD_AUTHOR:
     #            field_author = field.as_field_author()
     #            field_author.author_name = "Updating John Doe"
 
     #    def field_updated(self, field: aw.fields.Field):
     #        """A user defined method that is called just after a field is updated."""
-
     #        self.field_updated_calls.add(field.result)
+
+    #    def notify(self, args: aw.fields.FieldUpdatingProgressArgs):
+    #        print(f"{args.update_completed}/{args.total_fields_count}")
+    #        print(f"{args.updated_fields_count}")
 
     ##ExEnd

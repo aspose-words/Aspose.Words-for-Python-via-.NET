@@ -232,6 +232,9 @@ from api_example_base import ApiExampleBase, MY_DIR
 #        #ExStart
 #        #ExFor:AsposeWordsPrintDocument.__init__(Document)
 #        #ExFor:AsposeWordsPrintDocument.cache_printer_settings
+#        #ExFor:AsposeWordsPrintDocument.color_mode
+#        #ExFor:AsposeWordsPrintDocument.color_pages_printed
+#        #ExFor:ColorPrintMode
 #        #ExSummary:Shows how to select a page range and a printer to print the document with, and then bring up a print preview.
 #        doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -256,6 +259,9 @@ from api_example_base import ApiExampleBase, MY_DIR
 #        aw_print_doc = aw.rendering.AsposeWordsPrintDocument(doc)
 #        aw_print_doc.printer_settings = print_dlg.printer_settings
 
+#        # Specify the new color print mode.
+#        aw_print_doc.color_mode = aw.rendering.ColorPrintMode.GRAYSCALE_AUTO;
+
 #        # Use the "cache_printer_settings" method to reduce time of the first call of the "Print" method.
 #        aw_print_doc.cache_printer_settings()
 
@@ -267,4 +273,7 @@ from api_example_base import ApiExampleBase, MY_DIR
 #        preview_dlg.document = aw_print_doc
 
 #        preview_dlg.show_dialog()
+
+#        aw_print_doc.print()
+#        print(f"The numer of pages printed in color are {aw_print_doc.color_pages_printed}.")
 #        #ExEnd

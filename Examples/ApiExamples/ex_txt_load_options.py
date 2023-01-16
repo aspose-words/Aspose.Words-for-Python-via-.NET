@@ -171,3 +171,20 @@ class ExTxtLoadOptions(ApiExampleBase):
 
         self.assertFalse(doc.first_section.body.first_paragraph.paragraph_format.bidi)
         #ExEnd
+
+    def test_auto_numbering_detection(self):
+        #ExStart
+        #ExFor:TxtLoadOptions.auto_numbering_detection
+        #ExSummary:Shows how to disable automatic numbering detection.
+        options = aw.loading.TxtLoadOptions()
+        options.auto_numbering_detection = False
+        doc = aw.Document(MY_DIR + "Number detection.txt", options)
+        #ExEnd
+
+        list_items_count = 0
+        for paragraph_node in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True):
+            paragraph = paragraph_node.as_paragraph()
+            if (paragraph.is_list_item):
+                list_items_count += 1
+
+        self.assertEqual(0, list_items_count)

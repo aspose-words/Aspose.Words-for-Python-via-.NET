@@ -1738,6 +1738,7 @@ class ExDocument(ApiExampleBase):
         #ExFor:StyleCollection.__getitem__(str)
         #ExFor:SectionCollection.__getitem__(int)
         #ExFor:Document.update_page_layout
+        #ExFor:PageSetup.margins
         #ExSummary:Shows when to recalculate the page layout of the document.
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -1748,6 +1749,7 @@ class ExDocument(ApiExampleBase):
         # Modify the document in some way.
         doc.styles.get_by_name("Normal").font.size = 6
         doc.sections[0].page_setup.orientation = aw.Orientation.LANDSCAPE
+        doc.sections[0].page_setup.margins = aw.Margins.MIRRORED
 
         # In the current version of Aspose.Words, modifying the document does not automatically rebuild
         # the cached page layout. If we wish for the cached layout
@@ -2550,3 +2552,34 @@ class ExDocument(ApiExampleBase):
         self.assertEqual(info.load_format, aw.LoadFormat.XML)
         doc = aw.Document(MY_DIR + "Mail merge data - Purchase order.xml")
         self.assertTrue(doc.get_text().find("Ellen Adams\r123 Maple Street") != -1)
+
+    def test_move_to_structured_document_tag(self):
+        #ExStart
+        #ExFor:DocumentBuilder.move_to_structured_document_tag(int, int)
+        #ExFor:DocumentBuilder.move_to_structured_document_tag(StructuredDocumentTag, int)
+        #ExFor:DocumentBuilder.IsAtEndOfStructuredDocumentTag
+        #ExFor:DocumentBuilder.CurrentStructuredDocumentTag
+        #ExSummary:Shows how to move cursor of DocumentBuilder inside a structured document tag.
+        doc = aw.Document(MY_DIR + "Structured document tags.docx")
+        builder = aw.DocumentBuilder(doc)
+
+        # There is a several ways to move the cursor:
+        # 1 -  Move to the first character of structured document tag by index.
+        builder.move_to_structured_document_tag(1, 1)
+
+        # 2 -  Move to the first character of structured document tag by object.
+        tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 2, True).as_structured_document_tag()
+        builder.move_to_structured_document_tag(tag, 1)
+        builder.write(" New text.")
+
+        self.assertEqual("R New text.ichText", tag.get_text().strip())
+
+        # 3 -  Move to the end of the second structured document tag.
+        builder.move_to_structured_document_tag(1, -1)
+        self.assertTrue(builder.is_at_end_of_structured_document_tag)
+
+        # Get currently selected structured document tag.
+        builder.current_structured_document_tag.color = drawing.Color.green
+
+        doc.save(ARTIFACTS_DIR + "Document.MoveToStructuredDocumentTag.docx")
+        #ExEnd

@@ -521,7 +521,6 @@ class ExLists(ApiExampleBase):
         builder.list_format.remove_numbers()
 
         paras = [node.as_paragraph() for node in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)]
-
         self.assertEqual(3, len([p for p in paras if p.list_format.is_list_item]))
 
         for paragraph in paras:
@@ -744,11 +743,9 @@ class ExLists(ApiExampleBase):
         doc = aw.Document()
 
         lists = doc.lists
-
         self.assertEqual(doc, lists.document)
 
         list = lists.add(aw.lists.ListTemplate.BULLET_DEFAULT)
-
         self.assertEqual(doc, list.document)
 
         print("Current list count:", lists.count)
@@ -941,3 +938,13 @@ class ExLists(ApiExampleBase):
             aw.lists.ListLevel.get_effective_value(5, aw.NumberStyle.CUSTOM, None)
         with self.assertRaises(Exception):
             aw.lists.ListLevel.get_effective_value(5, aw.NumberStyle.CUSTOM, "....")
+
+    def test_has_same_template(self):
+        #ExStart
+        #ExFor:List.has_same_template(List)
+        #ExSummary:Shows how to define lists with the same ListDefId.
+        doc = aw.Document(MY_DIR + "Different lists.docx");
+
+        self.assertTrue(doc.lists[0].has_same_template(doc.lists[1]))
+        self.assertFalse(doc.lists[1].has_same_template(doc.lists[2]))
+        #ExEnd

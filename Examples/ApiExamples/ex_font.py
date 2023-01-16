@@ -5,9 +5,11 @@
 # "as is", without warranty of any kind, either expressed or implied.
 
 import os
+import pathlib
 import glob
 
 import aspose.words as aw
+import aspose.words.fonts as awfonts
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, FONTS_DIR
@@ -1289,11 +1291,14 @@ class ExFont(ApiExampleBase):
 
     def test_check_scan_user_fonts_folder(self):
 
-        # On Windows 10 fonts may be installed either into system folder "%windir%\fonts" for all users
-        # or into user folder "%userprofile%\AppData\Local\Microsoft\Windows\Fonts" for current user.
-        system_font_source = aw.fonts.SystemFontSource()
-        self.assertGreater(len([f for f in system_font_source.get_available_fonts()
-                                if "\\AppData\\Local\\Microsoft\\Windows\\Fonts" in f.file_path]), 0)
+        user_profile = pathlib.Path(os.environ["USERPROFILE"])
+        current_user_fonts_folder = user_profile.joinpath("AppData\\Local\\Microsoft\\Windows\\Fonts")
+        if len(list(current_user_fonts_folder.glob("*.ttf"))) > 0:
+            # On Windows 10 fonts may be installed either into system folder "%windir%\fonts" for all users
+            # or into user folder "%userprofile%\AppData\Local\Microsoft\Windows\Fonts" for current user.
+            system_font_source = awfonts.SystemFontSource()
+            current_user_fonts = filter(lambda font: font.find("\\AppData\\Local\\Microsoft\\Windows\\Fonts") != -1, system_font_source.get_system_font_folders())
+            self.assertTrue(len(list(current_user_fonts)) > 0, "Fonts did not install to the user font folder")
 
     def test_set_emphasis_mark(self):
 

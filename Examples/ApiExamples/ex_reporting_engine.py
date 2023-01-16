@@ -302,6 +302,17 @@ class ExReportingEngine(ApiExampleBase):
             ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_with_styles.docx",
             GOLDS_DIR + "ReportingEngine.insert_document_dynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by document")
 
+    def test_insert_document_dynamically_trim_last_paragraph(self):
+        template = DocumentHelper.create_simple_document("<<doc [src.Document] -inline>>")
+
+        doc = DocumentTestClass(doc=aw.Document(MY_DIR + "Reporting engine template - Data table.docx"))
+
+        self.build_report(template, doc, "src", options=aw.reporting.ReportBuildOptions.NONE)
+        template.save(ARTIFACTS_DIR + "ReportingEngine.InsertDocumentDynamically.docx")
+
+        template = aw.Document(ARTIFACTS_DIR + "ReportingEngine.InsertDocumentDynamically.docx")
+        self.assertEqual(1, template.first_section.body.paragraphs.count)
+
     def test_insert_document_dynamically_by_stream(self):
 
         template = DocumentHelper.create_simple_document("<<doc [src.DocumentStream]>>")
@@ -581,10 +592,10 @@ class ExReportingEngine(ApiExampleBase):
             for shape in shapes:
                 shape = shape.as_shape()
 
-                # Assert that the image is really insert in textbox
+                # Assert that the image is really insert in textbox.
                 self.assertIsNotNone(shape.fill.image_bytes)
 
-                # Assert that the width is preserved, and the height is changed
+                # Assert that the width is preserved, and the height is changed.
                 self.assertNotEqual(346.35, shape.height)
                 self.assertEqual(431.5, shape.width)
 
@@ -628,7 +639,7 @@ class ExReportingEngine(ApiExampleBase):
 
                 self.assertNotNone(shape.fill.image_bytes)
 
-                # Assert that the height and the width are changed
+                # Assert that the height and the width are changed.
                 self.assertNotEqual(346.35, shape.height)
                 self.assertNotEqual(431.5, shape.width)
 
@@ -650,7 +661,7 @@ class ExReportingEngine(ApiExampleBase):
 
                 self.assertNotNone(shape.fill.image_bytes)
 
-                # Assert that textbox size are equal image size
+                # Assert that textbox size are equal image size.
                 self.assertEqual(300.0, shape.height)
                 self.assertEqual(300.0, shape.width)
 
@@ -658,11 +669,11 @@ class ExReportingEngine(ApiExampleBase):
 
         builder = aw.DocumentBuilder()
 
-        #Add templete to the document for reporting engine
+        # Add templete to the document for reporting engine
         DocumentHelper.insert_builder_text(builder,
             ["<<[missingObject.first().id]>>", "<<foreach [in missingObject]>><<[id]>><</foreach>>"])
 
-        #Assert that build report failed without "ReportBuildOptions.ALLOW_MISSING_MEMBERS"
+        # Assert that build report failed without "ReportBuildOptions.ALLOW_MISSING_MEMBERS"
         with self.assertRaises(Exception):
             self.build_report(builder.document, DataSet(), "", options=aw.reporting.ReportBuildOptions.NONE)
 
@@ -670,13 +681,13 @@ class ExReportingEngine(ApiExampleBase):
 
         builder = aw.DocumentBuilder()
 
-        #Add templete to the document for reporting engine
+        # Add templete to the document for reporting engine
         DocumentHelper.insert_builder_text(builder,
             ["<<[missingObject.first().id]>>", "<<foreach [in missingObject]>><<[id]>><</foreach>>"])
 
         self.build_report(builder.document, self.create_json_data_source({}), "", options=aw.reporting.ReportBuildOptions.ALLOW_MISSING_MEMBERS)
 
-        #Assert that build report success with "ReportBuildOptions.ALLOW_MISSING_MEMBERS"
+        # Assert that build report success with "ReportBuildOptions.ALLOW_MISSING_MEMBERS"
         self.assertEqual(
             aw.ControlChar.PARAGRAPH_BREAK + aw.ControlChar.PARAGRAPH_BREAK + aw.ControlChar.SECTION_BREAK,
             builder.document.get_text())
