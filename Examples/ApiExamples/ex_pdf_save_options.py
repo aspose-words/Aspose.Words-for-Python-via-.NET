@@ -2112,3 +2112,35 @@ class ExPdfSaveOptions(ApiExampleBase):
 
         doc.save(ARTIFACTS_DIR + "PdfSaveOptions.export_language_to_span_tag.pdf", save_options)
         #ExEnd
+
+    def test_pdf_embed_attachments(self):
+        #ExStart
+        #ExFor:PdfSaveOptions.embed_attachments
+        #ExSummary:Shows how to add embed attachments to the PDF document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc);
+
+        builder.insert_ole_object(MY_DIR + "Spreadsheet.xlsx", "Excel.Sheet", False, True, None)
+
+        options = aw.saving.PdfSaveOptions()
+        options.embed_attachments = True
+
+        doc.save(ARTIFACTS_DIR + "PdfSaveOptions.PdfEmbedAttachments.pdf", options)
+        #ExEnd
+
+    def test_cache_background_graphics(self):
+        #ExStart
+        #ExFor:PdfSaveOptions.cache_background_graphics
+        #ExSummary:Shows how to cache graphics placed in document's background.
+        doc = aw.Document(MY_DIR + "Background images.docx")
+
+        save_options = aw.saving.PdfSaveOptions()
+        save_options.cache_background_graphics = True
+
+        doc.save(ARTIFACTS_DIR + "PdfSaveOptions.CacheBackgroundGraphics.pdf", save_options)
+
+        aspose_to_pdf_size = os.stat(ARTIFACTS_DIR + "PdfSaveOptions.CacheBackgroundGraphics.pdf").st_size
+        word_to_pdf_size = os.stat(MY_DIR + "Background images (word to pdf).pdf").st_size
+
+        self.assertLess(aspose_to_pdf_size, word_to_pdf_size)
+        #ExEnd

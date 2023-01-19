@@ -1051,12 +1051,12 @@ class ExStructuredDocumentTag(ApiExampleBase):
             print(structured_document_tags[index].title)
         structured_document_tag = structured_document_tags.get_by_id(1691867797)
         self.assertEqual(1691867797, structured_document_tag.id)
-        self.assertEqual(3, structured_document_tags.count)
+        self.assertEqual(5, structured_document_tags.count)
         # Remove the structured document tag by Id.
         structured_document_tags.remove(1691867797)
         # Remove the structured document tag at position 0.
         structured_document_tags.remove_at(0)
-        self.assertEqual(1, structured_document_tags.count)
+        self.assertEqual(3, structured_document_tags.count)
         #ExEnd
 
     def test_range_sdt(self):
@@ -1075,3 +1075,81 @@ class ExStructuredDocumentTag(ApiExampleBase):
         sdt = doc.range.structured_document_tags.get_by_title("Alias4")
         print(sdt.id)
         #ExEnd
+
+    def test_sdt_at_row_level(self):
+        #ExStart
+        #ExFor:SdtType
+        #ExSummary:Shows how to create group structured document tag at the Row level.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        table = builder.start_table()
+
+        # Create a Group structured document tag at the Row level.
+        group_sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.GROUP, aw.markup.MarkupLevel.ROW)
+        table.append_child(group_sdt)
+        group_sdt.is_showing_placeholder_text = False
+        group_sdt.remove_all_children()
+
+        # Create a child row of the structured document tag.
+        row = aw.tables.Row(doc)
+        group_sdt.append_child(row)
+
+        cell = aw.tables.Cell(doc)
+        row.append_child(cell)
+
+        builder.end_table()
+
+        # Insert cell contents.
+        cell.ensure_minimum()
+        builder.move_to(cell.last_paragraph)
+        builder.write("Lorem ipsum dolor.")
+
+        # Insert text after the table.
+        builder.move_to(table.next_sibling)
+        builder.write("Nulla blandit nisi.")
+
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.SdtAtRowLevel.docx")
+        #ExEnd
+
+    def test_ignore_structured_document_tags(self):
+        #ExStart
+        #ExFor:FindReplaceOptions.ignore_structured_document_tags
+        #ExSummary:Shows how to ignore content of tags from replacement.
+        doc = aw.Document(MY_DIR + "Structured document tags.docx")
+
+        # This paragraph contains SDT.
+        p = doc.first_section.body.get_child(aw.NodeType.PARAGRAPH, 2, True).as_paragraph()
+        import aspose.words.saving as aws
+        text_to_search = p.to_string(aw.SaveFormat.TEXT).strip()
+
+        options = aw.replacing.FindReplaceOptions()
+        options.ignore_structured_document_tags = True
+        doc.range.replace(text_to_search, "replacement", options)
+
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.IgnoreStructuredDocumentTags.docx");
+        #ExEnd
+
+        doc = aw.Document(ARTIFACTS_DIR + "StructuredDocumentTag.IgnoreStructuredDocumentTags.docx");
+        self.assertEqual("This document contains Structured Document Tags with text inside them\r\rRepeatingSection\rRichText\rreplacement", doc.get_text().strip())
+
+    def test_citation(self):
+        #ExStart
+        #ExFor:SdtType
+        #ExSummary:Shows how to create a structured document tag of the Citation type.
+        doc = aw.Document()
+
+        sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.CITATION, aw.markup.MarkupLevel.INLINE)
+        paragraph = doc.first_section.body.first_paragraph
+        paragraph.append_child(sdt)
+
+        # Create a Citation field.
+        builder = aw.DocumentBuilder(doc)
+        builder.move_to_paragraph(0, -1)
+        builder.insert_field(r"CITATION Ath22 \l 1033 ", "(John Lennon, 2022)")
+
+        # Move the field to the structured document tag.
+        while (sdt.next_sibling is not None):
+            sdt.append_child(sdt.next_sibling)
+
+        doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.Citation.docx")

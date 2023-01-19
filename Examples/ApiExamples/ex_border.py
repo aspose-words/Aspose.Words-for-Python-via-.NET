@@ -5,6 +5,7 @@
 # "as is", without warranty of any kind, either expressed or implied.
 
 import aspose.words as aw
+import aspose.words.themes as awthemes
 import aspose.pydrawing as drawing
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
@@ -47,6 +48,8 @@ class ExBorder(ApiExampleBase):
 
         #ExStart
         #ExFor:BorderCollection
+        #ExFor:Border.ThemeColor
+        #ExFor:Border.TintAndShade
         #ExFor:Border
         #ExFor:BorderType
         #ExFor:ParagraphFormat.borders
@@ -55,11 +58,13 @@ class ExBorder(ApiExampleBase):
         builder = aw.DocumentBuilder(doc)
 
         top_border = builder.paragraph_format.borders.top
-        top_border.color = drawing.Color.red
         top_border.line_width = 4.0
         top_border.line_style = aw.LineStyle.DASH_SMALL_GAP
+        # Set ThemeColor only when LineWidth or LineStyle setted.
+        top_border.theme_color = awthemes.ThemeColor.ACCENT1
+        top_border.tint_and_shade = 0.25
 
-        builder.writeln("Text with a red top border.")
+        builder.writeln("Text with a top border.")
 
         doc.save(ARTIFACTS_DIR + "Border.paragraph_top_border.docx")
         #ExEnd
@@ -67,9 +72,10 @@ class ExBorder(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "Border.paragraph_top_border.docx")
         border = doc.first_section.body.first_paragraph.paragraph_format.borders.top
 
-        self.assertEqual(drawing.Color.red.to_argb(), border.color.to_argb())
         self.assertEqual(4.0, border.line_width)
         self.assertEqual(aw.LineStyle.DASH_SMALL_GAP, border.line_style)
+        self.assertEqual(awthemes.ThemeColor.ACCENT1, border.theme_color)
+        self.assertAlmostEqual(0.25, border.tint_and_shade, delta=0.01)
 
     def test_clear_formatting(self):
 

@@ -24,7 +24,8 @@ class ExHtmlSaveOptions(ApiExampleBase):
 
         for save_format in (aw.SaveFormat.HTML,
                             aw.SaveFormat.MHTML,
-                            aw.SaveFormat.EPUB):
+                            aw.SaveFormat.EPUB,
+                            aw.SaveFormat.AZW3):
             with self.subTest(save_format=save_format):
                 doc = aw.Document(MY_DIR + "TextBoxes.docx")
 
@@ -41,7 +42,8 @@ class ExHtmlSaveOptions(ApiExampleBase):
         parameters = [
             (aw.SaveFormat.HTML, aw.saving.HtmlOfficeMathOutputMode.IMAGE),
             (aw.SaveFormat.MHTML, aw.saving.HtmlOfficeMathOutputMode.MATH_ML),
-            (aw.SaveFormat.EPUB, aw.saving.HtmlOfficeMathOutputMode.TEXT)]
+            (aw.SaveFormat.EPUB, aw.saving.HtmlOfficeMathOutputMode.TEXT),
+            (aw.SaveFormat.AZW3, aw.saving.HtmlOfficeMathOutputMode.TEXT)]
 
         for save_format, output_mode in parameters:
             with self.subTest(save_format=save_format, output_mode=output_mode):
@@ -59,7 +61,8 @@ class ExHtmlSaveOptions(ApiExampleBase):
         parameters = [
             (aw.SaveFormat.HTML, True, "TextBox as svg (html)"),
             (aw.SaveFormat.EPUB, True, "TextBox as svg (epub)"),
-            (aw.SaveFormat.MHTML, False, "TextBox as img (mhtml)")]
+            (aw.SaveFormat.MHTML, False, "TextBox as img (mhtml)"),
+            (aw.SaveFormat.AZW3, False, "TextBox as img (azw3)")]
 
         for save_format, is_text_box_as_svg, description in parameters:
             with self.subTest(description=description):
@@ -85,6 +88,10 @@ class ExHtmlSaveOptions(ApiExampleBase):
 
                 elif save_format == aw.SaveFormat.MHTML:
                     dir_files = glob.glob(ARTIFACTS_DIR + "**/HtmlSaveOptions.export_text_box_as_svg_epub.001.png", recursive=True)
+                    self.assertEqual(0, len(dir_files))
+
+                elif save_format == aw.SaveFormat.AZW3:
+                    dir_files = glob.glob(ARTIFACTS_DIR + "**/HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png", recursive=True)
                     self.assertEqual(0, len(dir_files))
 
     def test_control_list_labels_export(self):
