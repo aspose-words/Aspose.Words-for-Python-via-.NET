@@ -62,6 +62,7 @@ class ExCharts(ApiExampleBase):
 
         #ExStart
         #ExFor:ChartDataLabelCollection.number_format
+        #ExFor:ChartDataLabelCollection.font
         #ExFor:ChartNumberFormat.format_code
         #ExSummary:Shows how to enable and configure data labels for a chart series.
         doc = aw.Document()
@@ -84,6 +85,7 @@ class ExCharts(ApiExampleBase):
         data_labels = series.data_labels
         data_labels.show_value = True
         data_labels.number_format.format_code = "\"US$\" #,##0.000\"M\""
+        data_labels.font.size = 12
 
         doc.save(ARTIFACTS_DIR + "Charts.data_label_number_format.docx")
         #ExEnd
@@ -677,6 +679,7 @@ class ExCharts(ApiExampleBase):
 
         #ExStart
         #ExFor:ChartDataLabel.show_bubble_size
+        #ExFor:Charts.ChartDataLabel.font
         #ExFor:IChartDataPoint.bubble_3d
         #ExSummary:Shows how to use 3D effects with bubble charts.
         doc = aw.Document()
@@ -693,6 +696,7 @@ class ExCharts(ApiExampleBase):
         for i in range(3):
             chart.series[0].has_data_labels = True
             chart.series[0].data_labels[i].show_bubble_size = True
+            chart.series[0].data_labels[i].font.size = 12
 
         doc.save(ARTIFACTS_DIR + "Charts.bubble_3d.docx")
         #ExEnd

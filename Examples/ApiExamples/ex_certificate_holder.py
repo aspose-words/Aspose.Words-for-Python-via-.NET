@@ -30,7 +30,8 @@ class ExCertificateHolder(ApiExampleBase):
         # If the certificate has private keys corresponding to aliases,
         # we can use the aliases to fetch their respective keys. First, we will check for valid aliases.
         with open(MY_DIR + "morzal.pfx", "rb") as cert_stream:
-            pkcs12_store = Pkcs12Store(cert_stream, "aw")
+            pkcs12_store = Pkcs12Store(cert_stream, "aw").build()
+            pkcs12_store.load(cert_stream, "aw")
             for alias in pkcs12_store.aliases:
                 if pkcs12_store.is_key_entry(alias) and pkcs12_store.get_key(alias).key.is_private:
                     print("Valid alias found:", alias)
