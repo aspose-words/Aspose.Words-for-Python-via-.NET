@@ -4,12 +4,15 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
+import unittest
+
 import aspose.words as aw
 
 from api_example_base import ApiExampleBase
 
 class ExVariableCollection(ApiExampleBase):
 
+    @unittest.skip("system.collections.generic.KeyValuePair type isn't supported yet")
     def test_primer(self):
 
         #ExStart

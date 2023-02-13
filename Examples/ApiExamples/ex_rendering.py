@@ -5,6 +5,7 @@
 # "as is", without warranty of any kind, either expressed or implied.
 
 from typing import Dict, List, Tuple
+import unittest
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
@@ -104,6 +105,9 @@ class ExRendering(ApiExampleBase):
 
     ##ExEnd
 
+    @unittest.skip("drawing.Bitmap type isn't supported yet")
+    @unittest.skip("drawing.Graphics type isn't supported yet")
+    @unittest.skip("aspose.words.Document.render_to_size method isn't supported yet")
     def test_render_to_size(self):
 
         #ExStart
@@ -157,6 +161,9 @@ class ExRendering(ApiExampleBase):
 
         #ExEnd
 
+    @unittest.skip("drawing.Bitmap type isn't supported yet")
+    @unittest.skip("drawing.Graphics type isn't supported yet")
+    @unittest.skip("aspose.words.Document.render_to_size method isn't supported yet")
     def test_thumbnails(self):
 
         #ExStart

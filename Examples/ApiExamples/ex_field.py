@@ -251,6 +251,7 @@ class ExField(ApiExampleBase):
 
     #        return aw.replacing.ReplaceAction.SKIP
 
+    @unittest.skip("system.globalization.CultureInfo type isn't supported yet")
     def test_field_locale(self):
 
         #ExStart

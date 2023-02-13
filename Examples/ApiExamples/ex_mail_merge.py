@@ -5,6 +5,7 @@
 # "as is", without warranty of any kind, either expressed or implied.
 
 from datetime import datetime
+import unittest
 
 import aspose.words as aw
 
@@ -261,6 +262,7 @@ class ExMailMerge(ApiExampleBase):
 
     #ExEnd
 
+    @unittest.skip("DataTable type isn't supported yet")
     def _test_ado_data_table(self, doc_whole_table: aw.Document, doc_one_row: aw.Document, table: DataTable):
 
         self.mail_merge_matches_data_table(table, doc_whole_table, True)

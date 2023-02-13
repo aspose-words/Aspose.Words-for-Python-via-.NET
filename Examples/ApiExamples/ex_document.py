@@ -2309,6 +2309,7 @@ class ExDocument(ApiExampleBase):
 
         self.assertEqual(aw.WatermarkType.TEXT, doc.watermark.type)
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_image_watermark(self):
 
         #ExStart

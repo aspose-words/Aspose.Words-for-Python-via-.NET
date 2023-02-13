@@ -1584,6 +1584,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
 
                 #ExEnd
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_scale_image_to_shape_size(self):
 
         for scale_image_to_shape_size in (False, True):

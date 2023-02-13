@@ -4,6 +4,8 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
+import unittest
+
 import aspose.words as aw
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
@@ -169,6 +171,7 @@ class ExFieldOptions(ApiExampleBase):
         self.assertFalse(doc.field_options.legacy_number_format)
         self.verify_field(aw.fields.FieldType.FIELD_FORMULA, "= 2 + 3 \\# $##", "$5", doc.range.fields[0])
 
+    @unittest.skip("aspose.words.fields.FieldOptions.pre_process_culture property isn't supported yet")
     def test_pre_process_culture(self):
 
         #ExStart

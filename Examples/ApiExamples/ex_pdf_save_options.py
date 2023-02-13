@@ -6,6 +6,7 @@
 
 import io
 import os
+import unittest
 from datetime import datetime, timedelta, timezone
 
 import aspose.words as aw
@@ -1250,6 +1251,7 @@ class ExPdfSaveOptions(ApiExampleBase):
 
         #self.assertEqual(0.25, action.destination.as_xyz_explicit_destination().zoom)
 
+    @unittest.skip("system.globalization.CultureInfo type isn't supported yet")
     def test_page_mode(self):
 
         for page_mode in (aw.saving.PdfPageMode.FULL_SCREEN,
@@ -1635,6 +1637,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                         b"<</Type /Page/Parent 3 0 R/Contents 6 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABB 11 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                         content)
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_preblend_images(self):
 
         for preblend_images in (False, True):
@@ -1676,6 +1679,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                         self.assertIn("11 0 obj\r\n19289 ", content)
                         self.assertEqual(19216, len(stream.getvalue()))
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_interpolate_images(self):
 
         for interpolate_images in (False, True):

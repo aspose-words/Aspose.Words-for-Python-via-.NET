@@ -5,6 +5,7 @@
 # "as is", without warranty of any kind, either expressed or implied.
 
 import io
+import unittest
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
@@ -189,6 +190,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "DocumentBuilderImages.insert_svg_image.emf.docx")
         #ExEnd
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_insert_image_from_image_object(self):
 
         #ExStart

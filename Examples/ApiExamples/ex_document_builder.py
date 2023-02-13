@@ -289,6 +289,7 @@ class ExDocumentBuilder(ApiExampleBase):
 
         self.verify_web_response_status_code(200, doc.range.fields[0].as_field_hyperlink().address)
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_insert_watermark(self):
 
         #ExStart

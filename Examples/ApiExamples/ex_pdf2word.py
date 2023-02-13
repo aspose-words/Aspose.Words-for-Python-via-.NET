@@ -4,12 +4,15 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
+import unittest
+
 import aspose.words as aw
 
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR
 
 class ExPdf2Word(ApiExampleBase):
 
+    @unittest.skip("aspose.pdf.text module isn't supported yet")
     def test_load_pdf(self):
 
         #ExStart

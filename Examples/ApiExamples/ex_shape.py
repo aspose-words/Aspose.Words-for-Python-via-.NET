@@ -5,6 +5,7 @@
 # "as is", without warranty of any kind, either expressed or implied.
 
 import os
+import unittest
 
 import aspose.words as aw
 import aspose.words.drawing as awd
@@ -112,6 +113,7 @@ class ExShape(ApiExampleBase):
                 self.assertEqual("This text is inside the text box.", shape.get_text().strip())
                 self.assertEqual("Hello world!\rThis text is inside the text box.\r\rThis text is outside the text box.", doc.get_text().strip())
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_rotate(self):
 
         #ExStart
@@ -140,6 +142,7 @@ class ExShape(ApiExampleBase):
         self.assertTrue(shape.has_image)
         self.assertEqual(45.0, shape.rotation)
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_aspect_ratio_locked_default_value(self):
 
         doc = aw.Document()

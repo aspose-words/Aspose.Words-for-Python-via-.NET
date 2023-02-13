@@ -163,7 +163,7 @@ class ExImageSaveOptions(ApiExampleBase):
         renderer.save(ARTIFACTS_DIR + "ImageSaveOptions.UseTileFlipMode.png", save_options)
         #ExEnd
 
-    @unittest.skip("drawing.Image doesn't exist")
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_windows_meta_file(self):
 
         for metafile_rendering_mode in (aw.saving.MetafileRenderingMode.VECTOR,
@@ -275,6 +275,7 @@ class ExImageSaveOptions(ApiExampleBase):
 
                 #ExEnd
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_paper_color(self):
 
         #ExStart
@@ -573,12 +574,14 @@ class ExImageSaveOptions(ApiExampleBase):
         doc = aw.Document(MY_DIR + "Images.docx")
 
         image_options = aw.saving.ImageSaveOptions(aw.SaveFormat.TIFF)
-        page_set = aw.saving.PageSet([
+        ranges = [
             aw.saving.PageRange(1, 1),
             aw.saving.PageRange(2, 3),
             aw.saving.PageRange(1, 3),
             aw.saving.PageRange(2, 4),
-            aw.saving.PageRange(1, 1)])
+            aw.saving.PageRange(1, 1)
+            ]
+        page_set = aw.saving.PageSet(ranges=ranges)
 
         image_options.page_set = page_set
         doc.save(ARTIFACTS_DIR + "ImageSaveOptions.export_various_page_ranges.tiff", image_options)

@@ -5,6 +5,7 @@
 # "as is", without warranty of any kind, either expressed or implied.
 
 import os
+import unittest
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
@@ -92,6 +93,7 @@ class ExImage(ApiExampleBase):
 
         self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, doc.get_child_nodes(aw.NodeType.SHAPE, True)[0].as_shape())
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_from_image(self):
 
         builder = aw.DocumentBuilder()
