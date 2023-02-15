@@ -1,4 +1,4 @@
-# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
@@ -62,6 +62,7 @@ class ExCharts(ApiExampleBase):
 
         #ExStart
         #ExFor:ChartDataLabelCollection.number_format
+        #ExFor:ChartDataLabelCollection.font
         #ExFor:ChartNumberFormat.format_code
         #ExSummary:Shows how to enable and configure data labels for a chart series.
         doc = aw.Document()
@@ -84,6 +85,7 @@ class ExCharts(ApiExampleBase):
         data_labels = series.data_labels
         data_labels.show_value = True
         data_labels.number_format.format_code = "\"US$\" #,##0.000\"M\""
+        data_labels.font.size = 12
 
         doc.save(ARTIFACTS_DIR + "Charts.data_label_number_format.docx")
         #ExEnd
@@ -249,12 +251,15 @@ class ExCharts(ApiExampleBase):
         chart.series.clear()
 
         # Add a custom series containing date/time values for the X-axis, and respective decimal values for the Y-axis.
-        chart.series.add("Aspose Test Series",
-            [
-                date(2017, 11, 6), date(2017, 11, 9), date(2017, 11, 15),
-                date(2017, 11, 21), date(2017, 11, 25), date(2017, 11, 29)
-            ],
-            [1.2, 0.3, 2.1, 2.9, 4.2, 5.3])
+        dates = [
+            date(2017, 11, 6),
+            date(2017, 11, 9),
+            date(2017, 11, 15),
+            date(2017, 11, 21),
+            date(2017, 11, 25),
+            date(2017, 11, 29)
+            ]
+        chart.series.add("Aspose Test Series", dates=dates, values=[1.2, 0.3, 2.1, 2.9, 4.2, 5.3])
 
         # Set lower and upper bounds for the X-axis.
         x_axis = chart.axis_x
@@ -677,6 +682,7 @@ class ExCharts(ApiExampleBase):
 
         #ExStart
         #ExFor:ChartDataLabel.show_bubble_size
+        #ExFor:Charts.ChartDataLabel.font
         #ExFor:IChartDataPoint.bubble_3d
         #ExSummary:Shows how to use 3D effects with bubble charts.
         doc = aw.Document()
@@ -693,6 +699,7 @@ class ExCharts(ApiExampleBase):
         for i in range(3):
             chart.series[0].has_data_labels = True
             chart.series[0].data_labels[i].show_bubble_size = True
+            chart.series[0].data_labels[i].font.size = 12
 
         doc.save(ARTIFACTS_DIR + "Charts.bubble_3d.docx")
         #ExEnd
@@ -748,7 +755,7 @@ class ExCharts(ApiExampleBase):
         # Insert a series with a decimal value for each respective date.
         # The dates will be distributed along a linear X-axis,
         # and the values added to this series will create data points.
-        chart.series.add("Series 1", dates, [15.8, 21.5, 22.9, 28.7, 33.1])
+        chart.series.add("Series 1", dates=dates, values=[15.8, 21.5, 22.9, 28.7, 33.1])
 
         self.assertEqual(aw.drawing.charts.ChartAxisType.CATEGORY, chart.axis_x.type)
         self.assertEqual(aw.drawing.charts.ChartAxisType.VALUE, chart.axis_y.type)
@@ -760,11 +767,11 @@ class ExCharts(ApiExampleBase):
         # The first array contains X-values, and the second contains corresponding Y-values
         # of data points on the chart's graph.
         chart.series.add("Series 1",
-            [3.1, 3.5, 6.3, 4.1, 2.2, 8.3, 1.2, 3.6],
-            [3.1, 6.3, 4.6, 0.9, 8.5, 4.2, 2.3, 9.9])
+            x_values=[3.1, 3.5, 6.3, 4.1, 2.2, 8.3, 1.2, 3.6],
+            y_values=[3.1, 6.3, 4.6, 0.9, 8.5, 4.2, 2.3, 9.9])
         chart.series.add("Series 2",
-            [2.6, 7.3, 4.5, 6.6, 2.1, 9.3, 0.7, 3.3],
-            [7.1, 6.6, 3.5, 7.8, 7.7, 9.5, 1.3, 4.6])
+            x_values=[2.6, 7.3, 4.5, 6.6, 2.1, 9.3, 0.7, 3.3],
+            y_values=[7.1, 6.6, 3.5, 7.8, 7.7, 9.5, 1.3, 4.6])
 
         self.assertEqual(aw.drawing.charts.ChartAxisType.VALUE, chart.axis_x.type)
         self.assertEqual(aw.drawing.charts.ChartAxisType.VALUE, chart.axis_y.type)
@@ -866,8 +873,8 @@ class ExCharts(ApiExampleBase):
 
         # Insert a series with X/Y coordinates for five points.
         chart.series.add("Series 1",
-            [1.0, 2.0, 3.0, 4.0, 5.0],
-            [1.0, 20.0, 400.0, 8000.0, 160000.0])
+            x_values=[1.0, 2.0, 3.0, 4.0, 5.0],
+            y_values=[1.0, 20.0, 400.0, 8000.0, 160000.0])
 
         # The scaling of the X-axis is linear by default,
         # displaying evenly incrementing values that cover our X-value range (0, 1, 2, 3...).
@@ -909,8 +916,8 @@ class ExCharts(ApiExampleBase):
         # Add a series with two decimal arrays. The first array contains the X-values,
         # and the second contains corresponding Y-values for points in the scatter chart.
         chart.series.add("Series 1",
-            [1.1, 5.4, 7.9, 3.5, 2.1, 9.7],
-            [2.1, 0.3, 0.6, 3.3, 1.4, 1.9])
+            x_values = [1.1, 5.4, 7.9, 3.5, 2.1, 9.7],
+            y_values = [2.1, 0.3, 0.6, 3.3, 1.4, 1.9])
 
         # By default, default scaling is applied to the graph's X and Y-axes,
         # so that both their ranges are big enough to encompass every X and Y-value of every series.
@@ -939,7 +946,7 @@ class ExCharts(ApiExampleBase):
             date(1994, 12, 15)
             ]
 
-        chart.series.add("Series 1", dates, [3.0, 4.7, 5.9, 7.1, 8.9])
+        chart.series.add("Series 1", dates=dates, values=[3.0, 4.7, 5.9, 7.1, 8.9])
 
         # We can set axis bounds in the form of dates as well, limiting the chart to a period.
         # Setting the range to 1980-1990 will omit the two of the series values
@@ -1155,7 +1162,7 @@ class ExCharts(ApiExampleBase):
 
         # Delete default generated series.
         chart.series.clear()
-        series = chart.series.add("AW Series 1", [0.7, 1.8, 2.6, 3.9], [2.7, 3.2, 0.8, 1.7])
+        series = chart.series.add("AW Series 1", x_values=[0.7, 1.8, 2.6, 3.9], y_values=[2.7, 3.2, 0.8, 1.7])
 
         # Set marker formatting.
         series.marker.size = 40
@@ -1164,10 +1171,10 @@ class ExCharts(ApiExampleBase):
         data_points[0].marker.format.fill.preset_textured(aw.drawing.PresetTexture.DENIM)
         data_points[0].marker.format.stroke.fore_color = drawing.Color.yellow
         data_points[0].marker.format.stroke.back_color = drawing.Color.red
-        data_points[1].marker.format.fill.preset_textured(aw.drawing.PresetTexture.WATERDROPLETS)
+        data_points[1].marker.format.fill.preset_textured(aw.drawing.PresetTexture.WATER_DROPLETS)
         data_points[1].marker.format.stroke.fore_color = drawing.Color.yellow
         data_points[1].marker.format.stroke.visible = False
-        data_points[2].marker.format.fill.preset_textured(aw.drawing.PresetTexture.GREENMARBLE)
+        data_points[2].marker.format.fill.preset_textured(aw.drawing.PresetTexture.GREEN_MARBLE)
         data_points[2].marker.format.stroke.fore_color = drawing.Color.yellow
         data_points[3].marker.format.fill.preset_textured(aw.drawing.PresetTexture.OAK)
         data_points[3].marker.format.stroke.fore_color = drawing.Color.yellow

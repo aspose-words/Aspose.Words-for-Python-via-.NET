@@ -1,10 +1,11 @@
-# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
 import os
+import unittest
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
@@ -92,6 +93,7 @@ class ExImage(ApiExampleBase):
 
         self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, doc.get_child_nodes(aw.NodeType.SHAPE, True)[0].as_shape())
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_from_image(self):
 
         builder = aw.DocumentBuilder()

@@ -1,4 +1,4 @@
-# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
@@ -251,6 +251,7 @@ class ExField(ApiExampleBase):
 
     #        return aw.replacing.ReplaceAction.SKIP
 
+    @unittest.skip("system.globalization.CultureInfo type isn't supported yet")
     def test_field_locale(self):
 
         #ExStart

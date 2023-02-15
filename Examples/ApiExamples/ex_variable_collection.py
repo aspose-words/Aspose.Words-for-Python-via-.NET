@@ -1,8 +1,10 @@
-# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
+
+import unittest
 
 import aspose.words as aw
 
@@ -10,6 +12,7 @@ from api_example_base import ApiExampleBase
 
 class ExVariableCollection(ApiExampleBase):
 
+    @unittest.skip("system.collections.generic.KeyValuePair type isn't supported yet")
     def test_primer(self):
 
         #ExStart

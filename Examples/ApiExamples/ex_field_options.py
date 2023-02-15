@@ -1,8 +1,10 @@
-# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
+
+import unittest
 
 import aspose.words as aw
 
@@ -169,6 +171,7 @@ class ExFieldOptions(ApiExampleBase):
         self.assertFalse(doc.field_options.legacy_number_format)
         self.verify_field(aw.fields.FieldType.FIELD_FORMULA, "= 2 + 3 \\# $##", "$5", doc.range.fields[0])
 
+    @unittest.skip("aspose.words.fields.FieldOptions.pre_process_culture property isn't supported yet")
     def test_pre_process_culture(self):
 
         #ExStart

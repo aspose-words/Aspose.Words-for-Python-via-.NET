@@ -1,10 +1,11 @@
-# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
 import io
+import unittest
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
@@ -457,6 +458,7 @@ class ExNode(ApiExampleBase):
         self.assertNotIn("The third paragraph", doc.get_text())
         #ExEnd
 
+    @unittest.skip("aspose.words.Document.create_navigator method isn't supported yet")
     #ExStart
     #ExFor:CompositeNode.create_navigator
     #ExSummary:Shows how to create an XPathNavigator, and then use it to traverse and read nodes.
@@ -613,6 +615,7 @@ class ExNode(ApiExampleBase):
         self.assertFalse(runs.contains(run))
         #ExEnd
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_node_list(self):
 
         #ExStart

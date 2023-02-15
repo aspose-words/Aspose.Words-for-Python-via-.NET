@@ -1,10 +1,11 @@
-# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
 from datetime import datetime
+import unittest
 
 import aspose.words as aw
 
@@ -261,6 +262,7 @@ class ExMailMerge(ApiExampleBase):
 
     #ExEnd
 
+    @unittest.skip("DataTable type isn't supported yet")
     def _test_ado_data_table(self, doc_whole_table: aw.Document, doc_one_row: aw.Document, table: DataTable):
 
         self.mail_merge_matches_data_table(table, doc_whole_table, True)

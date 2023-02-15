@@ -1,4 +1,4 @@
-# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
@@ -339,3 +339,16 @@ class ExLoadOptions(ApiExampleBase):
     #            raise OperationCanceledException(f"estimated_progress = {args.estimated_progress}; canceled_at = {canceled_at}")
     #
     ##ExEnd
+
+    def test_ignore_ole_data(self):
+        #ExStart
+        #ExFor:LoadOptions.ignore_ole_data
+        #ExSummary:Shows how to ingore OLE data while loading.
+        # Ignoring OLE data may reduce memory consumption and increase performance
+        # without data lost in a case when destination format does not support OLE objects.
+        load_options = aw.loading.LoadOptions()
+        load_options.ignore_ole_data = True
+        doc = aw.Document(MY_DIR + "OLE objects.docx", load_options)
+
+        doc.save(ARTIFACTS_DIR + "LoadOptions.IgnoreOleData.docx")
+        #ExEnd

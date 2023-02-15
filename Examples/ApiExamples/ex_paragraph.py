@@ -1,4 +1,4 @@
-# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
@@ -308,7 +308,7 @@ class ExParagraph(ApiExampleBase):
         self.assertEqual(3, paragraph.get_child_nodes(aw.NodeType.ANY, True).count)
         #ExEnd
 
-    def test_revisions(self):
+    def test_move_revisions(self):
 
         #ExStart
         #ExFor:Paragraph.is_move_from_revision
@@ -341,6 +341,21 @@ class ExParagraph(ApiExampleBase):
         # The "Move to" revision is the paragraph where we dragged the text to.
         # If we reject the revision, this paragraph instead will disappear, and the other will remain.
         self.assertTrue(paragraphs[3].is_move_to_revision)
+        #ExEnd
+
+    def test_range_revisions(self):
+        #ExStart
+        #ExFor:Range.revisions
+        #ExSummary:Shows how to work with revisions in range.
+        doc = aw.Document(MY_DIR + "Revisions.docx")
+
+        paragraph = doc.first_section.body.first_paragraph
+        for revision in paragraph.range.revisions:
+            if revision.revision_type == aw.RevisionType.DELETION:
+                revision.accept()
+
+        # Reject the first section revisions.
+        doc.first_section.range.revisions.reject_all()
         #ExEnd
 
     def test_get_format_revision(self):

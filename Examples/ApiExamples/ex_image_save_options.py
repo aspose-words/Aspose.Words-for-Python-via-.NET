@@ -1,4 +1,4 @@
-# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
@@ -163,6 +163,7 @@ class ExImageSaveOptions(ApiExampleBase):
         renderer.save(ARTIFACTS_DIR + "ImageSaveOptions.UseTileFlipMode.png", save_options)
         #ExEnd
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_windows_meta_file(self):
 
         for metafile_rendering_mode in (aw.saving.MetafileRenderingMode.VECTOR,
@@ -171,6 +172,7 @@ class ExImageSaveOptions(ApiExampleBase):
             with self.subTest(metafile_rendering_mode=metafile_rendering_mode):
                 #ExStart
                 #ExFor:ImageSaveOptions.metafile_rendering_options
+                #ExFor:MetafileRenderingOptions.use_gdi_raster_operations_emulation
                 #ExSummary:Shows how to set the rendering mode when saving documents with Windows Metafile images to other image formats.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
@@ -184,6 +186,8 @@ class ExImageSaveOptions(ApiExampleBase):
                 # If we set the "rendering_mode" property to "MetafileRenderingMode.BITMAP", we will render all metafiles as bitmaps.
                 options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
                 options.metafile_rendering_options.rendering_mode = metafile_rendering_mode
+                # Aspose.Words uses GDI+ for raster operations emulation, when value is set to true.
+                options.metafile_rendering_options.use_gdi_raster_operations_emulation = True
 
                 doc.save(ARTIFACTS_DIR + "ImageSaveOptions.windows_meta_file.png", options)
                 #ExEnd
@@ -271,6 +275,7 @@ class ExImageSaveOptions(ApiExampleBase):
 
                 #ExEnd
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_paper_color(self):
 
         #ExStart
@@ -569,12 +574,14 @@ class ExImageSaveOptions(ApiExampleBase):
         doc = aw.Document(MY_DIR + "Images.docx")
 
         image_options = aw.saving.ImageSaveOptions(aw.SaveFormat.TIFF)
-        page_set = aw.saving.PageSet([
+        ranges = [
             aw.saving.PageRange(1, 1),
             aw.saving.PageRange(2, 3),
             aw.saving.PageRange(1, 3),
             aw.saving.PageRange(2, 4),
-            aw.saving.PageRange(1, 1)])
+            aw.saving.PageRange(1, 1)
+            ]
+        page_set = aw.saving.PageSet(ranges=ranges)
 
         image_options.page_set = page_set
         doc.save(ARTIFACTS_DIR + "ImageSaveOptions.export_various_page_ranges.tiff", image_options)

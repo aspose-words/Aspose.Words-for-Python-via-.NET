@@ -1,4 +1,4 @@
-# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
@@ -6,6 +6,7 @@
 
 import os
 import glob
+import unittest
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
@@ -15,6 +16,7 @@ from document_helper import DocumentHelper
 
 class ExDrawing(ApiExampleBase):
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_various_shapes(self):
 
         #ExStart
@@ -147,6 +149,7 @@ class ExDrawing(ApiExampleBase):
         self.assertEqual(160.0, filled_in_arrow_img.top)
         self.assertEqual(aw.drawing.FlipOrientation.BOTH, filled_in_arrow_img.flip_orientation)
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_type_of_image(self):
 
         #ExStart
@@ -190,6 +193,8 @@ class ExDrawing(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "Drawing.fill_solid.docx")
         #ExEnd
 
+    @unittest.skip("Unknown method aspose.words.drawing.ImageData.to_image")
+    @unittest.skip("drawing.ImageFormatConverter type isn't supported yet")
     def test_save_all_images(self):
 
         #ExStart
@@ -237,6 +242,7 @@ class ExDrawing(ApiExampleBase):
         self.verify_image(1200, 1500, image_file_names[8])
         self.assertEqual(".Jpeg", image_file_ext[8])
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_import_image(self):
 
         #ExStart

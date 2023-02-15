@@ -1,4 +1,4 @@
-# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
@@ -600,6 +600,43 @@ class ExFont(ApiExampleBase):
 
         self.assertEqual("Text with a sparkle effect.", run.get_text().strip())
         self.assertEqual(aw.TextEffect.SPARKLE_TEXT, run.font.text_effect)
+
+    def test_foreground_and_background(self):
+        #ExStart
+        #ExFor:Shading.foreground_pattern_theme_color
+        #ExFor:Shading.background_pattern_theme_color
+        #ExFor:Shading.foreground_tint_and_shade
+        #ExFor:Shading.background_tint_and_shade
+        #ExSummary:Shows how to set foreground and background colors for shading texture.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        shading = doc.first_section.body.first_paragraph.paragraph_format.shading
+        shading.texture = aw.TextureIndex.TEXTURE_12PT5_PERCENT
+        shading.foreground_pattern_theme_color = aw.themes.ThemeColor.DARK1
+        shading.background_pattern_theme_color = aw.themes.ThemeColor.DARK2
+
+        shading.foreground_tint_and_shade = 0.5
+        shading.background_tint_and_shade = -0.2
+
+        builder.font.border.color = drawing.Color.green
+        builder.font.border.line_width = 2.5
+        builder.font.border.line_style = aw.LineStyle.DASH_DOT_STROKER
+
+        builder.writeln("Foreground and background pattern colors for shading texture.")
+
+        doc.save(ARTIFACTS_DIR + "Font.ForegroundAndBackground.docx")
+        #ExEnd
+
+        doc = aw.Document(ARTIFACTS_DIR + "Font.ForegroundAndBackground.docx")
+        run = doc.first_section.body.paragraphs[0].runs[0]
+
+        self.assertEqual("Foreground and background pattern colors for shading texture.", run.get_text().strip())
+        self.assertEqual(aw.themes.ThemeColor.DARK1, doc.first_section.body.paragraphs[0].paragraph_format.shading.foreground_pattern_theme_color)
+        self.assertEqual(aw.themes.ThemeColor.DARK2, doc.first_section.body.paragraphs[0].paragraph_format.shading.background_pattern_theme_color)
+
+        self.assertAlmostEqual(0.5, doc.first_section.body.paragraphs[0].paragraph_format.shading.foreground_tint_and_shade, delta=0.1)
+        self.assertAlmostEqual(-0.2, doc.first_section.body.paragraphs[0].paragraph_format.shading.background_tint_and_shade, delta=0.1)
 
     def test_shading(self):
 

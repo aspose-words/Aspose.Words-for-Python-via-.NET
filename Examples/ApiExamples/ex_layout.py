@@ -1,4 +1,4 @@
-# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
@@ -65,7 +65,7 @@ class ExLayout(ApiExampleBase):
 
         # The LayoutEnumerator can traverse the collection of layout entities like a tree.
         # We can also apply it to any node's corresponding layout entity.
-        layout_enumerator.current = layout_collector.get_entity(doc.get_child(aw.NodeType.PARAGRAPH, 1, True))
+        layout_enumerator.set_current(layout_collector, doc.get_child(aw.NodeType.PARAGRAPH, 1, True))
 
         self.assertEqual(aw.layout.LayoutEntityType.SPAN, layout_enumerator.type)
         self.assertEqual("¶", layout_enumerator.text)

@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+﻿# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
@@ -121,7 +121,6 @@ class ExMarkdownSaveOptions(ApiExampleBase):
     ##ExEnd
 
     def test_export_images_as_base64(self):
-        
         for export_images_as_base64 in (True, False):
             with self.subTest(export_images_as_base64=export_images_as_base64):
                 #ExStart
@@ -141,5 +140,17 @@ class ExMarkdownSaveOptions(ApiExampleBase):
                     self.assertIn("data:image/jpeg;base64", out_doc_contents)
                 else:
                     self.assertIn("MarkdownSaveOptions.ExportImagesAsBase64.001.jpeg", out_doc_contents)
-
                 #ExEnd
+
+    def test_list_export_mode(self):
+        for markdownListExportMode in [aw.saving.MarkdownListExportMode.MARKDOWN_SYNTAX, aw.saving.MarkdownListExportMode.PLAIN_TEXT]:
+            #ExStart
+            #ExFor:MarkdownSaveOptions.list_export_mode
+            #ExSummary:Shows how to list items will be written to the markdown document.
+            doc = aw.Document(MY_DIR + "List item.docx");
+
+            # Use MarkdownListExportMode.PLAIN_TEXT or MarkdownListExportMode.MARKDOWN_SYNTAX to export list.
+            options = aw.saving.MarkdownSaveOptions()
+            options.list_export_mode = markdownListExportMode
+            doc.save(ARTIFACTS_DIR + "MarkdownSaveOptions.ListExportMode.md", options)
+            #ExEnd

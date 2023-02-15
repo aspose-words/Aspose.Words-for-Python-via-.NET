@@ -1,10 +1,11 @@
-# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
 import os
+import unittest
 
 import aspose.words as aw
 import aspose.words.drawing as awd
@@ -112,6 +113,7 @@ class ExShape(ApiExampleBase):
                 self.assertEqual("This text is inside the text box.", shape.get_text().strip())
                 self.assertEqual("Hello world!\rThis text is inside the text box.\r\rThis text is outside the text box.", doc.get_text().strip())
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_rotate(self):
 
         #ExStart
@@ -140,6 +142,7 @@ class ExShape(ApiExampleBase):
         self.assertTrue(shape.has_image)
         self.assertEqual(45.0, shape.rotation)
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_aspect_ratio_locked_default_value(self):
 
         doc = aw.Document()
@@ -1336,7 +1339,6 @@ class ExShape(ApiExampleBase):
         #ExStart
         #ExFor:OfficeMath
         #ExFor:OfficeMath.display_type
-        #ExFor:OfficeMath.equation_xml_encoding
         #ExFor:OfficeMath.justification
         #ExFor:OfficeMath.node_type
         #ExFor:OfficeMath.parent_paragraph
@@ -1352,9 +1354,6 @@ class ExShape(ApiExampleBase):
         self.assertEqual(aw.math.MathObjectType.O_MATH_PARA, office_math.math_object_type)
         self.assertEqual(aw.NodeType.OFFICE_MATH, office_math.node_type)
         self.assertEqual(office_math.parent_node, office_math.parent_paragraph)
-
-        # OOXML and WML formats use the "equation_xml_encoding" property.
-        self.assertIsNone(office_math.equation_xml_encoding)
 
         # Change the location and display type of the OfficeMath node.
         office_math.display_type = aw.math.OfficeMathDisplayType.DISPLAY

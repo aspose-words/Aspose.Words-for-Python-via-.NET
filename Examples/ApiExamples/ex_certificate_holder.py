@@ -1,15 +1,17 @@
-# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
+import unittest
 import aspose.words as aw
 
 from api_example_base import ApiExampleBase, MY_DIR
 
 class ExCertificateHolder(ApiExampleBase):
 
+    @unittest.skip("Unknown types: NetworkCredential and Pkcs12Store")
     def test_create(self):
 
         #ExStart
@@ -30,7 +32,8 @@ class ExCertificateHolder(ApiExampleBase):
         # If the certificate has private keys corresponding to aliases,
         # we can use the aliases to fetch their respective keys. First, we will check for valid aliases.
         with open(MY_DIR + "morzal.pfx", "rb") as cert_stream:
-            pkcs12_store = Pkcs12Store(cert_stream, "aw")
+            pkcs12_store = Pkcs12Store(cert_stream, "aw").build()
+            pkcs12_store.load(cert_stream, "aw")
             for alias in pkcs12_store.aliases:
                 if pkcs12_store.is_key_entry(alias) and pkcs12_store.get_key(alias).key.is_private:
                     print("Valid alias found:", alias)

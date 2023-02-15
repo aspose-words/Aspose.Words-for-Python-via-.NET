@@ -1,4 +1,4 @@
-# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
@@ -6,6 +6,7 @@
 
 import io
 import json
+import unittest
 from datetime import datetime
 from typing import List, Optional
 
@@ -369,6 +370,7 @@ class ExReportingEngine(ApiExampleBase):
             ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_base64.docx",
             GOLDS_DIR + "ReportingEngine.InsertDocumentDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by uri")
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_insert_image_dynamically(self):
 
         template = DocumentHelper.create_template_document_with_draw_objects("<<image [src.Image]>>", aw.drawing.ShapeType.TEXT_BOX)
@@ -446,6 +448,7 @@ class ExReportingEngine(ApiExampleBase):
         self.build_report(template, [image1_bytes, image2_bytes], ["image1", "image2"], options=aw.reporting.ReportBuildOptions.RESPECT_JPEG_EXIF_ORIENTATION)
         template.save(ARTIFACTS_DIR + "ReportingEngine.ImageExifOrientation.docx")
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_dynamic_stretching_image_within_text_box(self):
 
         template = aw.Document(MY_DIR + "Reporting engine template - Dynamic stretching.docx")

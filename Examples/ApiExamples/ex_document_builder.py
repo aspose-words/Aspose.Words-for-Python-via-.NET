@@ -1,4 +1,4 @@
-# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
@@ -289,6 +289,7 @@ class ExDocumentBuilder(ApiExampleBase):
 
         self.verify_web_response_status_code(200, doc.range.fields[0].as_field_hyperlink().address)
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_insert_watermark(self):
 
         #ExStart

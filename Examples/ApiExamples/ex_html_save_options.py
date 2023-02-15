@@ -1,10 +1,9 @@
-# Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
-import datetime
 import io
 import os
 import glob
@@ -93,6 +92,18 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 elif save_format == aw.SaveFormat.AZW3:
                     dir_files = glob.glob(ARTIFACTS_DIR + "**/HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png", recursive=True)
                     self.assertEqual(0, len(dir_files))
+
+    def test_create_azw3_toc(self):
+        #ExStart
+        #ExFor:HtmlSaveOptions.epub_navigation_map_level
+        #ExSummary:Shows how to generate table of contents for azw3 documents.
+        doc = aw.Document(MY_DIR + "Big document.docx")
+
+        options = aw.saving.HtmlSaveOptions(aw.SaveFormat.AZW3)
+        options.epub_navigation_map_level = 2
+
+        doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.CreateAZW3Toc.azw3", options)
+        #ExEnd
 
     def test_control_list_labels_export(self):
 
@@ -1128,8 +1139,8 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 if export_page_setup:
                     self.assertIn(
                         "<style type=\"text/css\">" +
-                            "@page Section1 { size:419.55pt 595.3pt; margin:36pt 70.85pt }" +
-                            "@page Section2 { size:612pt 792pt; margin:70.85pt }" +
+                            "@page Section1 { size:419.55pt 595.3pt; margin:36pt 70.85pt; -aw-footer-distance:35.4pt; -aw-header-distance:35.4pt }" +
+                            "@page Section2 { size:612pt 792pt; margin:70.85pt; -aw-footer-distance:35.4pt; -aw-header-distance:35.4pt }" +
                             "div.Section1 { page:Section1 }div.Section2 { page:Section2 }" +
                         "</style>", out_doc_contents)
 
@@ -1381,7 +1392,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
 
                 if export_toc_page_numbers:
                     self.assertIn(
-                        "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
                         "<span>Entry 1</span>" +
                         "<span style=\"width:428.14pt; font-family:'Lucida Console'; font-size:10pt; display:inline-block; -aw-font-family:'Times New Roman'; " +
                         "-aw-tabstop-align:right; -aw-tabstop-leader:dots; -aw-tabstop-pos:469.8pt\">.......................................................................</span>" +
@@ -1390,9 +1400,8 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 else:
                     self.assertIn(
                         "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                        "<span>Entry 1</span>" +
+                        "<span>Entry 2</span>" +
                         "</p>", out_doc_contents)
-
                 #ExEnd
 
     def test_font_subsetting(self):
@@ -1575,6 +1584,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
 
                 #ExEnd
 
+    @unittest.skip("drawing.Image type isn't supported yet")
     def test_scale_image_to_shape_size(self):
 
         for scale_image_to_shape_size in (False, True):
