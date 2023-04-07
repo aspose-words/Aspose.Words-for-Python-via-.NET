@@ -243,6 +243,7 @@ class ExtractContent(DocsExamplesBase):
     def test_extract_print_text(self):
 
         #ExStart:ExtractText
+        #GistId: 7267ba4569c671e5f6c7a58bba57297a
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -254,13 +255,14 @@ class ExtractContent(DocsExamplesBase):
         print(table.range.text)
         #ExEnd:ExtractText
 
-        #ExStart:PrintTextRangeOFRowAndTable
+        #ExStart: PrintTextRangeRowAndTable
+        #GistId: 7267ba4569c671e5f6c7a58bba57297a
         print("\nContents of the row: ")
         print(table.rows[1].range.text)
 
         print("\nContents of the cell: ")
         print(table.last_row.last_cell.range.text)
-        #ExEnd:PrintTextRangeOFRowAndTable
+        #ExEnd:PrintTextRangeRowAndTable
 
     def test_extract_images_to_files(self):
 

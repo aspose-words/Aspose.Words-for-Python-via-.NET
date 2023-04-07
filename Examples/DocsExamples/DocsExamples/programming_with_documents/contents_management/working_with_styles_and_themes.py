@@ -78,3 +78,22 @@ class WorkingWithStylesAndThemes(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithStylesAndThemes.insert_style_separator.docx")
         #ExEnd:InsertStyleSeparator
+
+
+    def test_copy_style_different_document(self):
+        #ExStart: CopyStyleDifferentDocument
+        #GistId:b0d8bd66b25a20a9a1975ce600cdcd0e
+        src_doc = aw.Document()
+
+        # Create a custom style for the source document.
+        src_style = src_doc.styles.add(aw.StyleType.PARAGRAPH, "MyStyle")
+        src_style.font.color = drawing.Color.red
+
+        # Import the source document's custom style into the destination document.
+        dst_doc = aw.Document()
+        new_style = dst_doc.styles.add_copy(src_style)
+
+        # The imported style has an appearance identical to its source style.
+        self.assertEqual("MyStyle", new_style.name)
+        self.assertEqual(drawing.Color.red.to_argb(), new_style.font.color.to_argb())
+        #ExEnd:CopyStyleDifferentDocument

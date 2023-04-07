@@ -5,6 +5,7 @@
 # "as is", without warranty of any kind, either expressed or implied.
 
 import os
+import typing
 import unittest
 
 import aspose.words as aw
@@ -2652,8 +2653,8 @@ class ExShape(ApiExampleBase):
 
     def test_shadow_format(self):
         #ExStart
-        #ExFor:ShadowFormat.Visible
-        #ExFor:ShadowFormat.Clear()
+        #ExFor:ShadowFormat.visible
+        #ExFor:ShadowFormat.clear()
         #ExFor:ShadowType
         #ExSummary:Shows how to work with a shadow formatting for the shape.
         doc = aw.Document(MY_DIR + "Shape stroke pattern border.docx")
@@ -2663,4 +2664,59 @@ class ExShape(ApiExampleBase):
         if shape.shadow_format.type == awd.ShadowType.SHADOW_MIXED:
             shape.shadow_format.clear()
         #ExEnd
-        pass
+
+    def test_fill_theme_color(self):
+        #ExStart
+        #ExFor:Fill.fore_theme_color
+        #ExFor:Fill.back_theme_color
+        #ExSummary: Shows how to set theme color for foreground / background shape color.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        shape = builder.insert_shape(awd.ShapeType.ROUND_RECTANGLE, 80.0, 80.0)
+
+        fill = shape.fill
+        fill.fore_theme_color = aw.themes.ThemeColor.DARK1
+        fill.back_theme_color = aw.themes.ThemeColor.BACKGROUND2
+
+        # Note: do not use "BackThemeColor" and "BackTintAndShade"for font fill.
+        if fill.back_tint_and_shade == 0:
+            fill.back_tint_and_shade = 0.2
+
+        doc.save(ArtifactsDir + "Shape.FillThemeColor.docx");
+        #ExEnd
+
+    def test_fill_tint_and_shade(self):
+        #ExStart
+        #ExFor:Fill.fore_tint_and_shade
+        #ExSummary: Shows how to manage lightening and darkening foreground font color.
+
+        doc = aw.Document(MyDir + "Big document.docx")
+
+        text_fill = doc.first_section.body.first_paragraph.runs[0].font.fill
+        text_fill.fore_theme_color = aw.themes.ThemeColor.ACCENT1
+        if text_fill.fore_tint_and_shade == 0:
+            text_fill.fore_tint_and_shade = 0.5
+
+        doc.save(ArtifactsDir + "Shape.FillTintAndShade.docx");
+        #ExEnd
+
+    def test_no_text_rotation(self):
+        #ExStart
+        #ExFor:TextBox.no_text_rotation
+        #ExSummary:Shows how to disable text rotation when the shape is rotate.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        shape = builder.insert_shape(awd.ShapeType.ELLIPSE, 20.0, 20.0)
+
+        shape.text_box.no_text_rotation = True
+
+        doc.save(ArtifactsDir + "Shape.NoTextRotation.docx")
+        #ExEnd
+
+        doc = aw.Document(ArtifactsDir + "Shape.NoTextRotation.docx");
+        shape = typing.cast(awd.Shape, doc.get_child_nodes(aw.NodeType.SHAPE, True)[0])
+
+        self.assertEqual(True, shape.text_box.no_text_rotation)
+

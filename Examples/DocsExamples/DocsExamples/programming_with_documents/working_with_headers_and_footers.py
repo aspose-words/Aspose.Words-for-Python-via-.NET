@@ -4,8 +4,8 @@ from docs_examples_base import DocsExamplesBase, ARTIFACTS_DIR, IMAGES_DIR
 class WorkingWithHeadersAndFooters(DocsExamplesBase):
 
     def test_create_header_footer(self):
-
         #ExStart:CreateHeaderFooterUsingDocBuilder
+        #ExStart: DifferentFirstPageHeaderFooter
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -39,6 +39,7 @@ class WorkingWithHeadersAndFooters(DocsExamplesBase):
         builder.write("Aspose.words Header/Footer Creation Primer.")
 
         builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_PRIMARY)
+        #ExEnd: DifferentFirstPageHeaderFooter
 
         # We use a table with two cells to make one part of the text on the line (with page numbering).
         # To be aligned left, and the other part of the text (with copyright) to be aligned right.

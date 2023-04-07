@@ -6,6 +6,7 @@
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
+import locale
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
 from document_helper import DocumentHelper
@@ -458,7 +459,8 @@ class ExSection(ApiExampleBase):
 
     def test_culture_info_page_setup_defaults(self):
 
-        Thread.current_thread.current_culture = CultureInfo("en-us")
+        # Thread.current_thread.current_culture = CultureInfo("en-us")
+        locale.setlocale(locale.LC_ALL, 'en-us')
 
         doc_en = aw.Document()
 
@@ -473,7 +475,8 @@ class ExSection(ApiExampleBase):
         self.assertEqual(36.0, section_en.page_setup.text_columns.spacing) # 1.27 cm
 
         # Change the culture and assert that the page defaults are changed.
-        #Thread.current_thread.current_culture = CultureInfo("de-de")
+        # Thread.current_thread.current_culture = CultureInfo("de-de")
+        locale.setlocale(locale.LC_ALL, 'de-de')
 
         doc_de = aw.Document()
 
