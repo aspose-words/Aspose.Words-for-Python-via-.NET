@@ -2601,7 +2601,7 @@ class ExDocument(ApiExampleBase):
         self.assertEqual(2, doc.built_in_document_properties.words)
 
         # Words count with textboxes, footnotes and endnotes.
-        doc.include_textboxes_footnotes_endnotes_in_stat = true
+        doc.include_textboxes_footnotes_endnotes_in_stat = True
         doc.update_word_count()
 
         self.assertEqual(4, doc.built_in_document_properties.words)
@@ -2612,12 +2612,12 @@ class ExDocument(ApiExampleBase):
         #ExFor:Document.justification_mode
         #ExFor:JustificationMode
         #ExSummary:Shows how to manage character spacing control.
-        doc = aw.Document(MyDir + "Document.docx")
+        doc = aw.Document(MY_DIR + "Document.docx")
         justification_mode = doc.justification_mode
         if justification_mode == aw.settings.JustificationMode.EXPAND:
-            doc.justification_mode = aw.settings.JustificationMode.COMPRESS;
+            doc.justification_mode = aw.settings.JustificationMode.COMPRESS
 
-        doc.save(ArtifactsDir + "Document.SetJustificationMode.docx");
+        doc.save(ARTIFACTS_DIR + "Document.SetJustificationMode.docx")
         #ExEnd
 
     def test_adjust_sentence_and_word_spacing(self):

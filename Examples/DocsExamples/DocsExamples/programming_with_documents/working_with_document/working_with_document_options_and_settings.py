@@ -153,7 +153,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
         border.color = Color.blue
         border.distance_from_text = 0
 
-        doc.save(ArtifactsDir + "WorkingWithDocumentOptionsAndSettings.PageBorderProperties.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.PageBorderProperties.docx")
         #ExEnd: PageBorderProperties
 
 
@@ -172,7 +172,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
             builder.write(
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ")
 
-        doc.Save(ArtifactsDir + "WorkingWithDocumentOptionsAndSettings.LinesPerPage.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.LinesPerPage.docx")
         #ExEnd:LineGridSectionLayoutMode
 
 

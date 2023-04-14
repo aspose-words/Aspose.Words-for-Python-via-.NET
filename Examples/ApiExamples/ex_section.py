@@ -459,8 +459,7 @@ class ExSection(ApiExampleBase):
 
     def test_culture_info_page_setup_defaults(self):
 
-        # Thread.current_thread.current_culture = CultureInfo("en-us")
-        locale.setlocale(locale.LC_ALL, 'en-us')
+        Thread.current_thread.current_culture = CultureInfo("en-us")
 
         doc_en = aw.Document()
 
@@ -475,8 +474,7 @@ class ExSection(ApiExampleBase):
         self.assertEqual(36.0, section_en.page_setup.text_columns.spacing) # 1.27 cm
 
         # Change the culture and assert that the page defaults are changed.
-        # Thread.current_thread.current_culture = CultureInfo("de-de")
-        locale.setlocale(locale.LC_ALL, 'de-de')
+        Thread.current_thread.current_culture = CultureInfo("de-de")
 
         doc_de = aw.Document()
 

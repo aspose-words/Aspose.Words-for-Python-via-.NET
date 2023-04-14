@@ -162,12 +162,12 @@ class WorkingWithSection(DocsExamplesBase):
         # but only if those child nodes are of a "Body" or "HeaderFooter" node type.
         for node in section.child_nodes:
             if node.node_type == aw.NodeType.BODY:
-                body = typing.cast(aw.Body, node)
+                body = node.as_body()
                 print("Body:")
                 print(f"\t\"{body.get_text().strip()}\"")
 
             if node.node_type == aw.NodeType.HEADER_FOOTER:
-                header_footer = typing.cast(aw.HeaderFooter, node)
+                header_footer = node.as_header_footer()
                 print(f"HeaderFooter type: {header_footer.header_footer_type};")
                 print(f"\t\"{header_footer.get_text().strip()}\"")
 
