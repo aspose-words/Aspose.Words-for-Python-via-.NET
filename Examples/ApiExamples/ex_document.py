@@ -17,6 +17,7 @@ import aspose.pydrawing as drawing
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, FONTS_DIR, GOLDS_DIR
 from document_helper import DocumentHelper
 
+
 class ExDocument(ApiExampleBase):
 
     def test_constructor(self):
@@ -52,7 +53,6 @@ class ExDocument(ApiExampleBase):
         #ExFor:Document.__init__(BytesIO)
         #ExSummary:Shows how to load a document using a stream.
         with open(MY_DIR + "Document.docx", "rb") as stream:
-
             doc = aw.Document(stream)
 
             self.assertEqual("Hello World!\r\rHello Word!\r\r\rHello World!", doc.get_text().strip())
@@ -71,14 +71,14 @@ class ExDocument(ApiExampleBase):
         data_bytes = urlopen(url).read()
 
         with io.BytesIO(data_bytes) as byte_stream:
-
             doc = aw.Document(byte_stream)
 
             # At this stage, we can read and edit the document's contents and then save it to the local file system.
-            self.assertEqual("Use this section to highlight your relevant passions, activities, and how you like to give back. " +
-                             "It’s good to include Leadership and volunteer experiences here. " +
-                             "Or show off important extras like publications, certifications, languages and more.",
-                             doc.first_section.body.paragraphs[4].get_text().strip())
+            self.assertEqual(
+                "Use this section to highlight your relevant passions, activities, and how you like to give back. " +
+                "It’s good to include Leadership and volunteer experiences here. " +
+                "Or show off important extras like publications, certifications, languages and more.",
+                doc.first_section.body.paragraphs[4].get_text().strip())
 
             doc.save(ARTIFACTS_DIR + "Document.load_from_web.docx")
 
@@ -124,7 +124,7 @@ class ExDocument(ApiExampleBase):
 
         #ExEnd
 
-    #def test_open_type(self):
+    # def test_open_type(self):
 
     #    #ExStart
     #    #ExFor:LayoutOptions.text_shaper_factory
@@ -142,8 +142,11 @@ class ExDocument(ApiExampleBase):
     #    doc.save(ARTIFACTS_DIR + "Document.open_type.pdf")
     #    #ExEnd
 
-    def test_detect_pdf_document_format(self):
+    def test_detect_mobi_document_format(self):
+        info = aw.FileFormatUtil.detect_file_format(MY_DIR + "Document.mobi")
+        self.assertEqual(info.load_format, aw.LoadFormat.MOBI)
 
+    def test_detect_pdf_document_format(self):
         info = aw.FileFormatUtil.detect_file_format(MY_DIR + "Pdf Document.pdf")
         self.assertEqual(info.load_format, aw.LoadFormat.PDF)
 
@@ -170,15 +173,15 @@ class ExDocument(ApiExampleBase):
 
         doc = aw.Document(ARTIFACTS_DIR + "Document.open_protected_pdf_document.pdf", load_options)
 
-    #[TestCase("Protected pdf document.pdf", "PDF")]
-    #[TestCase("Pdf Document.pdf", "HTML")]
-    #[TestCase("Pdf Document.pdf", "XPS")]
-    #[TestCase("Images.pdf", "JPEG")]
-    #[TestCase("Images.pdf", "PNG")]
-    #[TestCase("Images.pdf", "TIFF")]
-    #[TestCase("Images.pdf", "BMP")]
-    #public void PdfRenderer(string docName, string format)
-    #{
+    # [TestCase("Protected pdf document.pdf", "PDF")]
+    # [TestCase("Pdf Document.pdf", "HTML")]
+    # [TestCase("Pdf Document.pdf", "XPS")]
+    # [TestCase("Images.pdf", "JPEG")]
+    # [TestCase("Images.pdf", "PNG")]
+    # [TestCase("Images.pdf", "TIFF")]
+    # [TestCase("Images.pdf", "BMP")]
+    # public void PdfRenderer(string docName, string format)
+    # {
     #    var pdfRenderer = new PdfFixedRenderer();
     #    var options = new PdfFixedOptions();
     #    switch (format)
@@ -223,9 +226,9 @@ class ExDocument(ApiExampleBase):
     #            AssertResult("bmp");
     #            break;
     #    }
-    #}
-    #private void SaveTo(PdfFixedRenderer pdfRenderer, string docName, PdfFixedOptions fixedOptions, string fileExt)
-    #{
+    # }
+    # private void SaveTo(PdfFixedRenderer pdfRenderer, string docName, PdfFixedOptions fixedOptions, string fileExt)
+    # {
     #    using (var pdfDoc = File.OpenRead(MyDir + docName))
     #    {
     #        Stream stream = new MemoryStream();
@@ -260,9 +263,9 @@ class ExDocument(ApiExampleBase):
     #                stream.CopyTo(resultDoc);
     #        }
     #    }
-    #}
-    #private void AssertResult(string fileExt)
-    #{
+    # }
+    # private void AssertResult(string fileExt)
+    # {
     #    if (fileExt == "jpeg" || fileExt == "png" || fileExt == "tiff" || fileExt == "bmp")
     #    {
     #        Regex reg = new Regex("PdfRenderer_*");
@@ -288,18 +291,18 @@ class ExDocument(ApiExampleBase):
     #            Assert.True(content.Contains("Heading 1 Heading 1.1.1.1 Heading 1.1.1.2"));
     #        }
     #    }
-    #}
-    #private static void AssertXpsText(XpsDocument doc)
-    #{
+    # }
+    # private static void AssertXpsText(XpsDocument doc)
+    # {
     #    AssertXpsText(doc.SelectActivePage(1));
-    #}
-    #private static void AssertXpsText(XpsElement element)
-    #{
+    # }
+    # private static void AssertXpsText(XpsElement element)
+    # {
     #    for (int i = 0; i < element.Count; i++)
     #        AssertXpsText(element[i]);
     #    if (element is XpsGlyphs)
     #        Assert.True(new[] { "Heading 1", "Head", "ing 1" }.Any(c => ((XpsGlyphs)element).UnicodeString.Contains(c)));
-    #}
+    # }
 
     def test_open_from_stream_with_base_uri(self):
 
@@ -309,7 +312,6 @@ class ExDocument(ApiExampleBase):
         #ExFor:LoadOptions.base_uri
         #ExSummary:Shows how to open an HTML document with images from a stream using a base URI.
         with open(MY_DIR + "Document.html", "rb") as stream:
-
             # Pass the URI of the base folder while loading it
             # so that any images with relative URIs in the HTML document can be found.
             load_options = aw.loading.LoadOptions()
@@ -337,7 +339,6 @@ class ExDocument(ApiExampleBase):
         url = "https://www.aspose.com/"
 
         with io.BytesIO(urlopen(url).read()) as stream:
-
             # The URL is used again as a "base_uri" to ensure that any relative image paths are retrieved correctly.
             options = aw.loading.LoadOptions(aw.LoadFormat.HTML, "", url)
 
@@ -346,7 +347,7 @@ class ExDocument(ApiExampleBase):
 
             # At this stage, we can read and edit the document's contents and then save it to the local file system.
             self.assertEqual("HYPERLINK \"https://products.aspose.com/words/family/\" \\o \"Aspose.Words\"",
-                             doc.first_section.body.paragraphs[50].runs[0].get_text().strip()) #ExSkip
+                             doc.first_section.body.paragraphs[50].runs[0].get_text().strip())  #ExSkip
 
             doc.save(ARTIFACTS_DIR + "Document.insert_html_from_web_page.docx")
 
@@ -373,12 +374,12 @@ class ExDocument(ApiExampleBase):
         # There are two ways of loading an encrypted document with a LoadOptions object.
         # 1 -  Load the document from the local file system by filename:
         doc = aw.Document(MY_DIR + "Encrypted.docx", options)
-        self.assertEqual("Test encrypted document.", doc.get_text().strip()) #ExSkip
+        self.assertEqual("Test encrypted document.", doc.get_text().strip())  #ExSkip
 
         # 2 -  Load the document from a stream:
         with open(MY_DIR + "Encrypted.docx", "rb") as stream:
             doc = aw.Document(stream, options)
-            self.assertEqual("Test encrypted document.", doc.get_text().strip()) #ExSkip
+            self.assertEqual("Test encrypted document.", doc.get_text().strip())  #ExSkip
 
         #ExEnd
 
@@ -448,7 +449,7 @@ class ExDocument(ApiExampleBase):
     ##ExFor:NodeChangingArgs.node
     ##ExFor:DocumentBase.node_changing_callback
     ##ExSummary:Shows how customize node changing with a callback.
-    #def test_font_change_via_callback(self):
+    # def test_font_change_via_callback(self):
 
     #    doc = aw.Document()
     #    builder = aw.DocumentBuilder(doc)
@@ -468,7 +469,7 @@ class ExDocument(ApiExampleBase):
     #    print(callback.get_log())
     #    self._test_font_change_via_callback(callback.get_log()) #ExSkip
 
-    #class HandleNodeChangingFontChanger(aw.INodeChangingCallback):
+    # class HandleNodeChangingFontChanger(aw.INodeChangingCallback):
     #    """Logs the date and time of each node insertion and removal.
     #    Sets a custom font name/size for the text contents of Run nodes."""
 
@@ -510,7 +511,7 @@ class ExDocument(ApiExampleBase):
 
     ##ExEnd
 
-    #def _test_font_change_via_callback(self, log: str):
+    # def _test_font_change_via_callback(self, log: str):
 
     #    self.assertEqual(10, log.count("insertion"))
     #    self.assertEqual(5, log.count("removal"))
@@ -529,7 +530,7 @@ class ExDocument(ApiExampleBase):
         # Append the source document to the destination document while preserving its formatting,
         # then save the source document to the local file system.
         dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
-        self.assertEqual(2, dst_doc.sections.count) #ExSkip
+        self.assertEqual(2, dst_doc.sections.count)  #ExSkip
 
         dst_doc.save(ARTIFACTS_DIR + "Document.append_document.docx")
         #ExEnd
@@ -640,7 +641,7 @@ class ExDocument(ApiExampleBase):
         #ExStart
         #ExFor:ImportFormatOptions.force_copy_styles
         #ExSummary:Shows how to copy source styles with unique names forcibly.
-        
+
         # Both documents contain MyStyle1 and MyStyle2, MyStyle3 exists only in a source document.
         src_doc = aw.Document(MY_DIR + "Styles source.docx");
         dst_doc = aw.Document(MY_DIR + "Styles destination.docx");
@@ -690,9 +691,9 @@ class ExDocument(ApiExampleBase):
         self.assertEqual("Test Sign", digital_sig.comments)
         self.assertEqual(aw.digitalsignatures.DigitalSignatureType.XML_DSIG, digital_sig.signature_type)
         # System.Security.Cryptography.X509Certificates.X509Certificate2 is not supported. That is why the following information is not accesible.
-        #self.assertTrue(digital_sig.certificate_holder.certificate.subject.contains("Aspose Pty Ltd"))
-        #self.assertIsNotNone(digital_sig.certificate_holder.certificate.issuer_name.name is not None)
-        #self.assertIn("VeriSign", digital_sig.certificate_holder.certificate.issuer_name.name)
+        # self.assertTrue(digital_sig.certificate_holder.certificate.subject.contains("Aspose Pty Ltd"))
+        # self.assertIsNotNone(digital_sig.certificate_holder.certificate.issuer_name.name is not None)
+        # self.assertIn("VeriSign", digital_sig.certificate_holder.certificate.issuer_name.name)
 
     def test_digital_signature(self):
 
@@ -755,8 +756,8 @@ class ExDocument(ApiExampleBase):
         builder.writeln("Template Document")
         builder.paragraph_format.style_identifier = aw.StyleIdentifier.NORMAL
         builder.writeln("Some content here")
-        self.assertEqual(5, dst_doc.styles.count) #ExSkip
-        self.assertEqual(1, dst_doc.sections.count) #ExSkip
+        self.assertEqual(5, dst_doc.styles.count)  #ExSkip
+        self.assertEqual(1, dst_doc.sections.count)  #ExSkip
 
         # Append all unencrypted documents with the .doc extension
         # from our local file system directory to the base document.
@@ -830,8 +831,7 @@ class ExDocument(ApiExampleBase):
         # but with a unique copy of each of the original document's nodes.
         clone = doc.clone()
 
-        self.assertEqual(doc.first_section.body.first_paragraph.runs[0].get_text(),
-            clone.first_section.body.first_paragraph.runs[0].text)
+        self.assertEqual(doc.first_section.body.first_paragraph.runs[0].get_text(), clone.first_section.body.first_paragraph.runs[0].text)
         self.assertIsNot(doc.first_section.body.first_paragraph.runs[0], clone.first_section.body.first_paragraph.runs[0])
         #ExEnd
 
@@ -892,7 +892,7 @@ class ExDocument(ApiExampleBase):
 
         builder = aw.DocumentBuilder(protected_doc)
         builder.writeln("Text added to a protected document.")
-        self.assertEqual("Text added to a protected document.", protected_doc.range.text.strip()) #ExSkip
+        self.assertEqual("Text added to a protected document.", protected_doc.range.text.strip())  #ExSkip
 
         # There are two ways of removing protection from a document.
         # 1 - With no password:
@@ -1060,10 +1060,13 @@ class ExDocument(ApiExampleBase):
         #ExEnd
 
         self.verify_doc_package_file_contains_string("<w:tblStyleRowBandSize w:val=\"3\" />",
-            ARTIFACTS_DIR + "Document.table_style_to_direct_formatting.docx", "word/document.xml")
+                                                     ARTIFACTS_DIR + "Document.table_style_to_direct_formatting.docx",
+                                                     "word/document.xml")
         self.verify_doc_package_file_contains_string("<w:tblCellSpacing w:w=\"100\" w:type=\"dxa\" />",
-            ARTIFACTS_DIR + "Document.table_style_to_direct_formatting.docx", "word/document.xml")
-        self.verify_doc_package_file_contains_string("<w:tblBorders><w:top w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:left w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:bottom w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:right w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:insideH w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:insideV w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /></w:tblBorders>",
+                                                     ARTIFACTS_DIR + "Document.table_style_to_direct_formatting.docx",
+                                                     "word/document.xml")
+        self.verify_doc_package_file_contains_string(
+            "<w:tblBorders><w:top w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:left w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:bottom w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:right w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:insideH w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:insideV w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /></w:tblBorders>",
             ARTIFACTS_DIR + "Document.table_style_to_direct_formatting.docx", "word/document.xml")
 
     def test_get_original_file_info(self):
@@ -1086,7 +1089,7 @@ class ExDocument(ApiExampleBase):
         #ExFor:FootnoteOptions.columns
         #ExSummary:Shows how to split the footnote section into a given number of columns.
         doc = aw.Document(MY_DIR + "Footnotes and endnotes.docx")
-        self.assertEqual(0, doc.footnote_options.columns) #ExSkip
+        self.assertEqual(0, doc.footnote_options.columns)  #ExSkip
 
         doc.footnote_options.columns = 2
         doc.save(ARTIFACTS_DIR + "Document.footnote_columns.docx")
@@ -1116,7 +1119,7 @@ class ExDocument(ApiExampleBase):
 
         # After the comparison, the original document will gain a new revision
         # for every element that is different in the edited document.
-        self.assertEqual(2, doc_original.revisions.count) #ExSkip
+        self.assertEqual(2, doc_original.revisions.count)  #ExSkip
         for revision in doc_original.revisions:
             print(f"Revision type: {revision.revision_type}, on a node of type \"{revision.parent_node.node_type}\"")
             print(f"\tChanged text: \"{revision.parent_node.get_text()}\"")
@@ -1229,7 +1232,8 @@ class ExDocument(ApiExampleBase):
         doc_original = aw.Document(ARTIFACTS_DIR + "Document.compare_options.docx")
 
         self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, "",
-            "OriginalEdited endnote text.", doc_original.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
+                             "OriginalEdited endnote text.",
+                             doc_original.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
 
     def test_ignore_dml_unique_id(self):
 
@@ -1384,8 +1388,8 @@ class ExDocument(ApiExampleBase):
 
         # 2 -  Use the first image found in the document:
         options = aw.rendering.ThumbnailGeneratingOptions()
-        self.assertEqual(drawing.Size(600, 900), options.thumbnail_size) #ExSKip
-        self.assertTrue(options.generate_from_first_page) #ExSkip
+        self.assertEqual(drawing.Size(600, 900), options.thumbnail_size)  #ExSkip
+        self.assertTrue(options.generate_from_first_page)  #ExSkip
         options.thumbnail_size = drawing.Size(400, 400)
         options.generate_from_first_page = False
 
@@ -1424,7 +1428,7 @@ class ExDocument(ApiExampleBase):
         self.assertTrue(doc.hyphenation_options.hyphenate_caps)
 
         self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "Document.hyphenation_options.docx",
-            GOLDS_DIR + "Document.HyphenationOptions Gold.docx"))
+                                                    GOLDS_DIR + "Document.HyphenationOptions Gold.docx"))
 
     def test_hyphenation_options_default_values(self):
 
@@ -1433,7 +1437,7 @@ class ExDocument(ApiExampleBase):
 
         self.assertEqual(False, doc.hyphenation_options.auto_hyphenation)
         self.assertEqual(0, doc.hyphenation_options.consecutive_hyphen_limit)
-        self.assertEqual(360, doc.hyphenation_options.hyphenation_zone) # 0.25 inch
+        self.assertEqual(360, doc.hyphenation_options.hyphenation_zone)  # 0.25 inch
         self.assertTrue(doc.hyphenation_options.hyphenate_caps)
 
     def test_hyphenation_options_exceptions(self):
@@ -1479,8 +1483,8 @@ class ExDocument(ApiExampleBase):
         builder.writeln("Some text.")
 
         options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
-        self.assertFalse(options.use_anti_aliasing) #ExSkip
-        self.assertFalse(options.use_high_quality_rendering) #ExSkip
+        self.assertFalse(options.use_anti_aliasing)  #ExSkip
+        self.assertFalse(options.use_high_quality_rendering)  #ExSkip
 
         doc.save(ARTIFACTS_DIR + "Document.image_save_options.default.jpg", options)
 
@@ -1619,7 +1623,7 @@ class ExDocument(ApiExampleBase):
 
         # Manually change the raw text of the field, which determines the field code.
         field_text = doc.first_section.body.first_paragraph.get_child_nodes(aw.NodeType.RUN, True)[0].as_run()
-        self.assertEqual("DATE", field_text.text) #ExSkip
+        self.assertEqual("DATE", field_text.text)  #ExSkip
         field_text.text = "PAGE"
 
         # Changing the field code has changed this field to one of a different type,
@@ -1656,8 +1660,8 @@ class ExDocument(ApiExampleBase):
         # Insert a revision, then change the color of all revisions to green.
         builder.writeln("This is not a revision.")
         doc.start_track_revisions("John Doe", datetime.now())
-        self.assertEqual(aw.layout.RevisionColor.BY_AUTHOR, doc.layout_options.revision_options.inserted_text_color) #ExSkip
-        self.assertTrue(doc.layout_options.revision_options.show_revision_bars) #ExSkip
+        self.assertEqual(aw.layout.RevisionColor.BY_AUTHOR, doc.layout_options.revision_options.inserted_text_color)  #ExSkip
+        self.assertTrue(doc.layout_options.revision_options.show_revision_bars)  #ExSkip
         builder.writeln("This is a revision.")
         doc.stop_track_revisions()
         builder.writeln("This is not a revision.")
@@ -1680,7 +1684,7 @@ class ExDocument(ApiExampleBase):
                 #ExSummary:Shows how to hide text in a rendered output document.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
-                self.assertFalse(doc.layout_options.show_hidden_text) #ExSkip
+                self.assertFalse(doc.layout_options.show_hidden_text)  #ExSkip
 
                 # Insert hidden text, then specify whether we wish to omit it from a rendered document.
                 builder.writeln("This text is not hidden.")
@@ -1692,13 +1696,13 @@ class ExDocument(ApiExampleBase):
                 doc.save(ARTIFACTS_DIR + "Document.layout_options_hidden_text.pdf")
                 #ExEnd
 
-        #pdf_doc = aspose.pdf.Document(ARTIFACTS_DIR + "Document.layout_options_hidden_text.pdf")
-        #text_absorber = aspose.pdf.text.TextAbsorber()
-        #text_absorber.visit(pdf_doc)
+        # pdf_doc = aspose.pdf.Document(ARTIFACTS_DIR + "Document.layout_options_hidden_text.pdf")
+        # text_absorber = aspose.pdf.text.TextAbsorber()
+        # text_absorber.visit(pdf_doc)
 
-        #if show_hidden_text:
+        # if show_hidden_text:
         #    self.assertEqual("This text is not hidden.\nThis text is hidden.", text_absorber.text)
-        #else:
+        # else:
         #    self.assertEqual("This text is not hidden.", text_absorber.text)
 
     def test_layout_options_paragraph_marks(self):
@@ -1712,7 +1716,7 @@ class ExDocument(ApiExampleBase):
                 #ExSummary:Shows how to show paragraph marks in a rendered output document.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
-                self.assertFalse(doc.layout_options.show_paragraph_marks) #ExSkip
+                self.assertFalse(doc.layout_options.show_paragraph_marks)  #ExSkip
 
                 # Add some paragraphs, then enable paragraph marks to show the ends of paragraphs
                 # with a pilcrow (¶) symbol when we render the document.
@@ -1724,11 +1728,11 @@ class ExDocument(ApiExampleBase):
                 doc.save(ARTIFACTS_DIR + "Document.layout_options_paragraph_marks.pdf")
                 #ExEnd
 
-            #pdf_doc = aspose.pdf.Document(ARTIFACTS_DIR + "Document.layout_options_paragraph_marks.pdf")
-            #text_absorber = aspose.pdf.text.TextAbsorber()
-            #text_absorber.visit(pdf_doc)
+            # pdf_doc = aspose.pdf.Document(ARTIFACTS_DIR + "Document.layout_options_paragraph_marks.pdf")
+            # text_absorber = aspose.pdf.text.TextAbsorber()
+            # text_absorber.visit(pdf_doc)
 
-            #self.assertEqual("Hello world!¶\nHello again!¶\n¶" if show_paragraph_marks "Hello world!\nHello again!", text_absorber.text)
+            # self.assertEqual("Hello world!¶\nHello again!¶\n¶" if show_paragraph_marks "Hello world!\nHello again!", text_absorber.text)
 
     def test_update_page_layout(self):
 
@@ -1784,7 +1788,7 @@ class ExDocument(ApiExampleBase):
         # Clone the second part, then add the clone to the collection.
         cloned_part = doc.package_custom_parts[1].clone()
         doc.package_custom_parts.add(cloned_part)
-        self._test_doc_package_custom_parts(doc.package_custom_parts) #ExSkip
+        self._test_doc_package_custom_parts(doc.package_custom_parts)  #ExSkip
 
         self.assertEqual(3, doc.package_custom_parts.count)
 
@@ -1840,11 +1844,11 @@ class ExDocument(ApiExampleBase):
                 #ExSummary:Shows how to apply gray shading to form fields.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc)
-                self.assertTrue(doc.shade_form_data) #ExSkip
+                self.assertTrue(doc.shade_form_data)  #ExSkip
 
                 builder.write("Hello world! ")
                 builder.insert_text_input("My form field", aw.fields.TextFormFieldType.REGULAR, "",
-                    "Text contents of form field, which are shaded in grey by default.", 0)
+                                          "Text contents of form field, which are shaded in grey by default.", 0)
 
                 # We can turn the grey shading off, so the bookmarked text will blend in with the other text.
                 doc.shade_form_data = use_grey_shading
@@ -1880,8 +1884,8 @@ class ExDocument(ApiExampleBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
         builder.writeln("Hello world! This document is protected.")
-        self.assertFalse(doc.write_protection.is_write_protected) #ExSkip
-        self.assertFalse(doc.write_protection.read_only_recommended) #ExSkip
+        self.assertFalse(doc.write_protection.is_write_protected)  #ExSkip
+        self.assertFalse(doc.write_protection.read_only_recommended)  #ExSkip
 
         # Enter a password up to 15 characters in length, and then verify the document's protection status.
         doc.write_protection.set_password("MyPassword")
@@ -1969,11 +1973,11 @@ class ExDocument(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "Document.show_comments_in_balloons.pdf")
         #ExEnd
 
-        #pdf_doc = aspose.pdf.Document(ARTIFACTS_DIR + "Document.show_comments_in_balloons.pdf")
-        #text_absorber = aspose.pdf.text.TextAbsorber()
-        #text_absorber.visit(pdf_doc)
+        # pdf_doc = aspose.pdf.Document(ARTIFACTS_DIR + "Document.show_comments_in_balloons.pdf")
+        # text_absorber = aspose.pdf.text.TextAbsorber()
+        # text_absorber.visit(pdf_doc)
 
-        #self.assertEqual(
+        # self.assertEqual(
         #    "Hello world!                                                                    Commented [J.D.1]:  My comment.",
         #    text_absorber.text)
 
@@ -1985,11 +1989,11 @@ class ExDocument(ApiExampleBase):
         template = aw.Document(MY_DIR + "Rendering.docx")
         target = aw.Document(MY_DIR + "Document.docx")
 
-        self.assertEqual(18, template.styles.count) #ExSkip
-        self.assertEqual(12, target.styles.count) #ExSkip
+        self.assertEqual(18, template.styles.count)  #ExSkip
+        self.assertEqual(12, target.styles.count)  #ExSkip
 
         target.copy_styles_from_template(template)
-        self.assertEqual(22, target.styles.count) #ExSkip
+        self.assertEqual(22, target.styles.count)  #ExSkip
 
         #ExEnd
 
@@ -2065,7 +2069,7 @@ class ExDocument(ApiExampleBase):
 
         # A VBA project contains a collection of VBA modules.
         vba_project = doc.vba_project
-        self.assertTrue(vba_project.is_signed) #ExSkip
+        self.assertTrue(vba_project.is_signed)  #ExSkip
         if vba_project.is_signed:
             print(f"Project name: {vba_project.name} signed; Project code page: {vba_project.code_page}; Modules count: {vba_project.modules.count}\n")
         else:
@@ -2127,7 +2131,7 @@ class ExDocument(ApiExampleBase):
         doc = aw.Document(MY_DIR + "Master document.docx")
 
         sub_documents = doc.get_child_nodes(aw.NodeType.SUB_DOCUMENT, True)
-        self.assertEqual(1, sub_documents.count) #ExSkip
+        self.assertEqual(1, sub_documents.count)  #ExSkip
 
         # This node serves as a reference to an external document, and its contents cannot be accessed.
         sub_document = sub_documents[0].as_sub_document()
@@ -2239,7 +2243,7 @@ class ExDocument(ApiExampleBase):
 
         self.assertEqual(1, doc.web_extension_task_panes.count)
 
-        # Print all properties of the document's web extension.
+        #print all properties of the document's web extension.
         web_extension_property_collection = doc.web_extension_task_panes[0].web_extension.properties
         for web_extension_property in web_extension_property_collection:
             print(f"Binding name: {web_extension_property.name}; Binding value: {web_extension_property.value}")
@@ -2488,7 +2492,7 @@ class ExDocument(ApiExampleBase):
             otf = aw.fonts.MemoryFontSource(file.read())
 
         doc.font_settings = aw.fonts.FontSettings()
-        doc.font_settings.set_fonts_sources([ otf ])
+        doc.font_settings.set_fonts_sources([otf])
 
         # Embed TrueType fonts.
         doc.font_infos.embed_true_type_fonts = True
@@ -2514,8 +2518,7 @@ class ExDocument(ApiExampleBase):
         doc = aw.Document(MY_DIR + "Frameset.docx")
 
         # We can check the default URL (a web page URL or local document) or if the frame is an external resource.
-        self.assertEqual("https://file-examples-com.github.io/uploads/2017/02/file-sample_100kB.docx",
-            doc.frameset.child_framesets[0].child_framesets[0].frame_default_url)
+        self.assertEqual("https://file-examples-com.github.io/uploads/2017/02/file-sample_100kB.docx", doc.frameset.child_framesets[0].child_framesets[0].frame_default_url)
         self.assertTrue(doc.frameset.child_framesets[0].child_framesets[0].is_frame_link_to_file)
 
         self.assertEqual("Document.docx", doc.frameset.child_framesets[1].frame_default_url)
@@ -2528,9 +2531,7 @@ class ExDocument(ApiExampleBase):
 
         doc = DocumentHelper.save_open(doc)
 
-        self.assertEqual(
-            "https://github.com/aspose-words/Aspose.Words-for-.NET/blob/master/Examples/Data/Absolute%20position%20tab.docx",
-            doc.frameset.child_framesets[0].child_framesets[0].frame_default_url)
+        self.assertEqual("https://github.com/aspose-words/Aspose.Words-for-.NET/blob/master/Examples/Data/Absolute%20position%20tab.docx", doc.frameset.child_framesets[0].child_framesets[0].frame_default_url)
         self.assertFalse(doc.frameset.child_framesets[0].child_framesets[0].is_frame_link_to_file)
 
     def test_open_azw(self):
@@ -2581,4 +2582,62 @@ class ExDocument(ApiExampleBase):
         builder.current_structured_document_tag.color = drawing.Color.green
 
         doc.save(ARTIFACTS_DIR + "Document.MoveToStructuredDocumentTag.docx")
+        #ExEnd
+
+    def test_include_textboxes_footnotes_endnotes_in_stat(self):
+
+        #ExStart
+        #ExFor:Document.include_textboxes_footnotes_endnotes_in_stat
+        #ExSummary:Shows how to include or exclude textboxes, footnotes and endnotes from word count statistics.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        builder.writeln("Lorem ipsum")
+        builder.insert_footnote(aw.notes.FootnoteType.FOOTNOTE, "sit amet")
+
+        # By default option is set to 'false'.
+        doc.update_word_count()
+
+        # Words count without textboxes, footnotes and endnotes.
+        self.assertEqual(2, doc.built_in_document_properties.words)
+
+        # Words count with textboxes, footnotes and endnotes.
+        doc.include_textboxes_footnotes_endnotes_in_stat = True
+        doc.update_word_count()
+
+        self.assertEqual(4, doc.built_in_document_properties.words)
+        #ExEnd
+
+    def test_set_justification_mode(self):
+        #ExStart
+        #ExFor:Document.justification_mode
+        #ExFor:JustificationMode
+        #ExSummary:Shows how to manage character spacing control.
+        doc = aw.Document(MY_DIR + "Document.docx")
+        justification_mode = doc.justification_mode
+        if justification_mode == aw.settings.JustificationMode.EXPAND:
+            doc.justification_mode = aw.settings.JustificationMode.COMPRESS
+
+        doc.save(ARTIFACTS_DIR + "Document.SetJustificationMode.docx")
+        #ExEnd
+
+    def test_adjust_sentence_and_word_spacing(self):
+        #ExStart
+        #ExFor:ImportFormatOptions.adjust_sentence_and_word_spacing
+        #ExSummary:Shows how to adjust sentence and word spacing automatically.
+
+        srcDoc = aw.Document()
+        dstDoc = aw.Document()
+
+        builder = aw.DocumentBuilder(srcDoc)
+        builder.write("Dolor sit amet.")
+
+        builder = aw.DocumentBuilder(dstDoc)
+        builder.write("Lorem ipsum.")
+
+        options = aw.ImportFormatOptions()
+        options.adjust_sentence_and_word_spacing = True
+
+        builder.insert_document(srcDoc, aw.ImportFormatMode.USE_DESTINATION_STYLES, options)
+
+        self.assertEqual("Lorem ipsum. Dolor sit amet.", dstDoc.first_section.body.first_paragraph.get_text().strip())
         #ExEnd

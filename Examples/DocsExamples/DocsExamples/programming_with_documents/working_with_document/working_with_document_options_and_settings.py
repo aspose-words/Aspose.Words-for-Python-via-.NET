@@ -1,5 +1,6 @@
 import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
+from aspose.pydrawing import Color
 
 class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
 
@@ -136,3 +137,42 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.set_page_setup_and_section_formatting.docx")
         #ExEnd:DocumentBuilderSetPageSetupAndSectionFormatting
+
+    def test_page_border_properties(self):
+        #ExStart: PageBorderProperties
+        doc = aw.Document()
+        page_setup = doc.sections[0].page_setup
+
+        page_setup.border_always_in_front = False
+        page_setup.border_distance_from = aw.PageBorderDistanceFrom.PAGE_EDGE
+        page_setup.border_applies_to = aw.PageBorderAppliesTo.FIRST_PAGE
+
+        border = page_setup.borders.get_by_border_type(aw.BorderType.TOP)
+        border.line_style = aw.LineStyle.SINGLE
+        border.line_width = 30
+        border.color = Color.blue
+        border.distance_from_text = 0
+
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.PageBorderProperties.docx")
+        #ExEnd: PageBorderProperties
+
+
+    def test_line_grid_section_layoutMode(self):
+
+        #ExStart: LineGridSectionLayoutMode
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        # Enable pitching, and then use it to set the number of lines per page in this section.
+        # A large enough font size will push some lines down onto the next page to avoid overlapping characters.
+        builder.page_setup.layout_mode = aw.SectionLayoutMode.LINE_GRID
+        builder.page_setup.lines_per_page = 15
+        builder.paragraph_format.snap_to_grid = True
+        for i in range(30):
+            builder.write(
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ")
+
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.LinesPerPage.docx")
+        #ExEnd:LineGridSectionLayoutMode
+
+

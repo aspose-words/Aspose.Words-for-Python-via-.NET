@@ -47,6 +47,7 @@ class ExStyles(ApiExampleBase):
         #ExFor:Style.font
         #ExFor:Style
         #ExFor:Style.remove
+        #ExFor:Style.automatically_update
         #ExSummary:Shows how to create and apply a custom style.
         doc = aw.Document()
 
@@ -54,6 +55,8 @@ class ExStyles(ApiExampleBase):
         style.font.name = "Times New Roman"
         style.font.size = 16
         style.font.color = drawing.Color.navy
+        # Automatically redefine style.
+        style.automatically_update = True
 
         builder = aw.DocumentBuilder(doc)
 

@@ -248,6 +248,7 @@ class FindAndReplace(DocsExamplesBase):
     def test_replace_text_in_table(self):
 
         #ExStart:ReplaceText
+        #GistId:7267ba4569c671e5f6c7a58bba57297a
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()

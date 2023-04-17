@@ -240,6 +240,8 @@ class ExCharts(ApiExampleBase):
         #ExFor:AxisTickLabelPosition
         #ExFor:AxisTimeUnit
         #ExFor:ChartAxis.base_time_unit
+        #ExFor:ChartAxis.has_major_gridlines
+        #ExFor:ChartAxis.has_minor_gridlines
         #ExSummary:Shows how to insert chart with date/time values.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -272,6 +274,8 @@ class ExCharts(ApiExampleBase):
         x_axis.major_tick_mark = aw.drawing.charts.AxisTickMark.CROSS
         x_axis.minor_unit = 1.0
         x_axis.minor_tick_mark = aw.drawing.charts.AxisTickMark.OUTSIDE
+        x_axis.has_major_gridlines = True
+        x_axis.has_minor_gridlines = True
 
         # Define Y-axis properties for decimal values.
         y_axis = chart.axis_y
@@ -281,6 +285,8 @@ class ExCharts(ApiExampleBase):
         y_axis.display_unit.unit = aw.drawing.charts.AxisBuiltInUnit.HUNDREDS
         y_axis.scaling.minimum = aw.drawing.charts.AxisBound(100)
         y_axis.scaling.maximum = aw.drawing.charts.AxisBound(700)
+        y_axis.has_major_gridlines = True
+        y_axis.has_minor_gridlines = True
 
         doc.save(ARTIFACTS_DIR + "Charts.date_time_values.docx")
         #ExEnd
@@ -295,6 +301,8 @@ class ExCharts(ApiExampleBase):
         self.assertEqual(1.0, chart.axis_x.minor_unit)
         self.assertEqual(aw.drawing.charts.AxisTickMark.CROSS, chart.axis_x.major_tick_mark)
         self.assertEqual(aw.drawing.charts.AxisTickMark.OUTSIDE, chart.axis_x.minor_tick_mark)
+        self.assertEqual(True, chart.axis_x.has_major_gridlines)
+        self.assertEqual(True, chart.axis_x.has_minor_gridlines)
 
         self.assertEqual(aw.drawing.charts.AxisTickLabelPosition.HIGH, chart.axis_y.tick_label_position)
         self.assertEqual(100.0, chart.axis_y.major_unit)
@@ -302,6 +310,8 @@ class ExCharts(ApiExampleBase):
         self.assertEqual(aw.drawing.charts.AxisBuiltInUnit.HUNDREDS, chart.axis_y.display_unit.unit)
         self.assertEqual(aw.drawing.charts.AxisBound(100), chart.axis_y.scaling.minimum)
         self.assertEqual(aw.drawing.charts.AxisBound(700), chart.axis_y.scaling.maximum)
+        self.assertEqual(True, chart.axis_y.has_major_gridlines)
+        self.assertEqual(True, chart.axis_y.has_minor_gridlines)
 
     def test_hide_chart_axis(self):
 

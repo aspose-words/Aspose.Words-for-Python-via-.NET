@@ -1,3 +1,5 @@
+import typing
+
 import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
@@ -50,22 +52,19 @@ class WorkingWithSection(DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        builder.writeln("Hello1")
-        doc.append_child(aw.Section(doc))
-        builder.writeln("Hello22")
-        doc.append_child(aw.Section(doc))
-        builder.writeln("Hello3")
-        doc.append_child(aw.Section(doc))
-        builder.writeln("Hello45")
+        builder.write("Section 1")
+        builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
+        builder.write("Section 2")
+        builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
+        builder.write("Section 3")
 
-        # This is the section that we will append and prepend to.
         section = doc.sections[2]
 
-        # This copies the content of the 1st section and inserts it at the beginning of the specified section.
+        # Insert the contents of the first section to the beginning of the third section.
         section_to_prepend = doc.sections[0]
         section.prepend_content(section_to_prepend)
 
-        # This copies the content of the 2nd section and inserts it at the end of the specified section.
+        # Insert the contents of the second section to the end of the third section.
         section_to_append = doc.sections[1]
         section.append_content(section_to_append)
         #ExEnd:AppendSectionContent
@@ -114,13 +113,13 @@ class WorkingWithSection(DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        builder.writeln("Hello1")
+        builder.writeln("Section 1")
         doc.append_child(aw.Section(doc))
-        builder.writeln("Hello22")
+        builder.writeln("Section 2")
         doc.append_child(aw.Section(doc))
-        builder.writeln("Hello3")
+        builder.writeln("Section 3")
         doc.append_child(aw.Section(doc))
-        builder.writeln("Hello45")
+        builder.writeln("Section 4")
 
         # It is important to understand that a document can contain many sections,
         # and each section has its page setup. In this case, we want to modify them all.
@@ -144,3 +143,45 @@ class WorkingWithSection(DocsExamplesBase):
         section.page_setup.footer_distance = 35.4 # 1.25 cm
         section.page_setup.text_columns.spacing = 35.4 # 1.25 cm
         #ExEnd:SectionsAccessByIndex
+
+
+    def test_section_child_nodes(self):
+        #ExStart: SectionChildNodes
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        builder.write("Section 1")
+        builder.move_to_header_footer(aw.HeaderFooterType.HEADER_PRIMARY)
+        builder.write("Primary header")
+        builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_PRIMARY)
+        builder.write("Primary footer")
+
+        section = doc.first_section
+
+        # A Section is a composite node and can contain child nodes,
+        # but only if those child nodes are of a "Body" or "HeaderFooter" node type.
+        for node in section.child_nodes:
+            if node.node_type == aw.NodeType.BODY:
+                body = node.as_body()
+                print("Body:")
+                print(f"\t\"{body.get_text().strip()}\"")
+
+            if node.node_type == aw.NodeType.HEADER_FOOTER:
+                header_footer = node.as_header_footer()
+                print(f"HeaderFooter type: {header_footer.header_footer_type};")
+                print(f"\t\"{header_footer.get_text().strip()}\"")
+
+        #ExEnd: SectionChildNodes
+
+    def test_ensure_minimum(self):
+        #ExStart: EnsureMinimum
+        doc = aw.Document()
+
+        # If we add a new section like this, it will not have a body, or any other child nodes.
+        doc.sections.add(aw.Section(doc))
+
+        # Run the "EnsureMinimum" method to add a body and a paragraph to this section to begin editing it.
+        doc.last_section.ensure_minimum()
+
+        doc.sections[0].body.first_paragraph.append_child(aw.Run(doc, "Hello world!"))
+        # ExEnd: EnsureMinimum
