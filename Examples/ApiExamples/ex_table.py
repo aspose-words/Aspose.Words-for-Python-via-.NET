@@ -456,14 +456,13 @@ class ExTable(ApiExampleBase):
         self.assertEqual(aw.TextOrientation.DOWNWARD, table.first_row.first_cell.cell_format.orientation)
         self.assertEqual(drawing.Color.light_green.to_argb(), table.first_row.first_cell.cell_format.shading.foreground_pattern_color.to_argb())
 
-    def test_get_distance(self):
-
+    def test_get_distance_between_table_and_text(self):
         #ExStart
         #ExFor:Table.distance_bottom
         #ExFor:Table.distance_left
         #ExFor:Table.distance_right
         #ExFor:Table.distance_top
-        #ExSummary:Shows the minimum distance operations between table boundaries and text.
+        #ExSummary:Shows how to set distance between table boundaries and text.
         doc = aw.Document(MY_DIR + "Table wrapped by text.docx")
 
         table = doc.first_section.body.tables[0]
@@ -472,6 +471,14 @@ class ExTable(ApiExampleBase):
         self.assertEqual(25.9, table.distance_bottom)
         self.assertEqual(17.3, table.distance_left)
         self.assertEqual(17.3, table.distance_right)
+
+        # Set distance between table and surrounding text.
+        table.distance_left = 24
+        table.distance_right = 24
+        table.distance_top = 3
+        table.distance_bottom = 3
+
+        doc.save(ARTIFACTS_DIR + "Table.DistanceBetweenTableAndText.docx")
         #ExEnd
 
     def test_borders(self):
