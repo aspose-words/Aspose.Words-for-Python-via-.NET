@@ -15,8 +15,14 @@ from typing import Optional
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
-ROOT_DIR = os.path.abspath(os.curdir) + "/"
-ROOT_DIR = ROOT_DIR[:ROOT_DIR.find("Aspose.Words-for-Python-via-.NET")]
+
+root_dir = os.getenv("ROOT_DIR")
+if root_dir is not None:
+    ROOT_DIR = root_dir
+else:
+    ROOT_DIR = os.path.abspath(os.curdir) + "/"
+    ROOT_DIR = ROOT_DIR[:ROOT_DIR.find("Aspose.Words-for-Python-via-.NET")]
+
 API_EXAMPLES_ROOT = ROOT_DIR + "Aspose.Words-for-Python-via-.NET/Examples/"
 LICENSE_PATH = os.getenv("ASPOSE_WORDS_PYTHON_LICENSE", "Aspose.Words.Python.NET.lic")
 

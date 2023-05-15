@@ -3311,3 +3311,12 @@ class ExDocumentBuilder(ApiExampleBase):
         builder.insert_html(html, insert_options)
         builder.document.save(ARTIFACTS_DIR + "DocumentBuilder.PreserveBlocks.docx")
         #ExEnd
+
+    def test_phonetic_guide(self):
+        builder = aw.DocumentBuilder()
+        builder.write("Lorem ipsum.")
+
+        runs = builder.document.first_section.body.first_paragraph.runs
+        # Use phonetic guide in the Asian text.
+        self.assertEqual(False, runs[0].is_phonetic_guide)
+

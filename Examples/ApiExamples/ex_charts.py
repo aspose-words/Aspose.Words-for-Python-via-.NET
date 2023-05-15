@@ -1286,3 +1286,22 @@ class ExCharts(ApiExampleBase):
 
         doc.save(ARTIFACTS_DIR + "Charts.LegendEntries.docx")
         #ExEnd
+
+    def test_axis_collection(self):
+        #ExStart
+        #ExFor:ChartAxisCollection
+        #ExFor:Chart.axes
+        #ExSummary:Shows how to work with axes collection.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        shape = builder.insert_chart(awdc.ChartType.COLUMN, 500, 300)
+        chart = shape.chart
+
+        # Hide the major grid lines on the primary and secondary Y axes.
+        for axis in chart.axes:
+            if axis.type == awdc.ChartAxisType.VALUE:
+                axis.has_major_gridlines = False
+
+        doc.save(ARTIFACTS_DIR + "Charts.AxisCollection.docx")
+        #ExEnd

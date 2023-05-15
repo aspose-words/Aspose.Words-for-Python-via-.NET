@@ -9,6 +9,7 @@ import typing
 import unittest
 
 import aspose.words as aw
+import aspose.words.drawing
 import aspose.words.drawing as awd
 import aspose.pydrawing as drawing
 
@@ -829,6 +830,7 @@ class ExShape(ApiExampleBase):
         #ExFor:GradientStopCollection.count
         #ExFor:GradientStop.__init__(Color, float)
         #ExFor:GradientStop.__init__(Color, float, float)
+        #ExFor:GradientStop.base_color
         #ExFor:GradientStop.color
         #ExFor:GradientStop.position
         #ExFor:GradientStop.transparency
@@ -862,6 +864,7 @@ class ExShape(ApiExampleBase):
         gradient_stops.remove(gradient_stop)
 
         self.assertEqual(2, gradient_stops.count)
+        self.assertEqual(drawing.Color.from_argb(255, 0, 255, 255), gradient_stops[0].base_color);
 
         self.assertEqual(drawing.Color.aqua.to_argb(), gradient_stops[0].color.to_argb())
         self.assertAlmostEqual(0.1, gradient_stops[0].position, delta=0.01)
@@ -1483,6 +1486,7 @@ class ExShape(ApiExampleBase):
         #ExFor:Stroke.weight
         #ExFor:Stroke.join_style
         #ExFor:Stroke.line_style
+        #ExFor:Stroke.fill
         #ExFor:ShapeLineStyle
         #ExSummary:Shows how change stroke properties.
         doc = aw.Document()
@@ -1505,6 +1509,8 @@ class ExShape(ApiExampleBase):
         stroke.join_style = aw.drawing.JoinStyle.MITER
         stroke.end_cap = aw.drawing.EndCap.SQUARE
         stroke.line_style = aw.drawing.ShapeLineStyle.TRIPLE
+
+        stroke.fill.two_color_gradient(drawing.Color.red, drawing.Color.blue, awd.GradientStyle.VERTICAL, awd.GradientVariant.VARIANT1)
 
         doc.save(ARTIFACTS_DIR + "Shape.stroke.docx")
         #ExEnd
@@ -2719,4 +2725,57 @@ class ExShape(ApiExampleBase):
         shape = doc.get_child_nodes(aw.NodeType.SHAPE, True)[0].as_shape()
 
         self.assertEqual(True, shape.text_box.no_text_rotation)
+
+    def test_relative_size_and_position(self):
+        #ExStart
+        #ExFor:ShapeBase.relative_horizontal_size
+        #ExFor:ShapeBase.relative_vertical_size
+        #ExFor: ShapeBase.width_relative
+        #ExFor:ShapeBase.height_relative
+        #ExFor:ShapeBase.top_relative
+        #ExFor:ShapeBase.left_relative
+        #ExFor:RelativeHorizontalSize
+        #ExFor:RelativeVerticalSize
+        #ExSummary: Shows how to set relative size and position.
+
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        # Adding a simple shape with absolute size and position.
+        shape = builder.insert_shape(awd.ShapeType.RECTANGLE, 100.0, 40.0)
+
+        # Set WrapType to WrapType.None since Inline shapes are automatically converted to absolute units.
+        shape.wrap_type = awd.WrapType.NONE
+
+        # Checking and setting the relative horizontal size.
+        if shape.relative_horizontal_size == awd.RelativeHorizontalSize.DEFAULT:
+            # Setting the horizontal size binding to Margin.
+            shape.relative_horizontal_size = awd.RelativeHorizontalSize.MARGIN
+            # Setting the width to 50 % of Margin width.
+            shape.width_relative = 50
+
+        # Checking and setting the relative vertical size.
+        if shape.relative_vertical_size == awd.RelativeVerticalSize.DEFAULT:
+            # Setting the vertical size binding to Margin.
+            shape.relative_vertical_size = awd.RelativeVerticalSize.MARGIN
+            # Setting the height to 30 % of Margin height.
+            shape.height_relative = 30
+
+        #  Checking and setting the relative vertical position.
+        if shape.relative_vertical_position == awd.RelativeVerticalPosition.PARAGRAPH:
+            # Setting the position binding to TopMargin.
+            shape.relative_vertical_position = awd.RelativeVerticalPosition.TOP_MARGIN
+            # Setting relative Top to 30 % of TopMargin position.
+            shape.top_relative = 30
+
+        # Checking and setting the relative horizontal position.
+        if shape.relative_horizontal_position == awd.RelativeHorizontalPosition.DEFAULT:
+            # Setting the position binding to RightMargin.
+            shape.relative_horizontal_position = awd.RelativeHorizontalPosition.RIGHT_MARGIN
+            # The position relative value can be negative.
+            shape.left_relative = -260
+
+        doc.save(ARTIFACTS_DIR + "Shape.RelativeSizeAndPosition.docx")
+        #ExEnd
+
 
