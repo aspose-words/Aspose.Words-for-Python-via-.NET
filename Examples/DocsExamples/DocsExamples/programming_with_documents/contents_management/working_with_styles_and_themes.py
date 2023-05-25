@@ -81,7 +81,7 @@ class WorkingWithStylesAndThemes(DocsExamplesBase):
 
 
     def test_copy_style_different_document(self):
-        #ExStart: CopyStyleDifferentDocument
+        #ExStart:CopyStyleDifferentDocument
         #GistId:b0d8bd66b25a20a9a1975ce600cdcd0e
         src_doc = aw.Document()
 

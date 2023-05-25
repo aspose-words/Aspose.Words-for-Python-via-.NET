@@ -5,7 +5,7 @@ class WorkingWithHeadersAndFooters(DocsExamplesBase):
 
     def test_create_header_footer(self):
         #ExStart:CreateHeaderFooterUsingDocBuilder
-        #ExStart: DifferentFirstPageHeaderFooter
+        #ExStart:DifferentFirstPageHeaderFooter
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 

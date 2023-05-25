@@ -146,7 +146,7 @@ class WorkingWithSection(DocsExamplesBase):
 
 
     def test_section_child_nodes(self):
-        #ExStart: SectionChildNodes
+        #ExStart:SectionChildNodes
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -174,7 +174,7 @@ class WorkingWithSection(DocsExamplesBase):
         #ExEnd: SectionChildNodes
 
     def test_ensure_minimum(self):
-        #ExStart: EnsureMinimum
+        #ExStart:EnsureMinimum
         doc = aw.Document()
 
         # If we add a new section like this, it will not have a body, or any other child nodes.

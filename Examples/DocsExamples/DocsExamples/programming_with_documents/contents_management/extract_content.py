@@ -255,7 +255,7 @@ class ExtractContent(DocsExamplesBase):
         print(table.range.text)
         #ExEnd:ExtractText
 
-        #ExStart: PrintTextRangeRowAndTable
+        #ExStart:PrintTextRangeRowAndTable
         #GistId: 7267ba4569c671e5f6c7a58bba57297a
         print("\nContents of the row: ")
         print(table.rows[1].range.text)

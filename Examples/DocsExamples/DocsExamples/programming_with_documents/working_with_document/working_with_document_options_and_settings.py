@@ -139,7 +139,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
         #ExEnd:DocumentBuilderSetPageSetupAndSectionFormatting
 
     def test_page_border_properties(self):
-        #ExStart: PageBorderProperties
+        #ExStart:PageBorderProperties
         doc = aw.Document()
         page_setup = doc.sections[0].page_setup
 
@@ -159,7 +159,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
 
     def test_line_grid_section_layoutMode(self):
 
-        #ExStart: LineGridSectionLayoutMode
+        #ExStart:LineGridSectionLayoutMode
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 

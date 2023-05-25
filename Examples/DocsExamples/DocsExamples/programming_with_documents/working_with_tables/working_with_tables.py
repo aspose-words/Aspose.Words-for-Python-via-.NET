@@ -7,7 +7,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_remove_column(self):
 
         #ExStart:RemoveColumn
-        #GistId: 7e7e54ead8b97457543ea46fc6bae045
+        #GistId:7e7e54ead8b97457543ea46fc6bae045
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 1, True).as_table()
@@ -19,7 +19,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_insert_blank_column(self):
 
         #ExStart:InsertBlankColumn
-        #GistId: 7e7e54ead8b97457543ea46fc6bae045
+        #GistId:7e7e54ead8b97457543ea46fc6bae045
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -39,7 +39,7 @@ class WorkingWithTables(DocsExamplesBase):
         #ExEnd:InsertBlankColumn
 
     #ExStart:ColumnClass
-    #GistId: 9ceee4f7efd470ef243890104ccaf8b2
+    #GistId:9ceee4f7efd470ef243890104ccaf8b2
     class Column:
         """Represents a facade object for a column of a table in a Microsoft Word document."""
 
@@ -102,7 +102,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_auto_fit_table_to_contents(self):
 
         #ExStart:AutoFitTableToContents
-        #GistId: 6548beaa03bdc6cffceae2bbf0e95a83
+        #GistId:6548beaa03bdc6cffceae2bbf0e95a83
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -114,7 +114,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_auto_fit_table_to_fixed_column_widths(self):
 
         #ExStart:AutoFitTableToFixedColumnWidths
-        #GistId: 6548beaa03bdc6cffceae2bbf0e95a83
+        #GistId:6548beaa03bdc6cffceae2bbf0e95a83
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -127,7 +127,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_auto_fit_table_to_page_width(self):
 
         #ExStart:AutoFitTableToPageWidth
-        #GistId: 6548beaa03bdc6cffceae2bbf0e95a83
+        #GistId:6548beaa03bdc6cffceae2bbf0e95a83
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -141,7 +141,7 @@ class WorkingWithTables(DocsExamplesBase):
     #def test_build_table_from_data_table(self):
 
     #    #ExStart:BuildTableFromDataTable
-    #    #GistId: affb937d8f345f60e6a506e1da3db9fa
+    #    #GistId:affb937d8f345f60e6a506e1da3db9fa
 
     #    doc = aw.Document()
     #    # We can position where we want the table to be inserted and specify any extra formatting to the table.
@@ -170,7 +170,7 @@ class WorkingWithTables(DocsExamplesBase):
 
 
     ##ExStart:ImportTableFromDataTable
-    ## GistId: affb937d8f345f60e6a506e1da3db9fa
+    ##GistId:affb937d8f345f60e6a506e1da3db9fa
     ## <summary>
     ## Imports the content from the specified DataTable into a new Aspose.words Table object.
     ## The table is inserted at the document builder's current position and using the current builder's formatting if any is defined.
@@ -239,7 +239,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_clone_complete_table(self):
 
         #ExStart:CloneCompleteTable
-        #GistId: 10307fa0baf630b07d0cbdae30119bf3
+        #GistId:10307fa0baf630b07d0cbdae30119bf3
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -258,7 +258,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_clone_last_row(self):
 
         #ExStart:CloneLastRow
-        # GistId: 10307fa0baf630b07d0cbdae30119bf3
+        #GistId:10307fa0baf630b07d0cbdae30119bf3
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -279,7 +279,7 @@ class WorkingWithTables(DocsExamplesBase):
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         #ExStart:RetrieveTableIndex
-        #GistId: 9ceee4f7efd470ef243890104ccaf8b2
+        #GistId:9ceee4f7efd470ef243890104ccaf8b2
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
         all_tables = doc.get_child_nodes(aw.NodeType.TABLE, True)
@@ -288,14 +288,14 @@ class WorkingWithTables(DocsExamplesBase):
         print("\nTable index is " + str(table_index))
 
         #ExStart:RetrieveRowIndex
-        # GistId: 9ceee4f7efd470ef243890104ccaf8b2
+        #GistId:9ceee4f7efd470ef243890104ccaf8b2
         row_index = table.index_of(table.last_row)
         #ExEnd:RetrieveRowIndex
         print("\nRow index is " + str(row_index))
 
         row = table.last_row
         #ExStart:RetrieveCellIndex
-        # GistId: 9ceee4f7efd470ef243890104ccaf8b2
+        #GistId:9ceee4f7efd470ef243890104ccaf8b2
         cell_index = row.index_of(row.cells[4])
         #ExEnd:RetrieveCellIndex
         print("\nCell index is " + str(cell_index))
@@ -303,7 +303,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_insert_table_directly(self):
 
         #ExStart:InsertTableDirectly
-        #GistId: 10307fa0baf630b07d0cbdae30119bf3
+        #GistId:10307fa0baf630b07d0cbdae30119bf3
         doc = aw.Document()
 
         # We start by creating the table object. Note that we must pass the document object
@@ -344,7 +344,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_insert_table_from_html(self):
 
         #ExStart:InsertTableFromHtml
-        # GistId: 10307fa0baf630b07d0cbdae30119bf3
+        #GistId:10307fa0baf630b07d0cbdae30119bf3
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -366,7 +366,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_create_simple_table(self):
 
         #ExStart:CreateSimpleTable
-        # GistId: 10307fa0baf630b07d0cbdae30119bf3
+        #GistId:10307fa0baf630b07d0cbdae30119bf3
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -400,7 +400,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_formatted_table(self):
 
         #ExStart:FormattedTable
-        # GistId: 10307fa0baf630b07d0cbdae30119bf3
+        #GistId:10307fa0baf630b07d0cbdae30119bf3
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -473,7 +473,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_nested_table(self):
 
         #ExStart:NestedTable
-        # GistId: 10307fa0baf630b07d0cbdae30119bf3
+        #GistId:10307fa0baf630b07d0cbdae30119bf3
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -503,7 +503,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_combine_rows(self):
 
         #ExStart:CombineRows
-        #GistId: b0735c64408bcb2c063f96f7c9d5af75
+        #GistId:b0735c64408bcb2c063f96f7c9d5af75
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         # The rows from the second table will be appended to the end of the first table.
@@ -523,7 +523,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_split_table(self):
 
         #ExStart:SplitTable
-        #GistId: 4ab56c5443822fa44f4cac1f45af32b7
+        #GistId:4ab56c5443822fa44f4cac1f45af32b7
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         first_table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -552,7 +552,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_row_format_disable_break_across_pages(self):
 
         #ExStart:RowFormatDisableBreakAcrossPages
-        #GistId: 9ceee4f7efd470ef243890104ccaf8b2
+        #GistId:9ceee4f7efd470ef243890104ccaf8b2
         doc = aw.Document(MY_DIR + "Table spanning two pages.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -567,7 +567,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_keep_table_together(self):
 
         #ExStart:KeepTableTogether
-        #GistId: 9ceee4f7efd470ef243890104ccaf8b2
+        #GistId:9ceee4f7efd470ef243890104ccaf8b2
         doc = aw.Document(MY_DIR + "Table spanning two pages.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -589,7 +589,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_check_cells_merged(self):
 
         #ExStart:CheckCellsMerged
-        #GistId: 93de23a2f74a7f2e4971ed203874c983
+        #GistId:93de23a2f74a7f2e4971ed203874c983
         doc = aw.Document(MY_DIR + "Table with merged cells.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -626,7 +626,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_vertical_merge(self):
 
         #ExStart:VerticalMerge
-        # GistId: 93de23a2f74a7f2e4971ed203874c983
+        #GistId:93de23a2f74a7f2e4971ed203874c983
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -655,7 +655,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_horizontal_merge(self):
 
         #ExStart:HorizontalMerge
-        # GistId: 93de23a2f74a7f2e4971ed203874c983
+        #GistId:93de23a2f74a7f2e4971ed203874c983
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -683,7 +683,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_merge_cell_range(self):
 
         #ExStart:MergeCellRange
-        # GistId: 93de23a2f74a7f2e4971ed203874c983
+        #GistId:93de23a2f74a7f2e4971ed203874c983
         doc = aw.Document(MY_DIR + "Table with merged cells.docx")
 
         table = doc.first_section.body.tables[0]
@@ -701,7 +701,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_convert_to_horizontally_merged_cells(self):
 
         #ExStart:ConvertToHorizontallyMergedCells
-        # GistId: 93de23a2f74a7f2e4971ed203874c983
+        #GistId:93de23a2f74a7f2e4971ed203874c983
         doc = aw.Document(MY_DIR + "Table with merged cells.docx")
 
         table = doc.first_section.body.tables[0]
@@ -710,7 +710,7 @@ class WorkingWithTables(DocsExamplesBase):
         #ExEnd:ConvertToHorizontallyMergedCells
 
     #ExStart:MergeCells
-    #GistId: 93de23a2f74a7f2e4971ed203874c983
+    #GistId:93de23a2f74a7f2e4971ed203874c983
     @staticmethod
     def merge_cells(start_cell: aw.tables.Cell, end_cell: aw.tables.Cell):
 
@@ -744,7 +744,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_repeat_rows_on_subsequent_pages(self):
 
         #ExStart:RepeatRowsOnSubsequentPages
-        #GistId: 9ceee4f7efd470ef243890104ccaf8b2
+        #GistId:9ceee4f7efd470ef243890104ccaf8b2
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -776,7 +776,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_auto_fit_page_width(self):
 
         #ExStart:AutoFitPageWidth
-        #GistId: 6548beaa03bdc6cffceae2bbf0e95a83
+        #GistId:6548beaa03bdc6cffceae2bbf0e95a83
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -799,7 +799,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_preferred_width_settings(self):
 
         #ExStart:PreferredWidthSettings
-        # GistId: 6548beaa03bdc6cffceae2bbf0e95a83
+        #GistId:6548beaa03bdc6cffceae2bbf0e95a83
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -832,12 +832,12 @@ class WorkingWithTables(DocsExamplesBase):
     def test_retrieve_preferred_width_type(self):
 
         #ExStart:RetrievePreferredWidthType
-        # GistId: 6548beaa03bdc6cffceae2bbf0e95a83
+        #GistId:6548beaa03bdc6cffceae2bbf0e95a83
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
         #ExStart:AllowAutoFit
-        # GistId: 6548beaa03bdc6cffceae2bbf0e95a83
+        #GistId:6548beaa03bdc6cffceae2bbf0e95a83
         table.allow_auto_fit = True
         #ExEnd:AllowAutoFit
 
@@ -849,7 +849,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_get_table_position(self):
 
         #ExStart:GetTablePosition
-        #GistId: dd82233d8220e813e54f6dd403e48511
+        #GistId:dd82233d8220e813e54f6dd403e48511
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -864,7 +864,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_get_floating_table_position(self):
 
         #ExStart:GetFloatingTablePosition
-        # GistId: dd82233d8220e813e54f6dd403e48511
+        #GistId:dd82233d8220e813e54f6dd403e48511
         doc = aw.Document(MY_DIR + "Table wrapped by text.docx")
 
         for table in doc.first_section.body.tables:
@@ -884,7 +884,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_floating_table_position(self):
 
         #ExStart:FloatingTablePosition
-        #GistId: d3ec21a7b56ae5a964df413b565d1bcc
+        #GistId:d3ec21a7b56ae5a964df413b565d1bcc
         doc = aw.Document(MY_DIR + "Table wrapped by text.docx")
 
         table = doc.first_section.body.tables[0]
@@ -897,7 +897,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_relative_horizontal_or_vertical_position(self):
 
         #ExStart:RelativeHorizontalOrVerticalPosition
-        #GistId: dd82233d8220e813e54f6dd403e48511
+        #GistId:dd82233d8220e813e54f6dd403e48511
         doc = aw.Document(MY_DIR + "Table wrapped by text.docx")
 
         table = doc.first_section.body.tables[0]

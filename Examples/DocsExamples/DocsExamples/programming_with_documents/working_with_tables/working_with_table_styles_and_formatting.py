@@ -5,8 +5,8 @@ from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
 
     def test_distance_between_table_surrounding_text(self):
-        #ExStart: DistanceBetweenTableSurroundingText
-        #GistId: 8df1ad0825619cab7c80b571c6e6ba99
+        #ExStart:DistanceBetweenTableSurroundingText
+        #GistId:8df1ad0825619cab7c80b571c6e6ba99
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         print("\nGet distance between table left, right, bottom, top and the surrounding text.")
@@ -21,9 +21,9 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
     def test_apply_outline_border(self):
 
         #ExStart:ApplyOutlineBorder
-        #GistId: 770bf20bd617f3cb80031a74cc6c9b73
-        #ExStart: InlineTablePosition
-        #GistId: 8df1ad0825619cab7c80b571c6e6ba99
+        #GistId:770bf20bd617f3cb80031a74cc6c9b73
+        #ExStart:InlineTablePosition
+        #GistId:8df1ad0825619cab7c80b571c6e6ba99
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -48,7 +48,7 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
     def test_build_table_with_borders(self):
 
         #ExStart:BuildTableWithBorders
-        #GistId: 770bf20bd617f3cb80031a74cc6c9b73
+        #GistId:770bf20bd617f3cb80031a74cc6c9b73
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -65,7 +65,7 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
     def test_modify_row_formatting(self):
 
         #ExStart:ModifyRowFormatting
-        #GistId: 770bf20bd617f3cb80031a74cc6c9b73
+        #GistId:770bf20bd617f3cb80031a74cc6c9b73
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -80,7 +80,7 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
     def test_apply_row_formatting(self):
 
         #ExStart:ApplyRowFormatting
-        #GistId: 770bf20bd617f3cb80031a74cc6c9b73
+        #GistId:770bf20bd617f3cb80031a74cc6c9b73
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -108,7 +108,7 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
     def test_cell_padding(self):
 
         #ExStart:CellPadding
-        #GistId: 770bf20bd617f3cb80031a74cc6c9b73
+        #GistId:770bf20bd617f3cb80031a74cc6c9b73
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -129,7 +129,7 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
         """Shows how to modify formatting of a table cell."""
 
         #ExStart:ModifyCellFormatting
-        #GistId: 770bf20bd617f3cb80031a74cc6c9b73
+        #GistId:770bf20bd617f3cb80031a74cc6c9b73
         doc = aw.Document(MY_DIR + "Tables.docx")
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
@@ -142,7 +142,7 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
     def test_format_table_and_cell_with_different_borders(self):
 
         #ExStart:FormatTableAndCellWithDifferentBorders
-        #GistId: 770bf20bd617f3cb80031a74cc6c9b73
+        #GistId:770bf20bd617f3cb80031a74cc6c9b73
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -187,7 +187,7 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
     def test_table_title_and_description(self):
 
         #ExStart:TableTitleAndDescription
-        #GistId: 458eb4fd5bd1de8b06fab4d1ef1acdc6
+        #GistId:458eb4fd5bd1de8b06fab4d1ef1acdc6
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -205,7 +205,7 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
     def test_allow_cell_spacing(self):
 
         #ExStart:AllowCellSpacing
-        #GistId: 770bf20bd617f3cb80031a74cc6c9b73
+        #GistId:770bf20bd617f3cb80031a74cc6c9b73
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -218,7 +218,7 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
     def test_build_table_with_style(self):
 
         #ExStart:BuildTableWithStyle
-        #GistId: 93b92a7e6f2f4bbfd9177dd7fcecbd8c
+        #GistId:93b92a7e6f2f4bbfd9177dd7fcecbd8c
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -264,7 +264,7 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
     def test_expand_formatting_on_cells_and_row_from_style(self):
 
         #ExStart:ExpandFormattingOnCellsAndRowFromStyle
-        #GistId: 93b92a7e6f2f4bbfd9177dd7fcecbd8c
+        #GistId:93b92a7e6f2f4bbfd9177dd7fcecbd8c
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         # Get the first cell of the first table in the document.
@@ -287,7 +287,7 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
     def test_create_table_style(self):
 
         #ExStart:CreateTableStyle
-        #GistId: 93b92a7e6f2f4bbfd9177dd7fcecbd8c
+        #GistId:93b92a7e6f2f4bbfd9177dd7fcecbd8c
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -317,7 +317,7 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
     def test_define_conditional_formatting(self):
 
         #ExStart:DefineConditionalFormatting
-        #GistId: 93b92a7e6f2f4bbfd9177dd7fcecbd8c
+        #GistId:93b92a7e6f2f4bbfd9177dd7fcecbd8c
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
