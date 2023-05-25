@@ -39,7 +39,7 @@ class WorkingWithTables(DocsExamplesBase):
         #ExEnd:InsertBlankColumn
 
     #ExStart:ColumnClass
-    #GistId:9ceee4f7efd470ef243890104ccaf8b2
+    #GistId:7e7e54ead8b97457543ea46fc6bae045
     class Column:
         """Represents a facade object for a column of a table in a Microsoft Word document."""
 
@@ -102,7 +102,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_auto_fit_table_to_contents(self):
 
         #ExStart:AutoFitTableToContents
-        #GistId:6548beaa03bdc6cffceae2bbf0e95a83
+        #GistId:770bf20bd617f3cb80031a74cc6c9b73
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -114,7 +114,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_auto_fit_table_to_fixed_column_widths(self):
 
         #ExStart:AutoFitTableToFixedColumnWidths
-        #GistId:6548beaa03bdc6cffceae2bbf0e95a83
+        #GistId:770bf20bd617f3cb80031a74cc6c9b73
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -127,7 +127,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_auto_fit_table_to_page_width(self):
 
         #ExStart:AutoFitTableToPageWidth
-        #GistId:6548beaa03bdc6cffceae2bbf0e95a83
+        #GistId:770bf20bd617f3cb80031a74cc6c9b73
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -279,7 +279,7 @@ class WorkingWithTables(DocsExamplesBase):
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         #ExStart:RetrieveTableIndex
-        #GistId:9ceee4f7efd470ef243890104ccaf8b2
+        #GistId:7e7e54ead8b97457543ea46fc6bae045
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
 
         all_tables = doc.get_child_nodes(aw.NodeType.TABLE, True)
@@ -288,14 +288,14 @@ class WorkingWithTables(DocsExamplesBase):
         print("\nTable index is " + str(table_index))
 
         #ExStart:RetrieveRowIndex
-        #GistId:9ceee4f7efd470ef243890104ccaf8b2
+        #GistId:7e7e54ead8b97457543ea46fc6bae045
         row_index = table.index_of(table.last_row)
         #ExEnd:RetrieveRowIndex
         print("\nRow index is " + str(row_index))
 
         row = table.last_row
         #ExStart:RetrieveCellIndex
-        #GistId:9ceee4f7efd470ef243890104ccaf8b2
+        #GistId:7e7e54ead8b97457543ea46fc6bae045
         cell_index = row.index_of(row.cells[4])
         #ExEnd:RetrieveCellIndex
         print("\nCell index is " + str(cell_index))
@@ -552,7 +552,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_row_format_disable_break_across_pages(self):
 
         #ExStart:RowFormatDisableBreakAcrossPages
-        #GistId:9ceee4f7efd470ef243890104ccaf8b2
+        #GistId:7e7e54ead8b97457543ea46fc6bae045
         doc = aw.Document(MY_DIR + "Table spanning two pages.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -567,7 +567,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_keep_table_together(self):
 
         #ExStart:KeepTableTogether
-        #GistId:9ceee4f7efd470ef243890104ccaf8b2
+        #GistId:7e7e54ead8b97457543ea46fc6bae045
         doc = aw.Document(MY_DIR + "Table spanning two pages.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -744,7 +744,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_repeat_rows_on_subsequent_pages(self):
 
         #ExStart:RepeatRowsOnSubsequentPages
-        #GistId:9ceee4f7efd470ef243890104ccaf8b2
+        #GistId:7e7e54ead8b97457543ea46fc6bae045
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -776,7 +776,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_auto_fit_page_width(self):
 
         #ExStart:AutoFitPageWidth
-        #GistId:6548beaa03bdc6cffceae2bbf0e95a83
+        #GistId:770bf20bd617f3cb80031a74cc6c9b73
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -799,7 +799,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_preferred_width_settings(self):
 
         #ExStart:PreferredWidthSettings
-        #GistId:6548beaa03bdc6cffceae2bbf0e95a83
+        #GistId:770bf20bd617f3cb80031a74cc6c9b73
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -832,12 +832,12 @@ class WorkingWithTables(DocsExamplesBase):
     def test_retrieve_preferred_width_type(self):
 
         #ExStart:RetrievePreferredWidthType
-        #GistId:6548beaa03bdc6cffceae2bbf0e95a83
+        #GistId:770bf20bd617f3cb80031a74cc6c9b73
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
         #ExStart:AllowAutoFit
-        #GistId:6548beaa03bdc6cffceae2bbf0e95a83
+        #GistId:770bf20bd617f3cb80031a74cc6c9b73
         table.allow_auto_fit = True
         #ExEnd:AllowAutoFit
 
@@ -849,7 +849,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_get_table_position(self):
 
         #ExStart:GetTablePosition
-        #GistId:dd82233d8220e813e54f6dd403e48511
+        #GistId:8df1ad0825619cab7c80b571c6e6ba99
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -864,7 +864,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_get_floating_table_position(self):
 
         #ExStart:GetFloatingTablePosition
-        #GistId:dd82233d8220e813e54f6dd403e48511
+        #GistId:8df1ad0825619cab7c80b571c6e6ba99
         doc = aw.Document(MY_DIR + "Table wrapped by text.docx")
 
         for table in doc.first_section.body.tables:
@@ -884,7 +884,7 @@ class WorkingWithTables(DocsExamplesBase):
     def test_floating_table_position(self):
 
         #ExStart:FloatingTablePosition
-        #GistId:d3ec21a7b56ae5a964df413b565d1bcc
+        #GistId:8df1ad0825619cab7c80b571c6e6ba99
         doc = aw.Document(MY_DIR + "Table wrapped by text.docx")
 
         table = doc.first_section.body.tables[0]
