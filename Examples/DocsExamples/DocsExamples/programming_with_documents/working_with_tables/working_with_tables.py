@@ -897,7 +897,6 @@ class WorkingWithTables(DocsExamplesBase):
     def test_relative_horizontal_or_vertical_position(self):
 
         #ExStart:RelativeHorizontalOrVerticalPosition
-        #GistId:dd82233d8220e813e54f6dd403e48511
         doc = aw.Document(MY_DIR + "Table wrapped by text.docx")
 
         table = doc.first_section.body.tables[0]
