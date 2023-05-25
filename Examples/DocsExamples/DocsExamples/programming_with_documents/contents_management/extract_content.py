@@ -243,7 +243,7 @@ class ExtractContent(DocsExamplesBase):
     def test_extract_print_text(self):
 
         #ExStart:ExtractText
-        #GistId:458eb4fd5bd1de8b06fab4d1ef1acdc6
+        #GistId:a47401178cba165f62701f6c94e8a4ec
         doc = aw.Document(MY_DIR + "Tables.docx")
 
         table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
@@ -256,7 +256,7 @@ class ExtractContent(DocsExamplesBase):
         #ExEnd:ExtractText
 
         #ExStart:PrintTextRangeRowAndTable
-        #GistId:458eb4fd5bd1de8b06fab4d1ef1acdc6
+        #GistId:a47401178cba165f62701f6c94e8a4ec
         print("\nContents of the row: ")
         print(table.rows[1].range.text)
 
