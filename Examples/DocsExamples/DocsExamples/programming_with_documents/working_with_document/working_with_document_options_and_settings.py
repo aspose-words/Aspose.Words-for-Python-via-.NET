@@ -125,9 +125,10 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
             print("The document default language was set to another than Russian language originally, so it is not overridden.")
         #ExEnd:SetRussianAsDefaultEditingLanguage
 
-    def test_set_page_setup_and_section_formatting(self):
+    def test_page_setup_and_section_formatting(self):
 
-        #ExStart:DocumentBuilderSetPageSetupAndSectionFormatting
+        #ExStart:PageSetupAndSectionFormatting
+        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -135,8 +136,8 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
         builder.page_setup.left_margin = 50
         builder.page_setup.paper_size = aw.PaperSize.PAPER_10X14
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.set_page_setup_and_section_formatting.docx")
-        #ExEnd:DocumentBuilderSetPageSetupAndSectionFormatting
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.page_setup_and_section_formatting.docx")
+        #ExEnd:PageSetupAndSectionFormatting
 
     def test_page_border_properties(self):
         #ExStart:PageBorderProperties
@@ -153,13 +154,14 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
         border.color = Color.blue
         border.distance_from_text = 0
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.PageBorderProperties.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.page_border_properties.docx")
         #ExEnd: PageBorderProperties
 
 
-    def test_line_grid_section_layoutMode(self):
+    def test_line_grid_section_layout_mode(self):
 
         #ExStart:LineGridSectionLayoutMode
+        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -172,7 +174,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
             builder.write(
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ")
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.LinesPerPage.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.line_grid_section_layout_mode.docx")
         #ExEnd:LineGridSectionLayoutMode
 
 

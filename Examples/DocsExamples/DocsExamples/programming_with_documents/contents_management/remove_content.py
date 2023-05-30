@@ -38,6 +38,7 @@ class RemoveContent(DocsExamplesBase):
     #ExEnd:RemovePageBreaks
 
     #ExStart:RemoveSectionBreaks
+    #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
     @staticmethod
     def remove_section_breaks(doc: aw.Document):
 

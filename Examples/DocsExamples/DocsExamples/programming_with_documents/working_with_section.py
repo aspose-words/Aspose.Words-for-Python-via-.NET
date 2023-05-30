@@ -49,6 +49,7 @@ class WorkingWithSection(DocsExamplesBase):
     def test_append_section_content(self):
 
         #ExStart:AppendSectionContent
+        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -72,6 +73,7 @@ class WorkingWithSection(DocsExamplesBase):
     def test_clone_section(self):
 
         #ExStart:CloneSection
+        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
         doc = aw.Document(MY_DIR + "Document.docx")
         clone_section = doc.sections[0].clone()
         #ExEnd:CloneSection
@@ -79,6 +81,7 @@ class WorkingWithSection(DocsExamplesBase):
     def test_copy_section(self):
 
         #ExStart:CopySection
+        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
         src_doc = aw.Document(MY_DIR + "Document.docx")
         dst_doc = aw.Document()
 
@@ -92,11 +95,23 @@ class WorkingWithSection(DocsExamplesBase):
     def test_delete_header_footer_content(self):
 
         #ExStart:DeleteHeaderFooterContent
+        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
         doc = aw.Document(MY_DIR + "Document.docx")
 
         section = doc.sections[0]
         section.clear_headers_footers()
         #ExEnd:DeleteHeaderFooterContent
+
+    def delete_header_footer_shapes(self):
+        
+        #ExStart:DeleteHeaderFooterShapes
+        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        doc = aw.Document(MY_DIR + "Document.docx");
+
+        section = doc.Sections[0];
+        section.delete_header_footer_shapes();
+        #ExEnd:DeleteHeaderFooterShapes
+        
 
     def test_delete_section_content(self):
 
@@ -110,6 +125,7 @@ class WorkingWithSection(DocsExamplesBase):
     def test_modify_page_setup_in_all_sections(self):
 
         #ExStart:ModifyPageSetupInAllSections
+        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -147,6 +163,7 @@ class WorkingWithSection(DocsExamplesBase):
 
     def test_section_child_nodes(self):
         #ExStart:SectionChildNodes
+        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -175,6 +192,7 @@ class WorkingWithSection(DocsExamplesBase):
 
     def test_ensure_minimum(self):
         #ExStart:EnsureMinimum
+        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
         doc = aw.Document()
 
         # If we add a new section like this, it will not have a body, or any other child nodes.
@@ -185,3 +203,30 @@ class WorkingWithSection(DocsExamplesBase):
 
         doc.sections[0].body.first_paragraph.append_child(aw.Run(doc, "Hello world!"))
         # ExEnd: EnsureMinimum
+
+#ExStart:InsertSectionBreaks
+#GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+    def test_insert_section_breaks(self):
+        doc = aw.Document(MY_DIR + "Footnotes and endnotes.docx");
+        builder = aw.DocumentBuilder(doc);
+
+        paras = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True);        
+        topicStartParas = []
+
+        for para in paras:        
+            style = para.paragraph_format.style_identifier;
+            if style == aw.StyleIdentifier.HEADING1:
+                topicStartParas.Add(para);
+        
+        for para in topicStartParas:            
+            section = para.ParentSection;
+
+            # Insert section break if the paragraph is not at the beginning of a section already.
+            if para != section.body.first_paragraph:                
+                builder.MoveTo(para.first_child);
+                builder.InsertBreak(aw.BreakType.SECTION_BREAK_NEW_PAGE);
+
+                # This is the paragraph that was inserted at the end of the now old section.
+                # We don't really need the extra paragraph, we just needed the section.
+                section.body.last_paragraph.remove();
+#ExEnd:InsertSectionBreaks
