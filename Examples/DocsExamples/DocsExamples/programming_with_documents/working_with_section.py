@@ -49,7 +49,7 @@ class WorkingWithSection(DocsExamplesBase):
     def test_append_section_content(self):
 
         #ExStart:AppendSectionContent
-        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        #GistId:000cda3bfe9679c09bfd03617bd1f9e8
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -73,7 +73,7 @@ class WorkingWithSection(DocsExamplesBase):
     def test_clone_section(self):
 
         #ExStart:CloneSection
-        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        #GistId:000cda3bfe9679c09bfd03617bd1f9e8
         doc = aw.Document(MY_DIR + "Document.docx")
         clone_section = doc.sections[0].clone()
         #ExEnd:CloneSection
@@ -81,7 +81,7 @@ class WorkingWithSection(DocsExamplesBase):
     def test_copy_section(self):
 
         #ExStart:CopySection
-        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        #GistId:000cda3bfe9679c09bfd03617bd1f9e8
         src_doc = aw.Document(MY_DIR + "Document.docx")
         dst_doc = aw.Document()
 
@@ -95,7 +95,7 @@ class WorkingWithSection(DocsExamplesBase):
     def test_delete_header_footer_content(self):
 
         #ExStart:DeleteHeaderFooterContent
-        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        #GistId:000cda3bfe9679c09bfd03617bd1f9e8
         doc = aw.Document(MY_DIR + "Document.docx")
 
         section = doc.sections[0]
@@ -105,7 +105,7 @@ class WorkingWithSection(DocsExamplesBase):
     def delete_header_footer_shapes(self):
         
         #ExStart:DeleteHeaderFooterShapes
-        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        #GistId:000cda3bfe9679c09bfd03617bd1f9e8
         doc = aw.Document(MY_DIR + "Document.docx");
 
         section = doc.Sections[0];
@@ -125,7 +125,7 @@ class WorkingWithSection(DocsExamplesBase):
     def test_modify_page_setup_in_all_sections(self):
 
         #ExStart:ModifyPageSetupInAllSections
-        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        #GistId:000cda3bfe9679c09bfd03617bd1f9e8
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -163,7 +163,7 @@ class WorkingWithSection(DocsExamplesBase):
 
     def test_section_child_nodes(self):
         #ExStart:SectionChildNodes
-        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        #GistId:000cda3bfe9679c09bfd03617bd1f9e8
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -192,7 +192,7 @@ class WorkingWithSection(DocsExamplesBase):
 
     def test_ensure_minimum(self):
         #ExStart:EnsureMinimum
-        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        #GistId:000cda3bfe9679c09bfd03617bd1f9e8
         doc = aw.Document()
 
         # If we add a new section like this, it will not have a body, or any other child nodes.
@@ -205,7 +205,7 @@ class WorkingWithSection(DocsExamplesBase):
         # ExEnd: EnsureMinimum
 
 #ExStart:InsertSectionBreaks
-#GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+#GistId:000cda3bfe9679c09bfd03617bd1f9e8
     def test_insert_section_breaks(self):
         doc = aw.Document(MY_DIR + "Footnotes and endnotes.docx");
         builder = aw.DocumentBuilder(doc);

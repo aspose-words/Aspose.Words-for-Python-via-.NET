@@ -28,3 +28,6 @@
 [submodule "Gists/Specify_table_position_in_Python"]
 	path = Gists/Specify_table_position_in_Python
 	url = https://gist.github.com/aspose-words-gists/1768d04dbe9222138611d5ad4047beef
+[submodule "Gists/Work_with_sections_Python"]
+	path = Gists/Work_with_sections_Python
+	url = https://gist.github.com/aspose-words-gists/000cda3bfe9679c09bfd03617bd1f9e8
