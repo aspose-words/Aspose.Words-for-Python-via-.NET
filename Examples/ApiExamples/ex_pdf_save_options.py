@@ -7,6 +7,7 @@
 import io
 import os
 import unittest
+import sys
 from datetime import datetime, timedelta, timezone
 
 import aspose.words as aw
@@ -450,6 +451,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                 #    self.assertEqual(aspose.pdf.PdfFormat.PDF_A_4, pdf_document.pdf_format)
                 #    self.assertEqual("2.0", pdf_document.version)
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_text_compression(self):
 
         for pdf_text_compression in (aw.saving.PdfTextCompression.NONE,
@@ -746,6 +748,7 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                 #self.assertEqual(result, action.uri)
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_open_hyperlinks_in_new_window(self):
 
         for open_hyperlinks_in_new_window in (False, True):
@@ -964,6 +967,7 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                 #self.assertAlmostEqual(1.589 if scale_wmf_fonts else 5.045, text_fragment_rectangle.width, delta=0.001)
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_embed_full_fonts(self):
 
         for embed_full_fonts in (False, True):
@@ -1022,6 +1026,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                 #self.assertEqual("Arvo", pdf_doc_fonts[1].font_name)
                 #self.assertNotEqual(embed_full_fonts, pdf_doc_fonts[1].is_subset)
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_embed_windows_fonts(self):
 
         for pdf_font_embedding_mode in (aw.saving.PdfFontEmbeddingMode.EMBED_ALL,
@@ -1080,6 +1085,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                 #    pdf_font_embedding_mode in (aw.saving.PdfFontEmbeddingMode.EMBED_ALL, aw.PdfFontEmbeddingMode.EMBED_NONSTANDARD),
                 #    pdf_doc_fonts[1].is_embedded)
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_embed_core_fonts(self):
 
         for use_core_fonts in (False, True):

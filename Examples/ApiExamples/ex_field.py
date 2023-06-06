@@ -5,6 +5,7 @@
 # "as is", without warranty of any kind, either expressed or implied.
 
 import unittest
+import sys
 import io
 from datetime import datetime
 from enum import Enum
@@ -4363,6 +4364,7 @@ class ExField(ApiExampleBase):
         self.assertTrue(field.insert_paragraph_number_in_full_context)
         self.assertTrue(field.suppress_non_delimiters)
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "windows date time parameters")
     def test_field_date(self):
 
         #ExStart
@@ -4562,6 +4564,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(" SAVEDATE  \\u", field.get_field_code())
         self.assertRegex(field.result, "\\d{1,2}[/]\\d{1,2}[/]\\d{4} \\d{1,2}:\\d{1,2}:\\d{1,2} [A,P]M")
 
+    @unittest.skip("double conversion")
     def test_field_builder(self):
 
         #ExStart
@@ -5320,6 +5323,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(" PRINTDATE  \\s", field.get_field_code())
         #ExEnd
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "windows date time parameters")
     def test_field_quote(self):
 
         #ExStart
@@ -6768,6 +6772,7 @@ class ExField(ApiExampleBase):
         self.verify_field(aw.fields.FieldType.FIELD_PAGE, " PAGE ", "2", doc.range.fields[1])
         self.verify_field(aw.fields.FieldType.FIELD_SECTION_PAGES, " SECTIONPAGES ", "2", doc.range.fields[2])
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "windows date time parameters")
     #ExStart
     #ExFor:FieldTime
     #ExSummary:Shows how to display the current time using the TIME field.

@@ -7,6 +7,8 @@
 import io
 import platform
 import xml.etree.ElementTree as ET
+import sys
+import unittest
 
 import aspose.words as aw
 
@@ -826,6 +828,7 @@ class ExFontSettings(ApiExampleBase):
 
         self.assertEqual("Courier New", default_font_substitution_rule.default_font_name)
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_font_config_substitution(self):
 
         #ExStart

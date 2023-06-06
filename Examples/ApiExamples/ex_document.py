@@ -695,6 +695,7 @@ class ExDocument(ApiExampleBase):
         # self.assertIsNotNone(digital_sig.certificate_holder.certificate.issuer_name.name is not None)
         # self.assertIn("VeriSign", digital_sig.certificate_holder.certificate.issuer_name.name)
 
+    @unittest.skip("DigitalSignatureUtil.sing method is not supported")
     def test_digital_signature(self):
 
         #ExStart

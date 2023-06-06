@@ -7,6 +7,8 @@
 import os
 import glob
 from datetime import datetime
+import unittest
+import sys
 
 import aspose.words as aw
 
@@ -28,6 +30,7 @@ class ExFile(ApiExampleBase):
 
         #ExEnd
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "Encoding. Requires Windows")
     def test_detect_encoding(self):
 
         #ExStart

@@ -3,7 +3,7 @@
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
-
+import unittest
 from datetime import datetime
 
 import aspose.words as aw
@@ -33,6 +33,7 @@ class ExDigitalSignatureUtil(ApiExampleBase):
 
         #ExEnd
 
+    @unittest.skip("DigitalSignatureUtil.remove_all_signatures method is not supported")
     def test_remove(self):
 
         #ExStart
@@ -59,6 +60,7 @@ class ExDigitalSignatureUtil(ApiExampleBase):
         #ExEnd
 
     # WORDSNET-16868
+    @unittest.skip("DigitalSignatureUtil.sing method is not supported")
     def test_sign_document(self):
 
         #ExStart

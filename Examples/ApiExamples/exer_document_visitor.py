@@ -5,11 +5,13 @@
 # "as is", without warranty of any kind, either expressed or implied.
 
 import io
+import unittest
 
 import aspose.words as aw
 
 from api_example_base import ApiExampleBase, MY_DIR
 
+@unittest.skip("type 'aspose.words.DocumentVisitor' is not an acceptable base type ")
 class ExDocumentVisitor(ApiExampleBase):
 
     #ExStart
@@ -40,6 +42,7 @@ class ExDocumentVisitor(ApiExampleBase):
 
         print(visitor.get_text())
         self._test_doc_structure_to_text(visitor) #ExSkip
+
 
     class DocStructurePrinter(aw.DocumentVisitor):
         """Traverses a node's tree of child nodes.

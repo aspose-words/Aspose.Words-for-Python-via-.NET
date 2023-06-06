@@ -6,6 +6,7 @@
 
 import datetime
 import os
+import unittest
 
 import aspose.words as aw
 

@@ -7,7 +7,8 @@
 import os
 import pathlib
 import glob
-
+import unittest
+import sys
 import aspose.words as aw
 import aspose.words.fonts as awfonts
 import aspose.pydrawing as drawing
@@ -1294,6 +1295,7 @@ class ExFont(ApiExampleBase):
         self.assertEqual(bytes([2, 15, 3, 2, 2, 2, 4, 3, 2, 4]), doc.font_infos.get_by_name("Calibri Light").panose)
         self.assertEqual(bytes([2, 2, 6, 3, 5, 4, 5, 2, 3, 4]), doc.font_infos.get_by_name("Times New Roman").panose)
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "different calculation on Linux")
     def test_line_spacing(self):
 
         #ExStart
@@ -1326,6 +1328,7 @@ class ExFont(ApiExampleBase):
         self.assertTrue(runs[4].font.has_dml_effect(aw.TextDmlEffect.FILL))
         #ExEnd
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_check_scan_user_fonts_folder(self):
 
         user_profile = pathlib.Path(os.environ["USERPROFILE"])

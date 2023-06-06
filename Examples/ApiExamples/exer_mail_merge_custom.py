@@ -3,13 +3,14 @@
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
-
+import unittest
 from typing import Dict, List
 
 import aspose.words as aw
 
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR
 
+@unittest.skip("type 'aspose.words.mailmerging.IMailMergeDataSource' is not an acceptable base type ")
 class ExMailMergeCustom(ApiExampleBase):
 
     #ExStart

@@ -12,6 +12,8 @@ from typing import List, Optional
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
+import sys
+import unittest
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, GOLDS_DIR
 from document_helper import DocumentHelper
@@ -61,6 +63,7 @@ class ExReportingEngine(ApiExampleBase):
 
         self.assertEqual("A : ii, 200th, FIRST, Two, C8, - 200 -\f", doc.get_text())
 
+    @unittest.skip("DataSource not supported")
     def test_data_table(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Data table.docx")
@@ -101,6 +104,7 @@ class ExReportingEngine(ApiExampleBase):
 
         self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.restarting_list_numbering_dynamically.docx", GOLDS_DIR + "ReportingEngine.RestartingListNumberingDynamically Gold.docx"))
 
+    @unittest.skip("DataSource not supported")
     def test_restarting_list_numbering_dynamically_while_inserting_document_dynamically(self):
 
         template = DocumentHelper.create_simple_document("<<doc [src.Document] -build>>")
@@ -113,6 +117,7 @@ class ExReportingEngine(ApiExampleBase):
 
         self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.restarting_list_numbering_dynamically_while_inserting_document_dynamically.docx", GOLDS_DIR + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDynamically Gold.docx"))
 
+    @unittest.skip("DataSource not supported")
     def test_restarting_list_numbering_dynamically_while_multiple_insertions_document_dynamically(self):
 
         main_template = DocumentHelper.create_simple_document("<<doc [src] -build>>")
@@ -150,6 +155,7 @@ class ExReportingEngine(ApiExampleBase):
 
         self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.bubble_chart.docx", GOLDS_DIR + "ReportingEngine.TestBubbleChart Gold.docx"))
 
+    @unittest.skip("DataSource not supported")
     def test_set_chart_series_colors_dynamically(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Chart series color.docx")
@@ -160,6 +166,7 @@ class ExReportingEngine(ApiExampleBase):
 
         self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.set_chart_series_color_dynamically.docx", GOLDS_DIR + "ReportingEngine.SetChartSeriesColorDynamically Gold.docx"))
 
+    @unittest.skip("DataSource not supported")
     def test_set_point_colors_dynamically(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Point color.docx")
@@ -178,6 +185,7 @@ class ExReportingEngine(ApiExampleBase):
 
         self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.set_point_color_dynamically.docx", GOLDS_DIR + "ReportingEngine.SetPointColorDynamically Gold.docx"))
 
+    @unittest.skip("DataSource not supported")
     def test_conditional_expression_for_leave_chart_series(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Chart series.docx")
@@ -189,6 +197,7 @@ class ExReportingEngine(ApiExampleBase):
 
         self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.conditional_expression_for_leave_chart_series.docx", GOLDS_DIR + "ReportingEngine.TestLeaveChartSeries Gold.docx"))
 
+    @unittest.skip("DataSource not supported")
     def test_conditional_expression_for_remove_chart_series(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Chart series.docx")
@@ -230,6 +239,7 @@ class ExReportingEngine(ApiExampleBase):
 
         self.assertEqual("You have chosen no items.\f", doc.get_text())
 
+    @unittest.skip("DataSource not supported")
     def test_extension_methods(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Extension methods.docx")
@@ -240,6 +250,7 @@ class ExReportingEngine(ApiExampleBase):
 
         self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.extension_methods.docx", GOLDS_DIR + "ReportingEngine.ExtensionMethods Gold.docx"))
 
+    @unittest.skip("DataSource not supported")
     def test_operators(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Operators.docx")
@@ -274,6 +285,7 @@ class ExReportingEngine(ApiExampleBase):
 
         self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + "ReportingEngine.contextual_object_member_access.docx", GOLDS_DIR + "ReportingEngine.ContextualObjectMemberAccess Gold.docx"))
 
+    @unittest.skip("DataSource not supported")
     def test_insert_document_dynamically_with_additional_template_checking(self):
 
         template = DocumentHelper.create_simple_document("<<doc [src.Document] -build>>")
@@ -290,6 +302,7 @@ class ExReportingEngine(ApiExampleBase):
                 GOLDS_DIR + "ReportingEngine.InsertDocumentDynamicallyWithAdditionalTemplateChecking Gold.docx"),
             "Fail inserting document by document")
 
+    @unittest.skip("DataSource not supported")
     def test_insert_document_dynamically_with_styles(self):
 
         template = DocumentHelper.create_simple_document("<<doc [src.Document] -sourceStyles>>")
@@ -303,6 +316,7 @@ class ExReportingEngine(ApiExampleBase):
             ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_with_styles.docx",
             GOLDS_DIR + "ReportingEngine.insert_document_dynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by document")
 
+    @unittest.skip("DataSource not supported")
     def test_insert_document_dynamically_trim_last_paragraph(self):
         template = DocumentHelper.create_simple_document("<<doc [src.Document] -inline>>")
 
@@ -314,6 +328,7 @@ class ExReportingEngine(ApiExampleBase):
         template = aw.Document(ARTIFACTS_DIR + "ReportingEngine.InsertDocumentDynamically.docx")
         self.assertEqual(1, template.first_section.body.paragraphs.count)
 
+    @unittest.skip("DataSource not supported")
     def test_insert_document_dynamically_by_stream(self):
 
         template = DocumentHelper.create_simple_document("<<doc [src.DocumentStream]>>")
@@ -328,6 +343,7 @@ class ExReportingEngine(ApiExampleBase):
             ARTIFACTS_DIR + "ReportingEngine.insert_document_dynamically_by_stream.docx",
             GOLDS_DIR + "ReportingEngine.insert_document_dynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by stream")
 
+    @unittest.skip("DataSource not supported")
     def test_insert_document_dynamically_by_bytes(self):
 
         template = DocumentHelper.create_simple_document("<<doc [src.DocumentBytes]>>")
@@ -384,6 +400,7 @@ class ExReportingEngine(ApiExampleBase):
             ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically.docx",
             GOLDS_DIR + "ReportingEngine.insert_image_dynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes")
 
+    @unittest.skip("DataSource not supported")
     def test_insert_image_dynamically_by_stream(self):
 
         template = DocumentHelper.create_template_document_with_draw_objects("<<image [src.ImageStream]>>", aw.drawing.ShapeType.TEXT_BOX)
@@ -397,6 +414,7 @@ class ExReportingEngine(ApiExampleBase):
                 ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_stream.docx",
                 GOLDS_DIR + "ReportingEngine.insert_image_dynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes")
 
+    @unittest.skip("DataSource not supported")
     def test_insert_image_dynamically_by_bytes(self):
 
         template = DocumentHelper.create_template_document_with_draw_objects("<<image [src.ImageBytes]>>", aw.drawing.ShapeType.TEXT_BOX)
@@ -503,6 +521,7 @@ class ExReportingEngine(ApiExampleBase):
         with self.assertRaises(Exception):
             engine.build_report(doc, "")
 
+    @unittest.skip("DataSource not supported")
     def test_work_with_known_types(self):
 
         doc = aw.Document()
@@ -564,6 +583,7 @@ class ExReportingEngine(ApiExampleBase):
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.table_row_conditional_blocks.docx")
 
+    @unittest.skip("DataSource not supported")
     def test_if_greedy(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - If greedy.docx")
@@ -579,6 +599,7 @@ class ExReportingEngine(ApiExampleBase):
         def __init__(self, list: List[str]):
             self.List = list
 
+    @unittest.skip("DataSource not supported")
     def test_stretch_imagefit_height(self):
 
         doc = DocumentHelper.create_template_document_with_draw_objects(
@@ -602,6 +623,7 @@ class ExReportingEngine(ApiExampleBase):
                 self.assertNotEqual(346.35, shape.height)
                 self.assertEqual(431.5, shape.width)
 
+    @unittest.skip("DataSource not supported")
     def test_stretch_imagefit_width(self):
 
         doc = DocumentHelper.create_template_document_with_draw_objects(
@@ -624,6 +646,7 @@ class ExReportingEngine(ApiExampleBase):
                 self.assertNotEqual(431.5, shape.width)
                 self.assertEqual(346.35, shape.height)
 
+    @unittest.skip("DataSource not supported")
     def test_stretch_imagefit_size(self):
 
         doc = DocumentHelper.create_template_document_with_draw_objects(
@@ -646,6 +669,7 @@ class ExReportingEngine(ApiExampleBase):
                 self.assertNotEqual(346.35, shape.height)
                 self.assertNotEqual(431.5, shape.width)
 
+    @unittest.skip("DataSource not supported")
     def test_stretch_imagefit_size_lim(self):
 
         doc = DocumentHelper.create_template_document_with_draw_objects(
@@ -716,6 +740,7 @@ class ExReportingEngine(ApiExampleBase):
                     builder.document.first_section.body.paragraphs[0].get_text().rstrip(),
                     result)
 
+    @unittest.skip("DataSource not supported")
     def test_set_background_color_dynamically(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - Background color.docx")
@@ -733,7 +758,8 @@ class ExReportingEngine(ApiExampleBase):
         self.assertTrue(DocumentHelper.compare_docs(
             ARTIFACTS_DIR + "ReportingEngine.set_background_color_dynamically.docx",
             GOLDS_DIR + "ReportingEngine.SetBackgroundColorDynamically Gold.docx"))
-    
+
+    @unittest.skip("DataSource not supported")
     def test_set_text_color_dynamically(self):
         doc = aw.Document(MY_DIR + "Reporting engine template - Text color.docx")
 
@@ -848,6 +874,7 @@ class ExReportingEngine(ApiExampleBase):
             ARTIFACTS_DIR + "ReportingEngine.xml_data_with_nested_elements.docx",
             GOLDS_DIR + "ReportingEngine.DataSourceWithNestedElements Gold.docx"))
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_json_data_string(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - JSON data destination.docx")
@@ -875,6 +902,7 @@ class ExReportingEngine(ApiExampleBase):
         with self.assertRaises(Exception):
             self.build_report(doc, data_source, "persons")
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_json_data_stream(self):
 
         doc = aw.Document(MY_DIR + "Reporting engine template - JSON data destination.docx")

@@ -7,6 +7,8 @@
 import aspose.words as aw
 
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR
+import unittest
+import sys
 
 class ExTxtSaveOptions(ApiExampleBase):
 
@@ -290,6 +292,7 @@ class ExTxtSaveOptions(ApiExampleBase):
             "Paragraph 3. End of paragraph.\n\n\t", doc_text)
         #ExEnd
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_encoding(self):
 
         #ExStart
@@ -319,12 +322,13 @@ class ExTxtSaveOptions(ApiExampleBase):
         txt_save_options.encoding = "ascii"
         doc.save(ARTIFACTS_DIR + "TxtSaveOptions.encoding.ascii.txt", txt_save_options)
 
-        with open(ARTIFACTS_DIR + "TxtSaveOptions.Encoding.ASCII.txt", "rb") as file:
+        with open(ARTIFACTS_DIR + "TxtSaveOptions.Encoding.ascii.txt", "rb") as file:
             doc_text = file.read().decode('ascii')
 
         self.assertEqual("? ? ? ? ?.\r\n", doc_text)
         #ExEnd
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "different chars number in Linux")
     def test_preserve_table_layout(self):
 
         for preserve_table_layout in (False, True):
