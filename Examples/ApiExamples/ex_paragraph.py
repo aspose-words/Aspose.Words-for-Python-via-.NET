@@ -8,6 +8,8 @@ from datetime import datetime, date, timedelta
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
+import sys
+import unittest
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 from document_helper import DocumentHelper
@@ -67,6 +69,7 @@ class ExParagraph(ApiExampleBase):
         self.assertEqual("Arial", run_font.name)
         self.assertEqual(aw.Underline.DASH, run_font.underline)
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "windows date time parameters")
     def test_append_field(self):
 
         #ExStart
@@ -158,6 +161,7 @@ class ExParagraph(ApiExampleBase):
         self.assertEqual("\u0013 AUTHOR \u0014Test Author\u0015Hello World!\r",
             DocumentHelper.get_paragraph_text(doc, 1))
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "windows date time parameters")
     def test_insert_field_after_text_in_paragraph(self):
 
         today = date.today().strftime("%d/%m/%Y").lstrip('0')

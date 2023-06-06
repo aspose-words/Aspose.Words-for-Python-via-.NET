@@ -8,6 +8,8 @@ import datetime
 import glob
 import os
 from typing import List
+import sys
+import unittest
 
 import aspose.words as aw
 
@@ -120,6 +122,7 @@ class ExMarkdownSaveOptions(ApiExampleBase):
     #
     ##ExEnd
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "Windows encoding")
     def test_export_images_as_base64(self):
         for export_images_as_base64 in (True, False):
             with self.subTest(export_images_as_base64=export_images_as_base64):

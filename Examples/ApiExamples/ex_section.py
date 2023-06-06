@@ -4,9 +4,11 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 
+
 import aspose.words as aw
 import aspose.pydrawing as drawing
 import locale
+import unittest
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
 from document_helper import DocumentHelper
@@ -405,7 +407,7 @@ class ExSection(ApiExampleBase):
 
         # Create a primary footer with an image.
         builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_PRIMARY)
-        builder.insert_image(IMAGE_DIR + "Logo Icon.ico")
+        builder.insert_image(IMAGE_DIR + "Logo icon.ico")
 
         self.assertEqual(1, doc.first_section.headers_footers.header_primary.get_child_nodes(aw.NodeType.SHAPE, True).count)
         self.assertEqual(1, doc.first_section.headers_footers.footer_primary.get_child_nodes(aw.NodeType.SHAPE, True).count)
@@ -457,6 +459,7 @@ class ExSection(ApiExampleBase):
 
         doc.save(ARTIFACTS_DIR + "Section.modify_page_setup_in_all_sections.doc")
 
+    @unittest.skip("'CultureInfo' is not defined ")
     def test_culture_info_page_setup_defaults(self):
 
         Thread.current_thread.current_culture = CultureInfo("en-us")

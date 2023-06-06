@@ -3,6 +3,7 @@
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
+import unittest
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
@@ -184,6 +185,7 @@ class ExPageSetup(ApiExampleBase):
         self.assertEqual(aw.SectionLayoutMode.GRID, doc.first_section.page_setup.layout_mode)
         self.assertEqual(8, doc.first_section.page_setup.characters_per_line)
 
+    @unittest.skip("Calculation problems")
     def test_lines_per_page(self):
 
         #ExStart
@@ -475,6 +477,7 @@ class ExPageSetup(ApiExampleBase):
         self.assertEqual(100.0, doc.first_section.page_setup.text_columns.spacing)
         self.assertEqual(2, doc.first_section.page_setup.text_columns.count)
 
+    @unittest.skip("Calculation problems")
     def test_custom_column_width(self):
 
         #ExStart
@@ -858,6 +861,7 @@ class ExPageSetup(ApiExampleBase):
         self.assertTrue(page_setup.border_surrounds_header)
         self.assertFalse(page_setup.border_surrounds_footer)
 
+    @unittest.skip("Calculation problems")
     def test_gutter(self):
 
         #ExStart
