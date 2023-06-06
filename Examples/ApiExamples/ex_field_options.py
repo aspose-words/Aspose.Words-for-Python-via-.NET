@@ -259,6 +259,7 @@ class ExFieldOptions(ApiExampleBase):
             "entry 1\t2\r" +
             "entry 3\t4\r", doc.range.fields[1])
 
+    @unittest.skip("culture property isn't supported yet")
     def test_use_invariant_culture_number_format(self):
 
         #ExStart

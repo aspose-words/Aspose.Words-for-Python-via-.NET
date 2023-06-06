@@ -1,6 +1,6 @@
 import io
 import unittest
-
+import sys
 import aspose.words as aw
 import aspose.pydrawing as drawing
 
@@ -138,6 +138,7 @@ class BaseConversions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "BaseConversions.pdf_to_docx.docx")
         #ExEnd:PdfToDocx
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_images_to_pdf(self):
 
         #ExStart:ImageToPdf

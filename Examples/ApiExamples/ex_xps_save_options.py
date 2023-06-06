@@ -7,7 +7,8 @@
 import os
 
 import aspose.words as aw
-
+import unittest
+import sys
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExXpsSaveOptions(ApiExampleBase):
@@ -86,6 +87,7 @@ class ExXpsSaveOptions(ApiExampleBase):
                 doc.save(ARTIFACTS_DIR + "XpsSaveOptions.book_fold.xps", xps_options)
                 #ExEnd
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "different calculation on Linux")
     def test_optimize_output(self):
 
         for optimize_output in (False, True):

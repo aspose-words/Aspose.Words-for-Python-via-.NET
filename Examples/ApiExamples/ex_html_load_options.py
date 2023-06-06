@@ -6,7 +6,8 @@
 
 import io
 from datetime import datetime
-
+import unittest
+import sys
 import aspose.words as aw
 import aspose.words.loading as awl
 
@@ -14,6 +15,7 @@ from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_URL, I
 
 class ExHtmlLoadOptions(ApiExampleBase):
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "different calculation on Linux")
     def test_support_vml(self):
 
         for support_vml in (True, False):

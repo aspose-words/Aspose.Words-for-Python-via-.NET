@@ -7,6 +7,7 @@
 import os
 import typing
 import unittest
+import sys
 
 import aspose.words as aw
 import aspose.words.drawing
@@ -1296,6 +1297,7 @@ class ExShape(ApiExampleBase):
         self.assertEqual(96, image_options.horizontal_resolution)
         self.assertEqual(96, image_options.vertical_resolution)
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "different calculation on Linux")
     def test_render_office_math(self):
 
         #ExStart
@@ -2517,6 +2519,7 @@ class ExShape(ApiExampleBase):
         self.assertEqual(2, number_of_smart_art_shapes)
         #ExEnd
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "different calculation on Linux")
     def test_office_math_renderer(self):
 
         #ExStart

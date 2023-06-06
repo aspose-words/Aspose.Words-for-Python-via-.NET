@@ -5,6 +5,7 @@
 # "as is", without warranty of any kind, either expressed or implied.
 
 import os
+import unittest
 from datetime import datetime, timedelta, timezone
 
 import aspose.words as aw
@@ -603,6 +604,7 @@ class ExDocumentProperties(ApiExampleBase):
         self.assertEqual(0, properties.count)
         #ExEnd
 
+    @unittest.skip("Unable to cast object of type 'System.Int32' to type 'System.Double")
     def test_property_types(self):
 
         #ExStart

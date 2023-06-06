@@ -1,7 +1,8 @@
 from datetime import date, datetime
 import locale
 import re
-
+import sys
+import unittest
 import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
@@ -463,6 +464,7 @@ class WorkingWithFields(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.convert_fields_in_body.docx")
         #ExEnd:ConvertFieldsInBody
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_change_locale(self):
 
         #ExStart:ChangeLocale

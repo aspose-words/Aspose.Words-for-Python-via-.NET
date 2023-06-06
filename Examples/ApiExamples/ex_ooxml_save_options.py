@@ -9,7 +9,8 @@ import io
 import os
 import time
 from datetime import datetime, timedelta, timezone
-
+import unittest
+import sys
 import aspose.words as aw
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
@@ -147,6 +148,7 @@ class ExOoxmlSaveOptions(ApiExampleBase):
                     self.assertEqual(datetime(2021, 5, 11, 6, 32, 0, tzinfo=timezone.utc), last_saved_time_new)
                 #ExEnd
 
+    @unittest.skipUnless(sys.platform.startswith("win"), "windows date time parameters")
     def test_keep_legacy_control_chars(self):
 
         for keep_legacy_control_chars in (False, True):

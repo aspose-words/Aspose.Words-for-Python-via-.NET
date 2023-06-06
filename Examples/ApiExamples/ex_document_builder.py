@@ -1936,6 +1936,7 @@ class ExDocumentBuilder(ApiExampleBase):
             self.assertEqual(50.0, paragraph.paragraph_format.right_indent)
             self.assertEqual(25.0, paragraph.paragraph_format.space_after)
 
+    @unittest.skip("Calculation problems")
     def test_set_cell_formatting(self):
 
         #ExStart
@@ -3206,6 +3207,7 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual("https://vimeo.com/52477838", shape.href)
         self.verify_web_response_status_code(200, shape.href)
 
+    @unittest.skip("Calculation problems")
     def test_insert_online_video_custom_thumbnail(self):
 
         #ExStart

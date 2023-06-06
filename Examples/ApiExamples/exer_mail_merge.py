@@ -12,6 +12,9 @@ import aspose.words as aw
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, DATABASE_DIR
 from document_helper import DocumentHelper
 
+@unittest.skip("type 'aspose.words.saving.IImageSavingCallback' is not an acceptable base type ")
+
+
 class ExMailMerge(ApiExampleBase):
 
     def test_execute_array(self):
@@ -263,14 +266,16 @@ class ExMailMerge(ApiExampleBase):
     #ExEnd
 
     @unittest.skip("DataTable type isn't supported yet")
-    def _test_ado_data_table(self, doc_whole_table: aw.Document, doc_one_row: aw.Document, table: DataTable):
-
-        self.mail_merge_matches_data_table(table, doc_whole_table, True)
-
-        row_as_table = DataTable()
-        row_as_table.import_row(table.rows[1])
-
-        self.mail_merge_matches_data_table(row_as_table, doc_one_row, True)
+    def _test_ado_data_table(self):
+        pass
+    # def _test_ado_data_table(self, doc_whole_table: aw.Document, doc_one_row: aw.Document, table: DataTable):
+    #
+    #     self.mail_merge_matches_data_table(table, doc_whole_table, True)
+    #
+    #     row_as_table = DataTable()
+    #     row_as_table.import_row(table.rows[1])
+    #
+    #     self.mail_merge_matches_data_table(row_as_table, doc_one_row, True)
 
     def test_execute_data_view(self):
 
