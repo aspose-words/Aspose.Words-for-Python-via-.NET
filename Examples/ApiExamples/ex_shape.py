@@ -2798,10 +2798,10 @@ class ExShape(ApiExampleBase):
 
     def test_remove_specific_chart_series(self):
 
-        # ExStart
-        # ExFor:ChartSeries.series_type
-        # ExFor:ChartSeriesType
-        # ExSummary:Shows how to remove specific chart series
+        #ExStart
+        #ExFor:ChartSeries.series_type
+        #ExFor:ChartSeriesType
+        #ExSummary:Shows how to remove specific chart series
 
         doc = Document(MY_DIR + "Reporting engine template - Chart series.docx")
         chart = doc.get_child(NodeType.SHAPE, 0, True).as_shape().chart
@@ -2815,14 +2815,14 @@ class ExShape(ApiExampleBase):
                          [5.6, 7.1, 2.9, 8.9])
 
         doc.save(ARTIFACTS_DIR + "Charts.RemoveSpecificChartSeries.docx")
-        # ExEnd
+        #ExEnd
 
     def test_populate_chart_with_data(self):
-        # ExStart
-        # ExFor:ChartXValue.from_double(float)
-        # ExFor:ChartYValue.from_double(float)
-        # ExFor:ChartSeries.Add(ChartXValue, ChartYValue)
-        # ExSummary:Shows how to populate chart series with data.
+        #ExStart
+        #ExFor:ChartXValue.from_double(float)
+        #ExFor:ChartYValue.from_double(float)
+        #ExFor:ChartSeries.Add(ChartXValue, ChartYValue)
+        #ExSummary:Shows how to populate chart series with data.
 
         doc = Document()
         builder = DocumentBuilder()
@@ -2852,13 +2852,13 @@ class ExShape(ApiExampleBase):
         series2.add(ChartXValue.from_double(8), ChartYValue.from_double(7))
 
         doc.save(ARTIFACTS_DIR + "Charts.PopulateChartWithData.docx");
-        # ExEnd
+        #ExEnd
 
     def test_get_chart_series_data(self):
-        # ExStart
-        # ExFor:ChartXValueCollection
-        # ExFor:ChartYValueCollection
-        # ExSummary: Shows how to get chart series data.
+        #ExStart
+        #ExFor:ChartXValueCollection
+        #ExFor:ChartYValueCollection
+        #ExSummary:Shows how to get chart series data.
 
         doc = Document()
         builder = DocumentBuilder()
@@ -2892,14 +2892,14 @@ class ExShape(ApiExampleBase):
         series.data_points[max_value_index].format.fill.fore_color = Color.green
 
         doc.save(ARTIFACTS_DIR + "Charts.GetChartSeriesData.docx");
-        # ExEnd
+        #ExEnd
 
     def test_chart_data_values(self):
-        # ExStart
-        # ExFor: ChartXValue.FromString(String)
-        # ExFor:ChartSeries.Remove(Int32)
-        # ExFor: ChartSeries.Add(ChartXValue, ChartYValue)
-        # ExSummary:Shows how to add / remove chart data values.
+        #ExStart
+        #ExFor:ChartXValue.FromString(String)
+        #ExFor:ChartSeries.Remove(Int32)
+        #ExFor:ChartSeries.Add(ChartXValue, ChartYValue)
+        #ExSummary:Shows how to add / remove chart data values.
         doc = Document()
         builder = DocumentBuilder()
 
@@ -2919,6 +2919,6 @@ class ExShape(ApiExampleBase):
         department2_series.add(new_x_category, ChartYValue.from_double(5.7))
 
         doc.save(ARTIFACTS_DIR + "Charts.ChartDataValues.docx");
-        # ExEnd
+        #ExEnd
 
 

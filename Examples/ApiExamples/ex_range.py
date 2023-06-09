@@ -565,9 +565,9 @@ class ExRange(ApiExampleBase):
     ##ExEnd
 
     def test_ignore_shapes(self):
-        # ExStart
-        # ExFor:FindReplaceOptions.IgnoreShapes
-        # ExSummary:Shows how to ignore shapes while replacing text.
+        #ExStart
+        #ExFor:FindReplaceOptions.IgnoreShapes
+        #ExSummary:Shows how to ignore shapes while replacing text.
 
         doc = Document()
         builder = DocumentBuilder(doc)
@@ -582,7 +582,7 @@ class ExRange(ApiExampleBase):
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", options)
         self.assertEqual("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", builder.document.get_text().strip())
-        # ExEnd
+        #ExEnd
 
     def test_use_substitutions(self):
 
