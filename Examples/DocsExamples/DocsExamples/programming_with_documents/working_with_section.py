@@ -204,29 +204,29 @@ class WorkingWithSection(DocsExamplesBase):
         doc.sections[0].body.first_paragraph.append_child(aw.Run(doc, "Hello world!"))
         # ExEnd: EnsureMinimum
 
-#ExStart:InsertSectionBreaks
-#GistId:000cda3bfe9679c09bfd03617bd1f9e8
+    #ExStart:InsertSectionBreaks
+    #GistId:000cda3bfe9679c09bfd03617bd1f9e8
     def test_insert_section_breaks(self):
-        doc = aw.Document(MY_DIR + "Footnotes and endnotes.docx");
-        builder = aw.DocumentBuilder(doc);
+        doc = aw.Document(MY_DIR + "Footnotes and endnotes.docx")
+        builder = aw.DocumentBuilder(doc)
 
-        paras = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True);        
-        topicStartParas = []
+        paras = [para.as_paragraph() for para in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)]
+        topic_start_paras = []
 
-        for para in paras:        
-            style = para.paragraph_format.style_identifier;
+        for para in paras:
+            style = para.paragraph_format.style_identifier
             if style == aw.StyleIdentifier.HEADING1:
-                topicStartParas.Add(para);
-        
-        for para in topicStartParas:            
-            section = para.ParentSection;
+                topic_start_paras.append(para)
+
+        for para in topic_start_paras:
+            section = para.parent_section
 
             # Insert section break if the paragraph is not at the beginning of a section already.
-            if para != section.body.first_paragraph:                
-                builder.MoveTo(para.first_child);
-                builder.InsertBreak(aw.BreakType.SECTION_BREAK_NEW_PAGE);
+            if para != section.body.first_paragraph:
+                builder.move_to(para.first_child)
+                builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
 
                 # This is the paragraph that was inserted at the end of the now old section.
                 # We don't really need the extra paragraph, we just needed the section.
-                section.body.last_paragraph.remove();
-#ExEnd:InsertSectionBreaks
+                section.body.last_paragraph.remove()
+    #ExEnd:InsertSectionBreaks

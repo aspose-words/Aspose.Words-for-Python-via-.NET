@@ -8,7 +8,7 @@ import unittest
 import io
 import os
 import glob
-from urllib.request import urlopen
+from urllib.request import urlopen, Request
 from datetime import datetime, timedelta, timezone
 
 import aspose.words as aw
@@ -65,20 +65,21 @@ class ExDocument(ApiExampleBase):
         #ExFor:Document.__init__(BytesIO)
         #ExSummary:Shows how to load a document from a URL.
         # Create a URL that points to a Microsoft Word document.
-        url = "https://omextemplates.content.office.net/support/templates/en-us/tf16402488.dotx"
+        url = "https://filesamples.com/samples/document/docx/sample3.docx"
 
         # Download the document into a byte array, then load that array into a document using a memory stream.
-        data_bytes = urlopen(url).read()
+        request_site = Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        data_bytes = urlopen(request_site).read()
 
         with io.BytesIO(data_bytes) as byte_stream:
             doc = aw.Document(byte_stream)
 
             # At this stage, we can read and edit the document's contents and then save it to the local file system.
             self.assertEqual(
-                "Use this section to highlight your relevant passions, activities, and how you like to give back. " +
-                "It’s good to include Leadership and volunteer experiences here. " +
-                "Or show off important extras like publications, certifications, languages and more.",
-                doc.first_section.body.paragraphs[4].get_text().strip())
+                "There are eight section headings in this document. At the beginning, \"Sample Document\" is a level 1 heading. " +
+                "The main section headings, such as \"Headings\" and \"Lists\" are level 2 headings. " +
+                "The Tables section contains two sub-headings, \"Simple Table\" and \"Complex Table,\" which are both level 3 headings.",
+                doc.first_section.body.paragraphs[3].get_text().strip())
 
             doc.save(ARTIFACTS_DIR + "Document.load_from_web.docx")
 

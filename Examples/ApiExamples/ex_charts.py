@@ -11,6 +11,9 @@ import aspose.words as aw
 import aspose.words.drawing as awd
 import aspose.words.drawing.charts as awdc
 import aspose.pydrawing as drawing
+from aspose.words import Document, DocumentBuilder, NodeType
+from aspose.pydrawing import Color
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
 
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR
 
@@ -1257,9 +1260,9 @@ class ExCharts(ApiExampleBase):
     def test_legend_entries(self):
         #ExStart
         #ExFor:ChartLegendEntryCollection
-        #ExFor:ChartLegend.LegendEntries
-        #ExFor:ChartLegendEntry.IsHidden
-        #ExFor:ChartLegendEntry.Font
+        #ExFor:ChartLegend.legend_entries
+        #ExFor:ChartLegendEntry.is_hidden
+        #ExFor:ChartLegendEntry.font
         #ExSummary:Shows how to work with a legend entry for chart series.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

@@ -647,7 +647,7 @@ class ExDocumentBuilder(ApiExampleBase):
         builder.write("Bookmark contents.")
         builder.end_bookmark("MyBookmark")
 
-        first_paragraph_nodes = doc.first_section.body.first_paragraph.child_nodes
+        first_paragraph_nodes = doc.first_section.body.first_paragraph.get_child_nodes(aw.NodeType.ANY, False)
 
         self.assertEqual(aw.NodeType.BOOKMARK_START, first_paragraph_nodes[0].node_type)
         self.assertEqual(aw.NodeType.RUN, first_paragraph_nodes[1].node_type)
@@ -3315,10 +3315,22 @@ class ExDocumentBuilder(ApiExampleBase):
         #ExEnd
 
     def test_phonetic_guide(self):
-        builder = aw.DocumentBuilder()
-        builder.write("Lorem ipsum.")
+        #ExStart
+        #ExFor:Run.IsPhoneticGuide
+        #ExFor:Run.PhoneticGuide
+        #ExFor:PhoneticGuide.BaseText
+        #ExFor:PhoneticGuide.RubyText
+        #ExSummary:Shows how to get properties of the phonetic guide.
 
-        runs = builder.document.first_section.body.first_paragraph.runs
+        doc = aw.Document(MY_DIR + "Phonetic guide.docx")
+
+        runs = doc.first_section.body.first_paragraph.runs
+
         # Use phonetic guide in the Asian text.
-        self.assertEqual(False, runs[0].is_phonetic_guide)
+        self.assertEqual(True, runs[0].is_phonetic_guide)
+        self.assertEqual("base", runs[0].phonetic_guide.base_text)
+        self.assertEqual("ruby", runs[0].phonetic_guide.ruby_text)
+        #ExEnd
+
+
 

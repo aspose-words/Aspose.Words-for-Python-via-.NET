@@ -403,16 +403,16 @@ class ExDrawing(ApiExampleBase):
         doc = DocumentHelper.save_open(doc)
         shapes = doc.get_child(aw.NodeType.GROUP_SHAPE, 0, True).as_group_shape()
 
-        self.assertEqual(2, shapes.child_nodes.count)
+        self.assertEqual(2, shapes.get_child_nodes(aw.NodeType.ANY, False).count)
 
-        shape = shapes.child_nodes[0].as_shape()
+        shape = shapes.get_child_nodes(aw.NodeType.ANY, False)[0].as_shape()
 
         self.assertEqual(aw.drawing.ShapeType.BALLOON, shape.shape_type)
         self.assertEqual(200.0, shape.width)
         self.assertEqual(200.0, shape.height)
         self.assertEqual(drawing.Color.red.to_argb(), shape.stroke_color.to_argb())
 
-        shape = shapes.child_nodes[1].as_shape()
+        shape = shapes.get_child_nodes(aw.NodeType.ANY, False)[1].as_shape()
 
         self.assertEqual(aw.drawing.ShapeType.CUBE, shape.shape_type)
         self.assertEqual(100.0, shape.width)
