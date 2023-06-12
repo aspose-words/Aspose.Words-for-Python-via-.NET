@@ -9,6 +9,7 @@ import os
 import unittest
 import sys
 from datetime import datetime, timedelta, timezone
+from aspose.words.saving import PdfTextCompression
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
@@ -2153,4 +2154,19 @@ class ExPdfSaveOptions(ApiExampleBase):
         word_to_pdf_size = os.stat(MY_DIR + "Background images (word to pdf).pdf").st_size
 
         self.assertLess(aspose_to_pdf_size, word_to_pdf_size)
+        #ExEnd
+
+    def test_export_paragraph_graphics_to_artifact(self):
+        #ExStart
+        #ExFor: PdfSaveOptions.ExportParagraphGraphicsToArtifact
+        #ExSummary:Shows how to export paragraph graphics as artifact(underlines, text emphasis, etc.).
+
+        doc = aw.Document(MY_DIR + "PDF artifacts.docx")
+
+        save_options = aw.saving.PdfSaveOptions()
+        save_options.export_document_structure = True
+        save_options.export_paragraph_graphics_to_artifact = True
+        save_options.text_compression = PdfTextCompression.NONE
+
+        doc.save(ARTIFACTS_DIR + "PdfSaveOptions.ExportParagraphGraphicsToArtifact.pdf", save_options)
         #ExEnd

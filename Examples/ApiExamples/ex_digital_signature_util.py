@@ -7,6 +7,7 @@ import unittest
 from datetime import datetime
 
 import aspose.words as aw
+from aspose.words.digitalsignatures import DigitalSignatureUtil
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
@@ -184,3 +185,9 @@ class ExDigitalSignatureUtil(ApiExampleBase):
 
         with self.assertRaises(Exception):
             aw.digitalsignatures.DigitalSignatureUtil.sign(doc.original_file_name, output_file_name, None, sign_options)
+
+    def test_remove_signatures(self):
+        DigitalSignatureUtil.remove_all_signatures(MY_DIR + "Digitally signed.odt",
+                                                   ARTIFACTS_DIR + "DigitalSignatureUtil.RemoveSignatures.odt")
+
+        self.assertEqual(0, DigitalSignatureUtil.load_signatures(ARTIFACTS_DIR + "DigitalSignatureUtil.RemoveSignatures.odt").count)

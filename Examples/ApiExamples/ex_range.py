@@ -8,6 +8,9 @@ from datetime import datetime
 from typing import List
 
 import aspose.words as aw
+from aspose.words import Document, DocumentBuilder
+from aspose.words.drawing import ShapeType
+from aspose.words.replacing import FindReplaceOptions
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
@@ -560,6 +563,26 @@ class ExRange(ApiExampleBase):
     #        return aw.replacing.ReplaceAction.REPLACE
 
     ##ExEnd
+
+    def test_ignore_shapes(self):
+        #ExStart
+        #ExFor:FindReplaceOptions.IgnoreShapes
+        #ExSummary:Shows how to ignore shapes while replacing text.
+
+        doc = Document()
+        builder = DocumentBuilder(doc)
+
+        builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
+        builder.insert_shape(ShapeType.BALLOON, 200, 200)
+        builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
+        options = FindReplaceOptions()
+        options.ignore_shapes = True
+
+        builder.document.range.replace(
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", options)
+        self.assertEqual("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", builder.document.get_text().strip())
+        #ExEnd
 
     def test_use_substitutions(self):
 

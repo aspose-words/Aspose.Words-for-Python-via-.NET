@@ -99,7 +99,7 @@ class ExNode(ApiExampleBase):
         #ExFor:NodeType
         #ExFor:CompositeNode
         #ExFor:CompositeNode.get_child
-        #ExFor:CompositeNode.child_nodes
+        #ExFor:CompositeNode.get_child_nodes(aw.NodeType.ANY, False)
         #ExFor:CompositeNode.__iter__
         #ExFor:NodeCollection.count
         #ExFor:NodeCollection.__getitem__
@@ -122,9 +122,9 @@ class ExNode(ApiExampleBase):
 
         # Iterate through the paragraph's collection of immediate children,
         # and print any runs or shapes that we find within.
-        children = paragraph.child_nodes
+        children = paragraph.get_child_nodes(aw.NodeType.ANY, False)
 
-        self.assertEqual(3, paragraph.child_nodes.count)
+        self.assertEqual(3, paragraph.get_child_nodes(aw.NodeType.ANY, False).count)
 
         for child in children:
             if child.node_type == aw.NodeType.RUN:
@@ -396,7 +396,7 @@ class ExNode(ApiExampleBase):
         body = doc.first_section.body
 
         # Retrieve the index of the last paragraph in the body of the first section.
-        self.assertEqual(24, body.child_nodes.index_of(body.last_paragraph))
+        self.assertEqual(24, body.get_child_nodes(aw.NodeType.ANY, False).index_of(body.last_paragraph))
         #ExEnd
 
     def test_convert_node_to_html_with_default_options(self):

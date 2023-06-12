@@ -55,7 +55,7 @@ class WorkingWithNode(DocsExamplesBase):
         doc = aw.Document()
         paragraph = doc.get_child(aw.NodeType.PARAGRAPH, 0, True).as_paragraph()
 
-        children = paragraph.child_nodes
+        children = paragraph.get_child_nodes(aw.NodeType.ANY, False)
         for child in children:
             # A paragraph may contain children of various types such as runs, shapes, and others.
             if child.node_type == aw.NodeType.RUN:

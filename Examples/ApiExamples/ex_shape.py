@@ -13,6 +13,9 @@ import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.drawing as awd
 import aspose.pydrawing as drawing
+from aspose.words import Document, DocumentBuilder, NodeType
+from aspose.pydrawing import Color
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, IMAGE_DIR
 from document_helper import DocumentHelper
@@ -1091,13 +1094,14 @@ class ExShape(ApiExampleBase):
         #ExFor:Forms2OleControl.enabled
         #ExFor:Forms2OleControl.type
         #ExFor:Forms2OleControl.child_nodes
+        #ExFor:Forms2OleControl.group_name
         #ExSummary:Shows how to verify the properties of an ActiveX control.
         doc = aw.Document(MY_DIR + "ActiveX controls.docx")
 
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
         ole_control = shape.ole_format.ole_control
 
-        self.assertEqual("CheckBox1", ole_control.name);
+        self.assertEqual("CheckBox1", ole_control.name)
 
         if ole_control.is_forms2_ole_control:
 
@@ -1107,8 +1111,19 @@ class ExShape(ApiExampleBase):
             self.assertEqual(True, check_box.enabled)
             self.assertEqual(aw.drawing.ole.Forms2OleControlType.CHECK_BOX, check_box.type)
             self.assertIsNone(check_box.child_nodes)
+            self.assertEqual("", check_box.group_name)
+
+            # Note, that you can't set GroupName for a Frame.
+            check_box.group_name = "Aspose group name"
 
         #ExEnd
+        doc.save(ARTIFACTS_DIR + "Shape.GetActiveXControlProperties.docx")
+        doc = Document(ARTIFACTS_DIR + "Shape.GetActiveXControlProperties.docx")
+
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        forms2_ole_control = shape.ole_format.ole_control.as_forms2_ole_control()
+
+        self.assertEqual("Aspose group name", forms2_ole_control.group_name)
 
     def test_get_ole_object_raw_data(self):
 
@@ -2779,6 +2794,131 @@ class ExShape(ApiExampleBase):
             shape.left_relative = -260
 
         doc.save(ARTIFACTS_DIR + "Shape.RelativeSizeAndPosition.docx")
+        #ExEnd
+
+    def test_remove_specific_chart_series(self):
+
+        #ExStart
+        #ExFor:ChartSeries.series_type
+        #ExFor:ChartSeriesType
+        #ExSummary:Shows how to remove specific chart series
+
+        doc = Document(MY_DIR + "Reporting engine template - Chart series.docx")
+        chart = doc.get_child(NodeType.SHAPE, 0, True).as_shape().chart
+
+        # Remove all series of the Column type.
+        for i in range(0, chart.series.count, -1):
+            if chart.series[i].series_type == ChartSeriesType.COLUMN:
+                chart.series.remove(i)
+
+        chart.series.add("Aspose Series", ["Category 1", "Category 2", "Category 3", "Category 4"],
+                         [5.6, 7.1, 2.9, 8.9])
+
+        doc.save(ARTIFACTS_DIR + "Charts.RemoveSpecificChartSeries.docx")
+        #ExEnd
+
+    def test_populate_chart_with_data(self):
+        #ExStart
+        #ExFor:ChartXValue.from_double(float)
+        #ExFor:ChartYValue.from_double(float)
+        #ExFor:ChartSeries.Add(ChartXValue, ChartYValue)
+        #ExSummary:Shows how to populate chart series with data.
+
+        doc = Document()
+        builder = DocumentBuilder()
+
+        shape = builder.insert_chart(ChartType.COLUMN, 432, 252)
+        chart = shape.chart
+        series1 = chart.series[0]
+
+        # Clear X and Y values of the first series.
+        series1.clear_values()
+
+        # Populate the series with data.
+        series1.add(ChartXValue.from_double(3), ChartYValue.from_double(10))
+        series1.add(ChartXValue.from_double(5), ChartYValue.from_double(5))
+        series1.add(ChartXValue.from_double(7), ChartYValue.from_double(11))
+        series1.add(ChartXValue.from_double(9), ChartYValue.from_double(17))
+
+        series2 = chart.series[1]
+
+        # Clear X and Y values of the second series.
+        series2.clear_values();
+
+        # Populate the series with data.
+        series2.add(ChartXValue.from_double(2), ChartYValue.from_double(4))
+        series2.add(ChartXValue.from_double(4), ChartYValue.from_double(7))
+        series2.add(ChartXValue.from_double(6), ChartYValue.from_double(14))
+        series2.add(ChartXValue.from_double(8), ChartYValue.from_double(7))
+
+        doc.save(ARTIFACTS_DIR + "Charts.PopulateChartWithData.docx");
+        #ExEnd
+
+    def test_get_chart_series_data(self):
+        #ExStart
+        #ExFor:ChartXValueCollection
+        #ExFor:ChartYValueCollection
+        #ExSummary:Shows how to get chart series data.
+
+        doc = Document()
+        builder = DocumentBuilder()
+
+        shape = builder.insert_chart(ChartType.COLUMN, 432, 252)
+        chart = shape.chart
+        series = chart.series[0]
+
+        min_value = sys.float_info.max
+        min_value_index = 0
+        max_value = sys.float_info.max
+        max_value_index = 0
+
+        for i in range(0, series.y_values.count):
+            # Clear individual format of all data points.
+            # Data points and data values are one - to - one in column charts.
+            series.data_points[i].clear_format()
+
+            # Get Y value.
+            y_value = series.y_values[i].double_value
+            if y_value < min_value:
+                min_value = y_value
+                min_value_index = i
+
+            if y_value > max_value:
+                max_value = y_value
+                max_value_index = i
+
+        # Change colors of the max and min values.
+        series.data_points[min_value_index].format.fill.fore_color = Color.red
+        series.data_points[max_value_index].format.fill.fore_color = Color.green
+
+        doc.save(ARTIFACTS_DIR + "Charts.GetChartSeriesData.docx");
+        #ExEnd
+
+    def test_chart_data_values(self):
+        #ExStart
+        #ExFor:ChartXValue.FromString(String)
+        #ExFor:ChartSeries.Remove(Int32)
+        #ExFor:ChartSeries.Add(ChartXValue, ChartYValue)
+        #ExSummary:Shows how to add / remove chart data values.
+        doc = Document()
+        builder = DocumentBuilder()
+
+        shape = builder.insert_chart(ChartType.COLUMN, 432, 252)
+        chart = shape.chart
+        department1_series = chart.series[0]
+        department2_series = chart.series[1]
+
+        # Remove the first value in the both series.
+        department1_series.remove(0)
+        department2_series.remove(0)
+
+        # Add new values to the both series.
+
+        new_x_category = ChartXValue.from_string("Q1, 2023")
+        department1_series.add(new_x_category, ChartYValue.from_double(10.3))
+        department2_series.add(new_x_category, ChartYValue.from_double(5.7))
+
+        doc.save(ARTIFACTS_DIR + "Charts.ChartDataValues.docx");
         #ExEnd
 
 

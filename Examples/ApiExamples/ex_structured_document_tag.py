@@ -51,6 +51,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         #ExFor:StructuredDocumentTag.node_type
         #ExFor:StructuredDocumentTag.style
         #ExFor:StructuredDocumentTag.style_name
+        #ExFor: StructuredDocumentTag.word_open_xml_minimal
         #ExFor:MarkupLevel
         #ExFor:SdtType
         #ExSummary:Shows how to work with styles for content control elements.
@@ -76,7 +77,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
 
         for node in tags:
             sdt = node.as_structured_document_tag()
-
+            print(sdt.word_open_xml_minimal)
             self.assertEqual(aw.StyleIdentifier.QUOTE, sdt.style.style_identifier)
             self.assertEqual("Quote", sdt.style_name)
 
@@ -977,16 +978,16 @@ class ExStructuredDocumentTag(ApiExampleBase):
     def test_sdt_child_nodes(self):
 
         #ExStart
-        #ExFor:StructuredDocumentTagRangeStart.child_nodes
+        #ExFor:StructuredDocumentTagRangeStart.get_child_nodes(aw.NodeType.ANY, False)
         #ExFor:StructuredDocumentTagRangeStart.get_child_nodes(NodeType,bool)
         #ExSummary:Shows how to get child nodes of StructuredDocumentTagRangeStart.
         doc = aw.Document(MY_DIR + "Multi-section structured document tags.docx")
         tag = doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, True)[0].as_structured_document_tag_range_start()
 
         print("StructuredDocumentTagRangeStart values:")
-        print(f"\t|Child nodes count: {tag.child_nodes.count}\n")
+        print(f"\t|Child nodes count: {tag.get_child_nodes(aw.NodeType.ANY, False).count}\n")
 
-        for node in tag.child_nodes:
+        for node in tag.get_child_nodes(aw.NodeType.ANY, False):
             print(f"\t|Child node type: {node.node_type}")
 
         for node in tag.get_child_nodes(aw.NodeType.RUN, True):
