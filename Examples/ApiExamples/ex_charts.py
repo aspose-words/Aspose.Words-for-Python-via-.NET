@@ -1310,11 +1310,11 @@ class ExCharts(ApiExampleBase):
         #ExEnd
 
     def test_format_data_lables(self):
-        # ExStart
-        # ExFor: ChartDataLableCollection.format
-        # ExFor:ChartFormat.shape_type
-        # ExFor: ChartShapeType
-        # ExSummary:Shows how to set fill, stroke and callout formatting for chart data labels.
+        #ExStart
+        #ExFor:ChartDataLableCollection.format
+        #ExFor:ChartFormat.shape_type
+        #ExFor:ChartShapeType
+        #ExSummary:Shows how to set fill, stroke and callout formatting for chart data labels.
 
         doc = Document()
         builder = DocumentBuilder(doc)
@@ -1346,3 +1346,4 @@ class ExCharts(ApiExampleBase):
         labelFormat.fill.solid(Color.blue)
 
         doc.save(ARTIFACTS_DIR + "Charts.FormatDataLables.docx")
+        #ExEnd

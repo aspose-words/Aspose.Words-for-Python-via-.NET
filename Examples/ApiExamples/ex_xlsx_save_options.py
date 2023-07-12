@@ -12,9 +12,9 @@ from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 class ExXlsxSaveOptions(ApiExampleBase):
 
     def test_compress_xlsx(self):
-        # ExStart
-        # ExFor:XlsxSaveOptions.compression_level
-        # ExSummary:Shows how to compress XLSX document.
+        #ExStart
+        #ExFor:XlsxSaveOptions.compression_level
+        #ExSummary:Shows how to compress XLSX document.
 
         doc = Document(MY_DIR + "Shape with linked chart.docx")
 
@@ -22,7 +22,7 @@ class ExXlsxSaveOptions(ApiExampleBase):
         xlsx_save_options.compression_level = CompressionLevel.MAXIMUM
 
         doc.save(ARTIFACTS_DIR + "XlsxSaveOptions.CompressXlsx.xlsx", xlsx_save_options)
-        # ExEnd
+        #ExEnd
 
 
 

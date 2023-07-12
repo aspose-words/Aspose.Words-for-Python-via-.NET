@@ -17,12 +17,12 @@ from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 class ExLowCode(ApiExampleBase):
 
     def test_merge_document(self):
-        # ExStart
-        # ExFor:Merger.merge(output_file: str, input_files: list[str])
-        # ExFor:Merger.merge(input_files: list[str], merge_format_mode: aspose.words.lowcode.MergeFormatMode)
-        # ExFor:Merger.merge(output_file: str, input_files: list[str], save_options: aspose.words.saving.SaveOptions, merge_format_mode: aspose.words.lowcode.MergeFormatMode)
-        # ExFor:Merger.merge(output_file: str, input_files: list[str], save_format: aspose.words.SaveFormat, merge_format_mode: aspose.words.lowcode.MergeFormatMode)
-        # ExSummary:Shows how to merge documents into a single output document.
+        #ExStart
+        #ExFor:Merger.merge(output_file: str, input_files: list[str])
+        #ExFor:Merger.merge(input_files: list[str], merge_format_mode: aspose.words.lowcode.MergeFormatMode)
+        #ExFor:Merger.merge(output_file: str, input_files: list[str], save_options: aspose.words.saving.SaveOptions, merge_format_mode: aspose.words.lowcode.MergeFormatMode)
+        #ExFor:Merger.merge(output_file: str, input_files: list[str], save_format: aspose.words.SaveFormat, merge_format_mode: aspose.words.lowcode.MergeFormatMode)
+        #ExSummary:Shows how to merge documents into a single output document.
 
         # There is a several ways to merge documents:
         Merger.merge(ARTIFACTS_DIR + "LowCode.MergeDocument.SimpleMerge.docx",
@@ -40,14 +40,14 @@ class ExLowCode(ApiExampleBase):
 
         doc = Merger.merge([MY_DIR + "Big document.docx", MY_DIR + "Tables.docx"], MergeFormatMode.MERGE_FORMATTING)
         doc.save(ARTIFACTS_DIR + "LowCode.MergeDocument.DocumentInstance.docx")
-        # ExEnd
+        #ExEnd
 
     def test_merge_stream_document(self):
-        # ExStart
-        # ExFor:Merger.merge_stream(input_streams: list[io.BytesIO], merge_format_mode: aspose.words.lowcode.MergeFormatMode)
-        # ExFor:Merger.merge_stream(output_stream: io.BytesIO, input_streams: list[io.BytesIO], save_options: aspose.words.saving.SaveOptions, merge_format_mode: aspose.words.lowcode.MergeFormatMode)
-        # ExFor:Merger.merge_stream(output_stream: io.BytesIO, input_streams: list[io.BytesIO], save_format: aspose.words.SaveFormat)
-        # ExSummary:Shows how to merge documents from stream into a single output document.
+        #ExStart
+        #ExFor:Merger.merge_stream(input_streams: list[io.BytesIO], merge_format_mode: aspose.words.lowcode.MergeFormatMode)
+        #ExFor:Merger.merge_stream(output_stream: io.BytesIO, input_streams: list[io.BytesIO], save_options: aspose.words.saving.SaveOptions, merge_format_mode: aspose.words.lowcode.MergeFormatMode)
+        #ExFor:Merger.merge_stream(output_stream: io.BytesIO, input_streams: list[io.BytesIO], save_format: aspose.words.SaveFormat)
+        #ExSummary:Shows how to merge documents from stream into a single output document.
 
         # There is a several ways to merge documents from stream:
 
@@ -78,6 +78,5 @@ class ExLowCode(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "LowCode.MergeStreamDocument.DocumentInstance.docx")
         first_file_in.close()
         second_file_in.close()
-
-        # ExEnd
+        #ExEnd
 
