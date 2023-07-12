@@ -3,6 +3,8 @@ import unittest
 import sys
 import aspose.words as aw
 import aspose.pydrawing as drawing
+from aspose.words.replacing import FindReplaceOptions
+from aspose.words.saving import XlsxSaveOptions, CompressionLevel
 
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
 
@@ -153,6 +155,40 @@ class BaseConversions(DocsExamplesBase):
         self.convert_image_to_pdf(IMAGES_DIR + "Graphics Interchange Format.gif",
                                   ARTIFACTS_DIR + "BaseConversions.GifToPdf.pdf")
         #ExEnd:ImageToPdf
+
+    def test_pdf_to_xlsx(self):
+        #ExStart: PdfToXlsx
+        doc = aw.Document(MY_DIR + "Pdf Document.pdf")
+
+        doc.save(ARTIFACTS_DIR + "BaseConversions.PdfToXlsx.xlsx")
+        #ExEnd: PdfToXlsx
+
+    def test_find_replace_xlsx(self):
+
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        builder.writeln("Ruby bought a ruby necklace.")
+
+        # We can use a "FindReplaceOptions" object to modify the find - and -replace process.
+
+        options = FindReplaceOptions()
+
+        # Set the "MatchCase" flag to "true" to apply case sensitivity while finding strings to replace.
+        # Set the "MatchCase" flag to "false" to ignore character case while searching for text to replace.
+        options.match_case = True
+
+        doc.range.replace("Ruby", "Jade", options)
+
+        doc.save(ARTIFACTS_DIR + "BaseConversions.FindReplaceXlsx.xlsx")
+
+    def test_compress_xlsx(self):
+
+        doc = aw.Document(MY_DIR + "Document.docx")
+        saveOptions = XlsxSaveOptions()
+        saveOptions.compression_level = CompressionLevel.MAXIMUM
+
+        doc.save(ARTIFACTS_DIR + "BaseConversions.CompressXlsx.xlsx", saveOptions)
 
     @staticmethod
     def convert_image_to_pdf(input_file_name: str, output_file_name: str):

@@ -6,6 +6,7 @@
 
 import io
 import json
+from  pathlib import Path
 import unittest
 from datetime import datetime
 from typing import List, Optional
@@ -14,6 +15,7 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 import sys
 import unittest
+from aspose.words.reporting import ReportingEngine
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, GOLDS_DIR
 from document_helper import DocumentHelper
@@ -1009,6 +1011,21 @@ class ExReportingEngine(ApiExampleBase):
                 for i, expected_item in enumerate(expected_items):
                     self.assertEqual(expected_item.value, sdt.list_items[i].value)
                     self.assertEqual(expected_item.display_text, sdt.list_items[i].display_text)
+
+    def test_insert_html_dinamically(self):
+
+        params = ["<<[html_text] -html>>", "<<html [html_text]>>", "<<html [html_text] -sourceStyles>>"]
+
+        html = Path(MY_DIR + "Reporting engine template - Html.html").read_text()
+
+        for tmpl in params:
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc)
+            builder.writeln(tmpl)
+
+            engine = ReportingEngine()
+            engine.build_report(doc, html, "html_text")
+            doc.save(ARTIFACTS_DIR + "ReportingEngine.InsertHtmlDinamically.docx")
 
     def build_report(self, document: aw.Document, data_source, data_source_name = None,
                      known_types = None, options: Optional[aw.reporting.ReportBuildOptions] = None):

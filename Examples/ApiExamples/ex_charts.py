@@ -13,7 +13,7 @@ import aspose.words.drawing.charts as awdc
 import aspose.pydrawing as drawing
 from aspose.words import Document, DocumentBuilder, NodeType
 from aspose.pydrawing import Color
-from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType, ChartShapeType
 
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR
 
@@ -1307,4 +1307,43 @@ class ExCharts(ApiExampleBase):
                 axis.has_major_gridlines = False
 
         doc.save(ARTIFACTS_DIR + "Charts.AxisCollection.docx")
+        #ExEnd
+
+    def test_format_data_lables(self):
+        #ExStart
+        #ExFor:ChartDataLableCollection.format
+        #ExFor:ChartFormat.shape_type
+        #ExFor:ChartShapeType
+        #ExSummary:Shows how to set fill, stroke and callout formatting for chart data labels.
+
+        doc = Document()
+        builder = DocumentBuilder(doc)
+
+        shape = builder.insert_chart(ChartType.COLUMN, 432, 252)
+        chart = shape.chart
+
+        # Delete default generated series.
+        chart.series.clear()
+
+        # Add new series.
+        series = chart.series.add("AW Series 1", ["AW Category 1", "AW Category 2", "AW Category 3", "AW Category 4"],
+                                  [100, 200, 300, 400])
+
+        # Show data labels.
+        series.has_data_labels = True
+        series.data_labels.show_value = True
+
+        # Format data labels as callouts.
+        format = series.data_labels.format
+        format.shape_type = ChartShapeType.WEDGE_RECT_CALLOUT
+        format.stroke.color = Color.dark_green
+        format.fill.solid(Color.green)
+        series.data_labels.font.color = Color.yellow
+
+        # Change fill and stroke of an individual data label.
+        labelFormat = series.data_labels[0].format
+        labelFormat.stroke.color = Color.dark_blue
+        labelFormat.fill.solid(Color.blue)
+
+        doc.save(ARTIFACTS_DIR + "Charts.FormatDataLables.docx")
         #ExEnd

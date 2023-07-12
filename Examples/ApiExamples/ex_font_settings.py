@@ -204,6 +204,7 @@ class ExFontSettings(ApiExampleBase):
     ##ExStart
     ##ExFor:Fonts.font_info_substitution_rule
     ##ExFor:Fonts.FontSubstitutionSettings.font_info_substitution
+    ##ExFor:LayoutOptions.keep_original_font_metrics
     ##ExFor:IWarningCallback
     ##ExFor:IWarningCallback.warning(WarningInfo)
     ##ExFor:WarningInfo
@@ -230,6 +231,8 @@ class ExFontSettings(ApiExampleBase):
     #    font_settings = aw.fonts.FontSettings()
     #    font_settings.substitution_settings.default_font_substitution.default_font_name = "Arial";
     #    font_settings.substitution_settings.font_info_substitution.enabled = True
+    #    # Original font metrics should be used after font substitution.
+    #    doc.layout_options.keep_original_font_metrics = True
 
     #    # We will get a font substitution warning if we save a document with a missing font.
     #    doc.font_settings = font_settings
@@ -889,8 +892,8 @@ class ExFontSettings(ApiExampleBase):
 
         rules = fallback_settings_doc.getroot().find("{Aspose.Words}FallbackTable").findall("{Aspose.Words}Rule")
 
-        self.assertEqual("0C00-0C7F", rules[8].attrib["Ranges"])
-        self.assertEqual("Vani", rules[8].attrib["FallbackFonts"])
+        self.assertEqual("0C00-0C7F", rules[9].attrib["Ranges"])
+        self.assertEqual("Vani", rules[9].attrib["FallbackFonts"])
 
     def test_fallback_settings_custom(self):
 
