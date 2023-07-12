@@ -486,12 +486,12 @@ class ExPdfSaveOptions(ApiExampleBase):
                 if pdf_text_compression == aw.saving.PdfTextCompression.NONE:
                     self.assertLess(60000, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.text_compression.pdf"))
                     with open(ARTIFACTS_DIR + "PdfSaveOptions.text_compression.pdf", "rb") as file:
-                        self.assertIn(b"12 0 obj\r\n<</Length 13 0 R>>stream", file.read())
+                        self.assertIn(b"<</Length 17 0 R>>stream", file.read())
 
                 elif pdf_text_compression == aw.saving.PdfTextCompression.FLATE:
                     self.assertGreater(30000, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.text_compression.pdf"))
                     with open(ARTIFACTS_DIR + "PdfSaveOptions.text_compression.pdf", "rb") as file:
-                        self.assertIn(b"12 0 obj\r\n<</Length 13 0 R/Filter /FlateDecode>>stream", file.read())
+                        self.assertIn(b"<</Length 17 0 R/Filter/FlateDecode>>stream", file.read())
 
     def test_image_compression(self):
 
@@ -777,13 +777,13 @@ class ExPdfSaveOptions(ApiExampleBase):
                     content = file.read()
                     if open_hyperlinks_in_new_window:
                         self.assertIn(
-                            b"<</Type /Annot/Subtype /Link/Rect [72 706.20098877 111.32800293 720]/BS " +
-                            b"<</Type/Border/S/S/W 0>>/A<</Type /Action/S /JavaScript/JS(app.launchURL\\(\"https://www.google.com/search?q=%20aspose\", true\\);)>>>>",
+                            b"<</Type/Annot/Subtype/Link/Rect[72 706.20098877 111.32800293 720]/BS" +
+                            b"<</Type/Border/S/S/W 0>>/A<</Type/Action/S/JavaScript/JS(app.launchURL\\(\"https://www.google.com/search?q=%20aspose\", true\\);)>>>>",
                             content)
                     else:
                         self.assertIn(
-                            b"<</Type /Annot/Subtype /Link/Rect [72 706.20098877 111.32800293 720]/BS " +
-                            b"<</Type/Border/S/S/W 0>>/A<</Type /Action/S /URI/URI(https://www.google.com/search?q=%20aspose)>>>>",
+                            b"<</Type/Annot/Subtype/Link/Rect[72 706.20098877 111.32800293 720]/BS" +
+                            b"<</Type/Border/S/S/W 0>>/A<</Type/Action/S/URI/URI(https://www.google.com/search?q=%20aspose)>>>>",
                             content)
 
                 #pdf_document = aspose.pdf.document(ARTIFACTS_DIR + "PdfSaveOptions.open_hyperlinks_in_new_window.pdf")
@@ -1068,7 +1068,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                     self.assertLess(480000, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.embed_windows_fonts.pdf"))
 
                 elif pdf_font_embedding_mode == aw.saving.PdfFontEmbeddingMode.EMBED_NONE:
-                    self.assertGreater(4243, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.embed_windows_fonts.pdf"))
+                    self.assertGreater(4281, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.embed_windows_fonts.pdf"))
 
                 #ExEnd
 
@@ -1368,32 +1368,32 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                 if create_note_hyperlinks:
                     self.assertIn(
-                        b"<</Type /Annot/Subtype /Link/Rect [157.80099487 720.90106201 159.35600281 733.55004883]/BS <</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 677 0]>>",
+                        b"<</Type/Annot/Subtype/Link/Rect[157.80099487 720.90106201 159.35600281 733.55004883]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 677 0]>>",
                         content)
                     self.assertIn(
-                        b"<</Type /Annot/Subtype /Link/Rect [202.16900635 720.90106201 206.06201172 733.55004883]/BS <</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 79 0]>>",
+                        b"<</Type/Annot/Subtype/Link/Rect[202.16900635 720.90106201 206.06201172 733.55004883]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 79 0]>>",
                         content)
                     self.assertIn(
-                        b"<</Type /Annot/Subtype /Link/Rect [212.23199463 699.2510376 215.34199524 711.90002441]/BS <</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 654 0]>>",
+                        b"<</Type/Annot/Subtype/Link/Rect[212.23199463 699.2510376 215.34199524 711.90002441]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 654 0]>>",
                         content)
                     self.assertIn(
-                        b"<</Type /Annot/Subtype /Link/Rect [258.15499878 699.2510376 262.04800415 711.90002441]/BS <</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 68 0]>>",
+                        b"<</Type/Annot/Subtype/Link/Rect[258.15499878 699.2510376 262.04800415 711.90002441]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 68 0]>>",
                         content)
                     self.assertIn(
-                        b"<</Type /Annot/Subtype /Link/Rect [85.05000305 68.19904327 88.66500092 79.69804382]/BS <</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 202 733 0]>>",
+                        b"<</Type/Annot/Subtype/Link/Rect[85.05000305 68.19904327 88.66500092 79.69804382]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 202 733 0]>>",
                         content)
                     self.assertIn(
-                        b"<</Type /Annot/Subtype /Link/Rect [85.05000305 56.70004272 88.66500092 68.19904327]/BS <</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 258 711 0]>>",
+                        b"<</Type/Annot/Subtype/Link/Rect[85.05000305 56.70004272 88.66500092 68.19904327]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 258 711 0]>>",
                         content)
                     self.assertIn(
-                        b"<</Type /Annot/Subtype /Link/Rect [85.05000305 666.10205078 86.4940033 677.60107422]/BS <</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 157 733 0]>>",
+                        b"<</Type/Annot/Subtype/Link/Rect[85.05000305 666.10205078 86.4940033 677.60107422]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 157 733 0]>>",
                         content)
                     self.assertIn(
-                        b"<</Type /Annot/Subtype /Link/Rect [85.05000305 643.10406494 87.93800354 654.60308838]/BS <</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 212 711 0]>>",
+                        b"<</Type/Annot/Subtype/Link/Rect[85.05000305 643.10406494 87.93800354 654.60308838]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 212 711 0]>>",
                         content)
                 else:
                     self.assertNotIn(
-                        b"<</Type /Annot/Subtype /Link/Rect",
+                        b"<</Type/Annot/Subtype/Link/Rect",
                         content)
 
                 #pdf_document = aspose.pdf.Document(ARTIFACTS_DIR + "PdfSaveOptions.note_hyperlinks.pdf")
@@ -1453,7 +1453,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                 if pdf_custom_properties_export_mode == aw.saving.PdfCustomPropertiesExport.NONE:
                     self.assertNotIn(doc.custom_document_properties[0].name.encode('ascii'), content)
                     self.assertNotIn(
-                        b"<</Type /Metadata/Subtype /XML/Length 8 0 R/Filter /FlateDecode>>",
+                        b"<</Type/Metadata/Subtype/XML/Length 8 0 R/Filter/FlateDecode>>",
                         content)
 
                 elif pdf_custom_properties_export_mode == aw.saving.PdfCustomPropertiesExport.STANDARD:
@@ -1461,12 +1461,12 @@ class ExPdfSaveOptions(ApiExampleBase):
                         b"<</Creator(\xFE\xFF\0A\0s\0p\0o\0s\0e\0.\0W\0o\0r\0d\0s)/Producer(\xFE\xFF\0A\0s\0p\0o\0s\0e\0.\0W\0o\0r\0d\0s\0 \0f\0o\0r\0",
                         content)
                     self.assertIn(
-                        b"/Company (\xFE\xFF\0M\0y\0 \0v\0a\0l\0u\0e)>>",
+                        b"/Company(\xFE\xFF\0M\0y\0 \0v\0a\0l\0u\0e)>>",
                         content)
 
                 elif pdf_custom_properties_export_mode == aw.saving.PdfCustomPropertiesExport.METADATA:
                     self.assertIn(
-                        b"<</Type /Metadata/Subtype /XML/Length 8 0 R/Filter /FlateDecode>>",
+                        b"<</Type/Metadata/Subtype/XML/Length 8 0 R/Filter/FlateDecode>>",
                         content)
 
                 #pdf_document = aspose.pdf.Document(ARTIFACTS_DIR + "PdfSaveOptions.custom_properties_export.pdf")
@@ -1578,12 +1578,12 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                 if dml_rendering_mode == aw.saving.DmlRenderingMode.DRAWING_ML:
                     self.assertIn(
-                        b"<</Type /Page/Parent 3 0 R/Contents 6 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABB 11 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
+                        b"<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                         content)
 
-                elif dml_rendering_mode ==  aw.saving.DmlRenderingMode.FALLBACK:
+                elif dml_rendering_mode == aw.saving.DmlRenderingMode.FALLBACK:
                     self.assertIn(
-                        b"5 0 obj\r\n<</Type /Page/Parent 3 0 R/Contents 6 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABD 13 0 R>>/ExtGState<</GS1 10 0 R/GS2 11 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
+                        b"<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABE 14 0 R>>/ExtGState<</GS1 11 0 R/GS2 12 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                         content)
 
                 #pdf_document = aspose.pdf.Document(ARTIFACTS_DIR + "PdfSaveOptions.drawing_ml_fallback.pdf")
@@ -1635,13 +1635,11 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                 if export_document_structure:
                     self.assertIn(
-                        b"5 0 obj\r\n" +
-                        b"<</Type /Page/Parent 3 0 R/Contents 6 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R>>/ExtGState<</GS1 10 0 R/GS2 14 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>/StructParents 0/Tabs /S>>",
+                        b"<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABD 13 0 R>>/ExtGState<</GS1 11 0 R/GS2 16 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>/StructParents 0/Tabs/S>>",
                         content)
                 else:
                     self.assertIn(
-                        b"5 0 obj\r\n" +
-                        b"<</Type /Page/Parent 3 0 R/Contents 6 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABB 11 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
+                        b"<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                         content)
 
     @unittest.skip("drawing.Image type isn't supported yet")
@@ -1810,7 +1808,7 @@ class ExPdfSaveOptions(ApiExampleBase):
 
         self.assertIn(
             b"7 0 obj\r\n" +
-            b"<</Type /Annot/Subtype /Widget/Rect [0 0 0 0]/FT /Sig/T",
+            b"<</Type/Annot/Subtype/Widget/Rect[0 0 0 0]/FT/Sig/T",
             content)
 
         self.assertFalse(aw.FileFormatUtil.detect_file_format(ARTIFACTS_DIR + "PdfSaveOptions.pdf_digital_signature.pdf").has_digital_signature)
@@ -1878,7 +1876,7 @@ class ExPdfSaveOptions(ApiExampleBase):
 
         self.assertIn(
             b"7 0 obj\r\n" +
-            b"<</Type /Annot/Subtype /Widget/Rect [0 0 0 0]/FT /Sig/T",
+            b"<</Type/Annot/Subtype/Widget/Rect[0 0 0 0]/FT/Sig/T",
             content)
 
         #pdf_document = aspose.pdf.Document(ARTIFACTS_DIR + "PdfSaveOptions.pdf_digital_signature_timestamp.pdf")

@@ -2643,3 +2643,14 @@ class ExDocument(ApiExampleBase):
 
         self.assertEqual("Lorem ipsum. Dolor sit amet.", dstDoc.first_section.body.first_paragraph.get_text().strip())
         #ExEnd
+
+    def test_page_is_in_color(self):
+
+        # ExStart
+        # ExFor: PageInfo.colored
+        # ExSummary:Shows how to check whether the page is in color or not.
+        doc = aw.Document(MY_DIR + "Document.docx")
+
+        # Check that the first page of the document is not colored.
+        self.assertFalse(doc.get_page_info(0).colored)
+        # ExEnd
