@@ -722,7 +722,7 @@ class ExShape(ApiExampleBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         self.verify_shape(aw.drawing.ShapeType.CLOUD_CALLOUT, "CloudCallout 100002", 250.0, 150.0, 25.0, 25.0, shape)
-        colorWithOpacity = drawing.Color.from_argb(255 * shape.fill.opacity,
+        colorWithOpacity = drawing.Color.from_argb(int(255 * shape.fill.opacity),
             drawing.Color.light_blue.r,
             drawing.Color.light_blue.g,
             drawing.Color.light_blue.b)
@@ -2920,5 +2920,3 @@ class ExShape(ApiExampleBase):
 
         doc.save(ARTIFACTS_DIR + "Charts.ChartDataValues.docx");
         #ExEnd
-
-

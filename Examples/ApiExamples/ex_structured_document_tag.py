@@ -794,9 +794,6 @@ class ExStructuredDocumentTag(ApiExampleBase):
 
     def test_update_sdt_content(self):
 
-        #ExStart
-        #ExFor:SaveOptions.update_sdt_content
-        #ExSummary:Shows how to update structured document tags while saving a document to PDF.
         doc = aw.Document()
 
         # Insert a drop-down list structured document tag.
@@ -813,13 +810,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         doc.first_section.body.append_child(tag)
 
         doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.update_sdt_content.pdf")
-        #ExEnd
 
-        #pdf_doc = aspose.pdf.Document(ARTIFACTS_DIR + "StructuredDocumentTag.UpdateSdtContent.pdf")
-        #text_absorber = aspose.pdf.text.TextAbsorber()
-        #text_absorber.visit(pdf_doc)
-
-        #self.assertEqual("Value 2", text_absorber.text)
 
     def test_fill_table_using_repeating_section_item(self):
 
