@@ -105,11 +105,11 @@ class ExHtmlSaveOptions(ApiExampleBase):
     def test_create_azw3_toc(self):
         #ExStart
         #ExFor:HtmlSaveOptions.epub_navigation_map_level
-        #ExSummary:Shows how to generate table of contents for azw3 documents.
+        #ExSummary:Shows how to generate table of contents for Azw3 documents.
         doc = aw.Document(MY_DIR + "Big document.docx")
 
         options = aw.saving.HtmlSaveOptions(aw.SaveFormat.AZW3)
-        options.epub_navigation_map_level = 2
+        options.navigation_map_level = 2
 
         doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.CreateAZW3Toc.azw3", options)
         #ExEnd
@@ -748,7 +748,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         # We can use the "epub_navigation_map_level" property to set a maximum heading level.
         # The Epub reader will not add headings with a level above the one we specify to the contents table.
         options = aw.saving.HtmlSaveOptions(aw.SaveFormat.EPUB)
-        options.epub_navigation_map_level = 2
+        options.navigation_map_level = 2
 
         # Our document has six headings, two of which are above level 2.
         # The table of contents for this document will have four entries.
@@ -1624,6 +1624,19 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertLess(30000, file_size)
 
                 #ExEnd
+
+    def test_create_mobi_toc(self):
+        #ExStart
+        #ExFor:HtmlSaveOptions.navigation_map_level
+        #ExSummary:Shows how to generate table of contents for Mobi documents.
+        doc = aw.Document(MY_DIR + "Big document.docx")
+
+        options = aw.saving.HtmlSaveOptions(aw.SaveFormat.MOBI)
+        options.navigation_map_level = 5
+
+        doc.save(ARTIFACTS_DIR + "HtmlSaveOptions.CreateMobiToc.mobi", options)
+        #ExEnd
+
 
     def test_image_folder(self):
 

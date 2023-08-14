@@ -15,7 +15,8 @@ import aspose.words as aw
 import aspose.pydrawing as drawing
 import sys
 import unittest
-from aspose.words.reporting import ReportingEngine
+from aspose.words.reporting import ReportingEngine, JsonDataLoadOptions, JsonDataSource, JsonSimpleValueParseMode
+from aspose.words import DocumentBuilder, ControlChar
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, GOLDS_DIR
 from document_helper import DocumentHelper
@@ -1026,6 +1027,27 @@ class ExReportingEngine(ApiExampleBase):
             engine = ReportingEngine()
             engine.build_report(doc, html, "html_text")
             doc.save(ARTIFACTS_DIR + "ReportingEngine.InsertHtmlDinamically.docx")
+
+    def test_XX(self):
+        template = r'LINE\r<<[LineWhitespace]>>'
+        expected_result = r'LINE\r    '
+        json = b"""{
+                     LineWhitespace:"    "
+                    }"""
+
+        options = JsonDataLoadOptions()
+        options.preserve_spaces = True
+        options.simple_value_parse_mode = JsonSimpleValueParseMode.STRICT
+
+        dataSource = JsonDataSource(io.BytesIO(json), options)
+
+        builder = DocumentBuilder()
+        builder.write(template)
+        print(builder.document.get_text())
+
+        engine = ReportingEngine()
+        engine.build_report(builder.document, dataSource, "ds")
+        self.assertEqual(expected_result + ControlChar.SECTION_BREAK, builder.document.get_text())
 
     def build_report(self, document: aw.Document, data_source, data_source_name = None,
                      known_types = None, options: Optional[aw.reporting.ReportBuildOptions] = None):

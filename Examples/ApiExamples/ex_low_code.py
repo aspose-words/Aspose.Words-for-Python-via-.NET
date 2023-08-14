@@ -64,14 +64,14 @@ class ExLowCode(ApiExampleBase):
         Merger.merge_stream(out, [first_stream_in, second_stream_in], save_options,
                      MergeFormatMode.KEEP_SOURCE_FORMATTING)
         out.flush()
-        pathlib.Path("LowCode.MergeStreamDocument.SaveOptions.docx").write_bytes(out.getvalue())
+        pathlib.Path(ARTIFACTS_DIR + "LowCode.MergeStreamDocument.SaveOptions.docx").write_bytes(out.getvalue())
 
         out.seek(0)
 
         Merger.merge_stream(out, [first_stream_in, second_stream_in], SaveFormat.DOCX)
         out.flush()
 
-        pathlib.Path("LowCode.MergeStreamDocument.SaveFormat.docx").write_bytes(out.getvalue())
+        pathlib.Path(ARTIFACTS_DIR + "LowCode.MergeStreamDocument.SaveFormat.docx").write_bytes(out.getvalue())
         out.close()
 
         doc = Merger.merge_stream([first_stream_in, second_stream_in], MergeFormatMode.MERGE_FORMATTING)
@@ -79,4 +79,3 @@ class ExLowCode(ApiExampleBase):
         first_file_in.close()
         second_file_in.close()
         #ExEnd
-

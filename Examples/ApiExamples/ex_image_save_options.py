@@ -202,6 +202,7 @@ class ExImageSaveOptions(ApiExampleBase):
         #ExFor:Document.save(str,SaveOptions)
         #ExFor:FixedPageSaveOptions
         #ExFor:ImageSaveOptions.page_set
+        #ExFor: ImageSaveOptions.image_size
         #ExSummary:Shows how to render every page of a document to a separate TIFF image.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -222,6 +223,9 @@ class ExImageSaveOptions(ApiExampleBase):
             # Set the "page_set" property to the number of the first page from
             # which to start rendering the document from.
             options.page_set = aw.saving.PageSet(i)
+            options.vertical_resolution = 600
+            options.horizontal_resolution = 600
+            options.image_size = drawing.Size(2325, 5325)
 
             doc.save(ARTIFACTS_DIR + f"ImageSaveOptions.page_by_page.{i + 1}.tiff", options)
 
@@ -232,7 +236,7 @@ class ExImageSaveOptions(ApiExampleBase):
         self.assertEqual(3, len(image_file_names))
 
         for image_file_name in image_file_names:
-            self.verify_image(816, 1056, filename=image_file_name)
+            self.verify_image(2325, 5325, filename=image_file_name)
 
     def test_color_mode(self):
 

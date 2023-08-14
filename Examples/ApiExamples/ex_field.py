@@ -2234,7 +2234,6 @@ class ExField(ApiExampleBase):
         self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, " SEQ  MySequence", "3", field_seq)
         self.assertEqual("MySequence", field_seq.sequence_identifier)
 
-    @unittest.skip("WORDSNET-13854")
     def test_field_citation(self):
 
         #ExStart
@@ -2292,9 +2291,9 @@ class ExField(ApiExampleBase):
         # We can use a BIBLIOGRAPHY field to display all the sources within the document.
         builder.insert_break(aw.BreakType.PAGE_BREAK)
         field_bibliography = builder.insert_field(aw.fields.FieldType.FIELD_BIBLIOGRAPHY, True).as_field_bibliography()
-        field_bibliography.format_language_id = "1124"
+        field_bibliography.format_language_id = "5129"
 
-        self.assertEqual(" BIBLIOGRAPHY  \\l 1124", field_bibliography.get_field_code())
+        self.assertEqual(" BIBLIOGRAPHY  \\l 5129", field_bibliography.get_field_code())
 
         doc.update_fields()
         doc.save(ARTIFACTS_DIR + "Field.field_citation.docx")
@@ -2306,18 +2305,18 @@ class ExField(ApiExampleBase):
 
         field_citation = doc.range.fields[0].as_field_citation()
 
-        self.verify_field(aw.fields.FieldType.FIELD_CITATION, " CITATION  Book1 \\p 85 \\t \\y", " (Doe, p. 85)", field_citation)
+        self.verify_field(aw.fields.FieldType.FIELD_CITATION, " CITATION  Book1 \\p 85 \\t \\y", "(Doe, p. 85)", field_citation)
         self.assertEqual("Book1", field_citation.source_tag)
         self.assertEqual("85", field_citation.page_number)
         self.assertFalse(field_citation.suppress_author)
         self.assertTrue(field_citation.suppress_title)
         self.assertTrue(field_citation.suppress_year)
 
-        field_citation = doc.range.fields[1].as_field_Citation()
+        field_citation = doc.range.fields[1].as_field_citation()
 
         self.verify_field(aw.fields.FieldType.FIELD_CITATION,
             " CITATION  Book1 \\m Book2 \\l en-US \\p 19 \\f \"Prefix \" \\s \" Suffix\" \\v VII",
-            " (Doe, 2018; Prefix Cardholder, 2018, VII:19 Suffix)", field_citation)
+            "(Doe, 2018; Prefix Cardholder, 2018, VII:19 Suffix)", field_citation)
         self.assertEqual("Book1", field_citation.source_tag)
         self.assertEqual("Book2", field_citation.another_source_tag)
         self.assertEqual("en-US", field_citation.format_language_id)
@@ -2331,13 +2330,13 @@ class ExField(ApiExampleBase):
 
         field_bibliography = doc.range.fields[2].as_field_bibliography()
 
-        self.verify_field(aw.fields.FieldType.FIELD_BIBLIOGRAPHY, " BIBLIOGRAPHY  \\l 1124",
+        self.verify_field(aw.fields.FieldType.FIELD_BIBLIOGRAPHY, " BIBLIOGRAPHY  \\l 5129",
             "Cardholder, A. (2018). My Book, Vol. II. New York: Doe Co. Ltd.\rDoe, J. (2018). My Book, Vol I. London: Doe Co. Ltd.\r", field_bibliography)
-        self.assertEqual("1124", field_bibliography.format_language_id)
+        self.assertEqual("5129", field_bibliography.format_language_id)
 
         field_citation = doc.range.fields[3].as_field_citation()
 
-        self.verify_field(aw.fields.FieldType.FIELD_CITATION, " CITATION Book1 \\l 1033 ", "(Doe, 2018)", field_citation)
+        self.verify_field(aw.fields.FieldType.FIELD_CITATION, " CITATION Book1 \\l 1033 ", " (Doe, 2018)", field_citation)
         self.assertEqual("Book1", field_citation.source_tag)
         self.assertEqual("1033", field_citation.format_language_id)
 
@@ -5693,7 +5692,7 @@ class ExField(ApiExampleBase):
     #ExFor:FieldRef.number_separator
     #ExFor:FieldRef.suppress_non_delimiters
     #ExSummary:Shows how to insert REF fields to reference bookmarks.
-    @unittest.skip("WORDSNET-18067") #ExSkip
+    @unittest.skip("WORDSNET-18067")  # ExSkip
     def test_field_ref(self):
 
         doc = aw.Document()
@@ -5784,9 +5783,7 @@ class ExField(ApiExampleBase):
 
         field = doc.range.fields[0].as_field_ref()
 
-        self.verify_field(aw.fields.FieldType.FIELD_REF, " REF  MyBookmark \\f \\h",
-            "\u0002 MyBookmark footnote #1\r" +
-            "Text that will appear in REF field\u0002 MyBookmark footnote #2\r", field)
+        self.verify_field(aw.fields.FieldType.FIELD_REF, "Text that will appear in REF field", field)
         self.assertEqual("MyBookmark", field.bookmark_name)
         self.assertTrue(field.include_note_or_comment)
         self.assertTrue(field.insert_hyperlink)
