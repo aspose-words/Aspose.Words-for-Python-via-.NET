@@ -120,21 +120,22 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.export_header_footer_bookmarks.pdf", save_options)
         #ExEnd:ExportHeaderFooterBookmarks
 
-    def test_scale_wmf_fonts_to_metafile_size(self):
+    def test_emulate_rendering_to_size_on_page(self):
 
-        #ExStart:ScaleWmfFontsToMetafileSize
+
+        #ExStart:EmulateRenderingToSizeOnPage
         doc = aw.Document(MY_DIR + "WMF with text.docx")
 
         metafile_rendering_options = aw.saving.MetafileRenderingOptions()
-        metafile_rendering_options.scale_wmf_fonts_to_metafile_size = False
+        metafile_rendering_options.emulate_rendering_to_size_on_page = False
 
         # If Aspose.Words cannot correctly render some of the metafile records to vector graphics
         # then Aspose.Words renders this metafile to a bitmap.
         save_options = aw.saving.PdfSaveOptions()
         save_options.metafile_rendering_options = metafile_rendering_options
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.scale_wmf_fonts_to_metafile_size.pdf", save_options)
-        #ExEnd:ScaleWmfFontsToMetafileSize
+        doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.EmulateRenderingToSizeOnPage.pdf", save_options)
+        #ExEnd:EmulateRenderingToSizeOnPage
 
     def test_additional_text_positioning(self):
 

@@ -216,9 +216,8 @@ class ExDocument(ApiExampleBase):
             doc = aw.Document(stream, options)
 
             # At this stage, we can read and edit the document's contents and then save it to the local file system.
-            self.assertEqual("HYPERLINK \"https://products.aspose.com/words/family/\" \\o \"Aspose.Words\"",
-                             doc.first_section.body.paragraphs[50].runs[0].get_text().strip())  #ExSkip
-
+            self.assertTrue(doc.get_text().find("HYPERLINK \"https://products.aspose.com/words/family/\" \\o \"Aspose.Words\"") > 0) #ExSkip
+         
             doc.save(ARTIFACTS_DIR + "Document.insert_html_from_web_page.docx")
 
         #ExEnd

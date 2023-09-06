@@ -76,7 +76,7 @@ class WorkingWithNode(DocsExamplesBase):
         and print the type of each node to the screen."""
 
         # This is the most efficient way to loop through immediate children of a node.
-        for child_node in parent_node.child_nodes:
+        for child_node in parent_node.get_child_nodes(aw.NodeType.ANY, False):
             print(aw.Node.node_type_to_string(child_node.node_type))
 
             # Recurse into the node if it is a composite node.

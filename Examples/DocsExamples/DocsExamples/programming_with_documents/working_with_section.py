@@ -177,7 +177,7 @@ class WorkingWithSection(DocsExamplesBase):
 
         # A Section is a composite node and can contain child nodes,
         # but only if those child nodes are of a "Body" or "HeaderFooter" node type.
-        for node in section.child_nodes:
+        for node in section.get_child_nodes(aw.NodeType.ANY, False):
             if node.node_type == aw.NodeType.BODY:
                 body = node.as_body()
                 print("Body:")
