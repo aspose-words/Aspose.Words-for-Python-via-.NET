@@ -159,10 +159,10 @@ class ExMarkdownSaveOptions(ApiExampleBase):
             #ExEnd
 
     def test_mages_folder(self):
-        # ExStart
-        # ExFor:MarkdownSaveOptions.images_folder
-        # ExFor:MarkdownSaveOptions.images_folder_alias
-        # ExSummary: Shows how to specifies the name of the folder used to construct image URIs.
+        #ExStart
+        #ExFor:MarkdownSaveOptions.images_folder
+        #ExFor:MarkdownSaveOptions.images_folder_alias
+        #ExSummary: Shows how to specifies the name of the folder used to construct image URIs.
 
         builder = aw.DocumentBuilder()
 
@@ -177,4 +177,4 @@ class ExMarkdownSaveOptions(ApiExampleBase):
         # when constructing image URIs instead of the images folder's name.
         saveOptions.images_folder_alias = "http://example.com/images"
         builder.document.save(ARTIFACTS_DIR + "MarkdownSaveOptions.ImagesFolder.md", saveOptions)
-        # ExEnd
+        #ExEnd
