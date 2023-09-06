@@ -938,35 +938,29 @@ class ExPdfSaveOptions(ApiExampleBase):
     #            print(f"{info.warning_type}: {info.description}.")
     #            self.save_warnings.warning(info)
 
-    def test_fonts_scaled_to_metafile_size(self):
+    def test_emulate_rendering_to_size_on_page(self):
 
-        for scale_wmf_fonts in (False, True):
-            with self.subTest(scale_wmf_fonts=scale_wmf_fonts):
+        for render_to_size in (False, True):
+            with self.subTest(render_to_size=render_to_size):
                 #ExStart
-                #ExFor:MetafileRenderingOptions.scale_wmf_fonts_to_metafile_size
-                #ExSummary:Shows how to WMF fonts scaling according to metafile size on the page.
+                #ExFor: MetafileRenderingOptions.emulate_rendering_to_size_on_page
+                #ExFor: MetafileRenderingOptions.emulate_rendering_to_size_on_page_resolution
+                #ExSummary: Shows how to display of the metafile according to the size on page.
                 doc = aw.Document(MY_DIR + "WMF with text.docx")
 
                 # Create a "PdfSaveOptions" object that we can pass to the document's "save" method
                 # to modify how that method converts the document to .PDF.
                 save_options = aw.saving.PdfSaveOptions()
 
-                # Set the "scale_wmf_fonts_to_metafile_size" property to "True" to scale fonts
-                # that format text within WMF images according to the size of the metafile on the page.
-                # Set the "scale_wmf_fonts_to_metafile_size" property to "False" to
-                # preserve the default scale of these fonts.
-                save_options.metafile_rendering_options.scale_wmf_fonts_to_metafile_size = scale_wmf_fonts
+                # Set the "EmulateRenderingToSizeOnPage" property to "true"
+                # to emulate rendering according to the metafile size on page.
+                # Set the "EmulateRenderingToSizeOnPage" property to "false"
+                # to emulate metafile rendering to its default size in pixels.
+                save_options.metafile_rendering_options.emulate_rendering_to_size_on_page = render_to_size
+                save_options.metafile_rendering_options.emulate_rendering_to_size_on_page_resolution = 50
 
-                doc.save(ARTIFACTS_DIR + "PdfSaveOptions.fonts_scaled_to_metafile_size.pdf", save_options)
+                doc.save(ARTIFACTS_DIR + "PdfSaveOptions.EmulateRenderingToSizeOnPage.pdf", save_options)
                 #ExEnd
-
-                #pdf_document = aspose.pdf.Document(ARTIFACTS_DIR + "PdfSaveOptions.fonts_scaled_to_metafile_size.pdf")
-                #text_absorber = aspose.pdf.text.TextFragmentAbsorber()
-
-                #pdf_document.pages[1].accept(text_absorber)
-                #text_fragment_rectangle = text_absorber.text_fragments[3].rectangle
-
-                #self.assertAlmostEqual(1.589 if scale_wmf_fonts else 5.045, text_fragment_rectangle.width, delta=0.001)
 
     @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_embed_full_fonts(self):

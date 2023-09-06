@@ -475,3 +475,23 @@ class ExParagraphFormat(ApiExampleBase):
 
         self.assertEqual(format.line_unit_after, 10.9)
         self.assertAlmostEqual(format.space_after, 130.8, delta=0.1)
+
+    def test_paragraph_base_line_alignment(self):
+        #ExStart
+        #ExFor:BaselineAlignment
+        #ExFor:ParagraphFormat.BaselineAlignment
+        #ExSummary:Shows how to set fonts vertical position on a line.
+
+        doc = aw.Document(MY_DIR + "Office math.docx")
+
+        format_ = doc.first_section.body.paragraphs[0].paragraph_format
+
+        if format_.baseline_alignment == aw.BaselineAlignment.AUTO:
+            format_.baseline_alignment = aw.BaselineAlignment.TOP
+
+        doc.save(ARTIFACTS_DIR + "ParagraphFormat.ParagraphBaselineAlignment.docx")
+        #ExEnd
+
+        doc = aw.Document(ARTIFACTS_DIR + "ParagraphFormat.ParagraphBaselineAlignment.docx")
+        format_ = doc.first_section.body.paragraphs[0].paragraph_format
+        self.assertEqual(aw.BaselineAlignment.TOP, format_.baseline_alignment)

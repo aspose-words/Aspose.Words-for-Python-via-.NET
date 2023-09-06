@@ -1311,7 +1311,7 @@ class ExCharts(ApiExampleBase):
 
     def test_format_data_lables(self):
         #ExStart
-        #ExFor:ChartDataLableCollection.format
+        #ExFor:ChartDataLabelCollection.format
         #ExFor:ChartFormat.shape_type
         #ExFor:ChartShapeType
         #ExSummary:Shows how to set fill, stroke and callout formatting for chart data labels.
@@ -1345,5 +1345,36 @@ class ExCharts(ApiExampleBase):
         labelFormat.stroke.color = Color.dark_blue
         labelFormat.fill.solid(Color.blue)
 
-        doc.save(ARTIFACTS_DIR + "Charts.FormatDataLables.docx")
+        doc.save(ARTIFACTS_DIR + "Charts.FormatDataLabels.docx")
+        #ExEnd
+
+    def test_chart_axis_title(self):
+        #ExStart
+        #ExFor:ChartAxisTitle
+        #ExFor:ChartAxisTitle.text
+        #ExFor:ChartAxisTitle.show
+        #ExFor:ChartAxisTitle.overlay
+        #ExSummary: Shows how to set chart axis title.
+
+        doc = Document()
+
+        builder = DocumentBuilder(doc)
+        shape = builder.insert_chart(ChartType.COLUMN, 432, 252)
+
+        chart = shape.chart
+
+        series_coll = chart.series
+        # Delete default generated series.
+        series_coll.clear()
+
+        series_coll.add("AW Series 1", ["AW Category 1", "AW Category 2"], [1, 2])
+
+        # Set axis title.
+        chart.axis_x.title.text = "Categories"
+        chart.axis_x.title.show = True
+        chart.axis_y.title.text = "Values"
+        chart.axis_y.title.show = True
+        chart.axis_y.title.overlay = True
+
+        doc.save(ARTIFACTS_DIR + "Charts.ChartAxisTitle.docx")
         #ExEnd

@@ -200,7 +200,9 @@ class ExtractContentHelper():
 
             current_node = node_branch[i]
             node_index = current_node.parent_node.index_of(current_node)
-            current_clone_node = current_clone_node.as_composite_node().child_nodes[node_index]
+            #current_clone_node = current_clone_node.as_composite_node().child_nodes[node_index]
+            current_clone_node = current_clone_node.as_composite_node().get_child_nodes(aw.NodeType.ANY, False)[node_index]
+            
 
             ExtractContentHelper.remove_nodes_outside_of_range(current_clone_node, is_inclusive or (i > 0), is_start_marker)
 

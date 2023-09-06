@@ -84,7 +84,7 @@ class WorkingWithSdt(DocsExamplesBase):
         run.text = "Hello World"
         run.font.color = drawing.Color.green
         para.runs.add(run)
-        sdt_rich_text.child_nodes.add(para)
+        sdt_rich_text.get_child_nodes(aw.NodeType.ANY, False).add(para)
         doc.first_section.body.append_child(sdt_rich_text)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithSdt.rich_text_box_content_control.docx")

@@ -45,7 +45,7 @@ class CloneAndCombineDocuments(DocsExamplesBase):
         # Loop through all block-level nodes in the section's body,
         # then clone and insert every node that is not the last empty paragraph of a section.
         for src_section in doc_to_insert.sections:
-            for src_node in src_section.as_section().body.child_nodes:
+            for src_node in src_section.as_section().body.get_child_nodes(aw.NodeType.ANY, False):
                 if src_node.node_type == aw.NodeType.PARAGRAPH:
                     para = src_node.as_paragraph()
                     if para.is_end_of_section and not para.has_child_nodes:
