@@ -93,5 +93,7 @@ doc = aw.Document("TestDocument.pdf")
 # Save the document to DOCX format.
 doc.save("output.docx")
 ```
+## Docker File
+The Dockerfile includes commands for configuring Linux images to enable the use of Aspose.Words for Python via .Net. 
 
 [Product Page](https://products.aspose.com/words/python-net/) | [Docs](https://docs.aspose.com/words/python-net/) | [Demos](https://products.aspose.app/words/family) | [Examples](https://github.com/aspose-words/Aspose.Words-for-Python-via-.NET/tree/master/Examples) | [Blog](https://blog.aspose.com/category/words/) | [Search](https://search.aspose.com/) | [Free Support](https://forum.aspose.com/c/words) | [Temporary License](https://purchase.aspose.com/temporary-license)
