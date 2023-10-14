@@ -1,10 +1,11 @@
 from datetime import datetime
 import uuid
+import base64
 
 import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
 
-class WorkingWithDigitalSinatures(DocsExamplesBase):
+class WorkingWithDigitalSignatures(DocsExamplesBase):
 
     def test_sign_document(self):
 
@@ -134,3 +135,16 @@ class WorkingWithDigitalSinatures(DocsExamplesBase):
             # Currently certificate property is not available in Python.
             #print("Subject name: " + signature.certificate_holder.certificate.subject_name.name)
             #print("Issuer name: " + signature.certificate_holder.certificate.issuer_name.name)
+
+    def test_signature_value(self):
+        #ExStart:signature_value
+        doc = aw.Document(MY_DIR + "Digitally signed.docx")
+
+        for digital_signature in doc.digital_signatures:
+            signature_value = base64.b64encode(digital_signature.signature_value)
+            expected_value = b"K1cVLLg2kbJRAzT5WK+m++G8eEO+l7S" \
+                              b"+5ENdjMxxTXkFzGUfvwxREuJdSFj9AbDMhnGvDURv9KEhC25DDF1al8NRVR71TF3CjHVZXpYu7edQS5/yLw" \
+                              b"/k5CiFZzCp1+MmhOdYPcVO+Fm+9fKr2iNLeyYB+fgEeZHfTqTFM2WwAqo="
+            self.assertEqual(expected_value, signature_value)
+            
+        #ExEnd:signature_value

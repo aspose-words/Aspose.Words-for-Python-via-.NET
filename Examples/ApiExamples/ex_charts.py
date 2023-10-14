@@ -14,20 +14,21 @@ import aspose.pydrawing as drawing
 from aspose.words import Document, DocumentBuilder, NodeType
 from aspose.pydrawing import Color
 from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType, ChartShapeType
-
-from api_example_base import ApiExampleBase, ARTIFACTS_DIR
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExCharts(ApiExampleBase):
 
     def test_chart_title(self):
 
-        #ExStart
+        #ExStart:ChartTitle
         #ExFor:Chart
         #ExFor:Chart.title
         #ExFor:ChartTitle
         #ExFor:ChartTitle.overlay
         #ExFor:ChartTitle.show
         #ExFor:ChartTitle.text
+        #ExFor:ChartTitle.font
+
         #ExSummary:Shows how to insert a chart and set a title.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -39,6 +40,8 @@ class ExCharts(ApiExampleBase):
         # Use the "title" property to give our chart a title, which appears at the top center of the chart area.
         title = chart.title
         title.text = "My Chart"
+        title.font.size = 15
+        title.font.color = drawing.Color.blue
 
         # Set the "show" property to "True" to make the title visible.
         title.show = True
@@ -47,7 +50,7 @@ class ExCharts(ApiExampleBase):
         title.overlay = True
 
         doc.save(ARTIFACTS_DIR + "Charts.chart_title.docx")
-        #ExEnd
+        #ExEnd:ChartTitle
 
         doc = aw.Document(ARTIFACTS_DIR + "Charts.chart_title.docx")
         chart_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
@@ -1349,11 +1352,12 @@ class ExCharts(ApiExampleBase):
         #ExEnd
 
     def test_chart_axis_title(self):
-        #ExStart
+        #ExStart:ChartAxisTitle
         #ExFor:ChartAxisTitle
         #ExFor:ChartAxisTitle.text
         #ExFor:ChartAxisTitle.show
         #ExFor:ChartAxisTitle.overlay
+        #ExFor: ChartAxisTitle.font
         #ExSummary: Shows how to set chart axis title.
 
         doc = Document()
@@ -1375,6 +1379,63 @@ class ExCharts(ApiExampleBase):
         chart.axis_y.title.text = "Values"
         chart.axis_y.title.show = True
         chart.axis_y.title.overlay = True
+        chart.axis_y.title.font.size = 12
+        chart.axis_y.title.font.color = drawing.Color.blue
 
         doc.save(ARTIFACTS_DIR + "Charts.ChartAxisTitle.docx")
-        #ExEnd
+        #ExEnd:ChartAxisTitle
+
+
+    def test_copy_data_point_format(self):
+        #ExStart:CopyDataPointFormat
+        #ExFor:ChartSeries.copy_format_from(int)
+        #ExFor:ChartDataPointCollection.has_default_format(int)
+        #ExFor:ChartDataPointCollection.copy_format(int, int)
+        #ExSummary:Shows how to copy data point format.
+
+        doc = aw.Document(MY_DIR + "DataPoint format.docx")
+
+        # Get the chart and series to update format.
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+
+        series = shape.chart.series[0]
+
+        data_points = series.data_points
+
+        self.assertTrue(data_points.has_default_format(0))
+        self.assertFalse(data_points.has_default_format(1))
+
+        # Copy format of the data point with index 1 to the data point with index 2
+        # so that the data point 2 looks the same as the data point 1.
+        data_points.copy_format(0, 1)
+
+        self.assertTrue(data_points.has_default_format(0))
+        self.assertTrue(data_points.has_default_format(1))
+
+        # Copy format of the data point with index 0 to the series defaults so that all data points
+        # in the series that have the default format look the same as the data point 0.
+        series.copy_format_from(1)
+
+        self.assertTrue(data_points.has_default_format(0))
+        self.assertTrue(data_points.has_default_format(1))
+
+        doc.save(ARTIFACTS_DIR + "Charts.CopyDataPointFormat.docx")
+        #ExEnd:CopyDataPointFormat
+
+    def test_reset_data_point_fill(self):
+        #ExStart: ResetDataPointFill
+        #ExFor: ChartFormat.is_defined
+        #ExFor:ChartFormat.set_default_fill
+        #ExSummary: Shows how to reset the fill to the default value defined in the series.
+        doc = Document(MY_DIR + "DataPoint format.docx")
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+
+        series = shape.chart.series[0]
+        data_point = series.data_points[1]
+
+        self.assertTrue(data_point.format.is_defined)
+
+        data_point.format.set_default_fill()
+
+        doc.save(ARTIFACTS_DIR + "Charts.ResetDataPointFill.docx")
+        #ExEnd: ResetDataPointFill

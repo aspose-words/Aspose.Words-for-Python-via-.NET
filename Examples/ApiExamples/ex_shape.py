@@ -2490,13 +2490,13 @@ class ExShape(ApiExampleBase):
 
         # The effects have also affected the visible dimensions of the shape.
         self.assertEqual(1045, rectangle_f_out.width)
-        self.assertEqual(1132, rectangle_f_out.height)
+        self.assertEqual(1133.5, rectangle_f_out.height)
 
         # The effects have also affected the visible bounds of the shape.
         self.assertEqual(-28.5, shape.bounds_with_effects.x)
         self.assertEqual(-33, shape.bounds_with_effects.y)
         self.assertEqual(192, shape.bounds_with_effects.width)
-        self.assertEqual(279, shape.bounds_with_effects.height)
+        self.assertEqual(280.5, shape.bounds_with_effects.height)
         #ExEnd
 
     def test_render_all_shapes(self):
@@ -2920,3 +2920,44 @@ class ExShape(ApiExampleBase):
 
         doc.save(ARTIFACTS_DIR + "Charts.ChartDataValues.docx");
         #ExEnd
+
+
+    def test_fill_base_color(self):
+        #ExStart:FillBaseColor
+        #ExFor:Fill.base_fore_color
+        #ExFor:Stroke.base_fore_color
+        #ExSummary: Shows how to get foreground color without modifiers.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, 100, 40)
+        shape.fill.fore_color = drawing.Color.red
+        shape.fill.fore_tint_and_shade = 0.5
+        shape.stroke.fill.fore_color = drawing.Color.green
+        shape.stroke.fill.transparency = 0.5
+        drawing.Color.from_argb(255, 255, 188, 188).to_argb()
+
+        self.assertEqual(drawing.Color.from_argb(255, 255, 188, 188).to_argb(), shape.fill.fore_color.to_argb())
+        self.assertEqual(drawing.Color.red.to_argb(), shape.fill.base_fore_color.to_argb())
+        self.assertEqual(drawing.Color.from_argb(128, 0, 128, 0).to_argb(), shape.stroke.fore_color.to_argb())
+        self.assertEqual(drawing.Color.green.to_argb(), shape.stroke.base_fore_color.to_argb())
+
+        self.assertEqual(drawing.Color.green.to_argb(), shape.stroke.fill.fore_color.to_argb())
+        self.assertEqual(drawing.Color.green.to_argb(), shape.stroke.fill.base_fore_color.to_argb())
+        #ExEnd:FillBaseColor
+
+    def test_fit_image_to_shape(self):
+
+        #ExStart:FitImageToShape
+        #ExFor:ImageData.fit_image_to_shape
+        #ExSummary:Shows hot to fit the image data to Shape frame.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        # Insert an image shape and leave its orientation in its default state.
+        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, 300, 450)
+        shape.image_data.set_image(IMAGE_DIR + "Barcode.png")
+        shape.image_data.fit_image_to_shape()
+
+        doc.save(ARTIFACTS_DIR + "Shape.FitImageToShape.docx")
+        #ExEnd:FitImageToShape
