@@ -327,7 +327,7 @@ class ExStyles(ApiExampleBase):
 
     def test_lock_style(self):
 
-        #ExStart:LockStyle
+        #ExStart
         #ExFor:Style.locked
         #ExSummary:Shows how to lock style.
 
@@ -338,7 +338,7 @@ class ExStyles(ApiExampleBase):
             style_heading_1.locked = True
 
         doc.save(ARTIFACTS_DIR + "Styles.LockStyle.docx")
-        #ExEnd:LockStyle
+        #ExEnd
 
         doc = aw.Document(ARTIFACTS_DIR + "Styles.LockStyle.docx");
         self.assertEqual(True, doc.styles[aw.StyleIdentifier.HEADING1].locked)

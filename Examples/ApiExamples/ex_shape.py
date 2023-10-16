@@ -2923,7 +2923,7 @@ class ExShape(ApiExampleBase):
 
 
     def test_fill_base_color(self):
-        #ExStart:FillBaseColor
+        #ExStart
         #ExFor:Fill.base_fore_color
         #ExFor:Stroke.base_fore_color
         #ExSummary: Shows how to get foreground color without modifiers.
@@ -2944,11 +2944,11 @@ class ExShape(ApiExampleBase):
 
         self.assertEqual(drawing.Color.green.to_argb(), shape.stroke.fill.fore_color.to_argb())
         self.assertEqual(drawing.Color.green.to_argb(), shape.stroke.fill.base_fore_color.to_argb())
-        #ExEnd:FillBaseColor
+        #ExEnd
 
     def test_fit_image_to_shape(self):
 
-        #ExStart:FitImageToShape
+        #ExStart
         #ExFor:ImageData.fit_image_to_shape
         #ExSummary:Shows hot to fit the image data to Shape frame.
         doc = aw.Document()
@@ -2960,4 +2960,4 @@ class ExShape(ApiExampleBase):
         shape.image_data.fit_image_to_shape()
 
         doc.save(ARTIFACTS_DIR + "Shape.FitImageToShape.docx")
-        #ExEnd:FitImageToShape
+        #ExEnd

@@ -19,8 +19,7 @@ from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 class ExCharts(ApiExampleBase):
 
     def test_chart_title(self):
-
-        #ExStart:ChartTitle
+        #ExStart
         #ExFor:Chart
         #ExFor:Chart.title
         #ExFor:ChartTitle
@@ -28,7 +27,6 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartTitle.show
         #ExFor:ChartTitle.text
         #ExFor:ChartTitle.font
-
         #ExSummary:Shows how to insert a chart and set a title.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -50,7 +48,7 @@ class ExCharts(ApiExampleBase):
         title.overlay = True
 
         doc.save(ARTIFACTS_DIR + "Charts.chart_title.docx")
-        #ExEnd:ChartTitle
+        #ExEnd
 
         doc = aw.Document(ARTIFACTS_DIR + "Charts.chart_title.docx")
         chart_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
@@ -1352,7 +1350,7 @@ class ExCharts(ApiExampleBase):
         #ExEnd
 
     def test_chart_axis_title(self):
-        #ExStart:ChartAxisTitle
+        #ExStart
         #ExFor:ChartAxisTitle
         #ExFor:ChartAxisTitle.text
         #ExFor:ChartAxisTitle.show
@@ -1383,11 +1381,11 @@ class ExCharts(ApiExampleBase):
         chart.axis_y.title.font.color = drawing.Color.blue
 
         doc.save(ARTIFACTS_DIR + "Charts.ChartAxisTitle.docx")
-        #ExEnd:ChartAxisTitle
+        #ExEnd
 
 
     def test_copy_data_point_format(self):
-        #ExStart:CopyDataPointFormat
+        #ExStart
         #ExFor:ChartSeries.copy_format_from(int)
         #ExFor:ChartDataPointCollection.has_default_format(int)
         #ExFor:ChartDataPointCollection.copy_format(int, int)
@@ -1420,11 +1418,11 @@ class ExCharts(ApiExampleBase):
         self.assertTrue(data_points.has_default_format(1))
 
         doc.save(ARTIFACTS_DIR + "Charts.CopyDataPointFormat.docx")
-        #ExEnd:CopyDataPointFormat
+        #ExEnd
 
     def test_reset_data_point_fill(self):
-        #ExStart: ResetDataPointFill
-        #ExFor: ChartFormat.is_defined
+        #ExStart
+        #ExFor:ChartFormat.is_defined
         #ExFor:ChartFormat.set_default_fill
         #ExSummary: Shows how to reset the fill to the default value defined in the series.
         doc = Document(MY_DIR + "DataPoint format.docx")
@@ -1438,4 +1436,4 @@ class ExCharts(ApiExampleBase):
         data_point.format.set_default_fill()
 
         doc.save(ARTIFACTS_DIR + "Charts.ResetDataPointFill.docx")
-        #ExEnd: ResetDataPointFill
+        #ExEnd

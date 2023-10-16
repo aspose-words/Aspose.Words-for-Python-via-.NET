@@ -2526,7 +2526,7 @@ class ExDocument(ApiExampleBase):
 
     def test_insert_document_inline(self):
 
-        #ExStart:InsertDocumentInline
+        #ExStart
         #ExFor:DocumentBuilder.insert_document_inline(Document, ImportFormatMode, ImportFormatOptions)
         #ExSummary:Shows how to insert a document inline at the cursor position.
 
@@ -2548,4 +2548,4 @@ class ExDocument(ApiExampleBase):
         dst_doc.insert_document_inline(src_doc.document, aw.ImportFormatMode.USE_DESTINATION_STYLES, aw.ImportFormatOptions())
 
         self.assertEqual("Before [src content] after", dst_doc.document.get_text().strip())
-        #ExEnd:InsertDocumentInline
+        #ExEnd

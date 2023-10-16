@@ -192,7 +192,7 @@ class ExTxtLoadOptions(ApiExampleBase):
 
     def test_detect_hyperlinks(self):
 
-        #ExStart:DetectHyperlinks
+        #ExStart
         #ExFor: TxtLoadOptions.detect_hyperlinks
         #ExSummary:Shows how to read and display hyperlinks.
 
@@ -214,4 +214,4 @@ class ExTxtLoadOptions(ApiExampleBase):
 
         self.assertEqual('https://www.aspose.com/', doc.range.fields[0].result.strip())
         self.assertEqual('https://docs.aspose.com/words/python-net/', doc.range.fields[1].result.strip())
-        #ExEnd: DetectHyperlinks
+        #ExEnd
