@@ -479,7 +479,7 @@ class ExParagraphFormat(ApiExampleBase):
     def test_paragraph_base_line_alignment(self):
         #ExStart
         #ExFor:BaselineAlignment
-        #ExFor:ParagraphFormat.BaselineAlignment
+        #ExFor:ParagraphFormat.baseline_alignment
         #ExSummary:Shows how to set fonts vertical position on a line.
 
         doc = aw.Document(MY_DIR + "Office math.docx")

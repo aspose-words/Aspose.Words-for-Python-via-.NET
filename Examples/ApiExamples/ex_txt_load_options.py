@@ -188,3 +188,30 @@ class ExTxtLoadOptions(ApiExampleBase):
                 list_items_count += 1
 
         self.assertEqual(0, list_items_count)
+
+
+    def test_detect_hyperlinks(self):
+
+        #ExStart
+        #ExFor: TxtLoadOptions.detect_hyperlinks
+        #ExSummary:Shows how to read and display hyperlinks.
+
+        input_text = b"Some links in TXT:\nhttps://www.aspose.com/\nhttps://docs.aspose.com/words/python-net/\n"
+
+        stream_ = io.BytesIO()
+        stream_.write(input_text)
+        stream_.flush()
+
+        options = aw.loading.TxtLoadOptions()
+        options.detect_hyperlinks = True
+
+        doc = aw.Document(stream_, options)
+        
+        stream_.close()
+        
+        for field in doc.range.fields:
+            print(field.result)
+
+        self.assertEqual('https://www.aspose.com/', doc.range.fields[0].result.strip())
+        self.assertEqual('https://docs.aspose.com/words/python-net/', doc.range.fields[1].result.strip())
+        #ExEnd

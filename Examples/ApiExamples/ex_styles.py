@@ -323,3 +323,22 @@ class ExStyles(ApiExampleBase):
         self.verify_doc_package_file_contains_string(
             "<w:lsdException w:name=\"Unresolved Mention\" w:semiHidden=\"1\" w:unhideWhenUsed=\"1\" />",
             ARTIFACTS_DIR + "Styles.latent_styles.docx", "word/styles.xml")
+
+
+    def test_lock_style(self):
+
+        #ExStart
+        #ExFor:Style.locked
+        #ExSummary:Shows how to lock style.
+
+        doc = aw.Document()
+
+        style_heading_1 = doc.styles[aw.StyleIdentifier.HEADING1]
+        if not style_heading_1.locked:
+            style_heading_1.locked = True
+
+        doc.save(ARTIFACTS_DIR + "Styles.LockStyle.docx")
+        #ExEnd
+
+        doc = aw.Document(ARTIFACTS_DIR + "Styles.LockStyle.docx");
+        self.assertEqual(True, doc.styles[aw.StyleIdentifier.HEADING1].locked)

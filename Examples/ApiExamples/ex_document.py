@@ -2522,3 +2522,30 @@ class ExDocument(ApiExampleBase):
         # Check that the first page of the document is not colored.
         self.assertFalse(doc.get_page_info(0).colored)
         #ExEnd
+
+
+    def test_insert_document_inline(self):
+
+        #ExStart
+        #ExFor:DocumentBuilder.insert_document_inline(Document, ImportFormatMode, ImportFormatOptions)
+        #ExSummary:Shows how to insert a document inline at the cursor position.
+
+        src_doc = aw.DocumentBuilder()
+        src_doc.write("[src content]")
+
+        # Create destination document.
+
+        dst_doc = aw.DocumentBuilder()
+        dst_doc.write("Before ")
+        dst_doc.insert_node(aw.BookmarkStart(dst_doc.document, "src_place"))
+        dst_doc.insert_node(aw.BookmarkEnd(dst_doc.document, "src_place"))
+        dst_doc.write(" after")
+
+        self.assertEqual("Before  after", dst_doc.document.get_text().strip())
+
+        # Insert source document into destination inline.
+        dst_doc.move_to_bookmark("src_place")
+        dst_doc.insert_document_inline(src_doc.document, aw.ImportFormatMode.USE_DESTINATION_STYLES, aw.ImportFormatOptions())
+
+        self.assertEqual("Before [src content] after", dst_doc.document.get_text().strip())
+        #ExEnd

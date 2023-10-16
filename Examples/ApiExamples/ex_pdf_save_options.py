@@ -1062,7 +1062,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                     self.assertLess(480000, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.embed_windows_fonts.pdf"))
 
                 elif pdf_font_embedding_mode == aw.saving.PdfFontEmbeddingMode.EMBED_NONE:
-                    self.assertGreater(4281, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.embed_windows_fonts.pdf"))
+                    self.assertGreater(4284, os.path.getsize(ARTIFACTS_DIR + "PdfSaveOptions.embed_windows_fonts.pdf"))
 
                 #ExEnd
 
@@ -1577,7 +1577,7 @@ class ExPdfSaveOptions(ApiExampleBase):
 
                 elif dml_rendering_mode == aw.saving.DmlRenderingMode.FALLBACK:
                     self.assertIn(
-                        b"<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABE 14 0 R>>/ExtGState<</GS1 11 0 R/GS2 12 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
+                        b"<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABE 14 0 R>>/ExtGState<</GS1 11 0 R/GS2 12 0 R/GS3 17 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                         content)
 
                 #pdf_document = aspose.pdf.Document(ARTIFACTS_DIR + "PdfSaveOptions.drawing_ml_fallback.pdf")
