@@ -1,4 +1,5 @@
 from datetime import datetime
+import re
 
 import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
@@ -150,14 +151,15 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
 
     def test_conversion_to_pdf_17(self):
 
-        #ExStart:ConversionToPDF17
+        #ExStart:ConversionToPdf17
+        #GistId:36a49a29062268dc5e6d3134163f8d99
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.PdfSaveOptions()
         save_options.compliance = aw.saving.PdfCompliance.PDF17
 
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.conversion_to_pdf_17.pdf", save_options)
-        #ExEnd:ConversionToPDF17
+        #ExEnd:ConversionToPdf17
 
     def test_downsampling_images(self):
 
@@ -277,3 +279,15 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "PdfSaveOptions.HandleRasterWarnings.pdf", save_options)
         #ExEnd:RenderMetafileToBitmap
+
+    def test_optimize_output(self):
+
+        #ExStart:OptimizeOutput
+        #GistId:36a49a29062268dc5e6d3134163f8d99
+        doc = aw.Document(MY_DIR + "Rendering.docx")
+
+        save_options = aw.saving.PdfSaveOptions()
+        save_options.optimize_output = True
+
+        doc.save(ARTIFACTS_DIR + "PdfSaveOptions.OptimizeOutput.pdf", save_options)
+        #ExEnd:OptimizeOutput

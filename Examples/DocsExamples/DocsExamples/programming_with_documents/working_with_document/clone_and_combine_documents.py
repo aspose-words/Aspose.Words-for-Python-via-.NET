@@ -15,6 +15,7 @@ class CloneAndCombineDocuments(DocsExamplesBase):
     def test_insert_document_at_bookmark(self):
 
         #ExStart:InsertDocumentAtBookmark
+        #GistId:ffc2b4de06eabf9183a3ed2aa34e939d
         main_doc = aw.Document(MY_DIR + "Document insertion 1.docx")
         sub_doc = aw.Document(MY_DIR + "Document insertion 2.docx")
 
@@ -24,7 +25,8 @@ class CloneAndCombineDocuments(DocsExamplesBase):
         main_doc.save(ARTIFACTS_DIR + "CloneAndCombineDocuments.insert_document_at_bookmark.docx")
         #ExEnd:InsertDocumentAtBookmark
 
-    #ExStart:InsertDocument
+    #ExStart:InsertDocumentAsNodes
+    #GistId:ffc2b4de06eabf9183a3ed2aa34e939d
     @staticmethod
     def insert_document(insertion_destination: aw.Node, doc_to_insert: aw.Document):
         """Inserts content of the external document after the specified node.
@@ -56,7 +58,7 @@ class CloneAndCombineDocuments(DocsExamplesBase):
                 destination_parent.insert_after(new_node, insertion_destination)
                 insertion_destination = new_node
 
-    #ExEnd:InsertDocument
+    #ExEnd:InsertDocumentAsNodes
 
     #ExStart:InsertDocumentWithSectionFormatting
     @staticmethod

@@ -44,11 +44,12 @@ class BaseConversions(DocsExamplesBase):
 
     def test_docx_to_pdf(self):
 
-        #ExStart:Doc2Pdf
+        #ExStart:DocxToPdf
+        #GistId:36a49a29062268dc5e6d3134163f8d99
         doc = aw.Document(MY_DIR + "Document.docx")
 
         doc.save(ARTIFACTS_DIR + "BaseConversions.docx_to_pdf.pdf")
-        #ExEnd:Doc2Pdf
+        #ExEnd:DocxToPdf
 
     def test_docx_to_byte(self):
 
@@ -144,6 +145,7 @@ class BaseConversions(DocsExamplesBase):
     def test_images_to_pdf(self):
 
         #ExStart:ImageToPdf
+        #GistId:36a49a29062268dc5e6d3134163f8d99
         self.convert_image_to_pdf(IMAGES_DIR + "Logo.jpg",
                                   ARTIFACTS_DIR + "BaseConversions.JpgToPdf.pdf")
         self.convert_image_to_pdf(IMAGES_DIR + "Transparent background logo.png",
@@ -190,6 +192,8 @@ class BaseConversions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "BaseConversions.CompressXlsx.xlsx", saveOptions)
 
+    #ExStart:ConvertImageToPdf
+    #GistId:36a49a29062268dc5e6d3134163f8d99
     @staticmethod
     def convert_image_to_pdf(input_file_name: str, output_file_name: str):
         """Converts an image to PDF using Aspose.Words for .NET.
@@ -198,8 +202,7 @@ class BaseConversions(DocsExamplesBase):
        :param output_file_name: Output PDF file name.
         """
         print("Converting " + input_file_name + " to PDF...")
-
-        #ExStart:ConvertImageToPdf
+        
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 

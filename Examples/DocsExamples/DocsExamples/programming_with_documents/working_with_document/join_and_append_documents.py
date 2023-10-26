@@ -205,6 +205,7 @@ class JoinAndAppendDocuments(DocsExamplesBase):
     def test_different_page_setup(self):
 
         #ExStart:DifferentPageSetup
+        #GistId:ffc2b4de06eabf9183a3ed2aa34e939d
         src_doc = aw.Document(MY_DIR + "Document source.docx")
         dst_doc = aw.Document(MY_DIR + "Northwind traders.docx")
 
@@ -264,6 +265,7 @@ class JoinAndAppendDocuments(DocsExamplesBase):
     def test_keep_source_formatting(self):
 
         #ExStart:KeepSourceFormatting
+        #GistId:ffc2b4de06eabf9183a3ed2aa34e939d
         dst_doc = aw.Document()
         dst_doc.first_section.body.append_paragraph("Destination document text. ")
 
@@ -410,9 +412,10 @@ class JoinAndAppendDocuments(DocsExamplesBase):
         builder.document.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.smart_style_behavior.docx")
         #ExEnd:SmartStyleBehavior
 
-    def test_insert_document_with_builder(self):
+    def test_insert_document(self):
 
         #ExStart:InsertDocumentWithBuilder
+        #GistId:ffc2b4de06eabf9183a3ed2aa34e939d
         src_doc = aw.Document(MY_DIR + "Document source.docx")
         dst_doc = aw.Document(MY_DIR + "Northwind traders.docx")
         builder = aw.DocumentBuilder(dst_doc)
@@ -421,8 +424,31 @@ class JoinAndAppendDocuments(DocsExamplesBase):
         builder.insert_break(aw.BreakType.PAGE_BREAK)
 
         builder.insert_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
-        builder.document.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.insert_document_with_builder.docx")
+        builder.document.save(ARTIFACTS_DIR + "JoinAndAppendDocuments.insert_document.docx")
         #ExEnd:InsertDocumentWithBuilder
+
+    def test_insert_document_inline(self):
+
+        #ExStart:InsertDocumentInlineWithBuilder
+        #GistId:ffc2b4de06eabf9183a3ed2aa34e939d
+        src_doc = aw.DocumentBuilder()
+        src_doc.write("[src content]")
+
+        # Create destination document.
+        dst_doc = aw.DocumentBuilder()
+        dst_doc.write("Before ")
+        dst_doc.insert_node(aw.BookmarkStart(dst_doc.document, "src_place"))
+        dst_doc.insert_node(aw.BookmarkEnd(dst_doc.document, "src_place"))
+        dst_doc.write(" after")
+
+        self.assertEqual("Before  after", dst_doc.document.get_text().strip())
+
+        # Insert source document into destination inline.
+        dst_doc.move_to_bookmark("src_place")
+        dst_doc.insert_document_inline(src_doc.document, aw.ImportFormatMode.USE_DESTINATION_STYLES, aw.ImportFormatOptions())
+
+        self.assertEqual("Before [src content] after", dst_doc.document.get_text().strip())
+        #ExEnd:InsertDocumentInlineWithBuilder
 
     def test_keep_source_numbering(self):
 
