@@ -104,7 +104,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
 
     def test_create_azw3_toc(self):
         #ExStart
-        #ExFor:HtmlSaveOptions.epub_navigation_map_level
+        #ExFor:HtmlSaveOptions.navigation_map_level
         #ExSummary:Shows how to generate table of contents for Azw3 documents.
         doc = aw.Document(MY_DIR + "Big document.docx")
 
@@ -722,7 +722,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
     def test_epub_headings(self):
 
         #ExStart
-        #ExFor:HtmlSaveOptions.epub_navigation_map_level
+        #ExFor:HtmlSaveOptions.navigation_map_level
         #ExSummary:Shows how to filter headings that appear in the navigation panel of a saved Epub document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -745,7 +745,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
 
         # Epub readers typically create a table of contents for their documents.
         # Each paragraph with a "Heading" style in the document will create an entry in this table of contents.
-        # We can use the "epub_navigation_map_level" property to set a maximum heading level.
+        # We can use the "navigation_map_level" property to set a maximum heading level.
         # The Epub reader will not add headings with a level above the one we specify to the contents table.
         options = aw.saving.HtmlSaveOptions(aw.SaveFormat.EPUB)
         options.navigation_map_level = 2

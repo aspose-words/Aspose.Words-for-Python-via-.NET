@@ -1263,7 +1263,6 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartLegendEntryCollection
         #ExFor:ChartLegend.legend_entries
         #ExFor:ChartLegendEntry.is_hidden
-        #ExFor:ChartLegendEntry.font
         #ExSummary:Shows how to work with a legend entry for chart series.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1282,11 +1281,6 @@ class ExCharts(ApiExampleBase):
 
         legend_entries = chart.legend.legend_entries
         legend_entries[3].is_hidden = True
-
-        for legend_entry in legend_entries:
-            legend_entry.font.size = 12
-
-        series1.legend_entry.font.italic = True
 
         doc.save(ARTIFACTS_DIR + "Charts.LegendEntries.docx")
         #ExEnd
@@ -1436,4 +1430,24 @@ class ExCharts(ApiExampleBase):
         data_point.format.set_default_fill()
 
         doc.save(ARTIFACTS_DIR + "Charts.ResetDataPointFill.docx")
+        #ExEnd
+
+
+    def test_legend_font(self):
+        #ExStart
+        #ExFor:ChartLegendEntry.font
+        #ExFor:ChartLegend.font
+        #ExSummary: Shows how to work with a legend font.
+        doc = Document(MY_DIR + "Reporting engine template - Chart series.docx")
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        chart = shape.chart
+
+        chart_legend = chart.legend
+        # Set default font size all legend entries.
+        chart_legend.font.size = 14
+        # Change font for specific legend entry.
+        chart_legend.legend_entries[1].font.italic = True
+        chart_legend.legend_entries[1].font.size = 12
+
+        doc.save(ARTIFACTS_DIR + "Charts.LegendFont.docx")
         #ExEnd
