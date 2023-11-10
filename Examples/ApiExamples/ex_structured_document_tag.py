@@ -1145,3 +1145,19 @@ class ExStructuredDocumentTag(ApiExampleBase):
             sdt.append_child(sdt.next_sibling)
 
         doc.save(ARTIFACTS_DIR + "StructuredDocumentTag.Citation.docx")
+        #ExEnd
+
+
+    def test_range_start_word_open_XML_minimal(self):
+        #ExStart
+        #ExFor: StructuredDocumentTagRangeStart.word_open_xml_minimal
+        #ExSummary:Shows how to get minimal XML contained within the node in the FlatOpc format.
+
+        doc = aw.Document(MY_DIR + "Multi-section structured document tags.docx")
+
+
+        tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, True).as_structured_document_tag_range_start()
+        self.assertTrue(tag.word_open_xml_minimal.find( "<pkg:part pkg:name=\"/docProps/app.xml\" pkg:contentType=\"application/vnd.openxmlformats-officedocument.extended-properties+xml\">") > 0)
+        self.assertTrue(tag.word_open_xml_minimal.find(
+            "xmlns:w16cid=\"http://schemas.microsoft.com/office/word/2016/wordml/cid\"") < 0)
+        #ExEnd

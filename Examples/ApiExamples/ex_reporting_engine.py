@@ -1066,6 +1066,23 @@ class ExReportingEngine(ApiExampleBase):
         else:
             engine.build_report(document, data_source)
 
+
+    def update_fields_syntax_aware(self):
+        #ExStart
+        #ExFor:ReportBuildOptions.UPDATE_FIELDS_SYNTAX_AWARE
+        #ExSummary:Shows how to use ReportBuildOptions.UPDATE_FIELDS_SYNTAX_AWARE option.
+        doc =aw.Document(MY_DIR + "Reporting engine template - Fields.docx")
+
+        # Note that enabling of the option makes the engine to update fields while building a report,
+        # so there is no need to update fields separately after that.
+
+        engine = aw.reporting.ReportingEngine()
+        engine.options = aw.reporting.ReportBuildOptions.UPDATE_FIELDS_SYNTAX_AWARE
+
+        engine.build_report(doc, ["First topic", "Second topic", "Third topic"], "topics")
+        doc.save(ARTIFACTS_DIR + "ReportingEngine.UpdateFieldsSyntaxAware.docx")
+        #ExEnd
+
     def create_json_data_source(self, obj: object) -> aw.reporting.JsonDataSource:
         def default(item):
             if isinstance(item, datetime):
