@@ -55,6 +55,7 @@ class RemoveContent(DocsExamplesBase):
     def test_remove_footers(self):
 
         #ExStart:RemoveFooters
+        #GistId:2e1b2b28253780881d116e3a873ee668
         doc = aw.Document(MY_DIR + "Header and footer types.docx")
 
         for section in doc:
