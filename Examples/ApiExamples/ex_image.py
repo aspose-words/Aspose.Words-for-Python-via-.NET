@@ -408,24 +408,24 @@ class ExImage(ApiExampleBase):
         self.assertEqual(300.0, image_size.height_points)
 
     def test_insert_webp_image(self):
-        # ExStart
-        # ExFor: DocumentBuilder.insert_image(str)
-        # ExSummary:Shows how to insert WebP image
+        #ExStart
+        #ExFor: DocumentBuilder.insert_image(str)
+        #ExSummary:Shows how to insert WebP image
 
         doc = Document()
         builder = DocumentBuilder(doc)
 
         builder.insert_image(IMAGE_DIR + "WebP image.webp")
         doc.save(ARTIFACTS_DIR + "Image.InsertWebpImage.docx")
-        # ExEnd
+        #ExEnd
 
     def test_read_webp_image(self):
-        # ExStart
-        # ExFor: ImageType
-        # ExSummary:Shows how to read WebP image
+        #ExStart
+        #ExFor:ImageType
+        #ExSummary:Shows how to read WebP image
 
         doc = Document(MY_DIR + "Document with WebP image.docx")
         shape = doc.get_child(NodeType.SHAPE, 0, True).as_shape()
 
         self.assertEqual(ImageType.WEB_P, shape.image_data.image_type)
-        # ExEnd
+        #ExEnd

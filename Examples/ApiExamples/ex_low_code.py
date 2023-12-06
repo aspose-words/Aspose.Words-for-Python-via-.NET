@@ -82,9 +82,9 @@ class ExLowCode(ApiExampleBase):
         #ExEnd
 
     def test_merge_document_instances(self):
-        # ExStart: MergeDocumentInstances
-        # ExFor: Merger.merge(input_documents: List[aspose.words.Document], merge_format_mode: aspose.words.lowcode.MergeFormatMode)
-        # ExSummary:Shows how to merge input documents to a single document instance.
+        #ExStart
+        #ExFor: Merger.merge_docs
+        #ExSummary:Shows how to merge input documents to a single document instance.
 
         first_doc = DocumentBuilder()
         first_doc.font.size = 16
@@ -97,4 +97,4 @@ class ExLowCode(ApiExampleBase):
         merged_doc = Merger.merge_docs([first_doc.document, second_doc.document], MergeFormatMode.KEEP_SOURCE_LAYOUT)
 
         self.assertEqual("Hello first word!\fHello second word!\f", merged_doc.get_text())
-        # ExEnd
+        #ExEnd

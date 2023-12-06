@@ -2162,12 +2162,10 @@ class ExPdfSaveOptions(ApiExampleBase):
         #ExEnd
 
     def test_page_layout(self):
-
-        # ExStart
-        # ExFor: PdfSaveOptions.PageLayout
-        # ExFor:PdfPageLayout
-        # ExSummary: Shows how to display pages when opened in a PDF reader.
-        Document
+        #ExStart
+        #ExFor: PdfSaveOptions.PageLayout
+        #ExFor: PdfPageLayout
+        #ExSummary: Shows how to display pages when opened in a PDF reader.
         doc = Document(MY_DIR + "Big document.docx")
 
         # Display the pages two at a time, with odd - numbered pages on the left.
@@ -2175,4 +2173,4 @@ class ExPdfSaveOptions(ApiExampleBase):
         save_options.page_layout = PdfPageLayout.TWO_PAGE_LEFT
 
         doc.save(ARTIFACTS_DIR + "PdfSaveOptions.PageLayout.pdf", save_options)
-        # ExEnd
+        #ExEnd
