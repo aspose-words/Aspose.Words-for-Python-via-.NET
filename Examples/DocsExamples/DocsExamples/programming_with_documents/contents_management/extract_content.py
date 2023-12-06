@@ -7,7 +7,7 @@ class ExtractContent(DocsExamplesBase):
     def test_extract_content_between_block_level_nodes(self):
 
         #ExStart:ExtractContentBetweenBlockLevelNodes
-        #GistId:1f94e59ea4838ffac2f0edf921f67060
+        #GistId:399801c9a5e656ed05aa2d7ac5ebc41e
         doc = aw.Document(MY_DIR + "Extract content.docx")
 
         start_para = doc.last_section.get_child(aw.NodeType.PARAGRAPH, 2, True).as_paragraph()
@@ -26,7 +26,7 @@ class ExtractContent(DocsExamplesBase):
     def test_extract_content_between_bookmark(self):
 
         #ExStart:ExtractContentBetweenBookmark
-        #GistId:1f94e59ea4838ffac2f0edf921f67060
+        #GistId:399801c9a5e656ed05aa2d7ac5ebc41e
         doc = aw.Document(MY_DIR + "Extract content.docx")
 
         bookmark = doc.range.bookmarks.get_by_name("Bookmark1")
@@ -49,7 +49,7 @@ class ExtractContent(DocsExamplesBase):
     def test_extract_content_between_comment_range(self):
 
         #ExStart:ExtractContentBetweenCommentRange
-        #GistId:1f94e59ea4838ffac2f0edf921f67060
+        #GistId:399801c9a5e656ed05aa2d7ac5ebc41e
         doc = aw.Document(MY_DIR + "Extract content.docx")
 
         comment_start = doc.get_child(aw.NodeType.COMMENT_RANGE_START, 0, True).as_comment_range_start()
@@ -71,7 +71,7 @@ class ExtractContent(DocsExamplesBase):
     def test_extract_content_between_paragraphs(self):
 
         #ExStart:ExtractContentBetweenParagraphs
-        #GistId:1f94e59ea4838ffac2f0edf921f67060
+        #GistId:399801c9a5e656ed05aa2d7ac5ebc41e
         doc = aw.Document(MY_DIR + "Extract content.docx")
 
         start_para = doc.first_section.body.get_child(aw.NodeType.PARAGRAPH, 6, True).as_paragraph()
@@ -86,7 +86,7 @@ class ExtractContent(DocsExamplesBase):
     def test_extract_content_between_paragraph_styles(self):
 
         #ExStart:ExtractContentBetweenParagraphStyles
-        #GistId:1f94e59ea4838ffac2f0edf921f67060
+        #GistId:399801c9a5e656ed05aa2d7ac5ebc41e
         doc = aw.Document(MY_DIR + "Extract content.docx")
 
         # Gather a list of the paragraphs using the respective heading styles.
@@ -105,7 +105,7 @@ class ExtractContent(DocsExamplesBase):
         #ExEnd:ExtractContentBetweenParagraphStyles
 
     #ExStart:ParagraphsByStyleName
-    #GistId:1f94e59ea4838ffac2f0edf921f67060
+    #GistId:399801c9a5e656ed05aa2d7ac5ebc41e
     @staticmethod
     def paragraphs_by_style_name(doc: aw.Document, style_name: str):
 
@@ -125,7 +125,7 @@ class ExtractContent(DocsExamplesBase):
     def test_extract_content_between_runs(self):
 
         #ExStart:ExtractContentBetweenRuns
-        #GistId:1f94e59ea4838ffac2f0edf921f67060
+        #GistId:399801c9a5e656ed05aa2d7ac5ebc41e
         doc = aw.Document(MY_DIR + "Extract content.docx")
 
         para = doc.get_child(aw.NodeType.PARAGRAPH, 7, True).as_paragraph()
@@ -141,7 +141,7 @@ class ExtractContent(DocsExamplesBase):
     def test_extract_content_using_field(self):
 
         #ExStart:ExtractContentUsingField
-        #GistId:1f94e59ea4838ffac2f0edf921f67060
+        #GistId:399801c9a5e656ed05aa2d7ac5ebc41e
         doc = aw.Document(MY_DIR + "Extract content.docx")
         builder = aw.DocumentBuilder(doc)
         # Pass the first boolean parameter to get the DocumentBuilder to move to the FieldStart of the field.
@@ -161,7 +161,7 @@ class ExtractContent(DocsExamplesBase):
     def test_simple_extract_text(self):
 
         #ExStart:SimpleExtractText
-        #GistId:1f94e59ea4838ffac2f0edf921f67060
+        #GistId:399801c9a5e656ed05aa2d7ac5ebc41e
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -200,7 +200,7 @@ class ExtractContent(DocsExamplesBase):
     def test_extract_images(self):
 
         #ExStart:ExtractImages
-        #GistId:1f94e59ea4838ffac2f0edf921f67060
+        #GistId:399801c9a5e656ed05aa2d7ac5ebc41e
         doc = aw.Document(MY_DIR + "Images.docx")
 
         shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)

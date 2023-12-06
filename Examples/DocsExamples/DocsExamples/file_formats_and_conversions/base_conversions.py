@@ -111,7 +111,7 @@ class BaseConversions(DocsExamplesBase):
     def test_docx_to_txt(self):
 
         #ExStart:DocxToTxt
-        #GistId:1f94e59ea4838ffac2f0edf921f67060
+        #GistId:399801c9a5e656ed05aa2d7ac5ebc41e
         doc = aw.Document(MY_DIR + "Document.docx")
         doc.save(ARTIFACTS_DIR + "BaseConversions.docx_to_txt.txt")
         #ExEnd:DocxToTxt
