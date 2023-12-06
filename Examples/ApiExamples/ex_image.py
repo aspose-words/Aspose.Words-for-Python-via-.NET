@@ -9,7 +9,8 @@ import unittest
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
-
+from aspose.words import Document, DocumentBuilder, NodeType
+from aspose.words.drawing import ImageType
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, IMAGE_URL
 
 # Mostly scenarios that deal with image shapes.
@@ -72,7 +73,7 @@ class ExImage(ApiExampleBase):
 
         self.assertEqual(2, shapes.count)
         self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shapes[0].as_shape())
-        self.verify_image_in_shape(252, 213, aw.drawing.ImageType.PNG, shapes[1].as_shape())
+        self.verify_image_in_shape(272, 92, aw.drawing.ImageType.PNG, shapes[1].as_shape())
 
     def test_from_stream(self):
 
@@ -405,3 +406,26 @@ class ExImage(ApiExampleBase):
 
         self.assertEqual(300.0, image_size.width_points)
         self.assertEqual(300.0, image_size.height_points)
+
+    def test_insert_webp_image(self):
+        # ExStart
+        # ExFor: DocumentBuilder.insert_image(str)
+        # ExSummary:Shows how to insert WebP image
+
+        doc = Document()
+        builder = DocumentBuilder(doc)
+
+        builder.insert_image(IMAGE_DIR + "WebP image.webp")
+        doc.save(ARTIFACTS_DIR + "Image.InsertWebpImage.docx")
+        # ExEnd
+
+    def test_read_webp_image(self):
+        # ExStart
+        # ExFor: ImageType
+        # ExSummary:Shows how to read WebP image
+
+        doc = Document(MY_DIR + "Document with WebP image.docx")
+        shape = doc.get_child(NodeType.SHAPE, 0, True).as_shape()
+
+        self.assertEqual(ImageType.WEB_P, shape.image_data.image_type)
+        # ExEnd

@@ -13,6 +13,8 @@ from aspose.words.saving import PdfTextCompression
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
+from aspose.words.saving import PdfPageLayout, PdfSaveOptions
+from aspose.words import Document
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR, FONTS_DIR
 
@@ -2158,3 +2160,19 @@ class ExPdfSaveOptions(ApiExampleBase):
 
         doc.save(ARTIFACTS_DIR + "PdfSaveOptions.ExportParagraphGraphicsToArtifact.pdf", save_options)
         #ExEnd
+
+    def test_page_layout(self):
+
+        # ExStart
+        # ExFor: PdfSaveOptions.PageLayout
+        # ExFor:PdfPageLayout
+        # ExSummary: Shows how to display pages when opened in a PDF reader.
+        Document
+        doc = Document(MY_DIR + "Big document.docx")
+
+        # Display the pages two at a time, with odd - numbered pages on the left.
+        save_options = PdfSaveOptions()
+        save_options.page_layout = PdfPageLayout.TWO_PAGE_LEFT
+
+        doc.save(ARTIFACTS_DIR + "PdfSaveOptions.PageLayout.pdf", save_options)
+        # ExEnd

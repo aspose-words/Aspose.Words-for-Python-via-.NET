@@ -1693,7 +1693,7 @@ class ExDocumentBuilder(ApiExampleBase):
 
         image = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
 
-        self.verify_image_in_shape(252, 213, aw.drawing.ImageType.PNG, image)
+        self.verify_image_in_shape(272, 92, aw.drawing.ImageType.PNG, image)
         self.assertEqual(100.0, image.left)
         self.assertEqual(250.0, image.top)
         self.assertEqual(200.0, image.width)
@@ -3331,6 +3331,3 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual("base", runs[0].phonetic_guide.base_text)
         self.assertEqual("ruby", runs[0].phonetic_guide.ruby_text)
         #ExEnd
-
-
-

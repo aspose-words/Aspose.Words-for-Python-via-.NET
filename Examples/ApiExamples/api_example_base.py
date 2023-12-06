@@ -48,7 +48,7 @@ FONTS_DIR = MY_DIR + "MyFonts/"
 DATABASE_DIR = MY_DIR + "Database/"
 
 # URL of the test image.
-IMAGE_URL = "https://www.aspose.cloud/templates/aspose/img/products/words/aspose_words.svg"
+IMAGE_URL = "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
 
 
 class ApiExampleBase(unittest.TestCase):

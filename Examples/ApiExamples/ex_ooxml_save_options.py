@@ -11,9 +11,14 @@ import time
 from datetime import datetime, timedelta, timezone
 import unittest
 import sys
+import random
 import aspose.words as aw
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
+from aspose.pydrawing import Color, Size, Graphics, Bitmap
+from aspose.pydrawing.imaging import ImageFormat
+from aspose.words.saving import OoxmlSaveOptions,  Zip64Mode
+from aspose.words import DocumentBuilder
 
 class ExOoxmlSaveOptions(ApiExampleBase):
 
@@ -273,6 +278,27 @@ class ExOoxmlSaveOptions(ApiExampleBase):
 
         doc.save(ARTIFACTS_DIR + "OoxmlSaveOptions.export_generator_name.docx", save_options)
         #ExEnd
+
+    def test_zip_64_mode_option(self):
+        #ExStart
+        #ExFor:OoxmlSaveOptions.zip_64_mode
+        #ExFor:Zip64Mode
+        #ExSummary:Shows how to use ZIP64 format extensions.
+        builder = DocumentBuilder()
+        for i in range(0, 10000):
+            bmp = Bitmap(5, 5)
+            g = Graphics.from_image(bmp)
+            g.clear(Color.from_argb(random.randint(0, 254), random.randint(0, 254), random.randint(0, 254)))
+            data = io.BytesIO()
+            bmp.save(data, ImageFormat.bmp)
+            builder.insert_image(data)
+            data.close()
+
+        options = OoxmlSaveOptions()
+        options.zip_64_mode = Zip64Mode.ALWAYS
+        builder.document.save(ARTIFACTS_DIR + "OoxmlSaveOptions.Zip64ModeOption.docx")
+        # ExEnd
+
 
     ##ExStart
     ##ExFor:SaveOptions.progress_callback

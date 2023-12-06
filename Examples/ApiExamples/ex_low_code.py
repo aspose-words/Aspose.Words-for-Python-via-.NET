@@ -7,9 +7,10 @@
 import os
 import pathlib
 
-from aspose.words import SaveFormat
+from aspose.words import SaveFormat, DocumentBuilder
 from aspose.words.lowcode import Merger, MergeFormatMode
-from aspose.words.saving import  OoxmlSaveOptions
+from aspose.words.saving import OoxmlSaveOptions
+from aspose.pydrawing import Color
 import io
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
@@ -79,3 +80,21 @@ class ExLowCode(ApiExampleBase):
         first_file_in.close()
         second_file_in.close()
         #ExEnd
+
+    def test_merge_document_instances(self):
+        # ExStart: MergeDocumentInstances
+        # ExFor: Merger.merge(input_documents: List[aspose.words.Document], merge_format_mode: aspose.words.lowcode.MergeFormatMode)
+        # ExSummary:Shows how to merge input documents to a single document instance.
+
+        first_doc = DocumentBuilder()
+        first_doc.font.size = 16
+        first_doc.font.color = Color.blue
+        first_doc.write("Hello first word!")
+
+        second_doc = DocumentBuilder()
+        second_doc.write("Hello second word!")
+
+        merged_doc = Merger.merge_docs([first_doc.document, second_doc.document], MergeFormatMode.KEEP_SOURCE_LAYOUT)
+
+        self.assertEqual("Hello first word!\fHello second word!\f", merged_doc.get_text())
+        # ExEnd
