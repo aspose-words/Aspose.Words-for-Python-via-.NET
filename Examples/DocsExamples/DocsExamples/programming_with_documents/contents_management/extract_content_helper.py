@@ -2,7 +2,6 @@ import aspose.words as aw
 
 class ExtractContentHelper():
 
-    #ExStart:CommonExtractContent
     @staticmethod
     def extract_content(start_node: aw.Node, end_node: aw.Node, is_inclusive: bool):
 
@@ -77,42 +76,6 @@ class ExtractContentHelper():
         # Return the nodes between the node markers.
         return nodes
 
-    #ExEnd:CommonExtractContent
-    @staticmethod
-    def paragraphs_by_style_name(doc: aw.Document, style_name: str):
-
-        # Create an array to collect paragraphs of the specified style.
-        paragraphs_with_style = []
-
-        paragraphs = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)
-
-        # Look through all paragraphs to find those with the specified style.
-        for paragraph in paragraphs:
-            paragraph = paragraph.as_paragraph()
-            if paragraph.paragraph_format.style.name == style_name:
-                paragraphs_with_style.append(paragraph)
-
-        return paragraphs_with_style
-
-    #ExStart:CommonGenerateDocument
-    @staticmethod
-    def generate_document(src_doc: aw.Document, nodes):
-
-        dst_doc = aw.Document()
-        # Remove the first paragraph from the empty document.
-        dst_doc.first_section.body.remove_all_children()
-
-        # Import each node from the list into the new document. Keep the original formatting of the node.
-        importer = aw.NodeImporter(src_doc, dst_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
-
-        for node in nodes:
-            import_node = importer.import_node(node, True)
-            dst_doc.first_section.body.append_child(import_node)
-
-        return dst_doc
-    #ExEnd:CommonGenerateDocument
-
-    #ExStart:CommonExtractContentHelperMethods
     @staticmethod
     def verify_parameter_nodes(start_node: aw.Node, end_node: aw.Node):
 
@@ -268,4 +231,20 @@ class ExtractContentHelper():
             start_node = start_node.parent_node
         return start_node
 
-    #ExEnd:CommonExtractContentHelperMethods
+    #ExStart:GenerateDocument
+    #GistId:1f94e59ea4838ffac2f0edf921f67060
+    @staticmethod
+    def generate_document(src_doc: aw.Document, nodes):
+
+        dst_doc = aw.Document()
+        # Remove the first paragraph from the empty document.
+        dst_doc.first_section.body.remove_all_children()
+
+        # Import each node from the list into the new document. Keep the original formatting of the node.
+        importer = aw.NodeImporter(src_doc, dst_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+        for node in nodes:
+            import_node = importer.import_node(node, True)
+            dst_doc.first_section.body.append_child(import_node)
+
+        return dst_doc
+    #ExEnd:GenerateDocument
