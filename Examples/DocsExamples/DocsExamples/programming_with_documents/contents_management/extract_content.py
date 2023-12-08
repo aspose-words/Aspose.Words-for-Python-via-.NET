@@ -213,8 +213,8 @@ class ExtractContent(DocsExamplesBase):
                 image_file_name = "Image.ExportImages." + str(image_index) + image_extension
 
                 # Note, if you have only an image (not a shape with a text and the image),
-                # you can use shape.GetShapeRenderer().Save(...) method to save the image.
-                shape.get_shape_renderer().saveimage_data.save(ARTIFACTS_DIR + image_file_name)
+                # you can use shape.get_shape_renderer().save(...) method to save the image.
+                shape.image_data.save(ARTIFACTS_DIR + image_file_name)
                 image_index += 1
 
         #ExEnd:ExtractImages
