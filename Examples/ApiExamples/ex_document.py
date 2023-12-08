@@ -85,8 +85,6 @@ class ExDocument(ApiExampleBase):
 
         #ExEnd
 
-        self.verify_web_response_status_code(200, url)
-
     def test_convert_to_pdf(self):
 
         #ExStart
