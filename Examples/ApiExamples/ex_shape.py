@@ -15,6 +15,7 @@ import aspose.words.drawing as awd
 import aspose.pydrawing as drawing
 from aspose.words import Document, DocumentBuilder, NodeType
 from aspose.pydrawing import Color
+from aspose.words.themes import ThemeColor
 from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
 
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, IMAGE_DIR
@@ -2960,4 +2961,67 @@ class ExShape(ApiExampleBase):
         shape.image_data.fit_image_to_shape()
 
         doc.save(ARTIFACTS_DIR + "Shape.FitImageToShape.docx")
+        #ExEnd
+
+
+    def test_stroke_fore_theme_colors(self):
+
+        #ExStart
+        #ExFor:Stroke.fore_theme_color
+        #ExFor:Stroke.fore_tint_and_shade
+        #ExSummary:Shows how to set fore theme color and tint and shade.
+
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        shape = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 100, 40)
+        stroke = shape.stroke
+        stroke.fore_theme_color = ThemeColor.DARK1
+        stroke.fore_tint_and_shade = 0.5
+
+        doc.save(ARTIFACTS_DIR + "Shape.StrokeForeThemeColors.docx")
+        #ExEnd
+
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.StrokeForeThemeColors.docx")
+        shape = doc.get_child(NodeType.SHAPE, 0, True).as_shape()
+
+        self.assertEqual(ThemeColor.DARK1, shape.stroke.fore_theme_color)
+        self.assertEqual(0.5, shape.stroke.fore_tint_and_shade)
+
+    def test_stroke_back_theme_colors(self):
+        #ExStart
+        #ExFor:Stroke.back_theme_color
+        #ExFor:Stroke.back_tint_and_shade
+        #ExSummary: Shows how to set back theme color and tint and shade.
+
+        doc = aw.Document(MY_DIR + "Stroke gradient outline.docx")
+
+        shape = doc.get_child(NodeType.SHAPE, 0, True).as_shape()
+        stroke = shape.stroke
+        stroke.back_theme_color = ThemeColor.DARK2
+        stroke.back_tint_and_shade = 0.2
+
+        doc.save(ARTIFACTS_DIR + "Shape.StrokeBackThemeColors.docx")
+        #ExEnd
+
+        doc = aw.Document(ARTIFACTS_DIR + "Shape.StrokeBackThemeColors.docx")
+        shape = doc.get_child(NodeType.SHAPE, 0, True).as_shape()
+
+        self.assertEqual(ThemeColor.DARK2, shape.stroke.back_theme_color)
+
+
+    def test_text_box_ole_control(self):
+        #ExStart:TextBoxOleControl
+        #ExFor:TextBoxControl
+        #ExFor:TextBoxControl.text
+        #ExSummary:Shows how to change text of the TextBox OLE control.
+
+        doc = aw.Document(MY_DIR + "Textbox control.docm")
+
+        shape = doc.get_child(NodeType.SHAPE, 0, True).as_shape()
+
+        textBoxControl = shape.ole_format.ole_control.as_forms2_ole_control().as_text_box_control()
+        self.assertEqual("Aspose.Words test", textBoxControl.text)
+
+        textBoxControl.text = "Updated text"
+        self.assertEqual("Updated text", textBoxControl.text)
         #ExEnd
