@@ -6930,6 +6930,40 @@ class ExField(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "Field.set_field_index_format.docx")
         #ExEnd
 
+
+    def test_bibliography_sources(self):
+        #ExStart
+        #ExFor:Bibliography
+        #ExFor:Bibliography.sources
+        #ExFor:Source.title
+        #ExFor:Source.contributors
+        #ExFor:ContributorCollection
+        #ExFor:ContributorCollection.author
+        #ExFor:PersonCollection
+        #ExFor:Person
+        #ExFor:Person.first
+        #ExFor:Person.middle
+        #ExFor: Person.last
+        #ExSummary:Shows how to get bibliography sources available in the document.
+
+        document = aw.Document(MY_DIR + "Bibliography sources.docx")
+
+        bibliography = document.bibliography
+        self.assertEqual(12, len(bibliography.sources))
+
+        source = bibliography.sources[0]
+        self.assertEqual("Book 0 (No LCID)", source.title)
+
+        authors = source.contributors.author.as_person_collection()
+        self.assertEqual(2, authors.count)
+
+        person = authors[0]
+        self.assertEqual("Roxanne", person.first)
+        self.assertEqual("Brielle", person.middle)
+        self.assertEqual("Tejeda", person.last)
+        #ExEnd
+
+
     ##ExStart
     ##ExFor:ComparisonEvaluationResult.__init__(bool)
     ##ExFor:ComparisonEvaluationResult.__init__(string)

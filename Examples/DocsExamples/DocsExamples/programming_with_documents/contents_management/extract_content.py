@@ -1,5 +1,5 @@
 import aspose.words as aw
-from DocsExamples.docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 from . import extract_content_helper as helper
 
 class ExtractContent(DocsExamplesBase):

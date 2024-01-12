@@ -17,7 +17,7 @@ class HelloWorld(DocsExamplesBase):
 
         doc_b = aw.Document(MY_DIR + "Document.docx")
         # Add document B to the and of document A, preserving document B formatting.
-        doc_a.appendDocument(doc_b, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+        doc_a.append_document(doc_b, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
 
         doc_a.save(ARTIFACTS_DIR + "HelloWorld.SimpleHelloWorld.pdf")
         #ExEnd:HelloWorld

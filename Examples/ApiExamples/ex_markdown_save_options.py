@@ -178,3 +178,19 @@ class ExMarkdownSaveOptions(ApiExampleBase):
         saveOptions.images_folder_alias = "http://example.com/images"
         builder.document.save(ARTIFACTS_DIR + "MarkdownSaveOptions.ImagesFolder.md", saveOptions)
         #ExEnd
+
+    def test_export_underline_formatting(self):
+        #ExStart
+        #ExFor: MarkdownSaveOptions.export_underline_formatting
+        #ExSummary:Shows how to export underline formatting as ++.
+
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        builder.underline = aw.Underline.SINGLE
+        builder.write("Lorem ipsum. Dolor sit amet.")
+
+        save_options = aw.saving.MarkdownSaveOptions()
+        save_options.export_underline_formatting = True
+        doc.save(ARTIFACTS_DIR + "MarkdownSaveOptions.ExportUnderlineFormatting.md", save_options)
+        #ExEnd
