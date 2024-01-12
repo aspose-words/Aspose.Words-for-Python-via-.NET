@@ -2963,7 +2963,6 @@ class ExShape(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "Shape.FitImageToShape.docx")
         #ExEnd
 
-
     def test_stroke_fore_theme_colors(self):
 
         #ExStart
