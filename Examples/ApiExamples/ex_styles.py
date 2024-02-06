@@ -340,5 +340,26 @@ class ExStyles(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "Styles.LockStyle.docx")
         #ExEnd
 
-        doc = aw.Document(ARTIFACTS_DIR + "Styles.LockStyle.docx");
+        doc = aw.Document(ARTIFACTS_DIR + "Styles.LockStyle.docx")
         self.assertEqual(True, doc.styles[aw.StyleIdentifier.HEADING1].locked)
+
+    def test_style_priority(self):
+        #ExStart:StylePriority
+        #ExFor:Style.priority
+        #ExFor:Style.unhide_when_used
+        #ExFor:Style.semi_hidden
+        #ExSummary:Shows how to prioritize and hide a style.
+        doc = aw.Document()
+        style_title = doc.styles.get_by_style_identifier(aw.StyleIdentifier.SUBTITLE)
+
+        if style_title.priority == 9:
+            style_title.priority = 10
+
+        if not style_title.unhide_when_used:
+            style_title.unhide_when_used = True
+
+        if style_title.semi_hidden:
+            style_title.semi_hidden = True
+
+        doc.save(file_name=ARTIFACTS_DIR + "Styles.StylePriority.docx")
+        #ExEnd:StylePriority

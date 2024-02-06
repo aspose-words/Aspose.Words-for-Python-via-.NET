@@ -204,7 +204,7 @@ class ExDocument(ApiExampleBase):
         #ExFor:LoadOptions.__init__(LoadFormat,str,str)
         #ExFor:LoadFormat
         #ExSummary:Shows how save a web page as a .docx file.
-        url = "https://www.aspose.com/"
+        url = "https://products.aspose.com/words/"
 
         with io.BytesIO(urlopen(url).read()) as stream:
             # The URL is used again as a "base_uri" to ensure that any relative image paths are retrieved correctly.
@@ -214,7 +214,7 @@ class ExDocument(ApiExampleBase):
             doc = aw.Document(stream, options)
 
             # At this stage, we can read and edit the document's contents and then save it to the local file system.
-            self.assertTrue(doc.get_text().find("HYPERLINK \"https://products.aspose.com/words/family/\" \\o \"Aspose.Words\"") > 0) #ExSkip
+            self.assertTrue(doc.get_text().find("HYPERLINK \"https://products.aspose.com/words/net/\" \\o \"Aspose.Words\"") > 0) #ExSkip
          
             doc.save(ARTIFACTS_DIR + "Document.insert_html_from_web_page.docx")
 

@@ -29,6 +29,18 @@ class ExSvgSaveOptions(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + "SvgSaveOptions.save_like_image.svg", options)
         #ExEnd
 
+    def test_save_office_math(self):
+        #ExStart:SaveOfficeMath
+        #GistId:a775441ecb396eea917a2717cb9e8f8f
+        #ExFor:NodeRendererBase.save(string, SvgSaveOptions)
+        #ExSummary:Shows how to pass save options when rendering office math.
+        doc = aw.Document(file_name=MY_DIR + "Office math.docx")
+        math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
+        options = aw.saving.SvgSaveOptions()
+        options.text_output_mode = aw.saving.SvgTextOutputMode.USE_PLACED_GLYPHS
+        math.get_math_renderer().save(file_name=ARTIFACTS_DIR + "SvgSaveOptions.Output.svg", save_options=options)
+        #ExEnd:SaveOfficeMath
+
     #ExStart
     #ExFor:SvgSaveOptions
     #ExFor:SvgSaveOptions.export_embedded_images
