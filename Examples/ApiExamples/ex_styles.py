@@ -344,11 +344,11 @@ class ExStyles(ApiExampleBase):
         self.assertEqual(True, doc.styles[aw.StyleIdentifier.HEADING1].locked)
 
     def test_style_priority(self):
-        # ExStart:StylePriority
-        # ExFor:Style.priority
-        # ExFor:Style.unhide_when_used
-        # ExFor:Style.semi_hidden
-        # ExSummary:Shows how to prioritize and hide a style.
+        #ExStart:StylePriority
+        #ExFor:Style.priority
+        #ExFor:Style.unhide_when_used
+        #ExFor:Style.semi_hidden
+        #ExSummary:Shows how to prioritize and hide a style.
         doc = aw.Document()
         style_title = doc.styles.get_by_style_identifier(aw.StyleIdentifier.SUBTITLE)
 

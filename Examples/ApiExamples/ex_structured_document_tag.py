@@ -1163,10 +1163,10 @@ class ExStructuredDocumentTag(ApiExampleBase):
         #ExEnd
 
     def test_appearance(self):
-        # ExStart:Appearance
-        # ExFor:SdtAppearance
-        # ExFor:StructuredDocumentTagRangeStart.appearance
-        # ExSummary:Shows how to show tag around content.
+        #ExStart:Appearance
+        #ExFor:SdtAppearance
+        #ExFor:StructuredDocumentTagRangeStart.appearance
+        #ExSummary:Shows how to show tag around content.
         doc = aw.Document(file_name=MY_DIR + "Multi-section structured document tags.docx")
         tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0,
                             True).as_structured_document_tag_range_start()
@@ -1174,4 +1174,4 @@ class ExStructuredDocumentTag(ApiExampleBase):
         if tag.appearance == aw.markup.SdtAppearance.HIDDEN:
             tag.appearance = aw.markup.SdtAppearance.TAGS
 
-        # ExEnd:Appearance
+        #ExEnd:Appearance
