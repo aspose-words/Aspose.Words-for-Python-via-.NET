@@ -598,3 +598,15 @@ class ExInlineStory(ApiExampleBase):
 
         self.assertEqual(0, doc.get_child_nodes(aw.NodeType.SHAPE, True).count)
         #ExEnd
+
+    def test_update_actual_reference_marks(self):
+        #ExStart:UpdateActualReferenceMarks
+        #ExFor:Document.update_actual_reference_marks
+        #ExFor:Footnote.actual_reference_mark
+        #ExSummary:Shows how to get actual footnote reference mark.
+        doc = aw.Document(file_name=MY_DIR + "Footnotes and endnotes.docx")
+        footnote = doc.get_child(aw.NodeType.FOOTNOTE, 1, True).as_footnote()
+        doc.update_fields()
+        doc.update_actual_reference_marks()
+        self.assertEqual("1", footnote.actual_reference_mark)
+        #ExEnd:UpdateActualReferenceMarks
