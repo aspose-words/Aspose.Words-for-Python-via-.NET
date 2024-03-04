@@ -2547,3 +2547,43 @@ class ExDocument(ApiExampleBase):
 
         self.assertEqual("Before [src content] after", dst_doc.document.get_text().strip())
         #ExEnd
+
+    def test_save_document_to_to_stream(self):
+
+        save_formats = [aw.SaveFormat.DOC, aw.SaveFormat.DOT, aw.SaveFormat.DOCX, aw.SaveFormat.DOCM,
+                        aw.SaveFormat.DOTX, aw.SaveFormat.DOTM, aw.SaveFormat.FLAT_OPC,
+                        aw.SaveFormat.FLAT_OPC_MACRO_ENABLED,
+                        aw.SaveFormat.FLAT_OPC_TEMPLATE, aw.SaveFormat.FLAT_OPC_TEMPLATE_MACRO_ENABLED, aw.SaveFormat.RTF,
+                        aw.SaveFormat.WORD_ML, aw.SaveFormat.MHTML,
+                        aw.SaveFormat.PDF, aw.SaveFormat.XPS, aw.SaveFormat.XAML_FIXED,
+                        aw.SaveFormat.HTML_FIXED, aw.SaveFormat.OPEN_XPS, aw.SaveFormat.PS, aw.SaveFormat.PCL,
+                        aw.SaveFormat.AZW3,
+                        aw.SaveFormat.MOBI, aw.SaveFormat.OTT, aw.SaveFormat.TEXT,
+                        aw.SaveFormat.XAML_FLOW, aw.SaveFormat.XAML_FLOW_PACK, aw.SaveFormat.XLSX,
+                        aw.SaveFormat.TIFF, aw.SaveFormat.PNG, aw.SaveFormat.BMP, aw.SaveFormat.EMF,
+                        aw.SaveFormat.JPEG, aw.SaveFormat.GIF, aw.SaveFormat.EPS, aw.SaveFormat.EMF]
+
+        for save_format in save_formats:
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc)
+            builder.write("Some text")
+            result = io.BytesIO()
+            if save_format == aw.SaveFormat.HTML_FIXED:
+                save_options = aw.saving.HtmlFixedSaveOptions()
+                save_options.export_embedded_css = True
+                save_options.export_embedded_fonts = True
+                save_options.export_embedded_images = True
+                save_options.save_format = save_format
+                doc.save(result, save_options)
+                result.close()
+                continue
+            if save_format == aw.SaveFormat.XAML_FIXED:
+                save_options = aw.saving.XamlFixedSaveOptions()
+                save_options.resources_folder = ARTIFACTS_DIR
+                save_options.save_format = save_format
+                doc.save(result, save_options)
+                result.close()
+                continue
+
+            doc.save(result, save_format)
+            result.close()
