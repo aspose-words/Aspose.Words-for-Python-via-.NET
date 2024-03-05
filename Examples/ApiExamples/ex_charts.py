@@ -186,9 +186,9 @@ class ExCharts(ApiExampleBase):
         x_axis.minor_tick_mark = aw.drawing.charts.AxisTickMark.CROSS
         x_axis.major_unit = 10.0
         x_axis.minor_unit = 15.0
-        x_axis.tick_label_offset = 50
-        x_axis.tick_label_position = aw.drawing.charts.AxisTickLabelPosition.LOW
-        x_axis.tick_label_spacing_is_auto = False
+        x_axis.tick_labels.offset = 50
+        x_axis.tick_labels.position = aw.drawing.charts.AxisTickLabelPosition.LOW
+        x_axis.tick_labels.is_auto_spacing = False
         x_axis.tick_mark_spacing = 1
 
         y_axis = chart.axis_y
@@ -199,7 +199,7 @@ class ExCharts(ApiExampleBase):
         y_axis.minor_tick_mark = aw.drawing.charts.AxisTickMark.CROSS
         y_axis.major_unit = 100.0
         y_axis.minor_unit = 20.0
-        y_axis.tick_label_position = aw.drawing.charts.AxisTickLabelPosition.NEXT_TO_AXIS
+        y_axis.tick_labels.position = aw.drawing.charts.AxisTickLabelPosition.NEXT_TO_AXIS
 
         # Column charts do not have a Z-axis.
         self.assertIsNone(chart.axis_z)
@@ -217,9 +217,9 @@ class ExCharts(ApiExampleBase):
         self.assertEqual(aw.drawing.charts.AxisTickMark.CROSS, chart.axis_x.minor_tick_mark)
         self.assertEqual(1.0, chart.axis_x.major_unit)
         self.assertEqual(0.5, chart.axis_x.minor_unit)
-        self.assertEqual(50, chart.axis_x.tick_label_offset)
-        self.assertEqual(aw.drawing.charts.AxisTickLabelPosition.LOW, chart.axis_x.tick_label_position)
-        self.assertFalse(chart.axis_x.tick_label_spacing_is_auto)
+        self.assertEqual(50, chart.axis_x.tick_labels.offset)
+        self.assertEqual(aw.drawing.charts.AxisTickLabelPosition.LOW, chart.axis_x.tick_labels.position)
+        self.assertFalse(chart.axis_x.tick_labels.is_auto_spacing)
         self.assertEqual(1, chart.axis_x.tick_mark_spacing)
 
         self.assertEqual(aw.drawing.charts.AxisCategoryType.CATEGORY, chart.axis_y.category_type)
@@ -229,7 +229,7 @@ class ExCharts(ApiExampleBase):
         self.assertEqual(aw.drawing.charts.AxisTickMark.CROSS, chart.axis_y.minor_tick_mark)
         self.assertEqual(100.0, chart.axis_y.major_unit)
         self.assertEqual(20.0, chart.axis_y.minor_unit)
-        self.assertEqual(aw.drawing.charts.AxisTickLabelPosition.NEXT_TO_AXIS, chart.axis_y.tick_label_position)
+        self.assertEqual(aw.drawing.charts.AxisTickLabelPosition.NEXT_TO_AXIS, chart.axis_y.tick_labels.position)
 
     def test_date_time_values(self):
 
@@ -283,7 +283,7 @@ class ExCharts(ApiExampleBase):
 
         # Define Y-axis properties for decimal values.
         y_axis = chart.axis_y
-        y_axis.tick_label_position = aw.drawing.charts.AxisTickLabelPosition.HIGH
+        y_axis.tick_labels.position = aw.drawing.charts.AxisTickLabelPosition.HIGH
         y_axis.major_unit = 100.0
         y_axis.minor_unit = 50.0
         y_axis.display_unit.unit = aw.drawing.charts.AxisBuiltInUnit.HUNDREDS
@@ -308,7 +308,7 @@ class ExCharts(ApiExampleBase):
         self.assertEqual(True, chart.axis_x.has_major_gridlines)
         self.assertEqual(True, chart.axis_x.has_minor_gridlines)
 
-        self.assertEqual(aw.drawing.charts.AxisTickLabelPosition.HIGH, chart.axis_y.tick_label_position)
+        self.assertEqual(aw.drawing.charts.AxisTickLabelPosition.HIGH, chart.axis_y.tick_labels.position)
         self.assertEqual(100.0, chart.axis_y.major_unit)
         self.assertEqual(50.0, chart.axis_y.minor_unit)
         self.assertEqual(aw.drawing.charts.AxisBuiltInUnit.HUNDREDS, chart.axis_y.display_unit.unit)
@@ -1114,9 +1114,9 @@ class ExCharts(ApiExampleBase):
         # Set the X-axis bounds so that the X-axis spans 5 major tick marks and 12 minor tick marks.
         axis.scaling.minimum = aw.drawing.charts.AxisBound(-10)
         axis.scaling.maximum = aw.drawing.charts.AxisBound(30)
-        axis.tick_label_alignment = aw.ParagraphAlignment.RIGHT
+        axis.tick_labels.alignment = aw.ParagraphAlignment.RIGHT
 
-        self.assertEqual(1, axis.tick_label_spacing)
+        self.assertEqual(1, axis.tick_labels.spacing)
 
         # Set the tick labels to display their value in millions.
         axis.display_unit.unit = aw.drawing.charts.AxisBuiltInUnit.MILLIONS
@@ -1142,8 +1142,8 @@ class ExCharts(ApiExampleBase):
         self.assertEqual(10.0, axis.major_unit)
         self.assertEqual(-10.0, axis.scaling.minimum.value)
         self.assertEqual(30.0, axis.scaling.maximum.value)
-        self.assertEqual(1, axis.tick_label_spacing)
-        self.assertEqual(aw.ParagraphAlignment.RIGHT, axis.tick_label_alignment)
+        self.assertEqual(1, axis.tick_labels.spacing)
+        self.assertEqual(aw.ParagraphAlignment.RIGHT, axis.tick_labels.alignment)
         self.assertEqual(aw.drawing.charts.AxisBuiltInUnit.CUSTOM, axis.display_unit.unit)
         self.assertEqual(1000000.0, axis.display_unit.custom_unit)
 

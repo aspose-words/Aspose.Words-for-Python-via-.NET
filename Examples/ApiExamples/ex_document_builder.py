@@ -1392,7 +1392,8 @@ class ExDocumentBuilder(ApiExampleBase):
         # to the "insert_hyperlink" method as part of the argument containing the referenced bookmark's name.
         builder.font.color = drawing.Color.blue
         builder.font.underline = aw.Underline.SINGLE
-        builder.insert_hyperlink("Link to Bookmark1", "Bookmark1", True)
+        hyper_link = builder.insert_hyperlink("Link to Bookmark1", "Bookmark1", True).as_field_hyperlink()
+        hyper_link.screen_tip = "Hyperlink Tip"
 
         doc.save(ARTIFACTS_DIR + "DocumentBuilder.insert_hyperlink_to_local_bookmark.docx")
         #ExEnd

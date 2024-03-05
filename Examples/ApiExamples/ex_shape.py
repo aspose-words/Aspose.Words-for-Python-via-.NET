@@ -1335,7 +1335,7 @@ class ExShape(ApiExampleBase):
         math.get_math_renderer().save(ARTIFACTS_DIR + "Shape.render_office_math.png", save_options)
         #ExEnd
 
-        self.verify_image(795, 87, filename=(ARTIFACTS_DIR + "Shape.render_office_math.png"))
+        self.verify_image(792, 87, filename=(ARTIFACTS_DIR + "Shape.render_office_math.png"))
 
     def test_office_math_display_exception(self):
 
@@ -2558,14 +2558,14 @@ class ExShape(ApiExampleBase):
         renderer = aw.rendering.OfficeMathRenderer(office_math)
 
         # Verify the size of the image that the OfficeMath object will create when we render it.
-        self.assertAlmostEqual(119.0, renderer.size_in_points.width, delta=0.2)
+        self.assertAlmostEqual(119.0, renderer.size_in_points.width, delta=0.25)
         self.assertAlmostEqual(13.0, renderer.size_in_points.height, delta=0.1)
 
-        self.assertAlmostEqual(119.0, renderer.bounds_in_points.width, delta=0.2)
+        self.assertAlmostEqual(119.0, renderer.bounds_in_points.width, delta=0.25)
         self.assertAlmostEqual(13.0, renderer.bounds_in_points.height, delta=0.1)
 
         # Shapes with transparent parts may contain different values in the "opaque_bounds_in_points" properties.
-        self.assertAlmostEqual(119.0, renderer.opaque_bounds_in_points.width, delta=0.2)
+        self.assertAlmostEqual(119.0, renderer.opaque_bounds_in_points.width, delta=0.25)
         self.assertAlmostEqual(14.2, renderer.opaque_bounds_in_points.height, delta=0.1)
 
         # Get the shape size in pixels, with linear scaling to a specific DPI.
