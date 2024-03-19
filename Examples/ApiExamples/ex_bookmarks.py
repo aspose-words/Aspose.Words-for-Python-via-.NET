@@ -3,6 +3,7 @@
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
+import os
 
 import aspose.words as aw
 
@@ -11,7 +12,9 @@ from document_helper import DocumentHelper
 
 class ExBookmarks(ApiExampleBase):
 
-    def test_insert(self):
+    @decorator1
+    @decorator2
+    def test_insert(self, a: str, b: int) -> os.F_TEST:
 
         #ExStart
         #ExFor:Bookmark.name
