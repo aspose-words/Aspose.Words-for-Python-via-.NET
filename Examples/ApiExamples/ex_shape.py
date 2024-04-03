@@ -3024,3 +3024,57 @@ class ExShape(ApiExampleBase):
         textBoxControl.text = "Updated text"
         self.assertEqual("Updated text", textBoxControl.text)
         #ExEnd
+
+    def test_glow(self):
+        #ExStart:Glow
+        #ExFor:ShapeBase.Glow
+        #ExFor:GlowFormat.color
+        #ExFor:GlowFormat.radius
+        #ExFor:GlowFormat.transparency
+        #ExFor:GlowFormat.remove()
+        #ExSummary: Shows how to interact with glow shape effect.
+        doc = aw.Document(file_name=MY_DIR + "Various shapes.docx")
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        shape.glow.color = aspose.pydrawing.Color.salmon
+        shape.glow.radius = 30
+        shape.glow.transparency = 0.15
+        doc.save(file_name=ARTIFACTS_DIR + "Shape.Glow.docx")
+        doc = aw.Document(file_name=ARTIFACTS_DIR + "Shape.Glow.docx")
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        self.assertEqual(aspose.pydrawing.Color.from_argb(217, 250, 128, 114).to_argb(), shape.glow.color.to_argb())
+        self.assertEqual(30, shape.glow.radius)
+        self.assertAlmostEqual(0.15, shape.glow.transparency, delta=0.01)
+        shape.glow.remove()
+        self.assertEqual(aspose.pydrawing.Color.black.to_argb(), shape.glow.color.to_argb())
+        self.assertEqual(0, shape.glow.radius)
+        self.assertEqual(0, shape.glow.transparency)
+        #ExEnd:Glow
+
+    def test_reflection(self):
+        #ExStart:Reflection
+        #ExFor:ShapeBase.reflection
+        #ExFor:ReflectionFormat.size
+        #ExFor:ReflectionFormat.blur
+        #ExFor:ReflectionFormat.transparency
+        #ExFor:ReflectionFormat.distance
+        #ExFor:ReflectionFormat.remove()
+        #ExSummary:Shows how to interact with reflection shape effect.
+        doc = aw.Document(file_name=MY_DIR + "Various shapes.docx")
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        shape.reflection.transparency = 0.37
+        shape.reflection.size = 0.48
+        shape.reflection.blur = 17.5
+        shape.reflection.distance = 9.2
+        doc.save(file_name=ARTIFACTS_DIR + "Shape.Reflection.docx")
+        doc = aw.Document(file_name=ARTIFACTS_DIR + "Shape.Reflection.docx")
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        self.assertAlmostEqual(0.37, shape.reflection.transparency, delta=0.01)
+        self.assertAlmostEqual(0.48, shape.reflection.size, delta=0.01)
+        self.assertAlmostEqual(17.5, shape.reflection.blur, delta=0.01)
+        self.assertAlmostEqual(9.2, shape.reflection.distance, delta=0.01)
+        shape.reflection.remove()
+        self.assertEqual(0, shape.reflection.transparency)
+        self.assertEqual(0, shape.reflection.size)
+        self.assertEqual(0, shape.reflection.blur)
+        self.assertEqual(0, shape.reflection.distance)
+        #ExEnd:Reflection

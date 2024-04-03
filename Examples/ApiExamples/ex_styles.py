@@ -363,3 +363,19 @@ class ExStyles(ApiExampleBase):
 
         doc.save(file_name=ARTIFACTS_DIR + "Styles.StylePriority.docx")
         #ExEnd:StylePriority
+
+    def test_linked_style_name(self):
+        #ExStart:LinkedStyleName
+        #ExFor:Style.linked_style_name
+        #ExSummary: Shows how to link styles among themselves.
+        doc = aw.Document()
+        style_heading1 = doc.styles.get_by_style_identifier(aw.StyleIdentifier.HEADING1)
+        style_heading_1_char = doc.styles.add(aw.StyleType.CHARACTER, "Heading 1 Char")
+        style_heading_1_char.font.name = "Verdana"
+        style_heading_1_char.font.bold = True
+        style_heading_1_char.font.border.line_style = aw.LineStyle.DOT
+        style_heading_1_char.font.border.line_width = 15
+        style_heading1.linked_style_name = "Heading 1 Char"
+        self.assertEqual("Heading 1 Char", style_heading1.linked_style_name)
+        self.assertEqual("Heading 1", style_heading_1_char.linked_style_name)
+        #ExEnd:LinkedStyleName

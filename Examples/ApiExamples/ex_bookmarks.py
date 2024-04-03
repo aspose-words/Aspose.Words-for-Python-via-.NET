@@ -12,10 +12,7 @@ from document_helper import DocumentHelper
 
 class ExBookmarks(ApiExampleBase):
 
-    @decorator1
-    @decorator2
-    def test_insert(self, a: str, b: int) -> os.F_TEST:
-
+    def test_insert(self):
         #ExStart
         #ExFor:Bookmark.name
         #ExSummary:Shows how to insert a bookmark.

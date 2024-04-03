@@ -299,6 +299,21 @@ class ExOoxmlSaveOptions(ApiExampleBase):
         builder.document.save(ARTIFACTS_DIR + "OoxmlSaveOptions.Zip64ModeOption.docx")
         #ExEnd
 
+    def test_digital_signature(self):
+        #ExStart:DigitalSignature
+        #ExFor:OoxmlSaveOptions.digital_signature_details
+        #ExSummary:Shows how to sign OOXML document.
+        doc = aw.Document(MY_DIR + "Document.docx")
+
+        certificate_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + "morzal.pfx", "aw")
+        save_options = aw.saving.OoxmlSaveOptions()
+        sign_options = aw.digitalsignatures.SignOptions()
+        sign_options.comments = "Some comments"
+        sign_options.sign_time = datetime.now()
+        save_options.digital_signature_details = aw.saving.DigitalSignatureDetails(certificate_holder, sign_options)
+        doc.save(ARTIFACTS_DIR + "OoxmlSaveOptions.DigitalSignature.docx", save_options)
+        #ExEnd:DigitalSignature
+
 
     ##ExStart
     ##ExFor:SaveOptions.progress_callback
