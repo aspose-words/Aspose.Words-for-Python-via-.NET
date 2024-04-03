@@ -246,3 +246,13 @@ class ExHtmlLoadOptions(ApiExampleBase):
                 load_options.block_import_mode = block_import_mode
                 doc = aw.Document(stream, load_options)
                 doc.save(ARTIFACTS_DIR + "HtmlLoadOptions.BlockImport.docx")
+
+    def test_font_face_rules(self):
+        #ExStart:FontFaceRules
+        #ExFor:HtmlLoadOptions.support_font_face_rules
+        #ExSummary:Shows how to load declared "@font-face" rules.
+        load_options = aw.loading.HtmlLoadOptions()
+        load_options.support_font_face_rules = True
+        doc = aw.Document(file_name=MY_DIR + "Html with FontFace.html", load_options=load_options)
+        self.assertEqual("Squarish Sans CT Regular", doc.font_infos[0].name)
+        #ExEnd:FontFaceRules

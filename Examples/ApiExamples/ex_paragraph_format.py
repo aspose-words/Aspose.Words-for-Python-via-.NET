@@ -495,3 +495,17 @@ class ExParagraphFormat(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + "ParagraphFormat.ParagraphBaselineAlignment.docx")
         format_ = doc.first_section.body.paragraphs[0].paragraph_format
         self.assertEqual(aw.BaselineAlignment.TOP, format_.baseline_alignment)
+
+    def test_mirror_indents(self):
+        #ExStart:MirrorIndents
+        #ExFor:ParagraphFormat.mirror_indents
+        #ExSummary:Show how to make left and right indents the same.
+        doc = aw.Document(file_name=MY_DIR + "Document.docx")
+        format = doc.first_section.body.paragraphs[0].paragraph_format
+        format.mirror_indents = True
+        doc.save(file_name=ARTIFACTS_DIR + "ParagraphFormat.MirrorIndents.docx")
+        #ExEnd:MirrorIndents
+
+        doc = aw.Document(file_name=ARTIFACTS_DIR + "ParagraphFormat.MirrorIndents.docx")
+        format = doc.first_section.body.paragraphs[0].paragraph_format
+        self.assertEqual(True, format.mirror_indents)
