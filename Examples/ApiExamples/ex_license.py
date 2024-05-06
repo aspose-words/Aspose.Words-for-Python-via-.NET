@@ -1,20 +1,18 @@
-# Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
+# -*- coding: utf-8 -*-
+# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
-
-import os
-import shutil
-
+#####################################
 import aspose.words as aw
-
+import shutil
+import os
 from api_example_base import ApiExampleBase, LICENSE_PATH
 
 class ExLicense(ApiExampleBase):
 
     def test_license_from_file_no_path(self):
-
         #ExStart
         #ExFor:License
         #ExFor:License.__init__
@@ -24,17 +22,13 @@ class ExLicense(ApiExampleBase):
         license = aw.License()
         license.set_license(LICENSE_PATH)
         #ExEnd
-
-        license.set_license("")
+        license.set_license('')
 
     def test_license_from_stream(self):
-
         #ExStart
         #ExFor:License.set_license(BytesIO)
         #ExSummary:Shows how to initialize a license for Aspose.Words from a stream.
         # Set the license for our Aspose.Words product by passing a stream for a valid license file in our local file system.
-        with open(LICENSE_PATH, "rb") as my_stream:
+        with open(LICENSE_PATH, 'rb') as my_stream:
             license = aw.License()
             license.set_license(my_stream)
-
-        #ExEnd

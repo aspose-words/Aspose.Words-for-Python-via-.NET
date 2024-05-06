@@ -1480,12 +1480,12 @@ class ExCharts(ApiExampleBase):
         #ExEnd:DataTable
 
     def test_chart_format(self):
-        #ExStart: ChartFormat
-        #ExFor: Chart.format
-        #ExFor: ChartTitle.format
-        #ExFor: ChartAxisTitle.format
-        #ExFor: ChartLegend.format
-        #ExSummary: Shows how to usechart formating.
+        #ExStart:ChartFormat
+        #ExFor:Chart.format
+        #ExFor:ChartTitle.format
+        #ExFor:ChartAxisTitle.format
+        #ExFor:ChartLegend.format
+        #ExSummary:Shows how to usechart formating.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -1517,7 +1517,7 @@ class ExCharts(ApiExampleBase):
         # Format legend.
         chart.legend.format.fill.solid(drawing.Color.light_goldenrod_yellow)
         doc.save(file_name=ARTIFACTS_DIR + "Charts.ChartFormat.docx")
-        # ExEnd: ChartFormat
+        #ExEnd:ChartFormat
 
         doc = aw.Document(file_name=ARTIFACTS_DIR + "Charts.ChartFormat.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
