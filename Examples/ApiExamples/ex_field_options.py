@@ -274,7 +274,7 @@ class ExFieldOptions(ApiExampleBase):
 
         # Sometimes, fields may not format their numbers correctly under certain cultures.
         self.assertFalse(doc.field_options.use_invariant_culture_number_format)
-        self.assertEqual("$1234567,89 .     ", field.result)
+        self.assertEqual("$1.234.567,89 ,     ", field.result)
 
         # To fix this, we could change the culture for the entire thread.
         # Another way to fix this is to set this flag,

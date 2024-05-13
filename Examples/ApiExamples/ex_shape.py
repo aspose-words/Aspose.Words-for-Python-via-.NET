@@ -3078,3 +3078,51 @@ class ExShape(ApiExampleBase):
         self.assertEqual(0, shape.reflection.blur)
         self.assertEqual(0, shape.reflection.distance)
         #ExEnd:Reflection
+
+    def test_soft_edge(self):
+        #ExStart:SoftEdge
+        #ExFor:ShapeBase.soft_edge
+        #ExFor:SoftEdgeFormat.radius
+        #ExFor:SoftEdgeFormat.remove
+        #ExSummary:Shows how to work with soft edge formatting.
+        builder = aw.DocumentBuilder()
+        shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, width=200, height=200)
+        # Apply soft edge to the shape.
+        shape.soft_edge.radius = 30
+        builder.document.save(file_name=ARTIFACTS_DIR + 'Shape.SoftEdge.docx')
+        # Load document with rectangle shape with soft edge.
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.SoftEdge.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        # Check soft edge radius.
+        self.assertEqual(30, shape.soft_edge.radius)
+        # Remove soft edge from the shape.
+        shape.soft_edge.remove()
+        # Check radius of the removed soft edge.
+        self.assertEqual(0, shape.soft_edge.radius)
+        #ExEnd:SoftEdge
+
+    def test_adjustments(self):
+        #ExStart:Adjustments
+        #ExFor:Shape.adjustments
+        #ExFor:AdjustmentCollection
+        #ExFor:Adjustment
+        #ExFor:Adjustment.name
+        #ExFor:Adjustment.value
+        #ExSummary:Shows how to work with adjustment raw values.
+        doc = aw.Document(file_name=MY_DIR + 'Rounded rectangle shape.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        adjustments = shape.adjustments
+        self.assertEqual(1, adjustments.count)
+        adjustment = adjustments[0]
+        self.assertEqual('adj', adjustment.name)
+        self.assertEqual(16667, adjustment.value)
+        adjustment.value = 30000
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.Adjustments.docx')
+        #ExEnd:Adjustments
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.Adjustments.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        adjustments = shape.adjustments
+        self.assertEqual(1, adjustments.count)
+        adjustment = adjustments[0]
+        self.assertEqual('adj', adjustment.name)
+        self.assertEqual(30000, adjustment.value)

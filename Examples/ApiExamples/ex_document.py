@@ -2587,3 +2587,11 @@ class ExDocument(ApiExampleBase):
 
             doc.save(result, save_format)
             result.close()
+
+    def test_has_macros(self):
+        #ExStart:HasMacros
+        #ExFor:FileFormatInfo.has_macros
+        #ExSummary:Shows how to check VBA macro presence without loading document.
+        file_format_info = aw.FileFormatUtil.detect_file_format(file_name=MY_DIR + 'Macro.docm')
+        self.assertTrue(file_format_info.has_macros)
+        #ExEnd:HasMacros
