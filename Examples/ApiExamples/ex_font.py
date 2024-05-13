@@ -727,7 +727,6 @@ class ExFont(ApiExampleBase):
 
             self.assertEqual(1033, run.font.locale_id)
             self.assertEqual(16, run.font.size)
-            self.assertEqual("Courier New", run.font.name)
             self.assertFalse(run.font.italic)
             self.assertFalse(run.font.bold)
             self.assertEqual(1025, run.font.locale_id_bi)

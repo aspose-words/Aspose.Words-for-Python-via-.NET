@@ -668,7 +668,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                         "<a id=\"_Toc76372689\"></a>",
                         out_doc_contents)
                     self.assertIn(
-                        "<table style=\"-aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">",
+                        "<table style=\"padding:0pt; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">",
                         out_doc_contents)
 
                 elif html_version == aw.saving.HtmlVersion.XHTML:

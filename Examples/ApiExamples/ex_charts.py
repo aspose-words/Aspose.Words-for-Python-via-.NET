@@ -1480,11 +1480,11 @@ class ExCharts(ApiExampleBase):
         #ExEnd:DataTable
 
     def test_chart_format(self):
-        #ExStart: ChartFormat
-        #ExFor: Chart.format
-        #ExFor: ChartTitle.format
-        #ExFor: ChartAxisTitle.format
-        #ExFor: ChartLegend.format
+        #ExStart:ChartFormat
+        #ExFor:Chart.format
+        #ExFor:ChartTitle.format
+        #ExFor:ChartAxisTitle.format
+        #ExFor:ChartLegend.format
         #ExSummary: Shows how to usechart formating.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1517,7 +1517,7 @@ class ExCharts(ApiExampleBase):
         # Format legend.
         chart.legend.format.fill.solid(drawing.Color.light_goldenrod_yellow)
         doc.save(file_name=ARTIFACTS_DIR + "Charts.ChartFormat.docx")
-        # ExEnd: ChartFormat
+        #ExEnd:ChartFormat
 
         doc = aw.Document(file_name=ARTIFACTS_DIR + "Charts.ChartFormat.docx")
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
@@ -1529,3 +1529,85 @@ class ExCharts(ApiExampleBase):
                          chart.axis_x.title.format.fill.color.to_argb())
         self.assertEqual(drawing.Color.light_goldenrod_yellow.to_argb(),
                          chart.legend.format.fill.color.to_argb())
+
+    def test_secondary_axis(self):
+        #ExStart:SecondaryAxis
+        #ExFor:ChartSeriesGroup
+        #ExFor:ChartSeriesGroup.axis_group
+        #ExFor:ChartSeriesGroup.axis_x
+        #ExFor:ChartSeriesGroup.axis_y
+        #ExFor:ChartSeriesGroup.series
+        #ExFor:ChartSeriesGroupCollection.add(ChartSeriesType)
+        #ExFor:AxisGroup
+        #ExSummary:Shows how to work with the secondary axis of chart.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.LINE, width=450, height=250)
+        chart = shape.chart
+        series = chart.series
+        # Delete default generated series.
+        series.clear()
+        categories = ['Category 1', 'Category 2', 'Category 3']
+        series.add(series_name='Series 1 of primary series group', categories=categories, values=[2, 3, 4])
+        series.add(series_name='Series 2 of primary series group', categories=categories, values=[5, 2, 3])
+        # Create an additional series group, also of the line type.
+        new_series_group = chart.series_groups.add(aw.drawing.charts.ChartSeriesType.LINE)
+        # Specify the use of secondary axes for the new series group.
+        new_series_group.axis_group = aw.drawing.charts.AxisGroup.SECONDARY
+        # Hide the secondary X axis.
+        new_series_group.axis_x.hidden = True
+        # Define title of the secondary Y axis.
+        new_series_group.axis_y.title.show = True
+        new_series_group.axis_y.title.text = 'Secondary Y axis'
+        # Add a series to the new series group.
+        series3 = new_series_group.series.add(series_name='Series of secondary series group', categories=categories, values=[13, 11, 16])
+        series3.format.stroke.weight = 3.5
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.SecondaryAxis.docx')
+        #ExEnd:SecondaryAxis
+
+    def test_configure_gap_overlap(self):
+        #ExStart:ConfigureGapOverlap
+        #ExFor:ChartSeriesGroup.gap_width
+        #ExFor:ChartSeriesGroup.overlap
+        #ExSummary:Show how to configure gap width and overlap.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=450, height=250)
+        series_group = shape.chart.series_groups[0]
+        # Set column gap width and overlap.
+        series_group.gap_width = 450
+        series_group.overlap = -75
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.ConfigureGapOverlap.docx')
+        #ExEnd:ConfigureGapOverlap
+
+    def test_bubble_scale(self):
+        #ExStart:BubbleScale
+        #ExFor:ChartSeriesGroup.bubble_scale
+        #ExSummary:Show how to set size of the bubbles.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        # Insert a bubble 3D chart.
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.BUBBLE_3D, width=450, height=250)
+        series_group = shape.chart.series_groups[0]
+        # Set bubble scale to 200%.
+        series_group.bubble_scale = 200
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.BubbleScale.docx')
+        #ExEnd:BubbleScale
+
+    def test_remove_secondary_axis(self):
+        #ExStart:RemoveSecondaryAxis
+        #ExFor:ChartSeriesGroupCollection.count
+        #ExFor:ChartSeriesGroupCollection.__getitem__(int)
+        #ExFor:ChartSeriesGroupCollection.remove_at(int)
+        #ExSummary:Show how to remove secondary axis.
+        doc = aw.Document(file_name=MY_DIR + 'Combo chart.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        chart = shape.chart
+        series_groups = chart.series_groups
+        # Find secondary axis and remove from the collection.
+        i = 0
+        while i < series_groups.count:
+            if series_groups[i].axis_group == aw.drawing.charts.AxisGroup.SECONDARY:
+                series_groups.remove_at(i)
+            i += 1
+        #ExEnd:RemoveSecondaryAxis
