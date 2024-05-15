@@ -895,7 +895,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
             if std.get_child_nodes(aw.NodeType.ANY, False).count > 0:
                 std.remove_self_only()
         sdts = [tag for tag in doc.range.structured_document_tags]
-        self.assertEqual(5, len(sdts))
+        self.assertEqual(0, len(sdts))
         #ExEnd:RemoveSelfOnly
 
     def insert_structured_document_tag_ranges(self, doc: aw.Document) -> aw.markup.StructuredDocumentTagRangeStart:

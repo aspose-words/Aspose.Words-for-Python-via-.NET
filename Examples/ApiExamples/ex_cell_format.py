@@ -47,7 +47,7 @@ class ExCellFormat(ApiExampleBase):
         table = doc.first_section.body.tables[0]
         self.assertEqual(aw.tables.CellMerge.FIRST, table.rows[0].cells[0].cell_format.vertical_merge)
         self.assertEqual(aw.tables.CellMerge.PREVIOUS, table.rows[1].cells[0].cell_format.vertical_merge)
-        self.assertEqual('Text in merged cells.', table.rows[0].cells[0].get_text().strip('\a'))
+        self.assertEqual('Text in merged cells.', table.rows[0].cells[0].get_text().strip('\x07'))
         self.assertNotEqual(table.rows[0].cells[0].get_text(), table.rows[1].cells[0].get_text())
 
     def test_horizontal_merge(self):
@@ -81,7 +81,7 @@ class ExCellFormat(ApiExampleBase):
         table = doc.first_section.body.tables[0]
         self.assertEqual(1, table.rows[0].cells.count)
         self.assertEqual(aw.tables.CellMerge.NONE, table.rows[0].cells[0].cell_format.horizontal_merge)
-        self.assertEqual('Text in merged cells.', table.rows[0].cells[0].get_text().strip('\a'))
+        self.assertEqual('Text in merged cells.', table.rows[0].cells[0].get_text().strip('\x07'))
 
     def test_padding(self):
         #ExStart
