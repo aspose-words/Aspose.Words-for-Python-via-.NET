@@ -3369,6 +3369,7 @@ class ExField(ApiExampleBase):
         self.verify_field(aw.fields.FieldType.FIELD_KEYWORD, ' KEYWORDS  OverridingKeyword', 'OverridingKeyword', field)
         self.assertEqual('OverridingKeyword', field.text)
 
+    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_field_num(self):
         #ExStart
         #ExFor:FieldPage

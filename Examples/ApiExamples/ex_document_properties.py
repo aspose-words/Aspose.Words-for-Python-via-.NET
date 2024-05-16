@@ -8,6 +8,7 @@
 from document_helper import DocumentHelper
 from datetime import datetime, timedelta, timezone
 import os
+import sys
 import aspose.words as aw
 import aspose.words.fields
 import aspose.words.properties
@@ -216,6 +217,7 @@ class ExDocumentProperties(ApiExampleBase):
         self.assertEqual(8, properties.total_editing_time)
         self.assertEqual(786432, properties.version)
 
+    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_content(self):
         #ExStart
         #ExFor:BuiltInDocumentProperties.bytes

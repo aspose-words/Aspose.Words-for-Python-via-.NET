@@ -236,11 +236,13 @@ class ExImage(ApiExampleBase):
         #ExEnd
         doc = aw.Document(ARTIFACTS_DIR + 'Image.create_linked_image.embedded.docx')
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+
         self.verify_image_in_shape(1600, 1600, aw.drawing.ImageType.WMF, shape)
         self.assertEqual(aw.drawing.WrapType.INLINE, shape.wrap_type)
         self.assertEqual('', shape.image_data.source_full_name.replace('%20', ' '))
         doc = aw.Document(ARTIFACTS_DIR + 'Image.create_linked_image.linked.docx')
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        type_ = shape.image_data.image_type
         self.verify_image_in_shape(0, 0, aw.drawing.ImageType.WMF, shape)
         self.assertEqual(aw.drawing.WrapType.INLINE, shape.wrap_type)
         self.assertEqual(image_file_name, shape.image_data.source_full_name.replace('%20', ' '))
