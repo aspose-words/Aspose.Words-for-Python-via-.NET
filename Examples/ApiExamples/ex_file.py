@@ -46,6 +46,7 @@ class ExFile(ApiExampleBase):
             doc = aw.Document(MY_DIR + 'Corrupted document.docx')
         except Exception as error:
             print(error)
+        #ExEnd
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'Encoding. Requires Windows')
     def test_detect_encoding(self):
@@ -150,6 +151,7 @@ class ExFile(ApiExampleBase):
             doc = aw.Document(doc_stream)
             self.assertEqual('.doc', aw.FileFormatUtil.save_format_to_extension(save_format))
             doc.save(ARTIFACTS_DIR + 'File.save_to_detected_file_format' + aw.FileFormatUtil.save_format_to_extension(save_format))
+        #ExEnd
 
     def test_extract_images(self):
         #ExStart

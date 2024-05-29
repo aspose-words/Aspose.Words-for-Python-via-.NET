@@ -84,6 +84,7 @@ class ExTxtSaveOptions(ApiExampleBase):
                 else:
                     self.assertEqual('\ufeffHello world!\r\nשלום עולם!\r\nمرحبا بالعالم!\r\n\r\n', doc_text)
                     self.assertNotIn('\u200f', doc_text)
+                #ExEnd
 
     def test_export_headers_footers(self):
         for txt_export_headers_footers_mode in (aw.saving.TxtExportHeadersFootersMode.ALL_AT_END, aw.saving.TxtExportHeadersFootersMode.PRIMARY_ONLY, aw.saving.TxtExportHeadersFootersMode.NONE):
@@ -129,6 +130,7 @@ class ExTxtSaveOptions(ApiExampleBase):
                     self.assertEqual('Primary header\r\n' + 'Page 1\r\n' + 'Page 2\r\n' + 'Page 3\r\n' + 'Primary footer\r\n', doc_text)
                 elif txt_export_headers_footers_mode == aw.saving.TxtExportHeadersFootersMode.NONE:
                     self.assertEqual('Page 1\r\n' + 'Page 2\r\n' + 'Page 3\r\n', doc_text)
+                #ExEnd
 
     def test_txt_list_indentation(self):
         #ExStart

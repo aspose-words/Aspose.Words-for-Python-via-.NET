@@ -51,6 +51,7 @@ class ExRendering(ApiExampleBase):
                 graphics.draw_rectangle(drawing.Pen(drawing.Color.black, 1), 90, 10, 50, 100)
                 doc.render_to_size(1, graphics, 90, 10, 50, 100)
                 bmp.save(ARTIFACTS_DIR + 'Rendering.render_to_size.png')
+                #ExEnd
 
     @unittest.skip("drawing.Bitmap type isn't supported yet")
     @unittest.skip("drawing.Graphics type isn't supported yet")
@@ -87,3 +88,4 @@ class ExRendering(ApiExampleBase):
                     size = doc.render_to_scale(page_index, graphics, thumb_left, thumb_top, scale)
                     graphics.draw_rectangle(drawing.Pens.black, thumb_left, thumb_top, size.width, size.height)
                 img.save(ARTIFACTS_DIR + 'Rendering.thumbnails.png')
+        #ExEnd

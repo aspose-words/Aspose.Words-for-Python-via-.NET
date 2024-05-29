@@ -40,6 +40,7 @@ class ExNodeImporter(ApiExampleBase):
                     self.assertEqual('6. Item 1\r\n' + '7. Item 2 \r\n' + '8. Item 3\r\n' + '9. Item 4\r\n' + '6. Item 1\r\n' + '7. Item 2 \r\n' + '8. Item 3\r\n' + '9. Item 4', dst_doc.first_section.body.to_string(aw.SaveFormat.TEXT).strip())
                 else:
                     self.assertEqual('6. Item 1\r\n' + '7. Item 2 \r\n' + '8. Item 3\r\n' + '9. Item 4\r\n' + '10. Item 1\r\n' + '11. Item 2 \r\n' + '12. Item 3\r\n' + '13. Item 4', dst_doc.first_section.body.to_string(aw.SaveFormat.TEXT).strip())
+                #ExEnd
 
     def test_insert_at_bookmark(self):
         #ExStart

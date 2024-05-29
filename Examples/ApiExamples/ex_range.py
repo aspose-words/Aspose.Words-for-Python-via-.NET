@@ -269,6 +269,7 @@ class ExRange(ApiExampleBase):
                     self.assertEqual('\x13INCLUDETEXT\x14*est I*!\x15', doc.get_text().strip())
                 else:
                     self.assertEqual('\x13INCLUDE*EX*\x14*est I*!\x15', doc.get_text().strip())
+                #ExEnd
 
     def test_ignore_footnote(self):
         for is_ignore_footnotes in (True, False):

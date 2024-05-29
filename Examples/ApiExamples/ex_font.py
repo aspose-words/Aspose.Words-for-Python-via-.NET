@@ -662,6 +662,7 @@ class ExFont(ApiExampleBase):
             print(f'Font index #{i}')
             print(f'\tName: {all_fonts[i].name}')
             print(f"\tIs {('' if all_fonts[i].is_true_type else 'not ')}a TrueType font")
+        #ExEnd
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_font_info_collection(self):

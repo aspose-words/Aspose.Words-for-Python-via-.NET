@@ -1979,6 +1979,7 @@ class ExDocumentBuilder(ApiExampleBase):
                     self.assertEqual(field.start, builder.current_node)
                     builder.write('Text immediately before the field. ')
                     self.assertEqual('Text immediately before the field. \x13 AUTHOR "John Doe" \x14John Doe\x15', doc.get_text().strip())
+                #ExEnd
 
     def test_insert_ole_object_exception(self):
         doc = aw.Document()

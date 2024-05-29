@@ -427,6 +427,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 else:
                     self.assertIn('<table cellspacing="0" cellpadding="0" style="border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse">', out_doc_contents)
                     self.assertIn('<table cellspacing="0" cellpadding="0" style="margin-left:30.35pt; border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse">', out_doc_contents)
+                #ExEnd
 
     def test_html_versions(self):
         for html_version in (aw.saving.HtmlVersion.HTML5, aw.saving.HtmlVersion.XHTML):
@@ -452,6 +453,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertIn('<a name="_Toc76372689"></a>', out_doc_contents)
                     self.assertIn('<ul type="disc" style="margin:0pt; padding-left:0pt">', out_doc_contents)
                     self.assertIn('<table cellspacing="0" cellpadding="0" style="-aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse"', out_doc_contents)
+                #ExEnd
 
     def test_export_xhtml_transitional(self):
         for show_doctype_declaration in (False, True):
@@ -573,6 +575,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertIn('<link href=3D"styles.css" type=3D"text/css" rel=3D"stylesheet" />', out_doc_contents)
                     self.assertIn("@font-face { font-family:'Arial Black'; font-weight:bold; src:url('ariblk.t=\ntf') }", out_doc_contents)
                     self.assertIn('<img src=3D"image.003.jpeg" width=3D"350" height=3D"180" alt=3D"" />', out_doc_contents)
+                #ExEnd
 
     def test_drop_down_form_field(self):
         for export_drop_down_form_field_as_text in (False, True):
@@ -618,6 +621,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertIn('<img src="data:image/png;base64', out_doc_contents)
                 else:
                     self.assertIn('<img src="HtmlSaveOptions.export_images_as_base64.001.png"', out_doc_contents)
+                #ExEnd
 
     def test_export_language_information(self):
         for export_language_information in (False, True):
@@ -654,6 +658,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertIn('<span>Hello world!</span>', out_doc_contents)
                     self.assertIn('<span>Hello again!</span>', out_doc_contents)
                     self.assertIn('<span>Привет, мир!</span>', out_doc_contents)
+                #ExEnd
 
     def test_list(self):
         for export_list_labels in (aw.saving.ExportListLabels.AS_INLINE_TEXT, aw.saving.ExportListLabels.AUTO, aw.saving.ExportListLabels.BY_HTML_TAGS):
@@ -737,6 +742,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 else:
                     self.assertNotIn('style type="text/css">', out_doc_contents)
                     self.assertIn('<div><p style="margin-top:0pt; margin-left:220.85pt; margin-bottom:0pt">', out_doc_contents)
+                #ExEnd
 
     @unittest.skip('Calculation problems')
     def test_export_page_setup(self):
@@ -770,6 +776,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 else:
                     self.assertNotIn('style type="text/css">', out_doc_contents)
                     self.assertIn('<div>' + '<p style="margin-top:0pt; margin-bottom:0pt">' + '<span>Section 1</span>' + '</p>' + '</div>', out_doc_contents)
+                #ExEnd
 
     def test_relative_font_size(self):
         for export_relative_font_size in (False, True):
@@ -799,6 +806,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertIn('<body style="font-family:\'Times New Roman\'">' + '<div>' + '<p style="margin-top:0pt; margin-bottom:0pt">' + '<span>Default font size, </span>' + '</p>' + '<p style="margin-top:0pt; margin-bottom:0pt; font-size:2em">' + '<span>2x default font size,</span>' + '</p>' + '<p style="margin-top:0pt; margin-bottom:0pt; font-size:8em">' + '<span>8x default font size</span>' + '</p>' + '</div>' + '</body>', out_doc_contents)
                 else:
                     self.assertIn('<body style="font-family:\'Times New Roman\'; font-size:12pt">' + '<div>' + '<p style="margin-top:0pt; margin-bottom:0pt">' + '<span>Default font size, </span>' + '</p>' + '<p style="margin-top:0pt; margin-bottom:0pt; font-size:24pt">' + '<span>2x default font size,</span>' + '</p>' + '<p style="margin-top:0pt; margin-bottom:0pt; font-size:96pt">' + '<span>8x default font size</span>' + '</p>' + '</div>' + '</body>', out_doc_contents)
+                #ExEnd
 
     def test_export_shape(self):
         for export_shape_as_svg in (False, True):
@@ -826,6 +834,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertIn('<span style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline">' + '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="133" height="80">', out_doc_contents)
                 else:
                     self.assertIn('<p style="margin-top:0pt; margin-bottom:0pt">' + '<img src="HtmlSaveOptions.export_text_box.001.png" width="136" height="83" alt="" ' + 'style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />' + '</p>', out_doc_contents)
+                #ExEnd
 
     def test_round_trip_information(self):
         for export_roundtrip_information in (False, True):
@@ -866,6 +875,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertIn('<img src="HtmlSaveOptions.round_trip_information.003.jpeg" width="350" height="180" alt="" />', out_doc_contents)
                     self.assertIn('<span>Page number 1</span>', out_doc_contents)
                     self.assertEqual(0, len([f for f in doc.range.fields if f.type == aw.fields.FieldType.FIELD_PAGE]))
+                #ExEnd
 
     @unittest.skip('Calculation problems')
     def test_export_toc_page_numbers(self):
@@ -952,6 +962,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     font_file_size = os.path.getsize(filename)
                     self.assertTrue(font_file_size > 700000 or font_file_size < 30000)
                     self.assertTrue(max(font_resources_subsetting_size_threshold, 30000) > font_file_size)
+                #ExEnd
 
     def test_metafile_format(self):
         for html_metafile_format in (aw.saving.HtmlMetafileFormat.PNG, aw.saving.HtmlMetafileFormat.SVG, aw.saving.HtmlMetafileFormat.EMF_OR_WMF):
@@ -986,6 +997,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertIn('<span style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline">' + '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="499" height="40">', out_doc_contents)
                 elif html_metafile_format == aw.saving.HtmlMetafileFormat.EMF_OR_WMF:
                     self.assertIn('<p style="margin-top:0pt; margin-bottom:0pt">' + '<img src="HtmlSaveOptions.metafile_format.001.emf" width="500" height="40" alt="" ' + 'style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />' + '</p>', out_doc_contents)
+                #ExEnd
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_office_math_output_mode(self):
@@ -1015,6 +1027,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertRegex(out_doc_contents, '<p style="margin-top:0pt; margin-bottom:10pt; text-align:center">' + '<math xmlns="http://www.w3.org/1998/Math/MathML">' + '<mi>i</mi>' + '<mo>[+]</mo>' + '<mi>b</mi>' + '<mo>-</mo>' + '<mi>c</mi>' + '<mo>≥</mo>' + '.*' + '</math>' + '</p>')
                 elif html_office_math_output_mode == aw.saving.HtmlOfficeMathOutputMode.TEXT:
                     self.assertRegex(out_doc_contents, '<p style="margin-top:0pt; margin-bottom:10pt; text-align:center">' + '<span style="font-family:\\\'Cambria Math\\\'">i[+]b-c≥iM[+]bM-cM </span>' + '</p>')
+                #ExEnd
 
     @unittest.skip("drawing.Image type isn't supported yet")
     def test_scale_image_to_shape_size(self):
@@ -1048,6 +1061,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertGreater(10000, file_size)
                 else:
                     self.assertLess(30000, file_size)
+                #ExEnd
 
     def test_image_folder(self):
         #ExStart

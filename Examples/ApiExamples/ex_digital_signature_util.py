@@ -34,6 +34,7 @@ class ExDigitalSignatureUtil(ApiExampleBase):
         with open(MY_DIR + 'Digitally signed.docx', 'rb') as stream:
             digital_signatures = aw.digitalsignatures.DigitalSignatureUtil.load_signatures(stream)
             self.assertEqual(1, digital_signatures.count)
+        #ExEnd
 
     @unittest.skip('DigitalSignatureUtil.remove_all_signatures method is not supported')
     def test_remove(self):

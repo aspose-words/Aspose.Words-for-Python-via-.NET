@@ -244,6 +244,7 @@ class ExStyles(ApiExampleBase):
             print(f'\tIs heading:\t\t\t{cur_style.is_heading}')
             print(f'\tIs QuickStyle:\t\t{cur_style.is_quick_style}')
             self.assertEqual(doc, cur_style.document)
+        #ExEnd
 
     def test_create_style(self):
         #ExStart

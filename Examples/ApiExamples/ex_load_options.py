@@ -79,6 +79,7 @@ class ExLoadOptions(ApiExampleBase):
                 else:
                     self.assertEqual(24, doc.get_child_nodes(aw.NodeType.SHAPE, True).count)
                     self.assertEqual(0, doc.get_child_nodes(aw.NodeType.OFFICE_MATH, True).count)
+                #ExEnd
 
     def test_set_encoding(self):
         #ExStart

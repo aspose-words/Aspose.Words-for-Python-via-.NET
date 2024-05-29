@@ -235,6 +235,7 @@ class ExPdfSaveOptions(ApiExampleBase):
             options.page_set = aw.saving.PageSet(1)
             # This document will contain one page starting from page two, which will only contain the second page.
             doc.save(stream, options)
+        #ExEnd
 
     def test_create_missing_outline_levels(self):
         for create_missing_outline_levels in (False, True):
@@ -688,6 +689,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                     self.assertLess(480000, os.path.getsize(ARTIFACTS_DIR + 'PdfSaveOptions.embed_windows_fonts.pdf'))
                 elif pdf_font_embedding_mode == aw.saving.PdfFontEmbeddingMode.EMBED_NONE:
                     self.assertGreater(4284, os.path.getsize(ARTIFACTS_DIR + 'PdfSaveOptions.embed_windows_fonts.pdf'))
+                #ExEnd
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_embed_core_fonts(self):

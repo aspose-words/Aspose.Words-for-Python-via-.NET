@@ -272,7 +272,6 @@ class ExStructuredDocumentTag(ApiExampleBase):
         if tag.appearance == aw.markup.SdtAppearance.HIDDEN:
             tag.appearance = aw.markup.SdtAppearance.TAGS
         #ExEnd:Appearance
-        #ExEnd:Appearance
 
     def test_repeating_section(self):
         #ExStart
@@ -323,6 +322,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
             print(sdt.word_open_xml_minimal)
             self.assertEqual(aw.StyleIdentifier.QUOTE, sdt.style.style_identifier)
             self.assertEqual('Quote', sdt.style_name)
+        #ExEnd
 
     def test_check_box(self):
         #ExStart
@@ -743,7 +743,8 @@ class ExStructuredDocumentTag(ApiExampleBase):
         author_sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.CELL)
         author_sdt.xml_mapping.set_mapping(xml_part, '/books[1]/book[1]/author[1]', '')
         row.append_child(author_sdt)
-        doc.save(ARTIFACTS_DIR + 'StructuredDocumentTag.fill_table_using_repeating_section_item.docx')  #ExEnd
+        doc.save(ARTIFACTS_DIR + 'StructuredDocumentTag.fill_table_using_repeating_section_item.docx')
+        #ExEnd
         doc = aw.Document(ARTIFACTS_DIR + 'StructuredDocumentTag.fill_table_using_repeating_section_item.docx')
         tags = [node.as_structured_document_tag() for node in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)]
         self.assertEqual('/books[1]/book', tags[0].xml_mapping.xpath)

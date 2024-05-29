@@ -170,6 +170,7 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
                     self.assertRegex(out_doc_contents, '<a name="CheckBox" style="left:0pt; top:0pt;"></a>' + '<input style="position:absolute; left:0pt; top:0pt;" type="checkbox" name="CheckBox" />')
                 else:
                     self.assertRegex(out_doc_contents, '<a name="CheckBox" style="left:0pt; top:0pt;"></a>' + '<div class="awdiv" style="left:0.8pt; top:0.8pt; width:14.25pt; height:14.25pt; border:solid 0.75pt #000000;"')
+                #ExEnd
 
     def test_add_css_class_names_prefix(self):
         #ExStart
@@ -208,6 +209,7 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
                     self.assertRegex(out_doc_contents, '[.]awpage { position:relative; border:solid 1pt black; margin:10pt auto 10pt 10pt; overflow:hidden; }')
                 elif page_horizontal_alignment == aw.saving.HtmlFixedPageHorizontalAlignment.RIGHT:
                     self.assertRegex(out_doc_contents, '[.]awpage { position:relative; border:solid 1pt black; margin:10pt 10pt 10pt auto; overflow:hidden; }')
+                #ExEnd
 
     def test_page_margins(self):
         #ExStart

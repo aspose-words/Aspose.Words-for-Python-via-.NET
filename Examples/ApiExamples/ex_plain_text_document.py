@@ -82,6 +82,8 @@ class ExPlainTextDocument(ApiExampleBase):
         with open(ARTIFACTS_DIR + 'PlainTextDocument.load_from_stream.docx', 'rb') as stream:
             plaintext = aw.PlainTextDocument(stream)
             self.assertEqual('Hello world!', plaintext.text.strip())
+        #ExEnd
+
 
     def test_load_encrypted_using_stream(self):
         #ExStart
@@ -98,3 +100,4 @@ class ExPlainTextDocument(ApiExampleBase):
         with open(ARTIFACTS_DIR + 'PlainTextDocument.load_encrypted_using_stream.docx', 'rb') as stream:
             plaintext = aw.PlainTextDocument(stream, load_options)
             self.assertEqual('Hello world!', plaintext.text.strip())
+        #ExEnd

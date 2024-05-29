@@ -400,6 +400,7 @@ class ExField(ApiExampleBase):
                     else:
                         self.assertEqual('John Doe', field.result)
                         self.assertTrue(field.is_dirty)
+                #ExEnd
 
     def test_insert_field_with_field_builder_exception(self):
         doc = aw.Document()
@@ -437,6 +438,7 @@ class ExField(ApiExampleBase):
                         doc.save(ARTIFACTS_DIR + 'Field.preserve_include_picture.docx')
                     else:
                         self.assertFalse(any((f for f in doc.range.fields if f.type == aw.fields.FieldType.FIELD_INCLUDE_PICTURE)))
+                #ExEnd
 
     def test_field_format(self):
         #ExStart
@@ -4347,12 +4349,12 @@ class ExField(ApiExampleBase):
         field_time()
 
     def test_bidi_outline(self):
-        # ExStart
-        # ExFor:FieldBidiOutline
-        # ExFor:FieldShape
-        # ExFor:FieldShape.text
-        # ExFor:ParagraphFormat.bidi
-        # ExSummary:Shows how to create right-to-left language-compatible lists with BIDIOUTLINE fields.
+        #ExStart
+        #ExFor:FieldBidiOutline
+        #ExFor:FieldShape
+        #ExFor:FieldShape.text
+        #ExFor:ParagraphFormat.bidi
+        #ExSummary:Shows how to create right-to-left language-compatible lists with BIDIOUTLINE fields.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
         # The BIDIOUTLINE field numbers paragraphs like the AUTONUM/LISTNUM fields,
@@ -4373,7 +4375,7 @@ class ExField(ApiExampleBase):
         # If we enable a right-to-left editing language in Microsoft Word, our fields will display numbers.
         # Otherwise, they will display "###".
         doc.save(file_name=ARTIFACTS_DIR + 'Field.BIDIOUTLINE.docx')
-        # ExEnd
+        #ExEnd
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Field.BIDIOUTLINE.docx')
         for field_bidi_outline in doc.range.fields:
             self.verify_field(aw.fields.FieldType.FIELD_BIDI_OUTLINE, ' BIDIOUTLINE ', '', field_bidi_outline)

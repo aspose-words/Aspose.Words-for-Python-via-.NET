@@ -249,6 +249,7 @@ class ExImageSaveOptions(ApiExampleBase):
                     self.assertLess(80000, os.path.getsize(ARTIFACTS_DIR + 'ImageSaveOptions.color_mode.png'))
                 elif image_color_mode == aw.saving.ImageColorMode.BLACK_AND_WHITE:
                     self.assertGreater(20000, os.path.getsize(ARTIFACTS_DIR + 'ImageSaveOptions.color_mode.png'))
+                #ExEnd
 
     @unittest.skip("drawing.Image type isn't supported yet")
     def test_paper_color(self):
@@ -309,6 +310,7 @@ class ExImageSaveOptions(ApiExampleBase):
                     self.assertLess(125000, os.path.getsize(ARTIFACTS_DIR + 'ImageSaveOptions.pixel_format.png'))
                 elif image_pixel_format == aw.saving.ImagePixelFormat.FORMAT_48BPP_RGB:
                     self.assertLess(125000, os.path.getsize(ARTIFACTS_DIR + 'ImageSaveOptions.pixel_format.png'))
+                #ExEnd
 
     def test_floyd_steinberg_dithering(self):
         #ExStart
@@ -424,6 +426,7 @@ class ExImageSaveOptions(ApiExampleBase):
                     self.assertGreater(90000, os.path.getsize(ARTIFACTS_DIR + 'ImageSaveOptions.tiff_image_compression.tiff'))
                 elif tiff_compression == aw.saving.TiffCompression.CCITT4:
                     self.assertGreater(20000, os.path.getsize(ARTIFACTS_DIR + 'ImageSaveOptions.tiff_image_compression.tiff'))
+                #ExEnd
 
     def test_resolution(self):
         #ExStart
@@ -455,3 +458,4 @@ class ExImageSaveOptions(ApiExampleBase):
         image = aspose.pydrawing.Image.from_file(ARTIFACTS_DIR + 'ImageSaveOptions.resolution.300dpi.png')
         self.assertEqual(2550, image.width)
         self.assertEqual(3300, image.height)
+        #ExEnd

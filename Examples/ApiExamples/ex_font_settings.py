@@ -481,6 +481,7 @@ class ExFontSettings(ApiExampleBase):
             self.assertTrue(font_config_substitution.enabled)
             self.assertTrue(font_config_substitution.is_font_config_available())
             font_config_substitution.reset_cache()
+        #ExEnd
 
     def test_fallback_settings(self):
         #ExStart

@@ -497,7 +497,6 @@ class ExShape(ApiExampleBase):
         if shape.shadow_format.type == aw.drawing.ShadowType.SHADOW_MIXED:
             shape.shadow_format.clear()
         #ExEnd
-        #ExEnd
 
     def test_no_text_rotation(self):
         #ExStart
@@ -1267,6 +1266,7 @@ class ExShape(ApiExampleBase):
                     print('This is an embedded object')
                 ole_raw_data = ole_format.get_raw_data()
                 self.assertEqual(24576, len(ole_raw_data))
+        #ExEnd
 
     def test_linked_chart_source_full_name(self):
         #ExStart
@@ -1345,6 +1345,7 @@ class ExShape(ApiExampleBase):
         stream.seek(0)
         ole_entry_bytes = stream.read()
         self.assertEqual(76, len(ole_entry_bytes))
+        #ExEnd
 
     def test_ole_control_collection(self):
         #ExStart
@@ -1381,6 +1382,7 @@ class ExShape(ApiExampleBase):
         self.assertEqual('CSV.csv', suggested_file_name)
         with open(ARTIFACTS_DIR + suggested_file_name, 'wb') as file_stream:
             ole_shape.ole_format.save(file_stream)
+        #ExEnd
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'different calculation on Linux')
     def test_render_office_math(self):
@@ -2076,6 +2078,7 @@ class ExShape(ApiExampleBase):
             renderer = shape.get_shape_renderer()
             options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
             renderer.save(ARTIFACTS_DIR + 'Shape.render_all_shapes.' + shape.name + '.png', options)
+        #ExEnd
 
     def test_document_has_smart_art_object(self):
         #ExStart
@@ -2104,6 +2107,7 @@ class ExShape(ApiExampleBase):
         shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
         for shape in shapes:
             print(shape.shape_type)
+        #ExEnd
 
     def test_fill_image(self):
         #ExStart

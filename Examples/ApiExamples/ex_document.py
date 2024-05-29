@@ -798,6 +798,7 @@ class ExDocument(ApiExampleBase):
         with open(MY_DIR + 'Document.docx', 'rb') as stream:
             doc = aw.Document(stream)
             self.assertEqual('Hello World!\r\rHello Word!\r\r\rHello World!', doc.get_text().strip())
+        #ExEnd
 
     def test_load_from_web(self):
         #ExStart
@@ -813,6 +814,7 @@ class ExDocument(ApiExampleBase):
             # At this stage, we can read and edit the document's contents and then save it to the local file system.
             self.assertEqual('There are eight section headings in this document. At the beginning, "Sample Document" is a level 1 heading. ' + 'The main section headings, such as "Headings" and "Lists" are level 2 headings. ' + 'The Tables section contains two sub-headings, "Simple Table" and "Complex Table," which are both level 3 headings.', doc.first_section.body.paragraphs[3].get_text().strip())
             doc.save(ARTIFACTS_DIR + 'Document.load_from_web.docx')
+        #ExEnd
 
     def test_save_to_image_stream(self):
         #ExStart
@@ -832,6 +834,7 @@ class ExDocument(ApiExampleBase):
                 self.assertEqual(aspose.pydrawing.imaging.ImageFormat.bmp, image.raw_format)
                 self.assertEqual(816, image.width)
                 self.assertEqual(1056, image.height)
+        #ExEnd
 
     def test_open_from_stream_with_base_uri(self):
         #ExStart
@@ -851,6 +854,7 @@ class ExDocument(ApiExampleBase):
             self.assertIsNotNone(shape.image_data.image_bytes)
             self.assertAlmostEqual(32.0, aw.ConvertUtil.point_to_pixel(shape.width), delta=0.01)
             self.assertAlmostEqual(32.0, aw.ConvertUtil.point_to_pixel(shape.height), delta=0.01)
+        #ExEnd
 
     def test_insert_html_from_web_page(self):
         #ExStart
@@ -890,6 +894,7 @@ class ExDocument(ApiExampleBase):
         with open(MY_DIR + 'Encrypted.docx', 'rb') as stream:
             doc = aw.Document(stream, options)
             self.assertEqual('Test encrypted document.', doc.get_text().strip())  #ExSkip
+        #ExEnd
 
     def test_temp_folder(self):
         #ExStart
@@ -912,6 +917,7 @@ class ExDocument(ApiExampleBase):
             doc.save(dst_stream, aw.SaveFormat.DOCX)
             # Verify that the stream contains the document.
             self.assertEqual('Hello World!\r\rHello Word!\r\r\rHello World!', aw.Document(dst_stream).get_text().strip())
+        #ExEnd
 
     def test_append_document(self):
         #ExStart
@@ -1053,6 +1059,7 @@ class ExDocument(ApiExampleBase):
         for digital_signature_val in doc.digital_signatures:
             signature_value = base64.b64encode(digital_signature_val.signature_value)
             self.assertEqual(b'K1cVLLg2kbJRAzT5WK+m++G8eEO+l7S+5ENdjMxxTXkFzGUfvwxREuJdSFj9AbDMhnGvDURv9KEhC25DDF1al8NRVR71TF3CjHVZXpYu7edQS5/yLw/k5CiFZzCp1+MmhOdYPcVO+Fm+9fKr2iNLeyYB+fgEeZHfTqTFM2WwAqo=', signature_value)
+        #ExEnd
 
     def test_append_all_documents_in_folder(self):
         #ExStart

@@ -475,7 +475,6 @@ class ExTable(ApiExampleBase):
             # The ArgumentException will be thrown for any other values.
             table.vertical_anchor = aw.drawing.RelativeVerticalPosition.PAGE
         #ExEnd
-        #ExEnd
 
     def test_change_floating_table_properties(self):
         #ExStart
@@ -592,20 +591,62 @@ class ExTable(ApiExampleBase):
         #ExEnd
 
     def test_calculate_depth_of_nested_tables(self):
-        doc = aw.Document(MY_DIR + 'Nested tables.docx')
-        tables = doc.get_child_nodes(aw.NodeType.TABLE, True)
-        self.assertEqual(5, tables.count)  #ExSkip
-        for i in range(tables.count):
-            table = tables[i].as_table()
-            # Find out if any cells in the table have other tables as children.
-            count = self.get_child_table_count(table)
-            print(f'Table #{i} has {count} tables directly within its cells')
-            # Find out if the table is nested inside another table, and, if so, at what depth.
-            table_depth = self.get_nested_depth_of_table(table)
-            if table_depth > 0:
-                print(f'Table #{i} is nested inside another table at depth of {table_depth}')
-            else:
-                print('Table #{i} is a non nested table (is not a child of another table)')
+        #ExStart
+        #ExFor:Node.get_ancestor(NodeType)
+        #ExFor:Node.get_ancestor(Type)
+        #ExFor:Table.node_type
+        #ExFor:Cell.tables
+        #ExFor:TableCollection
+        #ExFor:NodeCollection.count
+        #ExSummary:Shows how to find out if a tables are nested.
+        def calculate_depth_of_nested_tables():
+            doc = aw.Document(MY_DIR + 'Nested tables.docx')
+            tables = doc.get_child_nodes(aw.NodeType.TABLE, True)
+            self.assertEqual(5, tables.count)  #ExSkip
+            for i in range(tables.count):
+                table = tables[i].as_table()
+                # Find out if any cells in the table have other tables as children.
+                count = get_child_table_count(table)
+                print(f'Table #{i} has {count} tables directly within its cells')
+                # Find out if the table is nested inside another table, and, if so, at what depth.
+                table_depth = get_nested_depth_of_table(table)
+                if table_depth > 0:
+                    print(f'Table #{i} is nested inside another table at depth of {table_depth}')
+                else:
+                    print('Table #{i} is a non nested table (is not a child of another table)')
+
+        def get_nested_depth_of_table(table: aw.tables.Table) -> int:
+            """Calculates what level a table is nested inside other tables.
+
+            :return: An integer indicating the nesting depth of the table (number of parent table nodes).
+            """
+            depth = 0
+            parent = table.get_ancestor(table.node_type)
+            while parent is not None:
+                depth += 1
+                parent = parent.get_ancestor(table.node_type)
+            return depth
+
+        def get_child_table_count(table: aw.tables.Table) -> int:
+            """Determines if a table contains any immediate child table within its cells.
+
+            Do not recursively traverse through those tables to check for further tables.
+
+            :return: Returns True if at least one child cell contains a table.
+                     Returns False if no cells in the table contain a table.
+            """
+            child_table_count = 0
+            for row in table.rows:
+                row = row.as_row()
+                for cell in row.cells:
+                    cell = cell.as_cell()
+                    child_tables = cell.tables
+                    if child_tables.count > 0:
+                        child_table_count += 1
+            return child_table_count
+        #ExEnd
+
+        calculate_depth_of_nested_tables()
 
     def test_borders(self):
         #ExStart
@@ -781,25 +822,91 @@ class ExTable(ApiExampleBase):
                         self.assertIn('<td style="border-right-style:solid; border-right-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; ' + 'padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-bottom:0.5pt single; -aw-border-right:0.5pt single">', text)
 
     def test_create_nested_table(self):
-        doc = aw.Document()
-        # Create the outer table with three rows and four columns, and then add it to the document.
-        outer_table = ExTable.create_table(doc, 3, 4, 'Outer Table')
-        doc.first_section.body.append_child(outer_table)
-        # Create another table with two rows and two columns and then insert it into the first table's first cell.
-        inner_table = ExTable.create_table(doc, 2, 2, 'Inner Table')
-        outer_table.first_row.first_cell.append_child(inner_table)
-        doc.save(ARTIFACTS_DIR + 'Table.create_nested_table.docx')
-        self.create_and_test_nested_table(aw.Document(ARTIFACTS_DIR + 'Table.create_nested_table.docx'))  #ExSkip
+
+        #ExStart
+        #ExFor:Table
+        #ExFor:Row
+        #ExFor:Cell
+        #ExFor:Table.__init__(DocumentBase)
+        #ExFor:Table.title
+        #ExFor:Table.description
+        #ExFor:Row.__init__(DocumentBase)
+        #ExFor:Cell.__init__(DocumentBase)
+        #ExFor:Cell.first_paragraph
+        #ExSummary:Shows how to build a nested table without using a document builder.
+        def create_nested_table():
+            doc = aw.Document()
+            # Create the outer table with three rows and four columns, and then add it to the document.
+            outer_table = create_table(doc, 3, 4, 'Outer Table')
+            doc.first_section.body.append_child(outer_table)
+            # Create another table with two rows and two columns and then insert it into the first table's first cell.
+            inner_table = create_table(doc, 2, 2, 'Inner Table')
+            outer_table.first_row.first_cell.append_child(inner_table)
+            doc.save(ARTIFACTS_DIR + 'Table.create_nested_table.docx')
+            create_and_test_nested_table(aw.Document(ARTIFACTS_DIR + 'Table.create_nested_table.docx'))  #ExSkip
+
+        def create_table(doc: aw.Document, row_count: int, cell_count: int, cell_text: str) -> aw.tables.Table:
+            """Creates a new table in the document with the given dimensions and text in each cell."""
+            table = aw.tables.Table(doc)
+            for row_id in range(1, row_count + 1):
+                row = aw.tables.Row(doc)
+                table.append_child(row)
+                for cell_id in range(1, cell_count + 1):
+                    cell = aw.tables.Cell(doc)
+                    cell.append_child(aw.Paragraph(doc))
+                    cell.first_paragraph.append_child(aw.Run(doc, cell_text))
+                    row.append_child(cell)
+            # You can use the "title" and "description" properties to add a title and description respectively to your table.
+            # The table must have at least one row before we can use these properties.
+            # These properties are meaningful for ISO / IEC 29500 compliant .docx documents (see the OoxmlCompliance class).
+            # If we save the document to pre-ISO/IEC 29500 formats, Microsoft Word ignores these properties.
+            table.title = 'Aspose table title'
+            table.description = 'Aspose table description'
+            return table
+        #ExEnd
+
+        def create_and_test_nested_table(doc: aw.Document):
+            outer_table = doc.first_section.body.tables[0]
+            inner_table = doc.get_child(aw.NodeType.TABLE, 1, True).as_table()
+            self.assertEqual(2, doc.get_child_nodes(aw.NodeType.TABLE, True).count)
+            self.assertEqual(1, outer_table.first_row.first_cell.tables.count)
+            self.assertEqual(16, outer_table.get_child_nodes(aw.NodeType.CELL, True).count)
+            self.assertEqual(4, inner_table.get_child_nodes(aw.NodeType.CELL, True).count)
+            self.assertEqual('Aspose table title', inner_table.title)
+            self.assertEqual('Aspose table description', inner_table.description)
+
+        create_nested_table()
 
     def test_check_cells_merged(self):
-        doc = aw.Document(MY_DIR + 'Table with merged cells.docx')
-        table = doc.first_section.body.tables[0]
-        for row in table.rows:
-            row = row.as_row()
-            for cell in row.cells:
-                cell = cell.as_cell()
-                print(self.print_cell_merge_type(cell))
-        self.assertEqual('The cell at R1, C1 is vertically merged', self.print_cell_merge_type(table.first_row.first_cell))  #ExSkip
+        #ExStart
+        #ExFor:CellFormat.horizontal_merge
+        #ExFor:CellFormat.vertical_merge
+        #ExFor:CellMerge
+        #ExSummary:Prints the horizontal and vertical merge type of a cell.
+        def check_cells_merged():
+            doc = aw.Document(MY_DIR + 'Table with merged cells.docx')
+            table = doc.first_section.body.tables[0]
+            for row in table.rows:
+                row = row.as_row()
+                for cell in row.cells:
+                    cell = cell.as_cell()
+                    print(print_cell_merge_type(cell))
+            self.assertEqual('The cell at R1, C1 is vertically merged', print_cell_merge_type(table.first_row.first_cell))  #ExSkip
+
+        def print_cell_merge_type(cell: aw.tables.Cell) -> str:
+            is_horizontally_merged = cell.cell_format.horizontal_merge != aw.tables.CellMerge.NONE
+            is_vertically_merged = cell.cell_format.vertical_merge != aw.tables.CellMerge.NONE
+            cell_location = f'R{cell.parent_row.parent_table.index_of(cell.parent_row) + 1}, C{cell.parent_row.index_of(cell) + 1}'
+            if is_horizontally_merged and is_vertically_merged:
+                return f'The cell at {cell_location} is both horizontally and vertically merged'
+            if is_horizontally_merged:
+                return f'The cell at {cell_location} is horizontally merged.'
+            if is_vertically_merged:
+                return f'The cell at {cell_location} is vertically merged'
+            return f'The cell at {cell_location} is not merged'
+        #ExEnd
+
+        check_cells_merged()
 
     def test_merge_cell_range(self):
         doc = aw.Document(MY_DIR + 'Tables.docx')
@@ -1132,81 +1239,6 @@ class ExTable(ApiExampleBase):
                 cell = cell.next_cell
             row = row.next_row
         #ExEnd
-
-    @staticmethod
-    def get_nested_depth_of_table(table: aw.tables.Table) -> int:
-        """Calculates what level a table is nested inside other tables.
-
-        :return: An integer indicating the nesting depth of the table (number of parent table nodes).
-        """
-        depth = 0
-        parent = table.get_ancestor(table.node_type)
-        while parent is not None:
-            depth += 1
-            parent = parent.get_ancestor(table.node_type)
-        return depth
-
-    @staticmethod
-    def get_child_table_count(table: aw.tables.Table) -> int:
-        """Determines if a table contains any immediate child table within its cells.
-
-        Do not recursively traverse through those tables to check for further tables.
-
-        :return: Returns True if at least one child cell contains a table.
-                 Returns False if no cells in the table contain a table.
-        """
-        child_table_count = 0
-        for row in table.rows:
-            row = row.as_row()
-            for cell in row.cells:
-                cell = cell.as_cell()
-                child_tables = cell.tables
-                if child_tables.count > 0:
-                    child_table_count += 1
-        return child_table_count
-
-    @staticmethod
-    def create_table(doc: aw.Document, row_count: int, cell_count: int, cell_text: str) -> aw.tables.Table:
-        """Creates a new table in the document with the given dimensions and text in each cell."""
-        table = aw.tables.Table(doc)
-        for row_id in range(1, row_count + 1):
-            row = aw.tables.Row(doc)
-            table.append_child(row)
-            for cell_id in range(1, cell_count + 1):
-                cell = aw.tables.Cell(doc)
-                cell.append_child(aw.Paragraph(doc))
-                cell.first_paragraph.append_child(aw.Run(doc, cell_text))
-                row.append_child(cell)
-        # You can use the "title" and "description" properties to add a title and description respectively to your table.
-        # The table must have at least one row before we can use these properties.
-        # These properties are meaningful for ISO / IEC 29500 compliant .docx documents (see the OoxmlCompliance class).
-        # If we save the document to pre-ISO/IEC 29500 formats, Microsoft Word ignores these properties.
-        table.title = 'Aspose table title'
-        table.description = 'Aspose table description'
-        return table
-
-    def create_and_test_nested_table(self, doc: aw.Document):
-        outer_table = doc.first_section.body.tables[0]
-        inner_table = doc.get_child(aw.NodeType.TABLE, 1, True).as_table()
-        self.assertEqual(2, doc.get_child_nodes(aw.NodeType.TABLE, True).count)
-        self.assertEqual(1, outer_table.first_row.first_cell.tables.count)
-        self.assertEqual(16, outer_table.get_child_nodes(aw.NodeType.CELL, True).count)
-        self.assertEqual(4, inner_table.get_child_nodes(aw.NodeType.CELL, True).count)
-        self.assertEqual('Aspose table title', inner_table.title)
-        self.assertEqual('Aspose table description', inner_table.description)
-
-    @staticmethod
-    def print_cell_merge_type(cell: aw.tables.Cell) -> str:
-        is_horizontally_merged = cell.cell_format.horizontal_merge != aw.tables.CellMerge.NONE
-        is_vertically_merged = cell.cell_format.vertical_merge != aw.tables.CellMerge.NONE
-        cell_location = f'R{cell.parent_row.parent_table.index_of(cell.parent_row) + 1}, C{cell.parent_row.index_of(cell) + 1}'
-        if is_horizontally_merged and is_vertically_merged:
-            return f'The cell at {cell_location} is both horizontally and vertically merged'
-        if is_horizontally_merged:
-            return f'The cell at {cell_location} is horizontally merged.'
-        if is_vertically_merged:
-            return f'The cell at {cell_location} is vertically merged'
-        return f'The cell at {cell_location} is not merged'
 
     @staticmethod
     def merge_cells(start_cell: aw.tables.Cell, end_cell: aw.tables.Cell):
