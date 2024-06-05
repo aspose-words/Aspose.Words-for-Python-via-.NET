@@ -5,9 +5,9 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import uuid
-from datetime import datetime
 from document_helper import DocumentHelper
+from datetime import datetime
+import uuid
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.buildingblocks
@@ -271,6 +271,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, True).as_structured_document_tag_range_start()
         if tag.appearance == aw.markup.SdtAppearance.HIDDEN:
             tag.appearance = aw.markup.SdtAppearance.TAGS
+        #ExEnd:Appearance
         #ExEnd:Appearance
 
     def test_repeating_section(self):

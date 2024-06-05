@@ -475,6 +475,7 @@ class ExTable(ApiExampleBase):
             # The ArgumentException will be thrown for any other values.
             table.vertical_anchor = aw.drawing.RelativeVerticalPosition.PAGE
         #ExEnd
+        #ExEnd
 
     def test_change_floating_table_properties(self):
         #ExStart
@@ -599,6 +600,7 @@ class ExTable(ApiExampleBase):
         #ExFor:TableCollection
         #ExFor:NodeCollection.count
         #ExSummary:Shows how to find out if a tables are nested.
+
         def calculate_depth_of_nested_tables():
             doc = aw.Document(MY_DIR + 'Nested tables.docx')
             tables = doc.get_child_nodes(aw.NodeType.TABLE, True)
@@ -645,7 +647,6 @@ class ExTable(ApiExampleBase):
                         child_table_count += 1
             return child_table_count
         #ExEnd
-
         calculate_depth_of_nested_tables()
 
     def test_borders(self):
@@ -822,7 +823,6 @@ class ExTable(ApiExampleBase):
                         self.assertIn('<td style="border-right-style:solid; border-right-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; ' + 'padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-bottom:0.5pt single; -aw-border-right:0.5pt single">', text)
 
     def test_create_nested_table(self):
-
         #ExStart
         #ExFor:Table
         #ExFor:Row
@@ -834,6 +834,7 @@ class ExTable(ApiExampleBase):
         #ExFor:Cell.__init__(DocumentBase)
         #ExFor:Cell.first_paragraph
         #ExSummary:Shows how to build a nested table without using a document builder.
+
         def create_nested_table():
             doc = aw.Document()
             # Create the outer table with three rows and four columns, and then add it to the document.
@@ -874,7 +875,6 @@ class ExTable(ApiExampleBase):
             self.assertEqual(4, inner_table.get_child_nodes(aw.NodeType.CELL, True).count)
             self.assertEqual('Aspose table title', inner_table.title)
             self.assertEqual('Aspose table description', inner_table.description)
-
         create_nested_table()
 
     def test_check_cells_merged(self):
@@ -883,6 +883,7 @@ class ExTable(ApiExampleBase):
         #ExFor:CellFormat.vertical_merge
         #ExFor:CellMerge
         #ExSummary:Prints the horizontal and vertical merge type of a cell.
+
         def check_cells_merged():
             doc = aw.Document(MY_DIR + 'Table with merged cells.docx')
             table = doc.first_section.body.tables[0]
@@ -905,7 +906,6 @@ class ExTable(ApiExampleBase):
                 return f'The cell at {cell_location} is vertically merged'
             return f'The cell at {cell_location} is not merged'
         #ExEnd
-
         check_cells_merged()
 
     def test_merge_cell_range(self):

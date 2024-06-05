@@ -5,10 +5,8 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-
 import aspose.words as aw
 from api_example_base import ApiExampleBase
-
 
 class ExBuildVersion(ApiExampleBase):
 

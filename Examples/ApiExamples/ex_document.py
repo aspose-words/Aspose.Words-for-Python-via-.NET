@@ -5,16 +5,17 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
-from datetime import datetime, timedelta, timezone
-from urllib.request import urlopen, Request
-import glob
-import os
+import base64
+import aspose.words.drawing
 import io
+import os
+import glob
+from urllib.request import urlopen, Request
+from datetime import datetime, timedelta, timezone
+from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.digitalsignatures
-import aspose.words.drawing
 import aspose.words.fields
 import aspose.words.loading
 import aspose.words.notes
@@ -23,23 +24,9 @@ import aspose.words.saving
 import aspose.words.settings
 import aspose.words.webextensions
 import unittest
-import base64
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR, FONTS_DIR, GOLDS_DIR
 
 class ExDocument(ApiExampleBase):
-
-    def test_create_simple_document(self):
-        #ExStart:CreateSimpleDocument
-        #ExFor:Document.__init__()
-        #ExSummary:Shows how to create simple document.
-        doc = aw.Document()
-        # New Document objects by default come with the minimal set of nodes
-        # required to begin adding content such as text and shapes: a Section, a Body, and a Paragraph.
-        section = doc.append_child(aw.Section(doc)).as_section()
-        body = section.append_child(aw.Body(doc)).as_body()
-        para = body.append_child(aw.Paragraph(doc)).as_paragraph()
-        para.append_child(aw.Run(doc=doc, text='Hello world!'))
-        #ExEnd:CreateSimpleDocument
 
     def test_constructor(self):
         #ExStart
@@ -373,10 +360,6 @@ class ExDocument(ApiExampleBase):
         doc = aw.Document(file_name=MY_DIR + 'External XML schema.docx')
         doc.remove_external_schema_references()
         #ExEnd
-
-
-
-
 
     def test_update_thumbnail(self):
         #ExStart
@@ -752,6 +735,27 @@ class ExDocument(ApiExampleBase):
         self.assertFalse(doc.get_page_info(0).colored)
         #ExEnd
 
+    def test_has_macros(self):
+        #ExStart:HasMacros
+        #ExFor:FileFormatInfo.has_macros
+        #ExSummary:Shows how to check VBA macro presence without loading document.
+        file_format_info = aw.FileFormatUtil.detect_file_format(file_name=MY_DIR + 'Macro.docm')
+        self.assertTrue(file_format_info.has_macros)
+        #ExEnd:HasMacros
+
+    def test_create_simple_document(self):
+        #ExStart:CreateSimpleDocument
+        #ExFor:Document.__init__()
+        #ExSummary:Shows how to create simple document.
+        doc = aw.Document()
+        # New Document objects by default come with the minimal set of nodes
+        # required to begin adding content such as text and shapes: a Section, a Body, and a Paragraph.
+        section = doc.append_child(aw.Section(doc)).as_section()
+        body = section.append_child(aw.Body(doc)).as_body()
+        para = body.append_child(aw.Paragraph(doc)).as_paragraph()
+        para.append_child(aw.Run(doc=doc, text='Hello world!'))
+        #ExEnd:CreateSimpleDocument
+
     def test_load_from_stream(self):
         #ExStart
         #ExFor:Document.__init__(BytesIO)
@@ -1090,8 +1094,6 @@ class ExDocument(ApiExampleBase):
         self.verify_doc_package_file_contains_string('<w:tblCellSpacing w:w="100" w:type="dxa" />', ARTIFACTS_DIR + 'Document.table_style_to_direct_formatting.docx', 'word/document.xml')
         self.verify_doc_package_file_contains_string('<w:tblBorders><w:top w:val="dotDash" w:sz="2" w:space="0" w:color="0000FF" /><w:left w:val="dotDash" w:sz="2" w:space="0" w:color="0000FF" /><w:bottom w:val="dotDash" w:sz="2" w:space="0" w:color="0000FF" /><w:right w:val="dotDash" w:sz="2" w:space="0" w:color="0000FF" /><w:insideH w:val="dotDash" w:sz="2" w:space="0" w:color="0000FF" /><w:insideV w:val="dotDash" w:sz="2" w:space="0" w:color="0000FF" /></w:tblBorders>', ARTIFACTS_DIR + 'Document.table_style_to_direct_formatting.docx', 'word/document.xml')
 
-
-
     def test_hyphenation_options(self):
         #ExStart
         #ExFor:Document.hyphenation_options
@@ -1201,8 +1203,6 @@ class ExDocument(ApiExampleBase):
         doc.range.replace_regex('([A-z]+) gave money to ([A-z]+)', '$2 took money from $1', options)
         self.assertEqual(doc.get_text(), 'Paul took money from Jason.\x0c')
         #ExEnd
-
-
 
     def test_layout_options_hidden_text(self):
         for show_hidden_text in (False, True):

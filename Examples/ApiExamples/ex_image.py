@@ -5,10 +5,10 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words.drawing import ImageType
 from aspose.words import Document, DocumentBuilder, NodeType
-import aspose.pydrawing as drawing
+from aspose.words.drawing import ImageType
 import os
+import aspose.pydrawing as drawing
 import aspose.words as aw
 import aspose.words.drawing
 import unittest
@@ -236,7 +236,6 @@ class ExImage(ApiExampleBase):
         #ExEnd
         doc = aw.Document(ARTIFACTS_DIR + 'Image.create_linked_image.embedded.docx')
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-
         self.verify_image_in_shape(1600, 1600, aw.drawing.ImageType.WMF, shape)
         self.assertEqual(aw.drawing.WrapType.INLINE, shape.wrap_type)
         self.assertEqual('', shape.image_data.source_full_name.replace('%20', ' '))

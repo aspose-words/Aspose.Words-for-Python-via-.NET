@@ -84,7 +84,6 @@ class ExPlainTextDocument(ApiExampleBase):
             self.assertEqual('Hello world!', plaintext.text.strip())
         #ExEnd
 
-
     def test_load_encrypted_using_stream(self):
         #ExStart
         #ExFor:PlainTextDocument.__init__(BytesIO,LoadOptions)

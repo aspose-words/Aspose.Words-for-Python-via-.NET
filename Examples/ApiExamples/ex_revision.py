@@ -135,6 +135,9 @@ class ExRevision(ApiExampleBase):
         self.assertEqual('', paragraphs[1].list_label.label_string)
         self.assertEqual('b.', paragraphs[2].list_label.label_string)
 
+    def test_ignore_store_item_id(self):
+        raise NotImplementedError('Unsupported target type System.DateTime')
+
     def test_revisions(self):
         #ExStart
         #ExFor:Revision
@@ -256,6 +259,80 @@ class ExRevision(ApiExampleBase):
         for group in doc.revisions.groups:
             print(f'Revision author: {group.author}; Revision type: {group.revision_type} \n\tRevision text: {group.text}')
 
+    def test_track_revisions(self):
+        #ExStart
+        #ExFor:Document.start_track_revisions(str)
+        #ExFor:Document.start_track_revisions(str,datetime)
+        #ExFor:Document.stop_track_revisions
+        #ExSummary:Shows how to track revisions while editing a document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        # Editing a document usually does not count as a revision until we begin tracking them.
+        builder.write('Hello world! ')
+        self.assertEqual(0, doc.revisions.count)
+        self.assertFalse(doc.first_section.body.paragraphs[0].runs[0].is_insert_revision)
+        doc.start_track_revisions('John Doe')
+        builder.write('Hello again! ')
+        self.assertEqual(1, doc.revisions.count)
+        self.assertTrue(doc.first_section.body.paragraphs[0].runs[1].is_insert_revision)
+        self.assertEqual('John Doe', doc.revisions[0].author)
+        self.assertAlmostEqual(doc.revisions[0].date_time, datetime.now(tz=timezone.utc), delta=timedelta(seconds=1))
+        # Stop tracking revisions to not count any future edits as revisions.
+        doc.stop_track_revisions()
+        builder.write('Hello again! ')
+        self.assertEqual(1, doc.revisions.count)
+        self.assertFalse(doc.first_section.body.paragraphs[0].runs[2].is_insert_revision)
+        # Creating revisions gives them a date and time of the operation.
+        # We can disable this by passing "datetime.min" when we start tracking revisions.
+        doc.start_track_revisions('John Doe', datetime.min)
+        builder.write('Hello again! ')
+        self.assertEqual(2, doc.revisions.count)
+        self.assertEqual('John Doe', doc.revisions[1].author)
+        self.assertEqual(datetime.min, doc.revisions[1].date_time)
+        # We can accept/reject these revisions programmatically
+        # by calling methods such as "Document.accept_all_revisions", or each revision's "accept" method.
+        # In Microsoft Word, we can process them manually via "Review" -> "Changes".
+        doc.save(ARTIFACTS_DIR + 'Document.track_revisions.docx')
+        #ExEnd
+
+    def test_compare(self):
+        #ExStart
+        #ExFor:Document.compare(Document,str,datetime)
+        #ExFor:RevisionCollection.accept_all
+        #ExSummary:Shows how to compare documents.
+        doc_original = aw.Document()
+        builder = aw.DocumentBuilder(doc_original)
+        builder.writeln('This is the original document.')
+        doc_edited = aw.Document()
+        builder = aw.DocumentBuilder(doc_edited)
+        builder.writeln('This is the edited document.')
+        # Comparing documents with revisions will throw an exception.
+        if doc_original.revisions.count == 0 and doc_edited.revisions.count == 0:
+            doc_original.compare(doc_edited, 'authorName', datetime.now())
+        # After the comparison, the original document will gain a new revision
+        # for every element that is different in the edited document.
+        self.assertEqual(2, doc_original.revisions.count)  # ExSkip
+        for revision in doc_original.revisions:
+            print(f'Revision type: {revision.revision_type}, on a node of type "{revision.parent_node.node_type}"')
+            print(f'\tChanged text: "{revision.parent_node.get_text()}"')
+        # Accepting these revisions will transform the original document into the edited document.
+        doc_original.revisions.accept_all()
+        self.assertEqual(doc_original.get_text(), doc_edited.get_text())
+        #ExEnd
+        doc_original = DocumentHelper.save_open(doc_original)
+        self.assertEqual(0, doc_original.revisions.count)
+
+    def test_compare_document_with_revisions(self):
+        doc1 = aw.Document()
+        builder = aw.DocumentBuilder(doc1)
+        builder.writeln('Hello world! This text is not a revision.')
+        doc_with_revision = aw.Document()
+        builder = aw.DocumentBuilder(doc_with_revision)
+        doc_with_revision.start_track_revisions('John Doe')
+        builder.writeln('This is a revision.')
+        with self.assertRaises(Exception):
+            doc_with_revision.compare(doc1, 'John Doe', datetime.now())
+
     def test_compare_options(self):
         #ExStart
         #ExFor:CompareOptions
@@ -344,73 +421,6 @@ class ExRevision(ApiExampleBase):
                 self.assertEqual(0 if is_ignore_dml_unique_id else 2, doc_a.revisions.count)
                 #ExEnd
 
-    def test_track_revisions(self):
-        #ExStart
-        #ExFor:Document.start_track_revisions(str)
-        #ExFor:Document.start_track_revisions(str,datetime)
-        #ExFor:Document.stop_track_revisions
-        #ExSummary:Shows how to track revisions while editing a document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Editing a document usually does not count as a revision until we begin tracking them.
-        builder.write('Hello world! ')
-        self.assertEqual(0, doc.revisions.count)
-        self.assertFalse(doc.first_section.body.paragraphs[0].runs[0].is_insert_revision)
-        doc.start_track_revisions('John Doe')
-        builder.write('Hello again! ')
-        self.assertEqual(1, doc.revisions.count)
-        self.assertTrue(doc.first_section.body.paragraphs[0].runs[1].is_insert_revision)
-        self.assertEqual('John Doe', doc.revisions[0].author)
-        self.assertAlmostEqual(doc.revisions[0].date_time, datetime.now(tz=timezone.utc), delta=timedelta(seconds=1))
-        # Stop tracking revisions to not count any future edits as revisions.
-        doc.stop_track_revisions()
-        builder.write('Hello again! ')
-        self.assertEqual(1, doc.revisions.count)
-        self.assertFalse(doc.first_section.body.paragraphs[0].runs[2].is_insert_revision)
-        # Creating revisions gives them a date and time of the operation.
-        # We can disable this by passing "datetime.min" when we start tracking revisions.
-        doc.start_track_revisions('John Doe', datetime.min)
-        builder.write('Hello again! ')
-        self.assertEqual(2, doc.revisions.count)
-        self.assertEqual('John Doe', doc.revisions[1].author)
-        self.assertEqual(datetime.min, doc.revisions[1].date_time)
-        # We can accept/reject these revisions programmatically
-        # by calling methods such as "Document.accept_all_revisions", or each revision's "accept" method.
-        # In Microsoft Word, we can process them manually via "Review" -> "Changes".
-        doc.save(ARTIFACTS_DIR + 'Document.track_revisions.docx')
-        #ExEnd
-
-    def test_compare_document_with_revisions(self):
-        doc1 = aw.Document()
-        builder = aw.DocumentBuilder(doc1)
-        builder.writeln('Hello world! This text is not a revision.')
-        doc_with_revision = aw.Document()
-        builder = aw.DocumentBuilder(doc_with_revision)
-        doc_with_revision.start_track_revisions('John Doe')
-        builder.writeln('This is a revision.')
-        with self.assertRaises(Exception):
-            doc_with_revision.compare(doc1, 'John Doe', datetime.now())
-
-    def test_accept_all_revisions(self):
-        #ExStart
-        #ExFor:Document.accept_all_revisions
-        #ExSummary:Shows how to accept all tracking changes in the document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Edit the document while tracking changes to create a few revisions.
-        doc.start_track_revisions(author='John Doe')
-        builder.write('Hello world! ')
-        builder.write('Hello again! ')
-        builder.write('This is another revision.')
-        doc.stop_track_revisions()
-        self.assertEqual(3, doc.revisions.count)
-        # We can iterate through every revision and accept/reject it as a part of our document.
-        # If we know we wish to accept every revision, we can do it more straightforwardly so by calling this method.
-        doc.accept_all_revisions()
-        self.assertEqual(0, doc.revisions.count)
-        self.assertEqual('Hello world! Hello again! This is another revision.', doc.get_text().strip())
-        #ExEnd
-
     def test_layout_options_revisions(self):
         #ExStart
         #ExFor:Document.layout_options
@@ -436,33 +446,6 @@ class ExRevision(ApiExampleBase):
         doc.layout_options.revision_options.show_revision_bars = False
         doc.save(ARTIFACTS_DIR + 'Document.layout_options_revisions.pdf')
         #ExEnd
-
-    def test_compare(self):
-        #ExStart
-        #ExFor:Document.compare(Document,str,datetime)
-        #ExFor:RevisionCollection.accept_all
-        #ExSummary:Shows how to compare documents.
-        doc_original = aw.Document()
-        builder = aw.DocumentBuilder(doc_original)
-        builder.writeln('This is the original document.')
-        doc_edited = aw.Document()
-        builder = aw.DocumentBuilder(doc_edited)
-        builder.writeln('This is the edited document.')
-        # Comparing documents with revisions will throw an exception.
-        if doc_original.revisions.count == 0 and doc_edited.revisions.count == 0:
-            doc_original.compare(doc_edited, 'authorName', datetime.now())
-        # After the comparison, the original document will gain a new revision
-        # for every element that is different in the edited document.
-        self.assertEqual(2, doc_original.revisions.count)  # ExSkip
-        for revision in doc_original.revisions:
-            print(f'Revision type: {revision.revision_type}, on a node of type "{revision.parent_node.node_type}"')
-            print(f'\tChanged text: "{revision.parent_node.get_text()}"')
-        # Accepting these revisions will transform the original document into the edited document.
-        doc_original.revisions.accept_all()
-        self.assertEqual(doc_original.get_text(), doc_edited.get_text())
-        #ExEnd
-        doc_original = DocumentHelper.save_open(doc_original)
-        self.assertEqual(0, doc_original.revisions.count)
 
     def test_granularity_compare_option(self):
         for granularity in (aw.comparing.Granularity.CHAR_LEVEL, aw.comparing.Granularity.WORD_LEVEL):
@@ -508,26 +491,3 @@ class ExRevision(ApiExampleBase):
                     self.assertEqual('- "', groups[3].text)
                     self.assertEqual(aw.RevisionType.INSERTION, groups[4].revision_type)
                     self.assertEqual('"', groups[4].text)
-
-    def test_get_revised_properties_of_list(self):
-        #ExStart
-        #ExFor:RevisionsView
-        #ExFor:Document.revisions_view
-        #ExSummary:Shows how to switch between the revised and the original view of a document.
-        doc = aw.Document(file_name=MY_DIR + 'Revisions at list levels.docx')
-        doc.update_list_labels()
-        paragraphs = doc.first_section.body.paragraphs
-        self.assertEqual('1.', paragraphs[0].list_label.label_string)
-        self.assertEqual('a.', paragraphs[1].list_label.label_string)
-        self.assertEqual('', paragraphs[2].list_label.label_string)
-        # View the document object as if all the revisions are accepted. Currently supports list labels.
-        doc.revisions_view = aw.RevisionsView.FINAL
-        self.assertEqual('', paragraphs[0].list_label.label_string)
-        self.assertEqual('1.', paragraphs[1].list_label.label_string)
-        self.assertEqual('a.', paragraphs[2].list_label.label_string)
-        #ExEnd
-        doc.revisions_view = aw.RevisionsView.ORIGINAL
-        doc.accept_all_revisions()
-        self.assertEqual('a.', paragraphs[0].list_label.label_string)
-        self.assertEqual('', paragraphs[1].list_label.label_string)
-        self.assertEqual('b.', paragraphs[2].list_label.label_string)

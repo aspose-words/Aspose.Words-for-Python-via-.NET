@@ -5,8 +5,8 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import io
 import aspose.pydrawing as drawing
+import io
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.saving

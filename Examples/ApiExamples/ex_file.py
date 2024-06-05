@@ -5,10 +5,10 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import os
-import glob
-import datetime
 import sys
+import datetime
+import glob
+import os
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.saving

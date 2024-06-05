@@ -5,9 +5,9 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import os
-import shutil
 import aspose.words as aw
+import shutil
+import os
 from api_example_base import ApiExampleBase, LICENSE_PATH
 
 class ExLicense(ApiExampleBase):

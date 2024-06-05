@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
-import datetime
-import glob
-import os
-from typing import List
-import sys
 import unittest
+import sys
+from typing import List
+import os
+import glob
+import datetime
 import aspose.words as aw
 import aspose.words.saving
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR, FONTS_DIR

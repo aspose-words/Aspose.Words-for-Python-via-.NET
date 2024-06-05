@@ -5,8 +5,8 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import aspose.words as aw
 import time
+import aspose.words as aw
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExMetered(ApiExampleBase):
