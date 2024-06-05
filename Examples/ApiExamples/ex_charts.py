@@ -903,6 +903,228 @@ class ExCharts(ApiExampleBase):
         self.assertEqual(aspose.pydrawing.Color.light_goldenrod_yellow.to_argb(), chart.axis_x.title.format.fill.color.to_argb())
         self.assertEqual(aspose.pydrawing.Color.light_goldenrod_yellow.to_argb(), chart.legend.format.fill.color.to_argb())
 
+    def test_secondary_axis(self):
+        #ExStart:SecondaryAxis
+        #ExFor:ChartSeriesGroup
+        #ExFor:ChartSeriesGroup.axis_group
+        #ExFor:ChartSeriesGroup.axis_x
+        #ExFor:ChartSeriesGroup.axis_y
+        #ExFor:ChartSeriesGroup.series
+        #ExFor:ChartSeriesGroupCollection.add(ChartSeriesType)
+        #ExFor:AxisGroup
+        #ExSummary:Shows how to work with the secondary axis of chart.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.LINE, width=450, height=250)
+        chart = shape.chart
+        series = chart.series
+        # Delete default generated series.
+        series.clear()
+        categories = ['Category 1', 'Category 2', 'Category 3']
+        series.add(series_name='Series 1 of primary series group', categories=categories, values=[2, 3, 4])
+        series.add(series_name='Series 2 of primary series group', categories=categories, values=[5, 2, 3])
+        # Create an additional series group, also of the line type.
+        new_series_group = chart.series_groups.add(aw.drawing.charts.ChartSeriesType.LINE)
+        # Specify the use of secondary axes for the new series group.
+        new_series_group.axis_group = aw.drawing.charts.AxisGroup.SECONDARY
+        # Hide the secondary X axis.
+        new_series_group.axis_x.hidden = True
+        # Define title of the secondary Y axis.
+        new_series_group.axis_y.title.show = True
+        new_series_group.axis_y.title.text = 'Secondary Y axis'
+        # Add a series to the new series group.
+        series3 = new_series_group.series.add(series_name='Series of secondary series group', categories=categories, values=[13, 11, 16])
+        series3.format.stroke.weight = 3.5
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.SecondaryAxis.docx')
+        #ExEnd:SecondaryAxis
+
+    def test_configure_gap_overlap(self):
+        #ExStart:ConfigureGapOverlap
+        #ExFor:ChartSeriesGroup.gap_width
+        #ExFor:ChartSeriesGroup.overlap
+        #ExSummary:Show how to configure gap width and overlap.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=450, height=250)
+        series_group = shape.chart.series_groups[0]
+        # Set column gap width and overlap.
+        series_group.gap_width = 450
+        series_group.overlap = -75
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.ConfigureGapOverlap.docx')
+        #ExEnd:ConfigureGapOverlap
+
+    def test_bubble_scale(self):
+        #ExStart:BubbleScale
+        #ExFor:ChartSeriesGroup.bubble_scale
+        #ExSummary:Show how to set size of the bubbles.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        # Insert a bubble 3D chart.
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.BUBBLE_3D, width=450, height=250)
+        series_group = shape.chart.series_groups[0]
+        # Set bubble scale to 200%.
+        series_group.bubble_scale = 200
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.BubbleScale.docx')
+        #ExEnd:BubbleScale
+
+    def test_remove_secondary_axis(self):
+        #ExStart:RemoveSecondaryAxis
+        #ExFor:ChartSeriesGroupCollection.count
+        #ExFor:ChartSeriesGroupCollection.__getitem__(int)
+        #ExFor:ChartSeriesGroupCollection.remove_at(int)
+        #ExSummary:Show how to remove secondary axis.
+        doc = aw.Document(file_name=MY_DIR + 'Combo chart.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        chart = shape.chart
+        series_groups = chart.series_groups
+        # Find secondary axis and remove from the collection.
+        i = 0
+        while i < series_groups.count:
+            if series_groups[i].axis_group == aw.drawing.charts.AxisGroup.SECONDARY:
+                series_groups.remove_at(i)
+            #ExEnd:RemoveSecondaryAxis
+            #ExEnd:RemoveSecondaryAxis
+            i += 1
+        #ExEnd:RemoveSecondaryAxis
+
+    def test_treemap_chart(self):
+        #ExStart:TreemapChart
+        #ExFor:ChartSeriesCollection.add(str,List[ChartMultilevelValue],List[float])
+        #ExFor:ChartMultilevelValue.__init__(str,str)
+        #ExSummary:Shows how to create treemap chart.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        # Insert a Treemap chart.
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.TREEMAP, width=450, height=280)
+        chart = shape.chart
+        chart.title.text = 'World Population'
+        # Delete default generated series.
+        chart.series.clear()
+        # Add a series.
+        series = chart.series.add(series_name='Population by Region', categories=[aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='China'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='India'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Indonesia'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Pakistan'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Bangladesh'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Japan'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Philippines'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Nigeria'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Ethiopia'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Egypt'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Europe', level2='Russia'), aw.drawing.charts.ChartMultilevelValue(level1='Europe', level2='Germany'), aw.drawing.charts.ChartMultilevelValue(level1='Europe', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Latin America', level2='Brazil'), aw.drawing.charts.ChartMultilevelValue(level1='Latin America', level2='Mexico'), aw.drawing.charts.ChartMultilevelValue(level1='Latin America', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Northern America', level2='United States'), aw.drawing.charts.ChartMultilevelValue(level1='Northern America', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Oceania')], values=[1409670000, 1400744000, 279118866, 241499431, 169828911, 123930000, 112892781, 764000000, 223800000, 107334000, 105914499, 903000000, 146150789, 84607016, 516000000, 203080756, 129713690, 310000000, 335893238, 35000000, 42000000])
+        # Show data labels.
+        series.has_data_labels = True
+        series.data_labels.show_value = True
+        series.data_labels.show_category_name = True
+        decimal_separator = locale.localeconv()['decimal_point']
+        series.data_labels.number_format.format_code = f"0{decimal_separator}0%"
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.Treemap.docx')
+        #ExEnd:TreemapChart
+
+    def test_sunburst_chart(self):
+        #ExStart:SunburstChart
+        #ExFor:ChartSeriesCollection.add(str,List[ChartMultilevelValue],List[float])
+        #ExSummary:Shows how to create sunburst chart.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        # Insert a Sunburst chart.
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.SUNBURST, width=450, height=450)
+        chart = shape.chart
+        chart.title.text = 'Sales'
+        # Delete default generated series.
+        chart.series.clear()
+        # Add a series.
+        series = chart.series.add(series_name='Sales', categories=[aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='UK', level3='London Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='UK', level3='Liverpool Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='UK', level3='Manchester Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='France', level3='Paris Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='France', level3='Lyon Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Denver Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Seattle Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Detroit Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Houston Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='Canada', level3='Toronto Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='Canada', level3='Montreal Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Oceania', level2='Australia', level3='Sydney Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Oceania', level2='New Zealand', level3='Auckland Dep.')], values=[1236, 851, 536, 468, 179, 527, 799, 1148, 921, 457, 482, 761, 694])
+        # Show data labels.
+        series.has_data_labels = True
+        series.data_labels.show_value = False
+        series.data_labels.show_category_name = True
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.Sunburst.docx')
+        #ExEnd:SunburstChart
+
+    def test_histogram_chart(self):
+        #ExStart:HistogramChart
+        #ExFor:ChartSeriesCollection.add(str,List[float])
+        #ExSummary:Shows how to create histogram chart.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        # Insert a Histogram chart.
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.HISTOGRAM, width=450, height=450)
+        chart = shape.chart
+        chart.title.text = 'Avg Temperature since 1991'
+        # Delete default generated series.
+        chart.series.clear()
+        # Add a series.
+        chart.series.add(series_name='Avg Temperature', x_values=[51.8, 53.6, 50.3, 54.7, 53.9, 54.3, 53.4, 52.9, 53.3, 53.7, 53.8, 52, 55, 52.1, 53.4, 53.8, 53.8, 51.9, 52.1, 52.7, 51.8, 56.6, 53.3, 55.6, 56.3, 56.2, 56.1, 56.2, 53.6, 55.7, 56.3, 55.9, 55.6])
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.Histogram.docx')
+        #ExEnd:HistogramChart
+
+    def test_pareto_chart(self):
+        #ExStart:ParetoChart
+        #ExFor:ChartSeriesCollection.add(str,List[str],List[float])
+        #ExSummary:Shows how to create pareto chart.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        # Insert a Pareto chart.
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.PARETO, width=450, height=450)
+        chart = shape.chart
+        chart.title.text = 'Best-Selling Car'
+        # Delete default generated series.
+        chart.series.clear()
+        # Add a series.
+        chart.series.add(series_name='Best-Selling Car', categories=['Tesla Model Y', 'Toyota Corolla', 'Toyota RAV4', 'Ford F-Series', 'Honda CR-V'], values=[1.43, 0.91, 1.17, 0.98, 0.85])
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.Pareto.docx')
+        #ExEnd:ParetoChart
+
+    def test_box_and_whisker_chart(self):
+        #ExStart:BoxAndWhiskerChart
+        #ExFor:ChartSeriesCollection.add(str,List[str],List[float])
+        #ExSummary:Shows how to create box and whisker chart.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        # Insert a Box & Whisker chart.
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.BOX_AND_WHISKER, width=450, height=450)
+        chart = shape.chart
+        chart.title.text = 'Points by Years'
+        # Delete default generated series.
+        chart.series.clear()
+        # Add a series.
+        series = chart.series.add(series_name='Points by Years', categories=['WC', 'WC', 'WC', 'WC', 'WC', 'WC', 'WC', 'WC', 'WC', 'WC', 'NR', 'NR', 'NR', 'NR', 'NR', 'NR', 'NR', 'NR', 'NR', 'NR', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA'], values=[91, 80, 100, 77, 90, 104, 105, 118, 120, 101, 114, 107, 110, 60, 79, 78, 77, 102, 101, 113, 94, 93, 84, 71, 80, 103, 80, 94, 100, 101])
+        # Show data labels.
+        series.has_data_labels = True
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.BoxAndWhisker.docx')
+        #ExEnd:BoxAndWhiskerChart
+
+    def test_waterfall_chart(self):
+        #ExStart:WaterfallChart
+        #ExFor:ChartSeriesCollection.add(str,List[str],List[float],List[bool])
+        #ExSummary:Shows how to create waterfall chart.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        # Insert a Waterfall chart.
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.WATERFALL, width=450, height=450)
+        chart = shape.chart
+        chart.title.text = 'New Zealand GDP'
+        # Delete default generated series.
+        chart.series.clear()
+        # Add a series.
+        series = chart.series.add(series_name='New Zealand GDP', categories=['2018', '2019 growth', '2020 growth', '2020', '2021 growth', '2022 growth', '2022'], values=[100, 0.57, -0.25, 100.32, 20.22, -2.92, 117.62], is_subtotal=[True, False, False, True, False, False, True])
+        # Show data labels.
+        series.has_data_labels = True
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.Waterfall.docx')
+        #ExEnd:WaterfallChart
+
+    def test_funnel_chart(self):
+        #ExStart:FunnelChart
+        #ExFor:ChartSeriesCollection.add(str,List[str],List[float])
+        #ExSummary:Shows how to create funnel chart.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        # Insert a Funnel chart.
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.FUNNEL, width=450, height=450)
+        chart = shape.chart
+        chart.title.text = 'Population by Age Group'
+        # Delete default generated series.
+        chart.series.clear()
+        # Add a series.
+        series = chart.series.add(series_name='Population by Age Group', categories=['0-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60-69', '70-79', '80-89', '90-'], values=[0.121, 0.128, 0.132, 0.146, 0.124, 0.124, 0.111, 0.075, 0.032, 0.007])
+        # Show data labels.
+        series.has_data_labels = True
+        decimal_separator = locale.localeconv()['decimal_point']
+        series.data_labels.number_format.format_code = f"0{decimal_separator}0%"
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.Funnel.docx')
+        #ExEnd:FunnelChart
+
     def test_date_time_values(self):
         #ExStart
         #ExFor:AxisBound

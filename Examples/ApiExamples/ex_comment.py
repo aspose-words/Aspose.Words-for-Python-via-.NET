@@ -8,22 +8,9 @@
 from datetime import datetime
 import aspose.words as aw
 import unittest
-from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExComment(ApiExampleBase):
-
-    def test_utc_date_time(self):
-        #ExStart:UtcDateTime
-        #ExFor:Comment.date_time_utc
-        #ExSummary:Shows how to get UTC date and time.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-
-        comment = aw.Comment(doc, 'John Doe', 'J.D.', datetime.now())
-        comment.set_text('My comment.')
-        builder.current_paragraph.append_child(comment)
-        doc.save(file_name=ARTIFACTS_DIR + 'Comment.UtcDateTime.docx')
-        #ExEnd:UtcDateTime
 
     def test_add_comment_with_reply(self):
         #ExStart
@@ -132,3 +119,15 @@ class ExComment(ApiExampleBase):
         self.assertTrue(comment.done)
         self.assertEqual('\x05Fix the spelling error!', comment.get_text().strip())
         self.assertEqual('Hello world!', doc.first_section.body.first_paragraph.runs[0].text)
+
+    def test_utc_date_time(self):
+        #ExStart:UtcDateTime
+        #ExFor:Comment.date_time_utc
+        #ExSummary:Shows how to get UTC date and time.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        comment = aw.Comment(doc, 'John Doe', 'J.D.', datetime.now())
+        comment.set_text('My comment.')
+        builder.current_paragraph.append_child(comment)
+        doc.save(file_name=ARTIFACTS_DIR + 'Comment.UtcDateTime.docx')
+        #ExEnd:UtcDateTime

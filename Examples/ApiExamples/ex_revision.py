@@ -135,9 +135,6 @@ class ExRevision(ApiExampleBase):
         self.assertEqual('', paragraphs[1].list_label.label_string)
         self.assertEqual('b.', paragraphs[2].list_label.label_string)
 
-    def test_ignore_store_item_id(self):
-        raise NotImplementedError('Unsupported target type System.DateTime')
-
     def test_revisions(self):
         #ExStart
         #ExFor:Revision
@@ -491,3 +488,6 @@ class ExRevision(ApiExampleBase):
                     self.assertEqual('- "', groups[3].text)
                     self.assertEqual(aw.RevisionType.INSERTION, groups[4].revision_type)
                     self.assertEqual('"', groups[4].text)
+
+    def test_ignore_store_item_id(self):
+        raise NotImplementedError('Unsupported target type System.DateTime')
