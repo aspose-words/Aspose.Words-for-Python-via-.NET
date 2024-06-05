@@ -5,13 +5,13 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
+import os
+import glob
+import datetime
+import sys
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.saving
-import sys
-import datetime
-import glob
-import os
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -153,6 +153,17 @@ class ExFile(ApiExampleBase):
             doc.save(ARTIFACTS_DIR + 'File.save_to_detected_file_format' + aw.FileFormatUtil.save_format_to_extension(save_format))
         #ExEnd
 
+    def test_detect_file_format_save_format_to_load_format(self):
+        #ExStart
+        #ExFor:FileFormatUtil.save_format_to_load_format(SaveFormat)
+        #ExSummary:Shows how to convert a save format to its corresponding load format.
+        self.assertEqual(aw.LoadFormat.HTML, aw.FileFormatUtil.save_format_to_load_format(aw.SaveFormat.HTML))
+        # Some file types can have documents saved to, but not loaded from using Aspose.Words.
+        # If we attempt to convert a save format of such a type to a load format, an exception will be thrown.
+        with self.assertRaises(Exception):
+            aw.FileFormatUtil.save_format_to_load_format(aw.SaveFormat.JPEG)
+        #ExEnd
+
     def test_extract_images(self):
         #ExStart
         #ExFor:Shape
@@ -180,14 +191,3 @@ class ExFile(ApiExampleBase):
                 image_index += 1
         #ExEnd
         self.assertEqual(9, len([name for name in glob.glob(ARTIFACTS_DIR + 'File.extract_images*.*') if os.path.splitext(name)[-1] in ['.jpeg', '.png', '.emf', '.wmf']]))
-
-    def test_detect_file_format_save_format_to_load_format(self):
-        #ExStart
-        #ExFor:FileFormatUtil.save_format_to_load_format(SaveFormat)
-        #ExSummary:Shows how to convert a save format to its corresponding load format.
-        self.assertEqual(aw.LoadFormat.HTML, aw.FileFormatUtil.save_format_to_load_format(aw.SaveFormat.HTML))
-        # Some file types can have documents saved to, but not loaded from using Aspose.Words.
-        # If we attempt to convert a save format of such a type to a load format, an exception will be thrown.
-        with self.assertRaises(Exception):
-            aw.FileFormatUtil.save_format_to_load_format(aw.SaveFormat.JPEG)
-        #ExEnd

@@ -726,6 +726,7 @@ class ExPageSetup(ApiExampleBase):
         #ExFor:PageSetup.suppress_endnotes
         #ExFor:Body.parent_section
         #ExSummary:Shows how to store endnotes at the end of each section, and modify their positions.
+
         def suppress_endnotes():
             doc = aw.Document()
             doc.remove_all_children()

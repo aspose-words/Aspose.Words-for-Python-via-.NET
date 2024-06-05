@@ -5,14 +5,14 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words.themes import ThemeColor
-from aspose.pydrawing import Color
 from aspose.words import Document, DocumentBuilder, NodeType
-from document_helper import DocumentHelper
-from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
-import sys
-import typing
+from aspose.pydrawing import Color
+from aspose.words.themes import ThemeColor
 import os
+import typing
+import sys
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
+from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
@@ -441,27 +441,27 @@ class ExShape(ApiExampleBase):
         office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
         renderer = aw.rendering.OfficeMathRenderer(office_math)
         # Verify the size of the image that the OfficeMath object will create when we render it.
-        self.assertAlmostEqual(119, renderer.size_in_points.width, delta=0.25)
+        self.assertAlmostEqual(120, renderer.size_in_points.width, delta=0.25)
         self.assertAlmostEqual(13, renderer.size_in_points.height, delta=0.1)
-        self.assertAlmostEqual(119, renderer.bounds_in_points.width, delta=0.25)
+        self.assertAlmostEqual(120, renderer.bounds_in_points.width, delta=0.25)
         self.assertAlmostEqual(13, renderer.bounds_in_points.height, delta=0.1)
         # Shapes with transparent parts may contain different values in the "OpaqueBoundsInPoints" properties.
-        self.assertAlmostEqual(119, renderer.opaque_bounds_in_points.width, delta=0.25)
+        self.assertAlmostEqual(120, renderer.opaque_bounds_in_points.width, delta=0.25)
         self.assertAlmostEqual(14.2, renderer.opaque_bounds_in_points.height, delta=0.1)
         # Get the shape size in pixels, with linear scaling to a specific DPI.
         bounds = renderer.get_bounds_in_pixels(scale=1, dpi=96)
-        self.assertEqual(159, bounds.width)
+        self.assertEqual(160, bounds.width)
         self.assertEqual(18, bounds.height)
         # Get the shape size in pixels, but with a different DPI for the horizontal and vertical dimensions.
         bounds = renderer.get_bounds_in_pixels(scale=1, horizontal_dpi=96, vertical_dpi=150)
-        self.assertEqual(159, bounds.width)
+        self.assertEqual(160, bounds.width)
         self.assertEqual(28, bounds.height)
         # The opaque bounds may vary here also.
         bounds = renderer.get_opaque_bounds_in_pixels(scale=1, dpi=96)
-        self.assertEqual(159, bounds.width)
+        self.assertEqual(160, bounds.width)
         self.assertEqual(18, bounds.height)
         bounds = renderer.get_opaque_bounds_in_pixels(scale=1, horizontal_dpi=96, vertical_dpi=150)
-        self.assertEqual(159, bounds.width)
+        self.assertEqual(160, bounds.width)
         self.assertEqual(30, bounds.height)
         #ExEnd
 
@@ -496,6 +496,7 @@ class ExShape(ApiExampleBase):
             shape.shadow_format.type = aw.drawing.ShadowType.SHADOW7
         if shape.shadow_format.type == aw.drawing.ShadowType.SHADOW_MIXED:
             shape.shadow_format.clear()
+        #ExEnd
         #ExEnd
 
     def test_no_text_rotation(self):
@@ -691,6 +692,63 @@ class ExShape(ApiExampleBase):
         self.assertEqual(0, shape.reflection.blur)
         self.assertEqual(0, shape.reflection.distance)
         #ExEnd:Reflection
+
+    def test_soft_edge(self):
+        #ExStart:SoftEdge
+        #ExFor:ShapeBase.soft_edge
+        #ExFor:SoftEdgeFormat.radius
+        #ExFor:SoftEdgeFormat.remove
+        #ExSummary:Shows how to work with soft edge formatting.
+        builder = aw.DocumentBuilder()
+        shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, width=200, height=200)
+        # Apply soft edge to the shape.
+        shape.soft_edge.radius = 30
+        builder.document.save(file_name=ARTIFACTS_DIR + 'Shape.SoftEdge.docx')
+        # Load document with rectangle shape with soft edge.
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.SoftEdge.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        # Check soft edge radius.
+        self.assertEqual(30, shape.soft_edge.radius)
+        # Remove soft edge from the shape.
+        shape.soft_edge.remove()
+        # Check radius of the removed soft edge.
+        self.assertEqual(0, shape.soft_edge.radius)
+        #ExEnd:SoftEdge
+
+    def test_adjustments(self):
+        #ExStart:Adjustments
+        #ExFor:Shape.adjustments
+        #ExFor:AdjustmentCollection
+        #ExFor:Adjustment
+        #ExFor:Adjustment.name
+        #ExFor:Adjustment.value
+        #ExSummary:Shows how to work with adjustment raw values.
+        doc = aw.Document(file_name=MY_DIR + 'Rounded rectangle shape.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        adjustments = shape.adjustments
+        self.assertEqual(1, adjustments.count)
+        adjustment = adjustments[0]
+        self.assertEqual('adj', adjustment.name)
+        self.assertEqual(16667, adjustment.value)
+        adjustment.value = 30000
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.Adjustments.docx')
+        #ExEnd:Adjustments
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.Adjustments.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        adjustments = shape.adjustments
+        self.assertEqual(1, adjustments.count)
+        adjustment = adjustments[0]
+        self.assertEqual('adj', adjustment.name)
+        self.assertEqual(30000, adjustment.value)
+
+    def test_shadow_format_color(self):
+        #ExStart:ShadowFormatColor
+        #ExFor:ShadowFormat.color
+        #ExSummary:Shows how to get shadow color.
+        doc = aw.Document(file_name=MY_DIR + 'Shadow color.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        self.assertEqual(aspose.pydrawing.Color.red.to_argb(), shape.shadow_format.color.to_argb())
+        #ExEnd:ShadowFormatColor
 
     def test_alt_text(self):
         #ExStart

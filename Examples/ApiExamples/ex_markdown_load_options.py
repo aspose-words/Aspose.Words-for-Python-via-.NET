@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-import io
-import os
-import aspose.words as aw
 from datetime import date, datetime
+import aspose.words as aw
+import os
+import io
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExMarkdownLoadOptions(ApiExampleBase):

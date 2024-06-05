@@ -616,7 +616,6 @@ class ExLists(ApiExampleBase):
                             self.assertEqual(expected_list_level.number_position, list.list_levels[i].number_position)
                             self.assertEqual(expected_list_level.number_style, list.list_levels[i].number_style)
                             break
-
         print_out_all_lists()
 
     def test_list_document(self):

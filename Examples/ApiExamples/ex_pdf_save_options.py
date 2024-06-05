@@ -5,14 +5,14 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
+from aspose.words.saving import PdfTextCompression
+from aspose.words.saving import PdfTextCompression
 from aspose.words import Document
-from aspose.words.saving import PdfTextCompression
-from aspose.words.saving import PdfTextCompression
-import aspose.pydrawing as drawing
-from datetime import datetime, timedelta, timezone
-import sys
-import os
 import io
+import os
+import sys
+from datetime import datetime, timedelta, timezone
+import aspose.pydrawing as drawing
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.saving

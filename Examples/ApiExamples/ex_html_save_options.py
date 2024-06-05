@@ -5,14 +5,14 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
-import aspose.pydrawing as drawing
-import sys
-import shutil
-import textwrap
-import glob
-import os
 import io
+import os
+import glob
+import textwrap
+import shutil
+import sys
+import aspose.pydrawing as drawing
+from document_helper import DocumentHelper
 import aspose.words as aw
 import aspose.words.saving
 import unittest
