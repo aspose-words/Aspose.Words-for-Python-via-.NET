@@ -54,7 +54,7 @@ IMAGE_URL = "https://www.google.com/images/branding/googlelogo/1x/googlelogo_col
 class ApiExampleBase(unittest.TestCase):
 
     def setUp(self):
-        if os.path.exists(ARTIFACTS_DIR):
+        if os.path.exists(LICENSE_PATH):
             lic = aw.License()
             lic.set_license(LICENSE_PATH)
         if not os.path.exists(ARTIFACTS_DIR):
