@@ -15,6 +15,7 @@ import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.drawing.charts
 import unittest
+import locale
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExCharts(ApiExampleBase):
@@ -989,7 +990,7 @@ class ExCharts(ApiExampleBase):
 
     def test_treemap_chart(self):
         #ExStart:TreemapChart
-        #ExFor:ChartSeriesCollection.add(str,List[ChartMultilevelValue],List[float])
+        #ExFor:ChartSeriesCollection.add_multilevel_value(str,List[ChartMultilevelValue],List[float])
         #ExFor:ChartMultilevelValue.__init__(str,str)
         #ExSummary:Shows how to create treemap chart.
         doc = aw.Document()
@@ -1001,7 +1002,7 @@ class ExCharts(ApiExampleBase):
         # Delete default generated series.
         chart.series.clear()
         # Add a series.
-        series = chart.series.add(series_name='Population by Region', categories=[aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='China'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='India'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Indonesia'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Pakistan'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Bangladesh'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Japan'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Philippines'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Nigeria'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Ethiopia'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Egypt'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Europe', level2='Russia'), aw.drawing.charts.ChartMultilevelValue(level1='Europe', level2='Germany'), aw.drawing.charts.ChartMultilevelValue(level1='Europe', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Latin America', level2='Brazil'), aw.drawing.charts.ChartMultilevelValue(level1='Latin America', level2='Mexico'), aw.drawing.charts.ChartMultilevelValue(level1='Latin America', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Northern America', level2='United States'), aw.drawing.charts.ChartMultilevelValue(level1='Northern America', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Oceania')], values=[1409670000, 1400744000, 279118866, 241499431, 169828911, 123930000, 112892781, 764000000, 223800000, 107334000, 105914499, 903000000, 146150789, 84607016, 516000000, 203080756, 129713690, 310000000, 335893238, 35000000, 42000000])
+        series = chart.series.add_multilevel_value(series_name='Population by Region', categories=[aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='China'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='India'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Indonesia'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Pakistan'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Bangladesh'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Japan'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Philippines'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Nigeria'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Ethiopia'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Egypt'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Europe', level2='Russia'), aw.drawing.charts.ChartMultilevelValue(level1='Europe', level2='Germany'), aw.drawing.charts.ChartMultilevelValue(level1='Europe', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Latin America', level2='Brazil'), aw.drawing.charts.ChartMultilevelValue(level1='Latin America', level2='Mexico'), aw.drawing.charts.ChartMultilevelValue(level1='Latin America', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Northern America', level2='United States'), aw.drawing.charts.ChartMultilevelValue(level1='Northern America', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Oceania')], values=[1409670000, 1400744000, 279118866, 241499431, 169828911, 123930000, 112892781, 764000000, 223800000, 107334000, 105914499, 903000000, 146150789, 84607016, 516000000, 203080756, 129713690, 310000000, 335893238, 35000000, 42000000])
         # Show data labels.
         series.has_data_labels = True
         series.data_labels.show_value = True
@@ -1013,7 +1014,7 @@ class ExCharts(ApiExampleBase):
 
     def test_sunburst_chart(self):
         #ExStart:SunburstChart
-        #ExFor:ChartSeriesCollection.add(str,List[ChartMultilevelValue],List[float])
+        #ExFor:ChartSeriesCollection.add_multilevel_value(str,List[ChartMultilevelValue],List[float])
         #ExSummary:Shows how to create sunburst chart.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1024,7 +1025,7 @@ class ExCharts(ApiExampleBase):
         # Delete default generated series.
         chart.series.clear()
         # Add a series.
-        series = chart.series.add(series_name='Sales', categories=[aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='UK', level3='London Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='UK', level3='Liverpool Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='UK', level3='Manchester Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='France', level3='Paris Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='France', level3='Lyon Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Denver Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Seattle Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Detroit Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Houston Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='Canada', level3='Toronto Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='Canada', level3='Montreal Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Oceania', level2='Australia', level3='Sydney Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Oceania', level2='New Zealand', level3='Auckland Dep.')], values=[1236, 851, 536, 468, 179, 527, 799, 1148, 921, 457, 482, 761, 694])
+        series = chart.series.add_multilevel_value(series_name='Sales', categories=[aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='UK', level3='London Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='UK', level3='Liverpool Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='UK', level3='Manchester Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='France', level3='Paris Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='France', level3='Lyon Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Denver Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Seattle Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Detroit Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Houston Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='Canada', level3='Toronto Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='Canada', level3='Montreal Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Oceania', level2='Australia', level3='Sydney Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Oceania', level2='New Zealand', level3='Auckland Dep.')], values=[1236, 851, 536, 468, 179, 527, 799, 1148, 921, 457, 482, 761, 694])
         # Show data labels.
         series.has_data_labels = True
         series.data_labels.show_value = False

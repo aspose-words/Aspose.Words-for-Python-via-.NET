@@ -347,7 +347,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         self.assertIn('<p class="myprefix-Footer">', out_doc_contents)
         with open(ARTIFACTS_DIR + 'HtmlSaveOptions.css_class_name_prefix.css', 'rt', encoding='utf-8') as file:
             out_doc_contents = file.read()
-        self.assertIn('.myprefix-Footer { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt }\n' + '.myprefix-Header { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt }\n', out_doc_contents)
+        self.assertIn('.myprefix-Footer { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt; -aw-style-name:footer }\n' + '.myprefix-Header { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt; -aw-style-name:header }\n', out_doc_contents)
         #ExEnd
 
     def test_css_class_names_not_valid_prefix(self):
@@ -1022,7 +1022,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 with open(ARTIFACTS_DIR + 'HtmlSaveOptions.office_math_output_mode.html', 'rt', encoding='utf-8') as file:
                     out_doc_contents = file.read()
                 if html_office_math_output_mode == aw.saving.HtmlOfficeMathOutputMode.IMAGE:
-                    self.assertRegex(out_doc_contents, '<p style="margin-top:0pt; margin-bottom:10pt">' + '<img src="HtmlSaveOptions.office_math_output_mode.001.png" width="159" height="19" alt="" style="vertical-align:middle; ' + '-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />' + '</p>')
+                    self.assertRegex(out_doc_contents, '<p style="margin-top:0pt; margin-bottom:10pt">' + '<img src="HtmlSaveOptions.office_math_output_mode.001.png" width="160" height="19" alt="" style="vertical-align:middle; ' + '-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />' + '</p>')
                 elif html_office_math_output_mode == aw.saving.HtmlOfficeMathOutputMode.MATH_ML:
                     self.assertRegex(out_doc_contents, '<p style="margin-top:0pt; margin-bottom:10pt; text-align:center">' + '<math xmlns="http://www.w3.org/1998/Math/MathML">' + '<mi>i</mi>' + '<mo>[+]</mo>' + '<mi>b</mi>' + '<mo>-</mo>' + '<mi>c</mi>' + '<mo>≥</mo>' + '.*' + '</math>' + '</p>')
                 elif html_office_math_output_mode == aw.saving.HtmlOfficeMathOutputMode.TEXT:

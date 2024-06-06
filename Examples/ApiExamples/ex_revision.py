@@ -11,6 +11,8 @@ import aspose.words.comparing
 import aspose.words.drawing
 import aspose.words.layout
 import aspose.words.notes
+from datetime import datetime, timedelta, timezone
+from document_helper import DocumentHelper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 

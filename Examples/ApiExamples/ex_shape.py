@@ -1458,7 +1458,7 @@ class ExShape(ApiExampleBase):
         save_options.scale = 5
         math.get_math_renderer().save(ARTIFACTS_DIR + 'Shape.render_office_math.png', save_options)
         #ExEnd
-        self.verify_image(792, 87, filename=ARTIFACTS_DIR + 'Shape.render_office_math.png')
+        self.verify_image(799, 87, filename=ARTIFACTS_DIR + 'Shape.render_office_math.png')
 
     def test_office_math_display_exception(self):
         doc = aw.Document(MY_DIR + 'Office math.docx')
