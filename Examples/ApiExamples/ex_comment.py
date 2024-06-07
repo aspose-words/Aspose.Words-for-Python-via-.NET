@@ -5,7 +5,7 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import datetime
+from datetime import datetime, timezone
 import aspose.words as aw
 import unittest
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
@@ -126,8 +126,15 @@ class ExComment(ApiExampleBase):
         #ExSummary:Shows how to get UTC date and time.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
-        comment = aw.Comment(doc, 'John Doe', 'J.D.', datetime.now())
+        date = datetime.now()
+        comment = aw.Comment(doc, 'John Doe', 'J.D.', date)
         comment.set_text('My comment.')
         builder.current_paragraph.append_child(comment)
         doc.save(file_name=ARTIFACTS_DIR + 'Comment.UtcDateTime.docx')
+
+        doc = aw.Document(ARTIFACTS_DIR + 'Comment.UtcDateTime.docx')
+        comment = doc.get_child(aw.NodeType.COMMENT, 0, True).as_comment()
+
+        # DateTimeUtc return data without milliseconds.
+        self.assertEqual(date.astimezone(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"), comment.date_time_utc.strftime("%Y-%m-%d %H:%M:%S"))
         #ExEnd:UtcDateTime
