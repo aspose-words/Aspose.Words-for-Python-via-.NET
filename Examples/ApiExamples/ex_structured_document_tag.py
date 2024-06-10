@@ -272,7 +272,6 @@ class ExStructuredDocumentTag(ApiExampleBase):
         if tag.appearance == aw.markup.SdtAppearance.HIDDEN:
             tag.appearance = aw.markup.SdtAppearance.TAGS
         #ExEnd:Appearance
-        #ExEnd:Appearance
 
     def test_repeating_section(self):
         #ExStart

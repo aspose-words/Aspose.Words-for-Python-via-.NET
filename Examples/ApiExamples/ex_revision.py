@@ -273,6 +273,7 @@ class ExRevision(ApiExampleBase):
         self.assertEqual(7, doc.revisions.groups.count)
         for group in doc.revisions.groups:
             print(f'Revision author: {group.author}; Revision type: {group.revision_type} \n\tRevision text: {group.text}')
+        #ExEnd
 
     def test_track_revisions(self):
         #ExStart

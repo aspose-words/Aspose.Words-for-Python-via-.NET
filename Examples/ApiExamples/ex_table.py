@@ -475,7 +475,6 @@ class ExTable(ApiExampleBase):
             # The ArgumentException will be thrown for any other values.
             table.vertical_anchor = aw.drawing.RelativeVerticalPosition.PAGE
         #ExEnd
-        #ExEnd
 
     def test_change_floating_table_properties(self):
         #ExStart

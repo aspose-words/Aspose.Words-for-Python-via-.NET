@@ -497,7 +497,6 @@ class ExShape(ApiExampleBase):
         if shape.shadow_format.type == aw.drawing.ShadowType.SHADOW_MIXED:
             shape.shadow_format.clear()
         #ExEnd
-        #ExEnd
 
     def test_no_text_rotation(self):
         #ExStart
