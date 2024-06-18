@@ -12,6 +12,66 @@ from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExComment(ApiExampleBase):
 
+    def test_com(self):
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        # 写入文本 "aaaaaa"
+        builder.write("aaaaaa")
+
+        # 定义要查找的文本
+        text_to_find = "aa"
+
+        # 创建批注的作者和日期
+        author = "Your Name"
+        date = datetime.now()
+
+        opt = aw.replacing.FindReplaceOptions()
+        opt.use_substitutions = True
+        doc.range.replace(text_to_find, "$0", opt)
+
+        # 创建一个批注
+        comment = aw.Comment(doc, author, "red", date)
+        comment.set_text("这是一个批注的示例。")
+
+        # 查找文档中的特定文本并添加批注
+        for run in doc.get_child_nodes(aw.NodeType.RUN, True):
+            run = run.as_run()
+            if run.text == text_to_find:
+                # 创建批注范围
+                comment_start = aw.CommentRangeStart(doc, comment.id)
+                comment_end = aw.CommentRangeEnd(doc, comment.id)
+
+                # 插入批注范围和批注
+                paragraph = run.parent_paragraph
+                paragraph.insert_before(comment_start, run)
+                paragraph.insert_after(comment_end, run)
+                paragraph.insert_after(comment, run)
+
+                break
+
+        # 保存文档
+        doc.save(ARTIFACTS_DIR + "document_with_comment.docx")
+
+        # doc = aw.Document(MY_DIR + "Input.docx")
+        #
+        # para = doc.get_child(aw.NodeType.PARAGRAPH, 0, True)
+        # cmtAnchorRun = para.runs[0]
+        #
+        # # Create a new comment
+        # cmt = aw.Comment(doc, "weitang", "", datetime.now())
+        # cmt.text = "This word is error"
+        #
+        # # Append the comment to the paragraph
+        # para.append_child(cmt)
+        #
+        # # Insert the comment range start and end markers
+        # para.insert_before(aw.CommentRangeStart(doc, cmt.id), cmtAnchorRun)
+        # para.insert_after(aw.CommentRangeEnd(doc, cmt.id), cmtAnchorRun)
+        #
+        # # Save the modified document
+        # doc.save(ARTIFACTS_DIR + "output.docx")
+
     def test_add_comment_with_reply(self):
 
         #ExStart

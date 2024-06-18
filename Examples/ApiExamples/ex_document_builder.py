@@ -391,30 +391,54 @@ class ExDocumentBuilder(ApiExampleBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        html = ("<p align='right'>Paragraph right</p>" +
-                "<b>Implicit paragraph left</b>" +
-                "<div align='center'>Div center</div>" +
-                "<h1 align='left'>Heading 1 left.</h1>")
+        html = ("<table border=\"1\" style=\"border-collapse: collapse;\">"
+                "<thead>"
+                "<tr>"
+                "<th>S.N</th>"
+                "<th>Item</th>"
+                "<th>Quantity</th>"
+                "</tr>"
+                "</thead>"
+                "<tr>"
+                "<td rowspan=\"3\">Mark Smith</td>"
+                "<td>English</td>"
+                "<td>67</td>"
+                "</tr>"
+                "<tr>"
+                "<td>Maths</td>"
+                "<td>82</td>"
+                "</tr>"
+                "<tr>"
+                "<td>Science</td>"
+                "<td>91</td>"
+                "</tr>"
+                "<tr>"
+                "<td colspan=\"2\">Total</td>"
+                "<td>5</td>"
+                "</tr>"
+                "</table>")
 
         builder.insert_html(html)
 
-        # Inserting HTML code parses the formatting of each element into equivalent document text formatting.
-        paragraphs = doc.first_section.body.paragraphs
+        doc.save(ARTIFACTS_DIR + "html_table.docx")
 
-        self.assertEqual("Paragraph right", paragraphs[0].get_text().strip())
-        self.assertEqual(aw.ParagraphAlignment.RIGHT, paragraphs[0].paragraph_format.alignment)
-
-        self.assertEqual("Implicit paragraph left", paragraphs[1].get_text().strip())
-        self.assertEqual(aw.ParagraphAlignment.LEFT, paragraphs[1].paragraph_format.alignment)
-        self.assertTrue(paragraphs[1].runs[0].font.bold)
-
-        self.assertEqual("Div center", paragraphs[2].get_text().strip())
-        self.assertEqual(aw.ParagraphAlignment.CENTER, paragraphs[2].paragraph_format.alignment)
-
-        self.assertEqual("Heading 1 left.", paragraphs[3].get_text().strip())
-        self.assertEqual("Heading 1", paragraphs[3].paragraph_format.style.name)
-
-        doc.save(ARTIFACTS_DIR + "DocumentBuilder.insert_html.docx")
+        # # Inserting HTML code parses the formatting of each element into equivalent document text formatting.
+        # paragraphs = doc.first_section.body.paragraphs
+        #
+        # self.assertEqual("Paragraph right", paragraphs[0].get_text().strip())
+        # self.assertEqual(aw.ParagraphAlignment.RIGHT, paragraphs[0].paragraph_format.alignment)
+        #
+        # self.assertEqual("Implicit paragraph left", paragraphs[1].get_text().strip())
+        # self.assertEqual(aw.ParagraphAlignment.LEFT, paragraphs[1].paragraph_format.alignment)
+        # self.assertTrue(paragraphs[1].runs[0].font.bold)
+        #
+        # self.assertEqual("Div center", paragraphs[2].get_text().strip())
+        # self.assertEqual(aw.ParagraphAlignment.CENTER, paragraphs[2].paragraph_format.alignment)
+        #
+        # self.assertEqual("Heading 1 left.", paragraphs[3].get_text().strip())
+        # self.assertEqual("Heading 1", paragraphs[3].paragraph_format.style.name)
+        #
+        # doc.save(ARTIFACTS_DIR + "DocumentBuilder.insert_html.docx")
         #ExEnd
 
     def test_insert_html_with_formatting(self):

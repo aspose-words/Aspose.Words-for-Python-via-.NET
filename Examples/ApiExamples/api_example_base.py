@@ -24,7 +24,7 @@ else:
     ROOT_DIR = ROOT_DIR[:ROOT_DIR.find("Aspose.Words-for-Python-via-.NET")]
 
 API_EXAMPLES_ROOT = ROOT_DIR + "Aspose.Words-for-Python-via-.NET/Examples/"
-LICENSE_PATH = os.getenv("ASPOSE_WORDS_PYTHON_LICENSE", "Aspose.Words.Python.NET.lic")
+LICENSE_PATH = "X:\GitHub\Examples\Aspose.Words-for-Python-via-.NET\Examples\Data\License\Aspose.Words.Python.NET.lic"
 
 # Path to the documents used by the code examples.
 MY_DIR = API_EXAMPLES_ROOT + "Data/"

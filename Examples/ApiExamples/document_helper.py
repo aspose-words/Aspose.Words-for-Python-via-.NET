@@ -66,7 +66,7 @@ class DocumentHelper(ApiExampleBase):
         builder.writeln("Hello World!")
 
         #  Continued on page 2 of the document content
-        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        builder.insert_break(aw.BreakType.LINE_BREAK)
 
         # Insert TOC entries
         DocumentHelper.insert_toc(builder)
