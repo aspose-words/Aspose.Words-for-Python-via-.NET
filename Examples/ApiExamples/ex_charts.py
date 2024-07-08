@@ -5,17 +5,17 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType, ChartShapeType
-from aspose.pydrawing import Color
 from aspose.words import Document, DocumentBuilder, NodeType
-from datetime import date
+from aspose.pydrawing import Color
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType, ChartShapeType
+import locale
 from math import nan
+from datetime import date
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.drawing.charts
 import unittest
-import locale
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExCharts(ApiExampleBase):
@@ -983,36 +983,14 @@ class ExCharts(ApiExampleBase):
         while i < series_groups.count:
             if series_groups[i].axis_group == aw.drawing.charts.AxisGroup.SECONDARY:
                 series_groups.remove_at(i)
+            #ExEnd:RemoveSecondaryAxis
+            #ExEnd:RemoveSecondaryAxis
             i += 1
         #ExEnd:RemoveSecondaryAxis
 
-    def test_treemap_chart(self):
-        #ExStart:TreemapChart
-        #ExFor:ChartSeriesCollection.add_multilevel_value(str,List[ChartMultilevelValue],List[float])
-        #ExFor:ChartMultilevelValue.__init__(str,str)
-        #ExSummary:Shows how to create treemap chart.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Insert a Treemap chart.
-        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.TREEMAP, width=450, height=280)
-        chart = shape.chart
-        chart.title.text = 'World Population'
-        # Delete default generated series.
-        chart.series.clear()
-        # Add a series.
-        series = chart.series.add_multilevel_value(series_name='Population by Region', categories=[aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='China'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='India'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Indonesia'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Pakistan'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Bangladesh'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Japan'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Philippines'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Nigeria'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Ethiopia'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Egypt'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Europe', level2='Russia'), aw.drawing.charts.ChartMultilevelValue(level1='Europe', level2='Germany'), aw.drawing.charts.ChartMultilevelValue(level1='Europe', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Latin America', level2='Brazil'), aw.drawing.charts.ChartMultilevelValue(level1='Latin America', level2='Mexico'), aw.drawing.charts.ChartMultilevelValue(level1='Latin America', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Northern America', level2='United States'), aw.drawing.charts.ChartMultilevelValue(level1='Northern America', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Oceania')], values=[1409670000, 1400744000, 279118866, 241499431, 169828911, 123930000, 112892781, 764000000, 223800000, 107334000, 105914499, 903000000, 146150789, 84607016, 516000000, 203080756, 129713690, 310000000, 335893238, 35000000, 42000000])
-        # Show data labels.
-        series.has_data_labels = True
-        series.data_labels.show_value = True
-        series.data_labels.show_category_name = True
-        decimal_separator = locale.localeconv()['decimal_point']
-        series.data_labels.number_format.format_code = f"0{decimal_separator}0%"
-        doc.save(file_name=ARTIFACTS_DIR + 'Charts.Treemap.docx')
-        #ExEnd:TreemapChart
-
     def test_sunburst_chart(self):
         #ExStart:SunburstChart
-        #ExFor:ChartSeriesCollection.add_multilevel_value(str,List[ChartMultilevelValue],List[float])
+        #ExFor:ChartSeriesCollection.add(str,List[ChartMultilevelValue],List[float])
         #ExSummary:Shows how to create sunburst chart.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -1103,26 +1081,34 @@ class ExCharts(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'Charts.Waterfall.docx')
         #ExEnd:WaterfallChart
 
-    def test_funnel_chart(self):
-        #ExStart:FunnelChart
-        #ExFor:ChartSeriesCollection.add(str,List[str],List[float])
-        #ExSummary:Shows how to create funnel chart.
+    def test_label_orientation_rotation(self):
+        #ExStart:LabelOrientationRotation
+        #ExFor:ChartDataLabelCollection.orientation
+        #ExFor:ChartDataLabelCollection.rotation
+        #ExFor:ChartDataLabel.rotation
+        #ExFor:ChartDataLabel.orientation
+        #ExFor:ShapeTextOrientation
+        #ExSummary:Shows how to change orientation and rotation for data labels.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
-        # Insert a Funnel chart.
-        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.FUNNEL, width=450, height=450)
-        chart = shape.chart
-        chart.title.text = 'Population by Age Group'
-        # Delete default generated series.
-        chart.series.clear()
-        # Add a series.
-        series = chart.series.add(series_name='Population by Age Group', categories=['0-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60-69', '70-79', '80-89', '90-'], values=[0.121, 0.128, 0.132, 0.146, 0.124, 0.124, 0.111, 0.075, 0.032, 0.007])
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=432, height=252)
+        series = shape.chart.series[0]
+        data_labels = series.data_labels
         # Show data labels.
         series.has_data_labels = True
-        decimal_separator = locale.localeconv()['decimal_point']
-        series.data_labels.number_format.format_code = f"0{decimal_separator}0%"
-        doc.save(file_name=ARTIFACTS_DIR + 'Charts.Funnel.docx')
-        #ExEnd:FunnelChart
+        data_labels.show_value = True
+        data_labels.show_category_name = True
+        # Define data label shape.
+        data_labels.format.shape_type = aw.drawing.charts.ChartShapeType.UP_ARROW
+        data_labels.format.stroke.fill.solid(aspose.pydrawing.Color.dark_blue)
+        # Set data label orientation and rotation for the entire series.
+        data_labels.orientation = aw.drawing.ShapeTextOrientation.VERTICAL_FAR_EAST
+        data_labels.rotation = -45
+        # Change orientation and rotation of the first data label.
+        data_labels[0].orientation = aw.drawing.ShapeTextOrientation.HORIZONTAL
+        data_labels[0].rotation = 45
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.LabelOrientationRotation.docx')
+        #ExEnd:LabelOrientationRotation
 
     def test_date_time_values(self):
         #ExStart
@@ -1500,3 +1486,48 @@ class ExCharts(ApiExampleBase):
             series_coll.add('AW Series 3', categories, [nan, 4, 5, nan, nan])
         with self.assertRaises(Exception):
             series_coll.add('AW Series 4', categories, [nan, nan, nan, nan, nan])
+
+    def test_treemap_chart(self):
+        #ExStart:TreemapChart
+        #ExFor:ChartSeriesCollection.add_multilevel_value(str,List[ChartMultilevelValue],List[float])
+        #ExFor:ChartMultilevelValue.__init__(str,str)
+        #ExSummary:Shows how to create treemap chart.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        # Insert a Treemap chart.
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.TREEMAP, width=450, height=280)
+        chart = shape.chart
+        chart.title.text = 'World Population'
+        # Delete default generated series.
+        chart.series.clear()
+        # Add a series.
+        series = chart.series.add_multilevel_value(series_name='Population by Region', categories=[aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='China'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='India'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Indonesia'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Pakistan'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Bangladesh'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Japan'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Philippines'), aw.drawing.charts.ChartMultilevelValue(level1='Asia', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Nigeria'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Ethiopia'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Egypt'), aw.drawing.charts.ChartMultilevelValue(level1='Africa', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Europe', level2='Russia'), aw.drawing.charts.ChartMultilevelValue(level1='Europe', level2='Germany'), aw.drawing.charts.ChartMultilevelValue(level1='Europe', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Latin America', level2='Brazil'), aw.drawing.charts.ChartMultilevelValue(level1='Latin America', level2='Mexico'), aw.drawing.charts.ChartMultilevelValue(level1='Latin America', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Northern America', level2='United States'), aw.drawing.charts.ChartMultilevelValue(level1='Northern America', level2='Other'), aw.drawing.charts.ChartMultilevelValue(level1='Oceania')], values=[1409670000, 1400744000, 279118866, 241499431, 169828911, 123930000, 112892781, 764000000, 223800000, 107334000, 105914499, 903000000, 146150789, 84607016, 516000000, 203080756, 129713690, 310000000, 335893238, 35000000, 42000000])
+        # Show data labels.
+        series.has_data_labels = True
+        series.data_labels.show_value = True
+        series.data_labels.show_category_name = True
+        decimal_separator = locale.localeconv()['decimal_point']
+        series.data_labels.number_format.format_code = f'0{decimal_separator}0%'
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.Treemap.docx')
+        #ExEnd:TreemapChart
+
+    def test_funnel_chart(self):
+        #ExStart:FunnelChart
+        #ExFor:ChartSeriesCollection.add(str,List[str],List[float])
+        #ExSummary:Shows how to create funnel chart.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        # Insert a Funnel chart.
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.FUNNEL, width=450, height=450)
+        chart = shape.chart
+        chart.title.text = 'Population by Age Group'
+        # Delete default generated series.
+        chart.series.clear()
+        # Add a series.
+        series = chart.series.add(series_name='Population by Age Group', categories=['0-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60-69', '70-79', '80-89', '90-'], values=[0.121, 0.128, 0.132, 0.146, 0.124, 0.124, 0.111, 0.075, 0.032, 0.007])
+        # Show data labels.
+        series.has_data_labels = True
+        decimal_separator = locale.localeconv()['decimal_point']
+        series.data_labels.number_format.format_code = f'0{decimal_separator}0%'
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.Funnel.docx')
+        #ExEnd:FunnelChart

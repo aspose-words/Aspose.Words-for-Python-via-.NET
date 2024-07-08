@@ -46,6 +46,23 @@ class ExLists(ApiExampleBase):
         self.assertFalse(doc.lists[1].has_same_template(doc.lists[2]))
         #ExEnd
 
+    def test_get_custom_number_style_format(self):
+        #ExStart:SetCustomNumberStyleFormat
+        #ExFor:ListLevel.custom_number_style_format
+        #ExSummary:Shows how to set customer number style format.
+        doc = aw.Document(file_name=MY_DIR + 'List with leading zero.docx')
+        doc.update_list_labels()
+        paras = doc.first_section.body.paragraphs
+        self.assertEqual('001.', paras[0].list_label.label_string)
+        self.assertEqual('0001.', paras[1].list_label.label_string)
+        self.assertEqual('0002.', paras[2].list_label.label_string)
+        paras[1].list_format.list_level.custom_number_style_format = '001, 002, 003, ...'
+        doc.update_list_labels()
+        self.assertEqual('001.', paras[0].list_label.label_string)
+        self.assertEqual('001.', paras[1].list_label.label_string)
+        self.assertEqual('002.', paras[2].list_label.label_string)
+        #ExEnd:SetCustomNumberStyleFormat
+
     def test_apply_default_bullets_and_numbers(self):
         #ExStart
         #ExFor:DocumentBuilder.list_format
@@ -732,25 +749,3 @@ class ExLists(ApiExampleBase):
                 print(f'\tList label combined with text: {label.label_string} {paragraph_text}')
         #ExEnd
         self.assertEqual(10, len([p for p in paras if p.list_format.is_list_item]))
-
-    def test_custom_number_style_format(self):
-        #ExStart
-        #ExFor:ListLevel.custom_number_style_format
-        #ExFor:ListLevel.get_effective_value(int,NumberStyle,str)
-        #ExSummary:Shows how to get the format for a list with the custom number style.
-        doc = aw.Document(MY_DIR + 'List with leading zero.docx')
-        list_level = doc.first_section.body.paragraphs[0].list_format.list_level
-        custom_number_style_format = ''
-        if list_level.number_style == aw.NumberStyle.CUSTOM:
-            custom_number_style_format = list_level.custom_number_style_format
-        self.assertEqual('001, 002, 003, ...', custom_number_style_format)
-        # We can get value for the specified index of the list item.
-        self.assertEqual('iv', list_level.get_effective_value(4, aw.NumberStyle.LOWERCASE_ROMAN, None))
-        self.assertEqual('005', list_level.get_effective_value(5, aw.NumberStyle.CUSTOM, custom_number_style_format))
-        #ExEnd
-        with self.assertRaises(Exception):
-            aw.lists.ListLevel.get_effective_value(5, aw.NumberStyle.LOWERCASE_ROMAN, custom_number_style_format)
-        with self.assertRaises(Exception):
-            aw.lists.ListLevel.get_effective_value(5, aw.NumberStyle.CUSTOM, None)
-        with self.assertRaises(Exception):
-            aw.lists.ListLevel.get_effective_value(5, aw.NumberStyle.CUSTOM, '....')

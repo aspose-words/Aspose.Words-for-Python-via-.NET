@@ -5,8 +5,8 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import datetime, date, timezone, timedelta
 from document_helper import DocumentHelper
+from datetime import datetime, date, timezone, timedelta
 import aspose.words as aw
 import aspose.words.comparing
 import aspose.words.drawing
@@ -135,23 +135,6 @@ class ExRevision(ApiExampleBase):
         self.assertEqual('a.', paragraphs[0].list_label.label_string)
         self.assertEqual('', paragraphs[1].list_label.label_string)
         self.assertEqual('b.', paragraphs[2].list_label.label_string)
-
-    def test_ignore_store_item_id(self):
-        #ExStart:IgnoreStoreItemId
-        #ExFor:AdvancedCompareOptions.ignore_store_item_id
-        #ExSummary:Shows how to compare SDT with same content but different store item id.
-        doc_a = aw.Document(file_name=MY_DIR + 'Document with SDT 1.docx')
-        doc_b = aw.Document(file_name=MY_DIR + 'Document with SDT 2.docx')
-        # Configure options to compare SDT with same content but different store item id.
-        compare_options = aw.comparing.CompareOptions()
-        compare_options.advanced_options.ignore_store_item_id = False
-        doc_a.compare(doc_b, "user", datetime.now(), compare_options)
-        self.assertEqual(8, doc_a.revisions.count)
-        compare_options.advanced_options.ignore_store_item_id = True
-        doc_a.revisions.reject_all()
-        doc_a.compare(doc_b, "user", datetime.now(), compare_options)
-        self.assertEqual(0, doc_a.revisions.count)
-        #ExEnd:IgnoreStoreItemId
 
     def test_revisions(self):
         #ExStart
@@ -507,3 +490,20 @@ class ExRevision(ApiExampleBase):
                     self.assertEqual('- "', groups[3].text)
                     self.assertEqual(aw.RevisionType.INSERTION, groups[4].revision_type)
                     self.assertEqual('"', groups[4].text)
+
+    def test_ignore_store_item_id(self):
+        #ExStart:IgnoreStoreItemId
+        #ExFor:AdvancedCompareOptions.ignore_store_item_id
+        #ExSummary:Shows how to compare SDT with same content but different store item id.
+        doc_a = aw.Document(file_name=MY_DIR + 'Document with SDT 1.docx')
+        doc_b = aw.Document(file_name=MY_DIR + 'Document with SDT 2.docx')
+        # Configure options to compare SDT with same content but different store item id.
+        compare_options = aw.comparing.CompareOptions()
+        compare_options.advanced_options.ignore_store_item_id = False
+        doc_a.compare(doc_b, 'user', datetime.now(), compare_options)
+        self.assertEqual(8, doc_a.revisions.count)
+        compare_options.advanced_options.ignore_store_item_id = True
+        doc_a.revisions.reject_all()
+        doc_a.compare(doc_b, 'user', datetime.now(), compare_options)
+        self.assertEqual(0, doc_a.revisions.count)
+        #ExEnd:IgnoreStoreItemId

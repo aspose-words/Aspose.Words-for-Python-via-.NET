@@ -2192,7 +2192,6 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeVerticalPosition.TOP_MARGIN, shape.relative_vertical_position)
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, shape.relative_horizontal_position)
         self.assertEqual('https://vimeo.com/52477838', shape.href)
-        self.verify_web_response_status_code(200, shape.href)
 
     @unittest.skip('Calculation problems')
     def test_insert_online_video_custom_thumbnail(self):

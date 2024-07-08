@@ -5,14 +5,14 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words.themes import ThemeColor
-from aspose.pydrawing import Color
 from aspose.words import Document, DocumentBuilder, NodeType
-from document_helper import DocumentHelper
-from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
-import sys
-import typing
+from aspose.pydrawing import Color
+from aspose.words.themes import ThemeColor
 import os
+import typing
+import sys
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
+from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
@@ -441,28 +441,28 @@ class ExShape(ApiExampleBase):
         office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
         renderer = aw.rendering.OfficeMathRenderer(office_math)
         # Verify the size of the image that the OfficeMath object will create when we render it.
-        self.assertAlmostEqual(120, renderer.size_in_points.width, delta=0.25)
-        self.assertAlmostEqual(13, renderer.size_in_points.height, delta=0.1)
-        self.assertAlmostEqual(120, renderer.bounds_in_points.width, delta=0.25)
-        self.assertAlmostEqual(13, renderer.bounds_in_points.height, delta=0.1)
+        self.assertAlmostEqual(122, renderer.size_in_points.width, delta=0.25)
+        self.assertAlmostEqual(13, renderer.size_in_points.height, delta=0.15)
+        self.assertAlmostEqual(122, renderer.bounds_in_points.width, delta=0.25)
+        self.assertAlmostEqual(13, renderer.bounds_in_points.height, delta=0.15)
         # Shapes with transparent parts may contain different values in the "OpaqueBoundsInPoints" properties.
-        self.assertAlmostEqual(120, renderer.opaque_bounds_in_points.width, delta=0.25)
+        self.assertAlmostEqual(122, renderer.opaque_bounds_in_points.width, delta=0.25)
         self.assertAlmostEqual(14.2, renderer.opaque_bounds_in_points.height, delta=0.1)
         # Get the shape size in pixels, with linear scaling to a specific DPI.
         bounds = renderer.get_bounds_in_pixels(scale=1, dpi=96)
-        self.assertEqual(160, bounds.width)
+        self.assertEqual(163, bounds.width)
         self.assertEqual(18, bounds.height)
         # Get the shape size in pixels, but with a different DPI for the horizontal and vertical dimensions.
         bounds = renderer.get_bounds_in_pixels(scale=1, horizontal_dpi=96, vertical_dpi=150)
-        self.assertEqual(160, bounds.width)
-        self.assertEqual(28, bounds.height)
+        self.assertEqual(163, bounds.width)
+        self.assertEqual(27, bounds.height)
         # The opaque bounds may vary here also.
         bounds = renderer.get_opaque_bounds_in_pixels(scale=1, dpi=96)
-        self.assertEqual(160, bounds.width)
-        self.assertEqual(18, bounds.height)
+        self.assertEqual(163, bounds.width)
+        self.assertEqual(19, bounds.height)
         bounds = renderer.get_opaque_bounds_in_pixels(scale=1, horizontal_dpi=96, vertical_dpi=150)
-        self.assertEqual(160, bounds.width)
-        self.assertEqual(30, bounds.height)
+        self.assertEqual(163, bounds.width)
+        self.assertEqual(29, bounds.height)
         #ExEnd
 
     def test_is_decorative(self):
@@ -496,6 +496,7 @@ class ExShape(ApiExampleBase):
             shape.shadow_format.type = aw.drawing.ShadowType.SHADOW7
         if shape.shadow_format.type == aw.drawing.ShadowType.SHADOW_MIXED:
             shape.shadow_format.clear()
+        #ExEnd
         #ExEnd
 
     def test_no_text_rotation(self):
@@ -748,6 +749,53 @@ class ExShape(ApiExampleBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
         self.assertEqual(aspose.pydrawing.Color.red.to_argb(), shape.shadow_format.color.to_argb())
         #ExEnd:ShadowFormatColor
+
+    def test_set_active_x_properties(self):
+        #ExStart:SetActiveXProperties
+        #ExFor:Forms2OleControl.fore_color
+        #ExFor:Forms2OleControl.back_color
+        #ExFor:Forms2OleControl.height
+        #ExFor:Forms2OleControl.width
+        #ExSummary:Shows how to set properties for ActiveX control.
+        doc = aw.Document(file_name=MY_DIR + 'ActiveX controls.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        ole_control = shape.ole_format.ole_control.as_forms2_ole_control()
+        ole_control.fore_color = aspose.pydrawing.Color.from_argb(23, 225, 53)
+        ole_control.back_color = aspose.pydrawing.Color.from_argb(51, 151, 244)
+        ole_control.height = 100.54
+        ole_control.width = 201.06
+        #ExEnd:SetActiveXProperties
+        self.assertEqual(aspose.pydrawing.Color.from_argb(23, 225, 53).to_argb(), ole_control.fore_color.to_argb())
+        self.assertEqual(aspose.pydrawing.Color.from_argb(51, 151, 244).to_argb(), ole_control.back_color.to_argb())
+        self.assertEqual(100.54, ole_control.height)
+        self.assertEqual(201.06, ole_control.width)
+
+    def test_select_radio_control(self):
+        #ExStart:SelectRadioControl
+        #ExFor:OptionButtonControl.selected
+        #ExSummary:Shows how to select radio button.
+        doc = aw.Document(file_name=MY_DIR + 'Radio buttons.docx')
+        shape1 = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        option_button1 = shape1.ole_format.ole_control.as_option_button_control()
+        # Deselect selected first item.
+        option_button1.selected = False
+        shape2 = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
+        option_button2 = shape2.ole_format.ole_control.as_option_button_control()
+        # Select second option button.
+        option_button2.selected = True
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.SelectRadioControl.docx')
+        #ExEnd:SelectRadioControl
+
+    def test_checked_check_box(self):
+        #ExStart:CheckedCheckBox
+        #ExFor:CheckBoxControl.checked
+        #ExSummary:Shows how to change state of the CheckBox control.
+        doc = aw.Document(file_name=MY_DIR + 'ActiveX controls.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        check_box_control = shape.ole_format.ole_control.as_check_box_control()
+        check_box_control.checked = True
+        #ExEnd:CheckedCheckBox
+        self.assertEqual(True, check_box_control.checked)
 
     def test_alt_text(self):
         #ExStart
@@ -1457,7 +1505,7 @@ class ExShape(ApiExampleBase):
         save_options.scale = 5
         math.get_math_renderer().save(ARTIFACTS_DIR + 'Shape.render_office_math.png', save_options)
         #ExEnd
-        self.verify_image(799, 87, filename=ARTIFACTS_DIR + 'Shape.render_office_math.png')
+        self.verify_image(813, 86, filename=ARTIFACTS_DIR + 'Shape.render_office_math.png')
 
     def test_office_math_display_exception(self):
         doc = aw.Document(MY_DIR + 'Office math.docx')

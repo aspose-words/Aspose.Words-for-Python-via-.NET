@@ -131,10 +131,8 @@ class ExComment(ApiExampleBase):
         comment.set_text('My comment.')
         builder.current_paragraph.append_child(comment)
         doc.save(file_name=ARTIFACTS_DIR + 'Comment.UtcDateTime.docx')
-
         doc = aw.Document(ARTIFACTS_DIR + 'Comment.UtcDateTime.docx')
         comment = doc.get_child(aw.NodeType.COMMENT, 0, True).as_comment()
-
         # DateTimeUtc return data without milliseconds.
-        self.assertEqual(date.astimezone(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"), comment.date_time_utc.strftime("%Y-%m-%d %H:%M:%S"))
+        self.assertEqual(date.astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'), comment.date_time_utc.strftime('%Y-%m-%d %H:%M:%S'))
         #ExEnd:UtcDateTime

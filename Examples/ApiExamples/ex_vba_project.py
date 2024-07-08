@@ -77,6 +77,14 @@ class ExVbaProject(ApiExampleBase):
             self.assertEqual(copy_vba_project.modules[i].source_code, original_vba_project.modules[i].source_code)
             i += 1
 
+    def test_is_protected(self):
+        #ExStart:IsProtected
+        #ExFor:VbaProject.is_protected
+        #ExSummary:Shows whether the VbaProject is password protected.
+        doc = aw.Document(file_name=MY_DIR + 'Vba protected.docm')
+        self.assertTrue(doc.vba_project.is_protected)
+        #ExEnd:IsProtected
+
     def test_remove_vba_reference(self):
         broken_path = 'X:\\broken.dll'
         doc = aw.Document(MY_DIR + 'VBA project.docm')
