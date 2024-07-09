@@ -844,7 +844,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         self.assertEqual('StructuredDocumentTag element', paragraph_node.get_text().strip())
         # Removes ranged structured document tag and content inside.
         range_start.remove_all_children()
-        self.assertEquals(0, range_start.get_child_nodes(aw.NodeType.ANY, False).count)
+        self.assertEqual(0, range_start.get_child_nodes(aw.NodeType.ANY, False).count)
 
     def test_get_sdt(self):
         #ExStart

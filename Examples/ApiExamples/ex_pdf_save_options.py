@@ -362,7 +362,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                 #ExEnd
 
     def test_compliance(self):
-        for pdf_compliance in (aw.saving.PdfCompliance.PDF_A2U, aw.saving.PdfCompliance.PDF17, aw.saving.PdfCompliance.PDF_A2A, aw.saving.PdfCompliance.PDF_UA1, aw.saving.PdfCompliance.PDF20, aw.saving.PdfCompliance.PDF_A4):
+        for pdf_compliance in (aw.saving.PdfCompliance.PDF_A2U, aw.saving.PdfCompliance.PDF17, aw.saving.PdfCompliance.PDF_A2A, aw.saving.PdfCompliance.PDF_UA1, aw.saving.PdfCompliance.PDF20, aw.saving.PdfCompliance.PDF_A4, aw.saving.PdfCompliance.PDF_A4_UA_2, aw.saving.PdfCompliance.PDF_UA2):
             with self.subTest(pdf_compliance=pdf_compliance):
                 #ExStart
                 #ExFor:PdfSaveOptions.compliance

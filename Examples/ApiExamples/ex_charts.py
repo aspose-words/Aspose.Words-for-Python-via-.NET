@@ -983,8 +983,6 @@ class ExCharts(ApiExampleBase):
         while i < series_groups.count:
             if series_groups[i].axis_group == aw.drawing.charts.AxisGroup.SECONDARY:
                 series_groups.remove_at(i)
-            #ExEnd:RemoveSecondaryAxis
-            #ExEnd:RemoveSecondaryAxis
             i += 1
         #ExEnd:RemoveSecondaryAxis
 
