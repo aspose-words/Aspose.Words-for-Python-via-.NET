@@ -9,6 +9,7 @@ import base64
 import aspose.words.drawing
 import io
 import os
+import sys
 import glob
 from urllib.request import urlopen, Request
 from datetime import datetime, timedelta, timezone
@@ -781,6 +782,7 @@ class ExDocument(ApiExampleBase):
             doc.save(ARTIFACTS_DIR + 'Document.load_from_web.docx')
         #ExEnd
 
+    @unittest.skipUnless(sys.platform.startswith('win'), 'requires windows')
     def test_save_to_image_stream(self):
         #ExStart
         #ExFor:Document.save(BytesIO,SaveFormat)

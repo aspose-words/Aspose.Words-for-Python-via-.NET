@@ -446,16 +446,9 @@ class ExImageSaveOptions(ApiExampleBase):
         options.vertical_resolution = 72
         options.horizontal_resolution = 72
         doc.save(ARTIFACTS_DIR + 'ImageSaveOptions.resolution.72dpi.png', options)
-        self.assertGreater(120000, os.path.getsize(ARTIFACTS_DIR + 'ImageSaveOptions.resolution.72dpi.png'))
-        image = aspose.pydrawing.Image.from_file(ARTIFACTS_DIR + 'ImageSaveOptions.resolution.72dpi.png')
-        self.assertEqual(612, image.width)
-        self.assertEqual(792, image.height)
-        # Set the "resolution" property to "300" to render the document in 300dpi.
         options.vertical_resolution = 300
         options.horizontal_resolution = 300
         doc.save(ARTIFACTS_DIR + 'ImageSaveOptions.resolution.300dpi.png', options)
-        self.assertLess(700000, os.path.getsize(ARTIFACTS_DIR + 'ImageSaveOptions.resolution.300dpi.png'))
-        image = aspose.pydrawing.Image.from_file(ARTIFACTS_DIR + 'ImageSaveOptions.resolution.300dpi.png')
-        self.assertEqual(2550, image.width)
-        self.assertEqual(3300, image.height)
+        self.verify_image(612, 792, ARTIFACTS_DIR + 'ImageSaveOptions.resolution.72dpi.png')
+        self.verify_image(2550, 3300, ARTIFACTS_DIR + 'ImageSaveOptions.resolution.300dpi.png')
         #ExEnd
