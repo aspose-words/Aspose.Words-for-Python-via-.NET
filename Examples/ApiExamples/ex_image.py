@@ -241,7 +241,6 @@ class ExImage(ApiExampleBase):
         self.assertEqual('', shape.image_data.source_full_name.replace('%20', ' '))
         doc = aw.Document(ARTIFACTS_DIR + 'Image.create_linked_image.linked.docx')
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        type_ = shape.image_data.image_type
         self.verify_image_in_shape(0, 0, aw.drawing.ImageType.WMF, shape)
         self.assertEqual(aw.drawing.WrapType.INLINE, shape.wrap_type)
         self.assertEqual(image_file_name, shape.image_data.source_full_name.replace('%20', ' '))
@@ -288,9 +287,6 @@ class ExImage(ApiExampleBase):
         #ExFor:ShapeBase.width
         #ExFor:ShapeBase.height
         #ExSummary:Shows how to resize a shape with an image.
-        image = drawing.Image.from_file(IMAGE_DIR + 'Logo.jpg')
-        self.assertEqual(400, image.size.width)
-        self.assertEqual(400, image.size.height)
         # When we insert an image using the "insert_image" method, the builder scales the shape that displays the image so that,
         # when we view the document using 100% zoom in Microsoft Word, the shape displays the image in its actual size.
         doc = aw.Document()

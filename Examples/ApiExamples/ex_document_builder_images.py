@@ -205,19 +205,16 @@ class ExDocumentBuilderImages(ApiExampleBase):
         #ExSummary:Shows how to insert an image from a byte array into a document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
-        image = drawing.Image.from_file(IMAGE_DIR + 'Logo.jpg')
-        with io.BytesIO() as stream:
-            image.save(stream, drawing.imaging.ImageFormat.png)
-            image_byte_array = bytes(stream.getvalue())
-            # Below are three ways of inserting an image from a byte array.
-            # 1 -  Inline shape with a default size based on the image's original dimensions:
-            builder.insert_image(image_byte_array)
-            builder.insert_break(aw.BreakType.PAGE_BREAK)
-            # 2 -  Inline shape with custom dimensions:
-            builder.insert_image(image_byte_array, aw.ConvertUtil.pixel_to_point(250), aw.ConvertUtil.pixel_to_point(144))
-            builder.insert_break(aw.BreakType.PAGE_BREAK)
-            # 3 -  Floating shape with custom dimensions:
-            builder.insert_image(image_byte_array, aw.drawing.RelativeHorizontalPosition.MARGIN, 100, aw.drawing.RelativeVerticalPosition.MARGIN, 100, 200, 100, aw.drawing.WrapType.SQUARE)
+        image_byte_array = self.image_to_byte_array(IMAGE_DIR + 'Logo.jpg')
+        # Below are three ways of inserting an image from a byte array.
+        # 1 -  Inline shape with a default size based on the image's original dimensions:
+        builder.insert_image(image_byte_array)
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        # 2 -  Inline shape with custom dimensions:
+        builder.insert_image(image_byte_array, aw.ConvertUtil.pixel_to_point(250), aw.ConvertUtil.pixel_to_point(144))
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        # 3 -  Floating shape with custom dimensions:
+        builder.insert_image(image_byte_array, aw.drawing.RelativeHorizontalPosition.MARGIN, 100, aw.drawing.RelativeVerticalPosition.MARGIN, 100, 200, 100, aw.drawing.WrapType.SQUARE)
         doc.save(ARTIFACTS_DIR + 'DocumentBuilderImages.insert_image_from_byte_array.docx')
         #ExEnd
         doc = aw.Document(ARTIFACTS_DIR + 'DocumentBuilderImages.insert_image_from_byte_array.docx')
@@ -229,7 +226,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
         self.assertEqual(aw.drawing.WrapType.INLINE, image_shape.wrap_type)
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, image_shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, image_shape.relative_vertical_position)
-        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, image_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
         self.assertAlmostEqual(300.0, image_shape.image_data.image_size.height_points, delta=0.1)
         self.assertAlmostEqual(300.0, image_shape.image_data.image_size.width_points, delta=0.1)
         image_shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
@@ -240,7 +237,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
         self.assertEqual(aw.drawing.WrapType.INLINE, image_shape.wrap_type)
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, image_shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, image_shape.relative_vertical_position)
-        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, image_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
         self.assertAlmostEqual(300.0, image_shape.image_data.image_size.height_points, delta=0.1)
         self.assertAlmostEqual(300.0, image_shape.image_data.image_size.width_points, delta=0.1)
         image_shape = doc.get_child(aw.NodeType.SHAPE, 2, True).as_shape()
@@ -251,7 +248,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
         self.assertEqual(aw.drawing.WrapType.SQUARE, image_shape.wrap_type)
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, image_shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, image_shape.relative_vertical_position)
-        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, image_shape)
+        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
         self.assertAlmostEqual(300.0, image_shape.image_data.image_size.height_points, delta=0.1)
         self.assertAlmostEqual(300.0, image_shape.image_data.image_size.width_points, delta=0.1)
 

@@ -11,6 +11,9 @@ import io
 import zipfile
 from datetime import date, time, datetime, timedelta
 from typing import Optional
+import platform
+if not platform.python_version().startswith("3.7") and not platform.python_version().startswith("3.6"):
+    from PIL import Image
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
@@ -84,6 +87,19 @@ class ApiExampleBase(unittest.TestCase):
 
         assert filename is None or image_stream is None
         assert filename is not None or image_stream is not None
+
+        if not platform.python_version().startswith("3.7") and not platform.python_version().startswith("3.6"):
+            if filename is not None:
+                with open(filename, 'rb') as stream:
+                    image = Image.open(stream)
+                    self.assertEqual(expected_width, image.width)
+                    self.assertEqual(expected_height, image.height)
+            else:
+                image = Image.open(image_stream)
+                self.assertEqual(expected_width, image.width)
+                self.assertEqual(expected_height, image.height)
+
+            return
 
         if filename is not None:
             with open(filename, 'rb') as stream:
@@ -182,25 +198,6 @@ class ApiExampleBase(unittest.TestCase):
             actual = datetime.strptime(field.result, "%d/%m/%Y")
             expected = datetime.combine(expected_result.date(), time())
             self.assertAlmostEqual(expected, actual, delta=delta)
-
-    ## <summary>
-    ## Checks whether a field contains another complete field as a sibling within its nodes.
-    ## </summary>
-    ## <remarks>
-    ## If two fields have the same immediate parent node and therefore their nodes are siblings,
-    ## the FieldStart of the outer field appears before the FieldStart of the inner node,
-    ## and the FieldEnd of the outer node appears after the FieldEnd of the inner node,
-    ## then the inner field is considered to be nested within the outer field.
-    ## </remarks>
-    ## <param name="innerField">The field that we expect to be fully within outerField.</param>
-    ## <param name="outerField">The field that we to contain innerField.</param>
-    #internal static void FieldsAreNested(Field innerField, Field outerField)
-
-    #    CompositeNode innerFieldParent = innerField.Start.ParentNode
-
-    #    self.assertTrue(innerFieldParent == outerField.Start.ParentNode)
-    #    self.assertTrue(innerFieldParent.ChildNodes.index_of(innerField.Start) > innerFieldParent.ChildNodes.index_of(outerField.Start))
-    #    self.assertTrue(innerFieldParent.ChildNodes.index_of(innerField.End) < innerFieldParent.ChildNodes.index_of(outerField.End))
 
     def verify_image_in_shape(self,
                               expected_width: int,
@@ -368,156 +365,9 @@ class ApiExampleBase(unittest.TestCase):
             inner_field_parent.child_nodes.index_of(inner_field.end),
             inner_field_parent.child_nodes.index_of(outer_field.end))
 
-    ## <summary>
-    ## Checks whether an SQL query performed on a database file stored in the local file system
-    ## produces a result that resembles the contents of an Aspose.Words table.
-    ## </summary>
-    ## <param name="expected_result">Expected result of the SQL query in the form of an Aspose.Words table.</param>
-    ## <param name="dbFilename">Local system filename of a database file.</param>
-    ## <param name="sqlQuery">Microsoft.Jet.OLEDB.4.0-compliant SQL query.</param>
-    #internal static void TableMatchesQueryResult(Table expected_result, string dbFilename, string sqlQuery)
+    def image_to_byte_array(self, image_path: str) -> bytes:
+        """Converts an image to a byte array."""
 
-    ##if NET48 || NET5_0 || JAVA
-    #    (OleDbConnection connection = OleDbConnection())
-
-    #        connection.ConnectionString = f"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={dbFilename};"
-    #        connection.open()
-
-    #        OleDbCommand command = connection.create_command()
-    #        command.CommandText = sqlQuery
-    #        OleDbDataReader reader = command.execute_reader(CommandBehavior.CloseConnection)
-
-    #        myDataTable = DataTable()
-    #        myDataTable.load(reader)
-
-    #        self.assertEqual(expected_result.Rows.Count, myDataTable.Rows.Count)
-    #        self.assertEqual(expected_result.Rows[0].Cells.Count, myDataTable.Columns.Count)
-
-    #        for (int i = 0; i < myDataTable.Rows.Count; i++)
-    #            for (int j = 0; j < myDataTable.Columns.Count; j++)
-    #                self.assertEqual(expected_result.Rows[i].Cells[j].get_text().replace(ControlChar.Cell, ""),
-    #                    myDataTable.Rows[i][j].to_string())
-
-    ##endif
-
-    ## <summary>
-    ## Checks whether a document produced during a mail merge contains every element of every table produced by a list of consecutive SQL queries on a database.
-    ## </summary>
-    ## <remarks>
-    ## Currently, database types that cannot be represented by a string or a decimal are not checked for in the document.
-    ## </remarks>
-    ## <param name="dbFilename">Full local file system filename of a .mdb database file.</param>
-    ## <param name="sqlQueries">List of SQL queries performed on the database all of whose results we expect to find in the document.</param>
-    ## <param name="doc">Document created during a mail merge.</param>
-    ## <param name="onePagePerRow">True if the mail merge produced a document with one page per row in the data source.</param>
-    #internal static void MailMergeMatchesQueryResultMultiple(string dbFilename, string[] sqlQueries, Document doc, bool onePagePerRow)
-
-    #    foreach (string query in sqlQueries)
-    #        MailMergeMatchesQueryResult(dbFilename, query, doc, onePagePerRow)
-
-    ## <summary>
-    ## Checks whether a document produced during a mail merge contains every element of a table produced by an SQL query on a database.
-    ## </summary>
-    ## <remarks>
-    ## Currently, database types that cannot be represented by a string or a decimal are not checked for in the document.
-    ## </remarks>
-    ## <param name="dbFilename">Full local file system filename of a .mdb database file.</param>
-    ## <param name="sqlQuery">SQL query performed on the database all of whose results we expect to find in the document.</param>
-    ## <param name="doc">Document created during a mail merge.</param>
-    ## <param name="onePagePerRow">True if the mail merge produced a document with one page per row in the data source.</param>
-    #internal static void MailMergeMatchesQueryResult(string dbFilename, string sqlQuery, Document doc, bool onePagePerRow)
-
-    ##if NET48 || JAVA
-    #    expectedStrings = List<string[]>()
-    #    string connectionString = @"Driver={Microsoft Access Driver (*.mdb)};Dbq=" + dbFilename
-
-    #    (OdbcConnection connection = OdbcConnection())
-
-    #        connection.ConnectionString = connectionString
-    #        connection.open()
-
-    #        OdbcCommand command = connection.create_command()
-    #        command.CommandText = sqlQuery
-
-    #        using (OdbcDataReader reader = command.execute_reader(CommandBehavior.CloseConnection))
-
-    #            while (reader.read())
-
-    #                row = string[reader.FieldCount]
-
-    #                for (int i = 0; i < reader.FieldCount; i++)
-    #                    switch (reader[i])
-
-    #                        case decimal d:
-    #                            row[i] = d.to_string("G29")
-    #                            break
-    #                        case string s:
-    #                            row[i] = s.strip().replace("\n", "")
-    #                            break
-    #                        default:
-    #                            row[i] = ""
-    #                            break
-
-    #                expectedStrings.add(row)
-
-    #    MailMergeMatchesArray(expectedStrings.to_array(), doc, onePagePerRow)
-    ##endif
-
-    ## <summary>
-    ## Checks whether a document produced during a mail merge contains every element of every DataTable in a DataSet.
-    ## </summary>
-    ## <param name="expected_result">DataSet containing DataTables which contain values that we expect the document to contain.</param>
-    ## <param name="doc">Document created during a mail merge.</param>
-    ## <param name="onePagePerRow">True if the mail merge produced a document with one page per row in the data source.</param>
-    #internal static void MailMergeMatchesDataSet(DataSet dataSet, Document doc, bool onePagePerRow)
-
-    #    foreach (DataTable table in dataSet.Tables)
-    #        MailMergeMatchesDataTable(table, doc, onePagePerRow)
-
-    ## <summary>
-    ## Checks whether a document produced during a mail merge contains every element of a DataTable.
-    ## </summary>
-    ## <param name="expected_result">Values from the mail merge data source that we expect the document to contain.</param>
-    ## <param name="doc">Document created during a mail merge.</param>
-    ## <param name="onePagePerRow">True if the mail merge produced a document with one page per row in the data source.</param>
-    #internal static void MailMergeMatchesDataTable(DataTable expected_result, Document doc, bool onePagePerRow)
-
-    #    expectedStrings = string[expected_result.Rows.Count][]
-
-    #    for (int i = 0; i < expected_result.Rows.Count; i++)
-    #        expectedStrings[i] = Array.convert_all(expected_result.Rows[i].ItemArray, x => x.to_string())
-
-    #    MailMergeMatchesArray(expectedStrings, doc, onePagePerRow)
-
-    ## <summary>
-    ## Checks whether a document produced during a mail merge contains every element of an array of arrays of strings.
-    ## </summary>
-    ## <remarks>
-    ## Only suitable for rectangular arrays.
-    ## </remarks>
-    ## <param name="expected_result">Values from the mail merge data source that we expect the document to contain.</param>
-    ## <param name="doc">Document created during a mail merge.</param>
-    ## <param name="onePagePerRow">True if the mail merge produced a document with one page per row in the data source.</param>
-    #internal static void MailMergeMatchesArray(string[][] expected_result, Document doc, bool onePagePerRow)
-
-    #    try
-
-    #        if onePagePerRow:
-
-    #            string[] docTextByPages = doc.get_text().strip().split(new[] { ControlChar.PageBreak }, StringSplitOptions.RemoveEmptyEntries)
-
-    #            for (int i = 0; i < expected_result.Length; i++)
-    #                for (int j = 0; j < expected_result[0].Length; j++)
-    #                    if (!docTextByPages[i].contains(expected_result[i][j])) throw new ArgumentException(expected_result[i][j])
-
-    #        else:
-
-    #            string docText = doc.get_text()
-
-    #            for (int i = 0; i < expected_result.Length; i++)
-    #                for (int j = 0; j < expected_result[0].Length; j++)
-    #                    if (!docText.contains(expected_result[i][j])) throw new ArgumentException(expected_result[i][j])
-
-    #    catch (ArgumentException e)
-
-    #        Assert.fail(f"String \"{e.Message}\" not found in {(doc.OriginalFileName == null ? "a virtual document" : doc.OriginalFileName.split('\\').last())}.")
+        with open(image_path, 'rb') as stream:
+            buf = io.BytesIO(stream.read())
+            return bytes(buf.getbuffer())

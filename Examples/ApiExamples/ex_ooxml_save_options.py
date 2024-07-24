@@ -208,6 +208,7 @@ class ExOoxmlSaveOptions(ApiExampleBase):
                     self.assertEqual(file_signature, ApiExampleBase.dump_array(bytes(stream.getvalue()), 0, 10))
                     prev_file_size = file_size
 
+    @unittest.skipUnless(sys.platform.startswith('win'), 'windows Bitmap')
     def test_zip_64_mode_option(self):
         #ExStart
         #ExFor:OoxmlSaveOptions.zip_64_mode
