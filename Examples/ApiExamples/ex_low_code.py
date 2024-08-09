@@ -124,7 +124,38 @@ class ExLowCode(ApiExampleBase):
         #ExEnd:MergeDocumentInstances
 
     def test_convert_stream(self):
-        raise NotImplementedError('Unsupported statement type: UsingStatement')
+        #ExStart:ConvertStream
+        #ExFor:Converter.convert(io.BytesIO, io.BytesIO, SaveFormat)
+        #ExFor:Converter.convert(io.BytesIO, io.BytesIO, SaveOptions)
+        #ExSummary: Shows how to convert documents with a single line of code (Stream).
+        first_file_in = open(MY_DIR + 'Big document.docx', mode='rb')
+        first_stream_in = io.BytesIO(first_file_in.read())
+        out = io.BytesIO()
+        aw.lowcode.Converter.convert(first_stream_in, out, aw.SaveFormat.DOCX)
+
+        out.flush()
+        pathlib.Path(ARTIFACTS_DIR + 'LowCode.ConvertStream.SaveFormat.docx').write_bytes(out.getvalue())
+        out.seek(0)
+
+        save_options = aw.saving.OoxmlSaveOptions()
+        save_options.password = "Aspose.Words"
+        aw.lowcode.Converter.convert(first_stream_in, out, save_options)
+        out.flush()
+        pathlib.Path(ARTIFACTS_DIR + 'LowCode.ConvertStream.SaveOptions.docx').write_bytes(out.getvalue())
+        out.close()
+        first_stream_in.close()
+        first_file_in.close()
+        #ExEnd:ConvertStream
 
     def test_convert_to_images_from_stream(self):
-        raise NotImplementedError('Unsupported statement type: UsingStatement')
+        #ExStart:ConvertToImagesFromStream
+        #ExFor:Converter.convert_to_images(io.BytesIO, SaveFormat)
+        #ExFor:Converter.convert_to_images(io.BytesIO, ImageSaveOptions)
+        #ExSummary:Shows how to convert document to images from stream.
+        first_file_in = open(MY_DIR + 'Big document.docx', mode='rb')
+        first_stream_in = io.BytesIO(first_file_in.read())
+        streams = aw.lowcode.Converter.convert_to_images(first_stream_in, aw.SaveFormat.JPEG)
+        save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
+        save_options.page_set = aw.saving.PageSet(1)
+        streams = aw.lowcode.Converter.convert_to_images(first_stream_in, save_options)
+        #ExEnd:ConvertToImagesFromStream
