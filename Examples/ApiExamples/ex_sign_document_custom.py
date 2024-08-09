@@ -16,15 +16,15 @@ from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, IMAGE_DIR
 
 class ExSignDocumentCustom(ApiExampleBase):
 
-    # ExStart
-    # ExFor:CertificateHolder
-    # ExFor:SignatureLineOptions.signer
-    # ExFor:SignatureLineOptions.signer_title
-    # ExFor:SignatureLine.id
-    # ExFor:SignOptions.signature_line_id
-    # ExFor:SignOptions.signature_line_image
-    # ExFor:DigitalSignatureUtil.sign(str,str,CertificateHolder,SignOptions)
-    # ExSummary:Shows how to add a signature line to a document, and then sign it using a digital certificate.
+    #ExStart
+    #ExFor:CertificateHolder
+    #ExFor:SignatureLineOptions.signer
+    #ExFor:SignatureLineOptions.signer_title
+    #ExFor:SignatureLine.id
+    #ExFor:SignOptions.signature_line_id
+    #ExFor:SignOptions.signature_line_image
+    #ExFor:DigitalSignatureUtil.sign(str,str,CertificateHolder,SignOptions)
+    #ExSummary:Shows how to add a signature line to a document, and then sign it using a digital certificate.
     def test_sign(self):
 
         signee_name = "Ron Williams"
@@ -85,4 +85,4 @@ class ExSignDocumentCustom(ApiExampleBase):
             ExSignDocumentCustom.Signee(uuid.uuid4(), "Stephen Morse", "Head of Compliance",
                                         self.image_to_byte_array(IMAGE_DIR + "Logo.jpg"))
         ]
-    # ExEnd
+    #ExEnd
