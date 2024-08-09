@@ -432,7 +432,7 @@ class ExReportingEngine(ApiExampleBase):
     def test_insert_image_dynamically_by_uri(self):
 
         template = DocumentHelper.create_template_document_with_draw_objects("<<image [src.ImageString]>>", aw.drawing.ShapeType.TEXT_BOX)
-        image_uri = ImageTestClass(image_string="http://joomla-aspose.dynabic.com/templates/aspose/App_Themes/V3/images/customers/americanexpress.png")
+        image_uri = ImageTestClass(image_string="https://metrics.aspose.com/img/headergraphics.svg")
 
         self.build_report(template, self.create_json_data_source(image_uri), "src", options=aw.reporting.ReportBuildOptions.NONE)
         template.save(ARTIFACTS_DIR + "ReportingEngine.insert_image_dynamically_by_uri.docx")
