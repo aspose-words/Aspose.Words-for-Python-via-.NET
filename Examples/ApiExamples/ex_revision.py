@@ -5,17 +5,33 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
+from datetime import date, timezone, timedelta
 from document_helper import DocumentHelper
-from datetime import datetime, date, timezone, timedelta
 import aspose.words as aw
 import aspose.words.comparing
 import aspose.words.drawing
 import aspose.words.layout
 import aspose.words.notes
+import datetime
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExRevision(ApiExampleBase):
+
+    def test_get_info_about_revisions_in_revision_groups(self):
+        #ExStart
+        #ExFor:RevisionGroup
+        #ExFor:RevisionGroup.author
+        #ExFor:RevisionGroup.revision_type
+        #ExFor:RevisionGroup.text
+        #ExFor:RevisionGroupCollection
+        #ExFor:RevisionGroupCollection.count
+        #ExSummary:Shows how to print info about a group of revisions in a document.
+        doc = aw.Document(file_name=MY_DIR + 'Revisions.docx')
+        self.assertEqual(7, doc.revisions.groups.count)
+        for group in doc.revisions.groups:
+            print(f'Revision author: {group.author}; Revision type: {group.revision_type} \n\tRevision text: {group.text}')
+        #ExEnd
 
     def test_get_specific_revision_group(self):
         #ExStart
@@ -75,7 +91,7 @@ class ExRevision(ApiExampleBase):
         revision_options.moved_from_text_color = aw.layout.RevisionColor.YELLOW
         revision_options.moved_from_text_effect = aw.layout.RevisionTextEffect.DOUBLE_STRIKE_THROUGH
         revision_options.moved_to_text_color = aw.layout.RevisionColor.CLASSIC_BLUE
-        revision_options.moved_from_text_effect = aw.layout.RevisionTextEffect.DOUBLE_UNDERLINE
+        revision_options.moved_to_text_effect = aw.layout.RevisionTextEffect.DOUBLE_UNDERLINE
         # Render format revisions in dark red and bold.
         revision_options.revised_properties_color = aw.layout.RevisionColor.DARK_RED
         revision_options.revised_properties_effect = aw.layout.RevisionTextEffect.BOLD
@@ -136,6 +152,52 @@ class ExRevision(ApiExampleBase):
         self.assertEqual('', paragraphs[1].list_label.label_string)
         self.assertEqual('b.', paragraphs[2].list_label.label_string)
 
+    def test_layout_options_revisions(self):
+        #ExStart
+        #ExFor:Document.layout_options
+        #ExFor:LayoutOptions
+        #ExFor:LayoutOptions.revision_options
+        #ExFor:RevisionColor
+        #ExFor:RevisionOptions
+        #ExFor:RevisionOptions.inserted_text_color
+        #ExFor:RevisionOptions.show_revision_bars
+        #ExFor:RevisionOptions.revision_bars_position
+        #ExSummary:Shows how to alter the appearance of revisions in a rendered output document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        # Insert a revision, then change the color of all revisions to green.
+        builder.writeln('This is not a revision.')
+        doc.start_track_revisions(author='John Doe', date_time=datetime.datetime.now())
+        self.assertEqual(aw.layout.RevisionColor.BY_AUTHOR, doc.layout_options.revision_options.inserted_text_color)  #ExSkip
+        self.assertTrue(doc.layout_options.revision_options.show_revision_bars)  #ExSkip
+        builder.writeln('This is a revision.')
+        doc.stop_track_revisions()
+        builder.writeln('This is not a revision.')
+        # Remove the bar that appears to the left of every revised line.
+        doc.layout_options.revision_options.inserted_text_color = aw.layout.RevisionColor.BRIGHT_GREEN
+        doc.layout_options.revision_options.show_revision_bars = False
+        doc.layout_options.revision_options.revision_bars_position = aw.drawing.HorizontalAlignment.RIGHT
+        doc.save(file_name=ARTIFACTS_DIR + 'Document.LayoutOptionsRevisions.pdf')
+        #ExEnd
+
+    def test_ignore_store_item_id(self):
+        #ExStart:IgnoreStoreItemId
+        #ExFor:AdvancedCompareOptions
+        #ExFor:AdvancedCompareOptions.ignore_store_item_id
+        #ExSummary:Shows how to compare SDT with same content but different store item id.
+        doc_a = aw.Document(file_name=MY_DIR + 'Document with SDT 1.docx')
+        doc_b = aw.Document(file_name=MY_DIR + 'Document with SDT 2.docx')
+        # Configure options to compare SDT with same content but different store item id.
+        compare_options = aw.comparing.CompareOptions()
+        compare_options.advanced_options.ignore_store_item_id = False
+        doc_a.compare(document=doc_b, author='user', date_time=datetime.datetime.now(), options=compare_options)
+        self.assertEqual(8, doc_a.revisions.count)
+        compare_options.advanced_options.ignore_store_item_id = True
+        doc_a.revisions.reject_all()
+        doc_a.compare(document=doc_b, author='user', date_time=datetime.datetime.now(), options=compare_options)
+        self.assertEqual(0, doc_a.revisions.count)
+        #ExEnd:IgnoreStoreItemId
+
     def test_revisions(self):
         #ExStart
         #ExFor:Revision
@@ -159,7 +221,7 @@ class ExRevision(ApiExampleBase):
         builder.write('This does not count as a revision. ')
         self.assertFalse(doc.has_revisions)
         # To register our edits as revisions, we need to declare an author, and then start tracking them.
-        doc.start_track_revisions('John Doe', datetime.now())
+        doc.start_track_revisions('John Doe', datetime.datetime.now())
         builder.write('This is revision #1. ')
         self.assertTrue(doc.has_revisions)
         self.assertEqual(1, doc.revisions.count)
@@ -243,21 +305,6 @@ class ExRevision(ApiExampleBase):
         self.assertEqual(0, revisions.count)
         #ExEnd
 
-    def test_get_info_about_revisions_in_revision_groups(self):
-        #ExStart
-        #ExFor:RevisionGroup
-        #ExFor:RevisionGroup.author
-        #ExFor:RevisionGroup.revision_type
-        #ExFor:RevisionGroup.text
-        #ExFor:RevisionGroupCollection
-        #ExFor:RevisionGroupCollection.count
-        #ExSummary:Shows how to print info about a group of revisions in a document.
-        doc = aw.Document(MY_DIR + 'Revisions.docx')
-        self.assertEqual(7, doc.revisions.groups.count)
-        for group in doc.revisions.groups:
-            print(f'Revision author: {group.author}; Revision type: {group.revision_type} \n\tRevision text: {group.text}')
-        #ExEnd
-
     def test_track_revisions(self):
         #ExStart
         #ExFor:Document.start_track_revisions(str)
@@ -275,7 +322,7 @@ class ExRevision(ApiExampleBase):
         self.assertEqual(1, doc.revisions.count)
         self.assertTrue(doc.first_section.body.paragraphs[0].runs[1].is_insert_revision)
         self.assertEqual('John Doe', doc.revisions[0].author)
-        self.assertAlmostEqual(doc.revisions[0].date_time, datetime.now(tz=timezone.utc), delta=timedelta(seconds=1))
+        self.assertAlmostEqual(doc.revisions[0].date_time, datetime.datetime.now(tz=timezone.utc), delta=timedelta(seconds=1))
         # Stop tracking revisions to not count any future edits as revisions.
         doc.stop_track_revisions()
         builder.write('Hello again! ')
@@ -283,11 +330,11 @@ class ExRevision(ApiExampleBase):
         self.assertFalse(doc.first_section.body.paragraphs[0].runs[2].is_insert_revision)
         # Creating revisions gives them a date and time of the operation.
         # We can disable this by passing "datetime.min" when we start tracking revisions.
-        doc.start_track_revisions('John Doe', datetime.min)
+        doc.start_track_revisions('John Doe', datetime.datetime.min)
         builder.write('Hello again! ')
         self.assertEqual(2, doc.revisions.count)
         self.assertEqual('John Doe', doc.revisions[1].author)
-        self.assertEqual(datetime.min, doc.revisions[1].date_time)
+        self.assertEqual(datetime.datetime.min, doc.revisions[1].date_time)
         # We can accept/reject these revisions programmatically
         # by calling methods such as "Document.accept_all_revisions", or each revision's "accept" method.
         # In Microsoft Word, we can process them manually via "Review" -> "Changes".
@@ -307,7 +354,7 @@ class ExRevision(ApiExampleBase):
         builder.writeln('This is the edited document.')
         # Comparing documents with revisions will throw an exception.
         if doc_original.revisions.count == 0 and doc_edited.revisions.count == 0:
-            doc_original.compare(doc_edited, 'authorName', datetime.now())
+            doc_original.compare(doc_edited, 'authorName', datetime.datetime.now())
         # After the comparison, the original document will gain a new revision
         # for every element that is different in the edited document.
         self.assertEqual(2, doc_original.revisions.count)  # ExSkip
@@ -330,7 +377,7 @@ class ExRevision(ApiExampleBase):
         doc_with_revision.start_track_revisions('John Doe')
         builder.writeln('This is a revision.')
         with self.assertRaises(Exception):
-            doc_with_revision.compare(doc1, 'John Doe', datetime.now())
+            doc_with_revision.compare(doc1, 'John Doe', datetime.datetime.now())
 
     def test_compare_options(self):
         #ExStart
@@ -368,7 +415,7 @@ class ExRevision(ApiExampleBase):
         builder.move_to(doc_original.first_section.body.append_paragraph(''))
         builder.insert_field(' DATE ')
         # Comment:
-        new_comment = aw.Comment(doc_original, 'John Doe', 'J.D.', datetime.now())
+        new_comment = aw.Comment(doc_original, 'John Doe', 'J.D.', datetime.datetime.now())
         new_comment.set_text('Original comment.')
         builder.current_paragraph.append_child(new_comment)
         # Header:
@@ -398,7 +445,7 @@ class ExRevision(ApiExampleBase):
         compare_options.ignore_textboxes = False
         compare_options.ignore_headers_and_footers = False
         compare_options.target = aw.comparing.ComparisonTargetType.NEW
-        doc_original.compare(doc_edited, 'John Doe', datetime.now(), compare_options)
+        doc_original.compare(doc_edited, 'John Doe', datetime.datetime.now(), compare_options)
         doc_original.save(ARTIFACTS_DIR + 'Document.compare_options.docx')
         #ExEnd
         doc_original = aw.Document(ARTIFACTS_DIR + 'Document.compare_options.docx')
@@ -416,35 +463,9 @@ class ExRevision(ApiExampleBase):
                 # If we are ignoring DML's unique ID, and revisions count were 0.
                 compare_options = aw.comparing.CompareOptions()
                 compare_options.ignore_dml_unique_id = is_ignore_dml_unique_id
-                doc_a.compare(doc_b, 'Aspose.Words', datetime.now(), compare_options)
+                doc_a.compare(doc_b, 'Aspose.Words', datetime.datetime.now(), compare_options)
                 self.assertEqual(0 if is_ignore_dml_unique_id else 2, doc_a.revisions.count)
                 #ExEnd
-
-    def test_layout_options_revisions(self):
-        #ExStart
-        #ExFor:Document.layout_options
-        #ExFor:LayoutOptions
-        #ExFor:LayoutOptions.revision_options
-        #ExFor:RevisionColor
-        #ExFor:RevisionOptions
-        #ExFor:RevisionOptions.inserted_text_color
-        #ExFor:RevisionOptions.show_revision_bars
-        #ExSummary:Shows how to alter the appearance of revisions in a rendered output document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Insert a revision, then change the color of all revisions to green.
-        builder.writeln('This is not a revision.')
-        doc.start_track_revisions('John Doe', datetime.now())
-        self.assertEqual(aw.layout.RevisionColor.BY_AUTHOR, doc.layout_options.revision_options.inserted_text_color)  #ExSkip
-        self.assertTrue(doc.layout_options.revision_options.show_revision_bars)  #ExSkip
-        builder.writeln('This is a revision.')
-        doc.stop_track_revisions()
-        builder.writeln('This is not a revision.')
-        # Remove the bar that appears to the left of every revised line.
-        doc.layout_options.revision_options.inserted_text_color = aw.layout.RevisionColor.BRIGHT_GREEN
-        doc.layout_options.revision_options.show_revision_bars = False
-        doc.save(ARTIFACTS_DIR + 'Document.layout_options_revisions.pdf')
-        #ExEnd
 
     def test_granularity_compare_option(self):
         for granularity in (aw.comparing.Granularity.CHAR_LEVEL, aw.comparing.Granularity.WORD_LEVEL):
@@ -463,7 +484,7 @@ class ExRevision(ApiExampleBase):
                 # by character ('Granularity.CHAR_LEVEL'), or by word ('Granularity.WORD_LEVEL').
                 compare_options = aw.comparing.CompareOptions()
                 compare_options.granularity = granularity
-                doc_a.compare(doc_b, 'author', datetime.now(), compare_options)
+                doc_a.compare(doc_b, 'author', datetime.datetime.now(), compare_options)
                 # The first document's collection of revision groups contains all the differences between documents.
                 groups = doc_a.revisions.groups
                 self.assertEqual(5, groups.count)
@@ -490,20 +511,3 @@ class ExRevision(ApiExampleBase):
                     self.assertEqual('- "', groups[3].text)
                     self.assertEqual(aw.RevisionType.INSERTION, groups[4].revision_type)
                     self.assertEqual('"', groups[4].text)
-
-    def test_ignore_store_item_id(self):
-        #ExStart:IgnoreStoreItemId
-        #ExFor:AdvancedCompareOptions.ignore_store_item_id
-        #ExSummary:Shows how to compare SDT with same content but different store item id.
-        doc_a = aw.Document(file_name=MY_DIR + 'Document with SDT 1.docx')
-        doc_b = aw.Document(file_name=MY_DIR + 'Document with SDT 2.docx')
-        # Configure options to compare SDT with same content but different store item id.
-        compare_options = aw.comparing.CompareOptions()
-        compare_options.advanced_options.ignore_store_item_id = False
-        doc_a.compare(doc_b, 'user', datetime.now(), compare_options)
-        self.assertEqual(8, doc_a.revisions.count)
-        compare_options.advanced_options.ignore_store_item_id = True
-        doc_a.revisions.reject_all()
-        doc_a.compare(doc_b, 'user', datetime.now(), compare_options)
-        self.assertEqual(0, doc_a.revisions.count)
-        #ExEnd:IgnoreStoreItemId

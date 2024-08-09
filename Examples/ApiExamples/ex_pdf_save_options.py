@@ -8,14 +8,15 @@
 from aspose.words import Document
 from aspose.words.saving import PdfTextCompression
 from aspose.words.saving import PdfTextCompression
+from datetime import timedelta, timezone
 import aspose.pydrawing as drawing
-from datetime import datetime, timedelta, timezone
 import sys
 import os
 import io
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.saving
+import datetime
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR, IMAGE_DIR, FONTS_DIR
 
@@ -214,6 +215,19 @@ class ExPdfSaveOptions(ApiExampleBase):
         save_options.page_layout = aw.saving.PdfPageLayout.TWO_PAGE_LEFT
         doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.PageLayout.pdf', save_options=save_options)
         #ExEnd:PageLayout
+
+    def test_sdt_tag_as_form_field_name(self):
+        #ExStart:SdtTagAsFormFieldName
+        #ExFor:PdfSaveOptions.use_sdt_tag_as_form_field_name
+        #ExSummary:Shows how to use SDT control Tag or Id property as a name of form field in PDF.
+        doc = aw.Document(file_name=MY_DIR + 'Form fields.docx')
+        save_options = aw.saving.PdfSaveOptions()
+        save_options.preserve_form_fields = True
+        # When set to 'false', SDT control Id property is used as a name of form field in PDF.
+        # When set to 'true', SDT control Tag property is used as a name of form field in PDF.
+        save_options.use_sdt_tag_as_form_field_name = True
+        doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.SdtTagAsFormFieldName.pdf', save_options=save_options)
+        #ExEnd:SdtTagAsFormFieldName
 
     def test_one_page(self):
         #ExStart
@@ -1026,7 +1040,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         options = aw.saving.PdfSaveOptions()
         # Configure the "digital_signature_details" object of the "SaveOptions" object to
         # digitally sign the document as we render it with the "save" method.
-        signing_time = datetime.now()
+        signing_time = datetime.datetime.now()
         import aspose.words.saving as aws
         options.digital_signature_details = aw.saving.PdfDigitalSignatureDetails(certificate_holder, 'Test Signing', 'My Office', signing_time)
         options.digital_signature_details.hash_algorithm = aw.saving.PdfDigitalSignatureHashAlgorithm.RIPE_MD160
@@ -1059,7 +1073,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         options = aw.saving.PdfSaveOptions()
         # Create a digital signature and assign it to our SaveOptions object to sign the document when we save it to PDF.
         certificate_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + 'morzal.pfx', 'aw')
-        options.digital_signature_details = aw.saving.PdfDigitalSignatureDetails(certificate_holder, 'Test Signing', 'Aspose Office', datetime.now())
+        options.digital_signature_details = aw.saving.PdfDigitalSignatureDetails(certificate_holder, 'Test Signing', 'Aspose Office', datetime.datetime.now())
         # Create a timestamp authority-verified timestamp.
         options.digital_signature_details.timestamp_settings = aw.saving.PdfDigitalSignatureTimestampSettings('https://freetsa.org/tsr', 'JohnDoe', 'MyPassword')
         # The default lifespan of the timestamp is 100 seconds.

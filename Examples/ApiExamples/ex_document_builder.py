@@ -519,6 +519,45 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertNotEqual(aspose.pydrawing.Color.light_blue.to_argb(), table.last_row.first_cell.cell_format.shading.background_pattern_color.b)
         self.assertEqual(aspose.pydrawing.Color.empty().to_argb(), table.last_row.first_cell.first_paragraph.runs[0].font.color.to_argb())
 
+    def test_insert_table_set_heading_row(self):
+        #ExStart
+        #ExFor:RowFormat.heading_format
+        #ExSummary:Shows how to build a table with rows that repeat on every page.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        table = builder.start_table()
+        # Any rows inserted while the "HeadingFormat" flag is set to "true"
+        # will show up at the top of the table on every page that it spans.
+        builder.row_format.heading_format = True
+        builder.paragraph_format.alignment = aw.ParagraphAlignment.CENTER
+        builder.cell_format.width = 100
+        builder.insert_cell()
+        builder.write('Heading row 1')
+        builder.end_row()
+        builder.insert_cell()
+        builder.write('Heading row 2')
+        builder.end_row()
+        builder.cell_format.width = 50
+        builder.paragraph_format.clear_formatting()
+        builder.row_format.heading_format = False
+        # Add enough rows for the table to span two pages.
+        i = 0
+        while i < 50:
+            builder.insert_cell()
+            builder.write(f'Row {table.rows.count}, column 1.')
+            builder.insert_cell()
+            builder.write(f'Row {table.rows.count}, column 2.')
+            builder.end_row()
+            i += 1
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertTableSetHeadingRow.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertTableSetHeadingRow.docx')
+        table = doc.first_section.body.tables[0]
+        i = 0
+        while i < table.rows.count:
+            self.assertEqual(i < 2, table.rows[i].row_format.heading_format)
+            i += 1
+
     def test_insert_table_with_preferred_width(self):
         #ExStart
         #ExFor:Table.preferred_width
@@ -541,6 +580,55 @@ class ExDocumentBuilder(ApiExampleBase):
         table = doc.first_section.body.tables[0]
         self.assertEqual(aw.tables.PreferredWidthType.PERCENT, table.preferred_width.type)
         self.assertEqual(50, table.preferred_width.value)
+
+    def test_insert_cells_with_preferred_widths(self):
+        #ExStart
+        #ExFor:CellFormat.preferred_width
+        #ExFor:PreferredWidth
+        #ExFor:PreferredWidth.auto
+        #ExFor:PreferredWidth.__eq__(PreferredWidth)
+        #ExFor:PreferredWidth.__eq__(object)
+        #ExFor:PreferredWidth.from_points
+        #ExFor:PreferredWidth.from_percent
+        #ExFor:PreferredWidth.__hash__
+        #ExFor:PreferredWidth.__str__
+        #ExSummary:Shows how to set a preferred width for table cells.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        table = builder.start_table()
+        # There are two ways of applying the "PreferredWidth" class to table cells.
+        # 1 -  Set an absolute preferred width based on points:
+        builder.insert_cell()
+        builder.cell_format.preferred_width = aw.tables.PreferredWidth.from_points(40)
+        builder.cell_format.shading.background_pattern_color = aspose.pydrawing.Color.light_yellow
+        builder.writeln(f'Cell with a width of {builder.cell_format.preferred_width}.')
+        # 2 -  Set a relative preferred width based on percent of the table's width:
+        builder.insert_cell()
+        builder.cell_format.preferred_width = aw.tables.PreferredWidth.from_percent(20)
+        builder.cell_format.shading.background_pattern_color = aspose.pydrawing.Color.light_blue
+        builder.writeln(f'Cell with a width of {builder.cell_format.preferred_width}.')
+        builder.insert_cell()
+        # A cell with no preferred width specified will take up the rest of the available space.
+        builder.cell_format.preferred_width = aw.tables.PreferredWidth.AUTO
+        # Each configuration of the "PreferredWidth" property creates a new object.
+        self.assertNotEqual(hash(table.first_row.cells[1].cell_format.preferred_width), hash(builder.cell_format.preferred_width))
+        builder.cell_format.shading.background_pattern_color = aspose.pydrawing.Color.light_green
+        builder.writeln('Automatically sized cell.')
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertCellsWithPreferredWidths.docx')
+        #ExEnd
+        self.assertEqual(100, aw.tables.PreferredWidth.from_percent(100).value)
+        self.assertEqual(100, aw.tables.PreferredWidth.from_points(100).value)
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertCellsWithPreferredWidths.docx')
+        table = doc.first_section.body.tables[0]
+        self.assertEqual(aw.tables.PreferredWidthType.POINTS, table.first_row.cells[0].cell_format.preferred_width.type)
+        self.assertEqual(40, table.first_row.cells[0].cell_format.preferred_width.value)
+        self.assertEqual('Cell with a width of 800.\r\x07', table.first_row.cells[0].get_text().strip())
+        self.assertEqual(aw.tables.PreferredWidthType.PERCENT, table.first_row.cells[1].cell_format.preferred_width.type)
+        self.assertEqual(20, table.first_row.cells[1].cell_format.preferred_width.value)
+        self.assertEqual('Cell with a width of 20%.\r\x07', table.first_row.cells[1].get_text().strip())
+        self.assertEqual(aw.tables.PreferredWidthType.AUTO, table.first_row.cells[2].cell_format.preferred_width.type)
+        self.assertEqual(0, table.first_row.cells[2].cell_format.preferred_width.value)
+        self.assertEqual('Automatically sized cell.\r\x07', table.first_row.cells[2].get_text().strip())
 
     def test_insert_table_from_html(self):
         doc = aw.Document()
@@ -1263,6 +1351,10 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(aspose.pydrawing.Color.red.to_argb(), dst_doc.first_section.body.paragraphs[1].runs[0].font.color.to_argb())
 
     def test_emphases_warning_source_markdown(self):
+        #ExStart
+        #ExFor:WarningInfo.source
+        #ExFor:WarningSource
+        #ExSummary:Shows how to work with the warning source.
         doc = aw.Document(file_name=MY_DIR + 'Emphases markdown warning.docx')
         warnings = aw.WarningInfoCollection()
         doc.warning_callback = warnings
@@ -1270,6 +1362,7 @@ class ExDocumentBuilder(ApiExampleBase):
         for warning_info in warnings:
             if warning_info.source == aw.WarningSource.MARKDOWN:
                 self.assertEqual('The (*, 0:11) cannot be properly written into Markdown.', warning_info.description)
+        #ExEnd
 
     def test_do_not_ignore_header_footer(self):
         #ExStart
@@ -1277,6 +1370,10 @@ class ExDocumentBuilder(ApiExampleBase):
         #ExSummary:Shows how to specifies ignoring or not source formatting of headers/footers content.
         dst_doc = aw.Document(file_name=MY_DIR + 'Document.docx')
         src_doc = aw.Document(file_name=MY_DIR + 'Header and footer types.docx')
+        # If 'IgnoreHeaderFooter' is false then the original formatting for header/footer content
+        # from "Header and footer types.docx" will be used.
+        # If 'IgnoreHeaderFooter' is true then the formatting for header/footer content
+        # from "Document.docx" will be used.
         import_format_options = aw.ImportFormatOptions()
         import_format_options.ignore_header_footer = False
         dst_doc.append_document(src_doc=src_doc, import_format_mode=aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, import_format_options=import_format_options)
@@ -1299,6 +1396,7 @@ class ExDocumentBuilder(ApiExampleBase):
         #ExStart
         #ExFor:Run.is_phonetic_guide
         #ExFor:Run.phonetic_guide
+        #ExFor:PhoneticGuide
         #ExFor:PhoneticGuide.base_text
         #ExFor:PhoneticGuide.ruby_text
         #ExSummary:Shows how to get properties of the phonetic guide.
@@ -1306,8 +1404,9 @@ class ExDocumentBuilder(ApiExampleBase):
         runs = doc.first_section.body.first_paragraph.runs
         # Use phonetic guide in the Asian text.
         self.assertEqual(True, runs[0].is_phonetic_guide)
-        self.assertEqual('base', runs[0].phonetic_guide.base_text)
-        self.assertEqual('ruby', runs[0].phonetic_guide.ruby_text)
+        phonetic_guide = runs[0].phonetic_guide
+        self.assertEqual('base', phonetic_guide.base_text)
+        self.assertEqual('ruby', phonetic_guide.ruby_text)
         #ExEnd
 
     def test_write_and_font(self):
@@ -1556,89 +1655,6 @@ class ExDocumentBuilder(ApiExampleBase):
         builder.end_table()
         doc.save(ARTIFACTS_DIR + 'Bookmarks.create_column_bookmark.docx')
         #ExEnd
-
-    def test_insert_table_set_heading_row(self):
-        #ExStart
-        #ExFor:RowFormat.heading_format
-        #ExSummary:Shows how to build a table with rows that repeat on every page.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        table = builder.start_table()
-        # Any rows inserted while the "heading_format" flag is set to "True"
-        # will show up at the top of the table on every page that it spans.
-        builder.row_format.heading_format = True
-        builder.paragraph_format.alignment = aw.ParagraphAlignment.CENTER
-        builder.cell_format.width = 100
-        builder.insert_cell()
-        builder.write('Heading row 1')
-        builder.end_row()
-        builder.insert_cell()
-        builder.write('Heading row 2')
-        builder.end_row()
-        builder.cell_format.width = 50
-        builder.paragraph_format.clear_formatting()
-        builder.row_format.heading_format = False
-        # Add enough rows for the table to span two pages.
-        for i in range(50):
-            builder.insert_cell()
-            builder.write(f'Row {table.rows.count}, column 1.')
-            builder.insert_cell()
-            builder.write(f'Row {table.rows.count}, column 2.')
-            builder.end_row()
-        doc.save(ARTIFACTS_DIR + 'DocumentBuilder.insert_table_set_heading_row.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'DocumentBuilder.insert_table_set_heading_row.docx')
-        table = doc.first_section.body.tables[0]
-        for i in range(table.rows.count):
-            self.assertEqual(i < 2, table.rows[i].row_format.heading_format)
-
-    def test_insert_cells_with_preferred_widths(self):
-        #ExStart
-        #ExFor:CellFormat.preferred_width
-        #ExFor:PreferredWidth
-        #ExFor:PreferredWidth.AUTO
-        #ExFor:PreferredWidth.__eq__(PreferredWidth)
-        #ExFor:PreferredWidth.from_points
-        #ExFor:PreferredWidth.from_percent
-        #ExFor:PreferredWidth.get_hash_code
-        #ExFor:PreferredWidth.to_string
-        #ExSummary:Shows how to set a preferred width for table cells.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        table = builder.start_table()
-        # There are two ways of applying the "PreferredWidth" class to table cells.
-        # 1 -  Set an absolute preferred width based on points:
-        builder.insert_cell()
-        builder.cell_format.preferred_width = aw.tables.PreferredWidth.from_points(40)
-        builder.cell_format.shading.background_pattern_color = aspose.pydrawing.Color.light_yellow
-        builder.writeln(f'Cell with a width of {builder.cell_format.preferred_width}.')
-        # 2 -  Set a relative preferred width based on percent of the table's width:
-        builder.insert_cell()
-        builder.cell_format.preferred_width = aw.tables.PreferredWidth.from_percent(20)
-        builder.cell_format.shading.background_pattern_color = aspose.pydrawing.Color.light_blue
-        builder.writeln(f'Cell with a width of {builder.cell_format.preferred_width}.')
-        builder.insert_cell()
-        # A cell with no preferred width specified will take up the rest of the available space.
-        builder.cell_format.preferred_width = aw.tables.PreferredWidth.AUTO
-        # Each configuration of the "preferred_width" property creates a new object.
-        self.assertTrue(table.first_row.cells[1].cell_format.preferred_width is not builder.cell_format.preferred_width)
-        builder.cell_format.shading.background_pattern_color = aspose.pydrawing.Color.light_green
-        builder.writeln('Automatically sized cell.')
-        doc.save(ARTIFACTS_DIR + 'DocumentBuilder.insert_cells_with_preferred_widths.docx')
-        #ExEnd
-        self.assertEqual(100.0, aw.tables.PreferredWidth.from_percent(100).value)
-        self.assertEqual(100.0, aw.tables.PreferredWidth.from_points(100).value)
-        doc = aw.Document(ARTIFACTS_DIR + 'DocumentBuilder.insert_cells_with_preferred_widths.docx')
-        table = doc.first_section.body.tables[0]
-        self.assertEqual(aw.tables.PreferredWidthType.POINTS, table.first_row.cells[0].cell_format.preferred_width.type)
-        self.assertEqual(40.0, table.first_row.cells[0].cell_format.preferred_width.value)
-        self.assertEqual('Cell with a width of 800.\r\x07', table.first_row.cells[0].get_text().strip())
-        self.assertEqual(aw.tables.PreferredWidthType.PERCENT, table.first_row.cells[1].cell_format.preferred_width.type)
-        self.assertEqual(20.0, table.first_row.cells[1].cell_format.preferred_width.value)
-        self.assertEqual('Cell with a width of 20%.\r\x07', table.first_row.cells[1].get_text().strip())
-        self.assertEqual(aw.tables.PreferredWidthType.AUTO, table.first_row.cells[2].cell_format.preferred_width.type)
-        self.assertEqual(0.0, table.first_row.cells[2].cell_format.preferred_width.value)
-        self.assertEqual('Automatically sized cell.\r\x07', table.first_row.cells[2].get_text().strip())
 
     def test_insert_hyperlink_to_local_bookmark(self):
         #ExStart

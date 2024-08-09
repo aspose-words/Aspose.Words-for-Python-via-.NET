@@ -173,7 +173,8 @@ class ExBorder(ApiExampleBase):
         builder = aw.DocumentBuilder(doc)
         # Create a table with red and blue inner borders.
         table = builder.start_table()
-        for i in range(3):
+        i = 0
+        while i < 3:
             builder.insert_cell()
             builder.write(f'Row {i + 1}, Column 1')
             builder.insert_cell()
@@ -183,25 +184,26 @@ class ExBorder(ApiExampleBase):
             # Adjust the appearance of borders that will appear between rows.
             borders.horizontal.color = aspose.pydrawing.Color.red
             borders.horizontal.line_style = aw.LineStyle.DOT
-            borders.horizontal.line_width = 2.0
+            borders.horizontal.line_width = 2
             # Adjust the appearance of borders that will appear between cells.
             borders.vertical.color = aspose.pydrawing.Color.blue
             borders.vertical.line_style = aw.LineStyle.DOT
-            borders.vertical.line_width = 2.0
+            borders.vertical.line_width = 2
+            i += 1
         # A row format, and a cell's inner paragraph use different border settings.
         border = table.first_row.first_cell.last_paragraph.paragraph_format.borders.vertical
         self.assertEqual(aspose.pydrawing.Color.empty().to_argb(), border.color.to_argb())
-        self.assertEqual(0.0, border.line_width)
+        self.assertEqual(0, border.line_width)
         self.assertEqual(aw.LineStyle.NONE, border.line_style)
-        doc.save(ARTIFACTS_DIR + 'Border.vertical_borders.docx')
+        doc.save(file_name=ARTIFACTS_DIR + 'Border.VerticalBorders.docx')
         #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Border.vertical_borders.docx')
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Border.VerticalBorders.docx')
         table = doc.first_section.body.tables[0]
         for row in table.get_child_nodes(aw.NodeType.ROW, True):
             row = row.as_row()
             self.assertEqual(aspose.pydrawing.Color.red.to_argb(), row.row_format.borders.horizontal.color.to_argb())
             self.assertEqual(aw.LineStyle.DOT, row.row_format.borders.horizontal.line_style)
-            self.assertEqual(2.0, row.row_format.borders.horizontal.line_width)
+            self.assertEqual(2, row.row_format.borders.horizontal.line_width)
             self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), row.row_format.borders.vertical.color.to_argb())
             self.assertEqual(aw.LineStyle.DOT, row.row_format.borders.vertical.line_style)
-            self.assertEqual(2.0, row.row_format.borders.vertical.line_width)
+            self.assertEqual(2, row.row_format.borders.vertical.line_width)

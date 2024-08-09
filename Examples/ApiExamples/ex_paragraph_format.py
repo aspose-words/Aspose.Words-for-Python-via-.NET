@@ -35,6 +35,7 @@ class ExParagraphFormat(ApiExampleBase):
         #ExStart
         #ExFor:ParagraphFormat.line_spacing
         #ExFor:ParagraphFormat.line_spacing_rule
+        #ExFor:LineSpacingRule
         #ExSummary:Shows how to work with line spacing.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -79,6 +80,7 @@ class ExParagraphFormat(ApiExampleBase):
     def test_paragraph_outline_level(self):
         #ExStart
         #ExFor:ParagraphFormat.outline_level
+        #ExFor:OutlineLevel
         #ExSummary:Shows how to configure paragraph outline levels to create collapsible text.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)

@@ -19,6 +19,37 @@ from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR, GOLDS_DIR
 
 class ExStructuredDocumentTag(ApiExampleBase):
 
+    def test_apply_style(self):
+        #ExStart
+        #ExFor:StructuredDocumentTag
+        #ExFor:StructuredDocumentTag.node_type
+        #ExFor:StructuredDocumentTag.style
+        #ExFor:StructuredDocumentTag.style_name
+        #ExFor:StructuredDocumentTag.word_open_xml_minimal
+        #ExFor:MarkupLevel
+        #ExFor:SdtType
+        #ExSummary:Shows how to work with styles for content control elements.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        # Below are two ways to apply a style from the document to a structured document tag.
+        # 1 -  Apply a style object from the document's style collection:
+        quote_style = doc.styles.get_by_style_identifier(aw.StyleIdentifier.QUOTE)
+        sdt_plain_text = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.INLINE)
+        sdt_plain_text.style = quote_style
+        # 2 -  Reference a style in the document by name:
+        sdt_rich_text = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.RICH_TEXT, aw.markup.MarkupLevel.INLINE)
+        sdt_rich_text.style_name = 'Quote'
+        builder.insert_node(sdt_plain_text)
+        builder.insert_node(sdt_rich_text)
+        self.assertEqual(aw.NodeType.STRUCTURED_DOCUMENT_TAG, sdt_plain_text.node_type)
+        tags = doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)
+        for node in tags:
+            sdt = node.as_structured_document_tag()
+            print(sdt.word_open_xml_minimal)
+            self.assertEqual(aw.StyleIdentifier.QUOTE, sdt.style.style_identifier)
+            self.assertEqual('Quote', sdt.style_name)
+        #ExEnd
+
     def test_plain_text(self):
         #ExStart
         #ExFor:StructuredDocumentTag.color
@@ -27,6 +58,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         #ExFor:StructuredDocumentTag.id
         #ExFor:StructuredDocumentTag.level
         #ExFor:StructuredDocumentTag.multiline
+        #ExFor:IStructuredDocumentTag.tag
         #ExFor:StructuredDocumentTag.tag
         #ExFor:StructuredDocumentTag.title
         #ExFor:StructuredDocumentTag.remove_self_only
@@ -82,6 +114,8 @@ class ExStructuredDocumentTag(ApiExampleBase):
         #ExStart
         #ExFor:StructuredDocumentTag.lock_content_control
         #ExFor:StructuredDocumentTag.lock_contents
+        #ExFor:IStructuredDocumentTag.lock_content_control
+        #ExFor:IStructuredDocumentTag.lock_contents
         #ExSummary:Shows how to apply editing restrictions to structured document tags.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -190,6 +224,108 @@ class ExStructuredDocumentTag(ApiExampleBase):
         doc.first_section.body.append_child(tag)
         doc.save(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.UpdateSdtContent.pdf')
 
+    def test_multi_section_tags(self):
+        #ExStart
+        #ExFor:StructuredDocumentTagRangeStart
+        #ExFor:IStructuredDocumentTag.id
+        #ExFor:StructuredDocumentTagRangeStart.id
+        #ExFor:StructuredDocumentTagRangeStart.title
+        #ExFor:StructuredDocumentTagRangeStart.placeholder_name
+        #ExFor:StructuredDocumentTagRangeStart.is_showing_placeholder_text
+        #ExFor:StructuredDocumentTagRangeStart.lock_content_control
+        #ExFor:StructuredDocumentTagRangeStart.lock_contents
+        #ExFor:IStructuredDocumentTag.level
+        #ExFor:StructuredDocumentTagRangeStart.level
+        #ExFor:StructuredDocumentTagRangeStart.range_end
+        #ExFor:IStructuredDocumentTag.color
+        #ExFor:StructuredDocumentTagRangeStart.color
+        #ExFor:StructuredDocumentTagRangeStart.sdt_type
+        #ExFor:StructuredDocumentTagRangeStart.word_open_xml
+        #ExFor:StructuredDocumentTagRangeStart.tag
+        #ExFor:StructuredDocumentTagRangeEnd
+        #ExFor:StructuredDocumentTagRangeEnd.id
+        #ExSummary:Shows how to get the properties of multi-section structured document tags.
+        doc = aw.Document(file_name=MY_DIR + 'Multi-section structured document tags.docx')
+        range_start_tag = doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, True)[0].as_structured_document_tag_range_start()
+        range_end_tag = doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_END, True)[0].as_structured_document_tag_range_end()
+        self.assertEqual(range_start_tag.id, range_end_tag.id)  #ExSkip
+        self.assertEqual(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, range_start_tag.node_type)  #ExSkip
+        self.assertEqual(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_END, range_end_tag.node_type)  #ExSkip
+        print('StructuredDocumentTagRangeStart values:')
+        print(f'\t|Id: {range_start_tag.id}')
+        print(f'\t|Title: {range_start_tag.title}')
+        print(f'\t|PlaceholderName: {range_start_tag.placeholder_name}')
+        print(f'\t|IsShowingPlaceholderText: {range_start_tag.is_showing_placeholder_text}')
+        print(f'\t|LockContentControl: {range_start_tag.lock_content_control}')
+        print(f'\t|LockContents: {range_start_tag.lock_contents}')
+        print(f'\t|Level: {range_start_tag.level}')
+        print(f'\t|NodeType: {range_start_tag.node_type}')
+        print(f'\t|RangeEnd: {range_start_tag.range_end}')
+        print(f'\t|Color: {range_start_tag.color.to_argb()}')
+        print(f'\t|SdtType: {range_start_tag.sdt_type}')
+        print(f'\t|FlatOpcContent: {range_start_tag.word_open_xml}')
+        print(f'\t|Tag: {range_start_tag.tag}\n')
+        print('StructuredDocumentTagRangeEnd values:')
+        print(f'\t|Id: {range_end_tag.id}')
+        print(f'\t|NodeType: {range_end_tag.node_type}')
+        #ExEnd
+
+    def test_sdt_child_nodes(self):
+        #ExStart
+        #ExFor:StructuredDocumentTagRangeStart.get_child_nodes(NodeType,bool)
+        #ExSummary:Shows how to get child nodes of StructuredDocumentTagRangeStart.
+        doc = aw.Document(file_name=MY_DIR + 'Multi-section structured document tags.docx')
+        tag = doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, True)[0].as_structured_document_tag_range_start()
+        print('StructuredDocumentTagRangeStart values:')
+        print(f'\t|Child nodes count: {tag.get_child_nodes(aw.NodeType.ANY, False).count}\n')
+        for node in tag.get_child_nodes(aw.NodeType.ANY, False):
+            print(f'\t|Child node type: {node.node_type}')
+        for node in tag.get_child_nodes(aw.NodeType.RUN, True):
+            print(f'\t|Child node text: {node.get_text()}')
+        #ExEnd
+
+    def test_get_sdt(self):
+        #ExStart
+        #ExFor:Range.structured_document_tags
+        #ExFor:StructuredDocumentTagCollection.remove(int)
+        #ExFor:StructuredDocumentTagCollection.remove_at(int)
+        #ExSummary:Shows how to remove structured document tag.
+        doc = aw.Document(file_name=MY_DIR + 'Structured document tags.docx')
+        structured_document_tags = doc.range.structured_document_tags
+        sdt = None
+        i = 0
+        while i < structured_document_tags.count:
+            sdt = structured_document_tags[i]
+            print(sdt.title)
+            i += 1
+        sdt = structured_document_tags.get_by_id(1691867797)
+        self.assertEqual(1691867797, sdt.id)
+        self.assertEqual(5, structured_document_tags.count)
+        # Remove the structured document tag by Id.
+        structured_document_tags.remove(1691867797)
+        # Remove the structured document tag at position 0.
+        structured_document_tags.remove_at(0)
+        self.assertEqual(3, structured_document_tags.count)
+        #ExEnd
+
+    def test_range_sdt(self):
+        #ExStart
+        #ExFor:StructuredDocumentTagCollection
+        #ExFor:StructuredDocumentTagCollection.get_by_id(int)
+        #ExFor:StructuredDocumentTagCollection.get_by_title(str)
+        #ExFor:IStructuredDocumentTag.is_multi_section
+        #ExFor:IStructuredDocumentTag.title
+        #ExSummary:Shows how to get structured document tag.
+        doc = aw.Document(file_name=MY_DIR + 'Structured document tags by id.docx')
+        # Get the structured document tag by Id.
+        sdt = doc.range.structured_document_tags.get_by_id(1160505028)
+        print(sdt.is_multi_section)
+        print(sdt.title)
+        # Get the structured document tag or ranged tag by Title.
+        sdt = doc.range.structured_document_tags.get_by_title('Alias4')
+        print(sdt.id)
+        #ExEnd
+
     def test_sdt_at_row_level(self):
         #ExStart
         #ExFor:SdtType
@@ -266,6 +402,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         #ExStart:Appearance
         #ExFor:SdtAppearance
         #ExFor:StructuredDocumentTagRangeStart.appearance
+        #ExFor:IStructuredDocumentTag.appearance
         #ExSummary:Shows how to show tag around content.
         doc = aw.Document(file_name=MY_DIR + 'Multi-section structured document tags.docx')
         tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, True).as_structured_document_tag_range_start()
@@ -291,37 +428,6 @@ class ExStructuredDocumentTag(ApiExampleBase):
         doc = aw.Document(MY_DIR + 'Structured document tags.docx')
         tags = [node.as_structured_document_tag() for node in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)]
         self.assertIn('<pkg:part pkg:name="/docProps/app.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.extended-properties+xml">', tags[0].word_open_xml)
-        #ExEnd
-
-    def test_apply_style(self):
-        #ExStart
-        #ExFor:StructuredDocumentTag
-        #ExFor:StructuredDocumentTag.node_type
-        #ExFor:StructuredDocumentTag.style
-        #ExFor:StructuredDocumentTag.style_name
-        #ExFor: StructuredDocumentTag.word_open_xml_minimal
-        #ExFor:MarkupLevel
-        #ExFor:SdtType
-        #ExSummary:Shows how to work with styles for content control elements.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Below are two ways to apply a style from the document to a structured document tag.
-        # 1 -  Apply a style object from the document's style collection:
-        quote_style = doc.styles.get_by_style_identifier(aw.StyleIdentifier.QUOTE)
-        sdt_plain_text = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.INLINE)
-        sdt_plain_text.style = quote_style
-        # 2 -  Reference a style in the document by name:
-        sdt_rich_text = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.RICH_TEXT, aw.markup.MarkupLevel.INLINE)
-        sdt_rich_text.style_name = 'Quote'
-        builder.insert_node(sdt_plain_text)
-        builder.insert_node(sdt_rich_text)
-        self.assertEqual(aw.NodeType.STRUCTURED_DOCUMENT_TAG, sdt_plain_text.node_type)
-        tags = doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)
-        for node in tags:
-            sdt = node.as_structured_document_tag()
-            print(sdt.word_open_xml_minimal)
-            self.assertEqual(aw.StyleIdentifier.QUOTE, sdt.style.style_identifier)
-            self.assertEqual('Quote', sdt.style_name)
         #ExEnd
 
     def test_check_box(self):
@@ -769,64 +875,6 @@ class ExStructuredDocumentTag(ApiExampleBase):
         # Add the StructuredDocumentTag to the document to display the element in the text.
         doc.first_section.body.append_child(sdt)
 
-    def test_multi_section_tags(self):
-        #ExStart
-        #ExFor:StructuredDocumentTagRangeStart
-        #ExFor:StructuredDocumentTagRangeStart.id
-        #ExFor:StructuredDocumentTagRangeStart.title
-        #ExFor:StructuredDocumentTagRangeStart.placeholder_name
-        #ExFor:StructuredDocumentTagRangeStart.is_showing_placeholder_text
-        #ExFor:StructuredDocumentTagRangeStart.lock_content_control
-        #ExFor:StructuredDocumentTagRangeStart.lock_contents
-        #ExFor:StructuredDocumentTagRangeStart.level
-        #ExFor:StructuredDocumentTagRangeStart.range_end
-        #ExFor:StructuredDocumentTagRangeStart.color
-        #ExFor:StructuredDocumentTagRangeStart.sdt_type
-        #ExFor:StructuredDocumentTagRangeStart.word_open_xml
-        #ExFor:StructuredDocumentTagRangeStart.tag
-        #ExFor:StructuredDocumentTagRangeEnd
-        #ExFor:StructuredDocumentTagRangeEnd.id
-        #ExSummary:Shows how to get the properties of multi-section structured document tags.
-        doc = aw.Document(MY_DIR + 'Multi-section structured document tags.docx')
-        range_start_tag = doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, True)[0].as_structured_document_tag_range_start()
-        range_end_tag = doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_END, True)[0].as_structured_document_tag_range_end()
-        self.assertEqual(range_start_tag.id, range_end_tag.id)  #ExSkip
-        self.assertEqual(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, range_start_tag.node_type)  #ExSkip
-        self.assertEqual(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_END, range_end_tag.node_type)  #ExSkip
-        print('StructuredDocumentTagRangeStart values:')
-        print(f'\t|id: {range_start_tag.id}')
-        print(f'\t|title: {range_start_tag.title}')
-        print(f'\t|placeholder_name: {range_start_tag.placeholder_name}')
-        print(f'\t|is_showing_placeholder_text: {range_start_tag.is_showing_placeholder_text}')
-        print(f'\t|lock_content_control: {range_start_tag.lock_content_control}')
-        print(f'\t|lock_contents: {range_start_tag.lock_contents}')
-        print(f'\t|level: {range_start_tag.level}')
-        print(f'\t|node_type: {range_start_tag.node_type}')
-        print(f'\t|range_end: {range_start_tag.range_end}')
-        print(f'\t|color: {range_start_tag.color.to_argb()}')
-        print(f'\t|sdt_type: {range_start_tag.sdt_type}')
-        print(f'\t|flat_opc_content: {range_start_tag.word_open_xml}')
-        print(f'\t|tag: {range_start_tag.tag}\n')
-        print('StructuredDocumentTagRangeEnd values:')
-        print(f'\t|id: {range_end_tag.id}')
-        print(f'\t|node_type: {range_end_tag.node_type}')
-        #ExEnd
-
-    def test_sdt_child_nodes(self):
-        #ExStart
-        #ExFor:StructuredDocumentTagRangeStart.get_child_nodes(aw.NodeType.ANY, False)
-        #ExFor:StructuredDocumentTagRangeStart.get_child_nodes(NodeType,bool)
-        #ExSummary:Shows how to get child nodes of StructuredDocumentTagRangeStart.
-        doc = aw.Document(MY_DIR + 'Multi-section structured document tags.docx')
-        tag = doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, True)[0].as_structured_document_tag_range_start()
-        print('StructuredDocumentTagRangeStart values:')
-        print(f'\t|Child nodes count: {tag.get_child_nodes(aw.NodeType.ANY, False).count}\n')
-        for node in tag.get_child_nodes(aw.NodeType.ANY, False):
-            print(f'\t|Child node type: {node.node_type}')
-        for node in tag.get_child_nodes(aw.NodeType.RUN, True):
-            print(f'\t|Child node text: {node.get_text()}')
-        #ExEnd
-
     def test_sdt_range_extended_methods(self):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -845,42 +893,6 @@ class ExStructuredDocumentTag(ApiExampleBase):
         # Removes ranged structured document tag and content inside.
         range_start.remove_all_children()
         self.assertEqual(0, range_start.get_child_nodes(aw.NodeType.ANY, False).count)
-
-    def test_get_sdt(self):
-        #ExStart
-        #ExFor:StructuredDocumentTagCollection.Remove(int)
-        #ExFor:StructuredDocumentTagCollection.RemoveAt(int)
-        #ExSummary:Shows how to remove structured document tag.
-        doc = aw.Document(MY_DIR + 'Structured document tags.docx')
-        structured_document_tags = doc.range.structured_document_tags
-        for index in range(structured_document_tags.count):
-            print(structured_document_tags[index].title)
-        structured_document_tag = structured_document_tags.get_by_id(1691867797)
-        self.assertEqual(1691867797, structured_document_tag.id)
-        self.assertEqual(5, structured_document_tags.count)
-        # Remove the structured document tag by Id.
-        structured_document_tags.remove(1691867797)
-        # Remove the structured document tag at position 0.
-        structured_document_tags.remove_at(0)
-        self.assertEqual(3, structured_document_tags.count)
-        #ExEnd
-
-    def test_range_sdt(self):
-        #ExStart
-        #ExFor:StructuredDocumentTagCollection.GetById(int)
-        #ExFor:StructuredDocumentTagCollection.GetByTitle(String)
-        #ExFor:IStructuredDocumentTag.IsRanged()
-        #ExFor:IStructuredDocumentTag.Title
-        #ExSummary:Shows how to get structured document tag.
-        doc = aw.Document(MY_DIR + 'Structured document tags by id.docx')
-        # Get the structured document tag by Id.
-        sdt = doc.range.structured_document_tags.get_by_id(1160505028)
-        print(sdt.is_ranged())
-        print(sdt.title)
-        # Get the structured document tag or ranged tag by Title.
-        sdt = doc.range.structured_document_tags.get_by_title('Alias4')
-        print(sdt.id)
-        #ExEnd
 
     def test_remove_self_only(self):
         #ExStart:RemoveSelfOnly

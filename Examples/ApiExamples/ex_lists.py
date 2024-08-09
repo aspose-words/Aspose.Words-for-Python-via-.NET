@@ -46,7 +46,7 @@ class ExLists(ApiExampleBase):
         self.assertFalse(doc.lists[1].has_same_template(doc.lists[2]))
         #ExEnd
 
-    def test_get_custom_number_style_format(self):
+    def test_set_custom_number_style_format(self):
         #ExStart:SetCustomNumberStyleFormat
         #ExFor:ListLevel.custom_number_style_format
         #ExSummary:Shows how to set customer number style format.
@@ -749,3 +749,20 @@ class ExLists(ApiExampleBase):
                 print(f'\tList label combined with text: {label.label_string} {paragraph_text}')
         #ExEnd
         self.assertEqual(10, len([p for p in paras if p.list_format.is_list_item]))
+
+    def test_get_custom_number_style_format(self):
+        #ExStart:SetCustomNumberStyleFormat
+        #ExFor:ListLevel.custom_number_style_format
+        #ExSummary:Shows how to set customer number style format.
+        doc = aw.Document(file_name=MY_DIR + 'List with leading zero.docx')
+        doc.update_list_labels()
+        paras = doc.first_section.body.paragraphs
+        self.assertEqual('001.', paras[0].list_label.label_string)
+        self.assertEqual('0001.', paras[1].list_label.label_string)
+        self.assertEqual('0002.', paras[2].list_label.label_string)
+        paras[1].list_format.list_level.custom_number_style_format = '001, 002, 003, ...'
+        doc.update_list_labels()
+        self.assertEqual('001.', paras[0].list_label.label_string)
+        self.assertEqual('001.', paras[1].list_label.label_string)
+        self.assertEqual('002.', paras[2].list_label.label_string)
+        #ExEnd:SetCustomNumberStyleFormat

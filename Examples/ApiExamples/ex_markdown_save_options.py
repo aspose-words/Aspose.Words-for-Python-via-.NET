@@ -26,32 +26,6 @@ class ExMarkdownSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.ExportUnderlineFormatting.md', save_options=save_options)
         #ExEnd:ExportUnderlineFormatting
 
-    def test_link_export_mode(self):
-        #ExStart:LinkExportMode
-        #ExFor: MarkdownSaveOptions.link_export_mode
-        #ExFor: MarkdownLinkExportMode
-        #ExSummary: Shows how to links will be written to the .md file.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.insert_shape(aw.drawing.ShapeType.BALLOON, 100, 100)
-
-        # Image will be written as reference:
-        # ![ref1]
-        #
-        # [ref1]: aw_ref.001.png
-        save_options = aw.saving.MarkdownSaveOptions()
-        save_options.link_export_mode = aw.saving.MarkdownLinkExportMode.REFERENCE
-        doc.save(ARTIFACTS_DIR + "MarkdownSaveOptions.LinkExportMode.Reference.md", save_options)
-
-        # Image will be written as inline:
-        # ![](aw_inline.001.png)
-        save_options.link_export_mode = aw.saving.MarkdownLinkExportMode.INLINE
-        doc.save(ARTIFACTS_DIR + "MarkdownSaveOptions.LinkExportMode.Inline.md", save_options)
-        #ExEnd: LinkExportMode
-
-        out_doc_contents = open(ARTIFACTS_DIR + "MarkdownSaveOptions.LinkExportMode.Inline.md").read()
-        self.assertIn("![](MarkdownSaveOptions.LinkExportMode.Inline.001.png)", out_doc_contents.strip())
-
     def test_markdown_document_table_content_alignment(self):
         parameters = [aw.saving.TableContentAlignment.LEFT, aw.saving.TableContentAlignment.RIGHT, aw.saving.TableContentAlignment.CENTER, aw.saving.TableContentAlignment.AUTO]
         for table_content_alignment in parameters:
@@ -129,3 +103,26 @@ class ExMarkdownSaveOptions(ApiExampleBase):
         saveOptions.images_folder_alias = 'http://example.com/images'
         builder.document.save(ARTIFACTS_DIR + 'MarkdownSaveOptions.ImagesFolder.md', saveOptions)
         #ExEnd
+
+    def test_link_export_mode(self):
+        #ExStart:LinkExportMode
+        #ExFor: MarkdownSaveOptions.link_export_mode
+        #ExFor: MarkdownLinkExportMode
+        #ExSummary: Shows how to links will be written to the .md file.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        builder.insert_shape(aw.drawing.ShapeType.BALLOON, 100, 100)
+        # Image will be written as reference:
+        # ![ref1]
+        #
+        # [ref1]: aw_ref.001.png
+        save_options = aw.saving.MarkdownSaveOptions()
+        save_options.link_export_mode = aw.saving.MarkdownLinkExportMode.REFERENCE
+        doc.save(ARTIFACTS_DIR + 'MarkdownSaveOptions.LinkExportMode.Reference.md', save_options)
+        # Image will be written as inline:
+        # ![](aw_inline.001.png)
+        save_options.link_export_mode = aw.saving.MarkdownLinkExportMode.INLINE
+        doc.save(ARTIFACTS_DIR + 'MarkdownSaveOptions.LinkExportMode.Inline.md', save_options)
+        #ExEnd: LinkExportMode
+        out_doc_contents = open(ARTIFACTS_DIR + 'MarkdownSaveOptions.LinkExportMode.Inline.md').read()
+        self.assertIn('![](MarkdownSaveOptions.LinkExportMode.Inline.001.png)', out_doc_contents.strip())

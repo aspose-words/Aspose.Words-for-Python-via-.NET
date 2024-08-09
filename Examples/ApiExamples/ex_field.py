@@ -7,7 +7,6 @@
 #####################################
 import sys
 import io
-from datetime import datetime
 from enum import Enum
 import aspose.pydrawing as drawing
 from document_helper import DocumentHelper
@@ -17,10 +16,28 @@ import aspose.words.drawing
 import aspose.words.fields
 import aspose.words.lists
 import aspose.words.notes
+import datetime
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR
 
 class ExField(ApiExampleBase):
+
+    def test_get_field_code(self):
+        #ExStart
+        #ExFor:Field.get_field_code
+        #ExFor:Field.get_field_code(bool)
+        #ExSummary:Shows how to get a field's field code.
+        # Open a document which contains a MERGEFIELD inside an IF field.
+        doc = aw.Document(file_name=MY_DIR + 'Nested fields.docx')
+        field_if = doc.range.fields[0].as_field_if()
+        # There are two ways of getting a field's field code:
+        # 1 -  Omit its inner fields:
+        self.assertEqual(' IF  > 0 " (surplus of ) " "" ', field_if.get_field_code(False))
+        # 2 -  Include its inner fields:
+        self.assertEqual(f' IF \x13 MERGEFIELD NetIncome \x14\x15 > 0 " (surplus of \x13 MERGEFIELD  NetIncome \\f $ \x14\x15) " "" ', field_if.get_field_code(True))
+        # By default, the GetFieldCode method displays inner fields.
+        self.assertEqual(field_if.get_field_code(), field_if.get_field_code(True))
+        #ExEnd
 
     def test_display_result(self):
         #ExStart
@@ -198,6 +215,7 @@ class ExField(ApiExampleBase):
 
     def test_set_field_index_format(self):
         #ExStart
+        #ExFor:FieldIndexFormat
         #ExFor:FieldOptions.field_index_format
         #ExSummary:Shows how to formatting FieldIndex fields.
         doc = aw.Document()
@@ -239,7 +257,7 @@ class ExField(ApiExampleBase):
         field.update()
         #ExEnd
         doc = DocumentHelper.save_open(doc)
-        self.verify_field(aw.fields.FieldType.FIELD_DATE, ' DATE  \\@ "dddd, MMMM dd, yyyy"', datetime.now().strftime('%A, %B %d, %Y'), doc.range.fields[0])
+        self.verify_field(aw.fields.FieldType.FIELD_DATE, ' DATE  \\@ "dddd, MMMM dd, yyyy"', datetime.datetime.now().strftime('%A, %B %d, %Y'), doc.range.fields[0])
 
     def test_get_field_data(self):
         #ExStart
@@ -248,23 +266,6 @@ class ExField(ApiExampleBase):
         doc = aw.Document(MY_DIR + 'Field sample - Field with data.docx')
         field = doc.range.fields[2]
         print(field.start.field_data)
-        #ExEnd
-
-    def test_get_field_code(self):
-        #ExStart
-        #ExFor:Field.get_field_code()
-        #ExFor:Field.get_field_code(bool)
-        #ExSummary:Shows how to get a field's field code.
-        # Open a document which contains a MERGEFIELD inside an IF field.
-        doc = aw.Document(MY_DIR + 'Nested fields.docx')
-        field_if = doc.range.fields[0].as_field_if()
-        # There are two ways of getting a field's field code:
-        # 1 -  Omit its inner fields:
-        self.assertEqual(' IF  > 0 " (surplus of ) " "" ', field_if.get_field_code(False))
-        # 2 -  Include its inner fields:
-        self.assertEqual(' IF \x13 MERGEFIELD NetIncome \x14\x15 > 0 " (surplus of \x13 MERGEFIELD  NetIncome \\f $ \x14\x15) " "" ', field_if.get_field_code(True))
-        # By default, the "get_field_code" method displays inner fields.
-        self.assertEqual(field_if.get_field_code(), field_if.get_field_code(True))
         #ExEnd
 
     def test_create_with_field_builder(self):
@@ -358,7 +359,7 @@ class ExField(ApiExampleBase):
         #ExEnd
         doc = DocumentHelper.save_open(doc)
         field = doc.range.fields[0]
-        self.verify_field(aw.fields.FieldType.FIELD_DATE, 'DATE', datetime.now.to_string(de.date_time_format.short_date_pattern), field)
+        self.verify_field(aw.fields.FieldType.FIELD_DATE, 'DATE', datetime.datetime.now.to_string(de.date_time_format.short_date_pattern), field)
         self.assertEqual(CultureInfo('de-DE').lcid, field.locale_id)
 
     @unittest.skip('WORDSNET-16037')
@@ -2841,7 +2842,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(' DATE  \\h', field.get_field_code())
         self.assertRegex(doc.range.fields[0].result, '\\d{1,2}[/]\\d{1,2}[/]\\d{4}')
         field = doc.range.fields[1].as_field_date()
-        today = datetime.now().strftime('%d/%m/%Y').lstrip('0')
+        today = datetime.datetime.now().strftime('%d/%m/%Y').lstrip('0')
         self.verify_field(aw.fields.FieldType.FIELD_DATE, ' DATE  \\u', today, field)
         self.assertTrue(field.use_um_al_qura_calendar)
         field = doc.range.fields[2].as_field_date()
@@ -2884,8 +2885,8 @@ class ExField(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + 'Field.field_create_date.docx')
         #ExEnd
         doc = aw.Document(ARTIFACTS_DIR + 'Field.field_create_date.docx')
-        self.assertEqual(datetime(2017, 12, 5, 9, 56, 0), doc.built_in_document_properties.created_time)
-        expected_date = doc.built_in_document_properties.created_time.add_hours(TimeZoneInfo.local.get_utc_offset(datetime.utcnow()).hours)
+        self.assertEqual(datetime.datetime(2017, 12, 5, 9, 56, 0), doc.built_in_document_properties.created_time)
+        expected_date = doc.built_in_document_properties.created_time.add_hours(TimeZoneInfo.local.get_utc_offset(datetime.datetime.utcnow()).hours)
         field = doc.range.fields[0].as_field_create_date()
         um_al_qura_calendar = UmAlQuraCalendar()
         self.verify_field(aw.fields.FieldType.FIELD_CREATE_DATE, ' CREATEDATE  \\h', f'{umAlQuraCalendar.get_month(expected_date)}/{umAlQuraCalendar.get_day_of_month(expected_date)}/{umAlQuraCalendar.get_year(expected_date)} ' + expected_date.add_hours(1).to_string('hh:mm:ss tt'), field)
@@ -2930,7 +2931,7 @@ class ExField(ApiExampleBase):
         self.assertEqual(' SAVEDATE  \\s', field.get_field_code())
         # The SAVEDATE fields draw their date/time values from the "last_saved_time" built-in property.
         # The document's Save method will not update this value, but we can still update it manually.
-        doc.built_in_document_properties.last_saved_time = datetime.now()
+        doc.built_in_document_properties.last_saved_time = datetime.datetime.now()
         doc.update_fields()
         doc.save(ARTIFACTS_DIR + 'Field.field_save_date.docx')
         #ExEnd
@@ -3461,7 +3462,7 @@ class ExField(ApiExampleBase):
         field = builder.insert_field(aw.fields.FieldType.FIELD_QUOTE, True).as_field_quote()
         builder.move_to(field.separator)
         builder.insert_field(aw.fields.FieldType.FIELD_DATE, True)
-        today = datetime.now().strftime('%d/%m/%Y').lstrip('0')
+        today = datetime.datetime.now().strftime('%d/%m/%Y').lstrip('0')
         self.assertEqual(' QUOTE \x13 DATE \x14' + today + '\x15', field.get_field_code())
         # Update all the fields to display their correct results.
         doc.update_fields()
@@ -4332,7 +4333,7 @@ class ExField(ApiExampleBase):
         #ExEnd
 
         def _test_field_time(doc: aw.Document):
-            doc_loading_time = datetime.now()
+            doc_loading_time = datetime.datetime.now()
             doc = DocumentHelper.save_open(doc)
             field = doc.range.fields[0].as_field_time()
             self.assertEqual(' TIME ', field.get_field_code())

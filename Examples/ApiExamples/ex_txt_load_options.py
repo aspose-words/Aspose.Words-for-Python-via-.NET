@@ -16,6 +16,7 @@ class ExTxtLoadOptions(ApiExampleBase):
 
     def test_detect_document_direction(self):
         #ExStart
+        #ExFor:DocumentDirection
         #ExFor:TxtLoadOptions.document_direction
         #ExFor:ParagraphFormat.bidi
         #ExSummary:Shows how to detect plaintext document text direction.

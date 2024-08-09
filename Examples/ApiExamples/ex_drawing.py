@@ -27,6 +27,31 @@ class ExDrawing(ApiExampleBase):
         self.assertEqual(aw.drawing.ImageType.JPEG, img_shape.image_data.image_type)
         #ExEnd
 
+    def test_fill_solid(self):
+        #ExStart
+        #ExFor:Fill.color()
+        #ExFor:FillType
+        #ExFor:Fill.fill_type
+        #ExFor:Fill.solid
+        #ExFor:Fill.transparency
+        #ExFor:Font.fill
+        #ExSummary:Shows how to convert any of the fills back to solid fill.
+        doc = aw.Document(file_name=MY_DIR + 'Two color gradient.docx')
+        # Get Fill object for Font of the first Run.
+        fill = doc.first_section.body.paragraphs[0].runs[0].font.fill
+        # Check Fill properties of the Font.
+        print('The type of the fill is: {0}'.format(fill.fill_type))
+        print('The foreground color of the fill is: {0}'.format(fill.fore_color))
+        print('The fill is transparent at {0}%'.format(fill.transparency * 100))
+        # Change type of the fill to Solid with uniform green color.
+        fill.solid()
+        print('\nThe fill is changed:')
+        print('The type of the fill is: {0}'.format(fill.fill_type))
+        print('The foreground color of the fill is: {0}'.format(fill.fore_color))
+        print('The fill transparency is {0}%'.format(fill.transparency * 100))
+        doc.save(file_name=ARTIFACTS_DIR + 'Drawing.FillSolid.docx')
+        #ExEnd
+
     def test_text_box(self):
         #ExStart
         #ExFor:LayoutFlow
@@ -199,26 +224,6 @@ class ExDrawing(ApiExampleBase):
         self.assertEqual(0.0, img_shape.top)
         self.assertEqual(300.0, img_shape.height)
         self.assertEqual(300.0, img_shape.width)
-
-    def test_fill_solid(self):
-        #ExStart
-        #ExFor:Fill.solid(Color)
-        #ExSummary:Shows how to convert any of the fills back to solid fill.
-        doc = aw.Document(MY_DIR + 'Two color gradient.docx')
-        # Get Fill object for Font of the first Run.
-        fill = doc.first_section.body.paragraphs[0].runs[0].font.fill
-        # Check "fill" properties of the Font.
-        print('The type of the fill is:', fill.fill_type)
-        print('The foreground color of the fill is:', fill.fore_color)
-        print('The fill is transparent at', fill.transparency * 100, '%')
-        # Change type of the fill to Solid with uniform green color.
-        fill.solid(aspose.pydrawing.Color.green)
-        print('\nThe fill is changed:')
-        print('The type of the fill is:', fill.fill_type)
-        print('The foreground color of the fill is:', fill.fore_color)
-        print('The fill transparency is', fill.transparency * 100, '%')
-        doc.save(ARTIFACTS_DIR + 'Drawing.fill_solid.docx')
-        #ExEnd
 
     @unittest.skip('Unknown method aspose.words.drawing.ImageData.to_image')
     @unittest.skip("drawing.ImageFormatConverter type isn't supported yet")

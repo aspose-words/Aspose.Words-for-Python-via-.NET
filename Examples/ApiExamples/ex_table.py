@@ -325,6 +325,23 @@ class ExTable(ApiExampleBase):
         self.assertEqual('Eggs\x0750\x07\x07' + 'Potatoes\x0720\x07\x07', table.get_text().strip())
         #ExEnd
 
+    def test_print_table_range(self):
+        doc = aw.Document(file_name=MY_DIR + 'Tables.docx')
+        table = doc.first_section.body.tables[0]
+        # The range text will include control characters such as "\a" for a cell.
+        # You can call ToString on the desired node to retrieve the plain text content.
+        # Print the plain text range of the table to the screen.
+        print('Contents of the table: ')
+        print(table.range.text)
+        # Print the contents of the second row to the screen.
+        print('\nContents of the row: ')
+        print(table.rows[1].range.text)
+        # Print the contents of the last cell in the table to the screen.
+        print('\nContents of the cell: ')
+        print(table.last_row.last_cell.range.text)
+        self.assertEqual('\x07Column 1\x07Column 2\x07Column 3\x07Column 4\x07\x07', table.rows[1].range.text)
+        self.assertEqual('Cell 12 contents\x07', table.last_row.last_cell.range.text)
+
     def test_clone_table(self):
         doc = aw.Document(file_name=MY_DIR + 'Tables.docx')
         table = doc.first_section.body.tables[0]
@@ -552,6 +569,25 @@ class ExTable(ApiExampleBase):
         self.assertEqual(55, table_style.left_indent)
         self.assertEqual(table_style, doc.get_child(aw.NodeType.TABLE, 1, True).as_table().style)
 
+    def test_get_text_from_cells(self):
+        #ExStart
+        #ExFor:Row.next_row
+        #ExFor:Row.previous_row
+        #ExFor:Cell.next_cell
+        #ExFor:Cell.previous_cell
+        #ExSummary:Shows how to enumerate through all table cells.
+        doc = aw.Document(file_name=MY_DIR + 'Tables.docx')
+        table = doc.first_section.body.tables[0]
+        # Enumerate through all cells of the table.
+        row = table.first_row
+        while row != None:
+            cell = row.first_cell
+            while cell != None:
+                print(cell.get_text())
+                cell = cell.next_cell
+            row = row.next_row
+        #ExEnd
+
     def test_display_content_of_tables(self):
         #ExStart
         #ExFor:Cell
@@ -704,23 +740,6 @@ class ExTable(ApiExampleBase):
                 #ExEnd
                 doc = aw.Document(ARTIFACTS_DIR + 'Table.remove_paragraph_text_and_mark.docx')
                 self.assertEqual(1 if is_smart_paragraph_break_replacement else 2, doc.first_section.body.tables[0].rows[0].cells[0].paragraphs.count)
-
-    def test_print_table_range(self):
-        doc = aw.Document(MY_DIR + 'Tables.docx')
-        table = doc.first_section.body.tables[0]
-        # The range text will include control characters such as "\a" for a cell.
-        # You can call ToString on the desired node to retrieve the plain text content.
-        # Print the plain text range of the table to the screen.
-        print('Contents of the table: ')
-        print(table.range.text)
-        # Print the contents of the second row to the screen.
-        print('\nContents of the row: ')
-        print(table.rows[1].range.text)
-        # Print the contents of the last cell in the table to the screen.
-        print('\nContents of the cell: ')
-        print(table.last_row.last_cell.range.text)
-        self.assertEqual('\x07Column 1\x07Column 2\x07Column 3\x07Column 4\x07\x07', table.rows[1].range.text)
-        self.assertEqual('Cell 12 contents\x07', table.last_row.last_cell.range.text)
 
     def test_allow_break_across_pages(self):
         for allow_break_across_pages in (False, True):
@@ -1218,25 +1237,6 @@ class ExTable(ApiExampleBase):
         self.assertEqual(aw.tables.CellMerge.FIRST, row.cells[4].cell_format.horizontal_merge)
         self.assertEqual(aw.tables.CellMerge.PREVIOUS, row.cells[5].cell_format.horizontal_merge)
         self.assertEqual(aw.tables.CellMerge.NONE, row.cells[6].cell_format.horizontal_merge)
-        #ExEnd
-
-    def test_get_text_from_cells(self):
-        #ExStart
-        #ExFor:Row.next_row
-        #ExFor:Row.previous_row
-        #ExFor:Cell.next_cell
-        #ExFor:Cell.previous_cell
-        #ExSummary:Shows how to enumerate through all table cells.
-        doc = aw.Document(file_name=MY_DIR + 'Tables.docx')
-        table = doc.first_section.body.tables[0]
-        # Enumerate through all cells of the table.
-        row = table.first_row
-        while row != None:
-            cell = row.first_cell
-            while cell != None:
-                print(cell.get_text())
-                cell = cell.next_cell
-            row = row.next_row
         #ExEnd
 
     @staticmethod

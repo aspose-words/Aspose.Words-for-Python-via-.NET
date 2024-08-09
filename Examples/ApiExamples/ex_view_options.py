@@ -20,6 +20,7 @@ class ExViewOptions(ApiExampleBase):
         #ExFor:ViewOptions.view_type
         #ExFor:ViewOptions.zoom_percent
         #ExFor:ViewOptions.zoom_type
+        #ExFor:ZoomType
         #ExFor:ViewType
         #ExSummary:Shows how to set a custom zoom factor, which older versions of Microsoft Word will apply to a document upon loading.
         doc = aw.Document()

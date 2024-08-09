@@ -183,26 +183,45 @@ class ExPageSetup(ApiExampleBase):
         self.assertEqual(14.4, doc.first_section.page_setup.header_distance)
         self.assertEqual(14.4, doc.first_section.page_setup.footer_distance)
 
-    def test_columns_same_width(self):
+    def test_paper_sizes(self):
         #ExStart
-        #ExFor:PageSetup.text_columns
-        #ExFor:TextColumnCollection
-        #ExFor:TextColumnCollection.spacing
-        #ExFor:TextColumnCollection.set_count
-        #ExSummary:Shows how to create multiple evenly spaced columns in a section.
+        #ExFor:PaperSize
+        #ExFor:PageSetup.paper_size
+        #ExSummary:Shows how to set page sizes.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
-        columns = builder.page_setup.text_columns
-        columns.spacing = 100
-        columns.set_count(2)
-        builder.writeln('Column 1.')
-        builder.insert_break(aw.BreakType.COLUMN_BREAK)
-        builder.writeln('Column 2.')
-        doc.save(file_name=ARTIFACTS_DIR + 'PageSetup.ColumnsSameWidth.docx')
+        # We can change the current page's size to a pre-defined size
+        # by using the "PaperSize" property of this section's PageSetup object.
+        builder.page_setup.paper_size = aw.PaperSize.TABLOID
+        self.assertEqual(792, builder.page_setup.page_width)
+        self.assertEqual(1224, builder.page_setup.page_height)
+        builder.writeln(f'This page is {builder.page_setup.page_width}x{builder.page_setup.page_height}.')
+        # Each section has its own PageSetup object. When we use a document builder to make a new section,
+        # that section's PageSetup object inherits all the previous section's PageSetup object's values.
+        builder.insert_break(aw.BreakType.SECTION_BREAK_EVEN_PAGE)
+        self.assertEqual(aw.PaperSize.TABLOID, builder.page_setup.paper_size)
+        builder.page_setup.paper_size = aw.PaperSize.A5
+        builder.writeln(f'This page is {builder.page_setup.page_width}x{builder.page_setup.page_height}.')
+        self.assertEqual(419.55, builder.page_setup.page_width)
+        self.assertEqual(595.3, builder.page_setup.page_height)
+        builder.insert_break(aw.BreakType.SECTION_BREAK_EVEN_PAGE)
+        # Set a custom size for this section's pages.
+        builder.page_setup.page_width = 620
+        builder.page_setup.page_height = 480
+        self.assertEqual(aw.PaperSize.CUSTOM, builder.page_setup.paper_size)
+        builder.writeln(f'This page is {builder.page_setup.page_width}x{builder.page_setup.page_height}.')
+        doc.save(file_name=ARTIFACTS_DIR + 'PageSetup.PaperSizes.docx')
         #ExEnd
-        doc = aw.Document(file_name=ARTIFACTS_DIR + 'PageSetup.ColumnsSameWidth.docx')
-        self.assertEqual(100, doc.first_section.page_setup.text_columns.spacing)
-        self.assertEqual(2, doc.first_section.page_setup.text_columns.count)
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'PageSetup.PaperSizes.docx')
+        self.assertEqual(aw.PaperSize.TABLOID, doc.sections[0].page_setup.paper_size)
+        self.assertEqual(792, doc.sections[0].page_setup.page_width)
+        self.assertEqual(1224, doc.sections[0].page_setup.page_height)
+        self.assertEqual(aw.PaperSize.A5, doc.sections[1].page_setup.paper_size)
+        self.assertEqual(419.55, doc.sections[1].page_setup.page_width)
+        self.assertEqual(595.3, doc.sections[1].page_setup.page_height)
+        self.assertEqual(aw.PaperSize.CUSTOM, doc.sections[2].page_setup.paper_size)
+        self.assertEqual(620, doc.sections[2].page_setup.page_width)
+        self.assertEqual(480, doc.sections[2].page_setup.page_height)
 
     @unittest.skip('Calculation problems')
     def test_custom_column_width(self):
@@ -242,6 +261,45 @@ class ExPageSetup(ApiExampleBase):
         self.assertEqual(20, page_setup.text_columns[0].space_after)
         self.assertEqual(470.3, page_setup.text_columns[1].width)
         self.assertEqual(0, page_setup.text_columns[1].space_after)
+
+    def test_line_numbers(self):
+        #ExStart
+        #ExFor:PageSetup.line_starting_number
+        #ExFor:PageSetup.line_number_distance_from_text
+        #ExFor:PageSetup.line_number_count_by
+        #ExFor:PageSetup.line_number_restart_mode
+        #ExFor:ParagraphFormat.suppress_line_numbers
+        #ExFor:LineNumberRestartMode
+        #ExSummary:Shows how to enable line numbering for a section.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        # We can use the section's PageSetup object to display numbers to the left of the section's text lines.
+        # This is the same behavior as a List object,
+        # but it covers the entire section and does not modify the text in any way.
+        # Our section will restart the numbering on each new page from 1 and display the number,
+        # if it is a multiple of 3, at 50pt to the left of the line.
+        page_setup = builder.page_setup
+        page_setup.line_starting_number = 1
+        page_setup.line_number_count_by = 3
+        page_setup.line_number_restart_mode = aw.LineNumberRestartMode.RESTART_PAGE
+        page_setup.line_number_distance_from_text = 50
+        i = 1
+        while i <= 25:
+            builder.writeln(f'Line {i}.')
+            i += 1
+        # The line counter will skip any paragraph with the "SuppressLineNumbers" flag set to "true".
+        # This paragraph is on the 15th line, which is a multiple of 3, and thus would normally display a line number.
+        # The section's line counter will also ignore this line, treat the next line as the 15th,
+        # and continue the count from that point onward.
+        doc.first_section.body.paragraphs[14].paragraph_format.suppress_line_numbers = True
+        doc.save(file_name=ARTIFACTS_DIR + 'PageSetup.LineNumbers.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'PageSetup.LineNumbers.docx')
+        page_setup = doc.first_section.page_setup
+        self.assertEqual(1, page_setup.line_starting_number)
+        self.assertEqual(3, page_setup.line_number_count_by)
+        self.assertEqual(aw.LineNumberRestartMode.RESTART_PAGE, page_setup.line_number_restart_mode)
+        self.assertEqual(50, page_setup.line_number_distance_from_text)
 
     def test_page_border_properties(self):
         #ExStart
@@ -461,6 +519,36 @@ class ExPageSetup(ApiExampleBase):
         self.assertTrue(page_setup.rtl_gutter)
         self.assertEqual(aw.settings.MultiplePagesType.MIRROR_MARGINS, page_setup.multiple_pages)
 
+    def test_booklet(self):
+        #ExStart
+        #ExFor:PageSetup.gutter
+        #ExFor:PageSetup.multiple_pages
+        #ExFor:PageSetup.sheets_per_booklet
+        #ExFor:MultiplePagesType
+        #ExSummary:Shows how to configure a document that can be printed as a book fold.
+        doc = aw.Document()
+        # Insert text that spans 16 pages.
+        builder = aw.DocumentBuilder(doc)
+        builder.writeln('My Booklet:')
+        i = 0
+        while i < 15:
+            builder.insert_break(aw.BreakType.PAGE_BREAK)
+            builder.write(f'Booklet face #{i}')
+            i += 1
+        # Configure the first section's "PageSetup" property to print the document in the form of a book fold.
+        # When we print this document on both sides, we can take the pages to stack them
+        # and fold them all down the middle at once. The contents of the document will line up into a book fold.
+        page_setup = doc.sections[0].page_setup
+        page_setup.multiple_pages = aw.settings.MultiplePagesType.BOOK_FOLD_PRINTING
+        # We can only specify the number of sheets in multiples of 4.
+        page_setup.sheets_per_booklet = 4
+        doc.save(file_name=ARTIFACTS_DIR + 'PageSetup.Booklet.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'PageSetup.Booklet.docx')
+        page_setup = doc.first_section.page_setup
+        self.assertEqual(aw.settings.MultiplePagesType.BOOK_FOLD_PRINTING, page_setup.multiple_pages)
+        self.assertEqual(4, page_setup.sheets_per_booklet)
+
     def test_set_text_orientation(self):
         #ExStart
         #ExFor:PageSetup.text_orientation
@@ -566,45 +654,26 @@ class ExPageSetup(ApiExampleBase):
                 doc = aw.Document(ARTIFACTS_DIR + 'PageSetup.odd_and_even_pages_header_footer.docx')
                 self.assertEqual(odd_and_even_pages_header_footer, doc.first_section.page_setup.odd_and_even_pages_header_footer)
 
-    def test_paper_sizes(self):
+    def test_columns_same_width(self):
         #ExStart
-        #ExFor:PaperSize
-        #ExFor:PageSetup.paper_size
-        #ExSummary:Shows how to set page sizes.
+        #ExFor:PageSetup.text_columns
+        #ExFor:TextColumnCollection
+        #ExFor:TextColumnCollection.spacing
+        #ExFor:TextColumnCollection.set_count
+        #ExSummary:Shows how to create multiple evenly spaced columns in a section.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
-        # We can change the current page's size to a pre-defined size
-        # by using the "paper_size" property of this section's PageSetup object.
-        builder.page_setup.paper_size = aw.PaperSize.TABLOID
-        self.assertEqual(792.0, builder.page_setup.page_width)
-        self.assertEqual(1224.0, builder.page_setup.page_height)
-        builder.writeln(f'This page is {builder.page_setup.page_width}x{builder.page_setup.page_height}.')
-        # Each section has its own PageSetup object. When we use a document builder to make a new section,
-        # that section's PageSetup object inherits all the previous section's PageSetup object's values.
-        builder.insert_break(aw.BreakType.SECTION_BREAK_EVEN_PAGE)
-        self.assertEqual(aw.PaperSize.TABLOID, builder.page_setup.paper_size)
-        builder.page_setup.paper_size = aw.PaperSize.A5
-        builder.writeln(f'This page is {builder.page_setup.page_width}x{builder.page_setup.page_height}.')
-        self.assertEqual(419.55, builder.page_setup.page_width)
-        self.assertEqual(595.3, builder.page_setup.page_height)
-        builder.insert_break(aw.BreakType.SECTION_BREAK_EVEN_PAGE)
-        # Set a custom size for this section's pages.
-        builder.page_setup.page_width = 620
-        builder.page_setup.page_height = 480
-        self.assertEqual(aw.PaperSize.CUSTOM, builder.page_setup.paper_size)
-        builder.writeln(f'This page is {builder.page_setup.page_width}x{builder.page_setup.page_height}.')
-        doc.save(ARTIFACTS_DIR + 'PageSetup.paper_sizes.docx')
+        columns = builder.page_setup.text_columns
+        columns.spacing = 100
+        columns.set_count(2)
+        builder.writeln('Column 1.')
+        builder.insert_break(aw.BreakType.COLUMN_BREAK)
+        builder.writeln('Column 2.')
+        doc.save(file_name=ARTIFACTS_DIR + 'PageSetup.ColumnsSameWidth.docx')
         #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'PageSetup.paper_sizes.docx')
-        self.assertEqual(aw.PaperSize.TABLOID, doc.sections[0].page_setup.paper_size)
-        self.assertEqual(792.0, doc.sections[0].page_setup.page_width)
-        self.assertEqual(1224.0, doc.sections[0].page_setup.page_height)
-        self.assertEqual(aw.PaperSize.A5, doc.sections[1].page_setup.paper_size)
-        self.assertEqual(419.55, doc.sections[1].page_setup.page_width)
-        self.assertEqual(595.3, doc.sections[1].page_setup.page_height)
-        self.assertEqual(aw.PaperSize.CUSTOM, doc.sections[2].page_setup.paper_size)
-        self.assertEqual(620.0, doc.sections[2].page_setup.page_width)
-        self.assertEqual(480.0, doc.sections[2].page_setup.page_height)
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'PageSetup.ColumnsSameWidth.docx')
+        self.assertEqual(100, doc.first_section.page_setup.text_columns.spacing)
+        self.assertEqual(2, doc.first_section.page_setup.text_columns.count)
 
     def test_vertical_line_between_columns(self):
         for line_between in (False, True):
@@ -629,43 +698,6 @@ class ExPageSetup(ApiExampleBase):
                 #ExEnd
                 doc = aw.Document(ARTIFACTS_DIR + 'PageSetup.vertical_line_between_columns.docx')
                 self.assertEqual(line_between, doc.first_section.page_setup.text_columns.line_between)
-
-    def test_line_numbers(self):
-        #ExStart
-        #ExFor:PageSetup.line_starting_number
-        #ExFor:PageSetup.line_number_distance_from_text
-        #ExFor:PageSetup.line_number_count_by
-        #ExFor:PageSetup.line_number_restart_mode
-        #ExFor:ParagraphFormat.suppress_line_numbers
-        #ExFor:LineNumberRestartMode
-        #ExSummary:Shows how to enable line numbering for a section.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # We can use the section's PageSetup object to display numbers to the left of the section's text lines.
-        # This is the same behavior as a List object,
-        # but it covers the entire section and does not modify the text in any way.
-        # Our section will restart the numbering on each new page from 1 and display the number,
-        # if it is a multiple of 3, at 50pt to the left of the line.
-        page_setup = builder.page_setup
-        page_setup.line_starting_number = 1
-        page_setup.line_number_count_by = 3
-        page_setup.line_number_restart_mode = aw.LineNumberRestartMode.RESTART_PAGE
-        page_setup.line_number_distance_from_text = 50.0
-        for i in range(1, 26):
-            builder.writeln(f'Line {i}.')
-        # The line counter will skip any paragraph with the "suppress_line_numbers" flag set to "True".
-        # This paragraph is on the 15th line, which is a multiple of 3, and thus would normally display a line number.
-        # The section's line counter will also ignore this line, treat the next line as the 15th,
-        # and continue the count from that point onward.
-        doc.first_section.body.paragraphs[14].paragraph_format.suppress_line_numbers = True
-        doc.save(ARTIFACTS_DIR + 'PageSetup.line_numbers.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'PageSetup.line_numbers.docx')
-        page_setup = doc.first_section.page_setup
-        self.assertEqual(1, page_setup.line_starting_number)
-        self.assertEqual(3, page_setup.line_number_count_by)
-        self.assertEqual(aw.LineNumberRestartMode.RESTART_PAGE, page_setup.line_number_restart_mode)
-        self.assertEqual(50.0, page_setup.line_number_distance_from_text)
 
     def test_bidi(self):
         for reverse_columns in (False, True):
@@ -693,33 +725,6 @@ class ExPageSetup(ApiExampleBase):
                 page_setup = doc.first_section.page_setup
                 self.assertEqual(3, page_setup.text_columns.count)
                 self.assertEqual(reverse_columns, page_setup.bidi)
-
-    def test_booklet(self):
-        #ExStart
-        #ExFor:PageSetup.gutter
-        #ExFor:PageSetup.multiple_pages
-        #ExFor:PageSetup.sheets_per_booklet
-        #ExSummary:Shows how to configure a document that can be printed as a book fold.
-        doc = aw.Document()
-        # Insert text that spans 16 pages.
-        builder = aw.DocumentBuilder(doc)
-        builder.writeln('My Booklet:')
-        for i in range(15):
-            builder.insert_break(aw.BreakType.PAGE_BREAK)
-            builder.write(f'Booklet face #{i}')
-        # Configure the first section's "page_setup" property to print the document in the form of a book fold.
-        # When we print this document on both sides, we can take the pages to stack them
-        # and fold them all down the middle at once. The contents of the document will line up into a book fold.
-        page_setup = doc.sections[0].page_setup
-        page_setup.multiple_pages = aw.settings.MultiplePagesType.BOOK_FOLD_PRINTING
-        # We can only specify the number of sheets in multiples of 4.
-        page_setup.sheets_per_booklet = 4
-        doc.save(ARTIFACTS_DIR + 'PageSetup.booklet.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'PageSetup.booklet.docx')
-        page_setup = doc.first_section.page_setup
-        self.assertEqual(aw.settings.MultiplePagesType.BOOK_FOLD_PRINTING, page_setup.multiple_pages)
-        self.assertEqual(4, page_setup.sheets_per_booklet)
 
     def test_suppress_endnotes(self):
         #ExStart

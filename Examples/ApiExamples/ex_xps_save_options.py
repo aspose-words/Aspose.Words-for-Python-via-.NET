@@ -8,7 +8,9 @@
 import os
 import sys
 import aspose.words as aw
+import aspose.words.digitalsignatures
 import aspose.words.saving
+import datetime
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -66,6 +68,23 @@ class ExXpsSaveOptions(ApiExampleBase):
         xps_options.page_set = aw.saving.PageSet(pages=[0, 1, 3])
         doc.save(file_name=ARTIFACTS_DIR + 'XpsSaveOptions.ExportExactPages.xps', save_options=xps_options)
         #ExEnd
+
+    def test_xps_digital_signature(self):
+        #ExStart:XpsDigitalSignature
+        #ExFor:XpsSaveOptions.digital_signature_details
+        #ExSummary:Shows how to sign XPS document.
+        doc = aw.Document(file_name=MY_DIR + 'Document.docx')
+        certificate_holder = aw.digitalsignatures.CertificateHolder.create(file_name=MY_DIR + 'morzal.pfx', password='aw')
+        options = aw.digitalsignatures.SignOptions()
+        options.sign_time = datetime.datetime.now()
+        options.comments = 'Some comments'
+        digital_signature_details = aw.saving.DigitalSignatureDetails(certificate_holder, options)
+        save_options = aw.saving.XpsSaveOptions()
+        save_options.digital_signature_details = digital_signature_details
+        self.assertEqual(certificate_holder, digital_signature_details.certificate_holder)
+        self.assertEqual('Some comments', digital_signature_details.sign_options.comments)
+        doc.save(file_name=ARTIFACTS_DIR + 'XpsSaveOptions.XpsDigitalSignature.docx', save_options=save_options)
+        #ExEnd:XpsDigitalSignature
 
     def test_book_fold(self):
         for render_text_as_book_fold in (False, True):

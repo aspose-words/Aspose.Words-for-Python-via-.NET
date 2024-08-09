@@ -5,6 +5,7 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
+from datetime import timedelta, timezone
 import base64
 import aspose.words.drawing
 import io
@@ -12,18 +13,19 @@ import os
 import sys
 import glob
 from urllib.request import urlopen, Request
-from datetime import datetime, timedelta, timezone
 from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.fields
+import aspose.words.layout
 import aspose.words.loading
 import aspose.words.notes
 import aspose.words.rendering
 import aspose.words.saving
 import aspose.words.settings
 import aspose.words.webextensions
+import datetime
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR, FONTS_DIR, GOLDS_DIR
 
@@ -432,6 +434,7 @@ class ExDocument(ApiExampleBase):
     def test_set_invalidate_field_types(self):
         #ExStart
         #ExFor:Document.normalize_field_types
+        #ExFor:Range.normalize_field_types
         #ExSummary:Shows how to get the keep a field's type up to date with its field code.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -462,6 +465,7 @@ class ExDocument(ApiExampleBase):
         #ExFor:StyleCollection.__getitem__(str)
         #ExFor:SectionCollection.__getitem__(int)
         #ExFor:Document.update_page_layout
+        #ExFor:Margins
         #ExFor:PageSetup.margins
         #ExSummary:Shows when to recalculate the page layout of the document.
         doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
@@ -522,6 +526,28 @@ class ExDocument(ApiExampleBase):
         self.assertTrue(doc.write_protection.read_only_recommended)
         self.assertTrue(doc.write_protection.validate_password('MyPassword'))
         self.assertFalse(doc.write_protection.validate_password('wrongpassword'))
+
+    def test_show_comments(self):
+        #ExStart
+        #ExFor:LayoutOptions.comment_display_mode
+        #ExFor:CommentDisplayMode
+        #ExSummary:Shows how to show comments when saving a document to a rendered format.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        builder.write('Hello world!')
+        comment = aw.Comment(doc=doc, author='John Doe', initial='J.D.', date_time=datetime.datetime.now())
+        comment.set_text('My comment.')
+        builder.current_paragraph.append_child(comment)
+        # ShowInAnnotations is only available in Pdf1.7 and Pdf1.5 formats.
+        # In other formats, it will work similarly to Hide.
+        doc.layout_options.comment_display_mode = aw.layout.CommentDisplayMode.SHOW_IN_ANNOTATIONS
+        doc.save(file_name=ARTIFACTS_DIR + 'Document.ShowCommentsInAnnotations.pdf')
+        # Note that it's required to rebuild the document page layout (via Document.UpdatePageLayout() method)
+        # after changing the Document.LayoutOptions values.
+        doc.layout_options.comment_display_mode = aw.layout.CommentDisplayMode.SHOW_IN_BALLOONS
+        doc.update_page_layout()
+        doc.save(file_name=ARTIFACTS_DIR + 'Document.ShowCommentsInBalloons.pdf')
+        #ExEnd
 
     def test_copy_template_styles_via_document(self):
         #ExStart
@@ -603,9 +629,12 @@ class ExDocument(ApiExampleBase):
 
     def test_text_watermark(self):
         #ExStart
+        #ExFor:Document.watermark
+        #ExFor:Watermark
         #ExFor:Watermark.set_text(str)
         #ExFor:Watermark.set_text(str,TextWatermarkOptions)
         #ExFor:Watermark.remove
+        #ExFor:TextWatermarkOptions
         #ExFor:TextWatermarkOptions.font_family
         #ExFor:TextWatermarkOptions.font_size
         #ExFor:TextWatermarkOptions.color
@@ -613,6 +642,7 @@ class ExDocument(ApiExampleBase):
         #ExFor:TextWatermarkOptions.is_semitrasparent
         #ExFor:WatermarkLayout
         #ExFor:WatermarkType
+        #ExFor:Watermark.type
         #ExSummary:Shows how to create a text watermark.
         doc = aw.Document()
         # Add a plain text watermark.
@@ -730,6 +760,7 @@ class ExDocument(ApiExampleBase):
     def test_page_is_in_color(self):
         #ExStart
         #ExFor:PageInfo.colored
+        #ExFor:Document.get_page_info(int)
         #ExSummary:Shows how to check whether the page is in color or not.
         doc = aw.Document(file_name=MY_DIR + 'Document.docx')
         # Check that the first page of the document is not colored.
@@ -1314,7 +1345,7 @@ class ExDocument(ApiExampleBase):
                 # Insert some content with personal information.
                 doc.built_in_document_properties.author = 'John Doe'
                 doc.built_in_document_properties.company = 'Placeholder Inc.'
-                doc.start_track_revisions(doc.built_in_document_properties.author, datetime.now())
+                doc.start_track_revisions(doc.built_in_document_properties.author, datetime.datetime.now())
                 builder.write('Hello world!')
                 doc.stop_track_revisions()
                 # This flag is equivalent to File -> Options -> Trust Center -> Trust Center Settings... ->
@@ -1329,28 +1360,6 @@ class ExDocument(ApiExampleBase):
                 self.assertEqual('Placeholder Inc.', doc.built_in_document_properties.company)
                 self.assertEqual('John Doe', doc.revisions[0].author)
                 #ExEnd
-
-    def test_show_comments(self):
-        #ExStart
-        #ExFor:LayoutOptions.comment_display_mode
-        #ExFor:CommentDisplayMode
-        #ExSummary:Shows how to show comments when saving a document to a rendered format.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.write('Hello world!')
-        comment = aw.Comment(doc, 'John Doe', 'J.D.', datetime.now())
-        comment.set_text('My comment.')
-        builder.current_paragraph.append_child(comment)
-        # SHOW_IN_ANNOTATIONS is only available in Pdf1.7 and Pdf1.5 formats.
-        # In other formats, it will work similarly to Hide.
-        doc.layout_options.comment_display_mode = aw.layout.CommentDisplayMode.SHOW_IN_ANNOTATIONS
-        doc.save(ARTIFACTS_DIR + 'Document.show_comments_in_annotations.pdf')
-        # Note that it's required to rebuild the document page layout (via Document.update_page_layout() method)
-        # after changing the "Document.layout_options" values.
-        doc.layout_options.comment_display_mode = aw.layout.CommentDisplayMode.SHOW_IN_BALLOONS
-        doc.update_page_layout()
-        doc.save(ARTIFACTS_DIR + 'Document.show_comments_in_balloons.pdf')
-        #ExEnd
 
     def test_read_macros_from_existing_document(self):
         #ExStart

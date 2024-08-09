@@ -13,17 +13,21 @@ class ExXlsxSaveOptions(ApiExampleBase):
 
     def test_compress_xlsx(self):
         #ExStart
+        #ExFor:XlsxSaveOptions
         #ExFor:XlsxSaveOptions.compression_level
+        #ExFor:XlsxSaveOptions.save_format
         #ExSummary:Shows how to compress XLSX document.
         doc = aw.Document(file_name=MY_DIR + 'Shape with linked chart.docx')
         xlsx_save_options = aw.saving.XlsxSaveOptions()
         xlsx_save_options.compression_level = aw.saving.CompressionLevel.MAXIMUM
+        xlsx_save_options.save_format = aw.SaveFormat.XLSX
         doc.save(file_name=ARTIFACTS_DIR + 'XlsxSaveOptions.CompressXlsx.xlsx', save_options=xlsx_save_options)
         #ExEnd
 
     def test_selection_mode(self):
         #ExStart:SelectionMode
         #ExFor:XlsxSaveOptions.section_mode
+        #ExFor:XlsxSectionMode
         #ExSummary:Shows how to save document as a separate worksheets.
         doc = aw.Document(file_name=MY_DIR + 'Big document.docx')
         # Each section of a document will be created as a separate worksheet.

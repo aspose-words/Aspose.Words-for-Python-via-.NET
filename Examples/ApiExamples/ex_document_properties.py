@@ -5,17 +5,66 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
+from datetime import timedelta, timezone
 from document_helper import DocumentHelper
-from datetime import datetime, timedelta, timezone
 import os
 import sys
 import aspose.words as aw
 import aspose.words.fields
 import aspose.words.properties
+import datetime
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR, IMAGE_DIR
 
 class ExDocumentProperties(ApiExampleBase):
+
+    def test_description(self):
+        #ExStart
+        #ExFor:BuiltInDocumentProperties.author
+        #ExFor:BuiltInDocumentProperties.category
+        #ExFor:BuiltInDocumentProperties.comments
+        #ExFor:BuiltInDocumentProperties.keywords
+        #ExFor:BuiltInDocumentProperties.subject
+        #ExFor:BuiltInDocumentProperties.title
+        #ExSummary:Shows how to work with built-in document properties in the "Description" category.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        properties = doc.built_in_document_properties
+        # Below are four built-in document properties that have fields that can display their values in the document body.
+        # 1 -  "Author" property, which we can display using an AUTHOR field:
+        properties.author = 'John Doe'
+        builder.write('Author:\t')
+        builder.insert_field(field_type=aw.fields.FieldType.FIELD_AUTHOR, update_field=True)
+        # 2 -  "Title" property, which we can display using a TITLE field:
+        properties.title = "John's Document"
+        builder.write('\nDoc title:\t')
+        builder.insert_field(field_type=aw.fields.FieldType.FIELD_TITLE, update_field=True)
+        # 3 -  "Subject" property, which we can display using a SUBJECT field:
+        properties.subject = 'My subject'
+        builder.write('\nSubject:\t')
+        builder.insert_field(field_type=aw.fields.FieldType.FIELD_SUBJECT, update_field=True)
+        # 4 -  "Comments" property, which we can display using a COMMENTS field:
+        properties.comments = f"This is {properties.author}'s document about {properties.subject}"
+        builder.write('\nComments:\t"')
+        builder.insert_field(field_type=aw.fields.FieldType.FIELD_COMMENTS, update_field=True)
+        builder.write('"')
+        # The "Category" built-in property does not have a field that can display its value.
+        properties.category = 'My category'
+        # We can set multiple keywords for a document by separating the string value of the "Keywords" property with semicolons.
+        properties.keywords = 'Tag 1; Tag 2; Tag 3'
+        # We can right-click this document in Windows Explorer and find these properties in "Properties" -> "Details".
+        # The "Author" built-in property is in the "Origin" group, and the others are in the "Description" group.
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentProperties.Description.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentProperties.Description.docx')
+        properties = doc.built_in_document_properties
+        self.assertEqual('John Doe', properties.author)
+        self.assertEqual('My category', properties.category)
+        self.assertEqual(f"This is {properties.author}'s document about {properties.subject}", properties.comments)
+        self.assertEqual('Tag 1; Tag 2; Tag 3', properties.keywords)
+        self.assertEqual('My subject', properties.subject)
+        self.assertEqual("John's Document", properties.title)
+        self.assertEqual('Author:\t\x13 AUTHOR \x14John Doe\x15\r' + "Doc title:\t\x13 TITLE \x14John's Document\x15\r" + 'Subject:\t\x13 SUBJECT \x14My subject\x15\r' + 'Comments:\t"\x13 COMMENTS \x14This is John Doe\'s document about My subject\x15"', doc.get_text().strip())
 
     def test_security(self):
         #ExStart
@@ -70,6 +119,30 @@ class ExDocumentProperties(ApiExampleBase):
         self.assertEqual('MyBookmark', custom_property.link_source)
         self.assertEqual('Hello world!', custom_property.value)
 
+    @unittest.skip("Unable to cast object of type 'System.Int32' to type 'System.Double")
+    def test_property_types(self):
+        #ExStart
+        #ExFor:DocumentProperty.to_bool
+        #ExFor:DocumentProperty.to_int
+        #ExFor:DocumentProperty.to_double
+        #ExFor:DocumentProperty.__str__
+        #ExFor:DocumentProperty.to_date_time
+        #ExSummary:Shows various type conversion methods of custom document properties.
+        doc = aw.Document()
+        properties = doc.custom_document_properties
+        auth_date = datetime.date.today()
+        properties.add(name='Authorized', value=True)
+        properties.add(name='Authorized By', value='John Doe')
+        properties.add(name='Authorized Date', value=auth_date)
+        properties.add(name='Authorized Revision', value=doc.built_in_document_properties.revision_number)
+        properties.add(name='Authorized Amount', value=123.45)
+        self.assertEqual(True, properties.get_by_name('Authorized').to_bool())
+        self.assertEqual('John Doe', properties.get_by_name('Authorized By').to_string())
+        self.assertEqual(auth_date, properties.get_by_name('Authorized Date').to_date_time())
+        self.assertEqual(1, properties.get_by_name('Authorized Revision').to_int())
+        self.assertEqual(123.45, properties.get_by_name('Authorized Amount').to_double())
+        #ExEnd
+
     def test_built_in(self):
         #ExStart
         #ExFor:BuiltInDocumentProperties
@@ -119,54 +192,6 @@ class ExDocumentProperties(ApiExampleBase):
         #ExEnd
         self.assertEqual(2, doc.custom_document_properties.count)
 
-    def test_description(self):
-        #ExStart
-        #ExFor:BuiltInDocumentProperties.author
-        #ExFor:BuiltInDocumentProperties.category
-        #ExFor:BuiltInDocumentProperties.comments
-        #ExFor:BuiltInDocumentProperties.keywords
-        #ExFor:BuiltInDocumentProperties.subject
-        #ExFor:BuiltInDocumentProperties.title
-        #ExSummary:Shows how to work with built-in document properties in the "Description" category.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        properties = doc.built_in_document_properties
-        # Below are four built-in document properties that have fields that can display their values in the document body.
-        # 1 -  "author" property, which we can display using an AUTHOR field:
-        properties.author = 'John Doe'
-        builder.write('Author:\t')
-        builder.insert_field(aw.fields.FieldType.FIELD_AUTHOR, True)
-        # 2 -  "title" property, which we can display using a TITLE field:
-        properties.title = "John's Document"
-        builder.write('\nDoc title:\t')
-        builder.insert_field(aw.fields.FieldType.FIELD_TITLE, True)
-        # 3 -  "subject" property, which we can display using a SUBJECT field:
-        properties.subject = 'My subject'
-        builder.write('\nSubject:\t')
-        builder.insert_field(aw.fields.FieldType.FIELD_SUBJECT, True)
-        # 4 -  "comments" property, which we can display using a COMMENTS field:
-        properties.comments = f"This is {properties.author}'s document about {properties.subject}"
-        builder.write('\nComments:\t"')
-        builder.insert_field(aw.fields.FieldType.FIELD_COMMENTS, True)
-        builder.write('"')
-        # The "category" built-in property does not have a field that can display its value.
-        properties.category = 'My category'
-        # We can set multiple keywords for a document by separating the string value of the "keywords" property with semicolons.
-        properties.keywords = 'Tag 1; Tag 2; Tag 3'
-        # We can right-click this document in Windows Explorer and find these properties in "Properties" -> "Details".
-        # The "Author" built-in property is in the "Origin" group, and the others are in the "Description" group.
-        doc.save(ARTIFACTS_DIR + 'DocumentProperties.description.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'DocumentProperties.description.docx')
-        properties = doc.built_in_document_properties
-        self.assertEqual('John Doe', properties.author)
-        self.assertEqual('My category', properties.category)
-        self.assertEqual(f"This is {properties.author}'s document about {properties.subject}", properties.comments)
-        self.assertEqual('Tag 1; Tag 2; Tag 3', properties.keywords)
-        self.assertEqual('My subject', properties.subject)
-        self.assertEqual("John's Document", properties.title)
-        self.assertEqual('Author:\t\x13 AUTHOR \x14John Doe\x15\r' + "Doc title:\t\x13 TITLE \x14John's Document\x15\r" + 'Subject:\t\x13 SUBJECT \x14My subject\x15\r' + 'Comments:\t"\x13 COMMENTS \x14This is John Doe\'s document about My subject\x15"', doc.get_text().strip())
-
     def test_origin(self):
         #ExStart
         #ExFor:BuiltInDocumentProperties.company
@@ -200,16 +225,16 @@ class ExDocumentProperties(ApiExampleBase):
         # Microsoft Word updates the following properties automatically when we save the document.
         # To use these properties with Aspose.Words, we will need to set values for them manually.
         properties.last_saved_by = 'John Doe'
-        properties.last_saved_time = datetime.utcnow()
+        properties.last_saved_time = datetime.datetime.utcnow()
         # We can right-click this document in Windows Explorer and find these properties in "Properties" -> "Details" -> "Origin".
         doc.save(ARTIFACTS_DIR + 'DocumentProperties.origin.docx')
         #ExEnd
         properties = aw.Document(ARTIFACTS_DIR + 'DocumentProperties.origin.docx').built_in_document_properties
         self.assertEqual('Doe Ltd.', properties.company)
-        self.assertEqual(datetime(2006, 4, 25, 10, 10, 0, tzinfo=timezone.utc), properties.created_time)
-        self.assertEqual(datetime(2019, 4, 21, 10, 0, 0, tzinfo=timezone.utc), properties.last_printed)
+        self.assertEqual(datetime.datetime(2006, 4, 25, 10, 10, 0, tzinfo=timezone.utc), properties.created_time)
+        self.assertEqual(datetime.datetime(2019, 4, 21, 10, 0, 0, tzinfo=timezone.utc), properties.last_printed)
         self.assertEqual('John Doe', properties.last_saved_by)
-        self.verify_date(datetime.now(timezone.utc), properties.last_saved_time, timedelta(seconds=5))
+        self.verify_date(datetime.datetime.now(timezone.utc), properties.last_saved_time, timedelta(seconds=5))
         self.assertEqual('Jane Doe', properties.manager)
         self.assertEqual('Microsoft Office Word', properties.name_of_application)
         self.assertEqual(12, properties.revision_number)
@@ -422,10 +447,10 @@ class ExDocumentProperties(ApiExampleBase):
         #ExFor:DocumentProperty.to_date_time
         #ExSummary:Shows how to create a custom document property which contains a date and time.
         doc = aw.Document()
-        doc.custom_document_properties.add('AuthorizationDate', datetime.utcnow())
+        doc.custom_document_properties.add('AuthorizationDate', datetime.datetime.utcnow())
         print('Document authorized on', doc.custom_document_properties.get_by_name('AuthorizationDate').to_date_time())
         #ExEnd
-        self.verify_date(datetime.now(tz=timezone.utc), DocumentHelper.save_open(doc).custom_document_properties.get_by_name('AuthorizationDate').to_date_time(), timedelta(seconds=1))
+        self.verify_date(datetime.datetime.now(tz=timezone.utc), DocumentHelper.save_open(doc).custom_document_properties.get_by_name('AuthorizationDate').to_date_time(), timedelta(seconds=1))
 
     def test_document_property_collection(self):
         #ExStart
@@ -450,7 +475,7 @@ class ExDocumentProperties(ApiExampleBase):
         # Custom document properties are key-value pairs that we can add to the document.
         properties.add('Authorized', True)
         properties.add('Authorized By', 'John Doe')
-        properties.add('Authorized Date', datetime.now())
+        properties.add('Authorized Date', datetime.datetime.now())
         properties.add('Authorized Revision', doc.built_in_document_properties.revision_number)
         properties.add('Authorized Amount', 123.45)
         # The collection sorts the custom properties in alphabetic order.
@@ -478,28 +503,4 @@ class ExDocumentProperties(ApiExampleBase):
         # 3 -  Empty the entire collection at once:
         properties.clear()
         self.assertEqual(0, properties.count)
-        #ExEnd
-
-    @unittest.skip("Unable to cast object of type 'System.Int32' to type 'System.Double")
-    def test_property_types(self):
-        #ExStart
-        #ExFor:DocumentProperty.to_bool
-        #ExFor:DocumentProperty.to_int
-        #ExFor:DocumentProperty.to_double
-        #ExFor:DocumentProperty.__str__
-        #ExFor:DocumentProperty.to_date_time
-        #ExSummary:Shows various type conversion methods of custom document properties.
-        doc = aw.Document()
-        properties = doc.custom_document_properties
-        auth_date = datetime.now()
-        properties.add('Authorized', True)
-        properties.add('Authorized By', 'John Doe')
-        properties.add('Authorized Date', auth_date)
-        properties.add('Authorized Revision', doc.built_in_document_properties.revision_number)
-        properties.add('Authorized Amount', 123.45)
-        self.assertEqual(True, properties.get_by_name('Authorized').to_bool())
-        self.assertEqual('John Doe', str(properties.get_by_name('Authorized By')))
-        self.assertEqual(auth_date, properties.get_by_name('Authorized Date').to_date_time())
-        self.assertEqual(1, properties.get_by_name('Authorized Revision').to_int())
-        self.assertEqual(123.45, properties.get_by_name('Authorized Amount').to_double())
         #ExEnd

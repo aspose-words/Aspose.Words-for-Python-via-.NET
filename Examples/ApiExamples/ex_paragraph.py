@@ -5,12 +5,13 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
+from datetime import date, timedelta
 from document_helper import DocumentHelper
 import sys
-from datetime import datetime, date, timedelta
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.fields
+import datetime
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -80,6 +81,39 @@ class ExParagraph(ApiExampleBase):
         # This paragraph is a "Format" revision, which occurs when we change the formatting of existing text
         # while tracking revisions in Microsoft Word via "Review" -> "Track changes".
         self.assertTrue(doc.first_section.body.first_paragraph.is_format_revision)
+        #ExEnd
+
+    def test_is_revision(self):
+        #ExStart
+        #ExFor:Paragraph.is_delete_revision
+        #ExFor:Paragraph.is_insert_revision
+        #ExSummary:Shows how to work with revision paragraphs.
+        doc = aw.Document()
+        body = doc.first_section.body
+        para = body.first_paragraph
+        para.append_child(aw.Run(doc=doc, text='Paragraph 1. '))
+        body.append_paragraph('Paragraph 2. ')
+        body.append_paragraph('Paragraph 3. ')
+        # The above paragraphs are not revisions.
+        # Paragraphs that we add after starting revision tracking will register as "Insert" revisions.
+        doc.start_track_revisions(author='John Doe', date_time=datetime.datetime.now())
+        para = body.append_paragraph('Paragraph 4. ')
+        self.assertTrue(para.is_insert_revision)
+        # Paragraphs that we remove after starting revision tracking will register as "Delete" revisions.
+        paragraphs = body.paragraphs
+        self.assertEqual(4, paragraphs.count)
+        para = paragraphs[2]
+        para.remove()
+        # Such paragraphs will remain until we either accept or reject the delete revision.
+        # Accepting the revision will remove the paragraph for good,
+        # and rejecting the revision will leave it in the document as if we never deleted it.
+        self.assertEqual(4, paragraphs.count)
+        self.assertTrue(para.is_delete_revision)
+        # Accept the revision, and then verify that the paragraph is gone.
+        doc.accept_all_revisions()
+        self.assertEqual(3, paragraphs.count)
+        self.assertEqual(0, para.count)
+        self.assertEqual('Paragraph 1. \r' + 'Paragraph 2. \r' + 'Paragraph 4.', doc.get_text().strip())
         #ExEnd
 
     def test_join_runs(self):
@@ -180,8 +214,8 @@ class ExParagraph(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + 'Paragraph.append_field.docx')
         #ExEnd
         doc = aw.Document(ARTIFACTS_DIR + 'Paragraph.append_field.docx')
-        self.verify_datetime_field(aw.fields.FieldType.FIELD_DATE, ' DATE ', datetime.now(), doc.range.fields[0], timedelta())
-        self.verify_datetime_field(aw.fields.FieldType.FIELD_TIME, ' TIME  \\@ "HH:mm:ss" ', datetime.now(), doc.range.fields[1], timedelta(seconds=5))
+        self.verify_datetime_field(aw.fields.FieldType.FIELD_DATE, ' DATE ', datetime.datetime.now(), doc.range.fields[0], timedelta())
+        self.verify_datetime_field(aw.fields.FieldType.FIELD_TIME, ' TIME  \\@ "HH:mm:ss" ', datetime.datetime.now(), doc.range.fields[1], timedelta(seconds=5))
         self.verify_field(aw.fields.FieldType.FIELD_QUOTE, ' QUOTE "Real value"', 'Real value', doc.range.fields[2])
 
     def test_insert_field(self):
@@ -343,39 +377,6 @@ class ExParagraph(ApiExampleBase):
         self.assertEqual(20.5, paragraph_frame.frame_format.vertical_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, paragraph_frame.frame_format.relative_vertical_position)
         self.assertEqual(0.0, paragraph_frame.frame_format.vertical_distance_from_text)
-        #ExEnd
-
-    def test_is_revision(self):
-        #ExStart
-        #ExFor:Paragraph.is_delete_revision
-        #ExFor:Paragraph.is_insert_revision
-        #ExSummary:Shows how to work with revision paragraphs.
-        doc = aw.Document()
-        body = doc.first_section.body
-        para = body.first_paragraph
-        para.append_child(aw.Run(doc, 'Paragraph 1. '))
-        body.append_paragraph('Paragraph 2. ')
-        body.append_paragraph('Paragraph 3. ')
-        # The above paragraphs are not revisions.
-        # Paragraphs that we add after starting revision tracking will register as "Insert" revisions.
-        doc.start_track_revisions('John Doe', datetime.now())
-        para = body.append_paragraph('Paragraph 4. ')
-        self.assertTrue(para.is_insert_revision)
-        # Paragraphs that we remove after starting revision tracking will register as "Delete" revisions.
-        paragraphs = body.paragraphs
-        self.assertEqual(4, paragraphs.count)
-        para = paragraphs[2]
-        para.remove()
-        # Such paragraphs will remain until we either accept or reject the delete revision.
-        # Accepting the revision will remove the paragraph for good,
-        # and rejecting the revision will leave it in the document as if we never deleted it.
-        self.assertEqual(4, paragraphs.count)
-        self.assertTrue(para.is_delete_revision)
-        # Accept the revision, and then verify that the paragraph is gone.
-        doc.accept_all_revisions()
-        self.assertEqual(3, paragraphs.count)
-        #self.assertEqual(para, "")
-        self.assertEqual('Paragraph 1. \r' + 'Paragraph 2. \r' + 'Paragraph 4.', doc.get_text().strip())
         #ExEnd
 
     def test_break_is_style_separator(self):

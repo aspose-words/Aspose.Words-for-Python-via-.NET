@@ -34,6 +34,7 @@ class ExImageSaveOptions(ApiExampleBase):
     def test_export_various_page_ranges(self):
         #ExStart
         #ExFor:PageSet.__init__(List[PageRange])
+        #ExFor:PageRange
         #ExFor:PageRange.__init__(int,int)
         #ExFor:ImageSaveOptions.page_set
         #ExSummary:Shows how to extract pages based on exact page ranges.

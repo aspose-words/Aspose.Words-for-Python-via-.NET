@@ -6,10 +6,10 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 from aspose.words.digitalsignatures import DigitalSignatureUtil
-from datetime import datetime
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.loading
+import datetime
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -18,6 +18,42 @@ class ExDigitalSignatureUtil(ApiExampleBase):
     def test_remove_signatures(self):
         aw.digitalsignatures.DigitalSignatureUtil.remove_all_signatures(src_file_name=MY_DIR + 'Digitally signed.odt', dst_file_name=ARTIFACTS_DIR + 'DigitalSignatureUtil.RemoveSignatures.odt')
         self.assertEqual(0, aw.digitalsignatures.DigitalSignatureUtil.load_signatures(file_name=ARTIFACTS_DIR + 'DigitalSignatureUtil.RemoveSignatures.odt').count)
+
+    def test_decryption_password(self):
+        #ExStart
+        #ExFor:CertificateHolder
+        #ExFor:SignOptions.decryption_password
+        #ExFor:LoadOptions.password
+        #ExSummary:Shows how to sign encrypted document file.
+        # Create an X.509 certificate from a PKCS#12 store, which should contain a private key.
+        certificate_holder = aw.digitalsignatures.CertificateHolder.create(file_name=MY_DIR + 'morzal.pfx', password='aw')
+        # Create a comment, date, and decryption password which will be applied with our new digital signature.
+        sign_options = aw.digitalsignatures.SignOptions()
+        sign_options.comments = 'Comment'
+        sign_options.sign_time = datetime.datetime.now()
+        sign_options.decryption_password = 'docPassword'
+        # Set a local system filename for the unsigned input document, and an output filename for its new digitally signed copy.
+        input_file_name = MY_DIR + 'Encrypted.docx'
+        output_file_name = ARTIFACTS_DIR + 'DigitalSignatureUtil.DecryptionPassword.docx'
+        aw.digitalsignatures.DigitalSignatureUtil.sign(src_file_name=input_file_name, dst_file_name=output_file_name, cert_holder=certificate_holder, sign_options=sign_options)
+        #ExEnd
+        # Open encrypted document from a file.
+        load_options = aw.loading.LoadOptions(password='docPassword')
+        self.assertEqual(sign_options.decryption_password, load_options.password)
+        # Check that encrypted document was successfully signed.
+        signed_doc = aw.Document(file_name=output_file_name, load_options=load_options)
+        signatures = signed_doc.digital_signatures
+        self.assertEqual(1, signatures.count)
+        self.assertTrue(signatures.is_valid)
+
+    def test_sign_document_obfuscation_bug(self):
+        ch = aw.digitalsignatures.CertificateHolder.create(file_name=MY_DIR + 'morzal.pfx', password='aw')
+        doc = aw.Document(file_name=MY_DIR + 'Structured document tags.docx')
+        output_file_name = ARTIFACTS_DIR + 'DigitalSignatureUtil.SignDocumentObfuscationBug.doc'
+        sign_options = aw.digitalsignatures.SignOptions()
+        sign_options.comments = 'Comment'
+        sign_options.sign_time = datetime.datetime.now()
+        aw.digitalsignatures.DigitalSignatureUtil.sign(src_file_name=doc.original_file_name, dst_file_name=output_file_name, cert_holder=ch, sign_options=sign_options)
 
     def test_load(self):
         #ExStart
@@ -71,7 +107,7 @@ class ExDigitalSignatureUtil(ApiExampleBase):
         # Create a comment and date which will be applied with our new digital signature.
         sign_options = aw.digitalsignatures.SignOptions()
         sign_options.comments = 'My comment'
-        sign_options.sign_time = datetime.now()
+        sign_options.sign_time = datetime.datetime.now()
         # Take an unsigned document from the local file system via a file stream,
         # then create a signed copy of it determined by the filename of the output file stream.
         with open(MY_DIR + 'Document.docx', 'rb') as stream_in:
@@ -87,49 +123,13 @@ class ExDigitalSignatureUtil(ApiExampleBase):
             self.assertEqual(sign_options.sign_time, signature.sign_time)
             self.assertEqual('My comment', signature.comments)
 
-    def test_decryption_password(self):
-        #ExStart
-        #ExFor:CertificateHolder
-        #ExFor:SignOptions.decryption_password
-        #ExFor:LoadOptions.password
-        #ExSummary:Shows how to sign encrypted document file.
-        # Create an X.509 certificate from a PKCS#12 store, which should contain a private key.
-        certificate_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + 'morzal.pfx', 'aw')
-        # Create a comment, date, and decryption password which will be applied with our new digital signature.
-        sign_options = aw.digitalsignatures.SignOptions()
-        sign_options.comments = 'Comment'
-        sign_options.sign_time = datetime.now()
-        sign_options.decryption_password = 'docPassword'
-        # Set a local system filename for the unsigned input document, and an output filename for its new digitally signed copy.
-        input_file_name = MY_DIR + 'Encrypted.docx'
-        output_file_name = ARTIFACTS_DIR + 'DigitalSignatureUtil.decryption_password.docx'
-        aw.digitalsignatures.DigitalSignatureUtil.sign(input_file_name, output_file_name, certificate_holder, sign_options)
-        #ExEnd
-        # Open encrypted document from a file.
-        load_options = aw.loading.LoadOptions('docPassword')
-        self.assertEqual(sign_options.decryption_password, load_options.password)
-        # Check that encrypted document was successfully signed.
-        signed_doc = aw.Document(output_file_name, load_options)
-        signatures = signed_doc.digital_signatures
-        self.assertEqual(1, signatures.count)
-        self.assertTrue(signatures.is_valid)
-
-    def test_sign_document_obfuscation_bug(self):
-        cert_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + 'morzal.pfx', 'aw')
-        doc = aw.Document(MY_DIR + 'Structured document tags.docx')
-        output_file_name = ARTIFACTS_DIR + 'DigitalSignatureUtil.sign_document_obfuscation_bug.doc'
-        sign_options = aw.digitalsignatures.SignOptions()
-        sign_options.comments = 'Comment'
-        sign_options.sign_time = datetime.now()
-        aw.digitalsignatures.DigitalSignatureUtil.sign(doc.original_file_name, output_file_name, cert_holder, sign_options)
-
     def test_incorrect_decryption_password(self):
         certificate_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + 'morzal.pfx', 'aw')
         doc = aw.Document(MY_DIR + 'Encrypted.docx', aw.loading.LoadOptions('docPassword'))
         output_file_name = ARTIFACTS_DIR + 'DigitalSignatureUtil.incorrect_decryption_password.docx'
         sign_options = aw.digitalsignatures.SignOptions()
         sign_options.comments = 'Comment'
-        sign_options.sign_time = datetime.now()
+        sign_options.sign_time = datetime.datetime.now()
         sign_options.decryption_password = 'docPassword1'
         with self.assertRaises(Exception, msg='The document password is incorrect.'):
             aw.digitalsignatures.DigitalSignatureUtil.sign(doc.original_file_name, output_file_name, certificate_holder, sign_options)
@@ -137,7 +137,7 @@ class ExDigitalSignatureUtil(ApiExampleBase):
     def test_no_arguments_for_sing(self):
         sign_options = aw.digitalsignatures.SignOptions()
         sign_options.comments = ''
-        sign_options.sign_time = datetime.now()
+        sign_options.sign_time = datetime.datetime.now()
         sign_options.decryption_password = ''
         with self.assertRaises(Exception):
             aw.digitalsignatures.DigitalSignatureUtil.sign('', '', None, sign_options)
@@ -147,7 +147,7 @@ class ExDigitalSignatureUtil(ApiExampleBase):
         output_file_name = ARTIFACTS_DIR + 'DigitalSignatureUtil.no_certificate_for_sign.docx'
         sign_options = aw.digitalsignatures.SignOptions()
         sign_options.comments = 'Comment'
-        sign_options.sign_time = datetime.now()
+        sign_options.sign_time = datetime.datetime.now()
         sign_options.decryption_password = 'docPassword'
         with self.assertRaises(Exception):
             aw.digitalsignatures.DigitalSignatureUtil.sign(doc.original_file_name, output_file_name, None, sign_options)

@@ -363,6 +363,7 @@ class ExFont(ApiExampleBase):
 
     def test_sparkling_text(self):
         #ExStart
+        #ExFor:TextEffect
         #ExFor:Font.text_effect
         #ExSummary:Shows how to apply a visual effect to a run.
         doc = aw.Document()
@@ -603,6 +604,7 @@ class ExFont(ApiExampleBase):
     def test_has_dml_effect(self):
         #ExStart
         #ExFor:Font.has_dml_effect(TextDmlEffect)
+        #ExFor:TextDmlEffect
         #ExSummary:Shows how to check if a run displays a DrawingML text effect.
         doc = aw.Document(file_name=MY_DIR + 'DrawingML text effects.docx')
         runs = doc.first_section.body.first_paragraph.runs
@@ -611,6 +613,72 @@ class ExFont(ApiExampleBase):
         self.assertTrue(runs[2].font.has_dml_effect(aw.TextDmlEffect.REFLECTION))
         self.assertTrue(runs[3].font.has_dml_effect(aw.TextDmlEffect.EFFECT_3D))
         self.assertTrue(runs[4].font.has_dml_effect(aw.TextDmlEffect.FILL))
+        #ExEnd
+
+    def test_theme_fonts_colors(self):
+        #ExStart
+        #ExFor:Font.theme_font
+        #ExFor:Font.theme_font_ascii
+        #ExFor:Font.theme_font_bi
+        #ExFor:Font.theme_font_far_east
+        #ExFor:Font.theme_font_other
+        #ExFor:Font.theme_color
+        #ExFor:ThemeFont
+        #ExFor:ThemeColor
+        #ExSummary:Shows how to work with theme fonts and colors.
+        doc = aw.Document()
+        # Define fonts for languages uses by default.
+        doc.theme.minor_fonts.latin = 'Algerian'
+        doc.theme.minor_fonts.east_asian = 'Aharoni'
+        doc.theme.minor_fonts.complex_script = 'Andalus'
+        font = doc.styles.get_by_name('Normal').font
+        print('Originally the Normal style theme color is: {0} and RGB color is: {1}\n'.format(font.theme_color, font.color))
+        # We can use theme font and color instead of default values.
+        font.theme_font = aw.themes.ThemeFont.MINOR
+        font.theme_color = aw.themes.ThemeColor.ACCENT2
+        self.assertEqual(aw.themes.ThemeFont.MINOR, font.theme_font)
+        self.assertEqual('Algerian', font.name)
+        self.assertEqual(aw.themes.ThemeFont.MINOR, font.theme_font_ascii)
+        self.assertEqual('Algerian', font.name_ascii)
+        self.assertEqual(aw.themes.ThemeFont.MINOR, font.theme_font_bi)
+        self.assertEqual('Andalus', font.name_bi)
+        self.assertEqual(aw.themes.ThemeFont.MINOR, font.theme_font_far_east)
+        self.assertEqual('Aharoni', font.name_far_east)
+        self.assertEqual(aw.themes.ThemeFont.MINOR, font.theme_font_other)
+        self.assertEqual('Algerian', font.name_other)
+        self.assertEqual(aw.themes.ThemeColor.ACCENT2, font.theme_color)
+        self.assertEqual(aspose.pydrawing.Color.empty(), font.color)
+        # There are several ways of reset them font and color.
+        # 1 -  By setting ThemeFont.None/ThemeColor.None:
+        font.theme_font = aw.themes.ThemeFont.NONE
+        font.theme_color = aw.themes.ThemeColor.NONE
+        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font)
+        self.assertEqual('Algerian', font.name)
+        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font_ascii)
+        self.assertEqual('Algerian', font.name_ascii)
+        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font_bi)
+        self.assertEqual('Andalus', font.name_bi)
+        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font_far_east)
+        self.assertEqual('Aharoni', font.name_far_east)
+        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font_other)
+        self.assertEqual('Algerian', font.name_other)
+        self.assertEqual(aw.themes.ThemeColor.NONE, font.theme_color)
+        self.assertEqual(aspose.pydrawing.Color.empty(), font.color)
+        # 2 -  By setting non-theme font/color names:
+        font.name = 'Arial'
+        font.color = aspose.pydrawing.Color.blue
+        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font)
+        self.assertEqual('Arial', font.name)
+        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font_ascii)
+        self.assertEqual('Arial', font.name_ascii)
+        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font_bi)
+        self.assertEqual('Arial', font.name_bi)
+        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font_far_east)
+        self.assertEqual('Arial', font.name_far_east)
+        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font_other)
+        self.assertEqual('Arial', font.name_other)
+        self.assertEqual(aw.themes.ThemeColor.NONE, font.theme_color)
+        self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), font.color.to_argb())
         #ExEnd
 
     def test_create_themed_style(self):
@@ -645,6 +713,39 @@ class ExFont(ApiExampleBase):
         self.assertEqual('Times New Roman', run.font.name_other)
         self.assertEqual(aw.themes.ThemeColor.ACCENT5, run.font.theme_color)
         self.assertEqual(aspose.pydrawing.Color.empty(), run.font.color)
+
+    def test_font_info_embedding_licensing_rights(self):
+        #ExStart:FontInfoEmbeddingLicensingRights
+        #ExFor:FontInfo.embedding_licensing_rights
+        #ExFor:FontEmbeddingUsagePermissions
+        #ExFor:FontEmbeddingLicensingRights.embedding_usage_permissions
+        #ExFor:FontEmbeddingLicensingRights.bitmap_embedding_only
+        #ExFor:FontEmbeddingLicensingRights.no_subsetting
+        #ExSummary:Shows how to get license rights information for embedded fonts (FontInfo).
+        doc = aw.Document(file_name=MY_DIR + 'Embedded font rights.docx')
+        # Get the list of document fonts.
+        font_infos = doc.font_infos
+        for font_info in font_infos:
+            if font_info.embedding_licensing_rights != None:
+                print(font_info.embedding_licensing_rights.embedding_usage_permissions)
+                print(font_info.embedding_licensing_rights.bitmap_embedding_only)
+                print(font_info.embedding_licensing_rights.no_subsetting)
+        #ExEnd:FontInfoEmbeddingLicensingRights
+
+    def test_physical_font_info_embedding_licensing_rights(self):
+        #ExStart:PhysicalFontInfoEmbeddingLicensingRights
+        #ExFor:PhysicalFontInfo.embedding_licensing_rights
+        #ExSummary:Shows how to get license rights information for embedded fonts (PhysicalFontInfo).
+        settings = aw.fonts.FontSettings.default_instance
+        source = settings.get_fonts_sources()[0]
+        # Get the list of available fonts.
+        font_infos = source.get_available_fonts()
+        for font_info in font_infos:
+            if font_info.embedding_licensing_rights != None:
+                print(font_info.embedding_licensing_rights.embedding_usage_permissions)
+                print(font_info.embedding_licensing_rights.bitmap_embedding_only)
+                print(font_info.embedding_licensing_rights.no_subsetting)
+        #ExEnd:PhysicalFontInfoEmbeddingLicensingRights
 
     def test_get_document_fonts(self):
         #ExStart
@@ -922,72 +1023,6 @@ class ExFont(ApiExampleBase):
                 builder.write('Simple text')
                 builder.document.save(ARTIFACTS_DIR + 'Fonts.set_emphasis_mark.docx')
                 #ExEnd
-
-    def test_theme_fonts_colors(self):
-        #ExStart
-        #ExFor:Font.theme_font
-        #ExFor:Font.theme_font_ascii
-        #ExFor:Font.theme_font_bi
-        #ExFor:Font.theme_font_far_east
-        #ExFor:Font.theme_font_other
-        #ExFor:Font.theme_color
-        #ExFor:ThemeFont
-        #ExFor:ThemeColor
-        #ExSummary:Shows how to work with theme fonts and colors.
-        doc = aw.Document()
-        # Define fonts for languages uses by default.
-        doc.theme.minor_fonts.latin = 'Algerian'
-        doc.theme.minor_fonts.east_asian = 'Aharoni'
-        doc.theme.minor_fonts.complex_script = 'Andalus'
-        font = doc.styles.get_by_name('Normal').font
-        print(f'Originally the Normal style theme color is: {font.theme_color} and RGB color is: {font.color}\n')
-        # We can use theme font and color instead of default values.
-        font.theme_font = aw.themes.ThemeFont.MINOR
-        font.theme_color = aw.themes.ThemeColor.ACCENT2
-        self.assertEqual(aw.themes.ThemeFont.MINOR, font.theme_font)
-        self.assertEqual('Algerian', font.name)
-        self.assertEqual(aw.themes.ThemeFont.MINOR, font.theme_font_ascii)
-        self.assertEqual('Algerian', font.name_ascii)
-        self.assertEqual(aw.themes.ThemeFont.MINOR, font.theme_font_bi)
-        self.assertEqual('Andalus', font.name_bi)
-        self.assertEqual(aw.themes.ThemeFont.MINOR, font.theme_font_far_east)
-        self.assertEqual('Aharoni', font.name_far_east)
-        self.assertEqual(aw.themes.ThemeFont.MINOR, font.theme_font_other)
-        self.assertEqual('Algerian', font.name_other)
-        self.assertEqual(aw.themes.ThemeColor.ACCENT2, font.theme_color)
-        self.assertEqual(aspose.pydrawing.Color.empty(), font.color)
-        # There are several ways of reset them font and color.
-        # 1 -  By setting ThemeFont.NONE/ThemeColor.NONE:
-        font.theme_font = aw.themes.ThemeFont.NONE
-        font.theme_color = aw.themes.ThemeColor.NONE
-        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font)
-        self.assertEqual('Algerian', font.name)
-        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font_ascii)
-        self.assertEqual('Algerian', font.name_ascii)
-        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font_bi)
-        self.assertEqual('Andalus', font.name_bi)
-        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font_far_east)
-        self.assertEqual('Aharoni', font.name_far_east)
-        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font_other)
-        self.assertEqual('Algerian', font.name_other)
-        self.assertEqual(aw.themes.ThemeColor.NONE, font.theme_color)
-        self.assertEqual(aspose.pydrawing.Color.empty(), font.color)
-        # 2 -  By setting non-theme font/color names:
-        font.name = 'Arial'
-        font.color = aspose.pydrawing.Color.blue
-        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font)
-        self.assertEqual('Arial', font.name)
-        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font_ascii)
-        self.assertEqual('Arial', font.name_ascii)
-        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font_bi)
-        self.assertEqual('Arial', font.name_bi)
-        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font_far_east)
-        self.assertEqual('Arial', font.name_far_east)
-        self.assertEqual(aw.themes.ThemeFont.NONE, font.theme_font_other)
-        self.assertEqual('Arial', font.name_other)
-        self.assertEqual(aw.themes.ThemeColor.NONE, font.theme_color)
-        self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), font.color.to_argb())
-        #ExEnd
 
     def _test_remove_hidden_content(self, doc: aw.Document):
         self.assertEqual(20, doc.get_child_nodes(aw.NodeType.PARAGRAPH, True).count)
