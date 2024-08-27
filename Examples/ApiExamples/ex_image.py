@@ -5,12 +5,13 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words import Document, DocumentBuilder, NodeType
 from aspose.words.drawing import ImageType
-import os
+from aspose.words import Document, DocumentBuilder, NodeType
 import aspose.pydrawing as drawing
+import os
 import aspose.words as aw
 import aspose.words.drawing
+import pathlib
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, IMAGE_URL, MY_DIR
 

@@ -5,15 +5,15 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words import SaveFormat, DocumentBuilder
-from aspose.words.lowcode import Merger, MergeFormatMode
 from aspose.words.saving import OoxmlSaveOptions
-import unittest
+from aspose.words.lowcode import Merger, MergeFormatMode
+from aspose.words import SaveFormat, DocumentBuilder
 from aspose.pydrawing import Color
-import os
-import pathlib
 import io
+import pathlib
+import os
 from aspose.pydrawing import Color
+import unittest
 import aspose.words as aw
 import aspose.words.lowcode
 import aspose.words.saving
@@ -132,13 +132,11 @@ class ExLowCode(ApiExampleBase):
         first_stream_in = io.BytesIO(first_file_in.read())
         out = io.BytesIO()
         aw.lowcode.Converter.convert(first_stream_in, out, aw.SaveFormat.DOCX)
-
         out.flush()
         pathlib.Path(ARTIFACTS_DIR + 'LowCode.ConvertStream.SaveFormat.docx').write_bytes(out.getvalue())
         out.seek(0)
-
         save_options = aw.saving.OoxmlSaveOptions()
-        save_options.password = "Aspose.Words"
+        save_options.password = 'Aspose.Words'
         aw.lowcode.Converter.convert(first_stream_in, out, save_options)
         out.flush()
         pathlib.Path(ARTIFACTS_DIR + 'LowCode.ConvertStream.SaveOptions.docx').write_bytes(out.getvalue())

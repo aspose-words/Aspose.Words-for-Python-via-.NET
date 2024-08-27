@@ -5,16 +5,17 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
-import aspose.pydrawing as drawing
-import sys
-import shutil
-import textwrap
-import glob
-import os
 import io
+import glob
+import textwrap
+import shutil
+import sys
+import aspose.pydrawing as drawing
+from document_helper import DocumentHelper
 import aspose.words as aw
 import aspose.words.saving
+import os
+import pathlib
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR, IMAGE_DIR
 
@@ -63,6 +64,34 @@ class ExHtmlSaveOptions(ApiExampleBase):
         save_options.export_fonts_as_base64 = True
         doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ConvertFontsAsBase64.html', save_options=save_options)
 
+    def test_resource_folder_priority(self):
+        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+        save_options = aw.saving.HtmlSaveOptions()
+        save_options.css_style_sheet_type = aw.saving.CssStyleSheetType.EXTERNAL
+        save_options.export_font_resources = True
+        save_options.resource_folder = ARTIFACTS_DIR + 'Resources'
+        save_options.resource_folder_alias = 'http://example.com/resources'
+        doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ResourceFolderPriority.html', save_options=save_options)
+        self.assertTrue(pathlib.Path(ARTIFACTS_DIR + 'Resources').glob('/**/"HtmlSaveOptions.ResourceFolderPriority.001.png"'))
+        self.assertTrue(pathlib.Path(ARTIFACTS_DIR + 'Resources').glob('/**/"HtmlSaveOptions.ResourceFolderPriority.002.png"'))
+        self.assertTrue(pathlib.Path(ARTIFACTS_DIR + 'Resources').glob('/**/"HtmlSaveOptions.ResourceFolderPriority.arial.ttf"'))
+        self.assertTrue(pathlib.Path(ARTIFACTS_DIR + 'Resources').glob('/**/"HtmlSaveOptions.ResourceFolderPriority.css"'))
+
+    def test_resource_folder_low_priority(self):
+        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+        save_options = aw.saving.HtmlSaveOptions()
+        save_options.css_style_sheet_type = aw.saving.CssStyleSheetType.EXTERNAL
+        save_options.export_font_resources = True
+        save_options.fonts_folder = ARTIFACTS_DIR + 'Fonts'
+        save_options.images_folder = ARTIFACTS_DIR + 'Images'
+        save_options.resource_folder = ARTIFACTS_DIR + 'Resources'
+        save_options.resource_folder_alias = 'http://example.com/resources'
+        doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ResourceFolderLowPriority.html', save_options=save_options)
+        self.assertTrue(pathlib.Path(ARTIFACTS_DIR + 'Images').glob('/**/"HtmlSaveOptions.ResourceFolderLowPriority.001.png"'))
+        self.assertTrue(pathlib.Path(ARTIFACTS_DIR + 'Images').glob('/**/"HtmlSaveOptions.ResourceFolderLowPriority.002.png"'))
+        self.assertTrue(pathlib.Path(ARTIFACTS_DIR + 'Fonts').glob('/**/"HtmlSaveOptions.ResourceFolderLowPriority.arial.ttf"'))
+        self.assertTrue(pathlib.Path(ARTIFACTS_DIR + 'Resources').glob('/**/"HtmlSaveOptions.ResourceFolderLowPriority.css"'))
+
     def test_svg_metafile_format(self):
         builder = aw.DocumentBuilder()
         builder.write('Here is an SVG image: ')
@@ -86,6 +115,23 @@ class ExHtmlSaveOptions(ApiExampleBase):
         save_options = aw.saving.HtmlSaveOptions()
         save_options.metafile_format = aw.saving.HtmlMetafileFormat.EMF_OR_WMF
         builder.document.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.EmfOrWmfMetafileFormat.html', save_options=save_options)
+
+    def test_css_class_names_prefix(self):
+        #ExStart
+        #ExFor:HtmlSaveOptions.css_class_name_prefix
+        #ExSummary:Shows how to save a document to HTML, and add a prefix to all of its CSS class names.
+        doc = aw.Document(file_name=MY_DIR + 'Paragraphs.docx')
+        save_options = aw.saving.HtmlSaveOptions()
+        save_options.css_style_sheet_type = aw.saving.CssStyleSheetType.EXTERNAL
+        save_options.css_class_name_prefix = 'myprefix-'
+        doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.CssClassNamePrefix.html', save_options=save_options)
+        out_doc_contents = pathlib.Path(ARTIFACTS_DIR + 'HtmlSaveOptions.CssClassNamePrefix.html').read_text(encoding='UTF-8')
+        self.assertTrue('<p class="myprefix-Header">' in out_doc_contents)
+        self.assertTrue('<p class="myprefix-Footer">' in out_doc_contents)
+        out_doc_contents = pathlib.Path(ARTIFACTS_DIR + 'HtmlSaveOptions.CssClassNamePrefix.css').read_text(encoding='UTF-8')
+        self.assertTrue('.myprefix-Footer { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt; -aw-style-name:footer }' in out_doc_contents)
+        self.assertTrue('.myprefix-Header { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt; -aw-style-name:header }' in out_doc_contents)
+        #ExEnd
 
     def test_css_class_names_null_prefix(self):
         doc = aw.Document(file_name=MY_DIR + 'Paragraphs.docx')
@@ -316,52 +362,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.export_fonts.False.html', save_options)
                     self.assertTrue(os.path.exists(fonts_folder + 'HtmlSaveOptions.export_fonts.False.times.ttf'))
                     shutil.rmtree(fonts_folder)
-
-    def test_resource_folder_priority(self):
-        doc = aw.Document(MY_DIR + 'Rendering.docx')
-        save_options = aw.saving.HtmlSaveOptions()
-        save_options.css_style_sheet_type = aw.saving.CssStyleSheetType.EXTERNAL
-        save_options.export_font_resources = True
-        save_options.resource_folder = ARTIFACTS_DIR + 'Resources'
-        save_options.resource_folder_alias = 'http://example.com/resources'
-        doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.resource_folder_priority.html', save_options)
-        self.assertTrue(os.path.exists(ARTIFACTS_DIR + 'Resources/HtmlSaveOptions.resource_folder_priority.001.png'))
-        self.assertTrue(os.path.exists(ARTIFACTS_DIR + 'Resources/HtmlSaveOptions.resource_folder_priority.002.png'))
-        self.assertTrue(os.path.exists(ARTIFACTS_DIR + 'Resources/HtmlSaveOptions.resource_folder_priority.arial.ttf'))
-        self.assertTrue(os.path.exists(ARTIFACTS_DIR + 'Resources/HtmlSaveOptions.resource_folder_priority.css'))
-
-    def test_resource_folder_low_priority(self):
-        doc = aw.Document(MY_DIR + 'Rendering.docx')
-        save_options = aw.saving.HtmlSaveOptions()
-        save_options.css_style_sheet_type = aw.saving.CssStyleSheetType.EXTERNAL
-        save_options.export_font_resources = True
-        save_options.fonts_folder = ARTIFACTS_DIR + 'Fonts'
-        save_options.images_folder = ARTIFACTS_DIR + 'Images'
-        save_options.resource_folder = ARTIFACTS_DIR + 'Resources'
-        save_options.resource_folder_alias = 'http://example.com/resources'
-        doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.resource_folder_low_priority.html', save_options)
-        self.assertTrue(os.path.exists(ARTIFACTS_DIR + 'Images/HtmlSaveOptions.resource_folder_low_priority.001.png'))
-        self.assertTrue(os.path.exists(ARTIFACTS_DIR + 'Images/HtmlSaveOptions.resource_folder_low_priority.002.png'))
-        self.assertTrue(os.path.exists(ARTIFACTS_DIR + 'Fonts/HtmlSaveOptions.resource_folder_low_priority.arial.ttf'))
-        self.assertTrue(os.path.exists(ARTIFACTS_DIR + 'Resources/HtmlSaveOptions.resource_folder_low_priority.css'))
-
-    def test_css_class_names_prefix(self):
-        #ExStart
-        #ExFor:HtmlSaveOptions.css_class_name_prefix
-        #ExSummary:Shows how to save a document to HTML, and add a prefix to all of its CSS class names.
-        doc = aw.Document(MY_DIR + 'Paragraphs.docx')
-        save_options = aw.saving.HtmlSaveOptions()
-        save_options.css_style_sheet_type = aw.saving.CssStyleSheetType.EXTERNAL
-        save_options.css_class_name_prefix = 'myprefix-'
-        doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.css_class_name_prefix.html', save_options)
-        with open(ARTIFACTS_DIR + 'HtmlSaveOptions.css_class_name_prefix.html', 'rt', encoding='utf-8') as file:
-            out_doc_contents = file.read()
-        self.assertIn('<p class="myprefix-Header">', out_doc_contents)
-        self.assertIn('<p class="myprefix-Footer">', out_doc_contents)
-        with open(ARTIFACTS_DIR + 'HtmlSaveOptions.css_class_name_prefix.css', 'rt', encoding='utf-8') as file:
-            out_doc_contents = file.read()
-        self.assertIn('.myprefix-Footer { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt; -aw-style-name:footer }\n' + '.myprefix-Header { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt; -aw-style-name:header }\n', out_doc_contents)
-        #ExEnd
 
     def test_css_class_names_not_valid_prefix(self):
         save_options = aw.saving.HtmlSaveOptions()

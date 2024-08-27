@@ -6,9 +6,9 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 from datetime import datetime, timezone
-import os
 import aspose.words as aw
 import aspose.words.saving
+import os
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 

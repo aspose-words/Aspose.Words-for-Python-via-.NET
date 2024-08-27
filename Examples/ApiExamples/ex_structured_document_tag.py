@@ -5,9 +5,8 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
 from datetime import datetime
-import uuid
+from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.buildingblocks
@@ -15,6 +14,7 @@ import aspose.words.markup
 import aspose.words.replacing
 import aspose.words.tables
 import unittest
+import uuid
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR, GOLDS_DIR
 
 class ExStructuredDocumentTag(ApiExampleBase):
@@ -142,6 +142,24 @@ class ExStructuredDocumentTag(ApiExampleBase):
         self.assertFalse(tag.lock_contents)
         self.assertTrue(tag.lock_content_control)
 
+    def test_data_checksum(self):
+        #ExStart
+        #ExFor:CustomXmlPart.data_checksum
+        #ExSummary:Shows how the checksum is calculated in a runtime.
+        doc = aw.Document()
+        rich_text = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.RICH_TEXT, aw.markup.MarkupLevel.BLOCK)
+        doc.first_section.body.append_child(rich_text)
+        # The checksum is read-only and computed using the data of the corresponding custom XML data part.
+        rich_text.xml_mapping.set_mapping(doc.custom_xml_parts.add(id=str(uuid.uuid4()), xml='<root><text>ContentControl</text></root>'), '/root/text', '')
+        checksum = rich_text.xml_mapping.custom_xml_part.data_checksum
+        print(checksum)
+        rich_text.xml_mapping.set_mapping(doc.custom_xml_parts.add(id=str(uuid.uuid4()), xml='<root><text>Updated ContentControl</text></root>'), '/root/text', '')
+        updated_checksum = rich_text.xml_mapping.custom_xml_part.data_checksum
+        print(updated_checksum)
+        # We changed the XmlPart of the tag, and the checksum was updated at runtime.
+        self.assertNotEqual(checksum, updated_checksum)
+        #ExEnd
+
     def test_custom_xml_part_store_item_id_read_only(self):
         #ExStart
         #ExFor:XmlMapping.store_item_id
@@ -223,6 +241,18 @@ class ExStructuredDocumentTag(ApiExampleBase):
         tag.list_items.selected_value = tag.list_items[1]
         doc.first_section.body.append_child(tag)
         doc.save(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.UpdateSdtContent.pdf')
+
+    def test_custom_xml_part(self):
+        xml_string = '<?xml version="1.0"?>' + '<Company>' + '<Employee id="1">' + '<FirstName>John</FirstName>' + '<LastName>Doe</LastName>' + '</Employee>' + '<Employee id="2">' + '<FirstName>Jane</FirstName>' + '<LastName>Doe</LastName>' + '</Employee>' + '</Company>'
+        doc = aw.Document()
+        # Insert the full XML document as a custom document part.
+        # We can find the mapping for this part in Microsoft Word via "Developer" -> "XML Mapping Pane", if it is enabled.
+        xml_part = doc.custom_xml_parts.add(id=f'{{str(uuid.uuid4())}}', xml=xml_string)
+        # Create a structured document tag, which will use an XPath to refer to a single element from the XML.
+        sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.BLOCK)
+        sdt.xml_mapping.set_mapping(xml_part, "Company//Employee[@id='2']/FirstName", '')
+        # Add the StructuredDocumentTag to the document to display the element in the text.
+        doc.first_section.body.append_child(sdt)
 
     def test_multi_section_tags(self):
         #ExStart
@@ -679,24 +709,6 @@ class ExStructuredDocumentTag(ApiExampleBase):
         self.assertEqual('', tag.xml_mapping.prefix_mappings)
         self.assertEqual(xml_part.data_checksum, tag.xml_mapping.custom_xml_part.data_checksum)
 
-    def test_data_checksum(self):
-        #ExStart
-        #ExFor:CustomXmlPart.data_checksum
-        #ExSummary:Shows how the checksum is calculated in a runtime.
-        doc = aw.Document()
-        rich_text = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.RICH_TEXT, aw.markup.MarkupLevel.BLOCK)
-        doc.first_section.body.append_child(rich_text)
-        # The checksum is read-only and computed using the data of the corresponding custom XML data part.
-        rich_text.xml_mapping.set_mapping(doc.custom_xml_parts.add(str(uuid.uuid4()), '<root><text>ContentControl</text></root>'), '/root/text', '')
-        checksum = rich_text.xml_mapping.custom_xml_part.data_checksum
-        print(checksum)
-        rich_text.xml_mapping.set_mapping(doc.custom_xml_parts.add(str(uuid.uuid4()), '<root><text>Updated ContentControl</text></root>'), '/root/text', '')
-        updated_checksum = rich_text.xml_mapping.custom_xml_part.data_checksum
-        print(updated_checksum)
-        # We changed the XmlPart of the tag, and the checksum was updated at runtime.
-        self.assertNotEqual(checksum, updated_checksum)
-        #ExEnd
-
     def test_xml_mapping(self):
         #ExStart
         #ExFor:XmlMapping
@@ -862,18 +874,6 @@ class ExStructuredDocumentTag(ApiExampleBase):
         self.assertEqual('/books[1]/book[1]/author[1]', tags[3].xml_mapping.xpath)
         self.assertEqual('', tags[3].xml_mapping.prefix_mappings)
         self.assertEqual('Title\x07Author\x07\x07' + 'Everyday Italian\x07Giada De Laurentiis\x07\x07' + 'The C Programming Language\x07Brian W. Kernighan, Dennis M. Ritchie\x07\x07' + 'Learning XML\x07Erik T. Ray\x07\x07', doc.first_section.body.tables[0].get_text().strip())
-
-    def test_custom_xml_part(self):
-        xml_string = '<?xml version="1.0"?>' + '<Company>' + '<Employee id="1">' + '<FirstName>John</FirstName>' + '<LastName>Doe</LastName>' + '</Employee>' + '<Employee id="2">' + '<FirstName>Jane</FirstName>' + '<LastName>Doe</LastName>' + '</Employee>' + '</Company>'
-        doc = aw.Document()
-        # Insert the full XML document as a custom document part.
-        # We can find the mapping for this part in Microsoft Word via "Developer" -> "XML Mapping Pane", if it is enabled.
-        xml_part = doc.custom_xml_parts.add(str(uuid.uuid4()), xml_string)
-        # Create a structured document tag, which will use an XPath to refer to a single element from the XML.
-        sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.BLOCK)
-        sdt.xml_mapping.set_mapping(xml_part, "Company//Employee[@id='2']/FirstName", '')
-        # Add the StructuredDocumentTag to the document to display the element in the text.
-        doc.first_section.body.append_child(sdt)
 
     def test_sdt_range_extended_methods(self):
         doc = aw.Document()

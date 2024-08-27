@@ -5,12 +5,12 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import random
-import sys
-import datetime
-import time
-import os
 import io
+import os
+import time
+import datetime
+import sys
+import random
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.drawing

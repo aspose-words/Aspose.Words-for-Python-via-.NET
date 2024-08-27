@@ -5,9 +5,9 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
+import unittest
 import aspose.words as aw
 import aspose.words.layout
-import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExLayout(ApiExampleBase):
