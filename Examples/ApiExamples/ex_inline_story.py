@@ -5,12 +5,12 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import date, datetime
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.notes
 import aspose.words.tables
+import datetime
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -368,11 +368,11 @@ class ExInlineStory(ApiExampleBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
         builder.write('Hello world!')
-        comment = aw.Comment(doc, 'John Doe', 'JD', date.today())
+        comment = aw.Comment(doc, 'John Doe', 'JD', datetime.date.today())
         builder.current_paragraph.append_child(comment)
         builder.move_to(comment.append_child(aw.Paragraph(doc)))
         builder.write('Comment text.')
-        self.assertEqual(date.today(), comment.date_time.date())
+        self.assertEqual(datetime.date.today(), comment.date_time.date())
         # In Microsoft Word, we can right-click this comment in the document body to edit it, or reply to it.
         doc.save(ARTIFACTS_DIR + 'InlineStory.add_comment.docx')
         #ExEnd
@@ -381,7 +381,7 @@ class ExInlineStory(ApiExampleBase):
         self.assertEqual('Comment text.\r', comment.get_text())
         self.assertEqual('John Doe', comment.author)
         self.assertEqual('JD', comment.initial)
-        self.assertEqual(date.today(), comment.date_time.date())
+        self.assertEqual(datetime.date.today(), comment.date_time.date())
 
     def test_inline_story_revisions(self):
         #ExStart
@@ -457,7 +457,7 @@ class ExInlineStory(ApiExampleBase):
         # All inline story nodes have their respective story types.
         self.assertEqual(aw.StoryType.FOOTNOTES, footnote.story_type)
         # A comment is another type of inline story.
-        comment = builder.current_paragraph.append_child(aw.Comment(doc, 'John Doe', 'J. D.', datetime.now())).as_comment()
+        comment = builder.current_paragraph.append_child(aw.Comment(doc, 'John Doe', 'J. D.', datetime.datetime.now())).as_comment()
         # The parent paragraph of an inline story node will be the one from the main document body.
         self.assertEqual(doc.first_section.body.first_paragraph, comment.parent_paragraph)
         # However, the last paragraph is the one from the comment text contents,

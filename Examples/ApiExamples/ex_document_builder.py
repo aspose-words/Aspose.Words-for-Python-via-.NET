@@ -6,19 +6,21 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 import io
-import uuid
 import glob
 from enum import Enum
-from datetime import datetime, timedelta, timezone
 from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
+import aspose.words.digitalsignatures
 import aspose.words.drawing
 import aspose.words.drawing.charts
 import aspose.words.fields
 import aspose.words.notes
 import aspose.words.tables
+import datetime
+import pathlib
 import unittest
+import uuid
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, IMAGE_URL, MY_DIR, GOLDS_DIR
 
 class ExDocumentBuilder(ApiExampleBase):
@@ -1806,7 +1808,7 @@ class ExDocumentBuilder(ApiExampleBase):
         sign_options.signature_line_id = signature_line.id
         sign_options.provider_id = signature_line.provider_id
         sign_options.comments = 'Document was signed by vderyushev'
-        sign_options.sign_time = datetime.utcnow()
+        sign_options.sign_time = datetime.datetime.utcnow()
         cert_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + 'morzal.pfx', 'aw')
         aw.digitalsignatures.DigitalSignatureUtil.sign(ARTIFACTS_DIR + 'DocumentBuilder.signature_line_provider_id.docx', ARTIFACTS_DIR + 'DocumentBuilder.signature_line_provider_id.signed.docx', cert_holder, sign_options)
         # Re-open our saved document, and verify that the "is_signed" and "is_valid" properties both equal "True",
@@ -1830,7 +1832,7 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(1, signatures.count)
         self.assertTrue(signatures[0].is_valid)
         self.assertEqual('Document was signed by vderyushev', signatures[0].comments)
-        self.assertAlmostEqual(datetime.now(tz=timezone.utc), signatures[0].sign_time, delta=timedelta(seconds=5))
+        self.assertAlmostEqual(datetime.datetime.now(tz=datetime.timezone.utc), signatures[0].sign_time, delta=datetime.timedelta(seconds=5))
         self.assertEqual('CN=Morzal.Me', signatures[0].issuer_name)
         self.assertEqual(aw.digitalsignatures.DigitalSignatureType.XML_DSIG, signatures[0].signature_type)
 
@@ -2018,7 +2020,7 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(aw.fields.FieldType.FIELD_DATE, field.type)
         self.assertEqual('DATE \\@ "dddd, MMMM dd, yyyy"', field.get_field_code())
         # This overload of the "insert_field" method automatically updates inserted fields.
-        self.assertAlmostEqual(datetime.strptime(field.result, '%A, %B %d, %Y'), datetime.now(), delta=timedelta(1))
+        self.assertAlmostEqual(datetime.datetime.strptime(field.result, '%A, %B %d, %Y'), datetime.datetime.now(), delta=datetime.timedelta(1))
         #ExEnd
 
     def test_insert_field_and_update(self):
