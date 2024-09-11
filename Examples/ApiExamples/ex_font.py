@@ -5,14 +5,15 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import glob
+import pathlib
 import sys
+import glob
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.fonts
 import aspose.words.themes
 import os
-import pathlib
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, FONTS_DIR, MY_DIR
 
@@ -600,7 +601,7 @@ class ExFont(ApiExampleBase):
         embedded_font = doc.font_infos.get_by_name('Alte DIN 1451 Mittelschrift')
         embedded_font_bytes = embedded_font.get_embedded_font(aw.fonts.EmbeddedFontFormat.OPEN_TYPE, aw.fonts.EmbeddedFontStyle.REGULAR)
         self.assertIsNotNone(embedded_font_bytes)  #ExSkip
-        pathlib.Path(ARTIFACTS_DIR + 'Alte DIN 1451 Mittelschrift.ttf').write_bytes(embedded_font_bytes)
+        system_helper.io.File.write_all_bytes(ARTIFACTS_DIR + 'Alte DIN 1451 Mittelschrift.ttf', embedded_font_bytes)
         # Embedded font formats may be different in other formats such as .doc.
         # We need to know the correct format before we can extract the font.
         doc = aw.Document(file_name=MY_DIR + 'Embedded font.doc')
@@ -608,7 +609,7 @@ class ExFont(ApiExampleBase):
         self.assertIsNotNone(doc.font_infos.get_by_name('Alte DIN 1451 Mittelschrift').get_embedded_font(aw.fonts.EmbeddedFontFormat.EMBEDDED_OPEN_TYPE, aw.fonts.EmbeddedFontStyle.REGULAR))
         # Also, we can convert embedded OpenType format, which comes from .doc documents, to OpenType.
         embedded_font_bytes = doc.font_infos.get_by_name('Alte DIN 1451 Mittelschrift').get_embedded_font_as_open_type(aw.fonts.EmbeddedFontStyle.REGULAR)
-        pathlib.Path(ARTIFACTS_DIR + 'Alte DIN 1451 Mittelschrift.otf').write_bytes(embedded_font_bytes)
+        system_helper.io.File.write_all_bytes(ARTIFACTS_DIR + 'Alte DIN 1451 Mittelschrift.otf', embedded_font_bytes)
         #ExEnd
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'different calculation on Linux')

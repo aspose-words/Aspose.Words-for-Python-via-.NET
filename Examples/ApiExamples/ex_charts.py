@@ -5,12 +5,12 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import date
-from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType, ChartShapeType
-from aspose.pydrawing import Color
 from aspose.words import Document, DocumentBuilder, NodeType
-from math import nan
+from aspose.pydrawing import Color
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType, ChartShapeType
+from datetime import date
 import locale
+from math import nan
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing

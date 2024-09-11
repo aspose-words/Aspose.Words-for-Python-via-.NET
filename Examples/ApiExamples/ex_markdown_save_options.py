@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
-import sys
-from typing import List
-import glob
+import pathlib
 import datetime
+import glob
+from typing import List
+import sys
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.saving
 import os
-import pathlib
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR, FONTS_DIR
 
@@ -47,7 +48,7 @@ class ExMarkdownSaveOptions(ApiExampleBase):
         save_options.link_export_mode = aw.saving.MarkdownLinkExportMode.INLINE
         doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.LinkExportMode.Inline.md', save_options=save_options)
         #ExEnd:LinkExportMode
-        out_doc_contents = pathlib.Path(ARTIFACTS_DIR + 'MarkdownSaveOptions.LinkExportMode.Inline.md').read_text(encoding='UTF-8')
+        out_doc_contents = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'MarkdownSaveOptions.LinkExportMode.Inline.md')
         self.assertEqual('![](MarkdownSaveOptions.LinkExportMode.Inline.001.png)', out_doc_contents.strip())
 
     def test_markdown_document_table_content_alignment(self):

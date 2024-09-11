@@ -5,14 +5,15 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import io
-import platform
-import xml.etree.ElementTree as ET
+import pathlib
 import sys
+import xml.etree.ElementTree as ET
+import platform
+import io
 import aspose.words as aw
 import aspose.words.fonts
 import aspose.words.loading
-import pathlib
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, FONTS_DIR, MY_DIR
 
@@ -111,7 +112,7 @@ class ExFontSettings(ApiExampleBase):
         #ExFor:MemoryFontSource.font_data
         #ExFor:MemoryFontSource.type
         #ExSummary:Shows how to use a byte array with data from a font file as a font source.
-        font_bytes = pathlib.Path(MY_DIR + 'Alte DIN 1451 Mittelschrift.ttf').read_bytes()
+        font_bytes = system_helper.io.File.read_all_bytes(MY_DIR + 'Alte DIN 1451 Mittelschrift.ttf')
         memory_font_source = aw.fonts.MemoryFontSource(font_data=font_bytes, priority=0)
         doc = aw.Document()
         doc.font_settings = aw.fonts.FontSettings()

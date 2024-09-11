@@ -6,8 +6,8 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 from datetime import date, timedelta
-import sys
 from document_helper import DocumentHelper
+import sys
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.fields

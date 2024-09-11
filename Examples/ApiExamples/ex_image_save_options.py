@@ -5,13 +5,14 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import os
-import glob
+import pathlib
 import sys
+import glob
+import os
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.saving
-import pathlib
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR
 
@@ -55,8 +56,8 @@ class ExImageSaveOptions(ApiExampleBase):
         image_options.jpeg_quality = 100
         doc.save(file_name=ARTIFACTS_DIR + 'ImageSaveOptions.JpegQuality.HighQuality.jpg', save_options=image_options)
         #ExEnd
-        self.assertTrue(pathlib.Path(ARTIFACTS_DIR + 'ImageSaveOptions.JpegQuality.HighCompression.jpg').stat().st_size < 18000)
-        self.assertTrue(pathlib.Path(ARTIFACTS_DIR + 'ImageSaveOptions.JpegQuality.HighQuality.jpg').stat().st_size < 75000)
+        self.assertTrue(system_helper.io.FileInfo(ARTIFACTS_DIR + 'ImageSaveOptions.JpegQuality.HighCompression.jpg').length() < 18000)
+        self.assertTrue(system_helper.io.FileInfo(ARTIFACTS_DIR + 'ImageSaveOptions.JpegQuality.HighQuality.jpg').length() < 75000)
 
     def test_export_various_page_ranges(self):
         #ExStart

@@ -5,19 +5,20 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import timedelta, timezone
-from aspose.words.saving import PdfTextCompression
-from aspose.words.saving import PdfTextCompression
 from aspose.words import Document
-import io
-import os
-import sys
+from aspose.words.saving import PdfTextCompression
+from aspose.words.saving import PdfTextCompression
+from datetime import timedelta, timezone
+import pathlib
 import aspose.pydrawing as drawing
+import sys
+import os
+import io
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.saving
 import datetime
-import pathlib
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR, IMAGE_DIR, FONTS_DIR
 
@@ -201,8 +202,8 @@ class ExPdfSaveOptions(ApiExampleBase):
         save_options = aw.saving.PdfSaveOptions()
         save_options.cache_background_graphics = True
         doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.CacheBackgroundGraphics.pdf', save_options=save_options)
-        aspose_to_pdf_size = pathlib.Path(ARTIFACTS_DIR + 'PdfSaveOptions.CacheBackgroundGraphics.pdf').stat().st_size
-        word_to_pdf_size = pathlib.Path(MY_DIR + 'Background images (word to pdf).pdf').stat().st_size
+        aspose_to_pdf_size = system_helper.io.FileInfo(ARTIFACTS_DIR + 'PdfSaveOptions.CacheBackgroundGraphics.pdf').length()
+        word_to_pdf_size = system_helper.io.FileInfo(MY_DIR + 'Background images (word to pdf).pdf').length()
         self.assertLess(aspose_to_pdf_size, word_to_pdf_size)
         #ExEnd
 

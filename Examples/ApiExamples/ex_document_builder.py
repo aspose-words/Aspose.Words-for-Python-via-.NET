@@ -5,10 +5,11 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
-from enum import Enum
-import glob
+import pathlib
 import io
+import glob
+from enum import Enum
+from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.digitalsignatures
@@ -18,7 +19,7 @@ import aspose.words.fields
 import aspose.words.notes
 import aspose.words.tables
 import datetime
-import pathlib
+import system_helper
 import unittest
 import uuid
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, IMAGE_URL, MY_DIR, GOLDS_DIR

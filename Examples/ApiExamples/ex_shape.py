@@ -5,14 +5,15 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words.themes import ThemeColor
-from aspose.pydrawing import Color
 from aspose.words import Document, DocumentBuilder, NodeType
-from document_helper import DocumentHelper
-from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
-import sys
-import typing
+from aspose.pydrawing import Color
+from aspose.words.themes import ThemeColor
+import pathlib
 import os
+import typing
+import sys
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
+from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
@@ -22,7 +23,7 @@ import aspose.words.rendering
 import aspose.words.saving
 import aspose.words.settings
 import aspose.words.themes
-import pathlib
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR, GOLDS_DIR
 

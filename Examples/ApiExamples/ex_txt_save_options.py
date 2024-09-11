@@ -5,10 +5,11 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
+import pathlib
 import sys
 import aspose.words as aw
 import aspose.words.saving
-import pathlib
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR
 
@@ -40,7 +41,7 @@ class ExTxtSaveOptions(ApiExampleBase):
         # to place the padding character for each list indent level.
         txt_save_options.list_indentation.count = 3
         doc.save(file_name=ARTIFACTS_DIR + 'TxtSaveOptions.TxtListIndentation.txt', save_options=txt_save_options)
-        doc_text = pathlib.Path(ARTIFACTS_DIR + 'TxtSaveOptions.TxtListIndentation.txt').read_text(encoding='UTF-8')
+        doc_text = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'TxtSaveOptions.TxtListIndentation.txt')
         self.assertEqual('1. Item 1\r\n' + '   a. Item 2\r\n' + '      i. Item 3\r\n', doc_text)
         #ExEnd
 
@@ -63,7 +64,7 @@ class ExTxtSaveOptions(ApiExampleBase):
         # Set the "ParagraphBreak" to a custom value that we wish to put at the end of every paragraph.
         txt_save_options.paragraph_break = ' End of paragraph.\n\n\t'
         doc.save(file_name=ARTIFACTS_DIR + 'TxtSaveOptions.ParagraphBreak.txt', save_options=txt_save_options)
-        doc_text = pathlib.Path(ARTIFACTS_DIR + 'TxtSaveOptions.ParagraphBreak.txt').read_text(encoding='UTF-8')
+        doc_text = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'TxtSaveOptions.ParagraphBreak.txt')
         self.assertEqual('Paragraph 1. End of paragraph.\n\n\t' + 'Paragraph 2. End of paragraph.\n\n\t' + 'Paragraph 3. End of paragraph.\n\n\t', doc_text)
         #ExEnd
 

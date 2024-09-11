@@ -6,13 +6,15 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 from datetime import timedelta, timezone
-from document_helper import DocumentHelper
-from urllib.request import urlopen, Request
-import glob
-import sys
-import io
-import aspose.words.drawing
+import pathlib
+import os
 import base64
+import aspose.words.drawing
+import io
+import sys
+import glob
+from urllib.request import urlopen, Request
+from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.digitalsignatures
@@ -26,8 +28,7 @@ import aspose.words.saving
 import aspose.words.settings
 import aspose.words.webextensions
 import datetime
-import os
-import pathlib
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, FONTS_DIR, IMAGE_DIR, MY_DIR, GOLDS_DIR
 
@@ -93,7 +94,7 @@ class ExDocument(ApiExampleBase):
         load_options = aw.loading.LoadOptions()
         load_options.temp_folder = 'C:\\TempFolder\\'
         # Ensure that the directory exists and load
-        os.makedirs(load_options.temp_folder, exist_ok=True)
+        system_helper.io.Directory.create_directory(load_options.temp_folder)
         doc = aw.Document(file_name=MY_DIR + 'Document.docx', load_options=load_options)
         #ExEnd
 
@@ -462,7 +463,7 @@ class ExDocument(ApiExampleBase):
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Document.AutomaticallyUpdateStyles.docx')
         self.assertTrue(doc.automatically_update_styles)
         self.assertEqual(MY_DIR + 'Business brochure.dotx', doc.attached_template)
-        self.assertTrue(pathlib.Path(doc.attached_template).exists())
+        self.assertTrue(system_helper.io.File.exist(doc.attached_template))
 
     def test_default_template(self):
         #ExStart
@@ -482,7 +483,7 @@ class ExDocument(ApiExampleBase):
         options.default_template = MY_DIR + 'Business brochure.dotx'
         doc.save(file_name=ARTIFACTS_DIR + 'Document.DefaultTemplate.docx', save_options=options)
         #ExEnd
-        self.assertTrue(pathlib.Path(options.default_template).exists())
+        self.assertTrue(system_helper.io.File.exist(options.default_template))
 
     def test_set_invalidate_field_types(self):
         #ExStart
@@ -688,7 +689,7 @@ class ExDocument(ApiExampleBase):
         doc.built_in_document_properties.author = 'John Doe'
         doc.built_in_document_properties.title = 'My Book Title'
         # The thumbnail we specify here can become the cover image.
-        image = pathlib.Path(IMAGE_DIR + 'Transparent background logo.png').read_bytes()
+        image = system_helper.io.File.read_all_bytes(IMAGE_DIR + 'Transparent background logo.png')
         doc.built_in_document_properties.thumbnail = image
         doc.save(file_name=ARTIFACTS_DIR + 'Document.EpubCover.epub')
 
@@ -758,7 +759,7 @@ class ExDocument(ApiExampleBase):
         builder.font.name = 'PostScriptFont'
         builder.writeln('Some text with PostScript font.')
         # Load the font with PostScript to use in the document.
-        otf = aw.fonts.MemoryFontSource(font_data=pathlib.Path(FONTS_DIR + 'AllegroOpen.otf').read_bytes())
+        otf = aw.fonts.MemoryFontSource(font_data=system_helper.io.File.read_all_bytes(FONTS_DIR + 'AllegroOpen.otf'))
         doc.font_settings = aw.fonts.FontSettings()
         doc.font_settings.set_fonts_sources(sources=[otf])
         # Embed TrueType fonts.

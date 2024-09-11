@@ -5,17 +5,18 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import io
-import glob
-import textwrap
-import shutil
-import sys
-import aspose.pydrawing as drawing
+import pathlib
 from document_helper import DocumentHelper
+import aspose.pydrawing as drawing
+import sys
+import shutil
+import textwrap
+import glob
+import io
 import aspose.words as aw
 import aspose.words.saving
 import os
-import pathlib
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR, IMAGE_DIR
 
@@ -72,10 +73,10 @@ class ExHtmlSaveOptions(ApiExampleBase):
         save_options.resource_folder = ARTIFACTS_DIR + 'Resources'
         save_options.resource_folder_alias = 'http://example.com/resources'
         doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ResourceFolderPriority.html', save_options=save_options)
-        self.assertTrue(pathlib.Path(ARTIFACTS_DIR + 'Resources').glob('/**/"HtmlSaveOptions.ResourceFolderPriority.001.png"'))
-        self.assertTrue(pathlib.Path(ARTIFACTS_DIR + 'Resources').glob('/**/"HtmlSaveOptions.ResourceFolderPriority.002.png"'))
-        self.assertTrue(pathlib.Path(ARTIFACTS_DIR + 'Resources').glob('/**/"HtmlSaveOptions.ResourceFolderPriority.arial.ttf"'))
-        self.assertTrue(pathlib.Path(ARTIFACTS_DIR + 'Resources').glob('/**/"HtmlSaveOptions.ResourceFolderPriority.css"'))
+        self.assertTrue(system_helper.io.Directory.get_files(ARTIFACTS_DIR + 'Resources', 'HtmlSaveOptions.ResourceFolderPriority.001.png', system_helper.io.SearchOption.All_DIRECTORIES))
+        self.assertTrue(system_helper.io.Directory.get_files(ARTIFACTS_DIR + 'Resources', 'HtmlSaveOptions.ResourceFolderPriority.002.png', system_helper.io.SearchOption.All_DIRECTORIES))
+        self.assertTrue(system_helper.io.Directory.get_files(ARTIFACTS_DIR + 'Resources', 'HtmlSaveOptions.ResourceFolderPriority.arial.ttf', system_helper.io.SearchOption.All_DIRECTORIES))
+        self.assertTrue(system_helper.io.Directory.get_files(ARTIFACTS_DIR + 'Resources', 'HtmlSaveOptions.ResourceFolderPriority.css', system_helper.io.SearchOption.All_DIRECTORIES))
 
     def test_resource_folder_low_priority(self):
         doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
@@ -87,10 +88,10 @@ class ExHtmlSaveOptions(ApiExampleBase):
         save_options.resource_folder = ARTIFACTS_DIR + 'Resources'
         save_options.resource_folder_alias = 'http://example.com/resources'
         doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ResourceFolderLowPriority.html', save_options=save_options)
-        self.assertTrue(pathlib.Path(ARTIFACTS_DIR + 'Images').glob('/**/"HtmlSaveOptions.ResourceFolderLowPriority.001.png"'))
-        self.assertTrue(pathlib.Path(ARTIFACTS_DIR + 'Images').glob('/**/"HtmlSaveOptions.ResourceFolderLowPriority.002.png"'))
-        self.assertTrue(pathlib.Path(ARTIFACTS_DIR + 'Fonts').glob('/**/"HtmlSaveOptions.ResourceFolderLowPriority.arial.ttf"'))
-        self.assertTrue(pathlib.Path(ARTIFACTS_DIR + 'Resources').glob('/**/"HtmlSaveOptions.ResourceFolderLowPriority.css"'))
+        self.assertTrue(system_helper.io.Directory.get_files(ARTIFACTS_DIR + 'Images', 'HtmlSaveOptions.ResourceFolderLowPriority.001.png', system_helper.io.SearchOption.All_DIRECTORIES))
+        self.assertTrue(system_helper.io.Directory.get_files(ARTIFACTS_DIR + 'Images', 'HtmlSaveOptions.ResourceFolderLowPriority.002.png', system_helper.io.SearchOption.All_DIRECTORIES))
+        self.assertTrue(system_helper.io.Directory.get_files(ARTIFACTS_DIR + 'Fonts', 'HtmlSaveOptions.ResourceFolderLowPriority.arial.ttf', system_helper.io.SearchOption.All_DIRECTORIES))
+        self.assertTrue(system_helper.io.Directory.get_files(ARTIFACTS_DIR + 'Resources', 'HtmlSaveOptions.ResourceFolderLowPriority.css', system_helper.io.SearchOption.All_DIRECTORIES))
 
     def test_svg_metafile_format(self):
         builder = aw.DocumentBuilder()
@@ -125,10 +126,10 @@ class ExHtmlSaveOptions(ApiExampleBase):
         save_options.css_style_sheet_type = aw.saving.CssStyleSheetType.EXTERNAL
         save_options.css_class_name_prefix = 'myprefix-'
         doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.CssClassNamePrefix.html', save_options=save_options)
-        out_doc_contents = pathlib.Path(ARTIFACTS_DIR + 'HtmlSaveOptions.CssClassNamePrefix.html').read_text(encoding='UTF-8')
+        out_doc_contents = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'HtmlSaveOptions.CssClassNamePrefix.html')
         self.assertTrue('<p class="myprefix-Header">' in out_doc_contents)
         self.assertTrue('<p class="myprefix-Footer">' in out_doc_contents)
-        out_doc_contents = pathlib.Path(ARTIFACTS_DIR + 'HtmlSaveOptions.CssClassNamePrefix.css').read_text(encoding='UTF-8')
+        out_doc_contents = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'HtmlSaveOptions.CssClassNamePrefix.css')
         self.assertTrue('.myprefix-Footer { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt; -aw-style-name:footer }' in out_doc_contents)
         self.assertTrue('.myprefix-Header { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt; -aw-style-name:header }' in out_doc_contents)
         #ExEnd

@@ -5,12 +5,13 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import io
+import pathlib
 import aspose.pydrawing as drawing
+import io
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.settings
-import pathlib
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR
 
@@ -42,7 +43,7 @@ class ExDocumentBuilderImages(ApiExampleBase):
         # It works only if DocumentBuilder optimized to Word version 2010 or higher.
         # Note, that access to the image bytes causes conversion Gif to Png.
         gif_image = builder.insert_image(file_name=IMAGE_DIR + 'Graphics Interchange Format.gif')
-        gif_image = builder.insert_image(image_bytes=pathlib.Path(IMAGE_DIR + 'Graphics Interchange Format.gif').read_bytes())
+        gif_image = builder.insert_image(image_bytes=system_helper.io.File.read_all_bytes(IMAGE_DIR + 'Graphics Interchange Format.gif'))
         builder.document.save(file_name=ARTIFACTS_DIR + 'InsertGif.docx')
         #ExEnd
 

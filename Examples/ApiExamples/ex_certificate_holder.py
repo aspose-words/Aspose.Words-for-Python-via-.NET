@@ -8,7 +8,7 @@
 import unittest
 import aspose.words as aw
 import aspose.words.digitalsignatures
-import pathlib
+import system_helper
 from api_example_base import ApiExampleBase, MY_DIR
 
 class ExCertificateHolder(ApiExampleBase):

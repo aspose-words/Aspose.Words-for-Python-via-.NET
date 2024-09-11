@@ -6,14 +6,15 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 from datetime import timedelta, timezone
-import sys
-import os
+import pathlib
 from document_helper import DocumentHelper
+import os
+import sys
 import aspose.words as aw
 import aspose.words.fields
 import aspose.words.properties
 import datetime
-import pathlib
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR
 
@@ -78,7 +79,7 @@ class ExDocumentProperties(ApiExampleBase):
         builder.insert_hyperlink('Relative hyperlink', 'Document.docx', False)
         # This link is relative. If there is no "Document.docx" in the same folder
         # as the document that contains this link, the link will be broken.
-        self.assertFalse(pathlib.Path(ARTIFACTS_DIR + 'Document.docx').exists())
+        self.assertFalse(system_helper.io.File.exist(ARTIFACTS_DIR + 'Document.docx'))
         doc.save(file_name=ARTIFACTS_DIR + 'DocumentProperties.HyperlinkBase.BrokenLink.docx')
         # The document we are trying to link to is in a different directory to the one we are planning to save the document in.
         # We could fix links like this by putting an absolute filename in each one.
@@ -86,7 +87,7 @@ class ExDocumentProperties(ApiExampleBase):
         # will prepend to its link when we click on it.
         properties = doc.built_in_document_properties
         properties.hyperlink_base = MY_DIR
-        self.assertTrue(pathlib.Path(properties.hyperlink_base + doc.range.fields[0].as_field_hyperlink().address).exists())
+        self.assertTrue(system_helper.io.File.exist(properties.hyperlink_base + doc.range.fields[0].as_field_hyperlink().address))
         doc.save(file_name=ARTIFACTS_DIR + 'DocumentProperties.HyperlinkBase.WorkingLink.docx')
         #ExEnd
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentProperties.HyperlinkBase.BrokenLink.docx')
@@ -95,7 +96,7 @@ class ExDocumentProperties(ApiExampleBase):
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentProperties.HyperlinkBase.WorkingLink.docx')
         properties = doc.built_in_document_properties
         self.assertEqual(MY_DIR, properties.hyperlink_base)
-        self.assertTrue(pathlib.Path(properties.hyperlink_base + doc.range.fields[0].as_field_hyperlink().address).exists())
+        self.assertTrue(system_helper.io.File.exist(properties.hyperlink_base + doc.range.fields[0].as_field_hyperlink().address))
 
     def test_security(self):
         #ExStart

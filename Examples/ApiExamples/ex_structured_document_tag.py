@@ -5,8 +5,8 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import datetime
 from document_helper import DocumentHelper
+from datetime import datetime
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.buildingblocks
@@ -247,7 +247,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         doc = aw.Document()
         # Insert the full XML document as a custom document part.
         # We can find the mapping for this part in Microsoft Word via "Developer" -> "XML Mapping Pane", if it is enabled.
-        xml_part = doc.custom_xml_parts.add(id=f'{{str(uuid.uuid4())}}', xml=xml_string)
+        xml_part = doc.custom_xml_parts.add(id='{' + str(uuid.uuid4()) + '}', xml=xml_string)
         # Create a structured document tag, which will use an XPath to refer to a single element from the XML.
         sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.BLOCK)
         sdt.xml_mapping.set_mapping(xml_part, "Company//Employee[@id='2']/FirstName", '')

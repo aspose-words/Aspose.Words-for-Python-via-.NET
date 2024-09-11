@@ -5,10 +5,11 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
+import os
 from datetime import datetime, timezone
 import aspose.words as aw
 import aspose.words.saving
-import os
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
