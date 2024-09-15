@@ -5,9 +5,9 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
-from datetime import datetime
 import uuid
+from datetime import datetime
+from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.buildingblocks
@@ -30,7 +30,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         #ExFor:SdtType
         #ExSummary:Shows how to work with styles for content control elements.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Below are two ways to apply a style from the document to a structured document tag.
         # 1 -  Apply a style object from the document's style collection:
         quote_style = doc.styles.get_by_style_identifier(aw.StyleIdentifier.QUOTE)
@@ -89,7 +89,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         # Set the "Appearance" property to "SdtAppearance.Tags" to show tags around content.
         # By default structured document tag shows as BoundingBox.
         tag.appearance = aw.markup.SdtAppearance.TAGS
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.insert_node(tag)
         # Insert a clone of our structured document tag in a new paragraph.
         tag_clone = tag.clone(True).as_structured_document_tag()
@@ -118,7 +118,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         #ExFor:IStructuredDocumentTag.lock_contents
         #ExSummary:Shows how to apply editing restrictions to structured document tags.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Insert a plain text structured document tag, which acts as a text box that prompts the user to fill it in.
         tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.INLINE)
         # Set the "LockContents" property to "true" to prohibit the user from editing this text box's contents.
@@ -331,7 +331,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         #ExFor:SdtType
         #ExSummary:Shows how to create group structured document tag at the Row level.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         table = builder.start_table()
         # Create a Group structured document tag at the Row level.
         group_sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.GROUP, aw.markup.MarkupLevel.ROW)
@@ -379,7 +379,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         paragraph = doc.first_section.body.first_paragraph
         paragraph.append_child(sdt)
         # Create a Citation field.
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.move_to_paragraph(0, -1)
         builder.insert_field(field_code='CITATION Ath22 \\l 1033 ', field_value='(John Lennon, 2022)')
         # Move the field to the structured document tag.
@@ -409,6 +409,22 @@ class ExStructuredDocumentTag(ApiExampleBase):
         if tag.appearance == aw.markup.SdtAppearance.HIDDEN:
             tag.appearance = aw.markup.SdtAppearance.TAGS
         #ExEnd:Appearance
+
+    def test_insert_structured_document_tag(self):
+        #ExStart:InsertStructuredDocumentTag
+        #ExFor:DocumentBuilder.insert_structured_document_tag(SdtType)
+        #ExSummary:Shows how to simply insert structured document tag.
+        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.move_to(doc.first_section.body.paragraphs[3])
+        # Note, that only following StructuredDocumentTag types are allowed for insertion:
+        # SdtType.PlainText, SdtType.RichText, SdtType.Checkbox, SdtType.DropDownList,
+        # SdtType.ComboBox, SdtType.Picture, SdtType.Date.
+        # Markup level of inserted StructuredDocumentTag will be detected automatically and depends on position being inserted at.
+        # Added StructuredDocumentTag will inherit paragraph and font formatting from cursor position.
+        sdt_plain = builder.insert_structured_document_tag(aw.markup.SdtType.PLAIN_TEXT)
+        doc.save(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.InsertStructuredDocumentTag.docx')
+        #ExEnd:InsertStructuredDocumentTag
 
     def test_repeating_section(self):
         #ExStart

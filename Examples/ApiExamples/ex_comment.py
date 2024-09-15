@@ -20,7 +20,7 @@ class ExComment(ApiExampleBase):
         #ExFor:Comment.add_reply(str,str,datetime,str)
         #ExSummary:Shows how to add a comment to a document, and then reply to it.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         comment = aw.Comment(doc=doc, author='John Doe', initial='J.D.', date_time=datetime.datetime.now())
         comment.set_text('My comment.')
         # Place the comment at a node in the document's body.
@@ -72,7 +72,7 @@ class ExComment(ApiExampleBase):
         #ExFor:CommentCollection
         #ExSummary:Shows how to mark a comment as "done".
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Helo world!')
         # Insert a comment to point out an error.
         comment = aw.Comment(doc=doc, author='John Doe', initial='J.D.', date_time=datetime.datetime.now())

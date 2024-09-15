@@ -29,7 +29,7 @@ class ExPageSetup(ApiExampleBase):
         #ExFor:BreakType
         #ExSummary:Shows how to apply and revert page setup settings to sections in a document.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Modify the page setup properties for the builder's current section and add text.
         builder.page_setup.orientation = aw.Orientation.LANDSCAPE
         builder.page_setup.vertical_alignment = aw.PageVerticalAlignment.CENTER
@@ -59,7 +59,7 @@ class ExPageSetup(ApiExampleBase):
         #ExFor:SectionLayoutMode
         #ExSummary:Shows how to specify a for the number of characters that each line may have.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Enable pitching, and then use it to set the number of characters per line in this section.
         builder.page_setup.layout_mode = aw.SectionLayoutMode.GRID
         builder.page_setup.characters_per_line = 10
@@ -82,7 +82,7 @@ class ExPageSetup(ApiExampleBase):
         #ExFor:SectionLayoutMode
         #ExSummary:Shows how to specify a limit for the number of lines that each page may have.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Enable pitching, and then use it to set the number of lines per page in this section.
         # A large enough font size will push some lines down onto the next page to avoid overlapping characters.
         builder.page_setup.layout_mode = aw.SectionLayoutMode.LINE_GRID
@@ -108,7 +108,7 @@ class ExPageSetup(ApiExampleBase):
         #ExFor:Document.sections
         #ExSummary:Shows how to specify how a new section separates itself from the previous.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('This text is in section 1.')
         # Section break types determine how a new section separates itself from the previous section.
         # Below are five types of section breaks.
@@ -159,7 +159,7 @@ class ExPageSetup(ApiExampleBase):
         #ExFor:PageSetup.footer_distance
         #ExSummary:Shows how to adjust paper size, orientation, margins, along with other settings for a section.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.page_setup.paper_size = aw.PaperSize.LEGAL
         builder.page_setup.orientation = aw.Orientation.LANDSCAPE
         builder.page_setup.top_margin = aw.ConvertUtil.inch_to_point(1)
@@ -189,7 +189,7 @@ class ExPageSetup(ApiExampleBase):
         #ExFor:PageSetup.paper_size
         #ExSummary:Shows how to set page sizes.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # We can change the current page's size to a pre-defined size
         # by using the "PaperSize" property of this section's PageSetup object.
         builder.page_setup.paper_size = aw.PaperSize.TABLOID
@@ -233,7 +233,7 @@ class ExPageSetup(ApiExampleBase):
         #ExFor:TextColumn.space_after
         #ExSummary:Shows how to create unevenly spaced columns.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         page_setup = builder.page_setup
         columns = page_setup.text_columns
         columns.evenly_spaced = False
@@ -272,7 +272,7 @@ class ExPageSetup(ApiExampleBase):
         #ExFor:LineNumberRestartMode
         #ExSummary:Shows how to enable line numbering for a section.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # We can use the section's PageSetup object to display numbers to the left of the section's text lines.
         # This is the same behavior as a List object,
         # but it covers the entire section and does not modify the text in any way.
@@ -370,7 +370,7 @@ class ExPageSetup(ApiExampleBase):
         #ExFor:DocumentBuilder.insert_field(str,str)
         #ExSummary:Shows how to set up page numbering in a section.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Section 1, page 1.')
         builder.insert_break(aw.BreakType.PAGE_BREAK)
         builder.writeln('Section 1, page 2.')
@@ -426,7 +426,7 @@ class ExPageSetup(ApiExampleBase):
         #ExFor:PageSetup.footnote_options
         #ExSummary:Shows how to configure options affecting footnotes/endnotes in a section.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.write('Hello world!')
         builder.insert_footnote(footnote_type=aw.notes.FootnoteType.FOOTNOTE, footnote_text='Footnote reference text.')
         # Configure all footnotes in the first section to restart the numbering from 1
@@ -461,7 +461,7 @@ class ExPageSetup(ApiExampleBase):
         #ExFor:PageSetup.border_surrounds_header
         #ExSummary:Shows how to apply a border to the page and header/footer.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Hello world! This is the main body text.')
         builder.move_to_header_footer(aw.HeaderFooterType.HEADER_PRIMARY)
         builder.write('This is the header.')
@@ -494,7 +494,7 @@ class ExPageSetup(ApiExampleBase):
         #ExSummary:Shows how to set gutter margins.
         doc = aw.Document()
         # Insert text that spans several pages.
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         i = 0
         while i < 6:
             builder.write('Lorem ipsum dolor sit amet, consectetur adipiscing elit, ' + 'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')
@@ -528,7 +528,7 @@ class ExPageSetup(ApiExampleBase):
         #ExSummary:Shows how to configure a document that can be printed as a book fold.
         doc = aw.Document()
         # Insert text that spans 16 pages.
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('My Booklet:')
         i = 0
         while i < 15:
@@ -554,7 +554,7 @@ class ExPageSetup(ApiExampleBase):
         #ExFor:PageSetup.text_orientation
         #ExSummary:Shows how to set text orientation.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Hello world!')
         # Set the "TextOrientation" property to "TextOrientation.Upward" to rotate all the text 90 degrees
         # to the right so that all left-to-right text now goes top-to-bottom.

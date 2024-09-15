@@ -29,7 +29,7 @@ class ExPclSaveOptions(ApiExampleBase):
         #ExFor:PclSaveOptions.fallback_font_name
         #ExSummary:Shows how to declare a font that a printer will apply to printed text as a substitute should its original font be unavailable.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.font.name = 'Non-existent font'
         builder.write('Hello world!')
         save_options = aw.saving.PclSaveOptions()
@@ -44,7 +44,7 @@ class ExPclSaveOptions(ApiExampleBase):
         #ExFor:PclSaveOptions.add_printer_font(str,str)
         #ExSummary:Shows how to get a printer to substitute all instances of a specific font with a different font.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.font.name = 'Courier'
         builder.write('Hello world!')
         save_options = aw.saving.PclSaveOptions()

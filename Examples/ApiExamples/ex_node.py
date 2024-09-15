@@ -5,8 +5,8 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import aspose.pydrawing as drawing
 import io
+import aspose.pydrawing as drawing
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.saving
@@ -145,7 +145,7 @@ class ExNode(ApiExampleBase):
         #ExFor:CompositeNode.remove_child
         #ExSummary:Shows how to use of methods of Node and CompositeNode to remove a section before the last section in the document.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Section 1 text.')
         builder.insert_break(aw.BreakType.SECTION_BREAK_CONTINUOUS)
         builder.writeln('Section 2 text.')
@@ -206,7 +206,7 @@ class ExNode(ApiExampleBase):
         #ExFor:ParagraphCollection.to_array
         #ExSummary:Shows how to use "hot remove" to remove a node during enumeration.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('The first paragraph')
         builder.writeln('The second paragraph')
         builder.writeln('The third paragraph')
@@ -225,7 +225,7 @@ class ExNode(ApiExampleBase):
         #ExFor:NodeCollection.remove(Node)
         #ExSummary:Shows how to work with a NodeCollection.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Add text to the document by inserting Runs using a DocumentBuilder.
         builder.write('Run 1. ')
         builder.write('Run 2. ')

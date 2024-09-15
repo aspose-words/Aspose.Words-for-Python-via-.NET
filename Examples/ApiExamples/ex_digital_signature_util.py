@@ -55,6 +55,19 @@ class ExDigitalSignatureUtil(ApiExampleBase):
         sign_options.sign_time = datetime.datetime.now()
         aw.digitalsignatures.DigitalSignatureUtil.sign(src_file_name=doc.original_file_name, dst_file_name=output_file_name, cert_holder=ch, sign_options=sign_options)
 
+    def test_xml_dsig(self):
+        #ExStart:XmlDsig
+        #ExFor:SignOptions.xml_dsig_level
+        #ExFor:XmlDsigLevel
+        #ExSummary:Shows how to sign document based on XML-DSig standard.
+        certificate_holder = aw.digitalsignatures.CertificateHolder.create(file_name=MY_DIR + 'morzal.pfx', password='aw')
+        sign_options = aw.digitalsignatures.SignOptions()
+        sign_options.xml_dsig_level = aw.digitalsignatures.XmlDsigLevel.X_AD_ES_EPES
+        input_file_name = MY_DIR + 'Document.docx'
+        output_file_name = ARTIFACTS_DIR + 'DigitalSignatureUtil.XmlDsig.docx'
+        aw.digitalsignatures.DigitalSignatureUtil.sign(src_file_name=input_file_name, dst_file_name=output_file_name, cert_holder=certificate_holder, sign_options=sign_options)
+        #ExEnd:XmlDsig
+
     def test_load(self):
         #ExStart
         #ExFor:DigitalSignatureUtil

@@ -114,7 +114,7 @@ class ExRevision(ApiExampleBase):
         #ExFor:Document.accept_all_revisions
         #ExSummary:Shows how to accept all tracking changes in the document.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Edit the document while tracking changes to create a few revisions.
         doc.start_track_revisions(author='John Doe')
         builder.write('Hello world! ')
@@ -164,7 +164,7 @@ class ExRevision(ApiExampleBase):
         #ExFor:RevisionOptions.revision_bars_position
         #ExSummary:Shows how to alter the appearance of revisions in a rendered output document.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Insert a revision, then change the color of all revisions to green.
         builder.writeln('This is not a revision.')
         doc.start_track_revisions(author='John Doe', date_time=datetime.datetime.now())

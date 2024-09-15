@@ -26,7 +26,7 @@ class ExLists(ApiExampleBase):
         list.list_levels[0].create_picture_bullet()
         list.list_levels[0].image_data.set_image(file_name=IMAGE_DIR + 'Logo icon.ico')
         self.assertTrue(list.list_levels[0].image_data.has_image)
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.list_format.list = list
         builder.writeln('Hello world!')
         builder.write('Hello again!')

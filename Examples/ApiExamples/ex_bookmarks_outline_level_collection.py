@@ -27,7 +27,7 @@ class ExBookmarksOutlineLevelCollection(ApiExampleBase):
         #ExFor:OutlineOptions.bookmarks_outline_levels
         #ExSummary:Shows how to set outline levels for bookmarks.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Insert a bookmark with another bookmark nested inside it.
         builder.start_bookmark('Bookmark 1')
         builder.writeln('Text inside Bookmark 1.')

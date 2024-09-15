@@ -18,7 +18,7 @@ class ExTxtSaveOptions(ApiExampleBase):
         #ExFor:TxtSaveOptions.max_characters_per_line
         #ExSummary:Shows how to set maximum number of characters per line.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.write('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ' + 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.')
         # Set 30 characters as maximum allowed per one line.
         save_options = aw.saving.TxtSaveOptions()

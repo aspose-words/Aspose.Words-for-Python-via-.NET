@@ -5,12 +5,12 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words import Document, DocumentBuilder, NodeType
-from aspose.pydrawing import Color
-from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType, ChartShapeType
 from datetime import date
-import locale
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType, ChartShapeType
+from aspose.pydrawing import Color
+from aspose.words import Document, DocumentBuilder, NodeType
 from math import nan
+import locale
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
@@ -32,7 +32,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartTitle.font
         #ExSummary:Shows how to insert a chart and set a title.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Insert a chart shape with a document builder and get its chart.
         chart_shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.BAR, width=400, height=300)
         chart = chart_shape.chart
@@ -63,7 +63,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartNumberFormat.format_code
         #ExSummary:Shows how to enable and configure data labels for a chart series.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Add a line chart, then clear its demo data series to start with a clean chart,
         # and then set a title.
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.LINE, width=500, height=300)
@@ -113,7 +113,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:Chart.axis_z
         #ExSummary:Shows how to insert a chart and modify the appearance of its axes.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=500, height=300)
         chart = shape.chart
         # Clear the chart's demo data series to start with a clean chart.
@@ -181,7 +181,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:Chart.axes
         #ExSummary:Shows how to work with axes collection.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=500, height=300)
         chart = shape.chart
         # Hide the major grid lines on the primary and secondary Y axes.
@@ -196,7 +196,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartAxis.hidden
         #ExSummary:Shows how to hide chart axes.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.LINE, width=500, height=300)
         chart = shape.chart
         # Clear the chart's demo data series to start with a clean chart.
@@ -221,7 +221,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartNumberFormat.is_linked_to_source
         #ExSummary:Shows how to set formatting for chart values.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=500, height=300)
         chart = shape.chart
         # Clear the chart's demo data series to start with a clean chart.
@@ -241,7 +241,7 @@ class ExCharts(ApiExampleBase):
 
     def test_surface_3d_chart(self):
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.SURFACE_3D, width=500, height=300)
         chart = shape.chart
         chart.series.clear()
@@ -259,7 +259,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartDataLabelCollection.show_series_name
         #ExSummary:Shows how to work with data labels of a bubble chart.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         chart = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.BUBBLE, width=500, height=300).chart
         # Clear the chart's demo data series to start with a clean chart.
         chart.series.clear()
@@ -290,7 +290,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartDataLabelCollection.show_value
         #ExSummary:Shows how to work with data labels of a pie chart.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         chart = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.PIE, width=500, height=300).chart
         # Clear the chart's demo data series to start with a clean chart.
         chart.series.clear()
@@ -319,7 +319,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:IChartDataPoint.explosion
         #ExSummary:Shows how to move the slices of a pie chart away from the center.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.PIE, width=500, height=350)
         chart = shape.chart
         self.assertEqual(1, chart.series.count)
@@ -346,7 +346,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:IChartDataPoint.bubble_3d
         #ExSummary:Shows how to use 3D effects with bubble charts.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.BUBBLE_3D, width=500, height=350)
         chart = shape.chart
         self.assertEqual(1, chart.series.count)
@@ -376,7 +376,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:AxisScaling.type
         #ExSummary:Shows how to apply logarithmic scaling to a chart axis.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         chart_shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.SCATTER, width=450, height=300)
         chart = chart_shape.chart
         # Clear the chart's demo data series to start with a clean chart.
@@ -407,7 +407,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:AxisBound.value_as_date
         #ExSummary:Shows how to set custom axis bounds.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         chart_shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.SCATTER, width=450, height=300)
         chart = chart_shape.chart
         # Clear the chart's demo data series to start with a clean chart.
@@ -462,7 +462,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:LegendPosition
         #ExSummary:Shows how to edit the appearance of a chart's legend.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.LINE, width=450, height=300)
         chart = shape.chart
         self.assertEqual(3, chart.series.count)
@@ -487,7 +487,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartAxis.crosses_at
         #ExSummary:Shows how to get a graph axis to cross at a custom location.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=450, height=250)
         chart = shape.chart
         self.assertEqual(3, chart.series.count)
@@ -517,14 +517,12 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartAxis.major_unit_scale
         #ExFor:ChartAxis.minor_unit_is_auto
         #ExFor:ChartAxis.minor_unit_scale
-        #ExFor:ChartAxis.tick_label_spacing
-        #ExFor:ChartAxis.tick_label_alignment
         #ExFor:AxisDisplayUnit
         #ExFor:AxisDisplayUnit.custom_unit
         #ExFor:AxisDisplayUnit.unit
         #ExSummary:Shows how to manipulate the tick marks and displayed values of a chart axis.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.SCATTER, width=450, height=250)
         chart = shape.chart
         self.assertEqual(1, chart.series.count)
@@ -597,7 +595,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:Fill.preset_textured(PresetTexture)
         #ExSummary:Show how to set marker formatting.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.SCATTER, width=432, height=252)
         chart = shape.chart
         # Delete default generated series.
@@ -626,7 +624,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartSeries.format
         #ExSummary:Sows how to set series color.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=432, height=252)
         chart = shape.chart
         series_coll = chart.series
@@ -650,7 +648,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartDataPoint.format
         #ExSummary:Shows how to set individual formatting for categories of a column chart.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=432, height=252)
         chart = shape.chart
         # Delete default generated series.
@@ -673,7 +671,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartLegendEntry.is_hidden
         #ExSummary:Shows how to work with a legend entry for chart series.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=432, height=252)
         chart = shape.chart
         series = chart.series
@@ -815,7 +813,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartShapeType
         #ExSummary:Shows how to set fill, stroke and callout formatting for chart data labels.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=432, height=252)
         chart = shape.chart
         # Delete default generated series.
@@ -847,7 +845,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartAxisTitle.font
         #ExSummary:Shows how to set chart axis title.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=432, height=252)
         chart = shape.chart
         series_coll = chart.series
@@ -913,7 +911,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartDataTable.show
         #ExSummary:Shows how to show data table with chart series data.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=432, height=252)
         chart = shape.chart
         series = chart.series
@@ -944,7 +942,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:Fill.solid(Color)
         #ExSummary:Shows how to use chart formating.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=432, height=252)
         chart = shape.chart
         # Delete series generated by default.
@@ -987,7 +985,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:AxisGroup
         #ExSummary:Shows how to work with the secondary axis of chart.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.LINE, width=450, height=250)
         chart = shape.chart
         series = chart.series
@@ -1018,7 +1016,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartSeriesGroup.overlap
         #ExSummary:Show how to configure gap width and overlap.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=450, height=250)
         series_group = shape.chart.series_groups[0]
         # Set column gap width and overlap.
@@ -1032,7 +1030,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartSeriesGroup.bubble_scale
         #ExSummary:Show how to set size of the bubbles.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Insert a bubble 3D chart.
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.BUBBLE_3D, width=450, height=250)
         series_group = shape.chart.series_groups[0]
@@ -1059,33 +1057,12 @@ class ExCharts(ApiExampleBase):
             i += 1
         #ExEnd:RemoveSecondaryAxis
 
-    def test_sunburst_chart(self):
-        #ExStart:SunburstChart
-        #ExFor:ChartSeriesCollection.add(str,List[ChartMultilevelValue],List[float])
-        #ExSummary:Shows how to create sunburst chart.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Insert a Sunburst chart.
-        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.SUNBURST, width=450, height=450)
-        chart = shape.chart
-        chart.title.text = 'Sales'
-        # Delete default generated series.
-        chart.series.clear()
-        # Add a series.
-        series = chart.series.add_multilevel_value(series_name='Sales', categories=[aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='UK', level3='London Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='UK', level3='Liverpool Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='UK', level3='Manchester Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='France', level3='Paris Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='France', level3='Lyon Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Denver Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Seattle Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Detroit Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Houston Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='Canada', level3='Toronto Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='Canada', level3='Montreal Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Oceania', level2='Australia', level3='Sydney Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Oceania', level2='New Zealand', level3='Auckland Dep.')], values=[1236, 851, 536, 468, 179, 527, 799, 1148, 921, 457, 482, 761, 694])
-        # Show data labels.
-        series.has_data_labels = True
-        series.data_labels.show_value = False
-        series.data_labels.show_category_name = True
-        doc.save(file_name=ARTIFACTS_DIR + 'Charts.Sunburst.docx')
-        #ExEnd:SunburstChart
-
     def test_histogram_chart(self):
         #ExStart:HistogramChart
         #ExFor:ChartSeriesCollection.add(str,List[float])
         #ExSummary:Shows how to create histogram chart.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Insert a Histogram chart.
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.HISTOGRAM, width=450, height=450)
         chart = shape.chart
@@ -1102,7 +1079,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartSeriesCollection.add(str,List[str],List[float])
         #ExSummary:Shows how to create pareto chart.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Insert a Pareto chart.
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.PARETO, width=450, height=450)
         chart = shape.chart
@@ -1119,7 +1096,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartSeriesCollection.add(str,List[str],List[float])
         #ExSummary:Shows how to create box and whisker chart.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Insert a Box & Whisker chart.
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.BOX_AND_WHISKER, width=450, height=450)
         chart = shape.chart
@@ -1138,7 +1115,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartSeriesCollection.add(str,List[str],List[float],List[bool])
         #ExSummary:Shows how to create waterfall chart.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Insert a Waterfall chart.
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.WATERFALL, width=450, height=450)
         chart = shape.chart
@@ -1161,7 +1138,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ShapeTextOrientation
         #ExSummary:Shows how to change orientation and rotation for data labels.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=432, height=252)
         series = shape.chart.series[0]
         data_labels = series.data_labels
@@ -1187,7 +1164,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:AxisTickLabels.orientation
         #ExSummary:Shows how to change orientation and rotation for axis tick labels.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Insert a column chart.
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=432, height=252)
         x_tick_labels = shape.chart.axis_x.tick_labels
@@ -1545,6 +1522,27 @@ class ExCharts(ApiExampleBase):
         series.data_labels.number_format.format_code = f'0{decimal_separator}0%'
         doc.save(file_name=ARTIFACTS_DIR + 'Charts.Treemap.docx')
         #ExEnd:TreemapChart
+
+    def test_sunburst_chart(self):
+        #ExStart:SunburstChart
+        #ExFor:ChartSeriesCollection.add(str,List[ChartMultilevelValue],List[float])
+        #ExSummary:Shows how to create sunburst chart.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        # Insert a Sunburst chart.
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.SUNBURST, width=450, height=450)
+        chart = shape.chart
+        chart.title.text = 'Sales'
+        # Delete default generated series.
+        chart.series.clear()
+        # Add a series.
+        series = chart.series.add_multilevel_value(series_name='Sales', categories=[aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='UK', level3='London Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='UK', level3='Liverpool Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='UK', level3='Manchester Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='France', level3='Paris Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Europe', level2='France', level3='Lyon Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Denver Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Seattle Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Detroit Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='USA', level3='Houston Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='Canada', level3='Toronto Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - NA', level2='Canada', level3='Montreal Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Oceania', level2='Australia', level3='Sydney Dep.'), aw.drawing.charts.ChartMultilevelValue(level1='Sales - Oceania', level2='New Zealand', level3='Auckland Dep.')], values=[1236, 851, 536, 468, 179, 527, 799, 1148, 921, 457, 482, 761, 694])
+        # Show data labels.
+        series.has_data_labels = True
+        series.data_labels.show_value = False
+        series.data_labels.show_category_name = True
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.Sunburst.docx')
+        #ExEnd:SunburstChart
 
     def test_funnel_chart(self):
         #ExStart:FunnelChart

@@ -6,9 +6,9 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 from datetime import timedelta, timezone
-from document_helper import DocumentHelper
-import os
 import sys
+import os
+from document_helper import DocumentHelper
 import aspose.words as aw
 import aspose.words.fields
 import aspose.words.properties
@@ -28,7 +28,7 @@ class ExDocumentProperties(ApiExampleBase):
         #ExFor:BuiltInDocumentProperties.title
         #ExSummary:Shows how to work with built-in document properties in the "Description" category.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         properties = doc.built_in_document_properties
         # Below are four built-in document properties that have fields that can display their values in the document body.
         # 1 -  "Author" property, which we can display using an AUTHOR field:
@@ -100,7 +100,7 @@ class ExDocumentProperties(ApiExampleBase):
         #ExFor:DocumentProperty.link_source
         #ExSummary:Shows how to link a custom document property to a bookmark.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.start_bookmark('MyBookmark')
         builder.write('Hello world!')
         builder.end_bookmark('MyBookmark')

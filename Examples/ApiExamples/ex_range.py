@@ -5,11 +5,11 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words import Document, DocumentBuilder
-from aspose.words.drawing import ShapeType
 from aspose.words.replacing import FindReplaceOptions
-from datetime import datetime
+from aspose.words.drawing import ShapeType
+from aspose.words import Document, DocumentBuilder
 from typing import List
+from datetime import datetime
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.replacing
@@ -23,7 +23,7 @@ class ExRange(ApiExampleBase):
         #ExFor:Range.replace(str,str)
         #ExSummary:Shows how to perform a find-and-replace text operation on the contents of a document.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Greetings, _FullName_!')
         # Perform a find-and-replace operation on our document's contents and verify the number of replacements that took place.
         replacement_count = doc.range.replace(pattern='_FullName_', replacement='John Doe')
@@ -36,7 +36,7 @@ class ExRange(ApiExampleBase):
         #ExFor:FindReplaceOptions.ignore_shapes
         #ExSummary:Shows how to ignore shapes while replacing text.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.write('Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
         builder.insert_shape(shape_type=aw.drawing.ShapeType.BALLOON, width=200, height=200)
         builder.write('Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
@@ -51,7 +51,7 @@ class ExRange(ApiExampleBase):
         #ExFor:Range.update_fields
         #ExSummary:Shows how to update all the fields in a range.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.insert_field(field_code=' DOCPROPERTY Category')
         builder.insert_break(aw.BreakType.SECTION_BREAK_EVEN_PAGE)
         builder.insert_field(field_code=' DOCPROPERTY Category')
@@ -68,7 +68,7 @@ class ExRange(ApiExampleBase):
 
     def test_replace_with_string(self):
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('This one is sad.')
         builder.writeln('That one is mad.')
         options = aw.replacing.FindReplaceOptions()
@@ -83,7 +83,7 @@ class ExRange(ApiExampleBase):
         #ExFor:Range.replace(str,str)
         #ExSummary:Shows how to add formatting to paragraphs in which a find-and-replace operation has found matches.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Every paragraph that ends with a full stop like this one will be right aligned.')
         builder.writeln('This one will not!')
         builder.write('This one also will.')
@@ -111,7 +111,7 @@ class ExRange(ApiExampleBase):
         #ExFor:Range.delete
         #ExSummary:Shows how to delete all the nodes from a range.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Add text to the first section in the document, and then add another section.
         builder.write('Section 1. ')
         builder.insert_break(aw.BreakType.SECTION_BREAK_CONTINUOUS)
@@ -130,7 +130,7 @@ class ExRange(ApiExampleBase):
         #ExFor:Range.text
         #ExSummary:Shows how to get the text contents of all the nodes that a range covers.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.write('Hello world!')
         self.assertEqual('Hello world!', doc.range.text.strip())
         #ExEnd

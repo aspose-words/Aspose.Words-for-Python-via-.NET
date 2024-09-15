@@ -24,7 +24,7 @@ class ExFieldOptions(ApiExampleBase):
         #ExFor:UserInformation.default_user
         #ExSummary:Shows how to set user details, and display them using fields.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Create a UserInformation object and set it as the data source for fields that display user information.
         user_information = aw.fields.UserInformation()
         user_information.name = 'John Doe'
@@ -64,7 +64,7 @@ class ExFieldOptions(ApiExampleBase):
         #ExFor:FieldOptions.is_bidi_text_supported_on_update
         #ExSummary:Shows how to use FieldOptions to ensure that field updating fully supports bi-directional text.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Ensure that any field operation involving right-to-left text is performs as expected.
         doc.field_options.is_bidi_text_supported_on_update = True
         # Use a document builder to insert a field that contains the right-to-left text.

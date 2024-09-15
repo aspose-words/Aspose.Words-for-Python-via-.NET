@@ -6,8 +6,8 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 from datetime import date, timedelta
-from document_helper import DocumentHelper
 import sys
+from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.fields
@@ -121,7 +121,7 @@ class ExParagraph(ApiExampleBase):
         #ExFor:Paragraph.join_runs_with_same_formatting
         #ExSummary:Shows how to simplify paragraphs by merging superfluous runs.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Insert four runs of text into the paragraph.
         builder.write('Run 1. ')
         builder.write('Run 2. ')

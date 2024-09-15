@@ -22,7 +22,7 @@ class ExFormFields(ApiExampleBase):
         #ExFor:FormField.name
         #ExSummary:Shows how to insert a combo box.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.write('Please select a fruit: ')
         # Insert a combo box which will allow a user to choose an option from a collection of strings.
         combo_box = builder.insert_combo_box('MyComboBox', ['Apple', 'Banana', 'Cherry'], 0)
@@ -43,7 +43,7 @@ class ExFormFields(ApiExampleBase):
         #ExFor:DocumentBuilder.insert_text_input
         #ExSummary:Shows how to insert a text input form field.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.write('Please enter text here: ')
         # Insert a text input field, which will allow the user to click it and enter text.
         # Assign some placeholder text that the user may overwrite and pass

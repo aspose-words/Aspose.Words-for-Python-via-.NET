@@ -55,7 +55,7 @@ class ExTable(ApiExampleBase):
         #ExFor:Table.bottom_padding
         #ExSummary:Shows how to configure content padding in a table.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         table = builder.start_table()
         builder.insert_cell()
         builder.write('Row 1, cell 1.')
@@ -87,7 +87,7 @@ class ExTable(ApiExampleBase):
         #ExFor:CellFormat.shading
         #ExSummary:Shows how to modify the format of rows and cells in a table.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         table = builder.start_table()
         builder.insert_cell()
         builder.write('City')
@@ -303,7 +303,7 @@ class ExTable(ApiExampleBase):
         #ExFor:Range.replace(str,str,FindReplaceOptions)
         #ExSummary:Shows how to replace all instances of String of text in a table and cell.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         table = builder.start_table()
         builder.insert_cell()
         builder.write('Carrots')
@@ -449,7 +449,7 @@ class ExTable(ApiExampleBase):
         #ExFor:TextWrapping
         #ExSummary:Shows how to work with table text wrapping.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         table = builder.start_table()
         builder.insert_cell()
         builder.write('Cell 1')
@@ -501,7 +501,7 @@ class ExTable(ApiExampleBase):
         #ExFor:Table.absolute_vertical_distance
         #ExSummary:Shows how set the location of floating tables.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         table = builder.start_table()
         builder.insert_cell()
         builder.write('Table 1, cell 1')
@@ -534,7 +534,7 @@ class ExTable(ApiExampleBase):
         #ExFor:TableStyle.left_indent
         #ExSummary:Shows how to set the position of a table.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Below are two ways of aligning a table horizontally.
         # 1 -  Use the "Alignment" property to align it to a location on the page, such as the center:
         table_style = doc.styles.add(aw.StyleType.TABLE, 'MyTableStyle1').as_table_style()
@@ -587,6 +587,33 @@ class ExTable(ApiExampleBase):
                 cell = cell.next_cell
             row = row.next_row
         #ExEnd
+
+    def test_context_table_formatting(self):
+        #ExStart:ContextTableFormatting
+        #ExFor:DocumentBuilderOptions
+        #ExFor:DocumentBuilderOptions.context_table_formatting
+        #ExSummary:Shows how to ignore table formatting for content after.
+        doc = aw.Document()
+        builder_options = aw.DocumentBuilderOptions()
+        builder_options.context_table_formatting = True
+        builder = aw.DocumentBuilder(doc=doc, options=builder_options)
+        # Adds content before the table.
+        # Default font size is 12.
+        builder.writeln('Font size 12 here.')
+        builder.start_table()
+        builder.insert_cell()
+        # Changes the font size inside the table.
+        builder.font.size = 5
+        builder.write('Font size 5 here')
+        builder.insert_cell()
+        builder.write('Font size 5 here')
+        builder.end_row()
+        builder.end_table()
+        # If ContextTableFormatting is true, then table formatting isn't applied to the content after.
+        # If ContextTableFormatting is false, then table formatting is applied to the content after.
+        builder.writeln('Font size 12 here.')
+        doc.save(file_name=ARTIFACTS_DIR + 'Table.ContextTableFormatting.docx')
+        #ExEnd:ContextTableFormatting
 
     def test_display_content_of_tables(self):
         #ExStart

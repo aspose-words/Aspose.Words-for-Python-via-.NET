@@ -5,12 +5,13 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import date, datetime
+from datetime import date
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.notes
 import aspose.words.tables
+import datetime
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -24,7 +25,7 @@ class ExInlineStory(ApiExampleBase):
         #ExFor:StoryType
         #ExSummary:Shows how to remove all shapes from a node.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Use a DocumentBuilder to insert a shape. This is an inline shape,
         # which has a parent Paragraph, which is a child node of the first section's Body.
         builder.insert_shape(shape_type=aw.drawing.ShapeType.CUBE, width=100, height=100)
@@ -46,6 +47,30 @@ class ExInlineStory(ApiExampleBase):
         doc.update_actual_reference_marks()
         self.assertEqual('1', footnote.actual_reference_mark)
         #ExEnd:UpdateActualReferenceMarks
+
+    def test_endnote_separator(self):
+        #ExStart:EndnoteSeparator
+        #ExFor:DocumentBase.footnote_separators
+        #ExFor:FootnoteSeparatorType
+        #ExSummary:Shows how to remove endnote separator.
+        doc = aw.Document(file_name=MY_DIR + 'Footnotes and endnotes.docx')
+        endnote_separator = doc.footnote_separators.get_by_footnote_separator_type(aw.notes.FootnoteSeparatorType.ENDNOTE_SEPARATOR)
+        # Remove endnote separator.
+        endnote_separator.first_paragraph.first_child.remove()
+        #ExEnd:EndnoteSeparator
+        doc.save(file_name=ARTIFACTS_DIR + 'InlineStory.EndnoteSeparator.docx')
+
+    def test_footnote_separator(self):
+        #ExStart:FootnoteSeparator
+        #ExFor:DocumentBase.footnote_separators
+        #ExFor:FootnoteSeparatorType
+        #ExSummary:Shows how to manage footnote separator format.
+        doc = aw.Document(file_name=MY_DIR + 'Footnotes and endnotes.docx')
+        footnote_separator = doc.footnote_separators.get_by_footnote_separator_type(aw.notes.FootnoteSeparatorType.FOOTNOTE_SEPARATOR)
+        # Align footnote separator.
+        footnote_separator.first_paragraph.paragraph_format.alignment = aw.ParagraphAlignment.CENTER
+        #ExEnd:FootnoteSeparator
+        doc.save(file_name=ARTIFACTS_DIR + 'InlineStory.FootnoteSeparator.docx')
 
     def test_position_footnote(self):
         for footnote_position in (aw.notes.FootnotePosition.BENEATH_TEXT, aw.notes.FootnotePosition.BOTTOM_OF_PAGE):
@@ -457,7 +482,7 @@ class ExInlineStory(ApiExampleBase):
         # All inline story nodes have their respective story types.
         self.assertEqual(aw.StoryType.FOOTNOTES, footnote.story_type)
         # A comment is another type of inline story.
-        comment = builder.current_paragraph.append_child(aw.Comment(doc, 'John Doe', 'J. D.', datetime.now())).as_comment()
+        comment = builder.current_paragraph.append_child(aw.Comment(doc, 'John Doe', 'J. D.', datetime.datetime.now())).as_comment()
         # The parent paragraph of an inline story node will be the one from the main document body.
         self.assertEqual(doc.first_section.body.first_paragraph, comment.parent_paragraph)
         # However, the last paragraph is the one from the comment text contents,

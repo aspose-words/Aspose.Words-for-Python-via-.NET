@@ -5,11 +5,11 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import sys
-import io
-from enum import Enum
-import aspose.pydrawing as drawing
 from document_helper import DocumentHelper
+import aspose.pydrawing as drawing
+from enum import Enum
+import io
+import sys
 import aspose.words as aw
 import aspose.words.buildingblocks
 import aspose.words.drawing
@@ -44,7 +44,7 @@ class ExField(ApiExampleBase):
         #ExFor:Field.display_result
         #ExSummary:Shows how to get the real text that a field displays in the document.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.write('This document was written by ')
         field_author = builder.insert_field(field_type=aw.fields.FieldType.FIELD_AUTHOR, update_field=True).as_field_author()
         field_author.author_name = 'John Doe'
@@ -63,7 +63,7 @@ class ExField(ApiExampleBase):
 
     def test_insert_tc_field(self):
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Insert a TC field at the current document builder position.
         builder.insert_field(field_code='TC "Entry Text" \\f t')
 
@@ -78,7 +78,7 @@ class ExField(ApiExampleBase):
         #ExFor:Field.remove
         #ExSummary:Shows how to remove fields from a field collection.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.insert_field(field_code=' DATE \\@ "dddd, d MMMM yyyy" ')
         builder.insert_field(field_code=' TIME ')
         builder.insert_field(field_code=' REVNUM ')
@@ -144,7 +144,7 @@ class ExField(ApiExampleBase):
         #ExFor:FieldOptions.template_name
         #ExSummary:Shows how to use a TEMPLATE field to display the local file system location of a document's template.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # We can set a template name using by the fields. This property is used when the "doc.AttachedTemplate" is empty.
         # If this property is empty the default template file name "Normal.dotm" is used.
         doc.field_options.template_name = ''
@@ -219,7 +219,7 @@ class ExField(ApiExampleBase):
         #ExFor:FieldOptions.field_index_format
         #ExSummary:Shows how to formatting FieldIndex fields.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.write('A')
         builder.insert_break(aw.BreakType.LINE_BREAK)
         builder.insert_field(field_code='XE "A"')

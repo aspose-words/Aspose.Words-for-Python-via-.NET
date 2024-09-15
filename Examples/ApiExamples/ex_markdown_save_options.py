@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
-import datetime
-import glob
-import os
-from typing import List
-import sys
 import unittest
+import sys
+from typing import List
+import os
+import glob
+import datetime
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.saving
@@ -18,7 +18,7 @@ class ExMarkdownSaveOptions(ApiExampleBase):
         #ExFor:MarkdownSaveOptions.export_underline_formatting
         #ExSummary:Shows how to export underline formatting as ++.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.underline = aw.Underline.SINGLE
         builder.write('Lorem ipsum. Dolor sit amet.')
         save_options = aw.saving.MarkdownSaveOptions()

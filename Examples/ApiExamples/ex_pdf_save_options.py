@@ -5,14 +5,14 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words import Document
-from aspose.words.saving import PdfTextCompression
-from aspose.words.saving import PdfTextCompression
 from datetime import timedelta, timezone
-import aspose.pydrawing as drawing
-import sys
-import os
+from aspose.words.saving import PdfTextCompression
+from aspose.words.saving import PdfTextCompression
+from aspose.words import Document
 import io
+import os
+import sys
+import aspose.pydrawing as drawing
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.saving
@@ -29,7 +29,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         #ExFor:PdfSaveOptions.save_format
         #ExSummary:Shows how to limit the headings' level that will appear in the outline of a saved PDF document.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Insert headings that can serve as TOC entries of levels 1, 2, and then 3.
         builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING1
         self.assertTrue(builder.paragraph_format.is_heading)
@@ -60,7 +60,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         #ExFor:OutlineOptions.expanded_outline_levels
         #ExSummary:Shows how to convert a whole document to PDF with three levels in the document outline.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Insert headings of levels 1 to 5.
         builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING1
         self.assertTrue(builder.paragraph_format.is_heading)
@@ -128,7 +128,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         #ExFor:PdfZoomBehavior
         #ExSummary:Shows how to set the default zooming that a reader applies when opening a rendered PDF document.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Hello world!')
         # Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         # to modify how that method converts the document to .PDF.
@@ -153,7 +153,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         #ExFor:PdfEncryptionDetails
         #ExSummary:Shows how to set permissions on a saved PDF document.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Hello world!')
         # Extend permissions to allow the editing of annotations.
         encryption_details = aw.saving.PdfEncryptionDetails(user_password='password', owner_password='', permissions=aw.saving.PdfPermissions.MODIFY_ANNOTATIONS | aw.saving.PdfPermissions.DOCUMENT_ASSEMBLY)
@@ -171,7 +171,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         #ExFor:PdfSaveOptions.export_language_to_span_tag
         #ExSummary:Shows how to create a "Span" tag in the document structure to export the text language.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Hello world!')
         builder.writeln('Hola mundo!')
         save_options = aw.saving.PdfSaveOptions()
@@ -185,7 +185,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         #ExFor:PdfSaveOptions.embed_attachments
         #ExSummary:Shows how to add embed attachments to the PDF document.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.insert_ole_object(file_name=MY_DIR + 'Spreadsheet.xlsx', prog_id='Excel.Sheet', is_linked=False, as_icon=True, presentation=None)
         options = aw.saving.PdfSaveOptions()
         options.embed_attachments = True

@@ -5,8 +5,8 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import os
 import sys
+import os
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.saving
@@ -24,7 +24,7 @@ class ExXpsSaveOptions(ApiExampleBase):
         #ExFor:XpsSaveOptions.save_format
         #ExSummary:Shows how to limit the headings' level that will appear in the outline of a saved XPS document.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Insert headings that can serve as TOC entries of levels 1, 2, and then 3.
         builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING1
         self.assertTrue(builder.paragraph_format.is_heading)
@@ -53,7 +53,7 @@ class ExXpsSaveOptions(ApiExampleBase):
         #ExFor:PageSet.__init__(List[int])
         #ExSummary:Shows how to extract pages based on exact page indices.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Add five pages to the document.
         i = 1
         while i < 6:

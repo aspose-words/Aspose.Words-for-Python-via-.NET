@@ -6,8 +6,8 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 from datetime import datetime
-import sys
 import io
+import sys
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.loading

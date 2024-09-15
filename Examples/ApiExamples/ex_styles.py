@@ -128,7 +128,7 @@ class ExStyles(ApiExampleBase):
         #ExFor:ParagraphFormat.style
         #ExSummary:Shows how to create and use a paragraph style with list formatting.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Create a custom paragraph style.
         style = doc.styles.add(aw.StyleType.PARAGRAPH, 'MyStyle1')
         style.font.size = 24
@@ -168,7 +168,7 @@ class ExStyles(ApiExampleBase):
         self.assertEqual('MyStyle Char', style.linked_style_name)
         # We can reference a style using its alias, as well as its name.
         self.assertEqual(doc.styles.get_by_name('MyStyle Alias 1'), doc.styles.get_by_name('MyStyle Alias 2'))
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.move_to_document_end()
         builder.paragraph_format.style = doc.styles.get_by_name('MyStyle Alias 1')
         builder.writeln('Hello world!')

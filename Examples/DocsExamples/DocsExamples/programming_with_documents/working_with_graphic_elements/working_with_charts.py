@@ -173,9 +173,9 @@ class WorkingWithCharts(DocsExamplesBase):
         x_axis.reverse_order = True
         x_axis.major_tick_mark = aw.drawing.charts.AxisTickMark.CROSS
         x_axis.minor_tick_mark = aw.drawing.charts.AxisTickMark.OUTSIDE
-        x_axis.tick_label_offset = 200
+        x_axis.tick_labels.offset = 200
 
-        y_axis.tick_label_position = aw.drawing.charts.AxisTickLabelPosition.HIGH
+        y_axis.tick_labels.position = aw.drawing.charts.AxisTickLabelPosition.HIGH
         y_axis.major_unit = 100
         y_axis.minor_unit = 50
         y_axis.display_unit.unit = aw.drawing.charts.AxisBuiltInUnit.HUNDREDS
@@ -272,7 +272,7 @@ class WorkingWithCharts(DocsExamplesBase):
             ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
             [1.2, 0.3, 2.1, 2.9, 4.2])
 
-        chart.axis_x.tick_label_spacing = 2
+        chart.axis_x.tick_labels.spacing = 2
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.interval_unit_between_labels_on_axis.docx")
         #ExEnd:SetIntervalUnitBetweenLabelsOnAxis
@@ -308,7 +308,7 @@ class WorkingWithCharts(DocsExamplesBase):
 
         axis = shape.chart.axis_x
         # This property has effect only for multi-line labels.
-        axis.tick_label_alignment = aw.ParagraphAlignment.RIGHT
+        axis.tick_labels.alignment = aw.ParagraphAlignment.RIGHT
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.tick_multi_line_label_alignment.docx")
         #ExEnd:TickMultiLineLabelAlignment

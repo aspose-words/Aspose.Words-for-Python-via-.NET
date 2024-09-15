@@ -24,7 +24,7 @@ class ExViewOptions(ApiExampleBase):
         #ExFor:ViewType
         #ExSummary:Shows how to set a custom zoom factor, which older versions of Microsoft Word will apply to a document upon loading.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Hello world!')
         doc.view_options.view_type = aw.settings.ViewType.PAGE_LAYOUT
         doc.view_options.zoom_percent = 50

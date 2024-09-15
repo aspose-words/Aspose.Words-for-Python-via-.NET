@@ -6,14 +6,14 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 from datetime import timedelta, timezone
-import base64
-import aspose.words.drawing
-import io
-import os
-import sys
-import glob
-from urllib.request import urlopen, Request
 from document_helper import DocumentHelper
+from urllib.request import urlopen, Request
+import glob
+import sys
+import os
+import io
+import aspose.words.drawing
+import base64
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.digitalsignatures
@@ -157,9 +157,9 @@ class ExDocument(ApiExampleBase):
         #ExSummary:Shows how to adjust sentence and word spacing automatically.
         src_doc = aw.Document()
         dst_doc = aw.Document()
-        builder = aw.DocumentBuilder(src_doc)
+        builder = aw.DocumentBuilder(doc=src_doc)
         builder.write('Dolor sit amet.')
-        builder = aw.DocumentBuilder(dst_doc)
+        builder = aw.DocumentBuilder(doc=dst_doc)
         builder.write('Lorem ipsum.')
         options = aw.ImportFormatOptions()
         options.adjust_sentence_and_word_spacing = True
@@ -189,7 +189,7 @@ class ExDocument(ApiExampleBase):
         #ExFor:Document.clone
         #ExSummary:Shows how to deep clone a document.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.write('Hello world!')
         # Cloning will produce a new document with the same contents as the original,
         # but with a unique copy of each of the original document's nodes.
@@ -204,7 +204,7 @@ class ExDocument(ApiExampleBase):
         #ExFor:Node.__str__(SaveFormat)
         #ExSummary:Shows the difference between calling the GetText and ToString methods on a node.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.insert_field(field_code='MERGEFIELD Field')
         # GetText will retrieve the visible text as well as field codes and special characters.
         self.assertEqual('\x13MERGEFIELD Field\x14«Field»\x15', doc.get_text().strip())
@@ -229,7 +229,7 @@ class ExDocument(ApiExampleBase):
         # We have not encrypted the document in any way, and we do not need the password to open and edit it programmatically.
         protected_doc = aw.Document(file_name=ARTIFACTS_DIR + 'Document.Protect.docx')
         self.assertEqual(aw.ProtectionType.READ_ONLY, protected_doc.protection_type)
-        builder = aw.DocumentBuilder(protected_doc)
+        builder = aw.DocumentBuilder(doc=protected_doc)
         builder.writeln('Text added to a protected document.')
         self.assertEqual('Text added to a protected document.', protected_doc.range.text.strip())  #ExSkip
         # There are two ways of removing protection from a document.
@@ -290,7 +290,7 @@ class ExDocument(ApiExampleBase):
         #ExFor:Document.page_count
         #ExSummary:Shows how to count the number of pages in the document.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.write('Page 1')
         builder.insert_break(aw.BreakType.PAGE_BREAK)
         builder.write('Page 2')
@@ -314,7 +314,7 @@ class ExDocument(ApiExampleBase):
         #ExFor:BuiltInDocumentProperties.lines
         #ExSummary:Shows how to update all list labels in a document.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Lorem ipsum dolor sit amet, consectetur adipiscing elit, ' + 'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')
         builder.write('Ut enim ad minim veniam, ' + 'quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.')
         # Aspose.Words does not track document metrics like these in real time.
@@ -373,7 +373,7 @@ class ExDocument(ApiExampleBase):
         #ExFor:ThumbnailGeneratingOptions.thumbnail_size
         #ExSummary:Shows how to update a document's thumbnail.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Hello world!')
         builder.insert_image(file_name=IMAGE_DIR + 'Logo.jpg')
         # There are two ways of setting a thumbnail image when saving a document to .epub.
@@ -415,7 +415,7 @@ class ExDocument(ApiExampleBase):
         # which means that the four styles we added are currently unused.
         self.assertEqual(8, doc.styles.count)
         # Apply a custom character style, and then a custom list style. Doing so will mark the styles as "used".
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.font.style = doc.styles.get_by_name('MyParagraphStyle1')
         builder.writeln('Hello world!')
         list = doc.lists.add(list_style=doc.styles.get_by_name('MyListStyle1'))
@@ -437,7 +437,7 @@ class ExDocument(ApiExampleBase):
         #ExFor:Range.normalize_field_types
         #ExSummary:Shows how to get the keep a field's type up to date with its field code.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         field = builder.insert_field(field_code='DATE', field_value=None)
         # Aspose.Words automatically detects field types based on field codes.
         self.assertEqual(aw.fields.FieldType.FIELD_DATE, field.type)
@@ -505,7 +505,7 @@ class ExDocument(ApiExampleBase):
         #ExFor:WriteProtection.validate_password(str)
         #ExSummary:Shows how to protect a document with a password.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Hello world! This document is protected.')
         self.assertFalse(doc.write_protection.is_write_protected)  #ExSkip
         self.assertFalse(doc.write_protection.read_only_recommended)  #ExSkip
@@ -518,7 +518,7 @@ class ExDocument(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'Document.WriteProtection.docx')
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Document.WriteProtection.docx')
         self.assertTrue(doc.write_protection.is_write_protected)
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.move_to_document_end()
         builder.writeln('Writing text in a protected document.')
         self.assertEqual('Hello world! This document is protected.' + '\rWriting text in a protected document.', doc.get_text().strip())
@@ -533,7 +533,7 @@ class ExDocument(ApiExampleBase):
         #ExFor:CommentDisplayMode
         #ExSummary:Shows how to show comments when saving a document to a rendered format.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.write('Hello world!')
         comment = aw.Comment(doc=doc, author='John Doe', initial='J.D.', date_time=datetime.datetime.now())
         comment.set_text('My comment.')
@@ -604,7 +604,7 @@ class ExDocument(ApiExampleBase):
         #ExFor:SaveOutputParameters.content_type
         #ExSummary:Shows how to access output parameters of a document's save operation.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Hello world!')
         # After we save a document, we can access the Internet Media Type (MIME type) of the newly created output document.
         parameters = doc.save(file_name=ARTIFACTS_DIR + 'Document.SaveOutputParameters.doc')
@@ -710,7 +710,7 @@ class ExDocument(ApiExampleBase):
         #ExFor:DocumentBuilder.current_structured_document_tag
         #ExSummary:Shows how to move cursor of DocumentBuilder inside a structured document tag.
         doc = aw.Document(file_name=MY_DIR + 'Structured document tags.docx')
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # There is a several ways to move the cursor:
         # 1 -  Move to the first character of structured document tag by index.
         builder.move_to_structured_document_tag(structured_document_tag_index=1, character_index=1)
@@ -732,7 +732,7 @@ class ExDocument(ApiExampleBase):
         #ExFor:Document.include_textboxes_footnotes_endnotes_in_stat
         #ExSummary: Shows how to include or exclude textboxes, footnotes and endnotes from word count statistics.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Lorem ipsum')
         builder.insert_footnote(footnote_type=aw.notes.FootnoteType.FOOTNOTE, footnote_text='sit amet')
         # By default option is set to 'false'.

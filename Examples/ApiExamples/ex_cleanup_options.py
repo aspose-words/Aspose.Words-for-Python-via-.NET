@@ -30,7 +30,7 @@ class ExCleanupOptions(ApiExampleBase):
         # formatted in that style. This means that the 4 styles we added are currently unused.
         self.assertEqual(8, doc.styles.count)
         # Apply a custom character style, and then a custom list style. Doing so will mark them as "used".
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.font.style = doc.styles.get_by_name('MyParagraphStyle1')
         builder.writeln('Hello world!')
         list = doc.lists.add(list_style=doc.styles.get_by_name('MyListStyle1'))
@@ -69,7 +69,7 @@ class ExCleanupOptions(ApiExampleBase):
         duplicate_style.font.color = aspose.pydrawing.Color.blue
         self.assertEqual(6, doc.styles.count)
         # Apply both styles to different paragraphs within the document.
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.paragraph_format.style_name = my_style.name
         builder.writeln('Hello world!')
         builder.paragraph_format.style_name = duplicate_style.name

@@ -5,10 +5,10 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words import Document, DocumentBuilder, NodeType
 from aspose.words.drawing import ImageType
-import os
+from aspose.words import Document, DocumentBuilder, NodeType
 import aspose.pydrawing as drawing
+import os
 import aspose.words as aw
 import aspose.words.drawing
 import unittest
@@ -21,7 +21,7 @@ class ExImage(ApiExampleBase):
         #ExFor:DocumentBuilder.insert_image(str)
         #ExSummary:Shows how to insert WebP image.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.insert_image(file_name=IMAGE_DIR + 'WebP image.webp')
         doc.save(file_name=ARTIFACTS_DIR + 'Image.InsertWebpImage.docx')
         #ExEnd:InsertWebpImage

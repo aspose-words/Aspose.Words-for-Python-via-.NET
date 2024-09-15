@@ -38,7 +38,7 @@ class ExParagraphFormat(ApiExampleBase):
         #ExFor:LineSpacingRule
         #ExSummary:Shows how to work with line spacing.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Below are three line spacing rules that we can define using the
         # paragraph's "LineSpacingRule" property to configure spacing between paragraphs.
         # 1 -  Set a minimum amount of spacing.
@@ -83,7 +83,7 @@ class ExParagraphFormat(ApiExampleBase):
         #ExFor:OutlineLevel
         #ExSummary:Shows how to configure paragraph outline levels to create collapsible text.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Each paragraph has an OutlineLevel, which could be any number from 1 to 9, or at the default "BodyText" value.
         # Setting the property to one of the numbered values will show an arrow to the left
         # of the beginning of the paragraph.
@@ -116,7 +116,7 @@ class ExParagraphFormat(ApiExampleBase):
         #ExFor:ParagraphFormat.lines_to_drop
         #ExSummary:Shows how to set the size of a drop cap.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Modify the "LinesToDrop" property to designate a paragraph as a drop cap,
         # which will turn it into a large capital letter that will decorate the next paragraph.
         # Give this property a value of 4 to give the drop cap the height of four text lines.

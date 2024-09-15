@@ -5,8 +5,8 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import os
 from document_helper import DocumentHelper
+import os
 import aspose.words as aw
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
@@ -18,7 +18,7 @@ class ExBookmarks(ApiExampleBase):
         #ExFor:Bookmark.name
         #ExSummary:Shows how to insert a bookmark.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # A valid bookmark has a name, a BookmarkStart, and a BookmarkEnd node.
         # Any whitespace in the names of bookmarks will be converted to underscores if we open the saved document with Microsoft Word.
         # If we highlight the bookmark's name in Microsoft Word via Insert -> Links -> Bookmark, and press "Go To",

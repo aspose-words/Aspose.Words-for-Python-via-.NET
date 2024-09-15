@@ -5,10 +5,10 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import sys
-import xml.etree.ElementTree as ET
-import platform
 import io
+import platform
+import xml.etree.ElementTree as ET
+import sys
 import aspose.words as aw
 import aspose.words.fonts
 import aspose.words.loading
@@ -26,7 +26,7 @@ class ExFontSettings(ApiExampleBase):
         aw.fonts.FontSettings.default_instance.substitution_settings.default_font_substitution.default_font_name = 'Courier New'
         self.assertTrue(aw.fonts.FontSettings.default_instance.substitution_settings.default_font_substitution.enabled)
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.font.name = 'Non-existent font'
         builder.write('Hello world!')
         # This document does not have a FontSettings configuration. When we render the document,
@@ -154,7 +154,7 @@ class ExFontSettings(ApiExampleBase):
         default_font_substitution_rule.default_font_name = 'Courier New'
         # Using a document builder, add some text in a font that we do not have to see the substitution take place,
         # and then render the result in a PDF.
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.font.name = 'Missing Font'
         builder.writeln('Line written in a missing font, which will be substituted with Courier New.')
         doc.save(file_name=ARTIFACTS_DIR + 'FontSettings.DefaultFontSubstitutionRule.pdf')

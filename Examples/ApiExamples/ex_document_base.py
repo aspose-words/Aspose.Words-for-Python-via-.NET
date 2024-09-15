@@ -19,7 +19,7 @@ class ExDocumentBase(ApiExampleBase):
         #ExFor:DocumentBase.page_color
         #ExSummary:Shows how to set the background color for all pages of a document.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Hello world!')
         doc.page_color = aspose.pydrawing.Color.light_gray
         doc.save(file_name=ARTIFACTS_DIR + 'DocumentBase.SetPageColor.docx')
@@ -36,13 +36,13 @@ class ExDocumentBase(ApiExampleBase):
         src_doc = aw.Document()
         src_style = src_doc.styles.add(aw.StyleType.CHARACTER, 'My style')
         src_style.font.name = 'Courier New'
-        src_builder = aw.DocumentBuilder(src_doc)
+        src_builder = aw.DocumentBuilder(doc=src_doc)
         src_builder.font.style = src_style
         src_builder.writeln('Source document text.')
         dst_doc = aw.Document()
         dst_style = dst_doc.styles.add(aw.StyleType.CHARACTER, 'My style')
         dst_style.font.name = 'Calibri'
-        dst_builder = aw.DocumentBuilder(dst_doc)
+        dst_builder = aw.DocumentBuilder(doc=dst_doc)
         dst_builder.font.style = dst_style
         dst_builder.writeln('Destination document text.')
         # Import the Section from the destination document into the source document, causing a style name collision.

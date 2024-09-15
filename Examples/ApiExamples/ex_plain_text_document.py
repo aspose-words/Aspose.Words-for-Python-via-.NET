@@ -20,7 +20,7 @@ class ExPlainTextDocument(ApiExampleBase):
         #ExFor:PlainTextDocument.text
         #ExSummary:Shows how to load the contents of a Microsoft Word document in plaintext.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Hello world!')
         doc.save(file_name=ARTIFACTS_DIR + 'PlainTextDocument.Load.docx')
         plaintext = aw.PlainTextDocument(file_name=ARTIFACTS_DIR + 'PlainTextDocument.Load.docx')
@@ -32,7 +32,7 @@ class ExPlainTextDocument(ApiExampleBase):
         #ExFor:PlainTextDocument.__init__(str,LoadOptions)
         #ExSummary:Shows how to load the contents of an encrypted Microsoft Word document in plaintext.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Hello world!')
         save_options = aw.saving.OoxmlSaveOptions()
         save_options.password = 'MyPassword'
@@ -48,7 +48,7 @@ class ExPlainTextDocument(ApiExampleBase):
         #ExFor:PlainTextDocument.built_in_document_properties
         #ExSummary:Shows how to load the contents of a Microsoft Word document in plaintext and then access the original document's built-in properties.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Hello world!')
         doc.built_in_document_properties.author = 'John Doe'
         doc.save(file_name=ARTIFACTS_DIR + 'PlainTextDocument.BuiltInProperties.docx')
@@ -62,7 +62,7 @@ class ExPlainTextDocument(ApiExampleBase):
         #ExFor:PlainTextDocument.custom_document_properties
         #ExSummary:Shows how to load the contents of a Microsoft Word document in plaintext and then access the original document's custom properties.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('Hello world!')
         doc.custom_document_properties.add(name='Location of writing', value='123 Main St, London, UK')
         doc.save(file_name=ARTIFACTS_DIR + 'PlainTextDocument.CustomDocumentProperties.docx')

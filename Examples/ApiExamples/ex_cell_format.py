@@ -19,7 +19,7 @@ class ExCellFormat(ApiExampleBase):
         #ExFor:CellFormat.vertical_merge
         #ExSummary:Shows how to merge table cells vertically.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Insert a cell into the first column of the first row.
         # This cell will be the first in a range of vertically merged cells.
         builder.insert_cell()
@@ -56,7 +56,7 @@ class ExCellFormat(ApiExampleBase):
         #ExFor:CellFormat.horizontal_merge
         #ExSummary:Shows how to merge table cells horizontally.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Insert a cell into the first column of the first row.
         # This cell will be the first in a range of horizontally merged cells.
         builder.insert_cell()
@@ -88,7 +88,7 @@ class ExCellFormat(ApiExampleBase):
         #ExFor:CellFormat.set_paddings
         #ExSummary:Shows how to pad the contents of a cell with whitespace.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Set a padding distance (in points) between the border and the text contents
         # of each table cell we create with the document builder.
         builder.cell_format.set_paddings(5, 10, 40, 50)
