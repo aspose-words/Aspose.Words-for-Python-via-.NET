@@ -5,18 +5,19 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import timedelta, timezone
-from aspose.words.saving import PdfTextCompression
-from aspose.words.saving import PdfTextCompression
 from aspose.words import Document
-import io
-import os
-import sys
+from aspose.words.saving import PdfTextCompression
+from aspose.words.saving import PdfTextCompression
+from datetime import timedelta, timezone
 import aspose.pydrawing as drawing
+import sys
+import os
+import io
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.saving
 import datetime
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR, IMAGE_DIR, FONTS_DIR
 
@@ -190,6 +191,19 @@ class ExPdfSaveOptions(ApiExampleBase):
         options = aw.saving.PdfSaveOptions()
         options.embed_attachments = True
         doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.PdfEmbedAttachments.pdf', save_options=options)
+        #ExEnd
+
+    def test_cache_background_graphics(self):
+        #ExStart
+        #ExFor:PdfSaveOptions.cache_background_graphics
+        #ExSummary:Shows how to cache graphics placed in document's background.
+        doc = aw.Document(file_name=MY_DIR + 'Background images.docx')
+        save_options = aw.saving.PdfSaveOptions()
+        save_options.cache_background_graphics = True
+        doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.CacheBackgroundGraphics.pdf', save_options=save_options)
+        aspose_to_pdf_size = system_helper.io.FileInfo(ARTIFACTS_DIR + 'PdfSaveOptions.CacheBackgroundGraphics.pdf').length()
+        word_to_pdf_size = system_helper.io.FileInfo(MY_DIR + 'Background images (word to pdf).pdf').length()
+        self.assertLess(aspose_to_pdf_size, word_to_pdf_size)
         #ExEnd
 
     def test_export_paragraph_graphics_to_artifact(self):
@@ -1168,17 +1182,4 @@ class ExPdfSaveOptions(ApiExampleBase):
         # 3 -  Save every page:
         options.page_set = aw.saving.PageSet.all
         doc.save(ARTIFACTS_DIR + 'PdfSaveOptions.export_page_set.all.pdf', options)
-        #ExEnd
-
-    def test_cache_background_graphics(self):
-        #ExStart
-        #ExFor:PdfSaveOptions.cache_background_graphics
-        #ExSummary:Shows how to cache graphics placed in document's background.
-        doc = aw.Document(MY_DIR + 'Background images.docx')
-        save_options = aw.saving.PdfSaveOptions()
-        save_options.cache_background_graphics = True
-        doc.save(ARTIFACTS_DIR + 'PdfSaveOptions.CacheBackgroundGraphics.pdf', save_options)
-        aspose_to_pdf_size = os.stat(ARTIFACTS_DIR + 'PdfSaveOptions.CacheBackgroundGraphics.pdf').st_size
-        word_to_pdf_size = os.stat(MY_DIR + 'Background images (word to pdf).pdf').st_size
-        self.assertLess(aspose_to_pdf_size, word_to_pdf_size)
         #ExEnd

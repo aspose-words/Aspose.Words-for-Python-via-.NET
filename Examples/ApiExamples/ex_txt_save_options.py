@@ -8,10 +8,65 @@
 import sys
 import aspose.words as aw
 import aspose.words.saving
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR
 
 class ExTxtSaveOptions(ApiExampleBase):
+
+    def test_txt_list_indentation(self):
+        #ExStart
+        #ExFor:TxtListIndentation
+        #ExFor:TxtListIndentation.count
+        #ExFor:TxtListIndentation.character
+        #ExFor:TxtSaveOptions.list_indentation
+        #ExSummary:Shows how to configure list indenting when saving a document to plaintext.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Create a list with three levels of indentation.
+        builder.list_format.apply_number_default()
+        builder.writeln('Item 1')
+        builder.list_format.list_indent()
+        builder.writeln('Item 2')
+        builder.list_format.list_indent()
+        builder.write('Item 3')
+        # Create a "TxtSaveOptions" object, which we can pass to the document's "Save" method
+        # to modify how we save the document to plaintext.
+        txt_save_options = aw.saving.TxtSaveOptions()
+        # Set the "Character" property to assign a character to use
+        # for padding that simulates list indentation in plaintext.
+        txt_save_options.list_indentation.character = ' '
+        # Set the "Count" property to specify the number of times
+        # to place the padding character for each list indent level.
+        txt_save_options.list_indentation.count = 3
+        doc.save(file_name=ARTIFACTS_DIR + 'TxtSaveOptions.TxtListIndentation.txt', save_options=txt_save_options)
+        doc_text = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'TxtSaveOptions.TxtListIndentation.txt')
+        new_line = system_helper.environment.Environment.new_line()
+        self.assertEqual(f'1. Item 1{new_line}' + f'   a. Item 2{new_line}' + f'      i. Item 3{new_line}', doc_text)
+        #ExEnd
+
+    def test_paragraph_break(self):
+        #ExStart
+        #ExFor:TxtSaveOptions
+        #ExFor:TxtSaveOptions.save_format
+        #ExFor:TxtSaveOptionsBase
+        #ExFor:TxtSaveOptionsBase.paragraph_break
+        #ExSummary:Shows how to save a .txt document with a custom paragraph break.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.writeln('Paragraph 1.')
+        builder.writeln('Paragraph 2.')
+        builder.write('Paragraph 3.')
+        # Create a "TxtSaveOptions" object, which we can pass to the document's "Save" method
+        # to modify how we save the document to plaintext.
+        txt_save_options = aw.saving.TxtSaveOptions()
+        self.assertEqual(aw.SaveFormat.TEXT, txt_save_options.save_format)
+        # Set the "ParagraphBreak" to a custom value that we wish to put at the end of every paragraph.
+        txt_save_options.paragraph_break = ' End of paragraph.\n\n\t'
+        doc.save(file_name=ARTIFACTS_DIR + 'TxtSaveOptions.ParagraphBreak.txt', save_options=txt_save_options)
+        doc_text = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'TxtSaveOptions.ParagraphBreak.txt')
+        self.assertEqual('Paragraph 1. End of paragraph.\n\n\t' + 'Paragraph 2. End of paragraph.\n\n\t' + 'Paragraph 3. End of paragraph.\n\n\t', doc_text)
+        #ExEnd
 
     def test_max_characters_per_line(self):
         #ExStart
@@ -132,37 +187,6 @@ class ExTxtSaveOptions(ApiExampleBase):
                     self.assertEqual('Page 1\r\n' + 'Page 2\r\n' + 'Page 3\r\n', doc_text)
                 #ExEnd
 
-    def test_txt_list_indentation(self):
-        #ExStart
-        #ExFor:TxtListIndentation
-        #ExFor:TxtListIndentation.count
-        #ExFor:TxtListIndentation.character
-        #ExFor:TxtSaveOptions.list_indentation
-        #ExSummary:Shows how to configure list indenting when saving a document to plaintext.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Create a list with three levels of indentation.
-        builder.list_format.apply_number_default()
-        builder.writeln('Item 1')
-        builder.list_format.list_indent()
-        builder.writeln('Item 2')
-        builder.list_format.list_indent()
-        builder.write('Item 3')
-        # Create a "TxtSaveOptions" object, which we can pass to the document's "save" method
-        # to modify how we save the document to plaintext.
-        txt_save_options = aw.saving.TxtSaveOptions()
-        # Set the "character" property to assign a character to use
-        # for padding that simulates list indentation in plaintext.
-        txt_save_options.list_indentation.character = ' '
-        # Set the "count" property to specify the number of times
-        # to place the padding character for each list indent level.
-        txt_save_options.list_indentation.count = 3
-        doc.save(ARTIFACTS_DIR + 'TxtSaveOptions.txt_list_indentation.txt', txt_save_options)
-        with open(ARTIFACTS_DIR + 'TxtSaveOptions.txt_list_indentation.txt', 'rb') as file:
-            doc_text = file.read().decode('utf-8-sig')
-        self.assertEqual('1. Item 1\r\n' + '   a. Item 2\r\n' + '      i. Item 3\r\n', doc_text)
-        #ExEnd
-
     def test_simplify_list_labels(self):
         for simplify_list_labels in (False, True):
             with self.subTest(simplify_list_labels=simplify_list_labels):
@@ -197,30 +221,6 @@ class ExTxtSaveOptions(ApiExampleBase):
                 else:
                     self.assertEqual('· Item 1\r\n' + 'o Item 2\r\n' + '§ Item 3\r\n' + '· Item 4\r\n' + 'o Item 5\r\n', doc_text)
                 #ExEnd
-
-    def test_paragraph_break(self):
-        #ExStart
-        #ExFor:TxtSaveOptions
-        #ExFor:TxtSaveOptions.save_format
-        #ExFor:TxtSaveOptionsBase
-        #ExFor:TxtSaveOptionsBase.paragraph_break
-        #ExSummary:Shows how to save a .txt document with a custom paragraph break.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.writeln('Paragraph 1.')
-        builder.writeln('Paragraph 2.')
-        builder.write('Paragraph 3.')
-        # Create a "TxtSaveOptions" object, which we can pass to the document's "Save" method
-        # to modify how we save the document to plaintext.
-        txt_save_options = aw.saving.TxtSaveOptions()
-        self.assertEqual(aw.SaveFormat.TEXT, txt_save_options.save_format)
-        # Set the "paragraph_break" to a custom value that we wish to put at the end of every paragraph.
-        txt_save_options.paragraph_break = ' End of paragraph.\n\n\t'
-        doc.save(ARTIFACTS_DIR + 'TxtSaveOptions.paragraph_break.txt', txt_save_options)
-        with open(ARTIFACTS_DIR + 'TxtSaveOptions.paragraph_break.txt', 'rb') as file:
-            doc_text = file.read().decode('utf-8-sig')
-        self.assertEqual('Paragraph 1. End of paragraph.\n\n\t' + 'Paragraph 2. End of paragraph.\n\n\t' + 'Paragraph 3. End of paragraph.\n\n\t', doc_text)
-        #ExEnd
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_encoding(self):

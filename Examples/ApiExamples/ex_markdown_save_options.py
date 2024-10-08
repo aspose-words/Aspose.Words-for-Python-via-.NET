@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
-import unittest
-import sys
-from typing import List
-import os
-import glob
 import datetime
+import glob
+from typing import List
+import sys
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.saving
+import os
+import system_helper
+import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR, FONTS_DIR
 
 class ExMarkdownSaveOptions(ApiExampleBase):
@@ -25,6 +26,53 @@ class ExMarkdownSaveOptions(ApiExampleBase):
         save_options.export_underline_formatting = True
         doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.ExportUnderlineFormatting.md', save_options=save_options)
         #ExEnd:ExportUnderlineFormatting
+
+    def test_link_export_mode(self):
+        #ExStart:LinkExportMode
+        #ExFor:MarkdownSaveOptions.link_export_mode
+        #ExFor:MarkdownLinkExportMode
+        #ExSummary:Shows how to links will be written to the .md file.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.insert_shape(shape_type=aw.drawing.ShapeType.BALLOON, width=100, height=100)
+        # Image will be written as reference:
+        # ![ref1]
+        #
+        # [ref1]: aw_ref.001.png
+        save_options = aw.saving.MarkdownSaveOptions()
+        save_options.link_export_mode = aw.saving.MarkdownLinkExportMode.REFERENCE
+        doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.LinkExportMode.Reference.md', save_options=save_options)
+        # Image will be written as inline:
+        # ![](aw_inline.001.png)
+        save_options.link_export_mode = aw.saving.MarkdownLinkExportMode.INLINE
+        doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.LinkExportMode.Inline.md', save_options=save_options)
+        #ExEnd:LinkExportMode
+        out_doc_contents = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'MarkdownSaveOptions.LinkExportMode.Inline.md')
+        self.assertEqual('![](MarkdownSaveOptions.LinkExportMode.Inline.001.png)', out_doc_contents.strip())
+
+    def test_export_table_as_html(self):
+        #ExStart:ExportTableAsHtml
+        #ExFor:MarkdownExportAsHtml
+        #ExFor:MarkdownSaveOptions.export_as_html
+        #ExSummary:Shows how to export a table to Markdown as raw HTML.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.writeln('Sample table:')
+        # Create table.
+        builder.insert_cell()
+        builder.paragraph_format.alignment = aw.ParagraphAlignment.RIGHT
+        builder.write('Cell1')
+        builder.insert_cell()
+        builder.paragraph_format.alignment = aw.ParagraphAlignment.CENTER
+        builder.write('Cell2')
+        save_options = aw.saving.MarkdownSaveOptions()
+        save_options.export_as_html = aw.saving.MarkdownExportAsHtml.TABLES
+        doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.ExportTableAsHtml.md', save_options=save_options)
+        #ExEnd:ExportTableAsHtml
+        new_line = system_helper.environment.Environment.new_line()
+        out_doc_contents = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'MarkdownSaveOptions.ExportTableAsHtml.md')
+        self.assertEqual(f'Sample table:{new_line}<table cellspacing="0" cellpadding="0" style="width:100%; border:0.75pt solid #000000; border-collapse:collapse">' + '<tr><td style="border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top">' + '<p style="margin-top:0pt; margin-bottom:0pt; text-align:right; font-size:12pt"><span style="font-family:\'Times New Roman\'">Cell1</span></p>' + '</td><td style="border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top">' + '<p style="margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:12pt"><span style="font-family:\'Times New Roman\'">Cell2</span></p>' + '</td></tr></table>', out_doc_contents.strip())
+
 
     def test_markdown_document_table_content_alignment(self):
         parameters = [aw.saving.TableContentAlignment.LEFT, aw.saving.TableContentAlignment.RIGHT, aw.saving.TableContentAlignment.CENTER, aw.saving.TableContentAlignment.AUTO]
@@ -103,26 +151,3 @@ class ExMarkdownSaveOptions(ApiExampleBase):
         saveOptions.images_folder_alias = 'http://example.com/images'
         builder.document.save(ARTIFACTS_DIR + 'MarkdownSaveOptions.ImagesFolder.md', saveOptions)
         #ExEnd
-
-    def test_link_export_mode(self):
-        #ExStart:LinkExportMode
-        #ExFor: MarkdownSaveOptions.link_export_mode
-        #ExFor: MarkdownLinkExportMode
-        #ExSummary: Shows how to links will be written to the .md file.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.insert_shape(aw.drawing.ShapeType.BALLOON, 100, 100)
-        # Image will be written as reference:
-        # ![ref1]
-        #
-        # [ref1]: aw_ref.001.png
-        save_options = aw.saving.MarkdownSaveOptions()
-        save_options.link_export_mode = aw.saving.MarkdownLinkExportMode.REFERENCE
-        doc.save(ARTIFACTS_DIR + 'MarkdownSaveOptions.LinkExportMode.Reference.md', save_options)
-        # Image will be written as inline:
-        # ![](aw_inline.001.png)
-        save_options.link_export_mode = aw.saving.MarkdownLinkExportMode.INLINE
-        doc.save(ARTIFACTS_DIR + 'MarkdownSaveOptions.LinkExportMode.Inline.md', save_options)
-        #ExEnd: LinkExportMode
-        out_doc_contents = open(ARTIFACTS_DIR + 'MarkdownSaveOptions.LinkExportMode.Inline.md').read()
-        self.assertIn('![](MarkdownSaveOptions.LinkExportMode.Inline.001.png)', out_doc_contents.strip())

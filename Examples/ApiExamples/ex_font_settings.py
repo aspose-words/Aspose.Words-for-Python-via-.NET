@@ -5,13 +5,14 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import io
-import platform
-import xml.etree.ElementTree as ET
 import sys
+import xml.etree.ElementTree as ET
+import platform
+import io
 import aspose.words as aw
 import aspose.words.fonts
 import aspose.words.loading
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, FONTS_DIR, MY_DIR
 
@@ -101,6 +102,23 @@ class ExFontSettings(ApiExampleBase):
         folder_source = doc.font_settings.get_fonts_sources()[1].as_folder_font_source()
         self.assertEqual('C:\\Windows\\Fonts\\', folder_source.folder_path)
         self.assertTrue(folder_source.scan_subfolders)
+
+    def test_font_source_memory(self):
+        #ExStart
+        #ExFor:MemoryFontSource
+        #ExFor:MemoryFontSource.__init__(bytes)
+        #ExFor:MemoryFontSource.__init__(bytes,int)
+        #ExFor:MemoryFontSource.font_data
+        #ExFor:MemoryFontSource.type
+        #ExSummary:Shows how to use a byte array with data from a font file as a font source.
+        font_bytes = system_helper.io.File.read_all_bytes(MY_DIR + 'Alte DIN 1451 Mittelschrift.ttf')
+        memory_font_source = aw.fonts.MemoryFontSource(font_data=font_bytes, priority=0)
+        doc = aw.Document()
+        doc.font_settings = aw.fonts.FontSettings()
+        doc.font_settings.set_fonts_sources(sources=[memory_font_source])
+        self.assertEqual(aw.fonts.FontSourceType.MEMORY_FONT, memory_font_source.type)
+        self.assertEqual(0, memory_font_source.priority)
+        #ExEnd
 
     def test_load_font_fallback_settings_from_file(self):
         #ExStart
@@ -368,24 +386,6 @@ class ExFontSettings(ApiExampleBase):
         self.assertListEqual(['Times New Roman', 'Arial'], list(alternative_fonts))
         alternative_fonts = doc.font_settings.substitution_settings.table_substitution.get_substitutes('Arvo')
         self.assertListEqual(['Open Sans', 'Arial'], list(alternative_fonts))
-
-    def test_font_source_memory(self):
-        #ExStart
-        #ExFor:MemoryFontSource
-        #ExFor:MemoryFontSource.__init__(bytes)
-        #ExFor:MemoryFontSource.__init__(bytes,int)
-        #ExFor:MemoryFontSource.font_data
-        #ExFor:MemoryFontSource.type
-        #ExSummary:Shows how to use a byte array with data from a font file as a font source.
-        with open(MY_DIR + 'Alte DIN 1451 Mittelschrift.ttf', 'rb') as file:
-            font_bytes = file.read()
-        memory_font_source = aw.fonts.MemoryFontSource(font_bytes, 0)
-        doc = aw.Document()
-        doc.font_settings = aw.fonts.FontSettings()
-        doc.font_settings.set_fonts_sources([memory_font_source])
-        self.assertEqual(aw.fonts.FontSourceType.MEMORY_FONT, memory_font_source.type)
-        self.assertEqual(0, memory_font_source.priority)
-        #ExEnd
 
     def test_font_source_system(self):
         #ExStart

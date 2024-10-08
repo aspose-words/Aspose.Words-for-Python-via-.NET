@@ -5,14 +5,15 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import glob
-import os
-import pathlib
 import sys
+import pathlib
+import glob
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.fonts
 import aspose.words.themes
+import os
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, FONTS_DIR, MY_DIR
 
@@ -587,6 +588,30 @@ class ExFont(ApiExampleBase):
         self.assertTrue(doc.font_infos.contains('Arial'))
         #ExEnd
 
+    def test_extract_embedded_font(self):
+        #ExStart
+        #ExFor:EmbeddedFontFormat
+        #ExFor:EmbeddedFontStyle
+        #ExFor:FontInfo.get_embedded_font(EmbeddedFontFormat,EmbeddedFontStyle)
+        #ExFor:FontInfo.get_embedded_font_as_open_type(EmbeddedFontStyle)
+        #ExFor:FontInfoCollection.__getitem__(int)
+        #ExFor:FontInfoCollection.__getitem__(str)
+        #ExSummary:Shows how to extract an embedded font from a document, and save it to the local file system.
+        doc = aw.Document(file_name=MY_DIR + 'Embedded font.docx')
+        embedded_font = doc.font_infos.get_by_name('Alte DIN 1451 Mittelschrift')
+        embedded_font_bytes = embedded_font.get_embedded_font(aw.fonts.EmbeddedFontFormat.OPEN_TYPE, aw.fonts.EmbeddedFontStyle.REGULAR)
+        self.assertIsNotNone(embedded_font_bytes)  #ExSkip
+        system_helper.io.File.write_all_bytes(ARTIFACTS_DIR + 'Alte DIN 1451 Mittelschrift.ttf', embedded_font_bytes)
+        # Embedded font formats may be different in other formats such as .doc.
+        # We need to know the correct format before we can extract the font.
+        doc = aw.Document(file_name=MY_DIR + 'Embedded font.doc')
+        self.assertIsNone(doc.font_infos.get_by_name('Alte DIN 1451 Mittelschrift').get_embedded_font(aw.fonts.EmbeddedFontFormat.OPEN_TYPE, aw.fonts.EmbeddedFontStyle.REGULAR))
+        self.assertIsNotNone(doc.font_infos.get_by_name('Alte DIN 1451 Mittelschrift').get_embedded_font(aw.fonts.EmbeddedFontFormat.EMBEDDED_OPEN_TYPE, aw.fonts.EmbeddedFontStyle.REGULAR))
+        # Also, we can convert embedded OpenType format, which comes from .doc documents, to OpenType.
+        embedded_font_bytes = doc.font_infos.get_by_name('Alte DIN 1451 Mittelschrift').get_embedded_font_as_open_type(aw.fonts.EmbeddedFontStyle.REGULAR)
+        system_helper.io.File.write_all_bytes(ARTIFACTS_DIR + 'Alte DIN 1451 Mittelschrift.otf', embedded_font_bytes)
+        #ExEnd
+
     @unittest.skipUnless(sys.platform.startswith('win'), 'different calculation on Linux')
     def test_line_spacing(self):
         #ExStart
@@ -931,32 +956,6 @@ class ExFont(ApiExampleBase):
             print()
         #ExEnd
         self.assertEqual(len(folder_font_source[0].get_available_fonts()), len(glob.glob(FONTS_DIR + '**/*.ttf', recursive=True) + glob.glob(FONTS_DIR + '**/*.otf', recursive=True)))
-
-    def test_extract_embedded_font(self):
-        #ExStart
-        #ExFor:EmbeddedFontFormat
-        #ExFor:EmbeddedFontStyle
-        #ExFor:FontInfo.get_embedded_font(EmbeddedFontFormat,EmbeddedFontStyle)
-        #ExFor:FontInfo.get_embedded_font_as_open_type(EmbeddedFontStyle)
-        #ExFor:FontInfoCollection.__getitem__(int)
-        #ExFor:FontInfoCollection.__getitem__(str)
-        #ExSummary:Shows how to extract an embedded font from a document, and save it to the local file system.
-        doc = aw.Document(MY_DIR + 'Embedded font.docx')
-        embedded_font = doc.font_infos.get_by_name('Alte DIN 1451 Mittelschrift')
-        embedded_font_bytes = embedded_font.get_embedded_font(aw.fonts.EmbeddedFontFormat.OPEN_TYPE, aw.fonts.EmbeddedFontStyle.REGULAR)
-        self.assertIsNotNone(embedded_font_bytes)  #ExSkip
-        with open(ARTIFACTS_DIR + 'Alte DIN 1451 Mittelschrift.ttf', 'wb') as file:
-            file.write(embedded_font_bytes)
-        # Embedded font formats may be different in other formats such as .doc.
-        # We need to know the correct format before we can extract the font.
-        doc = aw.Document(MY_DIR + 'Embedded font.doc')
-        self.assertIsNone(doc.font_infos.get_by_name('Alte DIN 1451 Mittelschrift').get_embedded_font(aw.fonts.EmbeddedFontFormat.OPEN_TYPE, aw.fonts.EmbeddedFontStyle.REGULAR))
-        self.assertIsNotNone(doc.font_infos.get_by_name('Alte DIN 1451 Mittelschrift').get_embedded_font(aw.fonts.EmbeddedFontFormat.EMBEDDED_OPEN_TYPE, aw.fonts.EmbeddedFontStyle.REGULAR))
-        # Also, we can convert embedded OpenType format, which comes from .doc documents, to OpenType.
-        embedded_font_bytes = doc.font_infos.get_by_name('Alte DIN 1451 Mittelschrift').get_embedded_font_as_open_type(aw.fonts.EmbeddedFontStyle.REGULAR)
-        with open(ARTIFACTS_DIR + 'Alte DIN 1451 Mittelschrift.otf', 'wb') as file:
-            file.write(embedded_font_bytes)
-        #ExEnd
 
     def test_get_font_info_from_file(self):
         #ExStart

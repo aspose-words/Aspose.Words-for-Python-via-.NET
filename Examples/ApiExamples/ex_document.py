@@ -6,18 +6,19 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 from datetime import timedelta, timezone
-from document_helper import DocumentHelper
-from urllib.request import urlopen, Request
-import glob
-import sys
-import os
-import io
-import aspose.words.drawing
 import base64
+import aspose.words.drawing
+import io
+import os
+import sys
+import glob
+from urllib.request import urlopen, Request
+from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.fields
+import aspose.words.fonts
 import aspose.words.layout
 import aspose.words.loading
 import aspose.words.notes
@@ -26,8 +27,9 @@ import aspose.words.saving
 import aspose.words.settings
 import aspose.words.webextensions
 import datetime
+import system_helper
 import unittest
-from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR, FONTS_DIR, GOLDS_DIR
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR, FONTS_DIR, IMAGE_DIR, MY_DIR, GOLDS_DIR
 
 class ExDocument(ApiExampleBase):
 
@@ -82,6 +84,18 @@ class ExDocument(ApiExampleBase):
         load_options.password = 'Aspose'
         load_options.load_format = aw.LoadFormat.PDF
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Document.PdfDocumentEncrypted.pdf', load_options=load_options)
+
+    def test_temp_folder(self):
+        #ExStart
+        #ExFor:LoadOptions.temp_folder
+        #ExSummary:Shows how to load a document using temporary files.
+        # Note that such an approach can reduce memory usage but degrades speed
+        load_options = aw.loading.LoadOptions()
+        load_options.temp_folder = 'C:\\TempFolder\\'
+        # Ensure that the directory exists and load
+        system_helper.io.Directory.create_directory(load_options.temp_folder)
+        doc = aw.Document(file_name=MY_DIR + 'Document.docx', load_options=load_options)
+        #ExEnd
 
     def test_convert_to_html(self):
         #ExStart
@@ -431,6 +445,45 @@ class ExDocument(ApiExampleBase):
         self.assertEqual(4, doc.styles.count)
         #ExEnd
 
+    def test_automatically_update_styles(self):
+        #ExStart
+        #ExFor:Document.automatically_update_styles
+        #ExSummary:Shows how to attach a template to a document.
+        doc = aw.Document()
+        # Microsoft Word documents by default come with an attached template called "Normal.dotm".
+        # There is no default template for blank Aspose.Words documents.
+        self.assertEqual('', doc.attached_template)
+        # Attach a template, then set the flag to apply style changes
+        # within the template to styles in our document.
+        doc.attached_template = MY_DIR + 'Business brochure.dotx'
+        doc.automatically_update_styles = True
+        doc.save(file_name=ARTIFACTS_DIR + 'Document.AutomaticallyUpdateStyles.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Document.AutomaticallyUpdateStyles.docx')
+        self.assertTrue(doc.automatically_update_styles)
+        self.assertEqual(MY_DIR + 'Business brochure.dotx', doc.attached_template)
+        self.assertTrue(system_helper.io.File.exist(doc.attached_template))
+
+    def test_default_template(self):
+        #ExStart
+        #ExFor:Document.attached_template
+        #ExFor:Document.automatically_update_styles
+        #ExFor:SaveOptions.create_save_options(str)
+        #ExFor:SaveOptions.default_template
+        #ExSummary:Shows how to set a default template for documents that do not have attached templates.
+        doc = aw.Document()
+        # Enable automatic style updating, but do not attach a template document.
+        doc.automatically_update_styles = True
+        self.assertEqual('', doc.attached_template)
+        # Since there is no template document, the document had nowhere to track style changes.
+        # Use a SaveOptions object to automatically set a template
+        # if a document that we are saving does not have one.
+        options = aw.saving.SaveOptions.create_save_options(file_name='Document.DefaultTemplate.docx')
+        options.default_template = MY_DIR + 'Business brochure.dotx'
+        doc.save(file_name=ARTIFACTS_DIR + 'Document.DefaultTemplate.docx', save_options=options)
+        #ExEnd
+        self.assertTrue(system_helper.io.File.exist(options.default_template))
+
     def test_set_invalidate_field_types(self):
         #ExStart
         #ExFor:Document.normalize_field_types
@@ -627,6 +680,18 @@ class ExDocument(ApiExampleBase):
         self.assertFalse(sub_document.is_composite)
         #ExEnd
 
+    def test_epub_cover(self):
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.writeln('Hello world!')
+        # When saving to .epub, some Microsoft Word document properties convert to .epub metadata.
+        doc.built_in_document_properties.author = 'John Doe'
+        doc.built_in_document_properties.title = 'My Book Title'
+        # The thumbnail we specify here can become the cover image.
+        image = system_helper.io.File.read_all_bytes(IMAGE_DIR + 'Transparent background logo.png')
+        doc.built_in_document_properties.thumbnail = image
+        doc.save(file_name=ARTIFACTS_DIR + 'Document.EpubCover.epub')
+
     def test_text_watermark(self):
         #ExStart
         #ExFor:Document.watermark
@@ -683,6 +748,27 @@ class ExDocument(ApiExampleBase):
         #ExEnd
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Document.ExtractPages.docx')
         self.assertEqual(doc.page_count, 2)
+
+    def test_allow_embedding_post_script_fonts(self):
+        #ExStart
+        #ExFor:SaveOptions.allow_embedding_post_script_fonts
+        #ExSummary:Shows how to save the document with PostScript font.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.font.name = 'PostScriptFont'
+        builder.writeln('Some text with PostScript font.')
+        # Load the font with PostScript to use in the document.
+        otf = aw.fonts.MemoryFontSource(font_data=system_helper.io.File.read_all_bytes(FONTS_DIR + 'AllegroOpen.otf'))
+        doc.font_settings = aw.fonts.FontSettings()
+        doc.font_settings.set_fonts_sources(sources=[otf])
+        # Embed TrueType fonts.
+        doc.font_infos.embed_true_type_fonts = True
+        # Allow embedding PostScript fonts while embedding TrueType fonts.
+        # Microsoft Word does not embed PostScript fonts, but can open documents with embedded fonts of this type.
+        save_options = aw.saving.SaveOptions.create_save_options(save_format=aw.SaveFormat.DOCX)
+        save_options.allow_embedding_post_script_fonts = True
+        doc.save(file_name=ARTIFACTS_DIR + 'Document.AllowEmbeddingPostScriptFonts.docx', save_options=save_options)
+        #ExEnd
 
     def test_open_azw(self):
         info = aw.FileFormatUtil.detect_file_format(file_name=MY_DIR + 'Azw3 document.azw3')
@@ -892,18 +978,6 @@ class ExDocument(ApiExampleBase):
         with open(MY_DIR + 'Encrypted.docx', 'rb') as stream:
             doc = aw.Document(stream, options)
             self.assertEqual('Test encrypted document.', doc.get_text().strip())  #ExSkip
-        #ExEnd
-
-    def test_temp_folder(self):
-        #ExStart
-        #ExFor:LoadOptions.temp_folder
-        #ExSummary:Shows how to load a document using temporary files.
-        # Note that such an approach can reduce memory usage but degrades speed
-        load_options = aw.loading.LoadOptions()
-        load_options.temp_folder = 'C:\\TempFolder\\'
-        # Ensure that the directory exists and load
-        os.makedirs(load_options.temp_folder, exist_ok=True)
-        doc = aw.Document(MY_DIR + 'Document.docx', load_options)
         #ExEnd
 
     def test_save_to_stream(self):
@@ -1181,45 +1255,6 @@ class ExDocument(ApiExampleBase):
         #ExEnd
         self.verify_image(794, 1122, ARTIFACTS_DIR + 'Document.image_save_options.default.jpg')
         self.verify_image(794, 1122, ARTIFACTS_DIR + 'Document.image_save_options.high_quality.jpg')
-
-    def test_automatically_update_styles(self):
-        #ExStart
-        #ExFor:Document.automatically_update_styles
-        #ExSummary:Shows how to attach a template to a document.
-        doc = aw.Document()
-        # Microsoft Word documents by default come with an attached template called "Normal.dotm".
-        # There is no default template for blank Aspose.Words documents.
-        self.assertEqual('', doc.attached_template)
-        # Attach a template, then set the flag to apply style changes
-        # within the template to styles in our document.
-        doc.attached_template = MY_DIR + 'Business brochure.dotx'
-        doc.automatically_update_styles = True
-        doc.save(ARTIFACTS_DIR + 'Document.automatically_update_styles.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Document.automatically_update_styles.docx')
-        self.assertTrue(doc.automatically_update_styles)
-        self.assertEqual(MY_DIR + 'Business brochure.dotx', doc.attached_template)
-        self.assertTrue(os.path.exists(doc.attached_template))
-
-    def test_default_template(self):
-        #ExStart
-        #ExFor:Document.attached_template
-        #ExFor:Document.automatically_update_styles
-        #ExFor:SaveOptions.create_save_options(str)
-        #ExFor:SaveOptions.default_template
-        #ExSummary:Shows how to set a default template for documents that do not have attached templates.
-        doc = aw.Document()
-        # Enable automatic style updating, but do not attach a template document.
-        doc.automatically_update_styles = True
-        self.assertEqual('', doc.attached_template)
-        # Since there is no template document, the document had nowhere to track style changes.
-        # Use a SaveOptions object to automatically set a template
-        # if a document that we are saving does not have one.
-        options = aw.saving.SaveOptions.create_save_options('Document.default_template.docx')
-        options.default_template = MY_DIR + 'Business brochure.dotx'
-        doc.save(ARTIFACTS_DIR + 'Document.default_template.docx', options)
-        #ExEnd
-        self.assertTrue(os.path.exists(options.default_template))
 
     def test_use_substitutions(self):
         #ExStart
@@ -1500,19 +1535,6 @@ class ExDocument(ApiExampleBase):
         self.assertEqual(0, doc.web_extension_task_panes.count)
         #ExEnd
 
-    def test_epub_cover(self):
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.writeln('Hello world!')
-        # When saving to .epub, some Microsoft Word document properties convert to .epub metadata.
-        doc.built_in_document_properties.author = 'John Doe'
-        doc.built_in_document_properties.title = 'My Book Title'
-        # The thumbnail we specify here can become the cover image.
-        with open(IMAGE_DIR + 'Transparent background logo.png', 'rb') as file:
-            image = file.read()
-        doc.built_in_document_properties.thumbnail = image
-        doc.save(ARTIFACTS_DIR + 'Document.epub_cover.epub')
-
     @unittest.skip("drawing.Image type isn't supported yet")
     def test_image_watermark(self):
         #ExStart
@@ -1572,28 +1594,6 @@ class ExDocument(ApiExampleBase):
                 doc.grammar_checked = check_spelling_grammar
                 doc.save(ARTIFACTS_DIR + 'Document.spelling_or_grammar.docx')
                 #ExEnd
-
-    def test_allow_embedding_post_script_fonts(self):
-        #ExStart
-        #ExFor:SaveOptions.allow_embedding_post_script_fonts
-        #ExSummary:Shows how to save the document with PostScript font.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.font.name = 'PostScriptFont'
-        builder.writeln('Some text with PostScript font.')
-        # Load the font with PostScript to use in the document.
-        with open(FONTS_DIR + 'AllegroOpen.otf', 'rb') as file:
-            otf = aw.fonts.MemoryFontSource(file.read())
-        doc.font_settings = aw.fonts.FontSettings()
-        doc.font_settings.set_fonts_sources([otf])
-        # Embed TrueType fonts.
-        doc.font_infos.embed_true_type_fonts = True
-        # Allow embedding PostScript fonts while embedding TrueType fonts.
-        # Microsoft Word does not embed PostScript fonts, but can open documents with embedded fonts of this type.
-        save_options = aw.saving.SaveOptions.create_save_options(aw.SaveFormat.DOCX)
-        save_options.allow_embedding_post_script_fonts = True
-        doc.save(ARTIFACTS_DIR + 'Document.allow_embedding_post_script_fonts.docx', save_options)
-        #ExEnd
 
     def test_frameset(self):
         #ExStart

@@ -5,12 +5,13 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import os
-import glob
-import shutil
 from document_helper import DocumentHelper
+import shutil
+import glob
+import os
 import aspose.words as aw
 import aspose.words.saving
+import system_helper
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExHtmlFixedSaveOptions(ApiExampleBase):

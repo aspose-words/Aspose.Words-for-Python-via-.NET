@@ -5,14 +5,14 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words.themes import ThemeColor
-from aspose.pydrawing import Color
 from aspose.words import Document, DocumentBuilder, NodeType
-from document_helper import DocumentHelper
-from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
-import sys
-import typing
+from aspose.pydrawing import Color
+from aspose.words.themes import ThemeColor
 import os
+import typing
+import sys
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
+from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
@@ -22,6 +22,7 @@ import aspose.words.rendering
 import aspose.words.saving
 import aspose.words.settings
 import aspose.words.themes
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR, GOLDS_DIR
 
@@ -346,6 +347,29 @@ class ExShape(ApiExampleBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
         forms_2_ole_control = shape.ole_format.ole_control.as_forms2_ole_control()
         self.assertEqual('Aspose group name', forms_2_ole_control.group_name)
+
+    def test_ole_control_collection(self):
+        #ExStart
+        #ExFor:OleFormat.clsid
+        #ExFor:Forms2OleControlCollection
+        #ExFor:Forms2OleControlCollection.count
+        #ExFor:Forms2OleControlCollection.__getitem__(int)
+        #ExSummary:Shows how to access an OLE control embedded in a document and its child controls.
+        doc = aw.Document(file_name=MY_DIR + 'OLE ActiveX controls.docm')
+        # Shapes store and display OLE objects in the document's body.
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        self.assertEqual('6e182020-f460-11ce-9bcd-00aa00608e01', str(shape.ole_format.clsid))
+        ole_control = shape.ole_format.ole_control.as_forms2_ole_control()
+        # Some OLE controls may contain child controls, such as the one in this document with three options buttons.
+        ole_control_collection = ole_control.child_nodes
+        self.assertEqual(3, ole_control_collection.count)
+        self.assertEqual('C#', ole_control_collection[0].caption)
+        self.assertEqual('1', ole_control_collection[0].value)
+        self.assertEqual('Visual Basic', ole_control_collection[1].caption)
+        self.assertEqual('0', ole_control_collection[1].value)
+        self.assertEqual('Delphi', ole_control_collection[2].caption)
+        self.assertEqual('0', ole_control_collection[2].value)
+        #ExEnd
 
     def test_object_did_not_have_suggested_file_name(self):
         doc = aw.Document(file_name=MY_DIR + 'ActiveX controls.docx')
@@ -843,8 +867,8 @@ class ExShape(ApiExampleBase):
 
     def test_insert_group_shape(self):
         #ExStart:InsertGroupShape
-        #ExFor:DocumentBuilder.insert_group_shape(float,float,float,float,List[Shape])
-        #ExFor:DocumentBuilder.insert_group_shape(List[Shape])
+        #ExFor:DocumentBuilder.insert_group_shape(float,float,float,float,List[ShapeBase])
+        #ExFor:DocumentBuilder.insert_group_shape(List[ShapeBase])
         #ExSummary:Shows how to insert DML group shape.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)
@@ -868,6 +892,50 @@ class ExShape(ApiExampleBase):
         group_shape2 = builder.insert_group_shape(shapes=[shape3])
         doc.save(file_name=ARTIFACTS_DIR + 'Shape.InsertGroupShape.docx')
         #ExEnd:InsertGroupShape
+
+    def test_combine_group_shape(self):
+        #ExStart:CombineGroupShape
+        #ExFor:DocumentBuilder.insert_group_shape(List[ShapeBase])
+        #ExSummary:Shows how to combine group shape with the shape.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        shape1 = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, width=200, height=250)
+        shape1.left = 20
+        shape1.top = 20
+        shape1.stroke.color = aspose.pydrawing.Color.red
+        shape2 = builder.insert_shape(shape_type=aw.drawing.ShapeType.ELLIPSE, width=150, height=200)
+        shape2.left = 40
+        shape2.top = 50
+        shape2.stroke.color = aspose.pydrawing.Color.green
+        # Combine shapes into a GroupShape node which is inserted into the specified position.
+        group_shape1 = builder.insert_group_shape(shapes=[shape1, shape2])
+        # Combine Shape and GroupShape nodes.
+        shape3 = shape1.clone(True).as_shape()
+        group_shape2 = builder.insert_group_shape(shapes=[group_shape1, shape3])
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.CombineGroupShape.docx')
+        #ExEnd:CombineGroupShape
+
+    def test_insert_command_button(self):
+        #ExStart:InsertCommandButton
+        #ExFor:CommandButtonControl
+        #ExFor:DocumentBuilder.insert_forms_2_ole_control(Forms2OleControl)
+        #ExSummary:Shows how to insert ActiveX control.
+        builder = aw.DocumentBuilder()
+        button1 = aw.drawing.ole.CommandButtonControl()
+        shape = builder.insert_forms_2_ole_control(button1)
+        self.assertEqual(aw.drawing.ole.Forms2OleControlType.COMMAND_BUTTON, shape.ole_format.ole_control.as_forms2_ole_control().type)
+        #ExEnd:InsertCommandButton
+
+    def test_hidden(self):
+        #ExStart:Hidden
+        #ExFor:ShapeBase.hidden
+        #ExSummary:Shows how to hide the shape.
+        doc = aw.Document(file_name=MY_DIR + 'Shadow color.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        if not shape.hidden:
+            shape.hidden = True
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.Hidden.docx')
+        #ExEnd:Hidden
 
     def test_alt_text(self):
         #ExStart
@@ -1505,29 +1573,6 @@ class ExShape(ApiExampleBase):
         stream.seek(0)
         ole_entry_bytes = stream.read()
         self.assertEqual(76, len(ole_entry_bytes))
-        #ExEnd
-
-    def test_ole_control_collection(self):
-        #ExStart
-        #ExFor:OleFormat.clsid
-        #ExFor:Forms2OleControlCollection
-        #ExFor:Forms2OleControlCollection.count
-        #ExFor:Forms2OleControlCollection.__getitem__(int)
-        #ExSummary:Shows how to access an OLE control embedded in a document and its child controls.
-        doc = aw.Document(MY_DIR + 'OLE ActiveX controls.docm')
-        # Shapes store and display OLE objects in the document's body.
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.assertEqual('6e182020-f460-11ce-9bcd-00aa00608e01', str(shape.ole_format.clsid))
-        ole_control = shape.ole_format.ole_control.as_forms2_ole_control()
-        # Some OLE controls may contain child controls, such as the one in this document with three options buttons.
-        ole_control_collection = ole_control.child_nodes
-        self.assertEqual(3, ole_control_collection.count)
-        self.assertEqual('C#', ole_control_collection[0].caption)
-        self.assertEqual('1', ole_control_collection[0].value)
-        self.assertEqual('Visual Basic', ole_control_collection[1].caption)
-        self.assertEqual('0', ole_control_collection[1].value)
-        self.assertEqual('Delphi', ole_control_collection[2].caption)
-        self.assertEqual('0', ole_control_collection[2].value)
         #ExEnd
 
     def test_suggested_file_name(self):

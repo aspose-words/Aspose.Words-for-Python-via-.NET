@@ -5,12 +5,12 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import date
-from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType, ChartShapeType
-from aspose.pydrawing import Color
 from aspose.words import Document, DocumentBuilder, NodeType
-from math import nan
+from aspose.pydrawing import Color
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType, ChartShapeType
+from datetime import date
 import locale
+from math import nan
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
@@ -1176,6 +1176,45 @@ class ExCharts(ApiExampleBase):
         y_tick_labels.rotation = 45
         doc.save(file_name=ARTIFACTS_DIR + 'Charts.TickLabelsOrientationRotation.docx')
         #ExEnd:TickLabelsOrientationRotation
+
+    def test_doughnut_chart(self):
+        #ExStart:DoughnutChart
+        #ExFor:ChartSeriesGroup.doughnut_hole_size
+        #ExFor:ChartSeriesGroup.first_slice_angle
+        #ExSummary:Shows how to create and format Doughnut chart.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.DOUGHNUT, width=400, height=400)
+        chart = shape.chart
+        # Delete the default generated series.
+        chart.series.clear()
+        categories = ['Category 1', 'Category 2', 'Category 3']
+        chart.series.add(series_name='Series 1', categories=categories, values=[4, 2, 5])
+        # Format the Doughnut chart.
+        series_group = chart.series_groups[0]
+        series_group.doughnut_hole_size = 10
+        series_group.first_slice_angle = 270
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.DoughnutChart.docx')
+        #ExEnd:DoughnutChart
+
+    def test_pie_of_pie_chart(self):
+        #ExStart:PieOfPieChart
+        #ExFor:ChartSeriesGroup.second_section_size
+        #ExSummary:Shows how to create and format pie of Pie chart.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.PIE_OF_PIE, width=440, height=300)
+        chart = shape.chart
+        # Delete the default generated series.
+        chart.series.clear()
+        categories = ['Category 1', 'Category 2', 'Category 3', 'Category 4']
+        chart.series.add(series_name='Series 1', categories=categories, values=[11, 8, 4, 3])
+        # Format the Pie of Pie chart.
+        series_group = chart.series_groups[0]
+        series_group.gap_width = 10
+        series_group.second_section_size = 77
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.PieOfPieChart.docx')
+        #ExEnd:PieOfPieChart
 
     def test_date_time_values(self):
         #ExStart

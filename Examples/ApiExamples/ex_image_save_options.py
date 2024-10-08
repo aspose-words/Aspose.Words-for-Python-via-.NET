@@ -5,12 +5,13 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import sys
-import glob
 import os
+import glob
+import sys
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.saving
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR
 
@@ -30,6 +31,32 @@ class ExImageSaveOptions(ApiExampleBase):
         save_options.graphics_quality_options.use_tile_flip_mode = True
         renderer.save(file_name=ARTIFACTS_DIR + 'ImageSaveOptions.UseTileFlipMode.png', save_options=save_options)
         #ExEnd
+
+    def test_jpeg_quality(self):
+        #ExStart
+        #ExFor:Document.save(str,SaveOptions)
+        #ExFor:FixedPageSaveOptions.jpeg_quality
+        #ExFor:ImageSaveOptions
+        #ExFor:ImageSaveOptions.__init__
+        #ExFor:ImageSaveOptions.jpeg_quality
+        #ExSummary:Shows how to configure compression while saving a document as a JPEG.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.insert_image(file_name=IMAGE_DIR + 'Logo.jpg')
+        # Create an "ImageSaveOptions" object which we can pass to the document's "Save" method
+        # to modify the way in which that method renders the document into an image.
+        image_options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
+        # Set the "JpegQuality" property to "10" to use stronger compression when rendering the document.
+        # This will reduce the file size of the document, but the image will display more prominent compression artifacts.
+        image_options.jpeg_quality = 10
+        doc.save(file_name=ARTIFACTS_DIR + 'ImageSaveOptions.JpegQuality.HighCompression.jpg', save_options=image_options)
+        # Set the "JpegQuality" property to "100" to use weaker compression when rending the document.
+        # This will improve the quality of the image at the cost of an increased file size.
+        image_options.jpeg_quality = 100
+        doc.save(file_name=ARTIFACTS_DIR + 'ImageSaveOptions.JpegQuality.HighQuality.jpg', save_options=image_options)
+        #ExEnd
+        self.assertTrue(system_helper.io.FileInfo(ARTIFACTS_DIR + 'ImageSaveOptions.JpegQuality.HighCompression.jpg').length() < 18000)
+        self.assertTrue(system_helper.io.FileInfo(ARTIFACTS_DIR + 'ImageSaveOptions.JpegQuality.HighQuality.jpg').length() < 75000)
 
     def test_export_various_page_ranges(self):
         #ExStart
@@ -369,32 +396,6 @@ class ExImageSaveOptions(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + 'ImageSaveOptions.edit_image.png', options)
         #ExEnd
         self.verify_image(816, 1057, filename=ARTIFACTS_DIR + 'ImageSaveOptions.edit_image.png')
-
-    def test_jpeg_quality(self):
-        #ExStart
-        #ExFor:Document.save(str,SaveOptions)
-        #ExFor:FixedPageSaveOptions.jpeg_quality
-        #ExFor:ImageSaveOptions
-        #ExFor:ImageSaveOptions.__init__
-        #ExFor:ImageSaveOptions.jpeg_quality
-        #ExSummary:Shows how to configure compression while saving a document as a JPEG.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.insert_image(IMAGE_DIR + 'Logo.jpg')
-        # Create an "ImageSaveOptions" object which we can pass to the document's "save" method
-        # to modify the way in which that method renders the document into an image.
-        image_options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
-        # Set the "jpeg_quality" property to "10" to use stronger compression when rendering the document.
-        # This will reduce the file size of the document, but the image will display more prominent compression artifacts.
-        image_options.jpeg_quality = 10
-        doc.save(ARTIFACTS_DIR + 'ImageSaveOptions.jpeg_quality.high_compression.jpg', image_options)
-        self.assertGreater(20000, os.path.getsize(ARTIFACTS_DIR + 'ImageSaveOptions.jpeg_quality.high_compression.jpg'))
-        # Set the "jpeg_quality" property to "100" to use weaker compression when rending the document.
-        # This will improve the quality of the image at the cost of an increased file size.
-        image_options.jpeg_quality = 100
-        doc.save(ARTIFACTS_DIR + 'ImageSaveOptions.jpeg_quality.high_quality.jpg', image_options)
-        self.assertLess(40000, os.path.getsize(ARTIFACTS_DIR + 'ImageSaveOptions.jpeg_quality.high_quality.jpg'))
-        #ExEnd
 
     def test_tiff_image_compression(self):
         for tiff_compression in (aw.saving.TiffCompression.NONE, aw.saving.TiffCompression.RLE, aw.saving.TiffCompression.LZW, aw.saving.TiffCompression.CCITT3, aw.saving.TiffCompression.CCITT4):

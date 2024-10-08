@@ -1,33 +1,12 @@
 # -*- coding: utf-8 -*-
-from datetime import date, datetime
-import aspose.words as aw
-import os
 import io
+import os
+import aspose.words as aw
+from datetime import date, datetime
+import system_helper
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExMarkdownLoadOptions(ApiExampleBase):
-
-    def test_import_underline_formatting(self):
-        #ExStart:ImportUnderlineFormatting
-        #ExFor:MarkdownLoadOptions.ImportUnderlineFormatting
-        #ExSummary:Shows how to recognize plus characters "++" as underline text formatting.
-        bytes_ = '++12 and B++'.encode(encoding='ascii')
-        with io.BytesIO(bytes_) as byte_stream:
-            load_options = aw.loading.MarkdownLoadOptions()
-            load_options.import_underline_formatting = True
-            doc = aw.Document(byte_stream, load_options)
-
-            para = doc.get_child(aw.NodeType.PARAGRAPH, 0, True).as_paragraph()
-
-            self.assertEqual(aw.Underline.SINGLE, para.runs[0].font.underline)
-
-            load_options = aw.loading.MarkdownLoadOptions()
-            load_options.import_underline_formatting = False
-            doc = aw.Document(byte_stream, load_options)
-
-            para = doc.get_child(aw.NodeType.PARAGRAPH, 0, True).as_paragraph()
-            self.assertEqual(aw.Underline.NONE, para.runs[0].font.underline)
-        #ExEnd:ImportUnderlineFormatting
 
     def test_preserve_empty_lines(self):
         #ExStart: PreserveEmptyLines
@@ -42,3 +21,21 @@ class ExMarkdownLoadOptions(ApiExampleBase):
         doc = aw.Document(stream, load_options)
         self.assertEqual('\rLine1\r\rLine2\r\x0c', doc.get_text())
         #ExEnd: PreserveEmptyLines
+
+    def test_import_underline_formatting(self):
+        #ExStart:ImportUnderlineFormatting
+        #ExFor:MarkdownLoadOptions.ImportUnderlineFormatting
+        #ExSummary:Shows how to recognize plus characters "++" as underline text formatting.
+        bytes_ = '++12 and B++'.encode(encoding='ascii')
+        with io.BytesIO(bytes_) as byte_stream:
+            load_options = aw.loading.MarkdownLoadOptions()
+            load_options.import_underline_formatting = True
+            doc = aw.Document(byte_stream, load_options)
+            para = doc.get_child(aw.NodeType.PARAGRAPH, 0, True).as_paragraph()
+            self.assertEqual(aw.Underline.SINGLE, para.runs[0].font.underline)
+            load_options = aw.loading.MarkdownLoadOptions()
+            load_options.import_underline_formatting = False
+            doc = aw.Document(byte_stream, load_options)
+            para = doc.get_child(aw.NodeType.PARAGRAPH, 0, True).as_paragraph()
+            self.assertEqual(aw.Underline.NONE, para.runs[0].font.underline)
+        #ExEnd:ImportUnderlineFormatting
