@@ -1,6 +1,7 @@
 import pathlib
 import codecs
 import os
+import platform
 
 
 class File(object):
@@ -15,7 +16,12 @@ class File(object):
     @staticmethod
     def read_all_text(path: str) -> str:
         encoding = File.detect_by_bom(path, 'utf-8')
-        with open(file=path, mode='r', encoding=encoding, newline=os.linesep) as f:
+
+        newline = None
+        if platform.system() == "Windows":
+            newline = ''
+
+        with open(file=path, mode='r', encoding=encoding, newline=newline) as f:
             return f.read()
 
     @staticmethod
