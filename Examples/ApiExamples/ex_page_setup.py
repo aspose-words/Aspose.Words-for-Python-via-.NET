@@ -52,6 +52,79 @@ class ExPageSetup(ApiExampleBase):
         self.assertEqual(aw.Orientation.PORTRAIT, doc.sections[1].page_setup.orientation)
         self.assertEqual(aw.PageVerticalAlignment.TOP, doc.sections[1].page_setup.vertical_alignment)
 
+    def test_different_first_page_header_footer(self):
+        for different_first_page_header_footer in [False, True]:
+            #ExStart
+            #ExFor:PageSetup.different_first_page_header_footer
+            #ExSummary:Shows how to enable or disable primary headers/footers.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            # Below are two types of header/footers.
+            # 1 -  The "First" header/footer, which appears on the first page of the section.
+            builder.move_to_header_footer(aw.HeaderFooterType.HEADER_FIRST)
+            builder.writeln('First page header.')
+            builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_FIRST)
+            builder.writeln('First page footer.')
+            # 2 -  The "Primary" header/footer, which appears on every page in the section.
+            # We can override the primary header/footer by a first and an even page header/footer.
+            builder.move_to_header_footer(aw.HeaderFooterType.HEADER_PRIMARY)
+            builder.writeln('Primary header.')
+            builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_PRIMARY)
+            builder.writeln('Primary footer.')
+            builder.move_to_section(0)
+            builder.writeln('Page 1.')
+            builder.insert_break(aw.BreakType.PAGE_BREAK)
+            builder.writeln('Page 2.')
+            builder.insert_break(aw.BreakType.PAGE_BREAK)
+            builder.writeln('Page 3.')
+            # Each section has a "PageSetup" object that specifies page appearance-related properties
+            # such as orientation, size, and borders.
+            # Set the "DifferentFirstPageHeaderFooter" property to "true" to apply the first header/footer to the first page.
+            # Set the "DifferentFirstPageHeaderFooter" property to "false"
+            # to make the first page display the primary header/footer.
+            builder.page_setup.different_first_page_header_footer = different_first_page_header_footer
+            doc.save(file_name=ARTIFACTS_DIR + 'PageSetup.DifferentFirstPageHeaderFooter.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'PageSetup.DifferentFirstPageHeaderFooter.docx')
+            self.assertEqual(different_first_page_header_footer, doc.first_section.page_setup.different_first_page_header_footer)
+
+    def test_odd_and_even_pages_header_footer(self):
+        for odd_and_even_pages_header_footer in [False, True]:
+            #ExStart
+            #ExFor:PageSetup.odd_and_even_pages_header_footer
+            #ExSummary:Shows how to enable or disable even page headers/footers.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            # Below are two types of header/footers.
+            # 1 -  The "Primary" header/footer, which appears on every page in the section.
+            # We can override the primary header/footer by a first and an even page header/footer.
+            builder.move_to_header_footer(aw.HeaderFooterType.HEADER_PRIMARY)
+            builder.writeln('Primary header.')
+            builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_PRIMARY)
+            builder.writeln('Primary footer.')
+            # 2 -  The "Even" header/footer, which appears on every even page of this section.
+            builder.move_to_header_footer(aw.HeaderFooterType.HEADER_EVEN)
+            builder.writeln('Even page header.')
+            builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_EVEN)
+            builder.writeln('Even page footer.')
+            builder.move_to_section(0)
+            builder.writeln('Page 1.')
+            builder.insert_break(aw.BreakType.PAGE_BREAK)
+            builder.writeln('Page 2.')
+            builder.insert_break(aw.BreakType.PAGE_BREAK)
+            builder.writeln('Page 3.')
+            # Each section has a "PageSetup" object that specifies page appearance-related properties
+            # such as orientation, size, and borders.
+            # Set the "OddAndEvenPagesHeaderFooter" property to "true"
+            # to display the even page header/footer on even pages.
+            # Set the "OddAndEvenPagesHeaderFooter" property to "false"
+            # to display the primary header/footer on even pages.
+            builder.page_setup.odd_and_even_pages_header_footer = odd_and_even_pages_header_footer
+            doc.save(file_name=ARTIFACTS_DIR + 'PageSetup.OddAndEvenPagesHeaderFooter.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'PageSetup.OddAndEvenPagesHeaderFooter.docx')
+            self.assertEqual(odd_and_even_pages_header_footer, doc.first_section.page_setup.odd_and_even_pages_header_footer)
+
     def test_characters_per_line(self):
         #ExStart
         #ExFor:PageSetup.characters_per_line
@@ -262,6 +335,29 @@ class ExPageSetup(ApiExampleBase):
         self.assertEqual(470.3, page_setup.text_columns[1].width)
         self.assertEqual(0, page_setup.text_columns[1].space_after)
 
+    def test_vertical_line_between_columns(self):
+        for line_between in [False, True]:
+            #ExStart
+            #ExFor:TextColumnCollection.line_between
+            #ExSummary:Shows how to separate columns with a vertical line.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            # Configure the current section's PageSetup object to divide the text into several columns.
+            # Set the "LineBetween" property to "true" to put a dividing line between columns.
+            # Set the "LineBetween" property to "false" to leave the space between columns blank.
+            columns = builder.page_setup.text_columns
+            columns.line_between = line_between
+            columns.set_count(3)
+            builder.writeln('Column 1.')
+            builder.insert_break(aw.BreakType.COLUMN_BREAK)
+            builder.writeln('Column 2.')
+            builder.insert_break(aw.BreakType.COLUMN_BREAK)
+            builder.writeln('Column 3.')
+            doc.save(file_name=ARTIFACTS_DIR + 'PageSetup.VerticalLineBetweenColumns.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'PageSetup.VerticalLineBetweenColumns.docx')
+            self.assertEqual(line_between, doc.first_section.page_setup.text_columns.line_between)
+
     def test_line_numbers(self):
         #ExStart
         #ExFor:PageSetup.line_starting_number
@@ -455,6 +551,32 @@ class ExPageSetup(ApiExampleBase):
         self.assertEqual(aw.notes.FootnoteNumberingRule.CONTINUOUS, endnote_options.restart_rule)
         self.assertEqual(1, endnote_options.start_number)
 
+    def test_bidi(self):
+        for reverse_columns in [False, True]:
+            #ExStart
+            #ExFor:PageSetup.bidi
+            #ExSummary:Shows how to set the order of text columns in a section.
+            doc = aw.Document()
+            page_setup = doc.sections[0].page_setup
+            page_setup.text_columns.set_count(3)
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.write('Column 1.')
+            builder.insert_break(aw.BreakType.COLUMN_BREAK)
+            builder.write('Column 2.')
+            builder.insert_break(aw.BreakType.COLUMN_BREAK)
+            builder.write('Column 3.')
+            # Set the "Bidi" property to "true" to arrange the columns starting from the page's right side.
+            # The order of the columns will match the direction of the right-to-left text.
+            # Set the "Bidi" property to "false" to arrange the columns starting from the page's left side.
+            # The order of the columns will match the direction of the left-to-right text.
+            page_setup.bidi = reverse_columns
+            doc.save(file_name=ARTIFACTS_DIR + 'PageSetup.Bidi.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'PageSetup.Bidi.docx')
+            page_setup = doc.first_section.page_setup
+            self.assertEqual(3, page_setup.text_columns.count)
+            self.assertEqual(reverse_columns, page_setup.bidi)
+
     def test_page_border(self):
         #ExStart
         #ExFor:PageSetup.border_surrounds_footer
@@ -579,81 +701,6 @@ class ExPageSetup(ApiExampleBase):
         page_setup.heading_level_for_chapter = 1
         #ExEnd
 
-    def test_different_first_page_header_footer(self):
-        for different_first_page_header_footer in (False, True):
-            with self.subTest(different_first_page_header_footer=different_first_page_header_footer):
-                #ExStart
-                #ExFor:PageSetup.different_first_page_header_footer
-                #ExSummary:Shows how to enable or disable primary headers/footers.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                # Below are two types of header/footers.
-                # 1 -  The "First" header/footer, which appears on the first page of the section.
-                builder.move_to_header_footer(aw.HeaderFooterType.HEADER_FIRST)
-                builder.writeln('First page header.')
-                builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_FIRST)
-                builder.writeln('First page footer.')
-                # 2 -  The "Primary" header/footer, which appears on every page in the section.
-                # We can override the primary header/footer by a first and an even page header/footer.
-                builder.move_to_header_footer(aw.HeaderFooterType.HEADER_PRIMARY)
-                builder.writeln('Primary header.')
-                builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_PRIMARY)
-                builder.writeln('Primary footer.')
-                builder.move_to_section(0)
-                builder.writeln('Page 1.')
-                builder.insert_break(aw.BreakType.PAGE_BREAK)
-                builder.writeln('Page 2.')
-                builder.insert_break(aw.BreakType.PAGE_BREAK)
-                builder.writeln('Page 3.')
-                # Each section has a "page_setup" object that specifies page appearance-related properties
-                # such as orientation, size, and borders.
-                # Set the "different_first_page_header_footer" property to "True" to apply the first header/footer to the first page.
-                # Set the "different_first_page_header_footer" property to "False"
-                # to make the first page display the primary header/footer.
-                builder.page_setup.different_first_page_header_footer = different_first_page_header_footer
-                doc.save(ARTIFACTS_DIR + 'PageSetup.different_first_page_header_footer.docx')
-                #ExEnd
-                doc = aw.Document(ARTIFACTS_DIR + 'PageSetup.different_first_page_header_footer.docx')
-                self.assertEqual(different_first_page_header_footer, doc.first_section.page_setup.different_first_page_header_footer)
-
-    def test_odd_and_even_pages_header_footer(self):
-        for odd_and_even_pages_header_footer in (False, True):
-            with self.subTest(odd_and_even_pages_header_footer=odd_and_even_pages_header_footer):
-                #ExStart
-                #ExFor:PageSetup.odd_and_even_pages_header_footer
-                #ExSummary:Shows how to enable or disable even page headers/footers.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                # Below are two types of header/footers.
-                # 1 -  The "Primary" header/footer, which appears on every page in the section.
-                # We can override the primary header/footer by a first and an even page header/footer.
-                builder.move_to_header_footer(aw.HeaderFooterType.HEADER_PRIMARY)
-                builder.writeln('Primary header.')
-                builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_PRIMARY)
-                builder.writeln('Primary footer.')
-                # 2 -  The "Even" header/footer, which appears on every even page of this section.
-                builder.move_to_header_footer(aw.HeaderFooterType.HEADER_EVEN)
-                builder.writeln('Even page header.')
-                builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_EVEN)
-                builder.writeln('Even page footer.')
-                builder.move_to_section(0)
-                builder.writeln('Page 1.')
-                builder.insert_break(aw.BreakType.PAGE_BREAK)
-                builder.writeln('Page 2.')
-                builder.insert_break(aw.BreakType.PAGE_BREAK)
-                builder.writeln('Page 3.')
-                # Each section has a "page_setup" object that specifies page appearance-related properties
-                # such as orientation, size, and borders.
-                # Set the "odd_and_even_pages_header_Footer" property to "True"
-                # to display the even page header/footer on even pages.
-                # Set the "odd_and_even_pages_header_Footer" property to "False"
-                # to display the primary header/footer on even pages.
-                builder.page_setup.odd_and_even_pages_header_footer = odd_and_even_pages_header_footer
-                doc.save(ARTIFACTS_DIR + 'PageSetup.odd_and_even_pages_header_footer.docx')
-                #ExEnd
-                doc = aw.Document(ARTIFACTS_DIR + 'PageSetup.odd_and_even_pages_header_footer.docx')
-                self.assertEqual(odd_and_even_pages_header_footer, doc.first_section.page_setup.odd_and_even_pages_header_footer)
-
     def test_columns_same_width(self):
         #ExStart
         #ExFor:PageSetup.text_columns
@@ -674,57 +721,6 @@ class ExPageSetup(ApiExampleBase):
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'PageSetup.ColumnsSameWidth.docx')
         self.assertEqual(100, doc.first_section.page_setup.text_columns.spacing)
         self.assertEqual(2, doc.first_section.page_setup.text_columns.count)
-
-    def test_vertical_line_between_columns(self):
-        for line_between in (False, True):
-            with self.subTest(line_between=line_between):
-                #ExStart
-                #ExFor:TextColumnCollection.line_between
-                #ExSummary:Shows how to separate columns with a vertical line.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                # Configure the current section's PageSetup object to divide the text into several columns.
-                # Set the "line_between" property to "True" to put a dividing line between columns.
-                # Set the "line_between" property to "False" to leave the space between columns blank.
-                columns = builder.page_setup.text_columns
-                columns.line_between = line_between
-                columns.set_count(3)
-                builder.writeln('Column 1.')
-                builder.insert_break(aw.BreakType.COLUMN_BREAK)
-                builder.writeln('Column 2.')
-                builder.insert_break(aw.BreakType.COLUMN_BREAK)
-                builder.writeln('Column 3.')
-                doc.save(ARTIFACTS_DIR + 'PageSetup.vertical_line_between_columns.docx')
-                #ExEnd
-                doc = aw.Document(ARTIFACTS_DIR + 'PageSetup.vertical_line_between_columns.docx')
-                self.assertEqual(line_between, doc.first_section.page_setup.text_columns.line_between)
-
-    def test_bidi(self):
-        for reverse_columns in (False, True):
-            with self.subTest(reverse_columns=reverse_columns):
-                #ExStart
-                #ExFor:PageSetup.bidi
-                #ExSummary:Shows how to set the order of text columns in a section.
-                doc = aw.Document()
-                page_setup = doc.sections[0].page_setup
-                page_setup.text_columns.set_count(3)
-                builder = aw.DocumentBuilder(doc)
-                builder.write('Column 1.')
-                builder.insert_break(aw.BreakType.COLUMN_BREAK)
-                builder.write('Column 2.')
-                builder.insert_break(aw.BreakType.COLUMN_BREAK)
-                builder.write('Column 3.')
-                # Set the "bidi" property to "True" to arrange the columns starting from the page's right side.
-                # The order of the columns will match the direction of the right-to-left text.
-                # Set the "bidi" property to "False" to arrange the columns starting from the page's left side.
-                # The order of the columns will match the direction of the left-to-right text.
-                page_setup.bidi = reverse_columns
-                doc.save(ARTIFACTS_DIR + 'PageSetup.bidi.docx')
-                #ExEnd
-                doc = aw.Document(ARTIFACTS_DIR + 'PageSetup.bidi.docx')
-                page_setup = doc.first_section.page_setup
-                self.assertEqual(3, page_setup.text_columns.count)
-                self.assertEqual(reverse_columns, page_setup.bidi)
 
     def test_suppress_endnotes(self):
         #ExStart

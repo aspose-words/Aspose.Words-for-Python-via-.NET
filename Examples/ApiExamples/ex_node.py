@@ -5,11 +5,12 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import io
 import aspose.pydrawing as drawing
+import io
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.saving
+import aspose.words.tables
 import unittest
 from api_example_base import ApiExampleBase, IMAGE_DIR, MY_DIR
 
@@ -201,6 +202,15 @@ class ExNode(ApiExampleBase):
         self.assertEqual('<p style="margin-top:0pt; margin-bottom:8pt; line-height:108%">' + '<span style="font-family:\'Times New Roman\'">Hello World!</span>' + '</p>', node.to_string(save_options=save_options))
         #ExEnd
 
+    def test_typed_node_collection_to_array(self):
+        #ExStart
+        #ExFor:ParagraphCollection.to_array
+        #ExSummary:Shows how to create an array from a NodeCollection.
+        doc = aw.Document(file_name=MY_DIR + 'Paragraphs.docx')
+        paras = list(doc.first_section.body.paragraphs)
+        self.assertEqual(22, len(paras))
+        #ExEnd
+
     def test_node_enumeration_hot_remove(self):
         #ExStart
         #ExFor:ParagraphCollection.to_array
@@ -330,15 +340,6 @@ class ExNode(ApiExampleBase):
             if node.node_type == aw.NodeType.RUN:
                 print("Contents of the first Run node that's part of a field:", node.get_text().strip())
                 break
-        #ExEnd
-
-    def test_typed_node_collection_to_array(self):
-        #ExStart
-        #ExFor:ParagraphCollection.to_array
-        #ExSummary:Shows how to create an array from a NodeCollection.
-        doc = aw.Document(MY_DIR + 'Paragraphs.docx')
-        paras = doc.first_section.body.paragraphs.to_array()
-        self.assertEqual(22, len(paras))
         #ExEnd
 
     @unittest.skip("aspose.words.Document.create_navigator method isn't supported yet")

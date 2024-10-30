@@ -5,17 +5,63 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
+from document_helper import DocumentHelper
 from datetime import date, timedelta
 import sys
-from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.fields
 import datetime
+import document_helper
+import test_util
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExParagraph(ApiExampleBase):
+
+    def test_document_builder_insert_paragraph(self):
+        #ExStart
+        #ExFor:DocumentBuilder.insert_paragraph
+        #ExFor:ParagraphFormat.first_line_indent
+        #ExFor:ParagraphFormat.alignment
+        #ExFor:ParagraphFormat.keep_together
+        #ExFor:ParagraphFormat.add_space_between_far_east_and_alpha
+        #ExFor:ParagraphFormat.add_space_between_far_east_and_digit
+        #ExFor:Paragraph.is_end_of_document
+        #ExSummary:Shows how to insert a paragraph into the document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        font = builder.font
+        font.size = 16
+        font.bold = True
+        font.color = aspose.pydrawing.Color.blue
+        font.name = 'Arial'
+        font.underline = aw.Underline.DASH
+        paragraph_format = builder.paragraph_format
+        paragraph_format.first_line_indent = 8
+        paragraph_format.alignment = aw.ParagraphAlignment.JUSTIFY
+        paragraph_format.add_space_between_far_east_and_alpha = True
+        paragraph_format.add_space_between_far_east_and_digit = True
+        paragraph_format.keep_together = True
+        # The "Writeln" method ends the paragraph after appending text
+        # and then starts a new line, adding a new paragraph.
+        builder.writeln('Hello world!')
+        self.assertTrue(builder.current_paragraph.is_end_of_document)
+        #ExEnd
+        doc = document_helper.DocumentHelper.save_open(doc)
+        paragraph = doc.first_section.body.first_paragraph
+        self.assertEqual(8, paragraph.paragraph_format.first_line_indent)
+        self.assertEqual(aw.ParagraphAlignment.JUSTIFY, paragraph.paragraph_format.alignment)
+        self.assertTrue(paragraph.paragraph_format.add_space_between_far_east_and_alpha)
+        self.assertTrue(paragraph.paragraph_format.add_space_between_far_east_and_digit)
+        self.assertTrue(paragraph.paragraph_format.keep_together)
+        self.assertEqual('Hello world!', paragraph.get_text().strip())
+        run_font = paragraph.runs[0].font
+        self.assertEqual(16, run_font.size)
+        self.assertTrue(run_font.bold)
+        self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), run_font.color.to_argb())
+        self.assertEqual('Arial', run_font.name)
+        self.assertEqual(aw.Underline.DASH, run_font.underline)
 
     def test_composite_node_children(self):
         #ExStart
@@ -116,6 +162,64 @@ class ExParagraph(ApiExampleBase):
         self.assertEqual('Paragraph 1. \r' + 'Paragraph 2. \r' + 'Paragraph 4.', doc.get_text().strip())
         #ExEnd
 
+    def test_break_is_style_separator(self):
+        #ExStart
+        #ExFor:Paragraph.break_is_style_separator
+        #ExSummary:Shows how to write text to the same line as a TOC heading and have it not show up in the TOC.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.insert_table_of_contents('\\o \\h \\z \\u')
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        # Insert a paragraph with a style that the TOC will pick up as an entry.
+        builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING1
+        # Both these strings are in the same paragraph and will therefore show up on the same TOC entry.
+        builder.write('Heading 1. ')
+        builder.write('Will appear in the TOC. ')
+        # If we insert a style separator, we can write more text in the same paragraph
+        # and use a different style without showing up in the TOC.
+        # If we use a heading type style after the separator, we can draw multiple TOC entries from one document text line.
+        builder.insert_style_separator()
+        builder.paragraph_format.style_identifier = aw.StyleIdentifier.QUOTE
+        builder.write("Won't appear in the TOC. ")
+        self.assertTrue(doc.first_section.body.first_paragraph.break_is_style_separator)
+        doc.update_fields()
+        doc.save(file_name=ARTIFACTS_DIR + 'Paragraph.BreakIsStyleSeparator.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Paragraph.BreakIsStyleSeparator.docx')
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_TOC, expected_field_code='TOC \\o \\h \\z \\u', expected_result='\x13 HYPERLINK \\l "_Toc256000000" \x14Heading 1. Will appear in the TOC.\t\x13 PAGEREF _Toc256000000 \\h \x142\x15\x15\r', field=doc.range.fields[0])
+        self.assertFalse(doc.first_section.body.first_paragraph.break_is_style_separator)
+
+    def test_tab_stops(self):
+        #ExStart
+        #ExFor:TabLeader
+        #ExFor:TabAlignment
+        #ExFor:Paragraph.get_effective_tab_stops
+        #ExSummary:Shows how to set custom tab stops for a paragraph.
+        doc = aw.Document()
+        para = doc.first_section.body.first_paragraph
+        # If we are in a paragraph with no tab stops in this collection,
+        # the cursor will jump 36 points each time we press the Tab key in Microsoft Word.
+        self.assertEqual(0, len(doc.first_section.body.first_paragraph.get_effective_tab_stops()))
+        # We can add custom tab stops in Microsoft Word if we enable the ruler via the "View" tab.
+        # Each unit on this ruler is two default tab stops, which is 72 points.
+        # We can add custom tab stops programmatically like this.
+        tab_stops = doc.first_section.body.first_paragraph.paragraph_format.tab_stops
+        tab_stops.add(position=72, alignment=aw.TabAlignment.LEFT, leader=aw.TabLeader.DOTS)
+        tab_stops.add(position=216, alignment=aw.TabAlignment.CENTER, leader=aw.TabLeader.DASHES)
+        tab_stops.add(position=360, alignment=aw.TabAlignment.RIGHT, leader=aw.TabLeader.LINE)
+        # We can see these tab stops in Microsoft Word by enabling the ruler via "View" -> "Show" -> "Ruler".
+        self.assertEqual(3, len(para.get_effective_tab_stops()))
+        # Any tab characters we add will make use of the tab stops on the ruler and may,
+        # depending on the tab leader's value, leave a line between the tab departure and arrival destinations.
+        para.append_child(aw.Run(doc=doc, text='\tTab 1\tTab 2\tTab 3'))
+        doc.save(file_name=ARTIFACTS_DIR + 'Paragraph.TabStops.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Paragraph.TabStops.docx')
+        tab_stops = doc.first_section.body.first_paragraph.paragraph_format.tab_stops
+        test_util.TestUtil.verify_tab_stop(72, aw.TabAlignment.LEFT, aw.TabLeader.DOTS, False, tab_stops[0])
+        test_util.TestUtil.verify_tab_stop(216, aw.TabAlignment.CENTER, aw.TabLeader.DASHES, False, tab_stops[1])
+        test_util.TestUtil.verify_tab_stop(360, aw.TabAlignment.RIGHT, aw.TabLeader.LINE, False, tab_stops[2])
+
     def test_join_runs(self):
         #ExStart
         #ExFor:Paragraph.join_runs_with_same_formatting
@@ -146,50 +250,6 @@ class ExParagraph(ApiExampleBase):
         self.assertEqual('Run 1. Run 2. Run 3. ', para.runs[0].text)
         self.assertEqual('Run 4. ', para.runs[1].text)
         #ExEnd
-
-    def test_document_builder_insert_paragraph(self):
-        #ExStart
-        #ExFor:DocumentBuilder.insert_paragraph
-        #ExFor:ParagraphFormat.first_line_indent
-        #ExFor:ParagraphFormat.alignment
-        #ExFor:ParagraphFormat.keep_together
-        #ExFor:ParagraphFormat.add_space_between_far_east_and_alpha
-        #ExFor:ParagraphFormat.add_space_between_far_east_and_digit
-        #ExFor:Paragraph.is_end_of_document
-        #ExSummary:Shows how to insert a paragraph into the document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        font = builder.font
-        font.size = 16
-        font.bold = True
-        font.color = aspose.pydrawing.Color.blue
-        font.name = 'Arial'
-        font.underline = aw.Underline.DASH
-        paragraph_format = builder.paragraph_format
-        paragraph_format.first_line_indent = 8
-        paragraph_format.alignment = aw.ParagraphAlignment.JUSTIFY
-        paragraph_format.add_space_between_far_east_and_alpha = True
-        paragraph_format.add_space_between_far_east_and_digit = True
-        paragraph_format.keep_together = True
-        # The "writeln" method ends the paragraph after appending text
-        # and then starts a new line, adding a new paragraph.
-        builder.writeln('Hello world!')
-        self.assertTrue(builder.current_paragraph.is_end_of_document)
-        #ExEnd
-        doc = DocumentHelper.save_open(doc)
-        paragraph = doc.first_section.body.first_paragraph
-        self.assertEqual(8, paragraph.paragraph_format.first_line_indent)
-        self.assertEqual(aw.ParagraphAlignment.JUSTIFY, paragraph.paragraph_format.alignment)
-        self.assertTrue(paragraph.paragraph_format.add_space_between_far_east_and_alpha)
-        self.assertTrue(paragraph.paragraph_format.add_space_between_far_east_and_digit)
-        self.assertTrue(paragraph.paragraph_format.keep_together)
-        self.assertEqual('Hello world!', paragraph.get_text().strip())
-        run_font = paragraph.runs[0].font
-        self.assertEqual(16.0, run_font.size)
-        self.assertTrue(run_font.bold)
-        self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), run_font.color.to_argb())
-        self.assertEqual('Arial', run_font.name)
-        self.assertEqual(aw.Underline.DASH, run_font.underline)
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'windows date time parameters')
     def test_append_field(self):
@@ -378,62 +438,6 @@ class ExParagraph(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, paragraph_frame.frame_format.relative_vertical_position)
         self.assertEqual(0.0, paragraph_frame.frame_format.vertical_distance_from_text)
         #ExEnd
-
-    def test_break_is_style_separator(self):
-        #ExStart
-        #ExFor:Paragraph.break_is_style_separator
-        #ExSummary:Shows how to write text to the same line as a TOC heading and have it not show up in the TOC.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.insert_table_of_contents('\\o \\h \\z \\u')
-        builder.insert_break(aw.BreakType.PAGE_BREAK)
-        # Insert a paragraph with a style that the TOC will pick up as an entry.
-        builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING1
-        # Both these strings are in the same paragraph and will therefore show up on the same TOC entry.
-        builder.write('Heading 1. ')
-        builder.write('Will appear in the TOC. ')
-        # If we insert a style separator, we can write more text in the same paragraph
-        # and use a different style without showing up in the TOC.
-        # If we use a heading type style after the separator, we can draw multiple TOC entries from one document text line.
-        builder.insert_style_separator()
-        builder.paragraph_format.style_identifier = aw.StyleIdentifier.QUOTE
-        builder.write("Won't appear in the TOC. ")
-        self.assertTrue(doc.first_section.body.first_paragraph.break_is_style_separator)
-        doc.update_fields()
-        doc.save(ARTIFACTS_DIR + 'Paragraph.break_is_style_separator.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Paragraph.break_is_style_separator.docx')
-        self.verify_field(aw.fields.FieldType.FIELD_TOC, 'TOC \\o \\h \\z \\u', '\x13 HYPERLINK \\l "_Toc256000000" \x14Heading 1. Will appear in the TOC.\t\x13 PAGEREF _Toc256000000 \\h \x142\x15\x15\r', doc.range.fields[0])
-        self.assertFalse(doc.first_section.body.first_paragraph.break_is_style_separator)
-
-    def test_tab_stops(self):
-        #ExStart
-        #ExFor:Paragraph.get_effective_tab_stops
-        #ExSummary:Shows how to set custom tab stops for a paragraph.
-        doc = aw.Document()
-        para = doc.first_section.body.first_paragraph
-        # If we are in a paragraph with no tab stops in this collection,
-        # the cursor will jump 36 points each time we press the Tab key in Microsoft Word.
-        self.assertEqual(0, doc.first_section.body.first_paragraph.get_effective_tab_stops().length)
-        # We can add custom tab stops in Microsoft Word if we enable the ruler via the "View" tab.
-        # Each unit on this ruler is two default tab stops, which is 72 points.
-        # We can add custom tab stops programmatically like this.
-        tab_stops = doc.first_section.body.first_paragraph.paragraph_format.tab_stops
-        tab_stops.add(72, aw.TabAlignment.LEFT, aw.TabLeader.DOTS)
-        tab_stops.add(216, aw.TabAlignment.CENTER, aw.TabLeader.DASHES)
-        tab_stops.add(360, aw.TabAlignment.RIGHT, aw.TabLeader.LINE)
-        # We can see these tab stops in Microsoft Word by enabling the ruler via "View" -> "Show" -> "Ruler".
-        self.assertEqual(3, para.get_effective_tab_stops().length)
-        # Any tab characters we add will make use of the tab stops on the ruler and may,
-        # depending on the tab leader's value, leave a line between the tab departure and arrival destinations.
-        para.append_child(aw.Run(doc, '\tTab 1\tTab 2\tTab 3'))
-        doc.save(ARTIFACTS_DIR + 'Paragraph.tab_stops.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Paragraph.tab_stops.docx')
-        tab_stops = doc.first_section.body.first_paragraph.paragraph_format.tab_stops
-        self.verify_tab_stop(72.0, aw.TabAlignment.LEFT, aw.TabLeader.DOTS, False, tab_stops[0])
-        self.verify_tab_stop(216.0, aw.TabAlignment.CENTER, aw.TabLeader.DASHES, False, tab_stops[1])
-        self.verify_tab_stop(360.0, aw.TabAlignment.RIGHT, aw.TabLeader.LINE, False, tab_stops[2])
 
     @staticmethod
     def insert_field_using_field_type(doc: aw.Document, field_type: aw.fields.FieldType, update_field: bool, ref_node: aw.Node, is_after: bool, para_index: int):

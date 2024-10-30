@@ -14,6 +14,51 @@ from api_example_base import ApiExampleBase, ARTIFACTS_DIR
 
 class ExTxtSaveOptions(ApiExampleBase):
 
+    def test_export_headers_footers(self):
+        for txt_export_headers_footers_mode in [aw.saving.TxtExportHeadersFootersMode.ALL_AT_END, aw.saving.TxtExportHeadersFootersMode.PRIMARY_ONLY, aw.saving.TxtExportHeadersFootersMode.NONE]:
+            #ExStart
+            #ExFor:TxtSaveOptionsBase.export_headers_footers_mode
+            #ExFor:TxtExportHeadersFootersMode
+            #ExSummary:Shows how to specify how to export headers and footers to plain text format.
+            doc = aw.Document()
+            # Insert even and primary headers/footers into the document.
+            # The primary header/footers will override the even headers/footers.
+            doc.first_section.headers_footers.add(aw.HeaderFooter(doc, aw.HeaderFooterType.HEADER_EVEN))
+            doc.first_section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.HEADER_EVEN).append_paragraph('Even header')
+            doc.first_section.headers_footers.add(aw.HeaderFooter(doc, aw.HeaderFooterType.FOOTER_EVEN))
+            doc.first_section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_EVEN).append_paragraph('Even footer')
+            doc.first_section.headers_footers.add(aw.HeaderFooter(doc, aw.HeaderFooterType.HEADER_PRIMARY))
+            doc.first_section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.HEADER_PRIMARY).append_paragraph('Primary header')
+            doc.first_section.headers_footers.add(aw.HeaderFooter(doc, aw.HeaderFooterType.FOOTER_PRIMARY))
+            doc.first_section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_PRIMARY).append_paragraph('Primary footer')
+            # Insert pages to display these headers and footers.
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.writeln('Page 1')
+            builder.insert_break(aw.BreakType.PAGE_BREAK)
+            builder.writeln('Page 2')
+            builder.insert_break(aw.BreakType.PAGE_BREAK)
+            builder.write('Page 3')
+            # Create a "TxtSaveOptions" object, which we can pass to the document's "Save" method
+            # to modify how we save the document to plaintext.
+            save_options = aw.saving.TxtSaveOptions()
+            # Set the "ExportHeadersFootersMode" property to "TxtExportHeadersFootersMode.None"
+            # to not export any headers/footers.
+            # Set the "ExportHeadersFootersMode" property to "TxtExportHeadersFootersMode.PrimaryOnly"
+            # to only export primary headers/footers.
+            # Set the "ExportHeadersFootersMode" property to "TxtExportHeadersFootersMode.AllAtEnd"
+            # to place all headers and footers for all section bodies at the end of the document.
+            save_options.export_headers_footers_mode = txt_export_headers_footers_mode
+            doc.save(file_name=ARTIFACTS_DIR + 'TxtSaveOptions.ExportHeadersFooters.txt', save_options=save_options)
+            doc_text = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'TxtSaveOptions.ExportHeadersFooters.txt')
+            switch_condition = txt_export_headers_footers_mode
+            if switch_condition == aw.saving.TxtExportHeadersFootersMode.ALL_AT_END:
+                self.assertEqual('Page 1\r\n' + 'Page 2\r\n' + 'Page 3\r\n' + 'Even header\r\n\r\n' + 'Primary header\r\n\r\n' + 'Even footer\r\n\r\n' + 'Primary footer\r\n\r\n', doc_text)
+            elif switch_condition == aw.saving.TxtExportHeadersFootersMode.PRIMARY_ONLY:
+                self.assertEqual('Primary header\r\n' + 'Page 1\r\n' + 'Page 2\r\n' + 'Page 3\r\n' + 'Primary footer\r\n', doc_text)
+            elif switch_condition == aw.saving.TxtExportHeadersFootersMode.NONE:
+                self.assertEqual('Page 1\r\n' + 'Page 2\r\n' + 'Page 3\r\n', doc_text)
+        #ExEnd
+
     def test_txt_list_indentation(self):
         #ExStart
         #ExFor:TxtListIndentation
@@ -44,6 +89,39 @@ class ExTxtSaveOptions(ApiExampleBase):
         new_line = system_helper.environment.Environment.new_line()
         self.assertEqual(f'1. Item 1{new_line}' + f'   a. Item 2{new_line}' + f'      i. Item 3{new_line}', doc_text)
         #ExEnd
+
+    def test_simplify_list_labels(self):
+        for simplify_list_labels in [False, True]:
+            #ExStart
+            #ExFor:TxtSaveOptions.simplify_list_labels
+            #ExSummary:Shows how to change the appearance of lists when saving a document to plaintext.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            # Create a bulleted list with five levels of indentation.
+            builder.list_format.apply_bullet_default()
+            builder.writeln('Item 1')
+            builder.list_format.list_indent()
+            builder.writeln('Item 2')
+            builder.list_format.list_indent()
+            builder.writeln('Item 3')
+            builder.list_format.list_indent()
+            builder.writeln('Item 4')
+            builder.list_format.list_indent()
+            builder.write('Item 5')
+            # Create a "TxtSaveOptions" object, which we can pass to the document's "Save" method
+            # to modify how we save the document to plaintext.
+            txt_save_options = aw.saving.TxtSaveOptions()
+            # Set the "SimplifyListLabels" property to "true" to convert some list
+            # symbols into simpler ASCII characters, such as '*', 'o', '+', '>', etc.
+            # Set the "SimplifyListLabels" property to "false" to preserve as many original list symbols as possible.
+            txt_save_options.simplify_list_labels = simplify_list_labels
+            doc.save(file_name=ARTIFACTS_DIR + 'TxtSaveOptions.SimplifyListLabels.txt', save_options=txt_save_options)
+            doc_text = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'TxtSaveOptions.SimplifyListLabels.txt')
+            if simplify_list_labels:
+                self.assertEqual('* Item 1\r\n' + '  > Item 2\r\n' + '    + Item 3\r\n' + '      - Item 4\r\n' + '        o Item 5\r\n', doc_text)
+            else:
+                self.assertEqual('· Item 1\r\n' + 'o Item 2\r\n' + '§ Item 3\r\n' + '· Item 4\r\n' + 'o Item 5\r\n', doc_text)
+            #ExEnd
 
     def test_paragraph_break(self):
         #ExStart
@@ -141,87 +219,6 @@ class ExTxtSaveOptions(ApiExampleBase):
                     self.assertNotIn('\u200f', doc_text)
                 #ExEnd
 
-    def test_export_headers_footers(self):
-        for txt_export_headers_footers_mode in (aw.saving.TxtExportHeadersFootersMode.ALL_AT_END, aw.saving.TxtExportHeadersFootersMode.PRIMARY_ONLY, aw.saving.TxtExportHeadersFootersMode.NONE):
-            with self.subTest(txt_export_headers_footers_mode=txt_export_headers_footers_mode):
-                #ExStart
-                #ExFor:TxtSaveOptionsBase.export_headers_footers_mode
-                #ExFor:TxtExportHeadersFootersMode
-                #ExSummary:Shows how to specify how to export headers and footers to plain text format.
-                doc = aw.Document()
-                # Insert even and primary headers/footers into the document.
-                # The primary header/footers will override the even headers/footers.
-                doc.first_section.headers_footers.add(aw.HeaderFooter(doc, aw.HeaderFooterType.HEADER_EVEN))
-                doc.first_section.headers_footers.header_even.append_paragraph('Even header')
-                doc.first_section.headers_footers.add(aw.HeaderFooter(doc, aw.HeaderFooterType.FOOTER_EVEN))
-                doc.first_section.headers_footers.footer_even.append_paragraph('Even footer')
-                doc.first_section.headers_footers.add(aw.HeaderFooter(doc, aw.HeaderFooterType.HEADER_PRIMARY))
-                doc.first_section.headers_footers.header_primary.append_paragraph('Primary header')
-                doc.first_section.headers_footers.add(aw.HeaderFooter(doc, aw.HeaderFooterType.FOOTER_PRIMARY))
-                doc.first_section.headers_footers.footer_primary.append_paragraph('Primary footer')
-                # Insert pages to display these headers and footers.
-                builder = aw.DocumentBuilder(doc)
-                builder.writeln('Page 1')
-                builder.insert_break(aw.BreakType.PAGE_BREAK)
-                builder.writeln('Page 2')
-                builder.insert_break(aw.BreakType.PAGE_BREAK)
-                builder.write('Page 3')
-                # Create a "TxtSaveOptions" object, which we can pass to the document's "save" method
-                # to modify how we save the document to plaintext.
-                save_options = aw.saving.TxtSaveOptions()
-                # Set the "export_headers_footers_mode" property to "TxtExportHeadersFootersMode.NONE"
-                # to not export any headers/footers.
-                # Set the "export_headers_footers_mode" property to "TxtExportHeadersFootersMode.PRIMARY_ONLY"
-                # to only export primary headers/footers.
-                # Set the "export_headers_footers_mode" property to "TxtExportHeadersFootersMode.ALL_AT_END"
-                # to place all headers and footers for all section bodies at the end of the document.
-                save_options.export_headers_footers_mode = txt_export_headers_footers_mode
-                doc.save(ARTIFACTS_DIR + 'TxtSaveOptions.export_headers_footers.txt', save_options)
-                with open(ARTIFACTS_DIR + 'TxtSaveOptions.export_headers_footers.txt', 'rb') as file:
-                    doc_text = file.read().decode('utf-8-sig')
-                if txt_export_headers_footers_mode == aw.saving.TxtExportHeadersFootersMode.ALL_AT_END:
-                    self.assertEqual('Page 1\r\n' + 'Page 2\r\n' + 'Page 3\r\n' + 'Even header\r\n\r\n' + 'Primary header\r\n\r\n' + 'Even footer\r\n\r\n' + 'Primary footer\r\n\r\n', doc_text)
-                elif txt_export_headers_footers_mode == aw.saving.TxtExportHeadersFootersMode.PRIMARY_ONLY:
-                    self.assertEqual('Primary header\r\n' + 'Page 1\r\n' + 'Page 2\r\n' + 'Page 3\r\n' + 'Primary footer\r\n', doc_text)
-                elif txt_export_headers_footers_mode == aw.saving.TxtExportHeadersFootersMode.NONE:
-                    self.assertEqual('Page 1\r\n' + 'Page 2\r\n' + 'Page 3\r\n', doc_text)
-                #ExEnd
-
-    def test_simplify_list_labels(self):
-        for simplify_list_labels in (False, True):
-            with self.subTest(simplify_list_labels=simplify_list_labels):
-                #ExStart
-                #ExFor:TxtSaveOptions.simplify_list_labels
-                #ExSummary:Shows how to change the appearance of lists when saving a document to plaintext.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                # Create a bulleted list with five levels of indentation.
-                builder.list_format.apply_bullet_default()
-                builder.writeln('Item 1')
-                builder.list_format.list_indent()
-                builder.writeln('Item 2')
-                builder.list_format.list_indent()
-                builder.writeln('Item 3')
-                builder.list_format.list_indent()
-                builder.writeln('Item 4')
-                builder.list_format.list_indent()
-                builder.write('Item 5')
-                # Create a "TxtSaveOptions" object, which we can pass to the document's "save" method
-                # to modify how we save the document to plaintext.
-                txt_save_options = aw.saving.TxtSaveOptions()
-                # Set the "simplify_list_labels" property to "True" to convert some list
-                # symbols into simpler ASCII characters, such as '*', 'o', '+', '>', etc.
-                # Set the "simplify_list_labels" property to "False" to preserve as many original list symbols as possible.
-                txt_save_options.simplify_list_labels = simplify_list_labels
-                doc.save(ARTIFACTS_DIR + 'TxtSaveOptions.simplify_list_labels.txt', txt_save_options)
-                with open(ARTIFACTS_DIR + 'TxtSaveOptions.simplify_list_labels.txt', 'rb') as file:
-                    doc_text = file.read().decode('utf-8-sig')
-                if simplify_list_labels:
-                    self.assertEqual('* Item 1\r\n' + '  > Item 2\r\n' + '    + Item 3\r\n' + '      - Item 4\r\n' + '        o Item 5\r\n', doc_text)
-                else:
-                    self.assertEqual('· Item 1\r\n' + 'o Item 2\r\n' + '§ Item 3\r\n' + '· Item 4\r\n' + 'o Item 5\r\n', doc_text)
-                #ExEnd
-
     @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_encoding(self):
         #ExStart
@@ -250,37 +247,35 @@ class ExTxtSaveOptions(ApiExampleBase):
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'different chars number in Linux')
     def test_preserve_table_layout(self):
-        for preserve_table_layout in (False, True):
-            with self.subTest(preserve_table_layout=preserve_table_layout):
-                #ExStart
-                #ExFor:TxtSaveOptions.preserve_table_layout
-                #ExSummary:Shows how to preserve the layout of tables when converting to plaintext.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                builder.start_table()
-                builder.insert_cell()
-                builder.write('Row 1, cell 1')
-                builder.insert_cell()
-                builder.write('Row 1, cell 2')
-                builder.end_row()
-                builder.insert_cell()
-                builder.write('Row 2, cell 1')
-                builder.insert_cell()
-                builder.write('Row 2, cell 2')
-                builder.end_table()
-                # Create a "TxtSaveOptions" object, which we can pass to the document's "Save" method
-                # to modify how we save the document to plaintext.
-                txt_save_options = aw.saving.TxtSaveOptions()
-                # Set the "preserve_table_layout" property to "True" to apply whitespace padding to the contents
-                # of the output plaintext document to preserve as much of the table's layout as possible.
-                # Set the "preserve_table_layout" property to "False" to save all tables' contents
-                # as a continuous body of text, with just a new line for each row.
-                txt_save_options.preserve_table_layout = preserve_table_layout
-                doc.save(ARTIFACTS_DIR + 'TxtSaveOptions.preserve_table_layout.txt', txt_save_options)
-                with open(ARTIFACTS_DIR + 'TxtSaveOptions.preserve_table_layout.txt', 'rb') as file:
-                    doc_text = file.read().decode('utf-8-sig')
-                if preserve_table_layout:
-                    self.assertEqual('Row 1, cell 1                                           Row 1, cell 2\r\n' + 'Row 2, cell 1                                           Row 2, cell 2\r\n\r\n', doc_text)
-                else:
-                    self.assertEqual('Row 1, cell 1\r' + 'Row 1, cell 2\r' + 'Row 2, cell 1\r' + 'Row 2, cell 2\r\r\n', doc_text)
-                #ExEnd
+        for preserve_table_layout in [False, True]:
+            #ExStart
+            #ExFor:TxtSaveOptions.preserve_table_layout
+            #ExSummary:Shows how to preserve the layout of tables when converting to plaintext.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.start_table()
+            builder.insert_cell()
+            builder.write('Row 1, cell 1')
+            builder.insert_cell()
+            builder.write('Row 1, cell 2')
+            builder.end_row()
+            builder.insert_cell()
+            builder.write('Row 2, cell 1')
+            builder.insert_cell()
+            builder.write('Row 2, cell 2')
+            builder.end_table()
+            # Create a "TxtSaveOptions" object, which we can pass to the document's "Save" method
+            # to modify how we save the document to plaintext.
+            txt_save_options = aw.saving.TxtSaveOptions()
+            # Set the "PreserveTableLayout" property to "true" to apply whitespace padding to the contents
+            # of the output plaintext document to preserve as much of the table's layout as possible.
+            # Set the "PreserveTableLayout" property to "false" to save all tables' contents
+            # as a continuous body of text, with just a new line for each row.
+            txt_save_options.preserve_table_layout = preserve_table_layout
+            doc.save(file_name=ARTIFACTS_DIR + 'TxtSaveOptions.PreserveTableLayout.txt', save_options=txt_save_options)
+            doc_text = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'TxtSaveOptions.PreserveTableLayout.txt')
+            if preserve_table_layout:
+                self.assertEqual('Row 1, cell 1                                           Row 1, cell 2\r\n' + 'Row 2, cell 1                                           Row 2, cell 2\r\n\r\n', doc_text)
+            else:
+                self.assertEqual('Row 1, cell 1\r' + 'Row 1, cell 2\r' + 'Row 2, cell 1\r' + 'Row 2, cell 2\r\r\n', doc_text)
+            #ExEnd

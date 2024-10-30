@@ -5,12 +5,14 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import sys
 import os
+import sys
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.saving
+import aspose.words.settings
 import datetime
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -46,6 +48,31 @@ class ExXpsSaveOptions(ApiExampleBase):
         save_options.outline_options.headings_outline_levels = 2
         doc.save(file_name=ARTIFACTS_DIR + 'XpsSaveOptions.OutlineLevels.xps', save_options=save_options)
         #ExEnd
+
+    def test_book_fold(self):
+        for render_text_as_book_fold in [False, True]:
+            #ExStart
+            #ExFor:XpsSaveOptions.__init__(SaveFormat)
+            #ExFor:XpsSaveOptions.use_book_fold_printing_settings
+            #ExSummary:Shows how to save a document to the XPS format in the form of a book fold.
+            doc = aw.Document(file_name=MY_DIR + 'Paragraphs.docx')
+            # Create an "XpsSaveOptions" object that we can pass to the document's "Save" method
+            # to modify how that method converts the document to .XPS.
+            xps_options = aw.saving.XpsSaveOptions(aw.SaveFormat.XPS)
+            # Set the "UseBookFoldPrintingSettings" property to "true" to arrange the contents
+            # in the output XPS in a way that helps us use it to make a booklet.
+            # Set the "UseBookFoldPrintingSettings" property to "false" to render the XPS normally.
+            xps_options.use_book_fold_printing_settings = render_text_as_book_fold
+            # If we are rendering the document as a booklet, we must set the "MultiplePages"
+            # properties of the page setup objects of all sections to "MultiplePagesType.BookFoldPrinting".
+            if render_text_as_book_fold:
+                for s in doc.sections:
+                    s = s.as_section()
+                    s.page_setup.multiple_pages = aw.settings.MultiplePagesType.BOOK_FOLD_PRINTING
+            # Once we print this document, we can turn it into a booklet by stacking the pages
+            # to come out of the printer and folding down the middle.
+            doc.save(file_name=ARTIFACTS_DIR + 'XpsSaveOptions.BookFold.xps', save_options=xps_options)
+            #ExEnd
 
     def test_export_exact_pages(self):
         #ExStart
@@ -85,32 +112,6 @@ class ExXpsSaveOptions(ApiExampleBase):
         self.assertEqual('Some comments', digital_signature_details.sign_options.comments)
         doc.save(file_name=ARTIFACTS_DIR + 'XpsSaveOptions.XpsDigitalSignature.docx', save_options=save_options)
         #ExEnd:XpsDigitalSignature
-
-    def test_book_fold(self):
-        for render_text_as_book_fold in (False, True):
-            with self.subTest(render_text_as_book_fold=render_text_as_book_fold):
-                #ExStart
-                #ExFor:XpsSaveOptions.__init__(SaveFormat)
-                #ExFor:XpsSaveOptions.use_book_fold_printing_settings
-                #ExSummary:Shows how to save a document to the XPS format in the form of a book fold.
-                doc = aw.Document(MY_DIR + 'Paragraphs.docx')
-                # Create an "XpsSaveOptions" object that we can pass to the document's "save" method
-                # to modify how that method converts the document to .XPS.
-                xps_options = aw.saving.XpsSaveOptions(aw.SaveFormat.XPS)
-                # Set the "use_book_fold_printing_settings" property to "True" to arrange the contents
-                # in the output XPS in a way that helps us use it to make a booklet.
-                # Set the "use_book_fold_printing_settings" property to "False" to render the XPS normally.
-                xps_options.use_book_fold_printing_settings = render_text_as_book_fold
-                # If we are rendering the document as a booklet, we must set the "multiple_pages"
-                # properties of the page setup objects of all sections to "MultiplePagesType.BOOK_FOLD_PRINTING".
-                if render_text_as_book_fold:
-                    for section in doc.sections:
-                        section = section.as_section()
-                        section.page_setup.multiple_pages = aw.settings.MultiplePagesType.BOOK_FOLD_PRINTING
-                # Once we print this document, we can turn it into a booklet by stacking the pages
-                # to come out of the printer and folding down the middle.
-                doc.save(ARTIFACTS_DIR + 'XpsSaveOptions.book_fold.xps', xps_options)
-                #ExEnd
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'different calculation on Linux')
     def test_optimize_output(self):

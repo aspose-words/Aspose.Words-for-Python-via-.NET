@@ -5,17 +5,18 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import io
-import os
-import time
-import datetime
-import sys
 import random
+import sys
+import time
+import os
+import io
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.drawing
+import aspose.words.lists
 import aspose.words.saving
 import aspose.words.settings
+import datetime
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR
 
@@ -51,6 +52,33 @@ class ExOoxmlSaveOptions(ApiExampleBase):
         self.assertEqual(aw.drawing.ShapeMarkupLanguage.DML, doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape().markup_language)
         #ExEnd
 
+    def test_restarting_document_list(self):
+        for restart_list_at_each_section in [False, True]:
+            #ExStart
+            #ExFor:List.is_restart_at_each_section
+            #ExFor:OoxmlCompliance
+            #ExFor:OoxmlSaveOptions.compliance
+            #ExSummary:Shows how to configure a list to restart numbering at each section.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            doc.lists.add(list_template=aw.lists.ListTemplate.NUMBER_DEFAULT)
+            list = doc.lists[0]
+            list.is_restart_at_each_section = restart_list_at_each_section
+            # The "IsRestartAtEachSection" property will only be applicable when
+            # the document's OOXML compliance level is to a standard that is newer than "OoxmlComplianceCore.Ecma376".
+            options = aw.saving.OoxmlSaveOptions()
+            options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
+            builder.list_format.list = list
+            builder.writeln('List item 1')
+            builder.writeln('List item 2')
+            builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
+            builder.writeln('List item 3')
+            builder.writeln('List item 4')
+            doc.save(file_name=ARTIFACTS_DIR + 'OoxmlSaveOptions.RestartingDocumentList.docx', save_options=options)
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'OoxmlSaveOptions.RestartingDocumentList.docx')
+            self.assertEqual(restart_list_at_each_section, doc.lists[0].is_restart_at_each_section)
+            #ExEnd
+
     def test_export_generator_name(self):
         #ExStart
         #ExFor:SaveOptions.export_generator_name
@@ -80,34 +108,6 @@ class ExOoxmlSaveOptions(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + 'OoxmlSaveOptions.password.docx', aw.loading.LoadOptions('MyPassword'))
         self.assertEqual('Hello world!', doc.get_text().strip())
         #ExEnd
-
-    def test_restarting_document_list(self):
-        for restart_list_at_each_section in (False, True):
-            with self.subTest(restart_list_at_each_section=restart_list_at_each_section):
-                #ExStart
-                #ExFor:List.is_restart_at_each_section
-                #ExFor:OoxmlCompliance
-                #ExFor:OoxmlSaveOptions.compliance
-                #ExSummary:Shows how to configure a list to restart numbering at each section.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                doc.lists.add(aw.lists.ListTemplate.NUMBER_DEFAULT)
-                list = doc.lists[0]
-                list.is_restart_at_each_section = restart_list_at_each_section
-                # The "is_restart_at_each_section" property will only be applicable when
-                # the document's OOXML compliance level is to a standard that is newer than "OoxmlComplianceCore.ECMA376".
-                options = aw.saving.OoxmlSaveOptions()
-                options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
-                builder.list_format.list = list
-                builder.writeln('List item 1')
-                builder.writeln('List item 2')
-                builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
-                builder.writeln('List item 3')
-                builder.writeln('List item 4')
-                doc.save(ARTIFACTS_DIR + 'OoxmlSaveOptions.restarting_document_list.docx', options)
-                doc = aw.Document(ARTIFACTS_DIR + 'OoxmlSaveOptions.restarting_document_list.docx')
-                self.assertEqual(restart_list_at_each_section, doc.lists[0].is_restart_at_each_section)
-                #ExEnd
 
     def test_last_saved_time(self):
         for update_last_saved_time_property in (False, True):

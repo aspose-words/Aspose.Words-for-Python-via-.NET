@@ -6,21 +6,28 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 import aspose.words as aw
+import aspose.words.loading
+import unittest
 from api_example_base import ApiExampleBase, MY_DIR
 
 class ExPdfLoadOptions(ApiExampleBase):
 
     def test_skip_pdf_images(self):
-        for is_skip_pdf_images in (True, False):
-            with self.subTest(is_skip_pdf_images=is_skip_pdf_images):
-                #ExStart
-                #ExFor:PdfLoadOptions.skip_pdf_images
-                #ExSummary:Shows how to skip images during loading PDF files.
-                options = aw.loading.PdfLoadOptions()
-                options.skip_pdf_images = is_skip_pdf_images
-                doc = aw.Document(MY_DIR + 'Images.pdf', options)
-                shape_collection = doc.get_child_nodes(aw.NodeType.SHAPE, True)
-                if is_skip_pdf_images:
-                    self.assertEqual(shape_collection.count, 0)
-                else:
-                    self.assertNotEqual(shape_collection.count, 0)
+        for is_skip_pdf_images in [True, False]:
+            #ExStart
+            #ExFor:PdfLoadOptions
+            #ExFor:PdfLoadOptions.skip_pdf_images
+            #ExFor:PdfLoadOptions.page_index
+            #ExFor:PdfLoadOptions.page_count
+            #ExSummary:Shows how to skip images during loading PDF files.
+            options = aw.loading.PdfLoadOptions()
+            options.skip_pdf_images = is_skip_pdf_images
+            options.page_index = 0
+            options.page_count = 1
+            doc = aw.Document(file_name=MY_DIR + 'Images.pdf', load_options=options)
+            shape_collection = doc.get_child_nodes(aw.NodeType.SHAPE, True)
+            if is_skip_pdf_images:
+                self.assertEqual(shape_collection.count, 0)
+            else:
+                self.assertNotEqual(shape_collection.count, 0)
+            #ExEnd

@@ -5,17 +5,18 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words import Document, DocumentBuilder, NodeType
-from aspose.pydrawing import Color
-from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType, ChartShapeType
-from datetime import date
-import locale
 from math import nan
+from datetime import date
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType, ChartShapeType
+from aspose.pydrawing import Color
+from aspose.words import Document, DocumentBuilder, NodeType
+import locale
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.drawing.charts
 import datetime
+import math
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -238,6 +239,17 @@ class ExCharts(ApiExampleBase):
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Charts.SetNumberFormatToChartAxis.docx')
         chart = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape().chart
         self.assertEqual('#,##0', chart.axis_y.number_format.format_code)
+
+    def test_display_charts_with_conversion(self):
+        for chart_type in [aw.drawing.charts.ChartType.COLUMN, aw.drawing.charts.ChartType.LINE, aw.drawing.charts.ChartType.PIE, aw.drawing.charts.ChartType.BAR, aw.drawing.charts.ChartType.AREA]:
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            shape = builder.insert_chart(chart_type=chart_type, width=500, height=300)
+            chart = shape.chart
+            chart.series.clear()
+            chart.series.add(series_name='Aspose Test Series', categories=['Word', 'PDF', 'Excel', 'GoogleDocs', 'Note'], values=[1900000, 850000, 2100000, 600000, 1500000])
+            doc.save(file_name=ARTIFACTS_DIR + 'Charts.TestDisplayChartsWithConversion.docx')
+            doc.save(file_name=ARTIFACTS_DIR + 'Charts.TestDisplayChartsWithConversion.pdf')
 
     def test_surface_3d_chart(self):
         doc = aw.Document()
@@ -1283,18 +1295,6 @@ class ExCharts(ApiExampleBase):
         self.assertEqual(aw.drawing.charts.AxisBound(700), chart.axis_y.scaling.maximum)
         self.assertEqual(True, chart.axis_y.has_major_gridlines)
         self.assertEqual(True, chart.axis_y.has_minor_gridlines)
-
-    def test_display_charts_with_conversion(self):
-        for chart_type in (aw.drawing.charts.ChartType.COLUMN, aw.drawing.charts.ChartType.LINE, aw.drawing.charts.ChartType.PIE, aw.drawing.charts.ChartType.BAR, aw.drawing.charts.ChartType.AREA):
-            with self.subTest(chart_type=chart_type):
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                shape = builder.insert_chart(chart_type, 500, 300)
-                chart = shape.chart
-                chart.series.clear()
-                chart.series.add('Aspose Test Series', ['Word', 'PDF', 'Excel', 'GoogleDocs', 'Note'], [1900000, 850000, 2100000, 600000, 1500000])
-                doc.save(ARTIFACTS_DIR + 'Charts.display_charts_with_conversion.docx')
-                doc.save(ARTIFACTS_DIR + 'Charts.display_charts_with_conversion.pdf')
 
     def test_data_labels(self):
         #ExStart

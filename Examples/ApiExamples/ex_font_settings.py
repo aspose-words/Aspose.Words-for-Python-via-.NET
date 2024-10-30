@@ -5,10 +5,10 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import sys
-import xml.etree.ElementTree as ET
-import platform
 import io
+import platform
+import xml.etree.ElementTree as ET
+import sys
 import aspose.words as aw
 import aspose.words.fonts
 import aspose.words.loading
@@ -102,6 +102,17 @@ class ExFontSettings(ApiExampleBase):
         folder_source = doc.font_settings.get_fonts_sources()[1].as_folder_font_source()
         self.assertEqual('C:\\Windows\\Fonts\\', folder_source.folder_path)
         self.assertTrue(folder_source.scan_subfolders)
+
+    def test_add_font_substitutes(self):
+        font_settings = aw.fonts.FontSettings()
+        font_settings.substitution_settings.table_substitution.set_substitutes('Slab', ['Times New Roman', 'Arial'])
+        font_settings.substitution_settings.table_substitution.add_substitutes('Arvo', ['Open Sans', 'Arial'])
+        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+        doc.font_settings = font_settings
+        alternative_fonts = list(doc.font_settings.substitution_settings.table_substitution.get_substitutes('Slab'))
+        self.assertSequenceEqual(['Times New Roman', 'Arial'], alternative_fonts)
+        alternative_fonts = list(doc.font_settings.substitution_settings.table_substitution.get_substitutes('Arvo'))
+        self.assertSequenceEqual(['Open Sans', 'Arial'], alternative_fonts)
 
     def test_font_source_memory(self):
         #ExStart
@@ -375,17 +386,6 @@ class ExFontSettings(ApiExampleBase):
         # The output document will display the text that uses the "Amethysta" font formatted with "Courier New".
         doc.save(ARTIFACTS_DIR + 'FontSettings.table_substitution.pdf')
         #ExEnd
-
-    def test_add_font_substitutes(self):
-        font_settings = aw.fonts.FontSettings()
-        font_settings.substitution_settings.table_substitution.set_substitutes('Slab', ['Times New Roman', 'Arial'])
-        font_settings.substitution_settings.table_substitution.add_substitutes('Arvo', ['Open Sans', 'Arial'])
-        doc = aw.Document(MY_DIR + 'Rendering.docx')
-        doc.font_settings = font_settings
-        alternative_fonts = doc.font_settings.substitution_settings.table_substitution.get_substitutes('Slab')
-        self.assertListEqual(['Times New Roman', 'Arial'], list(alternative_fonts))
-        alternative_fonts = doc.font_settings.substitution_settings.table_substitution.get_substitutes('Arvo')
-        self.assertListEqual(['Open Sans', 'Arial'], list(alternative_fonts))
 
     def test_font_source_system(self):
         #ExStart

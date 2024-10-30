@@ -5,14 +5,16 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import date, timezone, timedelta
 from document_helper import DocumentHelper
+from datetime import date, timezone, timedelta
 import aspose.words as aw
 import aspose.words.comparing
 import aspose.words.drawing
 import aspose.words.layout
 import aspose.words.notes
 import datetime
+import document_helper
+import test_util
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -152,6 +154,105 @@ class ExRevision(ApiExampleBase):
         self.assertEqual('', paragraphs[1].list_label.label_string)
         self.assertEqual('b.', paragraphs[2].list_label.label_string)
 
+    def test_compare(self):
+        #ExStart
+        #ExFor:Document.compare(Document,str,datetime)
+        #ExFor:RevisionCollection.accept_all
+        #ExSummary:Shows how to compare documents.
+        doc_original = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc_original)
+        builder.writeln('This is the original document.')
+        doc_edited = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc_edited)
+        builder.writeln('This is the edited document.')
+        # Comparing documents with revisions will throw an exception.
+        if doc_original.revisions.count == 0 and doc_edited.revisions.count == 0:
+            doc_original.compare(document=doc_edited, author='authorName', date_time=datetime.datetime.now())
+        # After the comparison, the original document will gain a new revision
+        # for every element that is different in the edited document.
+        self.assertEqual(2, doc_original.revisions.count)  #ExSkip
+        for r in doc_original.revisions:
+            print(f'Revision type: {r.revision_type}, on a node of type "{r.parent_node.node_type}"')
+            print(f'\tChanged text: "{r.parent_node.get_text()}"')
+        # Accepting these revisions will transform the original document into the edited document.
+        doc_original.revisions.accept_all()
+        self.assertEqual(doc_original.get_text(), doc_edited.get_text())
+        #ExEnd
+        doc_original = document_helper.DocumentHelper.save_open(doc_original)
+        self.assertEqual(0, doc_original.revisions.count)
+
+    def test_compare_options(self):
+        #ExStart
+        #ExFor:CompareOptions
+        #ExFor:CompareOptions.ignore_formatting
+        #ExFor:CompareOptions.ignore_case_changes
+        #ExFor:CompareOptions.ignore_comments
+        #ExFor:CompareOptions.ignore_tables
+        #ExFor:CompareOptions.ignore_fields
+        #ExFor:CompareOptions.ignore_footnotes
+        #ExFor:CompareOptions.ignore_textboxes
+        #ExFor:CompareOptions.ignore_headers_and_footers
+        #ExFor:CompareOptions.target
+        #ExFor:ComparisonTargetType
+        #ExFor:Document.compare(Document,str,datetime,CompareOptions)
+        #ExSummary:Shows how to filter specific types of document elements when making a comparison.
+        # Create the original document and populate it with various kinds of elements.
+        doc_original = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc_original)
+        # Paragraph text referenced with an endnote:
+        builder.writeln('Hello world! This is the first paragraph.')
+        builder.insert_footnote(footnote_type=aw.notes.FootnoteType.ENDNOTE, footnote_text='Original endnote text.')
+        # Table:
+        builder.start_table()
+        builder.insert_cell()
+        builder.write('Original cell 1 text')
+        builder.insert_cell()
+        builder.write('Original cell 2 text')
+        builder.end_table()
+        # Textbox:
+        text_box = builder.insert_shape(shape_type=aw.drawing.ShapeType.TEXT_BOX, width=150, height=20)
+        builder.move_to(text_box.first_paragraph)
+        builder.write('Original textbox contents')
+        # DATE field:
+        builder.move_to(doc_original.first_section.body.append_paragraph(''))
+        builder.insert_field(field_code=' DATE ')
+        # Comment:
+        new_comment = aw.Comment(doc=doc_original, author='John Doe', initial='J.D.', date_time=datetime.datetime.now())
+        new_comment.set_text('Original comment.')
+        builder.current_paragraph.append_child(new_comment)
+        # Header:
+        builder.move_to_header_footer(aw.HeaderFooterType.HEADER_PRIMARY)
+        builder.writeln('Original header contents.')
+        # Create a clone of our document and perform a quick edit on each of the cloned document's elements.
+        doc_edited = doc_original.clone(True).as_document()
+        first_paragraph = doc_edited.first_section.body.first_paragraph
+        first_paragraph.runs[0].text = 'hello world! this is the first paragraph, after editing.'
+        first_paragraph.paragraph_format.style = doc_edited.styles.get_by_style_identifier(aw.StyleIdentifier.HEADING1)
+        doc_edited.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote().first_paragraph.runs[1].text = 'Edited endnote text.'
+        doc_edited.get_child(aw.NodeType.TABLE, 0, True).as_table().first_row.cells[1].first_paragraph.runs[0].text = 'Edited Cell 2 contents'
+        doc_edited.get_child(aw.NodeType.SHAPE, 0, True).as_shape().first_paragraph.runs[0].text = 'Edited textbox contents'
+        doc_edited.range.fields[0].as_field_date().use_lunar_calendar = True
+        doc_edited.get_child(aw.NodeType.COMMENT, 0, True).as_comment().first_paragraph.runs[0].text = 'Edited comment.'
+        doc_edited.first_section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.HEADER_PRIMARY).first_paragraph.runs[0].text = 'Edited header contents.'
+        # Comparing documents creates a revision for every edit in the edited document.
+        # A CompareOptions object has a series of flags that can suppress revisions
+        # on each respective type of element, effectively ignoring their change.
+        compare_options = aw.comparing.CompareOptions()
+        compare_options.ignore_formatting = False
+        compare_options.ignore_case_changes = False
+        compare_options.ignore_comments = False
+        compare_options.ignore_tables = False
+        compare_options.ignore_fields = False
+        compare_options.ignore_footnotes = False
+        compare_options.ignore_textboxes = False
+        compare_options.ignore_headers_and_footers = False
+        compare_options.target = aw.comparing.ComparisonTargetType.NEW
+        doc_original.compare(document=doc_edited, author='John Doe', date_time=datetime.datetime.now(), options=compare_options)
+        doc_original.save(file_name=ARTIFACTS_DIR + 'Document.CompareOptions.docx')
+        #ExEnd
+        doc_original = aw.Document(file_name=ARTIFACTS_DIR + 'Document.CompareOptions.docx')
+        test_util.TestUtil.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, '', 'OriginalEdited endnote text.', doc_original.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
+
     def test_layout_options_revisions(self):
         #ExStart
         #ExFor:Document.layout_options
@@ -179,6 +280,50 @@ class ExRevision(ApiExampleBase):
         doc.layout_options.revision_options.revision_bars_position = aw.drawing.HorizontalAlignment.RIGHT
         doc.save(file_name=ARTIFACTS_DIR + 'Document.LayoutOptionsRevisions.pdf')
         #ExEnd
+
+    def test_granularity_compare_option(self):
+        for granularity in [aw.comparing.Granularity.CHAR_LEVEL, aw.comparing.Granularity.WORD_LEVEL]:
+            #ExStart
+            #ExFor:CompareOptions.granularity
+            #ExFor:Granularity
+            #ExSummary:Shows to specify a granularity while comparing documents.
+            doc_a = aw.Document()
+            builder_a = aw.DocumentBuilder(doc=doc_a)
+            builder_a.writeln('Alpha Lorem ipsum dolor sit amet, consectetur adipiscing elit')
+            doc_b = aw.Document()
+            builder_b = aw.DocumentBuilder(doc=doc_b)
+            builder_b.writeln('Lorems ipsum dolor sit amet consectetur - "adipiscing" elit')
+            # Specify whether changes are tracking
+            # by character ('Granularity.CharLevel'), or by word ('Granularity.WordLevel').
+            compare_options = aw.comparing.CompareOptions()
+            compare_options.granularity = granularity
+            doc_a.compare(document=doc_b, author='author', date_time=datetime.datetime.now(), options=compare_options)
+            # The first document's collection of revision groups contains all the differences between documents.
+            groups = doc_a.revisions.groups
+            self.assertEqual(5, groups.count)
+            #ExEnd
+            if granularity == aw.comparing.Granularity.CHAR_LEVEL:
+                self.assertEqual(aw.RevisionType.DELETION, groups[0].revision_type)
+                self.assertEqual('Alpha ', groups[0].text)
+                self.assertEqual(aw.RevisionType.DELETION, groups[1].revision_type)
+                self.assertEqual(',', groups[1].text)
+                self.assertEqual(aw.RevisionType.INSERTION, groups[2].revision_type)
+                self.assertEqual('s', groups[2].text)
+                self.assertEqual(aw.RevisionType.INSERTION, groups[3].revision_type)
+                self.assertEqual('- "', groups[3].text)
+                self.assertEqual(aw.RevisionType.INSERTION, groups[4].revision_type)
+                self.assertEqual('"', groups[4].text)
+            else:
+                self.assertEqual(aw.RevisionType.DELETION, groups[0].revision_type)
+                self.assertEqual('Alpha Lorem', groups[0].text)
+                self.assertEqual(aw.RevisionType.DELETION, groups[1].revision_type)
+                self.assertEqual(',', groups[1].text)
+                self.assertEqual(aw.RevisionType.INSERTION, groups[2].revision_type)
+                self.assertEqual('Lorems', groups[2].text)
+                self.assertEqual(aw.RevisionType.INSERTION, groups[3].revision_type)
+                self.assertEqual('- "', groups[3].text)
+                self.assertEqual(aw.RevisionType.INSERTION, groups[4].revision_type)
+                self.assertEqual('"', groups[4].text)
 
     def test_ignore_store_item_id(self):
         #ExStart:IgnoreStoreItemId
@@ -341,33 +486,6 @@ class ExRevision(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + 'Document.track_revisions.docx')
         #ExEnd
 
-    def test_compare(self):
-        #ExStart
-        #ExFor:Document.compare(Document,str,datetime)
-        #ExFor:RevisionCollection.accept_all
-        #ExSummary:Shows how to compare documents.
-        doc_original = aw.Document()
-        builder = aw.DocumentBuilder(doc_original)
-        builder.writeln('This is the original document.')
-        doc_edited = aw.Document()
-        builder = aw.DocumentBuilder(doc_edited)
-        builder.writeln('This is the edited document.')
-        # Comparing documents with revisions will throw an exception.
-        if doc_original.revisions.count == 0 and doc_edited.revisions.count == 0:
-            doc_original.compare(doc_edited, 'authorName', datetime.datetime.now())
-        # After the comparison, the original document will gain a new revision
-        # for every element that is different in the edited document.
-        self.assertEqual(2, doc_original.revisions.count)  # ExSkip
-        for revision in doc_original.revisions:
-            print(f'Revision type: {revision.revision_type}, on a node of type "{revision.parent_node.node_type}"')
-            print(f'\tChanged text: "{revision.parent_node.get_text()}"')
-        # Accepting these revisions will transform the original document into the edited document.
-        doc_original.revisions.accept_all()
-        self.assertEqual(doc_original.get_text(), doc_edited.get_text())
-        #ExEnd
-        doc_original = DocumentHelper.save_open(doc_original)
-        self.assertEqual(0, doc_original.revisions.count)
-
     def test_compare_document_with_revisions(self):
         doc1 = aw.Document()
         builder = aw.DocumentBuilder(doc1)
@@ -378,78 +496,6 @@ class ExRevision(ApiExampleBase):
         builder.writeln('This is a revision.')
         with self.assertRaises(Exception):
             doc_with_revision.compare(doc1, 'John Doe', datetime.datetime.now())
-
-    def test_compare_options(self):
-        #ExStart
-        #ExFor:CompareOptions
-        #ExFor:CompareOptions.ignore_formatting
-        #ExFor:CompareOptions.ignore_case_changes
-        #ExFor:CompareOptions.ignore_comments
-        #ExFor:CompareOptions.ignore_tables
-        #ExFor:CompareOptions.ignore_fields
-        #ExFor:CompareOptions.ignore_footnotes
-        #ExFor:CompareOptions.ignore_textboxes
-        #ExFor:CompareOptions.ignore_headers_and_footers
-        #ExFor:CompareOptions.target
-        #ExFor:ComparisonTargetType
-        #ExFor:Document.compare(Document,str,datetime,CompareOptions)
-        #ExSummary:Shows how to filter specific types of document elements when making a comparison.
-        # Create the original document and populate it with various kinds of elements.
-        doc_original = aw.Document()
-        builder = aw.DocumentBuilder(doc_original)
-        # Paragraph text referenced with an endnote:
-        builder.writeln('Hello world! This is the first paragraph.')
-        builder.insert_footnote(aw.notes.FootnoteType.ENDNOTE, 'Original endnote text.')
-        # Table:
-        builder.start_table()
-        builder.insert_cell()
-        builder.write('Original cell 1 text')
-        builder.insert_cell()
-        builder.write('Original cell 2 text')
-        builder.end_table()
-        # Textbox:
-        text_box = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 150, 20)
-        builder.move_to(text_box.first_paragraph)
-        builder.write('Original textbox contents')
-        # DATE field:
-        builder.move_to(doc_original.first_section.body.append_paragraph(''))
-        builder.insert_field(' DATE ')
-        # Comment:
-        new_comment = aw.Comment(doc_original, 'John Doe', 'J.D.', datetime.datetime.now())
-        new_comment.set_text('Original comment.')
-        builder.current_paragraph.append_child(new_comment)
-        # Header:
-        builder.move_to_header_footer(aw.HeaderFooterType.HEADER_PRIMARY)
-        builder.writeln('Original header contents.')
-        # Create a clone of our document and perform a quick edit on each of the cloned document's elements.
-        doc_edited = doc_original.clone(True).as_document()
-        first_paragraph = doc_edited.first_section.body.first_paragraph
-        first_paragraph.runs[0].text = 'hello world! this is the first paragraph, after editing.'
-        first_paragraph.paragraph_format.style = doc_edited.styles.get_by_style_identifier(aw.StyleIdentifier.HEADING1)
-        doc_edited.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote().first_paragraph.runs[1].text = 'Edited endnote text.'
-        doc_edited.get_child(aw.NodeType.TABLE, 0, True).as_table().first_row.cells[1].first_paragraph.runs[0].text = 'Edited Cell 2 contents'
-        doc_edited.get_child(aw.NodeType.SHAPE, 0, True).as_shape().first_paragraph.runs[0].text = 'Edited textbox contents'
-        doc_edited.range.fields[0].as_field_date().use_lunar_calendar = True
-        doc_edited.get_child(aw.NodeType.COMMENT, 0, True).as_comment().first_paragraph.runs[0].text = 'Edited comment.'
-        doc_edited.first_section.headers_footers.header_primary.first_paragraph.runs[0].text = 'Edited header contents.'
-        # Comparing documents creates a revision for every edit in the edited document.
-        # A CompareOptions object has a series of flags that can suppress revisions
-        # on each respective type of element, effectively ignoring their change.
-        compare_options = aw.comparing.CompareOptions()
-        compare_options.ignore_formatting = False
-        compare_options.ignore_case_changes = False
-        compare_options.ignore_comments = False
-        compare_options.ignore_tables = False
-        compare_options.ignore_fields = False
-        compare_options.ignore_footnotes = False
-        compare_options.ignore_textboxes = False
-        compare_options.ignore_headers_and_footers = False
-        compare_options.target = aw.comparing.ComparisonTargetType.NEW
-        doc_original.compare(doc_edited, 'John Doe', datetime.datetime.now(), compare_options)
-        doc_original.save(ARTIFACTS_DIR + 'Document.compare_options.docx')
-        #ExEnd
-        doc_original = aw.Document(ARTIFACTS_DIR + 'Document.compare_options.docx')
-        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, '', 'OriginalEdited endnote text.', doc_original.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
 
     def test_ignore_dml_unique_id(self):
         for is_ignore_dml_unique_id in (False, True):
@@ -466,48 +512,3 @@ class ExRevision(ApiExampleBase):
                 doc_a.compare(doc_b, 'Aspose.Words', datetime.datetime.now(), compare_options)
                 self.assertEqual(0 if is_ignore_dml_unique_id else 2, doc_a.revisions.count)
                 #ExEnd
-
-    def test_granularity_compare_option(self):
-        for granularity in (aw.comparing.Granularity.CHAR_LEVEL, aw.comparing.Granularity.WORD_LEVEL):
-            with self.subTest(granularity=granularity):
-                #ExStart
-                #ExFor:CompareOptions.granularity
-                #ExFor:Granularity
-                #ExSummary:Shows to specify a granularity while comparing documents.
-                doc_a = aw.Document()
-                builder_a = aw.DocumentBuilder(doc_a)
-                builder_a.writeln('Alpha Lorem ipsum dolor sit amet, consectetur adipiscing elit')
-                doc_b = aw.Document()
-                builder_b = aw.DocumentBuilder(doc_b)
-                builder_b.writeln('Lorems ipsum dolor sit amet consectetur - "adipiscing" elit')
-                # Specify whether changes are tracking
-                # by character ('Granularity.CHAR_LEVEL'), or by word ('Granularity.WORD_LEVEL').
-                compare_options = aw.comparing.CompareOptions()
-                compare_options.granularity = granularity
-                doc_a.compare(doc_b, 'author', datetime.datetime.now(), compare_options)
-                # The first document's collection of revision groups contains all the differences between documents.
-                groups = doc_a.revisions.groups
-                self.assertEqual(5, groups.count)
-                #ExEnd
-                if granularity == aw.comparing.Granularity.CHAR_LEVEL:
-                    self.assertEqual(aw.RevisionType.DELETION, groups[0].revision_type)
-                    self.assertEqual('Alpha ', groups[0].text)
-                    self.assertEqual(aw.RevisionType.DELETION, groups[1].revision_type)
-                    self.assertEqual(',', groups[1].text)
-                    self.assertEqual(aw.RevisionType.INSERTION, groups[2].revision_type)
-                    self.assertEqual('s', groups[2].text)
-                    self.assertEqual(aw.RevisionType.INSERTION, groups[3].revision_type)
-                    self.assertEqual('- "', groups[3].text)
-                    self.assertEqual(aw.RevisionType.INSERTION, groups[4].revision_type)
-                    self.assertEqual('"', groups[4].text)
-                else:
-                    self.assertEqual(aw.RevisionType.DELETION, groups[0].revision_type)
-                    self.assertEqual('Alpha Lorem', groups[0].text)
-                    self.assertEqual(aw.RevisionType.DELETION, groups[1].revision_type)
-                    self.assertEqual(',', groups[1].text)
-                    self.assertEqual(aw.RevisionType.INSERTION, groups[2].revision_type)
-                    self.assertEqual('Lorems', groups[2].text)
-                    self.assertEqual(aw.RevisionType.INSERTION, groups[3].revision_type)
-                    self.assertEqual('- "', groups[3].text)
-                    self.assertEqual(aw.RevisionType.INSERTION, groups[4].revision_type)
-                    self.assertEqual('"', groups[4].text)

@@ -5,15 +5,15 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import timedelta, timezone
-import base64
-import aspose.words.drawing
-import io
-import os
-import sys
-import glob
-from urllib.request import urlopen, Request
 from document_helper import DocumentHelper
+from datetime import timedelta, timezone
+from urllib.request import urlopen, Request
+import glob
+import sys
+import os
+import io
+import aspose.words.drawing
+import base64
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.digitalsignatures
@@ -27,9 +27,11 @@ import aspose.words.saving
 import aspose.words.settings
 import aspose.words.webextensions
 import datetime
+import document_helper
 import system_helper
+import test_util
 import unittest
-from api_example_base import ApiExampleBase, ARTIFACTS_DIR, FONTS_DIR, IMAGE_DIR, MY_DIR, GOLDS_DIR
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR, FONTS_DIR, GOLDS_DIR, IMAGE_DIR, MY_DIR
 
 class ExDocument(ApiExampleBase):
 
@@ -347,6 +349,32 @@ class ExDocument(ApiExampleBase):
         self.assertEqual(4, doc.built_in_document_properties.lines)
         #ExEnd
 
+    def test_table_style_to_direct_formatting(self):
+        #ExStart
+        #ExFor:CompositeNode.get_child
+        #ExFor:Document.expand_table_styles_to_direct_formatting
+        #ExSummary:Shows how to apply the properties of a table's style directly to the table's elements.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        table = builder.start_table()
+        builder.insert_cell()
+        builder.write('Hello world!')
+        builder.end_table()
+        table_style = doc.styles.add(aw.StyleType.TABLE, 'MyTableStyle1').as_table_style()
+        table_style.row_stripe = 3
+        table_style.cell_spacing = 5
+        table_style.shading.background_pattern_color = aspose.pydrawing.Color.antique_white
+        table_style.borders.color = aspose.pydrawing.Color.blue
+        table_style.borders.line_style = aw.LineStyle.DOT_DASH
+        table.style = table_style
+        # This method concerns table style properties such as the ones we set above.
+        doc.expand_table_styles_to_direct_formatting()
+        doc.save(file_name=ARTIFACTS_DIR + 'Document.TableStyleToDirectFormatting.docx')
+        #ExEnd
+        test_util.TestUtil.doc_package_file_contains_string('<w:tblStyleRowBandSize w:val="3" />', ARTIFACTS_DIR + 'Document.TableStyleToDirectFormatting.docx', 'document.xml')
+        test_util.TestUtil.doc_package_file_contains_string('<w:tblCellSpacing w:w="100" w:type="dxa" />', ARTIFACTS_DIR + 'Document.TableStyleToDirectFormatting.docx', 'document.xml')
+        test_util.TestUtil.doc_package_file_contains_string('<w:tblBorders><w:top w:val="dotDash" w:sz="2" w:space="0" w:color="0000FF" /><w:left w:val="dotDash" w:sz="2" w:space="0" w:color="0000FF" /><w:bottom w:val="dotDash" w:sz="2" w:space="0" w:color="0000FF" /><w:right w:val="dotDash" w:sz="2" w:space="0" w:color="0000FF" /><w:insideH w:val="dotDash" w:sz="2" w:space="0" w:color="0000FF" /><w:insideV w:val="dotDash" w:sz="2" w:space="0" w:color="0000FF" /></w:tblBorders>', ARTIFACTS_DIR + 'Document.TableStyleToDirectFormatting.docx', 'document.xml')
+
     def test_get_original_file_info(self):
         #ExStart
         #ExFor:Document.original_file_name
@@ -404,6 +432,39 @@ class ExDocument(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'Document.UpdateThumbnail.FirstImage.epub')
         #ExEnd
 
+    def test_hyphenation_options(self):
+        #ExStart
+        #ExFor:Document.hyphenation_options
+        #ExFor:HyphenationOptions
+        #ExFor:HyphenationOptions.auto_hyphenation
+        #ExFor:HyphenationOptions.consecutive_hyphen_limit
+        #ExFor:HyphenationOptions.hyphenation_zone
+        #ExFor:HyphenationOptions.hyphenate_caps
+        #ExSummary:Shows how to configure automatic hyphenation.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.font.size = 24
+        builder.writeln('Lorem ipsum dolor sit amet, consectetur adipiscing elit, ' + 'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')
+        doc.hyphenation_options.auto_hyphenation = True
+        doc.hyphenation_options.consecutive_hyphen_limit = 2
+        doc.hyphenation_options.hyphenation_zone = 720
+        doc.hyphenation_options.hyphenate_caps = True
+        doc.save(file_name=ARTIFACTS_DIR + 'Document.HyphenationOptions.docx')
+        #ExEnd
+        self.assertEqual(True, doc.hyphenation_options.auto_hyphenation)
+        self.assertEqual(2, doc.hyphenation_options.consecutive_hyphen_limit)
+        self.assertEqual(720, doc.hyphenation_options.hyphenation_zone)
+        self.assertEqual(True, doc.hyphenation_options.hyphenate_caps)
+        self.assertTrue(document_helper.DocumentHelper.compare_docs(ARTIFACTS_DIR + 'Document.HyphenationOptions.docx', GOLDS_DIR + 'Document.HyphenationOptions Gold.docx'))
+
+    def test_hyphenation_options_default_values(self):
+        doc = aw.Document()
+        doc = document_helper.DocumentHelper.save_open(doc)
+        self.assertEqual(False, doc.hyphenation_options.auto_hyphenation)
+        self.assertEqual(0, doc.hyphenation_options.consecutive_hyphen_limit)
+        self.assertEqual(360, doc.hyphenation_options.hyphenation_zone)  # 0.25 inch
+        self.assertEqual(True, doc.hyphenation_options.hyphenate_caps)
+
     def test_ooxml_compliance_version(self):
         #ExStart
         #ExFor:Document.compliance
@@ -414,6 +475,28 @@ class ExDocument(ApiExampleBase):
         doc = aw.Document(file_name=MY_DIR + 'Document.docx')
         self.assertEqual(doc.compliance, aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL)
         #ExEnd
+
+    @unittest.skip('WORDSNET-20342')
+    def test_image_save_options(self):
+        #ExStart
+        #ExFor:Document.save(str,SaveOptions)
+        #ExFor:SaveOptions.use_anti_aliasing
+        #ExFor:SaveOptions.use_high_quality_rendering
+        #ExSummary:Shows how to improve the quality of a rendered document with SaveOptions.
+        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.font.size = 60
+        builder.writeln('Some text.')
+        options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
+        self.assertFalse(options.use_anti_aliasing)  #ExSkip
+        self.assertFalse(options.use_high_quality_rendering)  #ExSkip
+        doc.save(file_name=ARTIFACTS_DIR + 'Document.ImageSaveOptions.Default.jpg', save_options=options)
+        options.use_anti_aliasing = True
+        options.use_high_quality_rendering = True
+        doc.save(file_name=ARTIFACTS_DIR + 'Document.ImageSaveOptions.HighQuality.jpg', save_options=options)
+        #ExEnd
+        test_util.TestUtil.verify_image(794, 1122, ARTIFACTS_DIR + 'Document.ImageSaveOptions.Default.jpg')
+        test_util.TestUtil.verify_image(794, 1122, ARTIFACTS_DIR + 'Document.ImageSaveOptions.HighQuality.jpg')
 
     def test_cleanup(self):
         #ExStart
@@ -513,6 +596,42 @@ class ExDocument(ApiExampleBase):
         self.assertEqual(aw.fields.FieldType.FIELD_PAGE, field.end.field_type)
         #ExEnd
 
+    def test_layout_options_hidden_text(self):
+        for show_hidden_text in [False, True]:
+            #ExStart
+            #ExFor:Document.layout_options
+            #ExFor:LayoutOptions
+            #ExFor:LayoutOptions.show_hidden_text
+            #ExSummary:Shows how to hide text in a rendered output document.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            self.assertFalse(doc.layout_options.show_hidden_text)  #ExSkip
+            # Insert hidden text, then specify whether we wish to omit it from a rendered document.
+            builder.writeln('This text is not hidden.')
+            builder.font.hidden = True
+            builder.writeln('This text is hidden.')
+            doc.layout_options.show_hidden_text = show_hidden_text
+            doc.save(file_name=ARTIFACTS_DIR + 'Document.LayoutOptionsHiddenText.pdf')
+            #ExEnd
+
+    def test_layout_options_paragraph_marks(self):
+        for show_paragraph_marks in [False, True]:
+            #ExStart
+            #ExFor:Document.layout_options
+            #ExFor:LayoutOptions
+            #ExFor:LayoutOptions.show_paragraph_marks
+            #ExSummary:Shows how to show paragraph marks in a rendered output document.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            self.assertFalse(doc.layout_options.show_paragraph_marks)  #ExSkip
+            # Add some paragraphs, then enable paragraph marks to show the ends of paragraphs
+            # with a pilcrow (¶) symbol when we render the document.
+            builder.writeln('Hello world!')
+            builder.writeln('Hello again!')
+            doc.layout_options.show_paragraph_marks = show_paragraph_marks
+            doc.save(file_name=ARTIFACTS_DIR + 'Document.LayoutOptionsParagraphMarks.pdf')
+            #ExEnd
+
     def test_update_page_layout(self):
         #ExStart
         #ExFor:StyleCollection.__getitem__(str)
@@ -535,6 +654,21 @@ class ExDocument(ApiExampleBase):
         doc.update_page_layout()
         doc.save(file_name=ARTIFACTS_DIR + 'Document.UpdatePageLayout.2.pdf')
         #ExEnd
+
+    def test_shade_form_data(self):
+        for use_grey_shading in [False, True]:
+            #ExStart
+            #ExFor:Document.shade_form_data
+            #ExSummary:Shows how to apply gray shading to form fields.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            self.assertTrue(doc.shade_form_data)  #ExSkip
+            builder.write('Hello world! ')
+            builder.insert_text_input('My form field', aw.fields.TextFormFieldType.REGULAR, '', 'Text contents of form field, which are shaded in grey by default.', 0)
+            # We can turn the grey shading off, so the bookmarked text will blend in with the other text.
+            doc.shade_form_data = use_grey_shading
+            doc.save(file_name=ARTIFACTS_DIR + 'Document.ShadeFormData.docx')
+            #ExEnd
 
     def test_versions_count(self):
         #ExStart
@@ -579,6 +713,32 @@ class ExDocument(ApiExampleBase):
         self.assertTrue(doc.write_protection.read_only_recommended)
         self.assertTrue(doc.write_protection.validate_password('MyPassword'))
         self.assertFalse(doc.write_protection.validate_password('wrongpassword'))
+
+    def test_remove_personal_information(self):
+        for save_without_personal_info in [False, True]:
+            #ExStart
+            #ExFor:Document.remove_personal_information
+            #ExSummary:Shows how to enable the removal of personal information during a manual save.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            # Insert some content with personal information.
+            doc.built_in_document_properties.author = 'John Doe'
+            doc.built_in_document_properties.company = 'Placeholder Inc.'
+            doc.start_track_revisions(author=doc.built_in_document_properties.author, date_time=datetime.datetime.now())
+            builder.write('Hello world!')
+            doc.stop_track_revisions()
+            # This flag is equivalent to File -> Options -> Trust Center -> Trust Center Settings... ->
+            # Privacy Options -> "Remove personal information from file properties on save" in Microsoft Word.
+            doc.remove_personal_information = save_without_personal_info
+            # This option will not take effect during a save operation made using Aspose.Words.
+            # Personal data will be removed from our document with the flag set when we save it manually using Microsoft Word.
+            doc.save(file_name=ARTIFACTS_DIR + 'Document.RemovePersonalInformation.docx')
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'Document.RemovePersonalInformation.docx')
+            self.assertEqual(save_without_personal_info, doc.remove_personal_information)
+            self.assertEqual('John Doe', doc.built_in_document_properties.author)
+            self.assertEqual('Placeholder Inc.', doc.built_in_document_properties.company)
+            self.assertEqual('John Doe', doc.revisions[0].author)
+            #ExEnd
 
     def test_show_comments(self):
         #ExStart
@@ -729,6 +889,28 @@ class ExDocument(ApiExampleBase):
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Document.TextWatermark.docx')
         self.assertEqual(aw.WatermarkType.TEXT, doc.watermark.type)
 
+    def test_spelling_and_grammar_errors(self):
+        for show_errors in [False, True]:
+            #ExStart
+            #ExFor:Document.show_grammatical_errors
+            #ExFor:Document.show_spelling_errors
+            #ExSummary:Shows how to show/hide errors in the document.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            # Insert two sentences with mistakes that would be picked up
+            # by the spelling and grammar checkers in Microsoft Word.
+            builder.writeln('There is a speling error in this sentence.')
+            builder.writeln('Their is a grammatical error in this sentence.')
+            # If these options are enabled, then spelling errors will be underlined
+            # in the output document by a jagged red line, and a double blue line will highlight grammatical mistakes.
+            doc.show_grammatical_errors = show_errors
+            doc.show_spelling_errors = show_errors
+            doc.save(file_name=ARTIFACTS_DIR + 'Document.SpellingAndGrammarErrors.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'Document.SpellingAndGrammarErrors.docx')
+            self.assertEqual(show_errors, doc.show_grammatical_errors)
+            self.assertEqual(show_errors, doc.show_spelling_errors)
+
     def test_ignore_printer_metrics(self):
         #ExStart
         #ExFor:LayoutOptions.ignore_printer_metrics
@@ -748,6 +930,23 @@ class ExDocument(ApiExampleBase):
         #ExEnd
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Document.ExtractPages.docx')
         self.assertEqual(doc.page_count, 2)
+
+    def test_spelling_or_grammar(self):
+        for check_spelling_grammar in [True, False]:
+            #ExStart
+            #ExFor:Document.spelling_checked
+            #ExFor:Document.grammar_checked
+            #ExSummary:Shows how to set spelling or grammar verifying.
+            doc = aw.Document()
+            # The string with spelling errors.
+            doc.first_section.body.first_paragraph.runs.add(aw.Run(doc=doc, text='The speeling in this documentz is all broked.'))
+            # Spelling/Grammar check start if we set properties to false.
+            # We can see all errors in Microsoft Word via Review -> Spelling & Grammar.
+            # Note that Microsoft Word does not start grammar/spell check automatically for DOC and RTF document format.
+            doc.spelling_checked = check_spelling_grammar
+            doc.grammar_checked = check_spelling_grammar
+            doc.save(file_name=ARTIFACTS_DIR + 'Document.SpellingOrGrammar.docx')
+            #ExEnd
 
     def test_allow_embedding_post_script_fonts(self):
         #ExStart
@@ -769,6 +968,33 @@ class ExDocument(ApiExampleBase):
         save_options.allow_embedding_post_script_fonts = True
         doc.save(file_name=ARTIFACTS_DIR + 'Document.AllowEmbeddingPostScriptFonts.docx', save_options=save_options)
         #ExEnd
+
+    def test_frameset(self):
+        #ExStart
+        #ExFor:Document.frameset
+        #ExFor:Frameset
+        #ExFor:Frameset.frame_default_url
+        #ExFor:Frameset.is_frame_link_to_file
+        #ExFor:Frameset.child_framesets
+        #ExFor:FramesetCollection
+        #ExFor:FramesetCollection.count
+        #ExFor:FramesetCollection.__getitem__(int)
+        #ExSummary:Shows how to access frames on-page.
+        # Document contains several frames with links to other documents.
+        doc = aw.Document(file_name=MY_DIR + 'Frameset.docx')
+        self.assertEqual(3, doc.frameset.child_framesets.count)
+        # We can check the default URL (a web page URL or local document) or if the frame is an external resource.
+        self.assertEqual('https://file-examples-com.github.io/uploads/2017/02/file-sample_100kB.docx', doc.frameset.child_framesets[0].child_framesets[0].frame_default_url)
+        self.assertTrue(doc.frameset.child_framesets[0].child_framesets[0].is_frame_link_to_file)
+        self.assertEqual('Document.docx', doc.frameset.child_framesets[1].frame_default_url)
+        self.assertFalse(doc.frameset.child_framesets[1].is_frame_link_to_file)
+        # Change properties for one of our frames.
+        doc.frameset.child_framesets[0].child_framesets[0].frame_default_url = 'https://github.com/aspose-words/Aspose.Words-for-.NET/blob/master/Examples/Data/Absolute%20position%20tab.docx'
+        doc.frameset.child_framesets[0].child_framesets[0].is_frame_link_to_file = False
+        #ExEnd
+        doc = document_helper.DocumentHelper.save_open(doc)
+        self.assertEqual('https://github.com/aspose-words/Aspose.Words-for-.NET/blob/master/Examples/Data/Absolute%20position%20tab.docx', doc.frameset.child_framesets[0].child_framesets[0].frame_default_url)
+        self.assertFalse(doc.frameset.child_framesets[0].child_framesets[0].is_frame_link_to_file)
 
     def test_open_azw(self):
         info = aw.FileFormatUtil.detect_file_format(file_name=MY_DIR + 'Azw3 document.azw3')
@@ -1162,99 +1388,18 @@ class ExDocument(ApiExampleBase):
     def test_default_tab_stop(self):
         #ExStart
         #ExFor:Document.default_tab_stop
-        #ExFor:ControlChar.TAB
-        #ExFor:ControlChar.TAB_CHAR
+        #ExFor:ControlChar.tab
+        #ExFor:ControlChar.tab_char
         #ExSummary:Shows how to set a custom interval for tab stop positions.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Set tab stops to appear every 72 points (1 inch).
         builder.document.default_tab_stop = 72
         # Each tab character snaps the text after it to the next closest tab stop position.
         builder.writeln('Hello' + aw.ControlChar.TAB + 'World!')
         #ExEnd
-        doc = DocumentHelper.save_open(doc)
+        doc = document_helper.DocumentHelper.save_open(doc)
         self.assertEqual(72, doc.default_tab_stop)
-
-    def test_table_style_to_direct_formatting(self):
-        #ExStart
-        #ExFor:CompositeNode.get_child
-        #ExFor:Document.expand_table_styles_to_direct_formatting
-        #ExSummary:Shows how to apply the properties of a table's style directly to the table's elements.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        table = builder.start_table()
-        builder.insert_cell()
-        builder.write('Hello world!')
-        builder.end_table()
-        table_style = doc.styles.add(aw.StyleType.TABLE, 'MyTableStyle1').as_table_style()
-        table_style.row_stripe = 3
-        table_style.cell_spacing = 5
-        table_style.shading.background_pattern_color = aspose.pydrawing.Color.antique_white
-        table_style.borders.color = aspose.pydrawing.Color.blue
-        table_style.borders.line_style = aw.LineStyle.DOT_DASH
-        table.style = table_style
-        # This method concerns table style properties such as the ones we set above.
-        doc.expand_table_styles_to_direct_formatting()
-        doc.save(ARTIFACTS_DIR + 'Document.table_style_to_direct_formatting.docx')
-        #ExEnd
-        self.verify_doc_package_file_contains_string('<w:tblStyleRowBandSize w:val="3" />', ARTIFACTS_DIR + 'Document.table_style_to_direct_formatting.docx', 'word/document.xml')
-        self.verify_doc_package_file_contains_string('<w:tblCellSpacing w:w="100" w:type="dxa" />', ARTIFACTS_DIR + 'Document.table_style_to_direct_formatting.docx', 'word/document.xml')
-        self.verify_doc_package_file_contains_string('<w:tblBorders><w:top w:val="dotDash" w:sz="2" w:space="0" w:color="0000FF" /><w:left w:val="dotDash" w:sz="2" w:space="0" w:color="0000FF" /><w:bottom w:val="dotDash" w:sz="2" w:space="0" w:color="0000FF" /><w:right w:val="dotDash" w:sz="2" w:space="0" w:color="0000FF" /><w:insideH w:val="dotDash" w:sz="2" w:space="0" w:color="0000FF" /><w:insideV w:val="dotDash" w:sz="2" w:space="0" w:color="0000FF" /></w:tblBorders>', ARTIFACTS_DIR + 'Document.table_style_to_direct_formatting.docx', 'word/document.xml')
-
-    def test_hyphenation_options(self):
-        #ExStart
-        #ExFor:Document.hyphenation_options
-        #ExFor:HyphenationOptions
-        #ExFor:HyphenationOptions.auto_hyphenation
-        #ExFor:HyphenationOptions.consecutive_hyphen_limit
-        #ExFor:HyphenationOptions.hyphenation_zone
-        #ExFor:HyphenationOptions.hyphenate_caps
-        #ExSummary:Shows how to configure automatic hyphenation.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.font.size = 24
-        builder.writeln('Lorem ipsum dolor sit amet, consectetur adipiscing elit, ' + 'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')
-        doc.hyphenation_options.auto_hyphenation = True
-        doc.hyphenation_options.consecutive_hyphen_limit = 2
-        doc.hyphenation_options.hyphenation_zone = 720
-        doc.hyphenation_options.hyphenate_caps = True
-        doc.save(ARTIFACTS_DIR + 'Document.hyphenation_options.docx')
-        #ExEnd
-        self.assertTrue(doc.hyphenation_options.auto_hyphenation)
-        self.assertEqual(2, doc.hyphenation_options.consecutive_hyphen_limit)
-        self.assertEqual(720, doc.hyphenation_options.hyphenation_zone)
-        self.assertTrue(doc.hyphenation_options.hyphenate_caps)
-        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + 'Document.hyphenation_options.docx', GOLDS_DIR + 'Document.HyphenationOptions Gold.docx'))
-
-    def test_hyphenation_options_default_values(self):
-        doc = aw.Document()
-        doc = DocumentHelper.save_open(doc)
-        self.assertEqual(False, doc.hyphenation_options.auto_hyphenation)
-        self.assertEqual(0, doc.hyphenation_options.consecutive_hyphen_limit)
-        self.assertEqual(360, doc.hyphenation_options.hyphenation_zone)  # 0.25 inch
-        self.assertTrue(doc.hyphenation_options.hyphenate_caps)
-
-    @unittest.skip('WORDSNET-20342')
-    def test_image_save_options(self):
-        #ExStart
-        #ExFor:Document.save(str,SaveOptions)
-        #ExFor:SaveOptions.use_anti_aliasing
-        #ExFor:SaveOptions.use_high_quality_rendering
-        #ExSummary:Shows how to improve the quality of a rendered document with SaveOptions.
-        doc = aw.Document(MY_DIR + 'Rendering.docx')
-        builder = aw.DocumentBuilder(doc)
-        builder.font.size = 60
-        builder.writeln('Some text.')
-        options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
-        self.assertFalse(options.use_anti_aliasing)  #ExSkip
-        self.assertFalse(options.use_high_quality_rendering)  #ExSkip
-        doc.save(ARTIFACTS_DIR + 'Document.image_save_options.default.jpg', options)
-        options.use_anti_aliasing = True
-        options.use_high_quality_rendering = True
-        doc.save(ARTIFACTS_DIR + 'Document.image_save_options.high_quality.jpg', options)
-        #ExEnd
-        self.verify_image(794, 1122, ARTIFACTS_DIR + 'Document.image_save_options.default.jpg')
-        self.verify_image(794, 1122, ARTIFACTS_DIR + 'Document.image_save_options.high_quality.jpg')
 
     def test_use_substitutions(self):
         #ExStart
@@ -1271,44 +1416,6 @@ class ExDocument(ApiExampleBase):
         doc.range.replace_regex('([A-z]+) gave money to ([A-z]+)', '$2 took money from $1', options)
         self.assertEqual(doc.get_text(), 'Paul took money from Jason.\x0c')
         #ExEnd
-
-    def test_layout_options_hidden_text(self):
-        for show_hidden_text in (False, True):
-            with self.subTest(show_hidden_text=show_hidden_text):
-                #ExStart
-                #ExFor:Document.layout_options
-                #ExFor:LayoutOptions
-                #ExFor:LayoutOptions.show_hidden_text
-                #ExSummary:Shows how to hide text in a rendered output document.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                self.assertFalse(doc.layout_options.show_hidden_text)  #ExSkip
-                # Insert hidden text, then specify whether we wish to omit it from a rendered document.
-                builder.writeln('This text is not hidden.')
-                builder.font.hidden = True
-                builder.writeln('This text is hidden.')
-                doc.layout_options.show_hidden_text = show_hidden_text
-                doc.save(ARTIFACTS_DIR + 'Document.layout_options_hidden_text.pdf')
-                #ExEnd
-
-    def test_layout_options_paragraph_marks(self):
-        for show_paragraph_marks in (False, True):
-            with self.subTest(show_paragraph_marks=show_paragraph_marks):
-                #ExStart
-                #ExFor:Document.layout_options
-                #ExFor:LayoutOptions
-                #ExFor:LayoutOptions.show_paragraph_marks
-                #ExSummary:Shows how to show paragraph marks in a rendered output document.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                self.assertFalse(doc.layout_options.show_paragraph_marks)  #ExSkip
-                # Add some paragraphs, then enable paragraph marks to show the ends of paragraphs
-                # with a pilcrow (¶) symbol when we render the document.
-                builder.writeln('Hello world!')
-                builder.writeln('Hello again!')
-                doc.layout_options.show_paragraph_marks = show_paragraph_marks
-                doc.save(ARTIFACTS_DIR + 'Document.layout_options_paragraph_marks.pdf')
-                #ExEnd
 
     def test_doc_package_custom_parts(self):
         #ExStart
@@ -1352,49 +1459,6 @@ class ExDocument(ApiExampleBase):
         doc.package_custom_parts.clear()
         self.assertEqual(0, doc.package_custom_parts.count)
         #ExEnd
-
-    def test_shade_form_data(self):
-        for use_grey_shading in (False, True):
-            with self.subTest(use_grey_shading=use_grey_shading):
-                #ExStart
-                #ExFor:Document.shade_form_data
-                #ExSummary:Shows how to apply gray shading to form fields.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                self.assertTrue(doc.shade_form_data)  #ExSkip
-                builder.write('Hello world! ')
-                builder.insert_text_input('My form field', aw.fields.TextFormFieldType.REGULAR, '', 'Text contents of form field, which are shaded in grey by default.', 0)
-                # We can turn the grey shading off, so the bookmarked text will blend in with the other text.
-                doc.shade_form_data = use_grey_shading
-                doc.save(ARTIFACTS_DIR + 'Document.shade_form_data.docx')
-                #ExEnd
-
-    def test_remove_personal_information(self):
-        for save_without_personal_info in (False, True):
-            with self.subTest(save_without_personal_info=save_without_personal_info):
-                #ExStart
-                #ExFor:Document.remove_personal_information
-                #ExSummary:Shows how to enable the removal of personal information during a manual save.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                # Insert some content with personal information.
-                doc.built_in_document_properties.author = 'John Doe'
-                doc.built_in_document_properties.company = 'Placeholder Inc.'
-                doc.start_track_revisions(doc.built_in_document_properties.author, datetime.datetime.now())
-                builder.write('Hello world!')
-                doc.stop_track_revisions()
-                # This flag is equivalent to File -> Options -> Trust Center -> Trust Center Settings... ->
-                # Privacy Options -> "Remove personal information from file properties on save" in Microsoft Word.
-                doc.remove_personal_information = save_without_personal_info
-                # This option will not take effect during a save operation made using Aspose.Words.
-                # Personal data will be removed from our document with the flag set when we save it manually using Microsoft Word.
-                doc.save(ARTIFACTS_DIR + 'Document.remove_personal_information.docx')
-                doc = aw.Document(ARTIFACTS_DIR + 'Document.remove_personal_information.docx')
-                self.assertEqual(save_without_personal_info, doc.remove_personal_information)
-                self.assertEqual('John Doe', doc.built_in_document_properties.author)
-                self.assertEqual('Placeholder Inc.', doc.built_in_document_properties.company)
-                self.assertEqual('John Doe', doc.revisions[0].author)
-                #ExEnd
 
     def test_read_macros_from_existing_document(self):
         #ExStart
@@ -1553,70 +1617,6 @@ class ExDocument(ApiExampleBase):
         #ExEnd
         doc = aw.Document(ARTIFACTS_DIR + 'Document.image_watermark.docx')
         self.assertEqual(aw.WatermarkType.IMAGE, doc.watermark.type)
-
-    def test_spelling_and_grammar_errors(self):
-        for show_errors in (False, True):
-            with self.subTest(show_errors=show_errors):
-                #ExStart
-                #ExFor:Document.show_grammatical_errors
-                #ExFor:Document.show_spelling_errors
-                #ExSummary:Shows how to show/hide errors in the document.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                # Insert two sentences with mistakes that would be picked up
-                # by the spelling and grammar checkers in Microsoft Word.
-                builder.writeln('There is a speling error in this sentence.')
-                builder.writeln('Their is a grammatical error in this sentence.')
-                # If these options are enabled, then spelling errors will be underlined
-                # in the output document by a jagged red line, and a double blue line will highlight grammatical mistakes.
-                doc.show_grammatical_errors = show_errors
-                doc.show_spelling_errors = show_errors
-                doc.save(ARTIFACTS_DIR + 'Document.spelling_and_grammar_errors.docx')
-                #ExEnd
-                doc = aw.Document(ARTIFACTS_DIR + 'Document.spelling_and_grammar_errors.docx')
-                self.assertEqual(show_errors, doc.show_grammatical_errors)
-                self.assertEqual(show_errors, doc.show_spelling_errors)
-
-    def test_spelling_or_grammar(self):
-        for check_spelling_grammar in (True, False):
-            with self.subTest(check_spelling_grammar=check_spelling_grammar):
-                #ExStart
-                #ExFor:Document.spelling_checked
-                #ExFor:Document.grammar_checked
-                #ExSummary:Shows how to set spelling or grammar verifying.
-                doc = aw.Document()
-                # The string with spelling errors.
-                doc.first_section.body.first_paragraph.runs.add(aw.Run(doc, 'The speeling in this documentz is all broked.'))
-                # Spelling/Grammar check start if we set properties to False.
-                # We can see all errors in Microsoft Word via Review -> Spelling & Grammar.
-                # Note that Microsoft Word does not start grammar/spell check automatically for DOC and RTF document format.
-                doc.spelling_checked = check_spelling_grammar
-                doc.grammar_checked = check_spelling_grammar
-                doc.save(ARTIFACTS_DIR + 'Document.spelling_or_grammar.docx')
-                #ExEnd
-
-    def test_frameset(self):
-        #ExStart
-        #ExFor:Document.frameset
-        #ExFor:Frameset
-        #ExFor:Frameset.frame_default_url
-        #ExFor:Frameset.is_frame_link_to_file
-        #ExFor:Frameset.child_framesets
-        #ExSummary:Shows how to access frames on-page.
-        # Document contains several frames with links to other documents.
-        doc = aw.Document(MY_DIR + 'Frameset.docx')
-        # We can check the default URL (a web page URL or local document) or if the frame is an external resource.
-        self.assertEqual('https://file-examples-com.github.io/uploads/2017/02/file-sample_100kB.docx', doc.frameset.child_framesets[0].child_framesets[0].frame_default_url)
-        self.assertTrue(doc.frameset.child_framesets[0].child_framesets[0].is_frame_link_to_file)
-        self.assertEqual('Document.docx', doc.frameset.child_framesets[1].frame_default_url)
-        self.assertFalse(doc.frameset.child_framesets[1].is_frame_link_to_file)
-        # Change properties for one of our frames.
-        doc.frameset.child_framesets[0].child_framesets[0].frame_default_url = 'https://github.com/aspose-words/Aspose.Words-for-.NET/blob/master/Examples/Data/Absolute%20position%20tab.docx'
-        doc.frameset.child_framesets[0].child_framesets[0].is_frame_link_to_file = False
-        #ExEnd
-        doc = DocumentHelper.save_open(doc)
-        self.assertEqual('https://github.com/aspose-words/Aspose.Words-for-.NET/blob/master/Examples/Data/Absolute%20position%20tab.docx', doc.frameset.child_framesets[0].child_framesets[0].frame_default_url)
-        self.assertFalse(doc.frameset.child_framesets[0].child_framesets[0].is_frame_link_to_file)
 
     def test_insert_document_inline(self):
         #ExStart

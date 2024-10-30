@@ -5,19 +5,42 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import uuid
-from datetime import datetime
 from document_helper import DocumentHelper
+from datetime import datetime
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.buildingblocks
 import aspose.words.markup
 import aspose.words.replacing
 import aspose.words.tables
+import document_helper
 import unittest
+import uuid
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR, GOLDS_DIR
 
 class ExStructuredDocumentTag(ApiExampleBase):
+
+    def test_repeating_section(self):
+        #ExStart
+        #ExFor:StructuredDocumentTag.sdt_type
+        #ExFor:IStructuredDocumentTag.sdt_type
+        #ExSummary:Shows how to get the type of a structured document tag.
+        doc = aw.Document(file_name=MY_DIR + 'Structured document tags.docx')
+        tags = [x.as_structured_document_tag() for x in list(doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)) if isinstance(x.as_structured_document_tag(), aw.markup.StructuredDocumentTag)]
+        self.assertEqual(aw.markup.SdtType.REPEATING_SECTION, tags[0].sdt_type)
+        self.assertEqual(aw.markup.SdtType.REPEATING_SECTION_ITEM, tags[1].sdt_type)
+        self.assertEqual(aw.markup.SdtType.RICH_TEXT, tags[2].sdt_type)
+        #ExEnd
+
+    def test_flat_opc_content(self):
+        #ExStart
+        #ExFor:StructuredDocumentTag.word_open_xml
+        #ExFor:IStructuredDocumentTag.word_open_xml
+        #ExSummary:Shows how to get XML contained within the node in the FlatOpc format.
+        doc = aw.Document(file_name=MY_DIR + 'Structured document tags.docx')
+        tags = [x.as_structured_document_tag() for x in list(doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)) if isinstance(x.as_structured_document_tag(), aw.markup.StructuredDocumentTag)]
+        self.assertTrue('<pkg:part pkg:name="/docProps/app.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.extended-properties+xml">' in tags[0].word_open_xml)
+        #ExEnd
 
     def test_apply_style(self):
         #ExStart
@@ -110,6 +133,53 @@ class ExStructuredDocumentTag(ApiExampleBase):
         self.assertTrue(tag.multiline)
         self.assertEqual(aw.markup.SdtAppearance.TAGS, tag.appearance)
 
+    def test_placeholder_building_block(self):
+        for is_showing_placeholder_text in [False, True]:
+            #ExStart
+            #ExFor:StructuredDocumentTag.is_showing_placeholder_text
+            #ExFor:IStructuredDocumentTag.is_showing_placeholder_text
+            #ExFor:StructuredDocumentTag.placeholder
+            #ExFor:StructuredDocumentTag.placeholder_name
+            #ExFor:IStructuredDocumentTag.placeholder
+            #ExFor:IStructuredDocumentTag.placeholder_name
+            #ExSummary:Shows how to use a building block's contents as a custom placeholder text for a structured document tag.
+            doc = aw.Document()
+            # Insert a plain text structured document tag of the "PlainText" type, which will function as a text box.
+            # The contents that it will display by default are a "Click here to enter text." prompt.
+            tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.INLINE)
+            # We can get the tag to display the contents of a building block instead of the default text.
+            # First, add a building block with contents to the glossary document.
+            glossary_doc = doc.glossary_document
+            substitute_block = aw.buildingblocks.BuildingBlock(glossary_doc)
+            substitute_block.name = 'Custom Placeholder'
+            substitute_block.append_child(aw.Section(glossary_doc))
+            substitute_block.first_section.append_child(aw.Body(glossary_doc))
+            substitute_block.first_section.body.append_paragraph('Custom placeholder text.')
+            glossary_doc.append_child(substitute_block)
+            # Then, use the structured document tag's "PlaceholderName" property to reference that building block by name.
+            tag.placeholder_name = 'Custom Placeholder'
+            # If "PlaceholderName" refers to an existing block in the parent document's glossary document,
+            # we will be able to verify the building block via the "Placeholder" property.
+            self.assertEqual(substitute_block, tag.placeholder)
+            # Set the "IsShowingPlaceholderText" property to "true" to treat the
+            # structured document tag's current contents as placeholder text.
+            # This means that clicking on the text box in Microsoft Word will immediately highlight all the tag's contents.
+            # Set the "IsShowingPlaceholderText" property to "false" to get the
+            # structured document tag to treat its contents as text that a user has already entered.
+            # Clicking on this text in Microsoft Word will place the blinking cursor at the clicked location.
+            tag.is_showing_placeholder_text = is_showing_placeholder_text
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.insert_node(tag)
+            doc.save(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.PlaceholderBuildingBlock.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.PlaceholderBuildingBlock.docx')
+            tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
+            substitute_block = doc.glossary_document.get_child(aw.NodeType.BUILDING_BLOCK, 0, True).as_building_block()
+            self.assertEqual('Custom Placeholder', substitute_block.name)
+            self.assertEqual(is_showing_placeholder_text, tag.is_showing_placeholder_text)
+            self.assertEqual(substitute_block, tag.placeholder)
+            self.assertEqual(substitute_block.name, tag.placeholder_name)
+
     def test_lock(self):
         #ExStart
         #ExFor:StructuredDocumentTag.lock_content_control
@@ -142,6 +212,24 @@ class ExStructuredDocumentTag(ApiExampleBase):
         self.assertFalse(tag.lock_contents)
         self.assertTrue(tag.lock_content_control)
 
+    def test_data_checksum(self):
+        #ExStart
+        #ExFor:CustomXmlPart.data_checksum
+        #ExSummary:Shows how the checksum is calculated in a runtime.
+        doc = aw.Document()
+        rich_text = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.RICH_TEXT, aw.markup.MarkupLevel.BLOCK)
+        doc.first_section.body.append_child(rich_text)
+        # The checksum is read-only and computed using the data of the corresponding custom XML data part.
+        rich_text.xml_mapping.set_mapping(doc.custom_xml_parts.add(id=str(uuid.uuid4()), xml='<root><text>ContentControl</text></root>'), '/root/text', '')
+        checksum = rich_text.xml_mapping.custom_xml_part.data_checksum
+        print(checksum)
+        rich_text.xml_mapping.set_mapping(doc.custom_xml_parts.add(id=str(uuid.uuid4()), xml='<root><text>Updated ContentControl</text></root>'), '/root/text', '')
+        updated_checksum = rich_text.xml_mapping.custom_xml_part.data_checksum
+        print(updated_checksum)
+        # We changed the XmlPart of the tag, and the checksum was updated at runtime.
+        self.assertNotEqual(checksum, updated_checksum)
+        #ExEnd
+
     def test_custom_xml_part_store_item_id_read_only(self):
         #ExStart
         #ExFor:XmlMapping.store_item_id
@@ -151,6 +239,16 @@ class ExStructuredDocumentTag(ApiExampleBase):
         tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
         self.assertEqual('{F3029283-4FF8-4DD2-9F31-395F19ACEE85}', tag.xml_mapping.store_item_id)
         #ExEnd
+
+    def test_custom_xml_part_store_item_id_read_only_null(self):
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        sdt_check_box = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.CHECKBOX, aw.markup.MarkupLevel.INLINE)
+        sdt_check_box.checked = True
+        builder.insert_node(sdt_check_box)
+        doc = document_helper.DocumentHelper.save_open(doc)
+        sdt = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
+        print('The Id of your custom xml part is: ' + sdt.xml_mapping.store_item_id)
 
     def test_clear_text_from_structured_document_tags(self):
         #ExStart
@@ -223,6 +321,65 @@ class ExStructuredDocumentTag(ApiExampleBase):
         tag.list_items.selected_value = tag.list_items[1]
         doc.first_section.body.append_child(tag)
         doc.save(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.UpdateSdtContent.pdf')
+
+    def test_fill_table_using_repeating_section_item(self):
+        #ExStart
+        #ExFor:SdtType
+        #ExSummary:Shows how to fill a table with data from in an XML part.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        xml_part = doc.custom_xml_parts.add(id='Books', xml='<books>' + '<book>' + '<title>Everyday Italian</title>' + '<author>Giada De Laurentiis</author>' + '</book>' + '<book>' + '<title>The C Programming Language</title>' + '<author>Brian W. Kernighan, Dennis M. Ritchie</author>' + '</book>' + '<book>' + '<title>Learning XML</title>' + '<author>Erik T. Ray</author>' + '</book>' + '</books>')
+        # Create headers for data from the XML content.
+        table = builder.start_table()
+        builder.insert_cell()
+        builder.write('Title')
+        builder.insert_cell()
+        builder.write('Author')
+        builder.end_row()
+        builder.end_table()
+        # Create a table with a repeating section inside.
+        repeating_section_sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.REPEATING_SECTION, aw.markup.MarkupLevel.ROW)
+        repeating_section_sdt.xml_mapping.set_mapping(xml_part, '/books[1]/book', '')
+        table.append_child(repeating_section_sdt)
+        # Add repeating section item inside the repeating section and mark it as a row.
+        # This table will have a row for each element that we can find in the XML document
+        # using the "/books[1]/book" XPath, of which there are three.
+        repeating_section_item_sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.REPEATING_SECTION_ITEM, aw.markup.MarkupLevel.ROW)
+        repeating_section_sdt.append_child(repeating_section_item_sdt)
+        row = aw.tables.Row(doc)
+        repeating_section_item_sdt.append_child(row)
+        # Map XML data with created table cells for the title and author of each book.
+        title_sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.CELL)
+        title_sdt.xml_mapping.set_mapping(xml_part, '/books[1]/book[1]/title[1]', '')
+        row.append_child(title_sdt)
+        author_sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.CELL)
+        author_sdt.xml_mapping.set_mapping(xml_part, '/books[1]/book[1]/author[1]', '')
+        row.append_child(author_sdt)
+        doc.save(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.RepeatingSectionItem.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.RepeatingSectionItem.docx')
+        tags = [x.as_structured_document_tag() for x in list(doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)) if isinstance(x.as_structured_document_tag(), aw.markup.StructuredDocumentTag)]
+        self.assertEqual('/books[1]/book', tags[0].xml_mapping.xpath)
+        self.assertEqual('', tags[0].xml_mapping.prefix_mappings)
+        self.assertEqual('', tags[1].xml_mapping.xpath)
+        self.assertEqual('', tags[1].xml_mapping.prefix_mappings)
+        self.assertEqual('/books[1]/book[1]/title[1]', tags[2].xml_mapping.xpath)
+        self.assertEqual('', tags[2].xml_mapping.prefix_mappings)
+        self.assertEqual('/books[1]/book[1]/author[1]', tags[3].xml_mapping.xpath)
+        self.assertEqual('', tags[3].xml_mapping.prefix_mappings)
+        self.assertEqual('Title\x07Author\x07\x07' + 'Everyday Italian\x07Giada De Laurentiis\x07\x07' + 'The C Programming Language\x07Brian W. Kernighan, Dennis M. Ritchie\x07\x07' + 'Learning XML\x07Erik T. Ray\x07\x07', doc.first_section.body.tables[0].get_text().strip())
+
+    def test_custom_xml_part(self):
+        xml_string = '<?xml version="1.0"?>' + '<Company>' + '<Employee id="1">' + '<FirstName>John</FirstName>' + '<LastName>Doe</LastName>' + '</Employee>' + '<Employee id="2">' + '<FirstName>Jane</FirstName>' + '<LastName>Doe</LastName>' + '</Employee>' + '</Company>'
+        doc = aw.Document()
+        # Insert the full XML document as a custom document part.
+        # We can find the mapping for this part in Microsoft Word via "Developer" -> "XML Mapping Pane", if it is enabled.
+        xml_part = doc.custom_xml_parts.add(id='{' + str(uuid.uuid4()) + '}', xml=xml_string)
+        # Create a structured document tag, which will use an XPath to refer to a single element from the XML.
+        sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.BLOCK)
+        sdt.xml_mapping.set_mapping(xml_part, "Company//Employee[@id='2']/FirstName", '')
+        # Add the StructuredDocumentTag to the document to display the element in the text.
+        doc.first_section.body.append_child(sdt)
 
     def test_multi_section_tags(self):
         #ExStart
@@ -398,6 +555,24 @@ class ExStructuredDocumentTag(ApiExampleBase):
         self.assertFalse('xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid"' in tag.word_open_xml_minimal)
         #ExEnd:RangeStartWordOpenXmlMinimal
 
+    def test_remove_self_only(self):
+        #ExStart:RemoveSelfOnly
+        #ExFor:IStructuredDocumentTag
+        #ExFor:IStructuredDocumentTag.get_child_nodes(NodeType,bool)
+        #ExFor:IStructuredDocumentTag.remove_self_only
+        #ExSummary:Shows how to remove structured document tag, but keeps content inside.
+        doc = aw.Document(file_name=MY_DIR + 'Structured document tags.docx')
+        # This collection provides a unified interface for accessing ranged and non-ranged structured tags.
+        sdts = list(doc.range.structured_document_tags)
+        self.assertEqual(5, len(sdts))
+        # Here we can get child nodes from the common interface of ranged and non-ranged structured tags.
+        for sdt in sdts:
+            if sdt.get_child_nodes(aw.NodeType.ANY, False).count > 0:
+                sdt.remove_self_only()
+        sdts = list(doc.range.structured_document_tags)
+        self.assertEqual(0, len(sdts))
+        #ExEnd:RemoveSelfOnly
+
     def test_appearance(self):
         #ExStart:Appearance
         #ExFor:SdtAppearance
@@ -425,26 +600,6 @@ class ExStructuredDocumentTag(ApiExampleBase):
         sdt_plain = builder.insert_structured_document_tag(aw.markup.SdtType.PLAIN_TEXT)
         doc.save(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.InsertStructuredDocumentTag.docx')
         #ExEnd:InsertStructuredDocumentTag
-
-    def test_repeating_section(self):
-        #ExStart
-        #ExFor:StructuredDocumentTag.sdt_type
-        #ExSummary:Shows how to get the type of a structured document tag.
-        doc = aw.Document(MY_DIR + 'Structured document tags.docx')
-        tags = [node.as_structured_document_tag() for node in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)]
-        self.assertEqual(aw.markup.SdtType.REPEATING_SECTION, tags[0].sdt_type)
-        self.assertEqual(aw.markup.SdtType.REPEATING_SECTION_ITEM, tags[1].sdt_type)
-        self.assertEqual(aw.markup.SdtType.RICH_TEXT, tags[2].sdt_type)
-        #ExEnd
-
-    def test_flat_opc_content(self):
-        #ExStart
-        #ExFor:StructuredDocumentTag.word_open_xml
-        #ExSummary:Shows how to get XML contained within the node in the FlatOpc format.
-        doc = aw.Document(MY_DIR + 'Structured document tags.docx')
-        tags = [node.as_structured_document_tag() for node in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)]
-        self.assertIn('<pkg:part pkg:name="/docProps/app.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.extended-properties+xml">', tags[0].word_open_xml)
-        #ExEnd
 
     def test_check_box(self):
         #ExStart
@@ -529,51 +684,6 @@ class ExStructuredDocumentTag(ApiExampleBase):
                 #ExEnd
                 doc = aw.Document(ARTIFACTS_DIR + 'StructuredDocumentTag.is_temporary.docx')
                 self.assertEqual(2, len([sdt.as_structured_document_tag().is_temporary == is_temporary for sdt in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)]))
-
-    def test_placeholder_building_block(self):
-        for is_showing_placeholder_text in (False, True):
-            with self.subTest(is_showing_placeholder_text=is_showing_placeholder_text):
-                #ExStart
-                #ExFor:StructuredDocumentTag.is_showing_placeholder_text
-                #ExFor:StructuredDocumentTag.placeholder
-                #ExFor:StructuredDocumentTag.placeholder_name
-                #ExSummary:Shows how to use a building block's contents as a custom placeholder text for a structured document tag.
-                doc = aw.Document()
-                # Insert a plain text structured document tag of the "PLAIN_TEXT" type, which will function as a text box.
-                # The contents that it will display by default are a "Click here to enter text." prompt.
-                tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.INLINE)
-                # We can get the tag to display the contents of a building block instead of the default text.
-                # First, add a building block with contents to the glossary document.
-                glossary_doc = doc.glossary_document
-                substitute_block = aw.buildingblocks.BuildingBlock(glossary_doc)
-                substitute_block.name = 'Custom Placeholder'
-                substitute_block.append_child(aw.Section(glossary_doc))
-                substitute_block.first_section.append_child(aw.Body(glossary_doc))
-                substitute_block.first_section.body.append_paragraph('Custom placeholder text.')
-                glossary_doc.append_child(substitute_block)
-                # Then, use the structured document tag's "placeholder_name" property to reference that building block by name.
-                tag.placeholder_name = 'Custom Placeholder'
-                # If "placeholder_name" refers to an existing block in the parent document's glossary document,
-                # we will be able to verify the building block via the "placeholder" property.
-                self.assertEqual(substitute_block, tag.placeholder)
-                # Set the "is_showing_placeholder_text" property to "True" to treat the
-                # structured document tag's current contents as placeholder text.
-                # This means that clicking on the text box in Microsoft Word will immediately highlight all the tag's contents.
-                # Set the "is_showing_placeholder_text" property to "False" to get the
-                # structured document tag to treat its contents as text that a user has already entered.
-                # Clicking on this text in Microsoft Word will place the blinking cursor at the clicked location.
-                tag.is_showing_placeholder_text = is_showing_placeholder_text
-                builder = aw.DocumentBuilder(doc)
-                builder.insert_node(tag)
-                doc.save(ARTIFACTS_DIR + 'StructuredDocumentTag.placeholder_building_block.docx')
-                #ExEnd
-                doc = aw.Document(ARTIFACTS_DIR + 'StructuredDocumentTag.placeholder_building_block.docx')
-                tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
-                substitute_block = doc.glossary_document.get_child(aw.NodeType.BUILDING_BLOCK, 0, True).as_building_block()
-                self.assertEqual('Custom Placeholder', substitute_block.name)
-                self.assertEqual(is_showing_placeholder_text, tag.is_showing_placeholder_text)
-                self.assertEqual(substitute_block, tag.placeholder)
-                self.assertEqual(substitute_block.name, tag.placeholder_name)
 
     def test_list_item_collection(self):
         #ExStart
@@ -695,24 +805,6 @@ class ExStructuredDocumentTag(ApiExampleBase):
         self.assertEqual('', tag.xml_mapping.prefix_mappings)
         self.assertEqual(xml_part.data_checksum, tag.xml_mapping.custom_xml_part.data_checksum)
 
-    def test_data_checksum(self):
-        #ExStart
-        #ExFor:CustomXmlPart.data_checksum
-        #ExSummary:Shows how the checksum is calculated in a runtime.
-        doc = aw.Document()
-        rich_text = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.RICH_TEXT, aw.markup.MarkupLevel.BLOCK)
-        doc.first_section.body.append_child(rich_text)
-        # The checksum is read-only and computed using the data of the corresponding custom XML data part.
-        rich_text.xml_mapping.set_mapping(doc.custom_xml_parts.add(str(uuid.uuid4()), '<root><text>ContentControl</text></root>'), '/root/text', '')
-        checksum = rich_text.xml_mapping.custom_xml_part.data_checksum
-        print(checksum)
-        rich_text.xml_mapping.set_mapping(doc.custom_xml_parts.add(str(uuid.uuid4()), '<root><text>Updated ContentControl</text></root>'), '/root/text', '')
-        updated_checksum = rich_text.xml_mapping.custom_xml_part.data_checksum
-        print(updated_checksum)
-        # We changed the XmlPart of the tag, and the checksum was updated at runtime.
-        self.assertNotEqual(checksum, updated_checksum)
-        #ExEnd
-
     def test_xml_mapping(self):
         #ExStart
         #ExFor:XmlMapping
@@ -815,81 +907,12 @@ class ExStructuredDocumentTag(ApiExampleBase):
         self.assertEqual(0, schemas.count)
         #ExEnd
 
-    def test_custom_xml_part_store_item_id_read_only_null(self):
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        sdt_check_box = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.CHECKBOX, aw.markup.MarkupLevel.INLINE)
-        sdt_check_box.checked = True
-        builder.insert_node(sdt_check_box)
-        doc = DocumentHelper.save_open(doc)
-        sdt = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
-        print('The Id of your custom xml part is:', sdt.xml_mapping.store_item_id)
-
     def test_access_to_building_block_properties_from_plain_text_sdt(self):
         doc = aw.Document(MY_DIR + 'Structured document tags with building blocks.docx')
         plain_text_sdt = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 1, True).as_structured_document_tag()
         self.assertEqual(aw.markup.SdtType.PLAIN_TEXT, plain_text_sdt.sdt_type)
         with self.assertRaises(Exception, msg='BuildingBlockType is only accessible for BuildingBlockGallery SDT type.'):
             building_block_gallery = plain_text_sdt.building_block_gallery
-
-    def test_fill_table_using_repeating_section_item(self):
-        #ExStart
-        #ExFor:SdtType
-        #ExSummary:Shows how to fill a table with data from in an XML part.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        xml_part = doc.custom_xml_parts.add('Books', '<books>' + '<book>' + '<title>Everyday Italian</title>' + '<author>Giada De Laurentiis</author>' + '</book>' + '<book>' + '<title>The C Programming Language</title>' + '<author>Brian W. Kernighan, Dennis M. Ritchie</author>' + '</book>' + '<book>' + '<title>Learning XML</title>' + '<author>Erik T. Ray</author>' + '</book>' + '</books>')
-        # Create headers for data from the XML content.
-        table = builder.start_table()
-        builder.insert_cell()
-        builder.write('Title')
-        builder.insert_cell()
-        builder.write('Author')
-        builder.end_row()
-        builder.end_table()
-        # Create a table with a repeating section inside.
-        repeating_section_sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.REPEATING_SECTION, aw.markup.MarkupLevel.ROW)
-        repeating_section_sdt.xml_mapping.set_mapping(xml_part, '/books[1]/book', '')
-        table.append_child(repeating_section_sdt)
-        # Add repeating section item inside the repeating section and mark it as a row.
-        # This table will have a row for each element that we can find in the XML document
-        # using the "/books[1]/book" XPath, of which there are three.
-        repeating_section_item_sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.REPEATING_SECTION_ITEM, aw.markup.MarkupLevel.ROW)
-        repeating_section_sdt.append_child(repeating_section_item_sdt)
-        row = aw.tables.Row(doc)
-        repeating_section_item_sdt.append_child(row)
-        # Map XML data with created table cells for the title and author of each book.
-        title_sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.CELL)
-        title_sdt.xml_mapping.set_mapping(xml_part, '/books[1]/book[1]/title[1]', '')
-        row.append_child(title_sdt)
-        author_sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.CELL)
-        author_sdt.xml_mapping.set_mapping(xml_part, '/books[1]/book[1]/author[1]', '')
-        row.append_child(author_sdt)
-        doc.save(ARTIFACTS_DIR + 'StructuredDocumentTag.fill_table_using_repeating_section_item.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'StructuredDocumentTag.fill_table_using_repeating_section_item.docx')
-        tags = [node.as_structured_document_tag() for node in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)]
-        self.assertEqual('/books[1]/book', tags[0].xml_mapping.xpath)
-        self.assertEqual('', tags[0].xml_mapping.prefix_mappings)
-        self.assertEqual('', tags[1].xml_mapping.xpath)
-        self.assertEqual('', tags[1].xml_mapping.prefix_mappings)
-        self.assertEqual('/books[1]/book[1]/title[1]', tags[2].xml_mapping.xpath)
-        self.assertEqual('', tags[2].xml_mapping.prefix_mappings)
-        self.assertEqual('/books[1]/book[1]/author[1]', tags[3].xml_mapping.xpath)
-        self.assertEqual('', tags[3].xml_mapping.prefix_mappings)
-        self.assertEqual('Title\x07Author\x07\x07' + 'Everyday Italian\x07Giada De Laurentiis\x07\x07' + 'The C Programming Language\x07Brian W. Kernighan, Dennis M. Ritchie\x07\x07' + 'Learning XML\x07Erik T. Ray\x07\x07', doc.first_section.body.tables[0].get_text().strip())
-
-    def test_custom_xml_part(self):
-        xml_string = '<?xml version="1.0"?>' + '<Company>' + '<Employee id="1">' + '<FirstName>John</FirstName>' + '<LastName>Doe</LastName>' + '</Employee>' + '<Employee id="2">' + '<FirstName>Jane</FirstName>' + '<LastName>Doe</LastName>' + '</Employee>' + '</Company>'
-        doc = aw.Document()
-        # Insert the full XML document as a custom document part.
-        # We can find the mapping for this part in Microsoft Word via "Developer" -> "XML Mapping Pane", if it is enabled.
-        xml_part = doc.custom_xml_parts.add(str(uuid.uuid4()), xml_string)
-        # Create a structured document tag, which will use an XPath to refer to a single element from the XML.
-        sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.BLOCK)
-        sdt.xml_mapping.set_mapping(xml_part, "Company//Employee[@id='2']/FirstName", '')
-        # Add the StructuredDocumentTag to the document to display the element in the text.
-        doc.first_section.body.append_child(sdt)
 
     def test_sdt_range_extended_methods(self):
         doc = aw.Document()
@@ -909,23 +932,6 @@ class ExStructuredDocumentTag(ApiExampleBase):
         # Removes ranged structured document tag and content inside.
         range_start.remove_all_children()
         self.assertEqual(0, range_start.get_child_nodes(aw.NodeType.ANY, False).count)
-
-    def test_remove_self_only(self):
-        #ExStart:RemoveSelfOnly
-        #ExFor:IStructuredDocumentTag.get_child_nodes(NodeType, bool)
-        #ExFor:IStructuredDocumentTag.remove_self_only
-        #ExSummary:Shows how to remove structured document tag, but keeps content inside.
-        doc = aw.Document(MY_DIR + 'Structured document tags.docx')
-        # This collection provides a unified interface for accessing ranged and non - ranged structured tags.
-        sdts = [tag for tag in doc.range.structured_document_tags]
-        self.assertEqual(5, len(sdts))
-        # Here we can get child nodes from the common interface of ranged and non - ranged structured tags.
-        for std in sdts:
-            if std.get_child_nodes(aw.NodeType.ANY, False).count > 0:
-                std.remove_self_only()
-        sdts = [tag for tag in doc.range.structured_document_tags]
-        self.assertEqual(0, len(sdts))
-        #ExEnd:RemoveSelfOnly
 
     def insert_structured_document_tag_ranges(self, doc: aw.Document) -> aw.markup.StructuredDocumentTagRangeStart:
         range_start = aw.markup.StructuredDocumentTagRangeStart(doc, aw.markup.SdtType.PLAIN_TEXT)

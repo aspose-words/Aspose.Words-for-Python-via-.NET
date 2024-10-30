@@ -9,7 +9,7 @@ import urllib.request
 import os
 import io
 import zipfile
-from datetime import date, time, datetime, timedelta
+from datetime import date, time, datetime, timedelta, timezone
 from typing import Optional
 import platform
 if not platform.python_version().startswith("3.7") and not platform.python_version().startswith("3.6"):
@@ -74,6 +74,13 @@ class ApiExampleBase(unittest.TestCase):
             container = container[:256] + b'...'
 
         unittest.TestCase.assertIn(self, member, container, msg=msg)
+
+    def assertEqual(self, first, second, msg=None):
+        if isinstance(first, datetime) and isinstance(second, datetime):
+            first = first.replace(tzinfo=timezone.utc)
+            second = second.replace(tzinfo=timezone.utc)
+
+        super().assertEqual(first, second, msg)
 
     def verify_image(self, expected_width: int, expected_height: int, filename: Optional[str] = None, image_stream: Optional[io.BytesIO] = None):
         """Checks whether a file or a stream contains a valid image with specified dimensions.

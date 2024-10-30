@@ -5,10 +5,11 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import os
 from datetime import datetime, timezone
+import os
 import aspose.words as aw
 import aspose.words.saving
+import datetime
 import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
@@ -30,6 +31,72 @@ class ExDocSaveOptions(ApiExampleBase):
         #ExEnd
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocSaveOptions.PictureBullets.doc')
         self.assertIsNone(doc.lists[0].list_levels[0].image_data)
+
+    def test_update_last_printed_property(self):
+        for is_update_last_printed_property in [True, False]:
+            #ExStart
+            #ExFor:SaveOptions.update_last_printed_property
+            #ExSummary:Shows how to update a document's "Last printed" property when saving.
+            doc = aw.Document()
+            last_printed = datetime.datetime(2019, 12, 20)
+            doc.built_in_document_properties.last_printed = last_printed
+            # This flag determines whether the last printed date, which is a built-in property, is updated.
+            # If so, then the date of the document's most recent save operation
+            # with this SaveOptions object passed as a parameter is used as the print date.
+            save_options = aw.saving.DocSaveOptions()
+            save_options.update_last_printed_property = is_update_last_printed_property
+            # In Microsoft Word 2003, this property can be found via File -> Properties -> Statistics -> Printed.
+            # It can also be displayed in the document's body by using a PRINTDATE field.
+            doc.save(file_name=ARTIFACTS_DIR + 'DocSaveOptions.UpdateLastPrintedProperty.doc', save_options=save_options)
+            # Open the saved document, then verify the value of the property.
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocSaveOptions.UpdateLastPrintedProperty.doc')
+            if is_update_last_printed_property:
+                self.assertNotEqual(last_printed, doc.built_in_document_properties.last_printed)
+            else:
+                self.assertEqual(last_printed, doc.built_in_document_properties.last_printed)
+            #ExEnd
+
+    def test_update_created_time_property(self):
+        for is_update_created_time_property in [True, False]:
+            #ExStart
+            #ExFor:SaveOptions.update_created_time_property
+            #ExSummary:Shows how to update a document's "CreatedTime" property when saving.
+            doc = aw.Document()
+            created_time = datetime.datetime(2019, 12, 20)
+            doc.built_in_document_properties.created_time = created_time
+            # This flag determines whether the created time, which is a built-in property, is updated.
+            # If so, then the date of the document's most recent save operation
+            # with this SaveOptions object passed as a parameter is used as the created time.
+            save_options = aw.saving.DocSaveOptions()
+            save_options.update_created_time_property = is_update_created_time_property
+            doc.save(file_name=ARTIFACTS_DIR + 'DocSaveOptions.UpdateCreatedTimeProperty.docx', save_options=save_options)
+            # Open the saved document, then verify the value of the property.
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocSaveOptions.UpdateCreatedTimeProperty.docx')
+            if is_update_created_time_property:
+                self.assertNotEqual(created_time, doc.built_in_document_properties.created_time)
+            else:
+                self.assertEqual(created_time, doc.built_in_document_properties.created_time)
+            #ExEnd
+
+    def test_always_compress_metafiles(self):
+        for compress_all_metafiles in [False, True]:
+            #ExStart
+            #ExFor:DocSaveOptions.always_compress_metafiles
+            #ExSummary:Shows how to change metafiles compression in a document while saving.
+            # Open a document that contains a Microsoft Equation 3.0 formula.
+            doc = aw.Document(file_name=MY_DIR + 'Microsoft equation object.docx')
+            # When we save a document, smaller metafiles are not compressed for performance reasons.
+            # We can set a flag in a SaveOptions object to compress every metafile when saving.
+            # Some editors such as LibreOffice cannot read uncompressed metafiles.
+            save_options = aw.saving.DocSaveOptions()
+            save_options.always_compress_metafiles = compress_all_metafiles
+            doc.save(file_name=ARTIFACTS_DIR + 'DocSaveOptions.AlwaysCompressMetafiles.docx', save_options=save_options)
+            #ExEnd
+            tested_file_length = system_helper.io.FileInfo(ARTIFACTS_DIR + 'DocSaveOptions.AlwaysCompressMetafiles.docx').length()
+            if compress_all_metafiles:
+                self.assertTrue(tested_file_length < 14000)
+            else:
+                self.assertTrue(tested_file_length < 22000)
 
     def test_save_as_doc(self):
         #ExStart
@@ -74,71 +141,3 @@ class ExDocSaveOptions(ApiExampleBase):
         # The folder will persist with no residual contents from the load operation.
         self.assertEqual(0, len(os.listdir(options.temp_folder)))
         #ExEnd
-
-    def test_update_last_printed_property(self):
-        for is_update_last_printed_property in (True, False):
-            with self.subTest(is_update_last_printed_property=is_update_last_printed_property):
-                #ExStart
-                #ExFor:SaveOptions.update_last_printed_property
-                #ExSummary:Shows how to update a document's "Last printed" property when saving.
-                doc = aw.Document()
-                last_printed = datetime(2019, 12, 20, tzinfo=timezone.utc)
-                doc.built_in_document_properties.last_printed = last_printed
-                # This flag determines whether the last printed date, which is a built-in property, is updated.
-                # If so, then the date of the document's most recent save operation
-                # with this SaveOptions object passed as a parameter is used as the print date.
-                save_options = aw.saving.DocSaveOptions()
-                save_options.update_last_printed_property = is_update_last_printed_property
-                # In Microsoft Word 2003, this property can be found via File -> Properties -> Statistics -> Printed.
-                # It can also be displayed in the document's body by using a PRINTDATE field.
-                doc.save(ARTIFACTS_DIR + 'DocSaveOptions.update_last_printed_property.doc', save_options)
-                # Open the saved document, then verify the value of the property.
-                doc = aw.Document(ARTIFACTS_DIR + 'DocSaveOptions.update_last_printed_property.doc')
-                if is_update_last_printed_property:
-                    self.assertNotEqual(last_printed, doc.built_in_document_properties.last_printed)
-                else:
-                    self.assertEqual(last_printed, doc.built_in_document_properties.last_printed)
-                #ExEnd
-
-    def test_update_created_time_property(self):
-        for is_update_created_time_property in (True, False):
-            with self.subTest(is_update_created_time_property=is_update_created_time_property):
-                #ExStart
-                #ExFor:SaveOptions.update_last_printed_property
-                #ExSummary:Shows how to update a document's "created_time" property when saving.
-                doc = aw.Document()
-                created_time = datetime(2019, 12, 20, tzinfo=timezone.utc)
-                doc.built_in_document_properties.created_time = created_time
-                # This flag determines whether the created time, which is a built-in property, is updated.
-                # If so, then the date of the document's most recent save operation
-                # with this SaveOptions object passed as a parameter is used as the created time.
-                save_options = aw.saving.DocSaveOptions()
-                save_options.update_created_time_property = is_update_created_time_property
-                doc.save(ARTIFACTS_DIR + 'DocSaveOptions.update_created_time_property.docx', save_options)
-                # Open the saved document, then verify the value of the property.
-                doc = aw.Document(ARTIFACTS_DIR + 'DocSaveOptions.update_created_time_property.docx')
-                if is_update_created_time_property:
-                    self.assertNotEqual(created_time, doc.built_in_document_properties.created_time)
-                else:
-                    self.assertEqual(created_time, doc.built_in_document_properties.created_time)
-                #ExEnd
-
-    def test_always_compress_metafiles(self):
-        for compress_all_metafiles in (False, True):
-            with self.subTest(compress_all_metafiles=compress_all_metafiles):
-                #ExStart
-                #ExFor:DocSaveOptions.always_compress_metafiles
-                #ExSummary:Shows how to change metafiles compression in a document while saving.
-                # Open a document that contains a Microsoft Equation 3.0 formula.
-                doc = aw.Document(MY_DIR + 'Microsoft equation object.docx')
-                # When we save a document, smaller metafiles are not compressed for performance reasons.
-                # We can set a flag in a SaveOptions object to compress every metafile when saving.
-                # Some editors such as LibreOffice cannot read uncompressed metafiles.
-                save_options = aw.saving.DocSaveOptions()
-                save_options.always_compress_metafiles = compress_all_metafiles
-                doc.save(ARTIFACTS_DIR + 'DocSaveOptions.always_compress_metafiles.docx', save_options)
-                if compress_all_metafiles:
-                    self.assertLess(10000, os.path.getsize(ARTIFACTS_DIR + 'DocSaveOptions.always_compress_metafiles.docx'))
-                else:
-                    self.assertGreater(30000, os.path.getsize(ARTIFACTS_DIR + 'DocSaveOptions.always_compress_metafiles.docx'))
-                #ExEnd
