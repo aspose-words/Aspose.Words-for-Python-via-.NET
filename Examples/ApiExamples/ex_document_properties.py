@@ -5,15 +5,17 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import timedelta, timezone
 from document_helper import DocumentHelper
-import os
+from datetime import timedelta, timezone
 import sys
+import os
 import aspose.words as aw
 import aspose.words.fields
 import aspose.words.properties
 import datetime
+import document_helper
 import system_helper
+import test_util
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR
 
@@ -66,6 +68,76 @@ class ExDocumentProperties(ApiExampleBase):
         self.assertEqual('My subject', properties.subject)
         self.assertEqual("John's Document", properties.title)
         self.assertEqual('Author:\t\x13 AUTHOR \x14John Doe\x15\r' + "Doc title:\t\x13 TITLE \x14John's Document\x15\r" + 'Subject:\t\x13 SUBJECT \x14My subject\x15\r' + 'Comments:\t"\x13 COMMENTS \x14This is John Doe\'s document about My subject\x15"', doc.get_text().strip())
+
+    def test_origin(self):
+        #ExStart
+        #ExFor:BuiltInDocumentProperties.company
+        #ExFor:BuiltInDocumentProperties.created_time
+        #ExFor:BuiltInDocumentProperties.last_printed
+        #ExFor:BuiltInDocumentProperties.last_saved_by
+        #ExFor:BuiltInDocumentProperties.last_saved_time
+        #ExFor:BuiltInDocumentProperties.manager
+        #ExFor:BuiltInDocumentProperties.name_of_application
+        #ExFor:BuiltInDocumentProperties.revision_number
+        #ExFor:BuiltInDocumentProperties.template
+        #ExFor:BuiltInDocumentProperties.total_editing_time
+        #ExFor:BuiltInDocumentProperties.version
+        #ExSummary:Shows how to work with document properties in the "Origin" category.
+        # Open a document that we have created and edited using Microsoft Word.
+        doc = aw.Document(file_name=MY_DIR + 'Properties.docx')
+        properties = doc.built_in_document_properties
+        # The following built-in properties contain information regarding the creation and editing of this document.
+        # We can right-click this document in Windows Explorer and find
+        # these properties via "Properties" -> "Details" -> "Origin" category.
+        # Fields such as PRINTDATE and EDITTIME can display these values in the document body.
+        print(f'Created using {properties.name_of_application}, on {properties.created_time}')
+        print(f'Minutes spent editing: {properties.total_editing_time}')
+        print(f'Date/time last printed: {properties.last_printed}')
+        print(f'Template document: {properties.template}')
+        # We can also change the values of built-in properties.
+        properties.company = 'Doe Ltd.'
+        properties.manager = 'Jane Doe'
+        properties.version = 5
+        properties.revision_number += 1
+        # Microsoft Word updates the following properties automatically when we save the document.
+        # To use these properties with Aspose.Words, we will need to set values for them manually.
+        properties.last_saved_by = 'John Doe'
+        properties.last_saved_time = datetime.datetime.now()
+        # We can right-click this document in Windows Explorer and find these properties in "Properties" -> "Details" -> "Origin".
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentProperties.Origin.docx')
+        #ExEnd
+        properties = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentProperties.Origin.docx').built_in_document_properties
+        self.assertEqual('Doe Ltd.', properties.company)
+        self.assertEqual(datetime.datetime(2006, 4, 25, 10, 10, 0), properties.created_time)
+        self.assertEqual(datetime.datetime(2019, 4, 21, 10, 0, 0), properties.last_printed)
+        self.assertEqual('John Doe', properties.last_saved_by)
+        test_util.TestUtil.verify_date(datetime.datetime.now(), properties.last_saved_time, datetime.timedelta(seconds=5))
+        self.assertEqual('Jane Doe', properties.manager)
+        self.assertEqual('Microsoft Office Word', properties.name_of_application)
+        self.assertEqual(12, properties.revision_number)
+        self.assertEqual('Normal', properties.template)
+        self.assertEqual(8, properties.total_editing_time)
+        self.assertEqual(786432, properties.version)
+
+    def test_thumbnail(self):
+        #ExStart
+        #ExFor:BuiltInDocumentProperties.thumbnail
+        #ExFor:DocumentProperty.to_byte_array
+        #ExSummary:Shows how to add a thumbnail to a document that we save as an Epub.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.writeln('Hello world!')
+        # If we save a document, whose "Thumbnail" property contains image data that we added, as an Epub,
+        # a reader that opens that document may display the image before the first page.
+        properties = doc.built_in_document_properties
+        thumbnail_bytes = system_helper.io.File.read_all_bytes(IMAGE_DIR + 'Logo.jpg')
+        properties.thumbnail = thumbnail_bytes
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentProperties.Thumbnail.epub')
+        # We can extract a document's thumbnail image and save it to the local file system.
+        thumbnail = doc.built_in_document_properties.get_by_name('Thumbnail')
+        system_helper.io.File.write_all_bytes(ARTIFACTS_DIR + 'DocumentProperties.Thumbnail.gif', thumbnail.to_byte_array())
+        #ExEnd
+        test_util.TestUtil.verify_image(400, 400, ARTIFACTS_DIR + 'DocumentProperties.Thumbnail.gif')
 
     def test_hyperlink_base(self):
         #ExStart
@@ -123,6 +195,19 @@ class ExDocumentProperties(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'DocumentProperties.Security.ReadOnlyExceptAnnotations.docx')
         self.assertEqual(aw.properties.DocumentSecurity.READ_ONLY_EXCEPT_ANNOTATIONS, aw.Document(file_name=ARTIFACTS_DIR + 'DocumentProperties.Security.ReadOnlyExceptAnnotations.docx').built_in_document_properties.security)
         #ExEnd
+
+    def test_custom_named_access(self):
+        #ExStart
+        #ExFor:DocumentPropertyCollection.__getitem__(str)
+        #ExFor:CustomDocumentProperties.add(str,datetime)
+        #ExFor:DocumentProperty.to_date_time
+        #ExSummary:Shows how to create a custom document property which contains a date and time.
+        doc = aw.Document()
+        doc.custom_document_properties.add(name='AuthorizationDate', value=datetime.datetime.now())
+        authorization_date = doc.custom_document_properties.get_by_name('AuthorizationDate').to_date_time()
+        print(f'Document authorized on {authorization_date}')
+        #ExEnd
+        test_util.TestUtil.verify_date(datetime.datetime.now(), document_helper.DocumentHelper.save_open(doc).custom_document_properties.get_by_name('AuthorizationDate').to_date_time(), datetime.timedelta(seconds=1))
 
     def test_link_custom_document_properties_to_bookmark(self):
         #ExStart
@@ -222,56 +307,6 @@ class ExDocumentProperties(ApiExampleBase):
             print(f'\tValue:\t"{custom_document_property.value}"')
         #ExEnd
         self.assertEqual(2, doc.custom_document_properties.count)
-
-    def test_origin(self):
-        #ExStart
-        #ExFor:BuiltInDocumentProperties.company
-        #ExFor:BuiltInDocumentProperties.created_time
-        #ExFor:BuiltInDocumentProperties.last_printed
-        #ExFor:BuiltInDocumentProperties.last_saved_by
-        #ExFor:BuiltInDocumentProperties.last_saved_time
-        #ExFor:BuiltInDocumentProperties.manager
-        #ExFor:BuiltInDocumentProperties.name_of_application
-        #ExFor:BuiltInDocumentProperties.revision_number
-        #ExFor:BuiltInDocumentProperties.template
-        #ExFor:BuiltInDocumentProperties.total_editing_time
-        #ExFor:BuiltInDocumentProperties.version
-        #ExSummary:Shows how to work with document properties in the "Origin" category.
-        # Open a document that we have created and edited using Microsoft Word.
-        doc = aw.Document(MY_DIR + 'Properties.docx')
-        properties = doc.built_in_document_properties
-        # The following built-in properties contain information regarding the creation and editing of this document.
-        # We can right-click this document in Windows Explorer and find
-        # these properties via "Properties" -> "Details" -> "Origin" category.
-        # Fields such as PRINTDATE and EDITTIME can display these values in the document body.
-        print(f'Created using {properties.name_of_application}, on {properties.created_time}')
-        print('Minutes spent editing:', properties.total_editing_time)
-        print('Date/time last printed:', properties.last_printed)
-        print('Template document:', properties.template)
-        # We can also change the values of built-in properties.
-        properties.company = 'Doe Ltd.'
-        properties.manager = 'Jane Doe'
-        properties.version = 5
-        properties.revision_number += 1
-        # Microsoft Word updates the following properties automatically when we save the document.
-        # To use these properties with Aspose.Words, we will need to set values for them manually.
-        properties.last_saved_by = 'John Doe'
-        properties.last_saved_time = datetime.datetime.utcnow()
-        # We can right-click this document in Windows Explorer and find these properties in "Properties" -> "Details" -> "Origin".
-        doc.save(ARTIFACTS_DIR + 'DocumentProperties.origin.docx')
-        #ExEnd
-        properties = aw.Document(ARTIFACTS_DIR + 'DocumentProperties.origin.docx').built_in_document_properties
-        self.assertEqual('Doe Ltd.', properties.company)
-        self.assertEqual(datetime.datetime(2006, 4, 25, 10, 10, 0, tzinfo=timezone.utc), properties.created_time)
-        self.assertEqual(datetime.datetime(2019, 4, 21, 10, 0, 0, tzinfo=timezone.utc), properties.last_printed)
-        self.assertEqual('John Doe', properties.last_saved_by)
-        self.verify_date(datetime.datetime.now(timezone.utc), properties.last_saved_time, timedelta(seconds=5))
-        self.assertEqual('Jane Doe', properties.manager)
-        self.assertEqual('Microsoft Office Word', properties.name_of_application)
-        self.assertEqual(12, properties.revision_number)
-        self.assertEqual('Normal', properties.template)
-        self.assertEqual(8, properties.total_editing_time)
-        self.assertEqual(786432, properties.version)
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_content(self):
@@ -373,29 +408,6 @@ class ExDocumentProperties(ApiExampleBase):
             self.assertFalse(properties.links_up_to_date)
         content_test()
 
-    def test_thumbnail(self):
-        #ExStart
-        #ExFor:BuiltInDocumentProperties.thumbnail
-        #ExFor:DocumentProperty.to_byte_array
-        #ExSummary:Shows how to add a thumbnail to a document that we save as an Epub.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.writeln('Hello world!')
-        # If we save a document, whose "thumbnail" property contains image data that we added, as an Epub,
-        # a reader that opens that document may display the image before the first page.
-        properties = doc.built_in_document_properties
-        with open(IMAGE_DIR + 'Logo.jpg', 'rb') as file:
-            thumbnail_bytes = file.read()
-        properties.thumbnail = thumbnail_bytes
-        doc.save(ARTIFACTS_DIR + 'DocumentProperties.thumbnail.epub')
-        # We can extract a document's thumbnail image and save it to the local file system.
-        thumbnail = doc.built_in_document_properties.get_by_name('Thumbnail')
-        with open(ARTIFACTS_DIR + 'DocumentProperties.thumbnail.gif', 'wb') as file:
-            file.write(thumbnail.to_byte_array())
-        #ExEnd
-        with open(ARTIFACTS_DIR + 'DocumentProperties.thumbnail.gif', 'rb') as img_stream:
-            self.verify_image(400, 400, image_stream=img_stream)
-
     def test_heading_pairs(self):
         #ExStart
         #ExFor:BuiltInDocumentProperties.heading_pairs
@@ -440,18 +452,6 @@ class ExDocumentProperties(ApiExampleBase):
         # "Heading 2"
         self.assertEqual('Part6', titles_of_parts[6])
         self.assertEqual('Part7', titles_of_parts[7])
-
-    def test_custom_named_access(self):
-        #ExStart
-        #ExFor:DocumentPropertyCollection.__getitem__(str)
-        #ExFor:CustomDocumentProperties.add(str,datetime)
-        #ExFor:DocumentProperty.to_date_time
-        #ExSummary:Shows how to create a custom document property which contains a date and time.
-        doc = aw.Document()
-        doc.custom_document_properties.add('AuthorizationDate', datetime.datetime.utcnow())
-        print('Document authorized on', doc.custom_document_properties.get_by_name('AuthorizationDate').to_date_time())
-        #ExEnd
-        self.verify_date(datetime.datetime.now(tz=timezone.utc), DocumentHelper.save_open(doc).custom_document_properties.get_by_name('AuthorizationDate').to_date_time(), timedelta(seconds=1))
 
     def test_document_property_collection(self):
         #ExStart

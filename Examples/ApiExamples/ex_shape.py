@@ -5,14 +5,14 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words import Document, DocumentBuilder, NodeType
-from aspose.pydrawing import Color
-from aspose.words.themes import ThemeColor
-import os
-import typing
-import sys
-from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
 from document_helper import DocumentHelper
+from aspose.words.themes import ThemeColor
+from aspose.pydrawing import Color
+from aspose.words import Document, DocumentBuilder, NodeType
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
+import sys
+import typing
+import os
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
@@ -22,11 +22,196 @@ import aspose.words.rendering
 import aspose.words.saving
 import aspose.words.settings
 import aspose.words.themes
+import document_helper
 import system_helper
+import test_util
 import unittest
-from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR, GOLDS_DIR
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR, GOLDS_DIR, IMAGE_DIR, MY_DIR
 
 class ExShape(ApiExampleBase):
+
+    def test_font(self):
+        for hide_shape in [False, True]:
+            #ExStart
+            #ExFor:ShapeBase.font
+            #ExFor:ShapeBase.parent_paragraph
+            #ExSummary:Shows how to insert a text box, and set the font of its contents.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.writeln('Hello world!')
+            shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.TEXT_BOX, width=300, height=50)
+            builder.move_to(shape.last_paragraph)
+            builder.write('This text is inside the text box.')
+            # Set the "Hidden" property of the shape's "Font" object to "true" to hide the text box from sight
+            # and collapse the space that it would normally occupy.
+            # Set the "Hidden" property of the shape's "Font" object to "false" to leave the text box visible.
+            shape.font.hidden = hide_shape
+            # If the shape is visible, we will modify its appearance via the font object.
+            if not hide_shape:
+                shape.font.highlight_color = aspose.pydrawing.Color.light_gray
+                shape.font.color = aspose.pydrawing.Color.red
+                shape.font.underline = aw.Underline.DASH
+            # Move the builder out of the text box back into the main document.
+            builder.move_to(shape.parent_paragraph)
+            builder.writeln('\nThis text is outside the text box.')
+            doc.save(file_name=ARTIFACTS_DIR + 'Shape.Font.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.Font.docx')
+            shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+            self.assertEqual(hide_shape, shape.font.hidden)
+            if hide_shape:
+                self.assertEqual(aspose.pydrawing.Color.empty().to_argb(), shape.font.highlight_color.to_argb())
+                self.assertEqual(aspose.pydrawing.Color.empty().to_argb(), shape.font.color.to_argb())
+                self.assertEqual(aw.Underline.NONE, shape.font.underline)
+            else:
+                self.assertEqual(aspose.pydrawing.Color.silver.to_argb(), shape.font.highlight_color.to_argb())
+                self.assertEqual(aspose.pydrawing.Color.red.to_argb(), shape.font.color.to_argb())
+                self.assertEqual(aw.Underline.DASH, shape.font.underline)
+            test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100002', 300, 50, 0, 0, shape)
+            self.assertEqual('This text is inside the text box.', shape.get_text().strip())
+            self.assertEqual('Hello world!\rThis text is inside the text box.\r\rThis text is outside the text box.', doc.get_text().strip())
+
+    @unittest.skip("drawing.Image type isn't supported yet")
+    def test_rotate(self):
+        #ExStart
+        #ExFor:ShapeBase.can_have_image
+        #ExFor:ShapeBase.rotation
+        #ExSummary:Shows how to insert and rotate an image.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Insert a shape with an image.
+        shape = builder.insert_image(file_name=IMAGE_DIR + 'Logo.jpg')
+        self.assertTrue(shape.can_have_image)
+        self.assertTrue(shape.has_image)
+        # Rotate the image 45 degrees clockwise.
+        shape.rotation = 45
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.Rotate.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.Rotate.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.IMAGE, '', 300, 300, 0, 0, shape)
+        self.assertTrue(shape.can_have_image)
+        self.assertTrue(shape.has_image)
+        self.assertEqual(45, shape.rotation)
+
+    def test_coordinates(self):
+        #ExStart
+        #ExFor:ShapeBase.distance_bottom
+        #ExFor:ShapeBase.distance_left
+        #ExFor:ShapeBase.distance_right
+        #ExFor:ShapeBase.distance_top
+        #ExSummary:Shows how to set the wrapping distance for a text that surrounds a shape.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Insert a rectangle and, get the text to wrap tightly around its bounds.
+        shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, width=150, height=150)
+        shape.wrap_type = aw.drawing.WrapType.TIGHT
+        # Set the minimum distance between the shape and surrounding text to 40pt from all sides.
+        shape.distance_top = 40
+        shape.distance_bottom = 40
+        shape.distance_left = 40
+        shape.distance_right = 40
+        # Move the shape closer to the center of the page, and then rotate the shape 60 degrees clockwise.
+        shape.top = 75
+        shape.left = 150
+        shape.rotation = 60
+        # Add text that will wrap around the shape.
+        builder.font.size = 24
+        builder.write('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ' + 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.')
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.Coordinates.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.Coordinates.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.RECTANGLE, 'Rectangle 100002', 150, 150, 75, 150, shape)
+        self.assertEqual(40, shape.distance_bottom)
+        self.assertEqual(40, shape.distance_left)
+        self.assertEqual(40, shape.distance_right)
+        self.assertEqual(40, shape.distance_top)
+        self.assertEqual(60, shape.rotation)
+
+    def test_group_shape(self):
+        #ExStart
+        #ExFor:ShapeBase.bounds
+        #ExFor:ShapeBase.coord_origin
+        #ExFor:ShapeBase.coord_size
+        #ExSummary:Shows how to create and populate a group shape.
+        doc = aw.Document()
+        # Create a group shape. A group shape can display a collection of child shape nodes.
+        # In Microsoft Word, clicking within the group shape's boundary or on one of the group shape's child shapes will
+        # select all the other child shapes within this group and allow us to scale and move all the shapes at once.
+        group = aw.drawing.GroupShape(doc)
+        self.assertEqual(aw.drawing.WrapType.NONE, group.wrap_type)
+        # Create a 400pt x 400pt group shape and place it at the document's floating shape coordinate origin.
+        group.bounds = aspose.pydrawing.RectangleF(0, 0, 400, 400)
+        # Set the group's internal coordinate plane size to 500 x 500pt.
+        # The top left corner of the group will have an x and y coordinate of (0, 0),
+        # and the bottom right corner will have an x and y coordinate of (500, 500).
+        group.coord_size = aspose.pydrawing.Size(500, 500)
+        # Set the coordinates of the top left corner of the group to (-250, -250).
+        # The group's center will now have an x and y coordinate value of (0, 0),
+        # and the bottom right corner will be at (250, 250).
+        group.coord_origin = aspose.pydrawing.Point(-250, -250)
+        # Create a rectangle that will display the boundary of this group shape and add it to the group.
+        child1 = aw.drawing.Shape(doc, aw.drawing.ShapeType.RECTANGLE)
+        child1.width = group.coord_size.width
+        child1.height = group.coord_size.height
+        child1.left = group.coord_origin.x
+        child1.top = group.coord_origin.y
+        group.append_child(child1)
+        # Once a shape is a part of a group shape, we can access it as a child node and then modify it.
+        group.get_child(aw.NodeType.SHAPE, 0, True).as_shape().stroke.dash_style = aw.drawing.DashStyle.DASH
+        # Create a small red star and insert it into the group.
+        # Line up the shape with the group's coordinate origin, which we have moved to the center.
+        child2 = aw.drawing.Shape(doc, aw.drawing.ShapeType.STAR)
+        child2.width = 20
+        child2.height = 20
+        child2.left = -10
+        child2.top = -10
+        child2.fill_color = aspose.pydrawing.Color.red
+        group.append_child(child2)
+        # Insert a rectangle, and then insert a slightly smaller rectangle in the same place with an image.
+        # Newer shapes that we add to the group overlap older shapes. The light blue rectangle will partially overlap the red star,
+        # and then the shape with the image will overlap the light blue rectangle, using it as a frame.
+        # We cannot use the "ZOrder" properties of shapes to manipulate their arrangement within a group shape.
+        child3 = aw.drawing.Shape(doc, aw.drawing.ShapeType.RECTANGLE)
+        child3.width = 250
+        child3.height = 250
+        child3.left = -250
+        child3.top = -250
+        child3.fill_color = aspose.pydrawing.Color.light_blue
+        group.append_child(child3)
+        child4 = aw.drawing.Shape(doc, aw.drawing.ShapeType.IMAGE)
+        child4.width = 200
+        child4.height = 200
+        child4.left = -225
+        child4.top = -225
+        group.append_child(child4)
+        group.get_child(aw.NodeType.SHAPE, 3, True).as_shape().image_data.set_image(file_name=IMAGE_DIR + 'Logo.jpg')
+        # Insert a text box into the group shape. Set the "Left" property so that the text box's right edge
+        # touches the right boundary of the group shape. Set the "Top" property so that the text box sits outside
+        # the boundary of the group shape, with its top size lined up along the group shape's bottom margin.
+        child5 = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
+        child5.width = 200
+        child5.height = 50
+        child5.left = group.coord_size.width + group.coord_origin.x - 200
+        child5.top = group.coord_size.height + group.coord_origin.y
+        group.append_child(child5)
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.insert_node(group)
+        builder.move_to(group.get_child(aw.NodeType.SHAPE, 4, True).as_shape().append_child(aw.Paragraph(doc)))
+        builder.write('Hello world!')
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.GroupShape.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.GroupShape.docx')
+        group = doc.get_child(aw.NodeType.GROUP_SHAPE, 0, True).as_group_shape()
+        self.assertEqual(aspose.pydrawing.RectangleF(0, 0, 400, 400), group.bounds)
+        self.assertEqual(aspose.pydrawing.Size(500, 500), group.coord_size)
+        self.assertEqual(aspose.pydrawing.Point(-250, -250), group.coord_origin)
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.RECTANGLE, '', 500, 500, -250, -250, group.get_child(aw.NodeType.SHAPE, 0, True).as_shape())
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.STAR, '', 20, 20, -10, -10, group.get_child(aw.NodeType.SHAPE, 1, True).as_shape())
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.RECTANGLE, '', 250, 250, -250, -250, group.get_child(aw.NodeType.SHAPE, 2, True).as_shape())
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.IMAGE, '', 200, 200, -225, -225, group.get_child(aw.NodeType.SHAPE, 3, True).as_shape())
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_BOX, '', 200, 50, 250, 50, group.get_child(aw.NodeType.SHAPE, 4, True).as_shape())
 
     def test_is_top_level(self):
         #ExStart
@@ -91,6 +276,32 @@ class ExShape(ApiExampleBase):
         self.assertEqual(aspose.pydrawing.Size(500, 500), group.coord_size)
         self.assertEqual(aspose.pydrawing.Point(-250, -250), group.coord_origin)
 
+    def test_anchor_locked(self):
+        for anchor_locked in [False, True]:
+            #ExStart
+            #ExFor:ShapeBase.anchor_locked
+            #ExSummary:Shows how to lock or unlock a shape's paragraph anchor.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.writeln('Hello world!')
+            builder.write('Our shape will have an anchor attached to this paragraph.')
+            shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, width=200, height=160)
+            shape.wrap_type = aw.drawing.WrapType.NONE
+            builder.insert_break(aw.BreakType.PARAGRAPH_BREAK)
+            builder.writeln('Hello again!')
+            # Set the "AnchorLocked" property to "true" to prevent the shape's anchor
+            # from moving when moving the shape in Microsoft Word.
+            # Set the "AnchorLocked" property to "false" to allow any movement of the shape
+            # to also move its anchor to any other paragraph that the shape ends up close to.
+            shape.anchor_locked = anchor_locked
+            # If the shape does not have a visible anchor symbol to its left,
+            # we will need to enable visible anchors via "Options" -> "Display" -> "Object Anchors".
+            doc.save(file_name=ARTIFACTS_DIR + 'Shape.AnchorLocked.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.AnchorLocked.docx')
+            shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+            self.assertEqual(anchor_locked, shape.anchor_locked)
+
     def test_delete_all_shapes(self):
         #ExStart
         #ExFor:Shape
@@ -124,6 +335,90 @@ class ExShape(ApiExampleBase):
         self.assertEqual(0, doc.get_child_nodes(aw.NodeType.GROUP_SHAPE, True).count)
         self.assertEqual(0, doc.get_child_nodes(aw.NodeType.SHAPE, True).count)
         #ExEnd
+
+    def test_is_inline(self):
+        #ExStart
+        #ExFor:ShapeBase.is_inline
+        #ExSummary:Shows how to determine whether a shape is inline or floating.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Below are two wrapping types that shapes may have.
+        # 1 -  Inline:
+        builder.write('Hello world! ')
+        shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, width=100, height=100)
+        shape.fill_color = aspose.pydrawing.Color.light_blue
+        builder.write(' Hello again.')
+        # An inline shape sits inside a paragraph among other paragraph elements, such as runs of text.
+        # In Microsoft Word, we may click and drag the shape to any paragraph as if it is a character.
+        # If the shape is large, it will affect vertical paragraph spacing.
+        # We cannot move this shape to a place with no paragraph.
+        self.assertEqual(aw.drawing.WrapType.INLINE, shape.wrap_type)
+        self.assertTrue(shape.is_inline)
+        # 2 -  Floating:
+        shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, horz_pos=aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, left=200, vert_pos=aw.drawing.RelativeVerticalPosition.TOP_MARGIN, top=200, width=100, height=100, wrap_type=aw.drawing.WrapType.NONE)
+        shape.fill_color = aspose.pydrawing.Color.orange
+        # A floating shape belongs to the paragraph that we insert it into,
+        # which we can determine by an anchor symbol that appears when we click the shape.
+        # If the shape does not have a visible anchor symbol to its left,
+        # we will need to enable visible anchors via "Options" -> "Display" -> "Object Anchors".
+        # In Microsoft Word, we may left click and drag this shape freely to any location.
+        self.assertEqual(aw.drawing.WrapType.NONE, shape.wrap_type)
+        self.assertFalse(shape.is_inline)
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.IsInline.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.IsInline.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.RECTANGLE, 'Rectangle 100002', 100, 100, 0, 0, shape)
+        self.assertEqual(aspose.pydrawing.Color.light_blue.to_argb(), shape.fill_color.to_argb())
+        self.assertEqual(aw.drawing.WrapType.INLINE, shape.wrap_type)
+        self.assertTrue(shape.is_inline)
+        shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.RECTANGLE, 'Rectangle 100004', 100, 100, 200, 200, shape)
+        self.assertEqual(aspose.pydrawing.Color.orange.to_argb(), shape.fill_color.to_argb())
+        self.assertEqual(aw.drawing.WrapType.NONE, shape.wrap_type)
+        self.assertFalse(shape.is_inline)
+
+    def test_flip_shape_orientation(self):
+        #ExStart
+        #ExFor:ShapeBase.flip_orientation
+        #ExFor:FlipOrientation
+        #ExSummary:Shows how to flip a shape on an axis.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Insert an image shape and leave its orientation in its default state.
+        shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, horz_pos=aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, left=100, vert_pos=aw.drawing.RelativeVerticalPosition.TOP_MARGIN, top=100, width=100, height=100, wrap_type=aw.drawing.WrapType.NONE)
+        shape.image_data.set_image(file_name=IMAGE_DIR + 'Logo.jpg')
+        self.assertEqual(aw.drawing.FlipOrientation.NONE, shape.flip_orientation)
+        shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, horz_pos=aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, left=250, vert_pos=aw.drawing.RelativeVerticalPosition.TOP_MARGIN, top=100, width=100, height=100, wrap_type=aw.drawing.WrapType.NONE)
+        shape.image_data.set_image(file_name=IMAGE_DIR + 'Logo.jpg')
+        # Set the "FlipOrientation" property to "FlipOrientation.Horizontal" to flip the second shape on the y-axis,
+        # making it into a horizontal mirror image of the first shape.
+        shape.flip_orientation = aw.drawing.FlipOrientation.HORIZONTAL
+        shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, horz_pos=aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, left=100, vert_pos=aw.drawing.RelativeVerticalPosition.TOP_MARGIN, top=250, width=100, height=100, wrap_type=aw.drawing.WrapType.NONE)
+        shape.image_data.set_image(file_name=IMAGE_DIR + 'Logo.jpg')
+        # Set the "FlipOrientation" property to "FlipOrientation.Horizontal" to flip the third shape on the x-axis,
+        # making it into a vertical mirror image of the first shape.
+        shape.flip_orientation = aw.drawing.FlipOrientation.VERTICAL
+        shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, horz_pos=aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, left=250, vert_pos=aw.drawing.RelativeVerticalPosition.TOP_MARGIN, top=250, width=100, height=100, wrap_type=aw.drawing.WrapType.NONE)
+        shape.image_data.set_image(file_name=IMAGE_DIR + 'Logo.jpg')
+        # Set the "FlipOrientation" property to "FlipOrientation.Horizontal" to flip the fourth shape on both the x and y axes,
+        # making it into a horizontal and vertical mirror image of the first shape.
+        shape.flip_orientation = aw.drawing.FlipOrientation.BOTH
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.FlipShapeOrientation.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.FlipShapeOrientation.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.RECTANGLE, 'Rectangle 100002', 100, 100, 100, 100, shape)
+        self.assertEqual(aw.drawing.FlipOrientation.NONE, shape.flip_orientation)
+        shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.RECTANGLE, 'Rectangle 100004', 100, 100, 100, 250, shape)
+        self.assertEqual(aw.drawing.FlipOrientation.HORIZONTAL, shape.flip_orientation)
+        shape = doc.get_child(aw.NodeType.SHAPE, 2, True).as_shape()
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.RECTANGLE, 'Rectangle 100006', 100, 100, 250, 100, shape)
+        self.assertEqual(aw.drawing.FlipOrientation.VERTICAL, shape.flip_orientation)
+        shape = doc.get_child(aw.NodeType.SHAPE, 3, True).as_shape()
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.RECTANGLE, 'Rectangle 100008', 100, 100, 250, 250, shape)
+        self.assertEqual(aw.drawing.FlipOrientation.BOTH, shape.flip_orientation)
 
     def test_texture_fill(self):
         #ExStart
@@ -313,6 +608,62 @@ class ExShape(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'Shape.FillTintAndShade.docx')
         #ExEnd
 
+    def test_title(self):
+        #ExStart
+        #ExFor:ShapeBase.title
+        #ExSummary:Shows how to set the title of a shape.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Create a shape, give it a title, and then add it to the document.
+        shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.CUBE)
+        shape.width = 200
+        shape.height = 200
+        shape.title = 'My cube'
+        builder.insert_node(shape)
+        # When we save a document with a shape that has a title,
+        # Aspose.Words will store that title in the shape's Alt Text.
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.Title.docx')
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.Title.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        self.assertEqual('', shape.title)
+        self.assertEqual('Title: My cube', shape.alternative_text)
+        #ExEnd
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.CUBE, '', 200, 200, 0, 0, shape)
+
+    def test_create_text_box(self):
+        #ExStart
+        #ExFor:Shape.__init__(DocumentBase,ShapeType)
+        #ExFor:Story.first_paragraph
+        #ExFor:Shape.first_paragraph
+        #ExFor:ShapeBase.wrap_type
+        #ExSummary:Shows how to create and format a text box.
+        doc = aw.Document()
+        # Create a floating text box.
+        text_box = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
+        text_box.wrap_type = aw.drawing.WrapType.NONE
+        text_box.height = 50
+        text_box.width = 200
+        # Set the horizontal, and vertical alignment of the text inside the shape.
+        text_box.horizontal_alignment = aw.drawing.HorizontalAlignment.CENTER
+        text_box.vertical_alignment = aw.drawing.VerticalAlignment.TOP
+        # Add a paragraph to the text box and add a run of text that the text box will display.
+        text_box.append_child(aw.Paragraph(doc))
+        para = text_box.first_paragraph
+        para.paragraph_format.alignment = aw.ParagraphAlignment.CENTER
+        run = aw.Run(doc=doc)
+        run.text = 'Hello world!'
+        para.append_child(run)
+        doc.first_section.body.first_paragraph.append_child(text_box)
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.CreateTextBox.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.CreateTextBox.docx')
+        text_box = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_BOX, '', 200, 50, 0, 0, text_box)
+        self.assertEqual(aw.drawing.WrapType.NONE, text_box.wrap_type)
+        self.assertEqual(aw.drawing.HorizontalAlignment.CENTER, text_box.horizontal_alignment)
+        self.assertEqual(aw.drawing.VerticalAlignment.TOP, text_box.vertical_alignment)
+        self.assertEqual('Hello world!', text_box.get_text().strip())
+
     def test_get_active_x_control_properties(self):
         #ExStart
         #ExFor:OleControl
@@ -382,11 +733,57 @@ class ExShape(ApiExampleBase):
         self.assertEqual(aw.math.OfficeMathDisplayType.INLINE, office_math.display_type)
         self.assertEqual(aw.math.OfficeMathJustification.INLINE, office_math.justification)
 
+    def test_office_math(self):
+        #ExStart
+        #ExFor:OfficeMath
+        #ExFor:OfficeMath.display_type
+        #ExFor:OfficeMath.justification
+        #ExFor:OfficeMath.node_type
+        #ExFor:OfficeMath.parent_paragraph
+        #ExFor:OfficeMathDisplayType
+        #ExFor:OfficeMathJustification
+        #ExSummary:Shows how to set office math display formatting.
+        doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
+        office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
+        # OfficeMath nodes that are children of other OfficeMath nodes are always inline.
+        # The node we are working with is the base node to change its location and display type.
+        self.assertEqual(aw.math.MathObjectType.O_MATH_PARA, office_math.math_object_type)
+        self.assertEqual(aw.NodeType.OFFICE_MATH, office_math.node_type)
+        self.assertEqual(office_math.parent_node, office_math.parent_paragraph)
+        # Change the location and display type of the OfficeMath node.
+        office_math.display_type = aw.math.OfficeMathDisplayType.DISPLAY
+        office_math.justification = aw.math.OfficeMathJustification.LEFT
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.OfficeMath.docx')
+        #ExEnd
+        self.assertTrue(document_helper.DocumentHelper.compare_docs(ARTIFACTS_DIR + 'Shape.OfficeMath.docx', GOLDS_DIR + 'Shape.OfficeMath Gold.docx'))
+
     def test_office_math_display_nested_objects(self):
         doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
         office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
         self.assertEqual(aw.math.OfficeMathDisplayType.DISPLAY, office_math.display_type)
         self.assertEqual(aw.math.OfficeMathJustification.CENTER, office_math.justification)
+
+    def test_aspect_ratio(self):
+        for lock_aspect_ratio in [True, False]:
+            #ExStart
+            #ExFor:ShapeBase.aspect_ratio_locked
+            #ExSummary:Shows how to lock/unlock a shape's aspect ratio.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            # Insert a shape. If we open this document in Microsoft Word, we can left click the shape to reveal
+            # eight sizing handles around its perimeter, which we can click and drag to change its size.
+            shape = builder.insert_image(file_name=IMAGE_DIR + 'Logo.jpg')
+            # Set the "AspectRatioLocked" property to "true" to preserve the shape's aspect ratio
+            # when using any of the four diagonal sizing handles, which change both the image's height and width.
+            # Using any orthogonal sizing handles that either change the height or width will still change the aspect ratio.
+            # Set the "AspectRatioLocked" property to "false" to allow us to
+            # freely change the image's aspect ratio with all sizing handles.
+            shape.aspect_ratio_locked = lock_aspect_ratio
+            doc.save(file_name=ARTIFACTS_DIR + 'Shape.AspectRatio.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.AspectRatio.docx')
+            shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+            self.assertEqual(lock_aspect_ratio, shape.aspect_ratio_locked)
 
     def test_markup_language_by_default(self):
         #ExStart
@@ -399,6 +796,15 @@ class ExShape(ApiExampleBase):
         self.assertEqual(aw.drawing.ShapeMarkupLanguage.DML, shape.markup_language)
         self.assertEqual(aspose.pydrawing.SizeF(300, 300), shape.size_in_points)
         #ExEnd
+
+    def test_markup_language_for_different_ms_word_versions(self):
+        for ms_word_version, shape_markup_language in [(aw.settings.MsWordVersion.WORD2000, aw.drawing.ShapeMarkupLanguage.VML), (aw.settings.MsWordVersion.WORD2002, aw.drawing.ShapeMarkupLanguage.VML), (aw.settings.MsWordVersion.WORD2003, aw.drawing.ShapeMarkupLanguage.VML), (aw.settings.MsWordVersion.WORD2007, aw.drawing.ShapeMarkupLanguage.VML), (aw.settings.MsWordVersion.WORD2010, aw.drawing.ShapeMarkupLanguage.DML), (aw.settings.MsWordVersion.WORD2013, aw.drawing.ShapeMarkupLanguage.DML), (aw.settings.MsWordVersion.WORD2016, aw.drawing.ShapeMarkupLanguage.DML)]:
+            doc = aw.Document()
+            doc.compatibility_options.optimize_for(ms_word_version)
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.insert_image(file_name=IMAGE_DIR + 'Transparent background logo.png')
+            for shape in [x.as_shape() for x in list(doc.get_child_nodes(aw.NodeType.SHAPE, True)) if isinstance(x.as_shape(), aw.drawing.Shape)]:
+                self.assertEqual(shape_markup_language, shape.markup_language)
 
     def test_stroke(self):
         #ExStart
@@ -455,6 +861,200 @@ class ExShape(ApiExampleBase):
         shape.rotation = 30
         doc.save(file_name=ARTIFACTS_DIR + 'Shape.Resize.docx')
 
+    def test_is_layout_in_cell(self):
+        for is_layout_in_cell in [False, True]:
+            #ExStart
+            #ExFor:ShapeBase.is_layout_in_cell
+            #ExSummary:Shows how to determine how to display a shape in a table cell.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            table = builder.start_table()
+            builder.insert_cell()
+            builder.insert_cell()
+            builder.end_table()
+            table_style = doc.styles.add(aw.StyleType.TABLE, 'MyTableStyle1').as_table_style()
+            table_style.bottom_padding = 20
+            table_style.left_padding = 10
+            table_style.right_padding = 10
+            table_style.top_padding = 20
+            table_style.borders.color = aspose.pydrawing.Color.black
+            table_style.borders.line_style = aw.LineStyle.SINGLE
+            table.style = table_style
+            builder.move_to(table.first_row.first_cell.first_paragraph)
+            shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, horz_pos=aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, left=50, vert_pos=aw.drawing.RelativeVerticalPosition.TOP_MARGIN, top=100, width=100, height=100, wrap_type=aw.drawing.WrapType.NONE)
+            # Set the "IsLayoutInCell" property to "true" to display the shape as an inline element inside the cell's paragraph.
+            # The coordinate origin that will determine the shape's location will be the top left corner of the shape's cell.
+            # If we re-size the cell, the shape will move to maintain the same position starting from the cell's top left.
+            # Set the "IsLayoutInCell" property to "false" to display the shape as an independent floating shape.
+            # The coordinate origin that will determine the shape's location will be the top left corner of the page,
+            # and the shape will not respond to any re-sizing of its cell.
+            shape.is_layout_in_cell = is_layout_in_cell
+            # We can only apply the "IsLayoutInCell" property to floating shapes.
+            shape.wrap_type = aw.drawing.WrapType.NONE
+            doc.save(file_name=ARTIFACTS_DIR + 'Shape.LayoutInTableCell.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.LayoutInTableCell.docx')
+            table = doc.first_section.body.tables[0]
+            shape = table.first_row.first_cell.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+            self.assertEqual(is_layout_in_cell, shape.is_layout_in_cell)
+
+    def test_shape_insertion(self):
+        #ExStart
+        #ExFor:DocumentBuilder.insert_shape(ShapeType,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)
+        #ExFor:DocumentBuilder.insert_shape(ShapeType,float,float)
+        #ExFor:OoxmlCompliance
+        #ExFor:OoxmlSaveOptions.compliance
+        #ExSummary:Shows how to insert DML shapes into a document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Below are two wrapping types that shapes may have.
+        # 1 -  Floating:
+        builder.insert_shape(shape_type=aw.drawing.ShapeType.TOP_CORNERS_ROUNDED, horz_pos=aw.drawing.RelativeHorizontalPosition.PAGE, left=100, vert_pos=aw.drawing.RelativeVerticalPosition.PAGE, top=100, width=50, height=50, wrap_type=aw.drawing.WrapType.NONE)
+        # 2 -  Inline:
+        builder.insert_shape(shape_type=aw.drawing.ShapeType.DIAGONAL_CORNERS_ROUNDED, width=50, height=50)
+        # If you need to create "non-primitive" shapes, such as SingleCornerSnipped, TopCornersSnipped, DiagonalCornersSnipped,
+        # TopCornersOneRoundedOneSnipped, SingleCornerRounded, TopCornersRounded, or DiagonalCornersRounded,
+        # then save the document with "Strict" or "Transitional" compliance, which allows saving shape as DML.
+        save_options = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
+        save_options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.ShapeInsertion.docx', save_options=save_options)
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.ShapeInsertion.docx')
+        shapes = [x.as_shape() for x in list(doc.get_child_nodes(aw.NodeType.SHAPE, True)) if isinstance(x.as_shape(), aw.drawing.Shape)]
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TOP_CORNERS_ROUNDED, 'TopCornersRounded 100002', 50, 50, 100, 100, shapes[0])
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.DIAGONAL_CORNERS_ROUNDED, 'DiagonalCornersRounded 100004', 50, 50, 0, 0, shapes[1])
+
+    def test_signature_line(self):
+        #ExStart
+        #ExFor:Shape.signature_line
+        #ExFor:ShapeBase.is_signature_line
+        #ExFor:SignatureLine
+        #ExFor:SignatureLine.allow_comments
+        #ExFor:SignatureLine.default_instructions
+        #ExFor:SignatureLine.email
+        #ExFor:SignatureLine.instructions
+        #ExFor:SignatureLine.show_date
+        #ExFor:SignatureLine.signer
+        #ExFor:SignatureLine.signer_title
+        #ExSummary:Shows how to create a line for a signature and insert it into a document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        options = aw.SignatureLineOptions()
+        options.allow_comments = True
+        options.default_instructions = True
+        options.email = 'john.doe@management.com'
+        options.instructions = 'Please sign here'
+        options.show_date = True
+        options.signer = 'John Doe'
+        options.signer_title = 'Senior Manager'
+        # Insert a shape that will contain a signature line, whose appearance we will
+        # customize using the "SignatureLineOptions" object we have created above.
+        # If we insert a shape whose coordinates originate at the bottom right hand corner of the page,
+        # we will need to supply negative x and y coordinates to bring the shape into view.
+        shape = builder.insert_signature_line(signature_line_options=options, horz_pos=aw.drawing.RelativeHorizontalPosition.RIGHT_MARGIN, left=-170, vert_pos=aw.drawing.RelativeVerticalPosition.BOTTOM_MARGIN, top=-60, wrap_type=aw.drawing.WrapType.NONE)
+        self.assertTrue(shape.is_signature_line)
+        # Verify the properties of our signature line via its Shape object.
+        signature_line = shape.signature_line
+        self.assertEqual('john.doe@management.com', signature_line.email)
+        self.assertEqual('John Doe', signature_line.signer)
+        self.assertEqual('Senior Manager', signature_line.signer_title)
+        self.assertEqual('Please sign here', signature_line.instructions)
+        self.assertTrue(signature_line.show_date)
+        self.assertTrue(signature_line.allow_comments)
+        self.assertTrue(signature_line.default_instructions)
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.SignatureLine.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.SignatureLine.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.IMAGE, '', 192.75, 96.75, -60, -170, shape)
+        self.assertTrue(shape.is_signature_line)
+        signature_line = shape.signature_line
+        self.assertEqual('john.doe@management.com', signature_line.email)
+        self.assertEqual('John Doe', signature_line.signer)
+        self.assertEqual('Senior Manager', signature_line.signer_title)
+        self.assertEqual('Please sign here', signature_line.instructions)
+        self.assertTrue(signature_line.show_date)
+        self.assertTrue(signature_line.allow_comments)
+        self.assertTrue(signature_line.default_instructions)
+        self.assertFalse(signature_line.is_signed)
+        self.assertFalse(signature_line.is_valid)
+
+    def test_text_box_fit_shape_to_text(self):
+        #ExStart
+        #ExFor:TextBox
+        #ExFor:TextBox.fit_shape_to_text
+        #ExSummary:Shows how to get a text box to resize itself to fit its contents tightly.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        text_box_shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.TEXT_BOX, width=150, height=100)
+        text_box = text_box_shape.text_box
+        # Apply these values to both these members to get the parent shape to fit
+        # tightly around the text contents, ignoring the dimensions we have set.
+        text_box.fit_shape_to_text = True
+        text_box.text_box_wrap_mode = aw.drawing.TextBoxWrapMode.NONE
+        builder.move_to(text_box_shape.last_paragraph)
+        builder.write('Text fit tightly inside textbox.')
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.TextBoxFitShapeToText.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.TextBoxFitShapeToText.docx')
+        text_box_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100002', 150, 100, 0, 0, text_box_shape)
+        test_util.TestUtil.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, True, aw.drawing.TextBoxWrapMode.NONE, 3.6, 3.6, 7.2, 7.2, text_box_shape.text_box)
+        self.assertEqual('Text fit tightly inside textbox.', text_box_shape.get_text().strip())
+
+    def test_text_box_margins(self):
+        #ExStart
+        #ExFor:TextBox
+        #ExFor:TextBox.internal_margin_bottom
+        #ExFor:TextBox.internal_margin_left
+        #ExFor:TextBox.internal_margin_right
+        #ExFor:TextBox.internal_margin_top
+        #ExSummary:Shows how to set internal margins for a text box.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Insert another textbox with specific margins.
+        text_box_shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.TEXT_BOX, width=100, height=100)
+        text_box = text_box_shape.text_box
+        text_box.internal_margin_top = 15
+        text_box.internal_margin_bottom = 15
+        text_box.internal_margin_left = 15
+        text_box.internal_margin_right = 15
+        builder.move_to(text_box_shape.last_paragraph)
+        builder.write('Text placed according to textbox margins.')
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.TextBoxMargins.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.TextBoxMargins.docx')
+        text_box_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100002', 100, 100, 0, 0, text_box_shape)
+        test_util.TestUtil.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 15, 15, 15, 15, text_box_shape.text_box)
+        self.assertEqual('Text placed according to textbox margins.', text_box_shape.get_text().strip())
+
+    def test_text_box_contents_wrap_mode(self):
+        for text_box_wrap_mode in [aw.drawing.TextBoxWrapMode.NONE, aw.drawing.TextBoxWrapMode.SQUARE]:
+            #ExStart
+            #ExFor:TextBox.text_box_wrap_mode
+            #ExFor:TextBoxWrapMode
+            #ExSummary:Shows how to set a wrapping mode for the contents of a text box.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            text_box_shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.TEXT_BOX, width=300, height=300)
+            text_box = text_box_shape.text_box
+            # Set the "TextBoxWrapMode" property to "TextBoxWrapMode.None" to increase the text box's width
+            # to accommodate text, should it be large enough.
+            # Set the "TextBoxWrapMode" property to "TextBoxWrapMode.Square" to
+            # wrap all text inside the text box, preserving its dimensions.
+            text_box.text_box_wrap_mode = text_box_wrap_mode
+            builder.move_to(text_box_shape.last_paragraph)
+            builder.font.size = 32
+            builder.write('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')
+            doc.save(file_name=ARTIFACTS_DIR + 'Shape.TextBoxContentsWrapMode.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.TextBoxContentsWrapMode.docx')
+            text_box_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+            test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100002', 300, 300, 0, 0, text_box_shape)
+            test_util.TestUtil.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, text_box_wrap_mode, 3.6, 3.6, 7.2, 7.2, text_box_shape.text_box)
+            self.assertEqual('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', text_box_shape.get_text().strip())
+
     def test_text_box_shape_type(self):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)
@@ -467,6 +1067,112 @@ class ExShape(ApiExampleBase):
         builder.move_to(text_box_shape.last_paragraph)
         builder.write('Text placed bottom')
         doc.save(file_name=ARTIFACTS_DIR + 'Shape.TextBoxShapeType.docx')
+
+    def test_create_link_between_text_boxes(self):
+        #ExStart
+        #ExFor:TextBox.is_valid_link_target(TextBox)
+        #ExFor:TextBox.next
+        #ExFor:TextBox.previous
+        #ExFor:TextBox.break_forward_link
+        #ExSummary:Shows how to link text boxes.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        text_box_shape1 = builder.insert_shape(shape_type=aw.drawing.ShapeType.TEXT_BOX, width=100, height=100)
+        text_box1 = text_box_shape1.text_box
+        builder.writeln()
+        text_box_shape2 = builder.insert_shape(shape_type=aw.drawing.ShapeType.TEXT_BOX, width=100, height=100)
+        text_box2 = text_box_shape2.text_box
+        builder.writeln()
+        text_box_shape3 = builder.insert_shape(shape_type=aw.drawing.ShapeType.TEXT_BOX, width=100, height=100)
+        text_box3 = text_box_shape3.text_box
+        builder.writeln()
+        text_box_shape4 = builder.insert_shape(shape_type=aw.drawing.ShapeType.TEXT_BOX, width=100, height=100)
+        text_box4 = text_box_shape4.text_box
+        # Create links between some of the text boxes.
+        if text_box1.is_valid_link_target(text_box2):
+            text_box1.next = text_box2
+        if text_box2.is_valid_link_target(text_box3):
+            text_box2.next = text_box3
+        # Only an empty text box may have a link.
+        self.assertTrue(text_box3.is_valid_link_target(text_box4))
+        builder.move_to(text_box_shape4.last_paragraph)
+        builder.write('Hello world!')
+        self.assertFalse(text_box3.is_valid_link_target(text_box4))
+        if text_box1.next != None and text_box1.previous == None:
+            print('This TextBox is the head of the sequence')
+        if text_box2.next != None and text_box2.previous != None:
+            print('This TextBox is the middle of the sequence')
+        if text_box3.next == None and text_box3.previous != None:
+            print('This TextBox is the tail of the sequence')
+            # Break the forward link between textBox2 and textBox3, and then verify that they are no longer linked.
+            text_box3.previous.break_forward_link()
+            self.assertTrue(text_box2.next == None)
+            self.assertTrue(text_box3.previous == None)
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.CreateLinkBetweenTextBoxes.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.CreateLinkBetweenTextBoxes.docx')
+        shapes = [x.as_shape() for x in list(doc.get_child_nodes(aw.NodeType.SHAPE, True)) if isinstance(x.as_shape(), aw.drawing.Shape)]
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100002', 100, 100, 0, 0, shapes[0])
+        test_util.TestUtil.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shapes[0].text_box)
+        self.assertEqual('', shapes[0].get_text().strip())
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100004', 100, 100, 0, 0, shapes[1])
+        test_util.TestUtil.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shapes[1].text_box)
+        self.assertEqual('', shapes[1].get_text().strip())
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.RECTANGLE, 'TextBox 100006', 100, 100, 0, 0, shapes[2])
+        test_util.TestUtil.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shapes[2].text_box)
+        self.assertEqual('', shapes[2].get_text().strip())
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100008', 100, 100, 0, 0, shapes[3])
+        test_util.TestUtil.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shapes[3].text_box)
+        self.assertEqual('Hello world!', shapes[3].get_text().strip())
+
+    def test_vertical_anchor(self):
+        for vertical_anchor in [aw.drawing.TextBoxAnchor.TOP, aw.drawing.TextBoxAnchor.MIDDLE, aw.drawing.TextBoxAnchor.BOTTOM]:
+            #ExStart
+            #ExFor:CompatibilityOptions
+            #ExFor:CompatibilityOptions.optimize_for(MsWordVersion)
+            #ExFor:TextBoxAnchor
+            #ExFor:TextBox.vertical_anchor
+            #ExSummary:Shows how to vertically align the text contents of a text box.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.TEXT_BOX, width=200, height=200)
+            # Set the "VerticalAnchor" property to "TextBoxAnchor.Top" to
+            # align the text in this text box with the top side of the shape.
+            # Set the "VerticalAnchor" property to "TextBoxAnchor.Middle" to
+            # align the text in this text box to the center of the shape.
+            # Set the "VerticalAnchor" property to "TextBoxAnchor.Bottom" to
+            # align the text in this text box to the bottom of the shape.
+            shape.text_box.vertical_anchor = vertical_anchor
+            builder.move_to(shape.first_paragraph)
+            builder.write('Hello world!')
+            # The vertical aligning of text inside text boxes is available from Microsoft Word 2007 onwards.
+            doc.compatibility_options.optimize_for(aw.settings.MsWordVersion.WORD2007)
+            doc.save(file_name=ARTIFACTS_DIR + 'Shape.VerticalAnchor.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.VerticalAnchor.docx')
+            shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+            test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100002', 200, 200, 0, 0, shape)
+            test_util.TestUtil.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shape.text_box)
+            self.assertEqual(vertical_anchor, shape.text_box.vertical_anchor)
+            self.assertEqual('Hello world!', shape.get_text().strip())
+
+    def test_render_all_shapes(self):
+        #ExStart
+        #ExFor:ShapeBase.get_shape_renderer
+        #ExFor:NodeRendererBase.save(Stream,ImageSaveOptions)
+        #ExSummary:Shows how to use a shape renderer to export shapes to files in the local file system.
+        doc = aw.Document(file_name=MY_DIR + 'Various shapes.docx')
+        shapes = [x.as_shape() for x in list(doc.get_child_nodes(aw.NodeType.SHAPE, True)) if isinstance(x.as_shape(), aw.drawing.Shape)]
+        self.assertEqual(7, len(shapes))
+        # There are 7 shapes in the document, including one group shape with 2 child shapes.
+        # We will render every shape to an image file in the local file system
+        # while ignoring the group shapes since they have no appearance.
+        # This will produce 6 image files.
+        for shape in [x.as_shape() for x in list(doc.get_child_nodes(aw.NodeType.SHAPE, True)) if isinstance(x.as_shape(), aw.drawing.Shape)]:
+            renderer = shape.get_shape_renderer()
+            options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
+            renderer.save(file_name=ARTIFACTS_DIR + f'Shape.RenderAllShapes.{shape.name}.png', save_options=options)
+        #ExEnd
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'different calculation on Linux')
     def test_office_math_renderer(self):
@@ -510,6 +1216,25 @@ class ExShape(ApiExampleBase):
         bounds = renderer.get_opaque_bounds_in_pixels(scale=1, horizontal_dpi=96, vertical_dpi=150)
         self.assertEqual(163, bounds.width)
         self.assertEqual(29, bounds.height)
+        #ExEnd
+
+    def test_shape_types(self):
+        #ExStart
+        #ExFor:ShapeType
+        #ExSummary:Shows how Aspose.Words identify shapes.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.insert_shape(shape_type=aw.drawing.ShapeType.HEPTAGON, horz_pos=aw.drawing.RelativeHorizontalPosition.PAGE, left=0, vert_pos=aw.drawing.RelativeVerticalPosition.PAGE, top=0, width=0, height=0, wrap_type=aw.drawing.WrapType.NONE)
+        builder.insert_shape(shape_type=aw.drawing.ShapeType.CLOUD, horz_pos=aw.drawing.RelativeHorizontalPosition.RIGHT_MARGIN, left=0, vert_pos=aw.drawing.RelativeVerticalPosition.PAGE, top=0, width=0, height=0, wrap_type=aw.drawing.WrapType.NONE)
+        builder.insert_shape(shape_type=aw.drawing.ShapeType.MATH_PLUS, horz_pos=aw.drawing.RelativeHorizontalPosition.RIGHT_MARGIN, left=0, vert_pos=aw.drawing.RelativeVerticalPosition.PAGE, top=0, width=0, height=0, wrap_type=aw.drawing.WrapType.NONE)
+        # To correct identify shape types you need to work with shapes as DML.
+        save_options = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
+        save_options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.ShapeTypes.docx', save_options=save_options)
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.ShapeTypes.docx')
+        shapes = [x.as_shape() for x in list(doc.get_child_nodes(aw.NodeType.SHAPE, True)) if isinstance(x.as_shape(), aw.drawing.Shape)]
+        for shape in shapes:
+            print(shape.shape_type)
         #ExEnd
 
     def test_is_decorative(self):
@@ -967,259 +1692,6 @@ class ExShape(ApiExampleBase):
         with open(ARTIFACTS_DIR + 'Shape.alt_text.html', 'rb') as file:
             self.assertIn('<img src="Shape.alt_text.001.png" width="202" height="202" alt="Alt text for MyCube." ' + 'style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />', file.read().decode('utf-8'))
 
-    def test_font(self):
-        for hide_shape in (False, True):
-            with self.subTest(hide_shape=hide_shape):
-                #ExStart
-                #ExFor:ShapeBase.font
-                #ExFor:ShapeBase.parent_paragraph
-                #ExSummary:Shows how to insert a text box, and set the font of its contents.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                builder.writeln('Hello world!')
-                shape = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 300, 50)
-                builder.move_to(shape.last_paragraph)
-                builder.write('This text is inside the text box.')
-                # Set the "hidden" property of the shape's "font" object to "True" to hide the text box from sight
-                # and collapse the space that it would normally occupy.
-                # Set the "hidden" property of the shape's "font" object to "False" to leave the text box visible.
-                shape.font.hidden = hide_shape
-                # If the shape is visible, we will modify its appearance via the font object.
-                if not hide_shape:
-                    shape.font.highlight_color = aspose.pydrawing.Color.light_gray
-                    shape.font.color = aspose.pydrawing.Color.red
-                    shape.font.underline = aw.Underline.DASH
-                # Move the builder out of the text box back into the main document.
-                builder.move_to(shape.parent_paragraph)
-                builder.writeln('\nThis text is outside the text box.')
-                doc.save(ARTIFACTS_DIR + 'Shape.font.docx')
-                #ExEnd
-                doc = aw.Document(ARTIFACTS_DIR + 'Shape.font.docx')
-                shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-                self.assertEqual(hide_shape, shape.font.hidden)
-                if hide_shape:
-                    self.assertEqual(aspose.pydrawing.Color.empty().to_argb(), shape.font.highlight_color.to_argb())
-                    self.assertEqual(aspose.pydrawing.Color.empty().to_argb(), shape.font.color.to_argb())
-                    self.assertEqual(aw.Underline.NONE, shape.font.underline)
-                else:
-                    self.assertEqual(aspose.pydrawing.Color.silver.to_argb(), shape.font.highlight_color.to_argb())
-                    self.assertEqual(aspose.pydrawing.Color.red.to_argb(), shape.font.color.to_argb())
-                    self.assertEqual(aw.Underline.DASH, shape.font.underline)
-                self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100002', 300.0, 50.0, 0, 0, shape)
-                self.assertEqual('This text is inside the text box.', shape.get_text().strip())
-                self.assertEqual('Hello world!\rThis text is inside the text box.\r\rThis text is outside the text box.', doc.get_text().strip())
-
-    @unittest.skip("drawing.Image type isn't supported yet")
-    def test_rotate(self):
-        #ExStart
-        #ExFor:ShapeBase.can_have_image
-        #ExFor:ShapeBase.rotation
-        #ExSummary:Shows how to insert and rotate an image.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Insert a shape with an image.
-        shape = builder.insert_image(drawing.Image.from_file(IMAGE_DIR + 'Logo.jpg'))
-        self.assertTrue(shape.can_have_image)
-        self.assertTrue(shape.has_image)
-        # Rotate the image 45 degrees clockwise.
-        shape.rotation = 45
-        doc.save(ARTIFACTS_DIR + 'Shape.rotate.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.rotate.docx')
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_shape(aw.drawing.ShapeType.IMAGE, '', 300.0, 300.0, 0, 0, shape)
-        self.assertTrue(shape.can_have_image)
-        self.assertTrue(shape.has_image)
-        self.assertEqual(45.0, shape.rotation)
-
-    def test_coordinates(self):
-        #ExStart
-        #ExFor:ShapeBase.distance_bottom
-        #ExFor:ShapeBase.distance_left
-        #ExFor:ShapeBase.distance_right
-        #ExFor:ShapeBase.distance_top
-        #ExSummary:Shows how to set the wrapping distance for a text that surrounds a shape.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Insert a rectangle and, get the text to wrap tightly around its bounds.
-        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, 150, 150)
-        shape.wrap_type = aw.drawing.WrapType.TIGHT
-        # Set the minimum distance between the shape and surrounding text to 40pt from all sides.
-        shape.distance_top = 40
-        shape.distance_bottom = 40
-        shape.distance_left = 40
-        shape.distance_right = 40
-        # Move the shape closer to the center of the page, and then rotate the shape 60 degrees clockwise.
-        shape.top = 75
-        shape.left = 150
-        shape.rotation = 60
-        # Add text that will wrap around the shape.
-        builder.font.size = 24
-        builder.write('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ' + 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.')
-        doc.save(ARTIFACTS_DIR + 'Shape.coordinates.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.coordinates.docx')
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, 'Rectangle 100002', 150.0, 150.0, 75.0, 150.0, shape)
-        self.assertEqual(40.0, shape.distance_bottom)
-        self.assertEqual(40.0, shape.distance_left)
-        self.assertEqual(40.0, shape.distance_right)
-        self.assertEqual(40.0, shape.distance_top)
-        self.assertEqual(60.0, shape.rotation)
-
-    def test_group_shape(self):
-        #ExStart
-        #ExFor:ShapeBase.bounds
-        #ExFor:ShapeBase.coord_origin
-        #ExFor:ShapeBase.coord_size
-        #ExSummary:Shows how to create and populate a group shape.
-        doc = aw.Document()
-        # Create a group shape. A group shape can display a collection of child shape nodes.
-        # In Microsoft Word, clicking within the group shape's boundary or on one of the group shape's child shapes will
-        # select all the other child shapes within this group and allow us to scale and move all the shapes at once.
-        group = aw.drawing.GroupShape(doc)
-        self.assertEqual(aw.drawing.WrapType.NONE, group.wrap_type)
-        # Create a 400pt x 400pt group shape and place it at the document's floating shape coordinate origin.
-        group.bounds = aspose.pydrawing.RectangleF(0, 0, 400, 400)
-        # Set the group's internal coordinate plane size to 500 x 500pt.
-        # The top left corner of the group will have an x and y coordinate of (0, 0),
-        # and the bottom right corner will have an x and y coordinate of (500, 500).
-        group.coord_size = aspose.pydrawing.Size(500, 500)
-        # Set the coordinates of the top left corner of the group to (-250, -250).
-        # The group's center will now have an x and y coordinate value of (0, 0),
-        # and the bottom right corner will be at (250, 250).
-        group.coord_origin = aspose.pydrawing.Point(-250, -250)
-        # Create a rectangle that will display the boundary of this group shape and add it to the group.
-        rectangle = aw.drawing.Shape(doc, aw.drawing.ShapeType.RECTANGLE)
-        rectangle.width = group.coord_size.width
-        rectangle.height = group.coord_size.height
-        rectangle.left = group.coord_origin.x
-        rectangle.top = group.coord_origin.y
-        group.append_child(rectangle)
-        # Once a shape is a part of a group shape, we can access it as a child node and then modify it.
-        group.get_child(aw.NodeType.SHAPE, 0, True).as_shape().stroke.dash_style = aw.drawing.DashStyle.DASH
-        # Create a small red star and insert it into the group.
-        # Line up the shape with the group's coordinate origin, which we have moved to the center.
-        red_star = aw.drawing.Shape(doc, aw.drawing.ShapeType.STAR)
-        red_star.width = 20
-        red_star.height = 20
-        red_star.left = -10
-        red_star.top = -10
-        red_star.fill_color = aspose.pydrawing.Color.red
-        group.append_child(red_star)
-        # Insert a rectangle, and then insert a slightly smaller rectangle in the same place with an image.
-        # Newer shapes that we add to the group overlap older shapes. The light blue rectangle will partially overlap the red star,
-        # and then the shape with the image will overlap the light blue rectangle, using it as a frame.
-        # We cannot use the "z_order" properties of shapes to manipulate their arrangement within a group shape.
-        blue_rectangle = aw.drawing.Shape(doc, aw.drawing.ShapeType.RECTANGLE)
-        blue_rectangle.width = 250
-        blue_rectangle.height = 250
-        blue_rectangle.left = -250
-        blue_rectangle.top = -250
-        blue_rectangle.fill_color = aspose.pydrawing.Color.light_blue
-        group.append_child(blue_rectangle)
-        image = aw.drawing.Shape(doc, aw.drawing.ShapeType.IMAGE)
-        image.width = 200
-        image.height = 200
-        image.left = -225
-        image.top = -225
-        group.append_child(image)
-        group.get_child(aw.NodeType.SHAPE, 3, True).as_shape().image_data.set_image(IMAGE_DIR + 'Logo.jpg')
-        # Insert a text box into the group shape. Set the "left" property so that the text box's right edge
-        # touches the right boundary of the group shape. Set the "top" property so that the text box sits outside
-        # the boundary of the group shape, with its top size lined up along the group shape's bottom margin.
-        text_box = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
-        text_box.width = 200
-        text_box.height = 50
-        text_box.left = group.coord_size.width + group.coord_origin.x - 200
-        text_box.top = group.coord_size.height + group.coord_origin.y
-        group.append_child(text_box)
-        builder = aw.DocumentBuilder(doc)
-        builder.insert_node(group)
-        builder.move_to(group.get_child(aw.NodeType.SHAPE, 4, True).as_shape().append_child(aw.Paragraph(doc)))
-        builder.write('Hello world!')
-        doc.save(ARTIFACTS_DIR + 'Shape.group_shape.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.group_shape.docx')
-        group = doc.get_child(aw.NodeType.GROUP_SHAPE, 0, True).as_group_shape()
-        self.assertEqual(aspose.pydrawing.RectangleF(0, 0, 400, 400), group.bounds)
-        self.assertEqual(aspose.pydrawing.Size(500, 500), group.coord_size)
-        self.assertEqual(aspose.pydrawing.Point(-250, -250), group.coord_origin)
-        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, '', 500.0, 500.0, -250.0, -250.0, group.get_child(aw.NodeType.SHAPE, 0, True).as_shape())
-        self.verify_shape(aw.drawing.ShapeType.STAR, '', 20.0, 20.0, -10.0, -10.0, group.get_child(aw.NodeType.SHAPE, 1, True).as_shape())
-        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, '', 250.0, 250.0, -250.0, -250.0, group.get_child(aw.NodeType.SHAPE, 2, True).as_shape())
-        self.verify_shape(aw.drawing.ShapeType.IMAGE, '', 200.0, 200.0, -225.0, -225.0, group.get_child(aw.NodeType.SHAPE, 3, True).as_shape())
-        self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, '', 200.0, 50.0, 250.0, 50.0, group.get_child(aw.NodeType.SHAPE, 4, True).as_shape())
-
-    def test_anchor_locked(self):
-        for anchor_locked in (False, True):
-            with self.subTest(anchor_locked=anchor_locked):
-                #ExStart
-                #ExFor:ShapeBase.anchor_locked
-                #ExSummary:Shows how to lock or unlock a shape's paragraph anchor.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                builder.writeln('Hello world!')
-                builder.write('Our shape will have an anchor attached to this paragraph.')
-                shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, 200, 160)
-                shape.wrap_type = aw.drawing.WrapType.NONE
-                builder.insert_break(aw.BreakType.PARAGRAPH_BREAK)
-                builder.writeln('Hello again!')
-                # Set the "anchor_locked" property to "True" to prevent the shape's anchor
-                # from moving when moving the shape in Microsoft Word.
-                # Set the "anchor_locked" property to "False" to allow any movement of the shape
-                # to also move its anchor to any other paragraph that the shape ends up close to.
-                shape.anchor_locked = anchor_locked
-                # If the shape does not have a visible anchor symbol to its left,
-                # we will need to enable visible anchors via "Options" -> "Display" -> "Object Anchors".
-                doc.save(ARTIFACTS_DIR + 'Shape.anchor_locked.docx')
-                #ExEnd
-                doc = aw.Document(ARTIFACTS_DIR + 'Shape.anchor_locked.docx')
-                shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-                self.assertEqual(anchor_locked, shape.anchor_locked)
-
-    def test_is_inline(self):
-        #ExStart
-        #ExFor:ShapeBase.is_inline
-        #ExSummary:Shows how to determine whether a shape is inline or floating.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Below are two wrapping types that shapes may have.
-        # 1 -  Inline:
-        builder.write('Hello world! ')
-        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, 100, 100)
-        shape.fill_color = aspose.pydrawing.Color.light_blue
-        builder.write(' Hello again.')
-        # An inline shape sits inside a paragraph among other paragraph elements, such as runs of text.
-        # In Microsoft Word, we may click and drag the shape to any paragraph as if it is a character.
-        # If the shape is large, it will affect vertical paragraph spacing.
-        # We cannot move this shape to a place with no paragraph.
-        self.assertEqual(aw.drawing.WrapType.INLINE, shape.wrap_type)
-        self.assertTrue(shape.is_inline)
-        # 2 -  Floating:
-        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, 200, aw.drawing.RelativeVerticalPosition.TOP_MARGIN, 200, 100, 100, aw.drawing.WrapType.NONE)
-        shape.fill_color = aspose.pydrawing.Color.orange
-        # A floating shape belongs to the paragraph that we insert it into,
-        # which we can determine by an anchor symbol that appears when we click the shape.
-        # If the shape does not have a visible anchor symbol to its left,
-        # we will need to enable visible anchors via "Options" -> "Display" -> "Object Anchors".
-        # In Microsoft Word, we may left click and drag this shape freely to any location.
-        self.assertEqual(aw.drawing.WrapType.NONE, shape.wrap_type)
-        self.assertFalse(shape.is_inline)
-        doc.save(ARTIFACTS_DIR + 'Shape.is_inline.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.is_inline.docx')
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, 'Rectangle 100002', 100, 100, 0, 0, shape)
-        self.assertEqual(aspose.pydrawing.Color.light_blue.to_argb(), shape.fill_color.to_argb())
-        self.assertEqual(aw.drawing.WrapType.INLINE, shape.wrap_type)
-        self.assertTrue(shape.is_inline)
-        shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
-        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, 'Rectangle 100004', 100, 100, 200, 200, shape)
-        self.assertEqual(aspose.pydrawing.Color.orange.to_argb(), shape.fill_color.to_argb())
-        self.assertEqual(aw.drawing.WrapType.NONE, shape.wrap_type)
-        self.assertFalse(shape.is_inline)
-
     def test_bounds(self):
         #ExStart
         #ExFor:ShapeBase.bounds
@@ -1282,48 +1754,6 @@ class ExShape(ApiExampleBase):
         self.verify_shape(aw.drawing.ShapeType.RECTANGLE, '', 100, 100, 1000, 1000, shape)
         self.assertEqual(aspose.pydrawing.RectangleF(250, 350, 25, 25), shape.bounds_in_points)
 
-    def test_flip_shape_orientation(self):
-        #ExStart
-        #ExFor:ShapeBase.flip_orientation
-        #ExFor:FlipOrientation
-        #ExSummary:Shows how to flip a shape on an axis.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Insert an image shape and leave its orientation in its default state.
-        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, 100, aw.drawing.RelativeVerticalPosition.TOP_MARGIN, 100, 100, 100, aw.drawing.WrapType.NONE)
-        shape.image_data.set_image(IMAGE_DIR + 'Logo.jpg')
-        self.assertEqual(aw.drawing.FlipOrientation.NONE, shape.flip_orientation)
-        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, 250, aw.drawing.RelativeVerticalPosition.TOP_MARGIN, 100, 100, 100, aw.drawing.WrapType.NONE)
-        shape.image_data.set_image(IMAGE_DIR + 'Logo.jpg')
-        # Set the "flip_orientation" property to "FlipOrientation.HORIZONTAL" to flip the second shape on the y-axis,
-        # making it into a horizontal mirror image of the first shape.
-        shape.flip_orientation = aw.drawing.FlipOrientation.HORIZONTAL
-        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, 100, aw.drawing.RelativeVerticalPosition.TOP_MARGIN, 250, 100, 100, aw.drawing.WrapType.NONE)
-        shape.image_data.set_image(IMAGE_DIR + 'Logo.jpg')
-        # Set the "flip_orientation" property to "FlipOrientation.VERTICAL" to flip the third shape on the x-axis,
-        # making it into a vertical mirror image of the first shape.
-        shape.flip_orientation = aw.drawing.FlipOrientation.VERTICAL
-        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, 250, aw.drawing.RelativeVerticalPosition.TOP_MARGIN, 250, 100, 100, aw.drawing.WrapType.NONE)
-        shape.image_data.set_image(IMAGE_DIR + 'Logo.jpg')
-        # Set the "flip_orientation" property to "FlipOrientation.BOTH" to flip the fourth shape on both the x and y axes,
-        # making it into a horizontal and vertical mirror image of the first shape.
-        shape.flip_orientation = aw.drawing.FlipOrientation.BOTH
-        doc.save(ARTIFACTS_DIR + 'Shape.flip_shape_orientation.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.flip_shape_orientation.docx')
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, 'Rectangle 100002', 100, 100, 100, 100, shape)
-        self.assertEqual(aw.drawing.FlipOrientation.NONE, shape.flip_orientation)
-        shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
-        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, 'Rectangle 100004', 100, 100, 100, 250, shape)
-        self.assertEqual(aw.drawing.FlipOrientation.HORIZONTAL, shape.flip_orientation)
-        shape = doc.get_child(aw.NodeType.SHAPE, 2, True).as_shape()
-        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, 'Rectangle 100006', 100, 100, 250, 100, shape)
-        self.assertEqual(aw.drawing.FlipOrientation.VERTICAL, shape.flip_orientation)
-        shape = doc.get_child(aw.NodeType.SHAPE, 3, True).as_shape()
-        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, 'Rectangle 100008', 100, 100, 250, 250, shape)
-        self.assertEqual(aw.drawing.FlipOrientation.BOTH, shape.flip_orientation)
-
     def test_fill(self):
         #ExStart
         #ExFor:ShapeBase.fill
@@ -1357,28 +1787,6 @@ class ExShape(ApiExampleBase):
         self.assertEqual(colorWithOpacity.to_argb(), shape.fill_color.to_argb())
         self.assertEqual(aspose.pydrawing.Color.cadet_blue.to_argb(), shape.stroke_color.to_argb())
         self.assertAlmostEqual(0.3, shape.fill.opacity, delta=0.01)
-
-    def test_title(self):
-        #ExStart
-        #ExFor:ShapeBase.title
-        #ExSummary:Shows how to set the title of a shape.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Create a shape, give it a title, and then add it to the document.
-        shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.CUBE)
-        shape.width = 200
-        shape.height = 200
-        shape.title = 'My cube'
-        builder.insert_node(shape)
-        # When we save a document with a shape that has a title,
-        # Aspose.Words will store that title in the shape's Alt Text.
-        doc.save(ARTIFACTS_DIR + 'Shape.title.docx')
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.title.docx')
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.assertEqual('', shape.title)
-        self.assertEqual('Title: My cube', shape.alternative_text)
-        #ExEnd
-        self.verify_shape(aw.drawing.ShapeType.CUBE, '', 200.0, 200.0, 0.0, 0.0, shape)
 
     def test_replace_textboxes_with_images(self):
         #ExStart
@@ -1416,40 +1824,6 @@ class ExShape(ApiExampleBase):
         doc = aw.Document(ARTIFACTS_DIR + 'Shape.replace_textboxes_with_images.docx')
         out_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
         self.assertEqual(aw.drawing.WrapSide.BOTH, out_shape.wrap_side)
-
-    def test_create_text_box(self):
-        #ExStart
-        #ExFor:Shape.__init__(DocumentBase,ShapeType)
-        #ExFor:Story.first_paragraph
-        #ExFor:Shape.first_paragraph
-        #ExFor:ShapeBase.wrap_type
-        #ExSummary:Shows how to create and format a text box.
-        doc = aw.Document()
-        # Create a floating text box.
-        text_box = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
-        text_box.wrap_type = aw.drawing.WrapType.NONE
-        text_box.height = 50
-        text_box.width = 200
-        # Set the horizontal, and vertical alignment of the text inside the shape.
-        text_box.horizontal_alignment = aw.drawing.HorizontalAlignment.CENTER
-        text_box.vertical_alignment = aw.drawing.VerticalAlignment.TOP
-        # Add a paragraph to the text box and add a run of text that the text box will display.
-        text_box.append_child(aw.Paragraph(doc))
-        para = text_box.first_paragraph
-        para.paragraph_format.alignment = aw.ParagraphAlignment.CENTER
-        run = aw.Run(doc)
-        run.text = 'Hello world!'
-        para.append_child(run)
-        doc.first_section.body.first_paragraph.append_child(text_box)
-        doc.save(ARTIFACTS_DIR + 'Shape.create_text_box.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.create_text_box.docx')
-        text_box = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, '', 200.0, 50.0, 0.0, 0.0, text_box)
-        self.assertEqual(aw.drawing.WrapType.NONE, text_box.wrap_type)
-        self.assertEqual(aw.drawing.HorizontalAlignment.CENTER, text_box.horizontal_alignment)
-        self.assertEqual(aw.drawing.VerticalAlignment.TOP, text_box.vertical_alignment)
-        self.assertEqual('Hello world!', text_box.get_text().strip())
 
     def test_z_order(self):
         #ExStart
@@ -1614,30 +1988,6 @@ class ExShape(ApiExampleBase):
         with self.assertRaises(Exception):
             office_math.justification = aw.math.OfficeMathJustification.INLINE
 
-    def test_office_math(self):
-        #ExStart
-        #ExFor:OfficeMath
-        #ExFor:OfficeMath.display_type
-        #ExFor:OfficeMath.justification
-        #ExFor:OfficeMath.node_type
-        #ExFor:OfficeMath.parent_paragraph
-        #ExFor:OfficeMathDisplayType
-        #ExFor:OfficeMathJustification
-        #ExSummary:Shows how to set office math display formatting.
-        doc = aw.Document(MY_DIR + 'Office math.docx')
-        office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
-        # OfficeMath nodes that are children of other OfficeMath nodes are always inline.
-        # The node we are working with is the base node to change its location and display type.
-        self.assertEqual(aw.math.MathObjectType.O_MATH_PARA, office_math.math_object_type)
-        self.assertEqual(aw.NodeType.OFFICE_MATH, office_math.node_type)
-        self.assertEqual(office_math.parent_node, office_math.parent_paragraph)
-        # Change the location and display type of the OfficeMath node.
-        office_math.display_type = aw.math.OfficeMathDisplayType.DISPLAY
-        office_math.justification = aw.math.OfficeMathJustification.LEFT
-        doc.save(ARTIFACTS_DIR + 'Shape.office_math.docx')
-        #ExEnd
-        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + 'Shape.office_math.docx', GOLDS_DIR + 'Shape.OfficeMath Gold.docx'))
-
     def test_cannot_be_set_display_with_inline_justification(self):
         doc = aw.Document(MY_DIR + 'Office math.docx')
         office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
@@ -1651,41 +2001,6 @@ class ExShape(ApiExampleBase):
         office_math.display_type = aw.math.OfficeMathDisplayType.INLINE
         with self.assertRaises(Exception):
             office_math.justification = aw.math.OfficeMathJustification.CENTER
-
-    def test_aspect_ratio(self):
-        for lock_aspect_ratio in (True, False):
-            with self.subTest(lock_aspect_ratio=lock_aspect_ratio):
-                #ExStart
-                #ExFor:ShapeBase.aspect_ratio_locked
-                #ExSummary:Shows how to lock/unlock a shape's aspect ratio.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                # Insert a shape. If we open this document in Microsoft Word, we can left click the shape to reveal
-                # eight sizing handles around its perimeter, which we can click and drag to change its size.
-                shape = builder.insert_image(IMAGE_DIR + 'Logo.jpg')
-                # Set the "aspect_ratio_locked" property to "True" to preserve the shape's aspect ratio
-                # when using any of the four diagonal sizing handles, which change both the image's height and width.
-                # Using any orthogonal sizing handles that either change the height or width will still change the aspect ratio.
-                # Set the "aspect_ratio_locked" property to "False" to allow us to
-                # freely change the image's aspect ratio with all sizing handles.
-                shape.aspect_ratio_locked = lock_aspect_ratio
-                doc.save(ARTIFACTS_DIR + 'Shape.aspect_ratio.docx')
-                #ExEnd
-                doc = aw.Document(ARTIFACTS_DIR + 'Shape.aspect_ratio.docx')
-                shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-                self.assertEqual(lock_aspect_ratio, shape.aspect_ratio_locked)
-
-    def test_markup_language_for_different_ms_word_versions(self):
-        parameters = [(aw.settings.MsWordVersion.WORD2000, aw.drawing.ShapeMarkupLanguage.VML), (aw.settings.MsWordVersion.WORD2002, aw.drawing.ShapeMarkupLanguage.VML), (aw.settings.MsWordVersion.WORD2003, aw.drawing.ShapeMarkupLanguage.VML), (aw.settings.MsWordVersion.WORD2007, aw.drawing.ShapeMarkupLanguage.VML), (aw.settings.MsWordVersion.WORD2010, aw.drawing.ShapeMarkupLanguage.DML), (aw.settings.MsWordVersion.WORD2013, aw.drawing.ShapeMarkupLanguage.DML), (aw.settings.MsWordVersion.WORD2016, aw.drawing.ShapeMarkupLanguage.DML)]
-        for ms_word_version, shape_markup_language in parameters:
-            with self.subTest(ms_word_version=ms_word_version, shape_markup_language=shape_markup_language):
-                doc = aw.Document()
-                doc.compatibility_options.optimize_for(ms_word_version)
-                builder = aw.DocumentBuilder(doc)
-                builder.insert_image(IMAGE_DIR + 'Transparent background logo.png')
-                for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True):
-                    shape = shape.as_shape()
-                    self.assertEqual(shape_markup_language, shape.markup_language)
 
     def test_get_access_to_ole_package(self):
         doc = aw.Document()
@@ -1735,324 +2050,39 @@ class ExShape(ApiExampleBase):
         for shape in shapes:
             self.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, 'Watermark_' + str(shapes.index(shape) + 1), 30.0, 30.0, 0.0, 0.0, shape)
 
-    def test_is_layout_in_cell(self):
-        for is_layout_in_cell in (False, True):
-            with self.subTest(is_layout_in_cell=is_layout_in_cell):
-                #ExStart
-                #ExFor:ShapeBase.is_layout_in_cell
-                #ExSummary:Shows how to determine how to display a shape in a table cell.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                table = builder.start_table()
-                builder.insert_cell()
-                builder.insert_cell()
-                builder.end_table()
-                table_style = doc.styles.add(aw.StyleType.TABLE, 'MyTableStyle1').as_table_style()
-                table_style.bottom_padding = 20
-                table_style.left_padding = 10
-                table_style.right_padding = 10
-                table_style.top_padding = 20
-                table_style.borders.color = aspose.pydrawing.Color.black
-                table_style.borders.line_style = aw.LineStyle.SINGLE
-                table.style = table_style
-                builder.move_to(table.first_row.first_cell.first_paragraph)
-                shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, 50, aw.drawing.RelativeVerticalPosition.TOP_MARGIN, 100, 100, 100, aw.drawing.WrapType.NONE)
-                # Set the "is_layout_in_cell" property to "True" to display the shape as an inline element inside the cell's paragraph.
-                # The coordinate origin that will determine the shape's location will be the top left corner of the shape's cell.
-                # If we re-size the cell, the shape will move to maintain the same position starting from the cell's top left.
-                # Set the "is_layout_in_cell" property to "False" to display the shape as an independent floating shape.
-                # The coordinate origin that will determine the shape's location will be the top left corner of the page,
-                # and the shape will not respond to any re-sizing of its cell.
-                shape.is_layout_in_cell = is_layout_in_cell
-                # We can only apply the "is_layout_in_cell" property to floating shapes.
-                shape.wrap_type = aw.drawing.WrapType.NONE
-                doc.save(ARTIFACTS_DIR + 'Shape.is_layout_in_cell.docx')
-                #ExEnd
-                doc = aw.Document(ARTIFACTS_DIR + 'Shape.is_layout_in_cell.docx')
-                table = doc.first_section.body.tables[0]
-                shape = table.first_row.first_cell.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-                self.assertEqual(is_layout_in_cell, shape.is_layout_in_cell)
-
-    def test_shape_insertion(self):
-        #ExStart
-        #ExFor:DocumentBuilder.insert_shape(ShapeType,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)
-        #ExFor:DocumentBuilder.insert_shape(ShapeType,float,float)
-        #ExFor:OoxmlCompliance
-        #ExFor:OoxmlSaveOptions.compliance
-        #ExSummary:Shows how to insert DML shapes into a document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Below are two wrapping types that shapes may have.
-        # 1 -  Floating:
-        builder.insert_shape(aw.drawing.ShapeType.TOP_CORNERS_ROUNDED, aw.drawing.RelativeHorizontalPosition.PAGE, 100, aw.drawing.RelativeVerticalPosition.PAGE, 100, 50, 50, aw.drawing.WrapType.NONE)
-        # 2 -  Inline:
-        builder.insert_shape(aw.drawing.ShapeType.DIAGONAL_CORNERS_ROUNDED, 50, 50)
-        # If you need to create "non-primitive" shapes, such as SingleCornerSnipped, TopCornersSnipped, DiagonalCornersSnipped,
-        # TopCornersOneRoundedOneSnipped, SingleCornerRounded, TopCornersRounded, or DiagonalCornersRounded,
-        # then save the document with "Strict" or "Transitional" compliance, which allows saving shape as DML.
-        save_options = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
-        save_options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
-        doc.save(ARTIFACTS_DIR + 'Shape.shape_insertion.docx', save_options)
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.shape_insertion.docx')
-        shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
-        self.verify_shape(aw.drawing.ShapeType.TOP_CORNERS_ROUNDED, 'TopCornersRounded 100002', 50.0, 50.0, 100.0, 100.0, shapes[0])
-        self.verify_shape(aw.drawing.ShapeType.DIAGONAL_CORNERS_ROUNDED, 'DiagonalCornersRounded 100004', 50.0, 50.0, 0.0, 0.0, shapes[1])
-
-    def test_signature_line(self):
-        #ExStart
-        #ExFor:Shape.signature_line
-        #ExFor:ShapeBase.is_signature_line
-        #ExFor:SignatureLine
-        #ExFor:SignatureLine.allow_comments
-        #ExFor:SignatureLine.default_instructions
-        #ExFor:SignatureLine.email
-        #ExFor:SignatureLine.instructions
-        #ExFor:SignatureLine.show_date
-        #ExFor:SignatureLine.signer
-        #ExFor:SignatureLine.signer_title
-        #ExSummary:Shows how to create a line for a signature and insert it into a document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        options = aw.SignatureLineOptions()
-        options.allow_comments = True
-        options.default_instructions = True
-        options.email = 'john.doe@management.com'
-        options.instructions = 'Please sign here'
-        options.show_date = True
-        options.signer = 'John Doe'
-        options.signer_title = 'Senior Manager'
-        # Insert a shape that will contain a signature line, whose appearance we will
-        # customize using the "SignatureLineOptions" object we have created above.
-        # If we insert a shape whose coordinates originate at the bottom right hand corner of the page,
-        # we will need to supply negative x and y coordinates to bring the shape into view.
-        shape = builder.insert_signature_line(options, aw.drawing.RelativeHorizontalPosition.RIGHT_MARGIN, -170.0, aw.drawing.RelativeVerticalPosition.BOTTOM_MARGIN, -60.0, aw.drawing.WrapType.NONE)
-        self.assertTrue(shape.is_signature_line)
-        # Verify the properties of our signature line via its Shape object.
-        signature_line = shape.signature_line
-        self.assertEqual('john.doe@management.com', signature_line.email)
-        self.assertEqual('John Doe', signature_line.signer)
-        self.assertEqual('Senior Manager', signature_line.signer_title)
-        self.assertEqual('Please sign here', signature_line.instructions)
-        self.assertTrue(signature_line.show_date)
-        self.assertTrue(signature_line.allow_comments)
-        self.assertTrue(signature_line.default_instructions)
-        doc.save(ARTIFACTS_DIR + 'Shape.signature_line.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.signature_line.docx')
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_shape(aw.drawing.ShapeType.IMAGE, '', 192.75, 96.75, -60.0, -170.0, shape)
-        self.assertTrue(shape.is_signature_line)
-        signature_line = shape.signature_line
-        self.assertEqual('john.doe@management.com', signature_line.email)
-        self.assertEqual('John Doe', signature_line.signer)
-        self.assertEqual('Senior Manager', signature_line.signer_title)
-        self.assertEqual('Please sign here', signature_line.instructions)
-        self.assertTrue(signature_line.show_date)
-        self.assertTrue(signature_line.allow_comments)
-        self.assertTrue(signature_line.default_instructions)
-        self.assertFalse(signature_line.is_signed)
-        self.assertFalse(signature_line.is_valid)
-
     def test_text_box_layout_flow(self):
-        layouts = [aw.drawing.LayoutFlow.VERTICAL, aw.drawing.LayoutFlow.HORIZONTAL, aw.drawing.LayoutFlow.HORIZONTAL_IDEOGRAPHIC, aw.drawing.LayoutFlow.BOTTOM_TO_TOP, aw.drawing.LayoutFlow.TOP_TO_BOTTOM, aw.drawing.LayoutFlow.TOP_TO_BOTTOM_IDEOGRAPHIC]
-        for layout_flow in layouts:
-            with self.subTest(layout_flow=layout_flow):
-                #ExStart
-                #ExFor:Shape.text_box
-                #ExFor:Shape.last_paragraph
-                #ExFor:TextBox
-                #ExFor:TextBox.layout_flow
-                #ExSummary:Shows how to set the orientation of text inside a text box.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                text_box_shape = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 150, 100)
-                text_box = text_box_shape.text_box
-                # Move the document builder to inside the TextBox and add text.
-                builder.move_to(text_box_shape.last_paragraph)
-                builder.writeln('Hello world!')
-                builder.write('Hello again!')
-                # Set the "layout_flow" property to set an orientation for the text contents of this text box.
-                text_box.layout_flow = layout_flow
-                doc.save(ARTIFACTS_DIR + 'Shape.text_box_layout_flow.docx')
-                #ExEnd
-                doc = aw.Document(ARTIFACTS_DIR + 'Shape.text_box_layout_flow.docx')
-                text_box_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-                self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100002', 150.0, 100.0, 0.0, 0.0, text_box_shape)
-                if layout_flow in [aw.drawing.LayoutFlow.BOTTOM_TO_TOP, aw.drawing.LayoutFlow.HORIZONTAL, aw.drawing.LayoutFlow.TOP_TO_BOTTOM_IDEOGRAPHIC, aw.drawing.LayoutFlow.VERTICAL]:
-                    expected_layout_flow = layout_flow
-                elif layout_flow == aw.drawing.LayoutFlow.TOP_TO_BOTTOM:
-                    expected_layout_flow = aw.drawing.LayoutFlow.VERTICAL
-                else:
-                    expected_layout_flow = aw.drawing.LayoutFlow.HORIZONTAL
-                self.verify_text_box(expected_layout_flow, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, text_box_shape.text_box)
-                self.assertEqual('Hello world!\rHello again!', text_box_shape.get_text().strip())
-
-    def test_text_box_fit_shape_to_text(self):
-        #ExStart
-        #ExFor:TextBox
-        #ExFor:TextBox.fit_shape_to_text
-        #ExSummary:Shows how to get a text box to resize itself to fit its contents tightly.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        text_box_shape = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 150, 100)
-        text_box = text_box_shape.text_box
-        # Apply these values to both these members to get the parent shape to fit
-        # tightly around the text contents, ignoring the dimensions we have set.
-        text_box.fit_shape_to_text = True
-        text_box.text_box_wrap_mode = aw.drawing.TextBoxWrapMode.NONE
-        builder.move_to(text_box_shape.last_paragraph)
-        builder.write('Text fit tightly inside textbox.')
-        doc.save(ARTIFACTS_DIR + 'Shape.text_box_fit_shape_to_text.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.text_box_fit_shape_to_text.docx')
-        text_box_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100002', 150.0, 100.0, 0.0, 0.0, text_box_shape)
-        self.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, True, aw.drawing.TextBoxWrapMode.NONE, 3.6, 3.6, 7.2, 7.2, text_box_shape.text_box)
-        self.assertEqual('Text fit tightly inside textbox.', text_box_shape.get_text().strip())
-
-    def test_text_box_margins(self):
-        #ExStart
-        #ExFor:TextBox
-        #ExFor:TextBox.internal_margin_bottom
-        #ExFor:TextBox.internal_margin_left
-        #ExFor:TextBox.internal_margin_right
-        #ExFor:TextBox.internal_margin_top
-        #ExSummary:Shows how to set internal margins for a text box.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Insert another textbox with specific margins.
-        text_box_shape = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 100, 100)
-        text_box = text_box_shape.text_box
-        text_box.internal_margin_top = 15
-        text_box.internal_margin_bottom = 15
-        text_box.internal_margin_left = 15
-        text_box.internal_margin_right = 15
-        builder.move_to(text_box_shape.last_paragraph)
-        builder.write('Text placed according to textbox margins.')
-        doc.save(ARTIFACTS_DIR + 'Shape.text_box_margins.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.text_box_margins.docx')
-        text_box_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100002', 100.0, 100.0, 0.0, 0.0, text_box_shape)
-        self.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 15.0, 15.0, 15.0, 15.0, text_box_shape.text_box)
-        self.assertEqual('Text placed according to textbox margins.', text_box_shape.get_text().strip())
-
-    def test_text_box_contents_wrap_mode(self):
-        for text_box_wrap_mode in (aw.drawing.TextBoxWrapMode.NONE, aw.drawing.TextBoxWrapMode.SQUARE):
-            with self.subTest(text_box_wrap_mode=text_box_wrap_mode):
-                #ExStart
-                #ExFor:TextBox.text_box_wrap_mode
-                #ExFor:TextBoxWrapMode
-                #ExSummary:Shows how to set a wrapping mode for the contents of a text box.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                text_box_shape = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 300, 300)
-                text_box = text_box_shape.text_box
-                # Set the "text_box_wrap_mode" property to "TextBoxWrapMode.NONE" to increase the text box's width
-                # to accommodate text, should it be large enough.
-                # Set the "text_box_wrap_mode" property to "TextBoxWrapMode.SQUARE" to
-                # wrap all text inside the text box, preserving its dimensions.
-                text_box.text_box_wrap_mode = text_box_wrap_mode
-                builder.move_to(text_box_shape.last_paragraph)
-                builder.font.size = 32
-                builder.write('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')
-                doc.save(ARTIFACTS_DIR + 'Shape.text_box_сontents_wrap_mode.docx')
-                #ExEnd
-                doc = aw.Document(ARTIFACTS_DIR + 'Shape.text_box_сontents_wrap_mode.docx')
-                text_box_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-                self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100002', 300.0, 300.0, 0.0, 0.0, text_box_shape)
-                self.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, text_box_wrap_mode, 3.6, 3.6, 7.2, 7.2, text_box_shape.text_box)
-                self.assertEqual('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', text_box_shape.get_text().strip())
-
-    def test_create_link_between_text_boxes(self):
-        #ExStart
-        #ExFor:TextBox.is_valid_link_target(TextBox)
-        #ExFor:TextBox.next
-        #ExFor:TextBox.previous
-        #ExFor:TextBox.break_forward_link
-        #ExSummary:Shows how to link text boxes.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        text_box_shape1 = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 100, 100)
-        text_box1 = text_box_shape1.text_box
-        builder.writeln()
-        text_box_shape2 = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 100, 100)
-        text_box2 = text_box_shape2.text_box
-        builder.writeln()
-        text_box_shape3 = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 100, 100)
-        text_box3 = text_box_shape3.text_box
-        builder.writeln()
-        text_box_shape4 = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 100, 100)
-        text_box4 = text_box_shape4.text_box
-        # Create links between some of the text boxes.
-        if text_box1.is_valid_link_target(text_box2):
-            text_box1.next = text_box2
-        if text_box2.is_valid_link_target(text_box3):
-            text_box2.next = text_box3
-        # Only an empty text box may have a link.
-        self.assertTrue(text_box3.is_valid_link_target(text_box4))
-        builder.move_to(text_box_shape4.last_paragraph)
-        builder.write('Hello world!')
-        self.assertFalse(text_box3.is_valid_link_target(text_box4))
-        if text_box1.next is not None and text_box1.previous is None:
-            print('This TextBox is the head of the sequence')
-        if text_box2.next is not None and text_box2.previous is None:
-            print('This TextBox is the middle of the sequence')
-        if text_box3.next is None and text_box3.previous is not None:
-            print('This TextBox is the tail of the sequence')
-            # Break the forward link between text_box2 and text_box3, and then verify that they are no longer linked.
-            text_box3.previous.break_forward_link()
-            self.assertIsNone(text_box2.next)
-            self.assertIsNone(text_box3.previous)
-        doc.save(ARTIFACTS_DIR + 'Shape.create_link_between_text_boxes.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.create_link_between_text_boxes.docx')
-        shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
-        self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100002', 100.0, 100.0, 0.0, 0.0, shapes[0])
-        self.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shapes[0].text_box)
-        self.assertEqual('', shapes[0].get_text().strip())
-        self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100004', 100.0, 100.0, 0.0, 0.0, shapes[1])
-        self.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shapes[1].text_box)
-        self.assertEqual('', shapes[1].get_text().strip())
-        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, 'TextBox 100006', 100.0, 100.0, 0.0, 0.0, shapes[2])
-        self.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shapes[2].text_box)
-        self.assertEqual('', shapes[2].get_text().strip())
-        self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100008', 100.0, 100.0, 0.0, 0.0, shapes[3])
-        self.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shapes[3].text_box)
-        self.assertEqual('Hello world!', shapes[3].get_text().strip())
-
-    def test_vertical_anchor(self):
-        for vertical_anchor in (aw.drawing.TextBoxAnchor.TOP, aw.drawing.TextBoxAnchor.MIDDLE, aw.drawing.TextBoxAnchor.BOTTOM):
-            with self.subTest(vertical_anchor=vertical_anchor):
-                #ExStart
-                #ExFor:CompatibilityOptions
-                #ExFor:CompatibilityOptions.optimize_for(MsWordVersion)
-                #ExFor:TextBoxAnchor
-                #ExFor:TextBox.vertical_anchor
-                #ExSummary:Shows how to vertically align the text contents of a text box.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                shape = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 200, 200)
-                # Set the "vertical_anchor" property to "TextBoxAnchor.TOP" to
-                # align the text in this text box with the top side of the shape.
-                # Set the "vertical_anchor" property to "TextBoxAnchor.MIDDLE" to
-                # align the text in this text box to the center of the shape.
-                # Set the "vertical_anchor" property to "TextBoxAnchor.BOTTOM" to
-                # align the text in this text box to the bottom of the shape.
-                shape.text_box.vertical_anchor = vertical_anchor
-                builder.move_to(shape.first_paragraph)
-                builder.write('Hello world!')
-                # The vertical aligning of text inside text boxes is available from Microsoft Word 2007 onwards.
-                doc.compatibility_options.optimize_for(aw.settings.MsWordVersion.WORD2007)
-                doc.save(ARTIFACTS_DIR + 'Shape.vertical_anchor.docx')
-                #ExEnd
-                doc = aw.Document(ARTIFACTS_DIR + 'Shape.vertical_anchor.docx')
-                shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-                self.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100002', 200.0, 200.0, 0.0, 0.0, shape)
-                self.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shape.text_box)
-                self.assertEqual(vertical_anchor, shape.text_box.vertical_anchor)
-                self.assertEqual('Hello world!', shape.get_text().strip())
+        for layout_flow in [aw.drawing.LayoutFlow.VERTICAL, aw.drawing.LayoutFlow.HORIZONTAL, aw.drawing.LayoutFlow.HORIZONTAL_IDEOGRAPHIC, aw.drawing.LayoutFlow.BOTTOM_TO_TOP, aw.drawing.LayoutFlow.TOP_TO_BOTTOM, aw.drawing.LayoutFlow.TOP_TO_BOTTOM_IDEOGRAPHIC]:
+            #ExStart
+            #ExFor:Shape.text_box
+            #ExFor:Shape.last_paragraph
+            #ExFor:TextBox
+            #ExFor:TextBox.layout_flow
+            #ExSummary:Shows how to set the orientation of text inside a text box.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            text_box_shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.TEXT_BOX, width=150, height=100)
+            text_box = text_box_shape.text_box
+            # Move the document builder to inside the TextBox and add text.
+            builder.move_to(text_box_shape.last_paragraph)
+            builder.writeln('Hello world!')
+            builder.write('Hello again!')
+            # Set the "LayoutFlow" property to set an orientation for the text contents of this text box.
+            text_box.layout_flow = layout_flow
+            doc.save(file_name=ARTIFACTS_DIR + 'Shape.TextBoxLayoutFlow.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.TextBoxLayoutFlow.docx')
+            text_box_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+            test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100002', 150, 100, 0, 0, text_box_shape)
+            expected_layout_flow = None
+            switch_condition = layout_flow
+            if switch_condition == aw.drawing.LayoutFlow.BOTTOM_TO_TOP or switch_condition == aw.drawing.LayoutFlow.HORIZONTAL or switch_condition == aw.drawing.LayoutFlow.TOP_TO_BOTTOM_IDEOGRAPHIC or (switch_condition == aw.drawing.LayoutFlow.VERTICAL):
+                expected_layout_flow = layout_flow
+            elif switch_condition == aw.drawing.LayoutFlow.TOP_TO_BOTTOM:
+                expected_layout_flow = aw.drawing.LayoutFlow.VERTICAL
+            else:
+                expected_layout_flow = aw.drawing.LayoutFlow.HORIZONTAL
+            test_util.TestUtil.verify_text_box(expected_layout_flow, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, text_box_shape.text_box)
+            self.assertEqual('Hello world!\rHello again!', text_box_shape.get_text().strip())
 
     def test_insert_text_paths(self):
         #ExStart
@@ -2266,25 +2296,6 @@ class ExShape(ApiExampleBase):
         self.assertEqual(280.5, shape.bounds_with_effects.height)
         #ExEnd
 
-    def test_render_all_shapes(self):
-        #ExStart
-        #ExFor:ShapeBase.get_shape_renderer
-        #ExFor:NodeRendererBase.save(BytesIO,ImageSaveOptions)
-        #ExSummary:Shows how to use a shape renderer to export shapes to files in the local file system.
-        doc = aw.Document(MY_DIR + 'Various shapes.docx')
-        shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
-        self.assertEqual(7, len(shapes))
-        # There are 7 shapes in the document, including one group shape with 2 child shapes.
-        # We will render every shape to an image file in the local file system
-        # while ignoring the group shapes since they have no appearance.
-        # This will produce 6 image files.
-        for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True):
-            shape = shape.as_shape()
-            renderer = shape.get_shape_renderer()
-            options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
-            renderer.save(ARTIFACTS_DIR + 'Shape.render_all_shapes.' + shape.name + '.png', options)
-        #ExEnd
-
     def test_document_has_smart_art_object(self):
         #ExStart
         #ExFor:Shape.has_smart_art
@@ -2292,26 +2303,6 @@ class ExShape(ApiExampleBase):
         doc = aw.Document(MY_DIR + 'SmartArt.docx')
         number_of_smart_art_shapes = len([node for node in doc.get_child_nodes(aw.NodeType.SHAPE, True) if node.as_shape().has_smart_art])
         self.assertEqual(2, number_of_smart_art_shapes)
-        #ExEnd
-
-    def test_shape_types(self):
-        #ExStart
-        #ExFor:ShapeType
-        #ExSummary:Shows how Aspose.Words identify shapes.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.insert_shape(aw.drawing.ShapeType.HEPTAGON, aw.drawing.RelativeHorizontalPosition.PAGE, 0, aw.drawing.RelativeVerticalPosition.PAGE, 0, 0, 0, aw.drawing.WrapType.NONE)
-        builder.insert_shape(aw.drawing.ShapeType.CLOUD, aw.drawing.RelativeHorizontalPosition.RIGHT_MARGIN, 0, aw.drawing.RelativeVerticalPosition.PAGE, 0, 0, 0, aw.drawing.WrapType.NONE)
-        builder.insert_shape(aw.drawing.ShapeType.MATH_PLUS, aw.drawing.RelativeHorizontalPosition.RIGHT_MARGIN, 0, aw.drawing.RelativeVerticalPosition.PAGE, 0, 0, 0, aw.drawing.WrapType.NONE)
-        # To correct identify shape types you need to work with shapes as DML.
-        save_options = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
-        # "Strict" or "Transitional" compliance allows to save shape as DML.
-        save_options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
-        doc.save(ARTIFACTS_DIR + 'Shape.shape_types.docx', save_options)
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.shape_types.docx')
-        shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
-        for shape in shapes:
-            print(shape.shape_type)
         #ExEnd
 
     def test_fill_image(self):

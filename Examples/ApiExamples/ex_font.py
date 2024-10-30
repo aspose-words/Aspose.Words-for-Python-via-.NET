@@ -5,9 +5,9 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import sys
-import pathlib
 import glob
+import pathlib
+import sys
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.fonts
@@ -81,6 +81,38 @@ class ExFont(ApiExampleBase):
         self.assertFalse(doc.font_infos.embed_true_type_fonts)
         self.assertFalse(doc.font_infos.embed_system_fonts)
         self.assertFalse(doc.font_infos.save_subset_fonts)
+
+    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
+    def test_font_info_collection(self):
+        for embed_all_fonts in [False, True]:
+            #ExStart
+            #ExFor:FontInfoCollection
+            #ExFor:DocumentBase.font_infos
+            #ExFor:FontInfoCollection.embed_true_type_fonts
+            #ExFor:FontInfoCollection.embed_system_fonts
+            #ExFor:FontInfoCollection.save_subset_fonts
+            #ExSummary:Shows how to save a document with embedded TrueType fonts.
+            doc = aw.Document(file_name=MY_DIR + 'Document.docx')
+            font_infos = doc.font_infos
+            font_infos.embed_true_type_fonts = embed_all_fonts
+            font_infos.embed_system_fonts = embed_all_fonts
+            font_infos.save_subset_fonts = embed_all_fonts
+            doc.save(file_name=ARTIFACTS_DIR + 'Font.FontInfoCollection.docx')
+            #ExEnd
+            tested_file_length = system_helper.io.FileInfo(ARTIFACTS_DIR + 'Font.FontInfoCollection.docx').length()
+            if embed_all_fonts:
+                self.assertTrue(tested_file_length < 28000)
+            else:
+                self.assertTrue(tested_file_length < 13000)
+
+    def test_work_with_embedded_fonts(self):
+        for embed_true_type_fonts, embed_system_fonts, save_subset_fonts in [(True, False, False), (True, True, False), (True, True, True), (True, False, True), (False, False, False)]:
+            doc = aw.Document(file_name=MY_DIR + 'Document.docx')
+            font_infos = doc.font_infos
+            font_infos.embed_true_type_fonts = embed_true_type_fonts
+            font_infos.embed_system_fonts = embed_system_fonts
+            font_infos.save_subset_fonts = save_subset_fonts
+            doc.save(file_name=ARTIFACTS_DIR + 'Font.WorkWithEmbeddedFonts.docx')
 
     def test_strike_through(self):
         #ExStart
@@ -640,6 +672,23 @@ class ExFont(ApiExampleBase):
         self.assertTrue(runs[4].font.has_dml_effect(aw.TextDmlEffect.FILL))
         #ExEnd
 
+    def test_set_emphasis_mark(self):
+        for emphasis_mark in [aw.EmphasisMark.NONE, aw.EmphasisMark.OVER_COMMA, aw.EmphasisMark.OVER_SOLID_CIRCLE, aw.EmphasisMark.OVER_WHITE_CIRCLE, aw.EmphasisMark.UNDER_SOLID_CIRCLE]:
+            #ExStart
+            #ExFor:EmphasisMark
+            #ExFor:Font.emphasis_mark
+            #ExSummary:Shows how to add additional character rendered above/below the glyph-character.
+            builder = aw.DocumentBuilder()
+            # Possible types of emphasis mark:
+            # https:#apireference.aspose.com/words/net/aspose.words/emphasismark
+            builder.font.emphasis_mark = emphasis_mark
+            builder.write('Emphasis text')
+            builder.writeln()
+            builder.font.clear_formatting()
+            builder.write('Simple text')
+            builder.document.save(file_name=ARTIFACTS_DIR + 'Fonts.SetEmphasisMark.docx')
+        #ExEnd
+
     def test_theme_fonts_colors(self):
         #ExStart
         #ExFor:Font.theme_font
@@ -789,40 +838,6 @@ class ExFont(ApiExampleBase):
             print(f'\tName: {all_fonts[i].name}')
             print(f"\tIs {('' if all_fonts[i].is_true_type else 'not ')}a TrueType font")
         #ExEnd
-
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
-    def test_font_info_collection(self):
-        for embed_all_fonts in (False, True):
-            with self.subTest(embed_all_fonts=embed_all_fonts):
-                #ExStart
-                #ExFor:FontInfoCollection
-                #ExFor:DocumentBase.font_infos
-                #ExFor:FontInfoCollection.embed_true_type_fonts
-                #ExFor:FontInfoCollection.embed_system_fonts
-                #ExFor:FontInfoCollection.save_subset_fonts
-                #ExSummary:Shows how to save a document with embedded TrueType fonts.
-                doc = aw.Document(MY_DIR + 'Document.docx')
-                font_infos = doc.font_infos
-                font_infos.embed_true_type_fonts = embed_all_fonts
-                font_infos.embed_system_fonts = embed_all_fonts
-                font_infos.save_subset_fonts = embed_all_fonts
-                doc.save(ARTIFACTS_DIR + 'Font.font_info_collection.docx')
-                if embed_all_fonts:
-                    self.assertLess(25000, os.path.getsize(ARTIFACTS_DIR + 'Font.font_info_collection.docx'))
-                else:
-                    self.assertGreater(15000, os.path.getsize(ARTIFACTS_DIR + 'Font.font_info_collection.docx'))
-                #ExEnd
-
-    def test_work_with_embedded_fonts(self):
-        parameters = [(True, False, False, 'Save a document with embedded TrueType fonts. System fonts are not included. Saves full versions of embedding fonts.'), (True, True, False, 'Save a document with embedded TrueType fonts. System fonts are included. Saves full versions of embedding fonts.'), (True, True, True, 'Save a document with embedded TrueType fonts. System fonts are included. Saves subset of embedding fonts.'), (True, False, True, 'Save a document with embedded TrueType fonts. System fonts are not included. Saves subset of embedding fonts.'), (False, False, False, 'Remove embedded fonts from the saved document.')]
-        for embed_true_type_fonts, embed_system_fonts, save_subset_fonts, description in parameters:
-            with self.subTest(description=description):
-                doc = aw.Document(MY_DIR + 'Document.docx')
-                font_infos = doc.font_infos
-                font_infos.embed_true_type_fonts = embed_true_type_fonts
-                font_infos.embed_system_fonts = embed_system_fonts
-                font_infos.save_subset_fonts = save_subset_fonts
-                doc.save(ARTIFACTS_DIR + 'Font.work_with_embedded_fonts.docx')
 
     def test_locale_id(self):
         #ExStart
@@ -1004,24 +1019,6 @@ class ExFont(ApiExampleBase):
             system_font_source = awfonts.SystemFontSource()
             current_user_fonts = filter(lambda font: font.find('\\AppData\\Local\\Microsoft\\Windows\\Fonts') != -1, system_font_source.get_system_font_folders())
             self.assertTrue(len(list(current_user_fonts)) > 0, 'Fonts did not install to the user font folder')
-
-    def test_set_emphasis_mark(self):
-        for emphasis_mark in (aw.EmphasisMark.NONE, aw.EmphasisMark.OVER_COMMA, aw.EmphasisMark.OVER_SOLID_CIRCLE, aw.EmphasisMark.OVER_WHITE_CIRCLE, aw.EmphasisMark.UNDER_SOLID_CIRCLE):
-            with self.subTest(emphasis_mark=emphasis_mark):
-                #ExStart
-                #ExFor:EmphasisMark
-                #ExFor:Font.emphasis_mark
-                #ExSummary:Shows how to add additional character rendered above/below the glyph-character.
-                builder = aw.DocumentBuilder()
-                # Possible types of emphasis mark:
-                # https://apireference.aspose.com/words/net/aspose.words/emphasismark
-                builder.font.emphasis_mark = emphasis_mark
-                builder.write('Emphasis text')
-                builder.writeln()
-                builder.font.clear_formatting()
-                builder.write('Simple text')
-                builder.document.save(ARTIFACTS_DIR + 'Fonts.set_emphasis_mark.docx')
-                #ExEnd
 
     def _test_remove_hidden_content(self, doc: aw.Document):
         self.assertEqual(20, doc.get_child_nodes(aw.NodeType.PARAGRAPH, True).count)

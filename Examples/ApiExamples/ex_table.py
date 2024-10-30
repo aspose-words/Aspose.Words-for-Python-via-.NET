@@ -5,12 +5,13 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
+import document_helper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.replacing
 import aspose.words.tables
+import test_util
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -119,6 +120,50 @@ class ExTable(ApiExampleBase):
         cell_format = table.last_row.first_cell.cell_format
         self.assertEqual(110.8, cell_format.width)
         self.assertEqual(aspose.pydrawing.Color.orange.to_argb(), cell_format.shading.background_pattern_color.to_argb())
+
+    def test_display_content_of_tables(self):
+        #ExStart
+        #ExFor:Cell
+        #ExFor:CellCollection
+        #ExFor:CellCollection.__getitem__(int)
+        #ExFor:CellCollection.to_array
+        #ExFor:Row
+        #ExFor:Row.cells
+        #ExFor:RowCollection
+        #ExFor:RowCollection.__getitem__(int)
+        #ExFor:RowCollection.to_array
+        #ExFor:Table
+        #ExFor:Table.rows
+        #ExFor:TableCollection.__getitem__(int)
+        #ExFor:TableCollection.to_array
+        #ExSummary:Shows how to iterate through all tables in the document and print the contents of each cell.
+        doc = aw.Document(file_name=MY_DIR + 'Tables.docx')
+        tables = doc.first_section.body.tables
+        self.assertEqual(2, len(list(tables)))
+        i = 0
+        while i < tables.count:
+            print(f'Start of Table {i}')
+            rows = tables[i].rows
+            # We can use the "ToArray" method on a row collection to clone it into an array.
+            self.assertSequenceEqual(list(rows), list(rows))
+            self.assertNotEqual(rows, list(rows))
+            j = 0
+            while j < rows.count:
+                print(f'\tStart of Row {j}')
+                cells = rows[j].cells
+                # We can use the "ToArray" method on a cell collection to clone it into an array.
+                self.assertSequenceEqual(list(cells), list(cells))
+                self.assertNotEqual(cells, list(cells))
+                k = 0
+                while k < cells.count:
+                    cell_text = cells[k].to_string(save_format=aw.SaveFormat.TEXT).strip()
+                    print(f'\t\tContents of Cell:{k} = "{cell_text}"')
+                    k += 1
+                print(f'\tEnd of Row {j}')
+                j += 1
+            print(f'End of Table {i}\n')
+            i += 1
+        #ExEnd
 
     def test_ensure_table_minimum(self):
         #ExStart
@@ -357,6 +402,36 @@ class ExTable(ApiExampleBase):
             cell = cell.as_cell()
             cell.remove_all_children()
         self.assertEqual('', table_clone.to_string(save_format=aw.SaveFormat.TEXT).strip())
+
+    def test_allow_auto_fit_on_table(self):
+        for allow_auto_fit in [False, True]:
+            #ExStart
+            #ExFor:Table.allow_auto_fit
+            #ExSummary:Shows how to enable/disable automatic table cell resizing.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            table = builder.start_table()
+            builder.insert_cell()
+            builder.cell_format.preferred_width = aw.tables.PreferredWidth.from_points(100)
+            builder.write('Lorem ipsum dolor sit amet, consectetur adipiscing elit, ' + 'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')
+            builder.insert_cell()
+            builder.cell_format.preferred_width = aw.tables.PreferredWidth.AUTO
+            builder.write('Lorem ipsum dolor sit amet, consectetur adipiscing elit, ' + 'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')
+            builder.end_row()
+            builder.end_table()
+            # Set the "AllowAutoFit" property to "false" to get the table to maintain the dimensions
+            # of all its rows and cells, and truncate contents if they get too large to fit.
+            # Set the "AllowAutoFit" property to "true" to allow the table to change its cells' width and height
+            # to accommodate their contents.
+            table.allow_auto_fit = allow_auto_fit
+            doc.save(file_name=ARTIFACTS_DIR + 'Table.AllowAutoFitOnTable.html')
+            #ExEnd
+            if allow_auto_fit:
+                test_util.TestUtil.file_contains_string('<td style="width:89.2pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-right:0.5pt single">', ARTIFACTS_DIR + 'Table.AllowAutoFitOnTable.html')
+                test_util.TestUtil.file_contains_string('<td style="border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-left:0.5pt single">', ARTIFACTS_DIR + 'Table.AllowAutoFitOnTable.html')
+            else:
+                test_util.TestUtil.file_contains_string('<td style="width:89.2pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-right:0.5pt single">', ARTIFACTS_DIR + 'Table.AllowAutoFitOnTable.html')
+                test_util.TestUtil.file_contains_string('<td style="width:7.2pt; border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-left:0.5pt single">', ARTIFACTS_DIR + 'Table.AllowAutoFitOnTable.html')
 
     def test_keep_table_together(self):
         #ExStart
@@ -615,44 +690,6 @@ class ExTable(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'Table.ContextTableFormatting.docx')
         #ExEnd:ContextTableFormatting
 
-    def test_display_content_of_tables(self):
-        #ExStart
-        #ExFor:Cell
-        #ExFor:CellCollection
-        #ExFor:CellCollection.__getitem__(int)
-        #ExFor:CellCollection.to_array
-        #ExFor:Row
-        #ExFor:Row.cells
-        #ExFor:RowCollection
-        #ExFor:RowCollection.__getitem__(int)
-        #ExFor:RowCollection.to_array
-        #ExFor:Table
-        #ExFor:Table.rows
-        #ExFor:TableCollection.__getitem__(int)
-        #ExFor:TableCollection.to_array
-        #ExSummary:Shows how to iterate through all tables in the document and print the contents of each cell.
-        doc = aw.Document(MY_DIR + 'Tables.docx')
-        tables = doc.first_section.body.tables
-        self.assertEqual(2, len(tables.to_array()))
-        for i in range(tables.count):
-            print('Start of Table', i)
-            rows = tables[i].rows
-            # We can use the "to_array" method on a row collection to clone it into an array.
-            self.assertSequenceEqual(list(rows), rows.to_array())
-            #Assert.are_not_same(rows, rows.to_array())
-            for j in range(rows.count):
-                print('\tStart of Row', j)
-                cells = rows[j].cells
-                # We can use the "to_array" method on a cell collection to clone it into an array.
-                self.assertSequenceEqual(list(cells), cells.to_array())
-                #Assert.are_not_same(cells, cells.to_array())
-                for k in range(cells.count):
-                    cell_text = cells[k].to_string(aw.SaveFormat.TEXT).strip()
-                    print(f'\t\tContents of Cell:{k} = "{cell_text}"')
-                print(f'\tEnd of Row {j}')
-            print(f'End of Table {i}\n')
-        #ExEnd
-
     def test_calculate_depth_of_nested_tables(self):
         #ExStart
         #ExFor:Node.get_ancestor(NodeType)
@@ -788,39 +825,6 @@ class ExTable(ApiExampleBase):
                 doc = aw.Document(ARTIFACTS_DIR + 'Table.allow_break_across_pages.docx')
                 table = doc.first_section.body.tables[0]
                 self.assertEqual(3, len([row for row in table if row.as_row().row_format.allow_break_across_pages == allow_break_across_pages]))
-
-    def test_allow_auto_fit_on_table(self):
-        for allow_auto_fit in (False, True):
-            with self.subTest(allow_auto_fit=allow_auto_fit):
-                #ExStart
-                #ExFor:Table.allow_auto_fit
-                #ExSummary:Shows how to enable/disable automatic table cell resizing.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                table = builder.start_table()
-                builder.insert_cell()
-                builder.cell_format.preferred_width = aw.tables.PreferredWidth.from_points(100)
-                builder.write('Lorem ipsum dolor sit amet, consectetur adipiscing elit, ' + 'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')
-                builder.insert_cell()
-                builder.cell_format.preferred_width = aw.tables.PreferredWidth.AUTO
-                builder.write('Lorem ipsum dolor sit amet, consectetur adipiscing elit, ' + 'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')
-                builder.end_row()
-                builder.end_table()
-                # Set the "allow_auto_fit" property to "False" to get the table to maintain the dimensions
-                # of all its rows and cells, and truncate contents if they get too large to fit.
-                # Set the "allow_auto_fit" property to "True" to allow the table to change its cells' width and height
-                # to accommodate their contents.
-                table.allow_auto_fit = allow_auto_fit
-                doc.save(ARTIFACTS_DIR + 'Table.allow_auto_fit_on_table.html')
-                #ExEnd
-                with open(ARTIFACTS_DIR + 'Table.allow_auto_fit_on_table.html', 'rb') as file:
-                    text = file.read().decode('utf-8')
-                    if allow_auto_fit:
-                        self.assertIn('<td style="width:89.2pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-right:0.5pt single">', text)
-                        self.assertIn('<td style="border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-left:0.5pt single">', text)
-                    else:
-                        self.assertIn('<td style="width:89.2pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-right:0.5pt single">', text)
-                        self.assertIn('<td style="width:7.2pt; border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-left:0.5pt single">', text)
 
     def test_allow_cell_spacing(self):
         for allow_cell_spacing in (False, True):
@@ -974,7 +978,7 @@ class ExTable(ApiExampleBase):
         self.assertTrue(table.rows[3].cells[3].cell_format.vertical_merge == aw.tables.CellMerge.PREVIOUS)
 
     def test_split_table(self):
-        doc = aw.Document(MY_DIR + 'Tables.docx')
+        doc = aw.Document(file_name=MY_DIR + 'Tables.docx')
         first_table = doc.first_section.body.tables[0]
         # We will split the table at the third row (inclusive).
         row = first_table.rows[2]
@@ -988,7 +992,7 @@ class ExTable(ApiExampleBase):
         while current_row != row:
             current_row = first_table.last_row
             table.prepend_child(current_row)
-        doc = DocumentHelper.save_open(doc)
+        doc = document_helper.DocumentHelper.save_open(doc)
         self.assertEqual(row, table.first_row)
         self.assertEqual(2, first_table.rows.count)
         self.assertEqual(3, table.rows.count)

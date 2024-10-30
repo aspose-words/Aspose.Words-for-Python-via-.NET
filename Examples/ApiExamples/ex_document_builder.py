@@ -5,26 +5,58 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import timedelta, timezone
-import io
-import glob
-from enum import Enum
 from document_helper import DocumentHelper
+from datetime import timedelta, timezone
+from enum import Enum
+import glob
+import io
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.drawing
 import aspose.words.drawing.charts
 import aspose.words.fields
+import aspose.words.lists
 import aspose.words.notes
 import aspose.words.tables
 import datetime
+import document_helper
 import system_helper
+import test_util
 import unittest
 import uuid
-from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, IMAGE_URL, MY_DIR, GOLDS_DIR
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR, GOLDS_DIR, IMAGE_DIR, IMAGE_URL, MY_DIR
 
 class ExDocumentBuilder(ApiExampleBase):
+
+    def test_write_and_font(self):
+        #ExStart
+        #ExFor:Font.size
+        #ExFor:Font.bold
+        #ExFor:Font.name
+        #ExFor:Font.color
+        #ExFor:Font.underline
+        #ExFor:DocumentBuilder.__init__
+        #ExSummary:Shows how to insert formatted text using DocumentBuilder.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Specify font formatting, then add text.
+        font = builder.font
+        font.size = 16
+        font.bold = True
+        font.color = aspose.pydrawing.Color.blue
+        font.name = 'Courier New'
+        font.underline = aw.Underline.DASH
+        builder.write('Hello world!')
+        #ExEnd
+        doc = document_helper.DocumentHelper.save_open(builder.document)
+        first_run = doc.first_section.body.paragraphs[0].runs[0]
+        self.assertEqual('Hello world!', first_run.get_text().strip())
+        self.assertEqual(16, first_run.font.size)
+        self.assertTrue(first_run.font.bold)
+        self.assertEqual('Courier New', first_run.font.name)
+        self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), first_run.font.color.to_argb())
+        self.assertEqual(aw.Underline.DASH, first_run.font.underline)
 
     def test_headers_and_footers(self):
         #ExStart
@@ -64,6 +96,65 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual('Header for the first page', headers_footers.get_by_header_footer_type(aw.HeaderFooterType.HEADER_FIRST).get_text().strip())
         self.assertEqual('Header for even pages', headers_footers.get_by_header_footer_type(aw.HeaderFooterType.HEADER_EVEN).get_text().strip())
         self.assertEqual('Header for all other pages', headers_footers.get_by_header_footer_type(aw.HeaderFooterType.HEADER_PRIMARY).get_text().strip())
+
+    def test_merge_fields(self):
+        #ExStart
+        #ExFor:DocumentBuilder.insert_field(str)
+        #ExFor:DocumentBuilder.move_to_merge_field(str,bool,bool)
+        #ExSummary:Shows how to insert fields, and move the document builder's cursor to them.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.insert_field(field_code='MERGEFIELD MyMergeField1 \\* MERGEFORMAT')
+        builder.insert_field(field_code='MERGEFIELD MyMergeField2 \\* MERGEFORMAT')
+        # Move the cursor to the first MERGEFIELD.
+        builder.move_to_merge_field(field_name='MyMergeField1', is_after=True, is_delete_field=False)
+        # Note that the cursor is placed immediately after the first MERGEFIELD, and before the second.
+        self.assertEqual(doc.range.fields[1].start, builder.current_node)
+        self.assertEqual(doc.range.fields[0].end, builder.current_node.previous_sibling)
+        # If we wish to edit the field's field code or contents using the builder,
+        # its cursor would need to be inside a field.
+        # To place it inside a field, we would need to call the document builder's MoveTo method
+        # and pass the field's start or separator node as an argument.
+        builder.write(' Text between our merge fields. ')
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.MergeFields.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.MergeFields.docx')
+        self.assertEqual('\x13MERGEFIELD MyMergeField1 \\* MERGEFORMAT\x14«MyMergeField1»\x15' + ' Text between our merge fields. ' + '\x13MERGEFIELD MyMergeField2 \\* MERGEFORMAT\x14«MyMergeField2»\x15', doc.get_text().strip())
+        self.assertEqual(2, doc.range.fields.count)
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_MERGE_FIELD, expected_field_code='MERGEFIELD MyMergeField1 \\* MERGEFORMAT', expected_result='«MyMergeField1»', field=doc.range.fields[0])
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_MERGE_FIELD, expected_field_code='MERGEFIELD MyMergeField2 \\* MERGEFORMAT', expected_result='«MyMergeField2»', field=doc.range.fields[1])
+
+    def test_insert_horizontal_rule(self):
+        #ExStart
+        #ExFor:DocumentBuilder.insert_horizontal_rule
+        #ExFor:ShapeBase.is_horizontal_rule
+        #ExFor:Shape.horizontal_rule_format
+        #ExFor:HorizontalRuleAlignment
+        #ExFor:HorizontalRuleFormat
+        #ExFor:HorizontalRuleFormat.alignment
+        #ExFor:HorizontalRuleFormat.width_percent
+        #ExFor:HorizontalRuleFormat.height
+        #ExFor:HorizontalRuleFormat.color
+        #ExFor:HorizontalRuleFormat.no_shade
+        #ExSummary:Shows how to insert a horizontal rule shape, and customize its formatting.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        shape = builder.insert_horizontal_rule()
+        horizontal_rule_format = shape.horizontal_rule_format
+        horizontal_rule_format.alignment = aw.drawing.HorizontalRuleAlignment.CENTER
+        horizontal_rule_format.width_percent = 70
+        horizontal_rule_format.height = 3
+        horizontal_rule_format.color = aspose.pydrawing.Color.blue
+        horizontal_rule_format.no_shade = True
+        self.assertTrue(shape.is_horizontal_rule)
+        self.assertTrue(shape.horizontal_rule_format.no_shade)
+        #ExEnd
+        doc = document_helper.DocumentHelper.save_open(doc)
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        self.assertEqual(aw.drawing.HorizontalRuleAlignment.CENTER, shape.horizontal_rule_format.alignment)
+        self.assertEqual(70, shape.horizontal_rule_format.width_percent)
+        self.assertEqual(3, shape.horizontal_rule_format.height)
+        self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), shape.horizontal_rule_format.color.to_argb())
 
     def test_insert_hyperlink(self):
         #ExStart
@@ -134,6 +225,40 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertNotEqual(runs[0].font.underline, runs[2].font.underline)
         self.assertEqual('http://www.google.com', doc.range.fields[0].as_field_hyperlink().address)
 
+    @unittest.skip("drawing.Image type isn't supported yet")
+    def test_insert_watermark(self):
+        #ExStart
+        #ExFor:DocumentBuilder.move_to_header_footer
+        #ExFor:PageSetup.page_width
+        #ExFor:PageSetup.page_height
+        #ExFor:WrapType
+        #ExFor:RelativeHorizontalPosition
+        #ExFor:RelativeVerticalPosition
+        #ExSummary:Shows how to insert an image, and use it as a watermark.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Insert the image into the header so that it will be visible on every page.
+        builder.move_to_header_footer(aw.HeaderFooterType.HEADER_PRIMARY)
+        shape = builder.insert_image(file_name=IMAGE_DIR + 'Transparent background logo.png')
+        shape.wrap_type = aw.drawing.WrapType.NONE
+        shape.behind_text = True
+        # Place the image at the center of the page.
+        shape.relative_horizontal_position = aw.drawing.RelativeHorizontalPosition.PAGE
+        shape.relative_vertical_position = aw.drawing.RelativeVerticalPosition.PAGE
+        shape.left = (builder.page_setup.page_width - shape.width) / 2
+        shape.top = (builder.page_setup.page_height - shape.height) / 2
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertWatermark.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertWatermark.docx')
+        shape = doc.first_section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.HEADER_PRIMARY).get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, shape)
+        self.assertEqual(aw.drawing.WrapType.NONE, shape.wrap_type)
+        self.assertTrue(shape.behind_text)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.PAGE, shape.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.PAGE, shape.relative_vertical_position)
+        self.assertEqual((doc.first_section.page_setup.page_width - shape.width) / 2, shape.left)
+        self.assertEqual((doc.first_section.page_setup.page_height - shape.height) / 2, shape.top)
+
     def test_insert_html(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_html(str)
@@ -155,6 +280,15 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual('Heading 1', paragraphs[3].paragraph_format.style.name)
         doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertHtml.docx')
         #ExEnd
+
+    def test_math_ml(self):
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        math_ml = '<math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><msub><mi>a</mi><mrow><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>b</mi><mrow><mn>1</mn></mrow></msub></mrow></math>'
+        builder.insert_html(html=math_ml)
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.MathML.docx')
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.MathML.pdf')
+        self.assertTrue(document_helper.DocumentHelper.compare_docs(GOLDS_DIR + 'DocumentBuilder.MathML Gold.docx', ARTIFACTS_DIR + 'DocumentBuilder.MathML.docx'))
 
     def test_insert_text_and_bookmark(self):
         #ExStart
@@ -886,6 +1020,28 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(doc.first_section.body.last_paragraph, builder.current_paragraph)  #ExSkip
         #ExEnd
 
+    def test_move_to_paragraph(self):
+        #ExStart
+        #ExFor:DocumentBuilder.move_to_paragraph
+        #ExSummary:Shows how to move a builder's cursor position to a specified paragraph.
+        doc = aw.Document(file_name=MY_DIR + 'Paragraphs.docx')
+        paragraphs = doc.first_section.body.paragraphs
+        self.assertEqual(22, paragraphs.count)
+        # Create document builder to edit the document. The builder's cursor,
+        # which is the point where it will insert new nodes when we call its document construction methods,
+        # is currently at the beginning of the document.
+        builder = aw.DocumentBuilder(doc=doc)
+        self.assertEqual(0, paragraphs.index_of(builder.current_paragraph))
+        # Move that cursor to a different paragraph will place that cursor in front of that paragraph.
+        builder.move_to_paragraph(2, 0)
+        self.assertEqual(2, paragraphs.index_of(builder.current_paragraph))  #ExSkip
+        # Any new content that we add will be inserted at that point.
+        builder.writeln('This is a new third paragraph. ')
+        #ExEnd
+        self.assertEqual(3, paragraphs.index_of(builder.current_paragraph))
+        doc = document_helper.DocumentHelper.save_open(doc)
+        self.assertEqual('This is a new third paragraph.', doc.first_section.body.paragraphs[2].get_text().strip())
+
     def test_move_to_cell(self):
         #ExStart
         #ExFor:DocumentBuilder.move_to_cell
@@ -1012,6 +1168,75 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(aw.TextOrientation.UPWARD, table.rows[1].cells[0].cell_format.orientation)
         self.assertEqual('Row 2, cell 2.\x07', table.rows[1].cells[1].get_text().strip())
         self.assertEqual(aw.TextOrientation.DOWNWARD, table.rows[1].cells[1].cell_format.orientation)
+
+    def test_table_cell_vertical_rotated_far_east_text_orientation(self):
+        doc = aw.Document(file_name=MY_DIR + 'Rotated cell text.docx')
+        table = doc.first_section.body.tables[0]
+        cell = table.first_row.first_cell
+        self.assertEqual(aw.TextOrientation.VERTICAL_ROTATED_FAR_EAST, cell.cell_format.orientation)
+        doc = document_helper.DocumentHelper.save_open(doc)
+        table = doc.first_section.body.tables[0]
+        cell = table.first_row.first_cell
+        self.assertEqual(aw.TextOrientation.VERTICAL_ROTATED_FAR_EAST, cell.cell_format.orientation)
+
+    def test_insert_floating_image(self):
+        #ExStart
+        #ExFor:DocumentBuilder.insert_image(str,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)
+        #ExSummary:Shows how to insert an image.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # There are two ways of using a document builder to source an image and then insert it as a floating shape.
+        # 1 -  From a file in the local file system:
+        builder.insert_image(file_name=IMAGE_DIR + 'Transparent background logo.png', horz_pos=aw.drawing.RelativeHorizontalPosition.MARGIN, left=100, vert_pos=aw.drawing.RelativeVerticalPosition.MARGIN, top=0, width=200, height=200, wrap_type=aw.drawing.WrapType.SQUARE)
+        # 2 -  From a URL:
+        builder.insert_image(file_name=IMAGE_URL, horz_pos=aw.drawing.RelativeHorizontalPosition.MARGIN, left=100, vert_pos=aw.drawing.RelativeVerticalPosition.MARGIN, top=250, width=200, height=200, wrap_type=aw.drawing.WrapType.SQUARE)
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertFloatingImage.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertFloatingImage.docx')
+        image = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, image)
+        self.assertEqual(100, image.left)
+        self.assertEqual(0, image.top)
+        self.assertEqual(200, image.width)
+        self.assertEqual(200, image.height)
+        self.assertEqual(aw.drawing.WrapType.SQUARE, image.wrap_type)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, image.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, image.relative_vertical_position)
+        image = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
+        test_util.TestUtil.verify_image_in_shape(272, 92, aw.drawing.ImageType.PNG, image)
+        self.assertEqual(100, image.left)
+        self.assertEqual(250, image.top)
+        self.assertEqual(200, image.width)
+        self.assertEqual(200, image.height)
+        self.assertEqual(aw.drawing.WrapType.SQUARE, image.wrap_type)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, image.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, image.relative_vertical_position)
+
+    def test_insert_image_original_size(self):
+        #ExStart
+        #ExFor:DocumentBuilder.insert_image(str,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)
+        #ExSummary:Shows how to insert an image from the local file system into a document while preserving its dimensions.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # The InsertImage method creates a floating shape with the passed image in its image data.
+        # We can specify the dimensions of the shape can be passing them to this method.
+        image_shape = builder.insert_image(file_name=IMAGE_DIR + 'Logo.jpg', horz_pos=aw.drawing.RelativeHorizontalPosition.MARGIN, left=0, vert_pos=aw.drawing.RelativeVerticalPosition.MARGIN, top=0, width=-1, height=-1, wrap_type=aw.drawing.WrapType.SQUARE)
+        # Passing negative values as the intended dimensions will automatically define
+        # the shape's dimensions based on the dimensions of its image.
+        self.assertEqual(300, image_shape.width)
+        self.assertEqual(300, image_shape.height)
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertImageOriginalSize.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertImageOriginalSize.docx')
+        image_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
+        self.assertEqual(0, image_shape.left)
+        self.assertEqual(0, image_shape.top)
+        self.assertEqual(300, image_shape.width)
+        self.assertEqual(300, image_shape.height)
+        self.assertEqual(aw.drawing.WrapType.SQUARE, image_shape.wrap_type)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, image_shape.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, image_shape.relative_vertical_position)
 
     def test_insert_text_input(self):
         #ExStart
@@ -1202,6 +1427,34 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(100, table.rows[1].row_format.height)
         self.assertEqual(aw.HeightRule.EXACTLY, table.rows[1].row_format.height_rule)
 
+    def test_insert_footnote(self):
+        #ExStart
+        #ExFor:FootnoteType
+        #ExFor:DocumentBuilder.insert_footnote(FootnoteType,str)
+        #ExFor:DocumentBuilder.insert_footnote(FootnoteType,str,str)
+        #ExSummary:Shows how to reference text with a footnote and an endnote.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Insert some text and mark it with a footnote with the IsAuto property set to "true" by default,
+        # so the marker seen in the body text will be auto-numbered at "1",
+        # and the footnote will appear at the bottom of the page.
+        builder.write('This text will be referenced by a footnote.')
+        builder.insert_footnote(footnote_type=aw.notes.FootnoteType.FOOTNOTE, footnote_text='Footnote comment regarding referenced text.')
+        # Insert more text and mark it with an endnote with a custom reference mark,
+        # which will be used in place of the number "2" and set "IsAuto" to false.
+        builder.write('This text will be referenced by an endnote.')
+        builder.insert_footnote(footnote_type=aw.notes.FootnoteType.ENDNOTE, footnote_text='Endnote comment regarding referenced text.', reference_mark='CustomMark')
+        # Footnotes always appear at the bottom of their referenced text,
+        # so this page break will not affect the footnote.
+        # On the other hand, endnotes are always at the end of the document
+        # so that this page break will push the endnote down to the next page.
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertFootnote.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertFootnote.docx')
+        test_util.TestUtil.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, '', 'Footnote comment regarding referenced text.', doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
+        test_util.TestUtil.verify_footnote(aw.notes.FootnoteType.ENDNOTE, False, 'CustomMark', 'CustomMark Endnote comment regarding referenced text.', doc.get_child(aw.NodeType.FOOTNOTE, 1, True).as_footnote())
+
     def test_apply_borders_and_shading(self):
         #ExStart
         #ExFor:BorderCollection.__getitem__(BorderType)
@@ -1262,6 +1515,139 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual('Row 2, cell 1.\x07Row 2, cell 2.\x07\x07', table.get_text().strip())
         #ExEnd
 
+    def test_append_document_and_resolve_styles(self):
+        for keep_source_numbering in [False, True]:
+            #ExStart
+            #ExFor:Document.append_document(Document,ImportFormatMode,ImportFormatOptions)
+            #ExSummary:Shows how to manage list style clashes while appending a document.
+            # Load a document with text in a custom style and clone it.
+            src_doc = aw.Document(file_name=MY_DIR + 'Custom list numbering.docx')
+            dst_doc = src_doc.clone()
+            # We now have two documents, each with an identical style named "CustomStyle".
+            # Change the text color for one of the styles to set it apart from the other.
+            dst_doc.styles.get_by_name('CustomStyle').font.color = aspose.pydrawing.Color.dark_red
+            # If there is a clash of list styles, apply the list format of the source document.
+            # Set the "KeepSourceNumbering" property to "false" to not import any list numbers into the destination document.
+            # Set the "KeepSourceNumbering" property to "true" import all clashing
+            # list style numbering with the same appearance that it had in the source document.
+            options = aw.ImportFormatOptions()
+            options.keep_source_numbering = keep_source_numbering
+            # Joining two documents that have different styles that share the same name causes a style clash.
+            # We can specify an import format mode while appending documents to resolve this clash.
+            dst_doc.append_document(src_doc=src_doc, import_format_mode=aw.ImportFormatMode.KEEP_DIFFERENT_STYLES, import_format_options=options)
+            dst_doc.update_list_labels()
+            dst_doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.AppendDocumentAndResolveStyles.docx')
+            #ExEnd
+
+    def test_insert_document_and_resolve_styles(self):
+        for keep_source_numbering in [False, True]:
+            #ExStart
+            #ExFor:Document.append_document(Document,ImportFormatMode,ImportFormatOptions)
+            #ExSummary:Shows how to manage list style clashes while inserting a document.
+            dst_doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=dst_doc)
+            builder.insert_break(aw.BreakType.PARAGRAPH_BREAK)
+            dst_doc.lists.add(list_template=aw.lists.ListTemplate.NUMBER_DEFAULT)
+            list = dst_doc.lists[0]
+            builder.list_format.list = list
+            i = 1
+            while i <= 15:
+                builder.write(f'List Item {i}\n')
+                i += 1
+            attach_doc = dst_doc.clone(True).as_document()
+            # If there is a clash of list styles, apply the list format of the source document.
+            # Set the "KeepSourceNumbering" property to "false" to not import any list numbers into the destination document.
+            # Set the "KeepSourceNumbering" property to "true" import all clashing
+            # list style numbering with the same appearance that it had in the source document.
+            import_options = aw.ImportFormatOptions()
+            import_options.keep_source_numbering = keep_source_numbering
+            builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
+            builder.insert_document(src_doc=attach_doc, import_format_mode=aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, import_format_options=import_options)
+            dst_doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertDocumentAndResolveStyles.docx')
+            #ExEnd
+
+    def test_load_document_with_list_numbering(self):
+        for keep_source_numbering in [False, True]:
+            #ExStart
+            #ExFor:Document.append_document(Document,ImportFormatMode,ImportFormatOptions)
+            #ExSummary:Shows how to manage list style clashes while appending a clone of a document to itself.
+            src_doc = aw.Document(file_name=MY_DIR + 'List item.docx')
+            dst_doc = aw.Document(file_name=MY_DIR + 'List item.docx')
+            # If there is a clash of list styles, apply the list format of the source document.
+            # Set the "KeepSourceNumbering" property to "false" to not import any list numbers into the destination document.
+            # Set the "KeepSourceNumbering" property to "true" import all clashing
+            # list style numbering with the same appearance that it had in the source document.
+            builder = aw.DocumentBuilder(doc=dst_doc)
+            builder.move_to_document_end()
+            builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
+            options = aw.ImportFormatOptions()
+            options.keep_source_numbering = keep_source_numbering
+            builder.insert_document(src_doc=src_doc, import_format_mode=aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, import_format_options=options)
+            dst_doc.update_list_labels()
+            #ExEnd
+
+    def test_ignore_text_boxes(self):
+        for ignore_text_boxes in [True, False]:
+            #ExStart
+            #ExFor:ImportFormatOptions.ignore_text_boxes
+            #ExSummary:Shows how to manage text box formatting while appending a document.
+            # Create a document that will have nodes from another document inserted into it.
+            dst_doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=dst_doc)
+            builder.writeln('Hello world!')
+            # Create another document with a text box, which we will import into the first document.
+            src_doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=src_doc)
+            text_box = builder.insert_shape(shape_type=aw.drawing.ShapeType.TEXT_BOX, width=300, height=100)
+            builder.move_to(text_box.first_paragraph)
+            builder.paragraph_format.style.font.name = 'Courier New'
+            builder.paragraph_format.style.font.size = 24
+            builder.write('Textbox contents')
+            # Set a flag to specify whether to clear or preserve text box formatting
+            # while importing them to other documents.
+            import_format_options = aw.ImportFormatOptions()
+            import_format_options.ignore_text_boxes = ignore_text_boxes
+            # Import the text box from the source document into the destination document,
+            # and then verify whether we have preserved the styling of its text contents.
+            importer = aw.NodeImporter(src_doc=src_doc, dst_doc=dst_doc, import_format_mode=aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, import_format_options=import_format_options)
+            imported_text_box = importer.import_node(text_box, True).as_shape()
+            dst_doc.first_section.body.paragraphs[1].append_child(imported_text_box)
+            if ignore_text_boxes:
+                self.assertEqual(12, imported_text_box.first_paragraph.runs[0].font.size)
+                self.assertEqual('Times New Roman', imported_text_box.first_paragraph.runs[0].font.name)
+            else:
+                self.assertEqual(24, imported_text_box.first_paragraph.runs[0].font.size)
+                self.assertEqual('Courier New', imported_text_box.first_paragraph.runs[0].font.name)
+            dst_doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.IgnoreTextBoxes.docx')
+            #ExEnd
+
+    def test_move_to_field(self):
+        for move_cursor_to_after_the_field in [False, True]:
+            #ExStart
+            #ExFor:DocumentBuilder.move_to_field
+            #ExSummary:Shows how to move a document builder's node insertion point cursor to a specific field.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            # Insert a field using the DocumentBuilder and add a run of text after it.
+            field = builder.insert_field(field_code=' AUTHOR "John Doe" ')
+            # The builder's cursor is currently at end of the document.
+            self.assertIsNone(builder.current_node)
+            # Move the cursor to the field while specifying whether to place that cursor before or after the field.
+            builder.move_to_field(field, move_cursor_to_after_the_field)
+            # Note that the cursor is outside of the field in both cases.
+            # This means that we cannot edit the field using the builder like this.
+            # To edit a field, we can use the builder's MoveTo method on a field's FieldStart
+            # or FieldSeparator node to place the cursor inside.
+            if move_cursor_to_after_the_field:
+                self.assertIsNone(builder.current_node)
+                builder.write(' Text immediately after the field.')
+                self.assertEqual('\x13 AUTHOR "John Doe" \x14John Doe\x15 Text immediately after the field.', doc.get_text().strip())
+            else:
+                self.assertEqual(field.start, builder.current_node)
+                builder.write('Text immediately before the field. ')
+                self.assertEqual('Text immediately before the field. \x13 AUTHOR "John Doe" \x14John Doe\x15', doc.get_text().strip())
+            #ExEnd
+
     def test_insert_pie_chart(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_chart(ChartType,float,float)
@@ -1299,6 +1685,59 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, chart_shape.relative_horizontal_position)
         self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, chart_shape.relative_vertical_position)
 
+    def test_insert_field_and_update(self):
+        for update_inserted_fields_immediately in [False, True]:
+            #ExStart
+            #ExFor:DocumentBuilder.insert_field(FieldType,bool)
+            #ExFor:Field.update
+            #ExSummary:Shows how to insert a field into a document using FieldType.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            # Insert two fields while passing a flag which determines whether to update them as the builder inserts them.
+            # In some cases, updating fields could be computationally expensive, and it may be a good idea to defer the update.
+            doc.built_in_document_properties.author = 'John Doe'
+            builder.write('This document was written by ')
+            builder.insert_field(field_type=aw.fields.FieldType.FIELD_AUTHOR, update_field=update_inserted_fields_immediately)
+            builder.insert_paragraph()
+            builder.write('\nThis is page ')
+            builder.insert_field(field_type=aw.fields.FieldType.FIELD_PAGE, update_field=update_inserted_fields_immediately)
+            self.assertEqual(' AUTHOR ', doc.range.fields[0].get_field_code())
+            self.assertEqual(' PAGE ', doc.range.fields[1].get_field_code())
+            if update_inserted_fields_immediately:
+                self.assertEqual('John Doe', doc.range.fields[0].result)
+                self.assertEqual('1', doc.range.fields[1].result)
+            else:
+                self.assertEqual('', doc.range.fields[0].result)
+                self.assertEqual('', doc.range.fields[1].result)
+                # We will need to update these fields using the update methods manually.
+                doc.range.fields[0].update()
+                self.assertEqual('John Doe', doc.range.fields[0].result)
+                doc.update_fields()
+                self.assertEqual('1', doc.range.fields[1].result)
+            #ExEnd
+            doc = document_helper.DocumentHelper.save_open(doc)
+            self.assertEqual('This document was written by \x13 AUTHOR \x14John Doe\x15' + '\r\rThis is page \x13 PAGE \x141\x15', doc.get_text().strip())
+            test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_AUTHOR, expected_field_code=' AUTHOR ', expected_result='John Doe', field=doc.range.fields[0])
+            test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_PAGE, expected_field_code=' PAGE ', expected_result='1', field=doc.range.fields[1])
+
+    @unittest.skip('Failed')
+    def test_insert_video_with_url(self):
+        #ExStart
+        #ExFor:DocumentBuilder.insert_online_video(str,float,float)
+        #ExSummary:Shows how to insert an online video into a document using a URL.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.insert_online_video(video_url='https://youtu.be/g1N9ke8Prmk', width=360, height=270)
+        # We can watch the video from Microsoft Word by clicking on the shape.
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertVideoWithUrl.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertVideoWithUrl.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_image_in_shape(480, 360, aw.drawing.ImageType.JPEG, shape)
+        self.assertEqual('https://youtu.be/t_1LYZ102RA', shape.href)
+        self.assertEqual(360, shape.width)
+        self.assertEqual(270, shape.height)
+
     def test_insert_underline(self):
         #ExStart
         #ExFor:DocumentBuilder.underline
@@ -1318,6 +1757,81 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(aw.Underline.DASH, first_run.font.underline)
         self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), first_run.font.color.to_argb())
         self.assertEqual(32, first_run.font.size)
+
+    def test_current_story(self):
+        #ExStart
+        #ExFor:DocumentBuilder.current_story
+        #ExSummary:Shows how to work with a document builder's current story.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # A Story is a type of node that has child Paragraph nodes, such as a Body.
+        self.assertEqual(builder.current_story, doc.first_section.body)
+        self.assertEqual(builder.current_story, builder.current_paragraph.parent_node)
+        self.assertEqual(aw.StoryType.MAIN_TEXT, builder.current_story.story_type)
+        builder.current_story.append_paragraph('Text added to current Story.')
+        # A Story can also contain tables.
+        table = builder.start_table()
+        builder.insert_cell()
+        builder.write('Row 1, cell 1')
+        builder.insert_cell()
+        builder.write('Row 1, cell 2')
+        builder.end_table()
+        self.assertTrue(builder.current_story.tables.contains(table))
+        #ExEnd
+        doc = document_helper.DocumentHelper.save_open(doc)
+        self.assertEqual(1, doc.first_section.body.tables.count)
+        self.assertEqual('Row 1, cell 1\x07Row 1, cell 2\x07\x07\rText added to current Story.', doc.first_section.body.get_text().strip())
+
+    def test_insert_style_separator(self):
+        #ExStart
+        #ExFor:DocumentBuilder.insert_style_separator
+        #ExSummary:Shows how to work with style separators.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Each paragraph can only have one style.
+        # The InsertStyleSeparator method allows us to work around this limitation.
+        builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING1
+        builder.write('This text is in a Heading style. ')
+        builder.insert_style_separator()
+        para_style = builder.document.styles.add(aw.StyleType.PARAGRAPH, 'MyParaStyle')
+        para_style.font.bold = False
+        para_style.font.size = 8
+        para_style.font.name = 'Arial'
+        builder.paragraph_format.style_name = para_style.name
+        builder.write('This text is in a custom style. ')
+        # Calling the InsertStyleSeparator method creates another paragraph,
+        # which can have a different style to the previous. There will be no break between paragraphs.
+        # The text in the output document will look like one paragraph with two styles.
+        self.assertEqual(2, doc.first_section.body.paragraphs.count)
+        self.assertEqual('Heading 1', doc.first_section.body.paragraphs[0].paragraph_format.style.name)
+        self.assertEqual('MyParaStyle', doc.first_section.body.paragraphs[1].paragraph_format.style.name)
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertStyleSeparator.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertStyleSeparator.docx')
+        self.assertEqual(2, doc.first_section.body.paragraphs.count)
+        self.assertEqual('This text is in a Heading style. \r This text is in a custom style.', doc.get_text().strip())
+        self.assertEqual('Heading 1', doc.first_section.body.paragraphs[0].paragraph_format.style.name)
+        self.assertEqual('MyParaStyle', doc.first_section.body.paragraphs[1].paragraph_format.style.name)
+        self.assertEqual(' ', doc.first_section.body.paragraphs[1].runs[0].get_text())
+        test_util.TestUtil.doc_package_file_contains_string('w:rPr><w:vanish /><w:specVanish /></w:rPr>', ARTIFACTS_DIR + 'DocumentBuilder.InsertStyleSeparator.docx', 'document.xml')
+        test_util.TestUtil.doc_package_file_contains_string('<w:t xml:space="preserve"> </w:t>', ARTIFACTS_DIR + 'DocumentBuilder.InsertStyleSeparator.docx', 'document.xml')
+
+    @unittest.skip('Bug: does not insert headers and footers, all lists (bullets, numbering, multilevel) breaks')
+    def test_insert_document(self):
+        #ExStart
+        #ExFor:DocumentBuilder.insert_document(Document,ImportFormatMode)
+        #ExFor:ImportFormatMode
+        #ExSummary:Shows how to insert a document into another document.
+        doc = aw.Document(file_name=MY_DIR + 'Document.docx')
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.move_to_document_end()
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        doc_to_insert = aw.Document(file_name=MY_DIR + 'Formatted elements.docx')
+        builder.insert_document(src_doc=doc_to_insert, import_format_mode=aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+        builder.document.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertDocument.docx')
+        #ExEnd
+        self.assertEqual(29, doc.styles.count)
+        self.assertTrue(document_helper.DocumentHelper.compare_docs(ARTIFACTS_DIR + 'DocumentBuilder.InsertDocument.docx', GOLDS_DIR + 'DocumentBuilder.InsertDocument Gold.docx'))
 
     def test_smart_style_behavior(self):
         #ExStart
@@ -1383,6 +1897,32 @@ class ExDocumentBuilder(ApiExampleBase):
         dst_doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.DoNotIgnoreHeaderFooter.docx')
         #ExEnd
 
+    def test_insert_online_video(self):
+        #ExStart
+        #ExFor:DocumentBuilder.insert_online_video(str,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)
+        #ExSummary:Shows how to insert an online video into a document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        video_url = 'https://vimeo.com/52477838'
+        # Insert a shape that plays a video from the web when clicked in Microsoft Word.
+        # This rectangular shape will contain an image based on the first frame of the linked video
+        # and a "play button" visual prompt. The video has an aspect ratio of 16:9.
+        # We will set the shape's size to that ratio, so the image does not appear stretched.
+        builder.insert_online_video(video_url=video_url, horz_pos=aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, left=0, vert_pos=aw.drawing.RelativeVerticalPosition.TOP_MARGIN, top=0, width=320, height=180, wrap_type=aw.drawing.WrapType.SQUARE)
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertOnlineVideo.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertOnlineVideo.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_image_in_shape(640, 360, aw.drawing.ImageType.JPEG, shape)
+        self.assertEqual(320, shape.width)
+        self.assertEqual(180, shape.height)
+        self.assertEqual(0, shape.left)
+        self.assertEqual(0, shape.top)
+        self.assertEqual(aw.drawing.WrapType.SQUARE, shape.wrap_type)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.TOP_MARGIN, shape.relative_vertical_position)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, shape.relative_horizontal_position)
+        self.assertEqual('https://vimeo.com/52477838', shape.href)
+
     def test_preserve_blocks(self):
         #ExStart
         #ExFor:HtmlInsertOptions
@@ -1412,93 +1952,6 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual('ruby', phonetic_guide.ruby_text)
         #ExEnd
 
-    def test_write_and_font(self):
-        #ExStart
-        #ExFor:Font.size
-        #ExFor:Font.bold
-        #ExFor:Font.name
-        #ExFor:Font.color
-        #ExFor:Font.underline
-        #ExFor:DocumentBuilder.__init__(Document)
-        #ExSummary:Shows how to insert formatted text using DocumentBuilder.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Specify font formatting, then add text.
-        font = builder.font
-        font.size = 16
-        font.bold = True
-        font.color = aspose.pydrawing.Color.blue
-        font.name = 'Courier New'
-        font.underline = aw.Underline.DASH
-        builder.write('Hello world!')
-        #ExEnd
-        doc = DocumentHelper.save_open(builder.document)
-        first_run = doc.first_section.body.paragraphs[0].runs[0]
-        self.assertEqual('Hello world!', first_run.get_text().strip())
-        self.assertEqual(16.0, first_run.font.size)
-        self.assertTrue(first_run.font.bold)
-        self.assertEqual('Courier New', first_run.font.name)
-        self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), first_run.font.color.to_argb())
-        self.assertEqual(aw.Underline.DASH, first_run.font.underline)
-
-    def test_merge_fields(self):
-        #ExStart
-        #ExFor:DocumentBuilder.insert_field(str)
-        #ExFor:DocumentBuilder.move_to_merge_field(str,bool,bool)
-        #ExSummary:Shows how to insert fields, and move the document builder's cursor to them.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.insert_field('MERGEFIELD MyMergeField1 \\* MERGEFORMAT')
-        builder.insert_field('MERGEFIELD MyMergeField2 \\* MERGEFORMAT')
-        # Move the cursor to the first MERGEFIELD.
-        builder.move_to_merge_field('MyMergeField1', True, False)
-        # Note that the cursor is placed immediately after the first MERGEFIELD, and before the second.
-        self.assertEqual(doc.range.fields[1].start, builder.current_node)
-        self.assertEqual(doc.range.fields[0].end, builder.current_node.previous_sibling)
-        # If we wish to edit the field's field code or contents using the builder,
-        # its cursor would need to be inside a field.
-        # To place it inside a field, we would need to call the document builder's "move_to" method
-        # and pass the field's start or separator node as an argument.
-        builder.write(' Text between our merge fields. ')
-        doc.save(ARTIFACTS_DIR + 'DocumentBuilder.merge_fields.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'DocumentBuilder.merge_fields.docx')
-        self.assertEqual('\x13MERGEFIELD MyMergeField1 \\* MERGEFORMAT\x14«MyMergeField1»\x15' + ' Text between our merge fields. ' + '\x13MERGEFIELD MyMergeField2 \\* MERGEFORMAT\x14«MyMergeField2»\x15', doc.get_text().strip())
-        self.assertEqual(2, doc.range.fields.count)
-        self.verify_field(aw.fields.FieldType.FIELD_MERGE_FIELD, 'MERGEFIELD MyMergeField1 \\* MERGEFORMAT', '«MyMergeField1»', doc.range.fields[0])
-        self.verify_field(aw.fields.FieldType.FIELD_MERGE_FIELD, 'MERGEFIELD MyMergeField2 \\* MERGEFORMAT', '«MyMergeField2»', doc.range.fields[1])
-
-    def test_insert_horizontal_rule(self):
-        #ExStart
-        #ExFor:DocumentBuilder.insert_horizontal_rule
-        #ExFor:ShapeBase.is_horizontal_rule
-        #ExFor:Shape.horizontal_rule_format
-        #ExFor:HorizontalRuleFormat
-        #ExFor:HorizontalRuleFormat.alignment
-        #ExFor:HorizontalRuleFormat.width_percent
-        #ExFor:HorizontalRuleFormat.height
-        #ExFor:HorizontalRuleFormat.color
-        #ExFor:HorizontalRuleFormat.no_shade
-        #ExSummary:Shows how to insert a horizontal rule shape, and customize its formatting.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        shape = builder.insert_horizontal_rule()
-        horizontal_rule_format = shape.horizontal_rule_format
-        horizontal_rule_format.alignment = aw.drawing.HorizontalRuleAlignment.CENTER
-        horizontal_rule_format.width_percent = 70
-        horizontal_rule_format.height = 3
-        horizontal_rule_format.color = aspose.pydrawing.Color.blue
-        horizontal_rule_format.no_shade = True
-        self.assertTrue(shape.is_horizontal_rule)
-        self.assertTrue(shape.horizontal_rule_format.no_shade)
-        #ExEnd
-        doc = DocumentHelper.save_open(doc)
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.assertEqual(aw.drawing.HorizontalRuleAlignment.CENTER, shape.horizontal_rule_format.alignment)
-        self.assertEqual(70, shape.horizontal_rule_format.width_percent)
-        self.assertEqual(3, shape.horizontal_rule_format.height)
-        self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), shape.horizontal_rule_format.color.to_argb())
-
     def test_horizontal_rule_format_exceptions(self):
         """Checking the boundary conditions of WidthPercent and Height properties."""
         builder = aw.DocumentBuilder()
@@ -1516,41 +1969,6 @@ class ExDocumentBuilder(ApiExampleBase):
             horizontal_rule_format.height = -1
         with self.assertRaises(Exception):
             horizontal_rule_format.height = 1585
-
-    @unittest.skip("drawing.Image type isn't supported yet")
-    def test_insert_watermark(self):
-        #ExStart
-        #ExFor:DocumentBuilder.move_to_header_footer
-        #ExFor:PageSetup.page_width
-        #ExFor:PageSetup.page_height
-        #ExFor:WrapType
-        #ExFor:RelativeHorizontalPosition
-        #ExFor:RelativeVerticalPosition
-        #ExSummary:Shows how to insert an image, and use it as a watermark.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Insert the image into the header so that it will be visible on every page.
-        image = aspose.pydrawing.Image.from_file(IMAGE_DIR + 'Transparent background logo.png')
-        builder.move_to_header_footer(aw.HeaderFooterType.HEADER_PRIMARY)
-        shape = builder.insert_image(image)
-        shape.wrap_type = aw.drawing.WrapType.NONE
-        shape.behind_text = True
-        # Place the image at the center of the page.
-        shape.relative_horizontal_position = aw.drawing.RelativeHorizontalPosition.PAGE
-        shape.relative_vertical_position = aw.drawing.RelativeVerticalPosition.PAGE
-        shape.left = (builder.page_setup.page_width - shape.width) // 2
-        shape.top = (builder.page_setup.page_height - shape.height) // 2
-        doc.save(ARTIFACTS_DIR + 'DocumentBuilder.insert_watermark.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'DocumentBuilder.insert_watermark.docx')
-        shape = doc.first_section.headers_footers[aw.HeaderFooterType.HEADER_PRIMARY].get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, shape)
-        self.assertEqual(aw.drawing.WrapType.NONE, shape.wrap_type)
-        self.assertTrue(shape.behind_text)
-        self.assertEqual(aw.drawing.RelativeHorizontalPosition.PAGE, shape.relative_horizontal_position)
-        self.assertEqual(aw.drawing.RelativeVerticalPosition.PAGE, shape.relative_vertical_position)
-        self.assertEqual((doc.first_section.page_setup.page_width - shape.width) // 2, shape.left)
-        self.assertEqual((doc.first_section.page_setup.page_height - shape.height) // 2, shape.top)
 
     def test_insert_ole_object(self):
         #ExStart
@@ -1615,15 +2033,6 @@ class ExDocumentBuilder(ApiExampleBase):
                 doc.save(ARTIFACTS_DIR + 'DocumentBuilder.insert_html_with_formatting.docx')
                 #ExEnd
 
-    def test_math_ml(self):
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        math_ml = '<math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><msub><mi>a</mi><mrow><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>b</mi><mrow><mn>1</mn></mrow></msub></mrow></math>'
-        builder.insert_html(math_ml)
-        doc.save(ARTIFACTS_DIR + 'DocumentBuilder.math_ml.docx')
-        doc.save(ARTIFACTS_DIR + 'DocumentBuilder.math_ml.pdf')
-        self.assertTrue(DocumentHelper.compare_docs(GOLDS_DIR + 'DocumentBuilder.MathML Gold.docx', ARTIFACTS_DIR + 'DocumentBuilder.math_ml.docx'))
-
     def test_create_column_bookmark(self):
         #ExStart
         #ExFor:DocumentBuilder.start_column_bookmark
@@ -1686,97 +2095,6 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual('Hyperlink Tip', hyperlink.screen_tip)
         self.assertTrue(any((b for b in doc.range.bookmarks if b.name == 'Bookmark1')))
 
-    def test_move_to_paragraph(self):
-        #ExStart
-        #ExFor:DocumentBuilder.move_to_paragraph
-        #ExSummary:Shows how to move a builder's cursor position to a specified paragraph.
-        doc = aw.Document(MY_DIR + 'Paragraphs.docx')
-        paragraphs = doc.first_section.body.paragraphs
-        self.assertEqual(22, paragraphs.count)
-        # Create document builder to edit the document. The builder's cursor,
-        # which is the point where it will insert new nodes when we call its document construction methods,
-        # is currently at the beginning of the document.
-        builder = aw.DocumentBuilder(doc)
-        self.assertEqual(0, paragraphs.index_of(builder.current_paragraph))
-        # Move that cursor to a different paragraph will place that cursor in front of that paragraph.
-        builder.move_to_paragraph(2, 0)
-        self.assertEqual(2, paragraphs.index_of(builder.current_paragraph))  #ExSkip
-        # Any new content that we add will be inserted at that point.
-        builder.writeln('This is a new third paragraph. ')
-        #ExEnd
-        self.assertEqual(3, paragraphs.index_of(builder.current_paragraph))
-        doc = DocumentHelper.save_open(doc)
-        self.assertEqual('This is a new third paragraph.', doc.first_section.body.paragraphs[2].get_text().strip())
-
-    def test_table_cell_vertical_rotated_far_east_text_orientation(self):
-        doc = aw.Document(MY_DIR + 'Rotated cell text.docx')
-        table = doc.first_section.body.tables[0]
-        cell = table.first_row.first_cell
-        self.assertEqual(aw.TextOrientation.VERTICAL_ROTATED_FAR_EAST, cell.cell_format.orientation)
-        doc = DocumentHelper.save_open(doc)
-        table = doc.first_section.body.tables[0]
-        cell = table.first_row.first_cell
-        self.assertEqual(aw.TextOrientation.VERTICAL_ROTATED_FAR_EAST, cell.cell_format.orientation)
-
-    def test_insert_floating_image(self):
-        #ExStart
-        #ExFor:DocumentBuilder.insert_image(str,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)
-        #ExSummary:Shows how to insert an image.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # There are two ways of using a document builder to source an image and then insert it as a floating shape.
-        # 1 -  From a file in the local file system:
-        builder.insert_image(IMAGE_DIR + 'Transparent background logo.png', aw.drawing.RelativeHorizontalPosition.MARGIN, 100, aw.drawing.RelativeVerticalPosition.MARGIN, 0, 200, 200, aw.drawing.WrapType.SQUARE)
-        # 2 -  From a URL:
-        builder.insert_image(IMAGE_URL, aw.drawing.RelativeHorizontalPosition.MARGIN, 100, aw.drawing.RelativeVerticalPosition.MARGIN, 250, 200, 200, aw.drawing.WrapType.SQUARE)
-        doc.save(ARTIFACTS_DIR + 'DocumentBuilder.insert_floating_image.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'DocumentBuilder.insert_floating_image.docx')
-        image = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, image)
-        self.assertEqual(100.0, image.left)
-        self.assertEqual(0.0, image.top)
-        self.assertEqual(200.0, image.width)
-        self.assertEqual(200.0, image.height)
-        self.assertEqual(aw.drawing.WrapType.SQUARE, image.wrap_type)
-        self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, image.relative_horizontal_position)
-        self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, image.relative_vertical_position)
-        image = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
-        self.verify_image_in_shape(272, 92, aw.drawing.ImageType.PNG, image)
-        self.assertEqual(100.0, image.left)
-        self.assertEqual(250.0, image.top)
-        self.assertEqual(200.0, image.width)
-        self.assertEqual(200.0, image.height)
-        self.assertEqual(aw.drawing.WrapType.SQUARE, image.wrap_type)
-        self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, image.relative_horizontal_position)
-        self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, image.relative_vertical_position)
-
-    def test_insert_image_original_size(self):
-        #ExStart
-        #ExFor:DocumentBuilder.insert_image(str,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)
-        #ExSummary:Shows how to insert an image from the local file system into a document while preserving its dimensions.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # The "insert_image" method creates a floating shape with the passed image in its image data.
-        # We can specify the dimensions of the shape can be passing them to this method.
-        image_shape = builder.insert_image(IMAGE_DIR + 'Logo.jpg', aw.drawing.RelativeHorizontalPosition.MARGIN, 0, aw.drawing.RelativeVerticalPosition.MARGIN, 0, -1, -1, aw.drawing.WrapType.SQUARE)
-        # Passing negative values as the intended dimensions will automatically define
-        # the shape's dimensions based on the dimensions of its image.
-        self.assertEqual(300.0, image_shape.width)
-        self.assertEqual(300.0, image_shape.height)
-        doc.save(ARTIFACTS_DIR + 'DocumentBuilder.insert_image_original_size.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'DocumentBuilder.insert_image_original_size.docx')
-        image_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
-        self.assertEqual(0.0, image_shape.left)
-        self.assertEqual(0.0, image_shape.top)
-        self.assertEqual(300.0, image_shape.width)
-        self.assertEqual(300.0, image_shape.height)
-        self.assertEqual(aw.drawing.WrapType.SQUARE, image_shape.wrap_type)
-        self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, image_shape.relative_horizontal_position)
-        self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, image_shape.relative_vertical_position)
-
     def test_signature_line_provider_id(self):
         #ExStart
         #ExFor:SignatureLine.is_signed
@@ -1837,169 +2155,6 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual('CN=Morzal.Me', signatures[0].issuer_name)
         self.assertEqual(aw.digitalsignatures.DigitalSignatureType.XML_DSIG, signatures[0].signature_type)
 
-    def test_insert_footnote(self):
-        #ExStart
-        #ExFor:FootnoteType
-        #ExFor:DocumentBuilder.insert_footnote(FootnoteType,str)
-        #ExFor:DocumentBuilder.insert_footnote(FootnoteType,str,str)
-        #ExSummary:Shows how to reference text with a footnote and an endnote.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Insert some text and mark it with a footnote with the "is_auto" property set to "True" by default,
-        # so the marker seen in the body text will be auto-numbered at "1",
-        # and the footnote will appear at the bottom of the page.
-        builder.write('This text will be referenced by a footnote.')
-        builder.insert_footnote(aw.notes.FootnoteType.FOOTNOTE, 'Footnote comment regarding referenced text.')
-        # Insert more text and mark it with an endnote with a custom reference mark,
-        # which will be used in place of the number "2" and set "is_auto" to False.
-        builder.write('This text will be referenced by an endnote.')
-        builder.insert_footnote(aw.notes.FootnoteType.ENDNOTE, 'Endnote comment regarding referenced text.', 'CustomMark')
-        # Footnotes always appear at the bottom of their referenced text,
-        # so this page break will not affect the footnote.
-        # On the other hand, endnotes are always at the end of the document
-        # so that this page break will push the endnote down to the next page.
-        builder.insert_break(aw.BreakType.PAGE_BREAK)
-        doc.save(ARTIFACTS_DIR + 'DocumentBuilder.insert_footnote.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'DocumentBuilder.insert_footnote.docx')
-        self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, '', 'Footnote comment regarding referenced text.', doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
-        self.verify_footnote(aw.notes.FootnoteType.ENDNOTE, False, 'CustomMark', 'CustomMark Endnote comment regarding referenced text.', doc.get_child(aw.NodeType.FOOTNOTE, 1, True).as_footnote())
-
-    def test_append_document_and_resolve_styles(self):
-        for keep_source_numbering in (False, True):
-            with self.subTest(keep_source_numbering=keep_source_numbering):
-                #ExStart
-                #ExFor:Document.append_document(Document,ImportFormatMode,ImportFormatOptions)
-                #ExSummary:Shows how to manage list style clashes while appending a document.
-                # Load a document with text in a custom style and clone it.
-                src_doc = aw.Document(MY_DIR + 'Custom list numbering.docx')
-                dst_doc = src_doc.clone()
-                # We now have two documents, each with an identical style named "CustomStyle".
-                # Change the text color for one of the styles to set it apart from the other.
-                dst_doc.styles.get_by_name('CustomStyle').font.color = aspose.pydrawing.Color.dark_red
-                # If there is a clash of list styles, apply the list format of the source document.
-                # Set the "keep_source_numbering" property to "False" to not import any list numbers into the destination document.
-                # Set the "keep_source_numbering" property to "True" import all clashing
-                # list style numbering with the same appearance that it had in the source document.
-                options = aw.ImportFormatOptions()
-                options.keep_source_numbering = keep_source_numbering
-                # Joining two documents that have different styles that share the same name causes a style clash.
-                # We can specify an import format mode while appending documents to resolve this clash.
-                dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_DIFFERENT_STYLES, options)
-                dst_doc.update_list_labels()
-                dst_doc.save(ARTIFACTS_DIR + 'DocumentBuilder.append_document_and_resolve_styles.docx')
-                #ExEnd
-
-    def test_insert_document_and_resolve_styles(self):
-        for keep_source_numbering in (False, True):
-            with self.subTest(keep_source_numbering=keep_source_numbering):
-                #ExStart
-                #ExFor:Document.append_document(Document,ImportFormatMode,ImportFormatOptions)
-                #ExSummary:Shows how to manage list style clashes while inserting a document.
-                dst_doc = aw.Document()
-                builder = aw.DocumentBuilder(dst_doc)
-                builder.insert_break(aw.BreakType.PARAGRAPH_BREAK)
-                dst_doc.lists.add(aw.lists.ListTemplate.NUMBER_DEFAULT)
-                builder.list_format.list = dst_doc.lists[0]
-                for i in range(1, 16):
-                    builder.write(f'List Item {i}\n')
-                attach_doc = dst_doc.clone(True).as_document()
-                # If there is a clash of list styles, apply the list format of the source document.
-                # Set the "keep_source_numbering" property to "False" to not import any list numbers into the destination document.
-                # Set the "keep_source_numbering" property to "True" import all clashing
-                # list style numbering with the same appearance that it had in the source document.
-                import_options = aw.ImportFormatOptions()
-                import_options.keep_source_numbering = keep_source_numbering
-                builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
-                builder.insert_document(attach_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, import_options)
-                dst_doc.save(ARTIFACTS_DIR + 'DocumentBuilder.insert_document_and_resolve_styles.docx')
-                #ExEnd
-
-    def test_load_document_with_list_numbering(self):
-        for keep_source_numbering in (False, True):
-            with self.subTest(keep_source_numbering=keep_source_numbering):
-                #ExStart
-                #ExFor:Document.append_document(Document,ImportFormatMode,ImportFormatOptions)
-                #ExSummary:Shows how to manage list style clashes while appending a clone of a document to itself.
-                src_doc = aw.Document(MY_DIR + 'List item.docx')
-                dst_doc = aw.Document(MY_DIR + 'List item.docx')
-                # If there is a clash of list styles, apply the list format of the source document.
-                # Set the "keep_source_numbering" property to "False" to not import any list numbers into the destination document.
-                # Set the "keep_source_numbering" property to "True" import all clashing
-                # list style numbering with the same appearance that it had in the source document.
-                builder = aw.DocumentBuilder(dst_doc)
-                builder.move_to_document_end()
-                builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
-                options = aw.ImportFormatOptions()
-                options.keep_source_numbering = keep_source_numbering
-                builder.insert_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, options)
-                dst_doc.update_list_labels()
-                #ExEnd
-
-    def test_ignore_text_boxes(self):
-        for ignore_text_boxes in (False, True):
-            with self.subTest(ignore_text_boxes=ignore_text_boxes):
-                #ExStart
-                #ExFor:ImportFormatOptions.ignore_text_boxes
-                #ExSummary:Shows how to manage text box formatting while appending a document.
-                # Create a document that will have nodes from another document inserted into it.
-                dst_doc = aw.Document()
-                builder = aw.DocumentBuilder(dst_doc)
-                builder.writeln('Hello world!')
-                # Create another document with a text box, which we will import into the first document.
-                src_doc = aw.Document()
-                builder = aw.DocumentBuilder(src_doc)
-                text_box = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 300, 100)
-                builder.move_to(text_box.first_paragraph)
-                builder.paragraph_format.style.font.name = 'Courier New'
-                builder.paragraph_format.style.font.size = 24
-                builder.write('Textbox contents')
-                # Set a flag to specify whether to clear or preserve text box formatting
-                # while importing them to other documents.
-                import_format_options = aw.ImportFormatOptions()
-                import_format_options.ignore_text_boxes = ignore_text_boxes
-                # Import the text box from the source document into the destination document,
-                # and then verify whether we have preserved the styling of its text contents.
-                importer = aw.NodeImporter(src_doc, dst_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, import_format_options)
-                imported_text_box = importer.import_node(text_box, True).as_shape()
-                dst_doc.first_section.body.paragraphs[1].append_child(imported_text_box)
-                if ignore_text_boxes:
-                    self.assertEqual(12.0, imported_text_box.first_paragraph.runs[0].font.size)
-                    self.assertEqual('Times New Roman', imported_text_box.first_paragraph.runs[0].font.name)
-                else:
-                    self.assertEqual(24.0, imported_text_box.first_paragraph.runs[0].font.size)
-                    self.assertEqual('Courier New', imported_text_box.first_paragraph.runs[0].font.name)
-                dst_doc.save(ARTIFACTS_DIR + 'DocumentBuilder.ignore_text_boxes.docx')
-                #ExEnd
-
-    def test_move_to_field(self):
-        for move_cursor_to_after_the_field in (False, True):
-            with self.subTest(move_cursor_to_after_the_field=move_cursor_to_after_the_field):
-                #ExStart
-                #ExFor:DocumentBuilder.move_to_field
-                #ExSummary:Shows how to move a document builder's node insertion point cursor to a specific field.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                # Insert a field using the DocumentBuilder and add a run of text after it.
-                field = builder.insert_field(' AUTHOR "John Doe" ')
-                # The builder's cursor is currently at end of the document.
-                self.assertIsNone(builder.current_node)
-                # Move the cursor to the field while specifying whether to place that cursor before or after the field.
-                builder.move_to_field(field, move_cursor_to_after_the_field)
-                # Note that the cursor is outside of the field in both cases.
-                # This means that we cannot edit the field using the builder like this.
-                # To edit a field, we can use the builder's "move_to" method on a field's FieldStart
-                # or FieldSeparator node to place the cursor inside.
-                if move_cursor_to_after_the_field:
-                    self.assertIsNone(builder.current_node)
-                    builder.write(' Text immediately after the field.')
-                    self.assertEqual('\x13 AUTHOR "John Doe" \x14John Doe\x15 Text immediately after the field.', doc.get_text().strip())
-                else:
-                    self.assertEqual(field.start, builder.current_node)
-                    builder.write('Text immediately before the field. ')
-                    self.assertEqual('Text immediately before the field. \x13 AUTHOR "John Doe" \x14John Doe\x15', doc.get_text().strip())
-                #ExEnd
-
     def test_insert_ole_object_exception(self):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -2023,84 +2178,6 @@ class ExDocumentBuilder(ApiExampleBase):
         # This overload of the "insert_field" method automatically updates inserted fields.
         self.assertAlmostEqual(datetime.datetime.strptime(field.result, '%A, %B %d, %Y'), datetime.datetime.now(), delta=timedelta(1))
         #ExEnd
-
-    def test_insert_field_and_update(self):
-        for update_inserted_fields_immediately in (False, True):
-            with self.subTest(update_inserted_fields_immediately=update_inserted_fields_immediately):
-                #ExStart
-                #ExFor:DocumentBuilder.insert_field(FieldType,bool)
-                #ExFor:Field.update()
-                #ExSummary:Shows how to insert a field into a document using FieldType.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                # Insert two fields while passing a flag which determines whether to update them as the builder inserts them.
-                # In some cases, updating fields could be computationally expensive, and it may be a good idea to defer the update.
-                doc.built_in_document_properties.author = 'John Doe'
-                builder.write('This document was written by ')
-                builder.insert_field(aw.fields.FieldType.FIELD_AUTHOR, update_inserted_fields_immediately)
-                builder.insert_paragraph()
-                builder.write('\nThis is page ')
-                builder.insert_field(aw.fields.FieldType.FIELD_PAGE, update_inserted_fields_immediately)
-                self.assertEqual(' AUTHOR ', doc.range.fields[0].get_field_code())
-                self.assertEqual(' PAGE ', doc.range.fields[1].get_field_code())
-                if update_inserted_fields_immediately:
-                    self.assertEqual('John Doe', doc.range.fields[0].result)
-                    self.assertEqual('1', doc.range.fields[1].result)
-                else:
-                    self.assertEqual('', doc.range.fields[0].result)
-                    self.assertEqual('', doc.range.fields[1].result)
-                    # We will need to update these fields using the update methods manually.
-                    doc.range.fields[0].update()
-                    self.assertEqual('John Doe', doc.range.fields[0].result)
-                    doc.update_fields()
-                    self.assertEqual('1', doc.range.fields[1].result)
-                #ExEnd
-                doc = DocumentHelper.save_open(doc)
-                self.assertEqual('This document was written by \x13 AUTHOR \x14John Doe\x15' + '\r\rThis is page \x13 PAGE \x141\x15', doc.get_text().strip())
-                self.verify_field(aw.fields.FieldType.FIELD_AUTHOR, ' AUTHOR ', 'John Doe', doc.range.fields[0])
-                self.verify_field(aw.fields.FieldType.FIELD_PAGE, ' PAGE ', '1', doc.range.fields[1])
-
-    @unittest.skip('Failed')
-    def test_insert_video_with_url(self):
-        #ExStart
-        #ExFor:DocumentBuilder.insert_online_video(str,float,float)
-        #ExSummary:Shows how to insert an online video into a document using a URL.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.insert_online_video('https://youtu.be/t_1LYZ102RA', 360, 270)
-        # We can watch the video from Microsoft Word by clicking on the shape.
-        doc.save(ARTIFACTS_DIR + 'DocumentBuilder.insert_video_with_url.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'DocumentBuilder.insert_video_with_url.docx')
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_image_in_shape(480, 360, aw.drawing.ImageType.JPEG, shape)
-        self.verify_web_response_status_code(200, shape.href)
-        self.assertEqual(360.0, shape.width)
-        self.assertEqual(270.0, shape.height)
-
-    def test_current_story(self):
-        #ExStart
-        #ExFor:DocumentBuilder.current_story
-        #ExSummary:Shows how to work with a document builder's current story.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # A Story is a type of node that has child Paragraph nodes, such as a Body.
-        self.assertEqual(builder.current_story, doc.first_section.body)
-        self.assertEqual(builder.current_story, builder.current_paragraph.parent_node)
-        self.assertEqual(aw.StoryType.MAIN_TEXT, builder.current_story.story_type)
-        builder.current_story.append_paragraph('Text added to current Story.')
-        # A Story can also contain tables.
-        table = builder.start_table()
-        builder.insert_cell()
-        builder.write('Row 1, cell 1')
-        builder.insert_cell()
-        builder.write('Row 1, cell 2')
-        builder.end_table()
-        self.assertTrue(builder.current_story.tables.contains(table))
-        #ExEnd
-        doc = DocumentHelper.save_open(doc)
-        self.assertEqual(1, doc.first_section.body.tables.count)
-        self.assertEqual('Row 1, cell 1\x07Row 1, cell 2\x07\x07\rText added to current Story.', doc.first_section.body.get_text().strip())
 
     def test_insert_ole_objects(self):
         #ExStart
@@ -2134,83 +2211,6 @@ class ExDocumentBuilder(ApiExampleBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
         self.assertEqual('Unknown', shape.ole_format.icon_caption)
         self.assertTrue(shape.ole_format.ole_icon)
-
-    def test_insert_style_separator(self):
-        #ExStart
-        #ExFor:DocumentBuilder.insert_style_separator
-        #ExSummary:Shows how to work with style separators.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Each paragraph can only have one style.
-        # The "insert_style_separator" method allows us to work around this limitation.
-        builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING1
-        builder.write('This text is in a Heading style. ')
-        builder.insert_style_separator()
-        para_style = builder.document.styles.add(aw.StyleType.PARAGRAPH, 'MyParaStyle')
-        para_style.font.bold = False
-        para_style.font.size = 8
-        para_style.font.name = 'Arial'
-        builder.paragraph_format.style_name = para_style.name
-        builder.write('This text is in a custom style. ')
-        # Calling the "insert_style_separator" method creates another paragraph,
-        # which can have a different style to the previous. There will be no break between paragraphs.
-        # The text in the output document will look like one paragraph with two styles.
-        self.assertEqual(2, doc.first_section.body.paragraphs.count)
-        self.assertEqual('Heading 1', doc.first_section.body.paragraphs[0].paragraph_format.style.name)
-        self.assertEqual('MyParaStyle', doc.first_section.body.paragraphs[1].paragraph_format.style.name)
-        doc.save(ARTIFACTS_DIR + 'DocumentBuilder.insert_style_separator.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'DocumentBuilder.insert_style_separator.docx')
-        self.assertEqual(2, doc.first_section.body.paragraphs.count)
-        self.assertEqual('This text is in a Heading style. \r This text is in a custom style.', doc.get_text().strip())
-        self.assertEqual('Heading 1', doc.first_section.body.paragraphs[0].paragraph_format.style.name)
-        self.assertEqual('MyParaStyle', doc.first_section.body.paragraphs[1].paragraph_format.style.name)
-        self.assertEqual(' ', doc.first_section.body.paragraphs[1].runs[0].get_text())
-        self.verify_doc_package_file_contains_string('w:rPr><w:vanish /><w:specVanish /></w:rPr>', ARTIFACTS_DIR + 'DocumentBuilder.insert_style_separator.docx', 'word/document.xml')
-        self.verify_doc_package_file_contains_string('<w:t xml:space="preserve"> </w:t>', ARTIFACTS_DIR + 'DocumentBuilder.insert_style_separator.docx', 'word/document.xml')
-
-    @unittest.skip('Bug: does not insert headers and footers, all lists (bullets, numbering, multilevel) breaks')
-    def test_insert_document(self):
-        #ExStart
-        #ExFor:DocumentBuilder.insert_document(Document,ImportFormatMode)
-        #ExFor:ImportFormatMode
-        #ExSummary:Shows how to insert a document into another document.
-        doc = aw.Document(MY_DIR + 'Document.docx')
-        builder = aw.DocumentBuilder(doc)
-        builder.move_to_document_end()
-        builder.insert_break(aw.BreakType.PAGE_BREAK)
-        doc_to_insert = aw.Document(MY_DIR + 'Formatted elements.docx')
-        builder.insert_document(doc_to_insert, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
-        builder.document.save(ARTIFACTS_DIR + 'DocumentBuilder.insert_document.docx')
-        #ExEnd
-        self.assertEqual(29, doc.styles.count)
-        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + 'DocumentBuilder.insert_document.docx', GOLDS_DIR + 'DocumentBuilder.InsertDocument Gold.docx'))
-
-    def test_insert_online_video(self):
-        #ExStart
-        #ExFor:DocumentBuilder.insert_online_video(str,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)
-        #ExSummary:Shows how to insert an online video into a document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        video_url = 'https://vimeo.com/52477838'
-        # Insert a shape that plays a video from the web when clicked in Microsoft Word.
-        # This rectangular shape will contain an image based on the first frame of the linked video
-        # and a "play button" visual prompt. The video has an aspect ratio of 16:9.
-        # We will set the shape's size to that ratio, so the image does not appear stretched.
-        builder.insert_online_video(video_url, aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, 0, aw.drawing.RelativeVerticalPosition.TOP_MARGIN, 0, 320, 180, aw.drawing.WrapType.SQUARE)
-        doc.save(ARTIFACTS_DIR + 'DocumentBuilder.insert_online_video.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'DocumentBuilder.insert_online_video.docx')
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_image_in_shape(640, 360, aw.drawing.ImageType.JPEG, shape)
-        self.assertEqual(320.0, shape.width)
-        self.assertEqual(180.0, shape.height)
-        self.assertEqual(0.0, shape.left)
-        self.assertEqual(0.0, shape.top)
-        self.assertEqual(aw.drawing.WrapType.SQUARE, shape.wrap_type)
-        self.assertEqual(aw.drawing.RelativeVerticalPosition.TOP_MARGIN, shape.relative_vertical_position)
-        self.assertEqual(aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, shape.relative_horizontal_position)
-        self.assertEqual('https://vimeo.com/52477838', shape.href)
 
     @unittest.skip('Calculation problems')
     def test_insert_online_video_custom_thumbnail(self):

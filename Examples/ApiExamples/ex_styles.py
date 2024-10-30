@@ -9,6 +9,8 @@ from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.lists
+import document_helper
+import test_util
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -116,6 +118,18 @@ class ExStyles(ApiExampleBase):
         self.assertEqual(aspose.pydrawing.Color.red.to_argb(), new_style.font.color.to_argb())
         #ExEnd
 
+    def test_default_styles(self):
+        doc = aw.Document()
+        doc.styles.default_font.name = 'PMingLiU'
+        doc.styles.default_font.bold = True
+        doc.styles.default_paragraph_format.space_after = 20
+        doc.styles.default_paragraph_format.alignment = aw.ParagraphAlignment.RIGHT
+        doc = document_helper.DocumentHelper.save_open(doc)
+        self.assertTrue(doc.styles.default_font.bold)
+        self.assertEqual('PMingLiU', doc.styles.default_font.name)
+        self.assertEqual(20, doc.styles.default_paragraph_format.space_after)
+        self.assertEqual(aw.ParagraphAlignment.RIGHT, doc.styles.default_paragraph_format.alignment)
+
     def test_paragraph_style_bulleted_list(self):
         #ExStart
         #ExFor:StyleCollection
@@ -176,6 +190,16 @@ class ExStyles(ApiExampleBase):
         builder.write('Hello again!')
         self.assertEqual(doc.first_section.body.paragraphs[0].paragraph_format.style, doc.first_section.body.paragraphs[1].paragraph_format.style)
         #ExEnd
+
+    def test_latent_styles(self):
+        # This test is to check that after re-saving a document it doesn't lose LatentStyle information
+        # for 4 styles from documents created in Microsoft Word.
+        doc = aw.Document(file_name=MY_DIR + 'Blank.docx')
+        doc.save(file_name=ARTIFACTS_DIR + 'Styles.LatentStyles.docx')
+        test_util.TestUtil.doc_package_file_contains_string('<w:lsdException w:name="Mention" w:semiHidden="1" w:unhideWhenUsed="1" />', ARTIFACTS_DIR + 'Styles.LatentStyles.docx', 'styles.xml')
+        test_util.TestUtil.doc_package_file_contains_string('<w:lsdException w:name="Smart Hyperlink" w:semiHidden="1" w:unhideWhenUsed="1" />', ARTIFACTS_DIR + 'Styles.LatentStyles.docx', 'styles.xml')
+        test_util.TestUtil.doc_package_file_contains_string('<w:lsdException w:name="Hashtag" w:semiHidden="1" w:unhideWhenUsed="1" />', ARTIFACTS_DIR + 'Styles.LatentStyles.docx', 'styles.xml')
+        test_util.TestUtil.doc_package_file_contains_string('<w:lsdException w:name="Unresolved Mention" w:semiHidden="1" w:unhideWhenUsed="1" />', ARTIFACTS_DIR + 'Styles.LatentStyles.docx', 'styles.xml')
 
     def test_lock_style(self):
         #ExStart:LockStyle
@@ -276,25 +300,3 @@ class ExStyles(ApiExampleBase):
         self.assertEqual(12.0, first_paragraph_style.font.size)
         self.assertEqual(aspose.pydrawing.Color.empty().to_argb(), first_paragraph_style.font.color.to_argb())
         #ExEnd
-
-    def test_default_styles(self):
-        doc = aw.Document()
-        doc.styles.default_font.name = 'PMingLiU'
-        doc.styles.default_font.bold = True
-        doc.styles.default_paragraph_format.space_after = 20
-        doc.styles.default_paragraph_format.alignment = aw.ParagraphAlignment.RIGHT
-        doc = DocumentHelper.save_open(doc)
-        self.assertTrue(doc.styles.default_font.bold)
-        self.assertEqual('PMingLiU', doc.styles.default_font.name)
-        self.assertEqual(20, doc.styles.default_paragraph_format.space_after)
-        self.assertEqual(aw.ParagraphAlignment.RIGHT, doc.styles.default_paragraph_format.alignment)
-
-    def test_latent_styles(self):
-        # This test is to check that after re-saving a document it doesn't lose LatentStyle information
-        # for 4 styles from documents created in Microsoft Word.
-        doc = aw.Document(MY_DIR + 'Blank.docx')
-        doc.save(ARTIFACTS_DIR + 'Styles.latent_styles.docx')
-        self.verify_doc_package_file_contains_string('<w:lsdException w:name="Mention" w:semiHidden="1" w:unhideWhenUsed="1" />', ARTIFACTS_DIR + 'Styles.latent_styles.docx', 'word/styles.xml')
-        self.verify_doc_package_file_contains_string('<w:lsdException w:name="Smart Hyperlink" w:semiHidden="1" w:unhideWhenUsed="1" />', ARTIFACTS_DIR + 'Styles.latent_styles.docx', 'word/styles.xml')
-        self.verify_doc_package_file_contains_string('<w:lsdException w:name="Hashtag" w:semiHidden="1" w:unhideWhenUsed="1" />', ARTIFACTS_DIR + 'Styles.latent_styles.docx', 'word/styles.xml')
-        self.verify_doc_package_file_contains_string('<w:lsdException w:name="Unresolved Mention" w:semiHidden="1" w:unhideWhenUsed="1" />', ARTIFACTS_DIR + 'Styles.latent_styles.docx', 'word/styles.xml')

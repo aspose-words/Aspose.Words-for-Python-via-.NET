@@ -9,6 +9,7 @@ from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.fields
+import document_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -73,11 +74,11 @@ class ExFormFields(ApiExampleBase):
 
     def test_delete_form_field_associated_with_bookmark(self):
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         builder.start_bookmark('MyBookmark')
-        builder.insert_text_input('TextInput1', aw.fields.TextFormFieldType.REGULAR, '_test_form_field', 'SomeText', 0)
+        builder.insert_text_input('TextInput1', aw.fields.TextFormFieldType.REGULAR, 'TestFormField', 'SomeText', 0)
         builder.end_bookmark('MyBookmark')
-        doc = DocumentHelper.save_open(doc)
+        doc = document_helper.DocumentHelper.save_open(doc)
         bookmark_before_delete_form_field = doc.range.bookmarks
         self.assertEqual('MyBookmark', bookmark_before_delete_form_field[0].name)
         form_field = doc.range.form_fields[0]
@@ -89,13 +90,13 @@ class ExFormFields(ApiExampleBase):
         #ExStart
         #ExFor:FormField
         #ExSummary:Shows how to formatting the entire FormField, including the field value.
-        doc = aw.Document(MY_DIR + 'Form fields.docx')
+        doc = aw.Document(file_name=MY_DIR + 'Form fields.docx')
         form_field = doc.range.form_fields[0]
         form_field.font.bold = True
         form_field.font.size = 24
         form_field.font.color = aspose.pydrawing.Color.red
         form_field.result = 'Aspose.FormField'
-        doc = DocumentHelper.save_open(doc)
+        doc = document_helper.DocumentHelper.save_open(doc)
         form_field_run = doc.first_section.body.first_paragraph.runs[1]
         self.assertEqual('Aspose.FormField', form_field_run.text)
         self.assertEqual(True, form_field_run.font.bold)

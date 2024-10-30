@@ -6,12 +6,14 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 from document_helper import DocumentHelper
-import shutil
-import glob
 import os
+import glob
+import shutil
 import aspose.words as aw
 import aspose.words.saving
+import document_helper
 import system_helper
+import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExHtmlFixedSaveOptions(ApiExampleBase):

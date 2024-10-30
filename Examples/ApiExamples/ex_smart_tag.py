@@ -6,6 +6,8 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 import aspose.words as aw
+import aspose.words.markup
+import unittest
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
 class ExSmartTag(ApiExampleBase):

@@ -5,19 +5,38 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import datetime
-import os
 from typing import List
+import os
+import datetime
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.fonts
 import aspose.words.loading
 import aspose.words.settings
 import system_helper
+import test_util
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, FONTS_DIR, IMAGE_DIR, MY_DIR
 
 class ExLoadOptions(ApiExampleBase):
+
+    def test_convert_shape_to_office_math(self):
+        for is_convert_shape_to_office_math in [True, False]:
+            #ExStart
+            #ExFor:LoadOptions.convert_shape_to_office_math
+            #ExSummary:Shows how to convert EquationXML shapes to Office Math objects.
+            load_options = aw.loading.LoadOptions()
+            # Use this flag to specify whether to convert the shapes with EquationXML attributes
+            # to Office Math objects and then load the document.
+            load_options.convert_shape_to_office_math = is_convert_shape_to_office_math
+            doc = aw.Document(file_name=MY_DIR + 'Math shapes.docx', load_options=load_options)
+            if is_convert_shape_to_office_math:
+                self.assertEqual(16, doc.get_child_nodes(aw.NodeType.SHAPE, True).count)
+                self.assertEqual(34, doc.get_child_nodes(aw.NodeType.OFFICE_MATH, True).count)
+            else:
+                self.assertEqual(24, doc.get_child_nodes(aw.NodeType.SHAPE, True).count)
+                self.assertEqual(0, doc.get_child_nodes(aw.NodeType.OFFICE_MATH, True).count)
+            #ExEnd
 
     def test_font_settings(self):
         #ExStart
@@ -51,6 +70,26 @@ class ExLoadOptions(ApiExampleBase):
         self.assertAlmostEqual(12.95, doc.styles.default_paragraph_format.line_spacing, delta=0.01)
         #ExEnd
 
+    def test_convert_metafiles_to_png(self):
+        #ExStart
+        #ExFor:LoadOptions.convert_metafiles_to_png
+        #ExSummary:Shows how to convert WMF/EMF to PNG during loading document.
+        doc = aw.Document()
+        shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.IMAGE)
+        shape.image_data.set_image(file_name=IMAGE_DIR + 'Windows MetaFile.wmf')
+        shape.width = 100
+        shape.height = 100
+        doc.first_section.body.first_paragraph.append_child(shape)
+        doc.save(file_name=ARTIFACTS_DIR + 'Image.CreateImageDirectly.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_image_in_shape(1600, 1600, aw.drawing.ImageType.WMF, shape)
+        load_options = aw.loading.LoadOptions()
+        load_options.convert_metafiles_to_png = True
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Image.CreateImageDirectly.docx', load_options=load_options)
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_image_in_shape(1666, 1666, aw.drawing.ImageType.PNG, shape)
+        #ExEnd
+
     def test_ignore_ole_data(self):
         #ExStart
         #ExFor:LoadOptions.ignore_ole_data
@@ -62,25 +101,6 @@ class ExLoadOptions(ApiExampleBase):
         doc = aw.Document(file_name=MY_DIR + 'OLE objects.docx', load_options=load_options)
         doc.save(file_name=ARTIFACTS_DIR + 'LoadOptions.IgnoreOleData.docx')
         #ExEnd
-
-    def test_convert_shape_to_office_math(self):
-        for is_convert_shape_to_office_math in (True, False):
-            with self.subTest(is_convert_shape_to_office_math=is_convert_shape_to_office_math):
-                #ExStart
-                #ExFor:LoadOptions.convert_shape_to_office_math
-                #ExSummary:Shows how to convert EquationXML shapes to Office Math objects.
-                load_options = aw.loading.LoadOptions()
-                # Use this flag to specify whether to convert the shapes with EquationXML attributes
-                # to Office Math objects and then load the document.
-                load_options.convert_shape_to_office_math = is_convert_shape_to_office_math
-                doc = aw.Document(MY_DIR + 'Math shapes.docx', load_options)
-                if is_convert_shape_to_office_math:
-                    self.assertEqual(16, doc.get_child_nodes(aw.NodeType.SHAPE, True).count)
-                    self.assertEqual(34, doc.get_child_nodes(aw.NodeType.OFFICE_MATH, True).count)
-                else:
-                    self.assertEqual(24, doc.get_child_nodes(aw.NodeType.SHAPE, True).count)
-                    self.assertEqual(0, doc.get_child_nodes(aw.NodeType.OFFICE_MATH, True).count)
-                #ExEnd
 
     def test_set_encoding(self):
         #ExStart
@@ -155,26 +175,6 @@ class ExLoadOptions(ApiExampleBase):
         self.assertEqual(aw.loading.EditingLanguage.RUSSIAN, doc.styles.default_font.locale_id)
         doc = aw.Document(MY_DIR + 'No default editing language.docx')
         self.assertEqual(aw.loading.EditingLanguage.ENGLISH_US, doc.styles.default_font.locale_id)
-
-    def test_convert_metafiles_to_png(self):
-        #ExStart
-        #ExFor:LoadOptions.convert_metafiles_to_png
-        #ExSummary:Shows how to convert WMF/EMF to PNG during loading document.
-        doc = aw.Document()
-        shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.IMAGE)
-        shape.image_data.set_image(IMAGE_DIR + 'Windows MetaFile.wmf')
-        shape.width = 100
-        shape.height = 100
-        doc.first_section.body.first_paragraph.append_child(shape)
-        doc.save(ARTIFACTS_DIR + 'Image.convert_metafiles_to_png.docx')
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_image_in_shape(1600, 1600, aw.drawing.ImageType.WMF, shape)
-        load_options = aw.loading.LoadOptions()
-        load_options.convert_metafiles_to_png = True
-        doc = aw.Document(ARTIFACTS_DIR + 'Image.convert_metafiles_to_png.docx', load_options)
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_image_in_shape(1666, 1666, aw.drawing.ImageType.PNG, shape)
-        #ExEnd
 
     def test_open_chm_file(self):
         info = aw.FileFormatUtil.detect_file_format(MY_DIR + 'HTML help.chm')

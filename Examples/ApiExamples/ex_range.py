@@ -5,14 +5,15 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words.replacing import FindReplaceOptions
-from aspose.words.drawing import ShapeType
 from aspose.words import Document, DocumentBuilder
+from aspose.words.drawing import ShapeType
+from aspose.words.replacing import FindReplaceOptions
 from typing import List
-from datetime import datetime
 import aspose.words as aw
 import aspose.words.drawing
+import aspose.words.notes
 import aspose.words.replacing
+import datetime
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -187,7 +188,7 @@ class ExRange(ApiExampleBase):
                 builder.writeln('Hello again!')
                 # Start tracking revisions and remove the second paragraph, which will create a delete revision.
                 # That paragraph will persist in the document until we accept the delete revision.
-                doc.start_track_revisions('John Doe', datetime.now())
+                doc.start_track_revisions('John Doe', datetime.datetime.now())
                 doc.first_section.body.paragraphs[1].remove()
                 doc.stop_track_revisions()
                 self.assertTrue(doc.first_section.body.paragraphs[1].is_delete_revision)
@@ -212,7 +213,7 @@ class ExRange(ApiExampleBase):
                 builder = aw.DocumentBuilder(doc)
                 builder.writeln('Hello world!')
                 # Start tracking revisions and insert a paragraph. That paragraph will be an insert revision.
-                doc.start_track_revisions('John Doe', datetime.now())
+                doc.start_track_revisions('John Doe', datetime.datetime.now())
                 builder.writeln('Hello again!')
                 doc.stop_track_revisions()
                 self.assertTrue(doc.first_section.body.paragraphs[1].is_insert_revision)
