@@ -5,14 +5,14 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
-from aspose.words.themes import ThemeColor
-from aspose.pydrawing import Color
 from aspose.words import Document, DocumentBuilder, NodeType
-from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
-import sys
-import typing
+from aspose.pydrawing import Color
+from aspose.words.themes import ThemeColor
+from document_helper import DocumentHelper
 import os
+import typing
+import sys
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
@@ -1661,6 +1661,17 @@ class ExShape(ApiExampleBase):
             shape.hidden = True
         doc.save(file_name=ARTIFACTS_DIR + 'Shape.Hidden.docx')
         #ExEnd:Hidden
+
+    def test_command_button_caption(self):
+        #ExStart:CommandButtonCaption
+        #ExFor:Forms2OleControl.caption
+        #ExSummary:Shows how to set caption for ActiveX control.
+        builder = aw.DocumentBuilder()
+        button1 = aw.drawing.ole.CommandButtonControl()
+        button1.caption = 'Button caption'
+        shape = builder.insert_forms_2_ole_control(button1)
+        self.assertEqual('Button caption', shape.ole_format.ole_control.as_forms2_ole_control().caption)
+        #ExEnd:CommandButtonCaption
 
     def test_alt_text(self):
         #ExStart

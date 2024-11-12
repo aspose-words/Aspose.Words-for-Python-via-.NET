@@ -39,6 +39,51 @@ class ExTabStop(ApiExampleBase):
         test_util.TestUtil.verify_tab_stop(216, aw.TabAlignment.LEFT, aw.TabLeader.DASHES, False, tab_stops[1])
         test_util.TestUtil.verify_tab_stop(283.45, aw.TabAlignment.LEFT, aw.TabLeader.DASHES, False, tab_stops[2])
 
+    def test_remove_by_index(self):
+        #ExStart
+        #ExFor:TabStopCollection.remove_by_index
+        #ExSummary:Shows how to select a tab stop in a document by its index and remove it.
+        doc = aw.Document()
+        tab_stops = doc.first_section.body.paragraphs[0].paragraph_format.tab_stops
+        tab_stops.add(position=aw.ConvertUtil.millimeter_to_point(30), alignment=aw.TabAlignment.LEFT, leader=aw.TabLeader.DASHES)
+        tab_stops.add(position=aw.ConvertUtil.millimeter_to_point(60), alignment=aw.TabAlignment.LEFT, leader=aw.TabLeader.DASHES)
+        self.assertEqual(2, tab_stops.count)
+        # Remove the first tab stop.
+        tab_stops.remove_by_index(0)
+        self.assertEqual(1, tab_stops.count)
+        doc.save(file_name=ARTIFACTS_DIR + 'TabStopCollection.RemoveByIndex.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'TabStopCollection.RemoveByIndex.docx')
+        test_util.TestUtil.verify_tab_stop(170.1, aw.TabAlignment.LEFT, aw.TabLeader.DASHES, False, doc.first_section.body.paragraphs[0].paragraph_format.tab_stops[0])
+
+    def test_get_position_by_index(self):
+        #ExStart
+        #ExFor:TabStopCollection.get_position_by_index
+        #ExSummary:Shows how to find a tab, stop by its index and verify its position.
+        doc = aw.Document()
+        tab_stops = doc.first_section.body.paragraphs[0].paragraph_format.tab_stops
+        tab_stops.add(position=aw.ConvertUtil.millimeter_to_point(30), alignment=aw.TabAlignment.LEFT, leader=aw.TabLeader.DASHES)
+        tab_stops.add(position=aw.ConvertUtil.millimeter_to_point(60), alignment=aw.TabAlignment.LEFT, leader=aw.TabLeader.DASHES)
+        # Verify the position of the second tab stop in the collection.
+        self.assertAlmostEqual(aw.ConvertUtil.millimeter_to_point(60), tab_stops.get_position_by_index(1), delta=0.1)
+        #ExEnd
+
+    def test_get_index_by_position(self):
+        #ExStart
+        #ExFor:TabStopCollection.get_index_by_position
+        #ExSummary:Shows how to look up a position to see if a tab stop exists there and obtain its index.
+        doc = aw.Document()
+        tab_stops = doc.first_section.body.paragraphs[0].paragraph_format.tab_stops
+        # Add a tab stop at a position of 30mm.
+        tab_stops.add(position=aw.ConvertUtil.millimeter_to_point(30), alignment=aw.TabAlignment.LEFT, leader=aw.TabLeader.DASHES)
+        # A result of "0" returned by "GetIndexByPosition" confirms that a tab stop
+        # at 30mm exists in this collection, and it is at index 0.
+        self.assertEqual(0, tab_stops.get_index_by_position(aw.ConvertUtil.millimeter_to_point(30)))
+        # A "-1" returned by "GetIndexByPosition" confirms that
+        # there is no tab stop in this collection with a position of 60mm.
+        self.assertEqual(-1, tab_stops.get_index_by_position(aw.ConvertUtil.millimeter_to_point(60)))
+        #ExEnd
+
     def test_tab_stop_collection(self):
         #ExStart
         #ExFor:TabStop.__init__(float)
@@ -86,48 +131,3 @@ class ExTabStop(ApiExampleBase):
         test_util.TestUtil.verify_tab_stop(432, aw.TabAlignment.RIGHT, aw.TabLeader.DASHES, False, tab_stops[1])
         tab_stops = doc.first_section.body.paragraphs[1].paragraph_format.tab_stops
         self.assertEqual(0, tab_stops.count)
-
-    def test_remove_by_index(self):
-        #ExStart
-        #ExFor:TabStopCollection.remove_by_index
-        #ExSummary:Shows how to select a tab stop in a document by its index and remove it.
-        doc = aw.Document()
-        tab_stops = doc.first_section.body.paragraphs[0].paragraph_format.tab_stops
-        tab_stops.add(position=aw.ConvertUtil.millimeter_to_point(30), alignment=aw.TabAlignment.LEFT, leader=aw.TabLeader.DASHES)
-        tab_stops.add(position=aw.ConvertUtil.millimeter_to_point(60), alignment=aw.TabAlignment.LEFT, leader=aw.TabLeader.DASHES)
-        self.assertEqual(2, tab_stops.count)
-        # Remove the first tab stop.
-        tab_stops.remove_by_index(0)
-        self.assertEqual(1, tab_stops.count)
-        doc.save(file_name=ARTIFACTS_DIR + 'TabStopCollection.RemoveByIndex.docx')
-        #ExEnd
-        doc = aw.Document(file_name=ARTIFACTS_DIR + 'TabStopCollection.RemoveByIndex.docx')
-        test_util.TestUtil.verify_tab_stop(170.1, aw.TabAlignment.LEFT, aw.TabLeader.DASHES, False, doc.first_section.body.paragraphs[0].paragraph_format.tab_stops[0])
-
-    def test_get_position_by_index(self):
-        #ExStart
-        #ExFor:TabStopCollection.get_position_by_index
-        #ExSummary:Shows how to find a tab, stop by its index and verify its position.
-        doc = aw.Document()
-        tab_stops = doc.first_section.body.paragraphs[0].paragraph_format.tab_stops
-        tab_stops.add(position=aw.ConvertUtil.millimeter_to_point(30), alignment=aw.TabAlignment.LEFT, leader=aw.TabLeader.DASHES)
-        tab_stops.add(position=aw.ConvertUtil.millimeter_to_point(60), alignment=aw.TabAlignment.LEFT, leader=aw.TabLeader.DASHES)
-        # Verify the position of the second tab stop in the collection.
-        self.assertAlmostEqual(aw.ConvertUtil.millimeter_to_point(60), tab_stops.get_position_by_index(1), delta=0.1)
-        #ExEnd
-
-    def test_get_index_by_position(self):
-        #ExStart
-        #ExFor:TabStopCollection.get_index_by_position
-        #ExSummary:Shows how to look up a position to see if a tab stop exists there and obtain its index.
-        doc = aw.Document()
-        tab_stops = doc.first_section.body.paragraphs[0].paragraph_format.tab_stops
-        # Add a tab stop at a position of 30mm.
-        tab_stops.add(position=aw.ConvertUtil.millimeter_to_point(30), alignment=aw.TabAlignment.LEFT, leader=aw.TabLeader.DASHES)
-        # A result of "0" returned by "GetIndexByPosition" confirms that a tab stop
-        # at 30mm exists in this collection, and it is at index 0.
-        self.assertEqual(0, tab_stops.get_index_by_position(aw.ConvertUtil.millimeter_to_point(30)))
-        # A "-1" returned by "GetIndexByPosition" confirms that
-        # there is no tab stop in this collection with a position of 60mm.
-        self.assertEqual(-1, tab_stops.get_index_by_position(aw.ConvertUtil.millimeter_to_point(60)))
-        #ExEnd
