@@ -5,16 +5,17 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words.saving import OoxmlSaveOptions
-from aspose.words.lowcode import Merger, MergeFormatMode
 from aspose.words import SaveFormat, DocumentBuilder
-from aspose.pydrawing import Color
-import io
-import pathlib
-import os
-from aspose.pydrawing import Color
+from aspose.words.lowcode import Merger, MergeFormatMode
+from aspose.words.saving import OoxmlSaveOptions
 import unittest
+from aspose.pydrawing import Color
+import os
+import pathlib
+import io
+from aspose.pydrawing import Color
 import aspose.words as aw
+import aspose.words.loading
 import aspose.words.lowcode
 import aspose.words.saving
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR

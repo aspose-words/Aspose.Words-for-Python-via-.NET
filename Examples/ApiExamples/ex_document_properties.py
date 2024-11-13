@@ -5,10 +5,10 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
 from datetime import timedelta, timezone
-import sys
+from document_helper import DocumentHelper
 import os
+import sys
 import aspose.words as aw
 import aspose.words.fields
 import aspose.words.properties
@@ -259,6 +259,18 @@ class ExDocumentProperties(ApiExampleBase):
         self.assertEqual(123.45, properties.get_by_name('Authorized Amount').to_double())
         #ExEnd
 
+    def test_extended_properties(self):
+        #ExStart:ExtendedProperties
+        #ExFor:BuiltInDocumentProperties.scale_crop
+        #ExFor:BuiltInDocumentProperties.shared_document
+        #ExFor:BuiltInDocumentProperties.hyperlinks_changed
+        #ExSummary:Shows how to get extended properties.
+        doc = aw.Document(file_name=MY_DIR + 'Extended properties.docx')
+        self.assertTrue(doc.built_in_document_properties.scale_crop)
+        self.assertTrue(doc.built_in_document_properties.shared_document)
+        self.assertTrue(doc.built_in_document_properties.hyperlinks_changed)
+        #ExEnd:ExtendedProperties
+
     def test_built_in(self):
         #ExStart
         #ExFor:BuiltInDocumentProperties
@@ -285,7 +297,7 @@ class ExDocumentProperties(ApiExampleBase):
             else:
                 print(f'\tValue:\t"{doc_property.value}"')
         #ExEnd
-        self.assertEqual(28, doc.built_in_document_properties.count)
+        self.assertEqual(31, doc.built_in_document_properties.count)
 
     def test_custom(self):
         #ExStart

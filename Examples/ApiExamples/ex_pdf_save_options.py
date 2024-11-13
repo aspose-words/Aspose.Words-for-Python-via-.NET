@@ -5,14 +5,14 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import timedelta, timezone
-from aspose.words.saving import PdfTextCompression
-from aspose.words.saving import PdfTextCompression
 from aspose.words import Document
-import io
-import os
-import sys
+from aspose.words.saving import PdfTextCompression
+from aspose.words.saving import PdfTextCompression
+from datetime import timedelta, timezone
 import aspose.pydrawing as drawing
+import sys
+import os
+import io
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.fonts
@@ -814,6 +814,17 @@ class ExPdfSaveOptions(ApiExampleBase):
         save_options.use_sdt_tag_as_form_field_name = True
         doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.SdtTagAsFormFieldName.pdf', save_options=save_options)
         #ExEnd:SdtTagAsFormFieldName
+
+    def test_render_choice_form_field_border(self):
+        #ExStart:RenderChoiceFormFieldBorder
+        #ExFor:PdfSaveOptions.render_choice_form_field_border
+        #ExSummary:Shows how to render PDF choice form field border.
+        doc = aw.Document(file_name=MY_DIR + 'Legacy drop-down.docx')
+        save_options = aw.saving.PdfSaveOptions()
+        save_options.preserve_form_fields = True
+        save_options.render_choice_form_field_border = True
+        doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.RenderChoiceFormFieldBorder.pdf', save_options=save_options)
+        #ExEnd:RenderChoiceFormFieldBorder
 
     def test_one_page(self):
         #ExStart

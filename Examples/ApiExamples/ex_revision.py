@@ -5,8 +5,8 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
 from datetime import date, timezone, timedelta
+from document_helper import DocumentHelper
 import aspose.words as aw
 import aspose.words.comparing
 import aspose.words.drawing
@@ -342,6 +342,17 @@ class ExRevision(ApiExampleBase):
         doc_a.compare(document=doc_b, author='user', date_time=datetime.datetime.now(), options=compare_options)
         self.assertEqual(0, doc_a.revisions.count)
         #ExEnd:IgnoreStoreItemId
+
+    def test_revision_cell_color(self):
+        #ExStart:RevisionCellColor
+        #ExFor:RevisionOptions.insert_cell_color
+        #ExFor:RevisionOptions.delete_cell_color
+        #ExSummary:Shows how to work with insert/delete cell revision color.
+        doc = aw.Document(file_name=MY_DIR + 'Cell revisions.docx')
+        doc.layout_options.revision_options.insert_cell_color = aw.layout.RevisionColor.LIGHT_BLUE
+        doc.layout_options.revision_options.delete_cell_color = aw.layout.RevisionColor.DARK_RED
+        doc.save(file_name=ARTIFACTS_DIR + 'Revision.RevisionCellColor.pdf')
+        #ExEnd:RevisionCellColor
 
     def test_revisions(self):
         #ExStart

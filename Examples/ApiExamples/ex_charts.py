@@ -5,11 +5,11 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from math import nan
-from datetime import date
-from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType, ChartShapeType
-from aspose.pydrawing import Color
 from aspose.words import Document, DocumentBuilder, NodeType
+from aspose.pydrawing import Color
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType, ChartShapeType
+from datetime import date
+from math import nan
 import locale
 import aspose.pydrawing
 import aspose.words as aw
@@ -1227,6 +1227,40 @@ class ExCharts(ApiExampleBase):
         series_group.second_section_size = 77
         doc.save(file_name=ARTIFACTS_DIR + 'Charts.PieOfPieChart.docx')
         #ExEnd:PieOfPieChart
+
+    def test_format_code(self):
+        #ExStart:FormatCode
+        #ExFor:ChartXValueCollection.format_code
+        #ExFor:ChartYValueCollection.format_code
+        #ExFor:BubbleSizeCollection.format_code
+        #ExSummary:Shows how to work with the format code of the chart data.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Insert a Bubble chart.
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.BUBBLE, width=432, height=252)
+        chart = shape.chart
+        # Delete default generated series.
+        chart.series.clear()
+        series = chart.series.add(series_name='Series1', x_values=[1, 1.9, 2.45, 3], y_values=[1, -0.9, 1.82, 0], bubble_sizes=[2, 1.1, 2.95, 2])
+        # Show data labels.
+        series.has_data_labels = True
+        series.data_labels.show_category_name = True
+        series.data_labels.show_value = True
+        series.data_labels.show_bubble_size = True
+        # Set data format codes.
+        series.x_values.format_code = '#,##0.0#'
+        series.y_values.format_code = '#,##0.0#;[Red]\\-#,##0.0#'
+        series.bubble_sizes.format_code = '#,##0.0#'
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.FormatCode.docx')
+        #ExEnd:FormatCode
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Charts.FormatCode.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        chart = shape.chart
+        series_collection = chart.series
+        for series_properties in series_collection:
+            self.assertEqual('#,##0.0#', series_properties.x_values.format_code)
+            self.assertEqual('#,##0.0#;[Red]\\-#,##0.0#', series_properties.y_values.format_code)
+            self.assertEqual('#,##0.0#', series_properties.bubble_sizes.format_code)
 
     def test_date_time_values(self):
         #ExStart
