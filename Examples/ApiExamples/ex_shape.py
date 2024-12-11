@@ -5,14 +5,14 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words import Document, DocumentBuilder, NodeType
-from aspose.pydrawing import Color
-from aspose.words.themes import ThemeColor
 from document_helper import DocumentHelper
-import os
-import typing
-import sys
+from aspose.words.themes import ThemeColor
+from aspose.pydrawing import Color
+from aspose.words import Document, DocumentBuilder, NodeType
 from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
+import sys
+import typing
+import os
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
@@ -699,6 +699,37 @@ class ExShape(ApiExampleBase):
         forms_2_ole_control = shape.ole_format.ole_control.as_forms2_ole_control()
         self.assertEqual('Aspose group name', forms_2_ole_control.group_name)
 
+    def test_ole_control(self):
+        #ExStart
+        #ExFor:OleFormat
+        #ExFor:OleFormat.auto_update
+        #ExFor:OleFormat.is_locked
+        #ExFor:OleFormat.prog_id
+        #ExFor:OleFormat.save(BytesIO)
+        #ExFor:OleFormat.save(str)
+        #ExFor:OleFormat.suggested_extension
+        #ExSummary:Shows how to extract embedded OLE objects into files.
+        doc = aw.Document(file_name=MY_DIR + 'OLE spreadsheet.docm')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        # The OLE object in the first shape is a Microsoft Excel spreadsheet.
+        ole_format = shape.ole_format
+        self.assertEqual('Excel.Sheet.12', ole_format.prog_id)
+        # Our object is neither auto updating nor locked from updates.
+        self.assertFalse(ole_format.auto_update)
+        self.assertEqual(False, ole_format.is_locked)
+        # If we plan on saving the OLE object to a file in the local file system,
+        # we can use the "SuggestedExtension" property to determine which file extension to apply to the file.
+        self.assertEqual('.xlsx', ole_format.suggested_extension)
+        # Below are two ways of saving an OLE object to a file in the local file system.
+        # 1 -  Save it via a stream:
+        with system_helper.io.FileStream(ARTIFACTS_DIR + 'OLE spreadsheet extracted via stream' + ole_format.suggested_extension, system_helper.io.FileMode.CREATE) as fs:
+            ole_format.save(stream=fs)
+        # 2 -  Save it directly to a filename:
+        ole_format.save(file_name=ARTIFACTS_DIR + 'OLE spreadsheet saved directly' + ole_format.suggested_extension)
+        #ExEnd
+        self.assertTrue(system_helper.io.FileInfo(ARTIFACTS_DIR + 'OLE spreadsheet extracted via stream.xlsx').length() < 8400)
+        self.assertTrue(system_helper.io.FileInfo(ARTIFACTS_DIR + 'OLE spreadsheet saved directly.xlsx').length() < 8400)
+
     def test_ole_control_collection(self):
         #ExStart
         #ExFor:OleFormat.clsid
@@ -720,6 +751,20 @@ class ExShape(ApiExampleBase):
         self.assertEqual('0', ole_control_collection[1].value)
         self.assertEqual('Delphi', ole_control_collection[2].caption)
         self.assertEqual('0', ole_control_collection[2].value)
+        #ExEnd
+
+    def test_suggested_file_name(self):
+        #ExStart
+        #ExFor:OleFormat.suggested_file_name
+        #ExSummary:Shows how to get an OLE object's suggested file name.
+        doc = aw.Document(file_name=MY_DIR + 'OLE shape.rtf')
+        ole_shape = doc.first_section.body.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        # OLE objects can provide a suggested filename and extension,
+        # which we can use when saving the object's contents into a file in the local file system.
+        suggested_file_name = ole_shape.ole_format.suggested_file_name
+        self.assertEqual('CSV.csv', suggested_file_name)
+        with system_helper.io.FileStream(ARTIFACTS_DIR + suggested_file_name, system_helper.io.FileMode.CREATE) as file_stream:
+            ole_shape.ole_format.save(stream=file_stream)
         #ExEnd
 
     def test_object_did_not_have_suggested_file_name(self):
@@ -803,7 +848,7 @@ class ExShape(ApiExampleBase):
             doc.compatibility_options.optimize_for(ms_word_version)
             builder = aw.DocumentBuilder(doc=doc)
             builder.insert_image(file_name=IMAGE_DIR + 'Transparent background logo.png')
-            for shape in [x.as_shape() for x in list(doc.get_child_nodes(aw.NodeType.SHAPE, True)) if isinstance(x.as_shape(), aw.drawing.Shape)]:
+            for shape in filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(doc.get_child_nodes(aw.NodeType.SHAPE, True)))):
                 self.assertEqual(shape_markup_language, shape.markup_language)
 
     def test_stroke(self):
@@ -920,7 +965,7 @@ class ExShape(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'Shape.ShapeInsertion.docx', save_options=save_options)
         #ExEnd
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.ShapeInsertion.docx')
-        shapes = [x.as_shape() for x in list(doc.get_child_nodes(aw.NodeType.SHAPE, True)) if isinstance(x.as_shape(), aw.drawing.Shape)]
+        shapes = list(map(lambda x: x.as_shape(), list(doc.get_child_nodes(aw.NodeType.SHAPE, True))))
         test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TOP_CORNERS_ROUNDED, 'TopCornersRounded 100002', 50, 50, 100, 100, shapes[0])
         test_util.TestUtil.verify_shape(aw.drawing.ShapeType.DIAGONAL_CORNERS_ROUNDED, 'DiagonalCornersRounded 100004', 50, 50, 0, 0, shapes[1])
 
@@ -1111,7 +1156,7 @@ class ExShape(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'Shape.CreateLinkBetweenTextBoxes.docx')
         #ExEnd
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.CreateLinkBetweenTextBoxes.docx')
-        shapes = [x.as_shape() for x in list(doc.get_child_nodes(aw.NodeType.SHAPE, True)) if isinstance(x.as_shape(), aw.drawing.Shape)]
+        shapes = list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(doc.get_child_nodes(aw.NodeType.SHAPE, True)))))
         test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_BOX, 'TextBox 100002', 100, 100, 0, 0, shapes[0])
         test_util.TestUtil.verify_text_box(aw.drawing.LayoutFlow.HORIZONTAL, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, shapes[0].text_box)
         self.assertEqual('', shapes[0].get_text().strip())
@@ -1159,16 +1204,16 @@ class ExShape(ApiExampleBase):
     def test_render_all_shapes(self):
         #ExStart
         #ExFor:ShapeBase.get_shape_renderer
-        #ExFor:NodeRendererBase.save(Stream,ImageSaveOptions)
+        #ExFor:NodeRendererBase.save(BytesIO,ImageSaveOptions)
         #ExSummary:Shows how to use a shape renderer to export shapes to files in the local file system.
         doc = aw.Document(file_name=MY_DIR + 'Various shapes.docx')
-        shapes = [x.as_shape() for x in list(doc.get_child_nodes(aw.NodeType.SHAPE, True)) if isinstance(x.as_shape(), aw.drawing.Shape)]
+        shapes = list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(doc.get_child_nodes(aw.NodeType.SHAPE, True)))))
         self.assertEqual(7, len(shapes))
         # There are 7 shapes in the document, including one group shape with 2 child shapes.
         # We will render every shape to an image file in the local file system
         # while ignoring the group shapes since they have no appearance.
         # This will produce 6 image files.
-        for shape in [x.as_shape() for x in list(doc.get_child_nodes(aw.NodeType.SHAPE, True)) if isinstance(x.as_shape(), aw.drawing.Shape)]:
+        for shape in filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(doc.get_child_nodes(aw.NodeType.SHAPE, True)))):
             renderer = shape.get_shape_renderer()
             options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
             renderer.save(file_name=ARTIFACTS_DIR + f'Shape.RenderAllShapes.{shape.name}.png', save_options=options)
@@ -1232,7 +1277,7 @@ class ExShape(ApiExampleBase):
         save_options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
         doc.save(file_name=ARTIFACTS_DIR + 'Shape.ShapeTypes.docx', save_options=save_options)
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.ShapeTypes.docx')
-        shapes = [x.as_shape() for x in list(doc.get_child_nodes(aw.NodeType.SHAPE, True)) if isinstance(x.as_shape(), aw.drawing.Shape)]
+        shapes = list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(doc.get_child_nodes(aw.NodeType.SHAPE, True)))))
         for shape in shapes:
             print(shape.shape_type)
         #ExEnd
@@ -1254,6 +1299,28 @@ class ExShape(ApiExampleBase):
         shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, width=100, height=100)
         shape.is_decorative = True
         doc.save(file_name=ARTIFACTS_DIR + 'Shape.IsDecorative.docx')
+        #ExEnd
+
+    def test_fill_image(self):
+        #ExStart
+        #ExFor:Fill.set_image(str)
+        #ExFor:Fill.set_image(bytes)
+        #ExFor:Fill.set_image(BytesIO)
+        #ExSummary:Shows how to set shape fill type as image.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # There are several ways of setting image.
+        shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, width=80, height=80)
+        # 1 -  Using a local system filename:
+        shape.fill.set_image(file_name=IMAGE_DIR + 'Logo.jpg')
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.FillImage.FileName.docx')
+        # 2 -  Load a file into a byte array:
+        shape.fill.set_image(image_bytes=system_helper.io.File.read_all_bytes(IMAGE_DIR + 'Logo.jpg'))
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.FillImage.ByteArray.docx')
+        # 3 -  From a stream:
+        with system_helper.io.FileStream(IMAGE_DIR + 'Logo.jpg', system_helper.io.FileMode.OPEN) as stream:
+            shape.fill.set_image(stream=stream)
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.FillImage.Stream.docx')
         #ExEnd
 
     def test_shadow_format(self):
@@ -1639,6 +1706,12 @@ class ExShape(ApiExampleBase):
         group_shape2 = builder.insert_group_shape(shapes=[group_shape1, shape3])
         doc.save(file_name=ARTIFACTS_DIR + 'Shape.CombineGroupShape.docx')
         #ExEnd:CombineGroupShape
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.CombineGroupShape.docx')
+        shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
+        for shape in shapes:
+            shape = shape.as_shape()
+            self.assertNotEqual(0, shape.width)
+            self.assertNotEqual(0, shape.height)
 
     def test_insert_command_button(self):
         #ExStart:InsertCommandButton
@@ -1891,37 +1964,6 @@ class ExShape(ApiExampleBase):
         self.assertTrue(source_fullname.find('Examples\\Data\\Spreadsheet.xlsx') != -1)
         #ExEnd
 
-    def test_ole_control(self):
-        #ExStart
-        #ExFor:OleFormat
-        #ExFor:OleFormat.auto_update
-        #ExFor:OleFormat.is_locked
-        #ExFor:OleFormat.prog_id
-        #ExFor:OleFormat.save(BytesIO)
-        #ExFor:OleFormat.save(str)
-        #ExFor:OleFormat.suggested_extension
-        #ExSummary:Shows how to extract embedded OLE objects into files.
-        doc = aw.Document(MY_DIR + 'OLE spreadsheet.docm')
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        # The OLE object in the first shape is a Microsoft Excel spreadsheet.
-        ole_format = shape.ole_format
-        self.assertEqual('Excel.Sheet.12', ole_format.prog_id)
-        # Our object is neither auto updating nor locked from updates.
-        self.assertFalse(ole_format.auto_update)
-        self.assertEqual(False, ole_format.is_locked)
-        # If we plan on saving the OLE object to a file in the local file system,
-        # we can use the "suggested_extension" property to determine which file extension to apply to the file.
-        self.assertEqual('.xlsx', ole_format.suggested_extension)
-        # Below are two ways of saving an OLE object to a file in the local file system.
-        # 1 -  Save it via a stream:
-        with open(ARTIFACTS_DIR + 'OLE spreadsheet extracted via stream' + ole_format.suggested_extension, 'wb') as file:
-            ole_format.save(file)
-        # 2 -  Save it directly to a filename:
-        ole_format.save(ARTIFACTS_DIR + 'OLE spreadsheet saved directly' + ole_format.suggested_extension)
-        #ExEnd
-        self.assertLess(8000, os.path.getsize(ARTIFACTS_DIR + 'OLE spreadsheet extracted via stream.xlsx'))
-        self.assertLess(8000, os.path.getsize(ARTIFACTS_DIR + 'OLE spreadsheet saved directly.xlsx'))
-
     def test_ole_links(self):
         #ExStart
         #ExFor:OleFormat.icon_caption
@@ -1958,20 +2000,6 @@ class ExShape(ApiExampleBase):
         stream.seek(0)
         ole_entry_bytes = stream.read()
         self.assertEqual(76, len(ole_entry_bytes))
-        #ExEnd
-
-    def test_suggested_file_name(self):
-        #ExStart
-        #ExFor:OleFormat.suggested_file_name
-        #ExSummary:Shows how to get an OLE object's suggested file name.
-        doc = aw.Document(MY_DIR + 'OLE shape.rtf')
-        ole_shape = doc.first_section.body.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        # OLE objects can provide a suggested filename and extension,
-        # which we can use when saving the object's contents into a file in the local file system.
-        suggested_file_name = ole_shape.ole_format.suggested_file_name
-        self.assertEqual('CSV.csv', suggested_file_name)
-        with open(ARTIFACTS_DIR + suggested_file_name, 'wb') as file_stream:
-            ole_shape.ole_format.save(file_stream)
         #ExEnd
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'different calculation on Linux')
@@ -2314,27 +2342,6 @@ class ExShape(ApiExampleBase):
         doc = aw.Document(MY_DIR + 'SmartArt.docx')
         number_of_smart_art_shapes = len([node for node in doc.get_child_nodes(aw.NodeType.SHAPE, True) if node.as_shape().has_smart_art])
         self.assertEqual(2, number_of_smart_art_shapes)
-        #ExEnd
-
-    def test_fill_image(self):
-        #ExStart
-        #ExFor:Fill.set_image(str)
-        #ExSummary:Shows how to set shape fill type as image.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # There are several ways of setting image.
-        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, 80, 80)
-        # 1 -  Using a local system filename:
-        shape.fill.set_image(IMAGE_DIR + 'Logo.jpg')
-        doc.save(ARTIFACTS_DIR + 'Shape.fill_image.file_name.docx')
-        # 2 -  Load a file into a byte array:
-        with open(IMAGE_DIR + 'Logo.jpg', 'rb') as stream:
-            shape.fill.set_image(stream.read())
-        doc.save(ARTIFACTS_DIR + 'Shape.fill_image.byte_array.docx')
-        # 3 -  From a stream:
-        with open(IMAGE_DIR + 'Logo.jpg', 'rb') as stream:
-            shape.fill.set_image(stream)
-        doc.save(ARTIFACTS_DIR + 'Shape.fill_image.stream.docx')
         #ExEnd
 
     def def_work_with_math_object_type(self):

@@ -7,6 +7,7 @@
 #####################################
 import aspose.words as aw
 import aspose.words.saving
+import io
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExSvgSaveOptions(ApiExampleBase):
@@ -27,6 +28,20 @@ class ExSvgSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'SvgSaveOptions.SaveLikeImage.svg', save_options=options)
         #ExEnd
 
+    def test_save_office_math(self):
+        #ExStart:SaveOfficeMath
+        #ExFor:NodeRendererBase.save(str,SvgSaveOptions)
+        #ExFor:NodeRendererBase.save(BytesIO,SvgSaveOptions)
+        #ExSummary:Shows how to pass save options when rendering office math.
+        doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
+        math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
+        options = aw.saving.SvgSaveOptions()
+        options.text_output_mode = aw.saving.SvgTextOutputMode.USE_PLACED_GLYPHS
+        math.get_math_renderer().save(file_name=ARTIFACTS_DIR + 'SvgSaveOptions.Output.svg', save_options=options)
+        with io.BytesIO() as stream:
+            math.get_math_renderer().save(stream=stream, save_options=options)
+        #ExEnd:SaveOfficeMath
+
     def test_max_image_resolution(self):
         #ExStart:MaxImageResolution
         #ExFor:ShapeBase.soft_edge
@@ -39,14 +54,3 @@ class ExSvgSaveOptions(ApiExampleBase):
         save_options.max_image_resolution = 72
         doc.save(file_name=ARTIFACTS_DIR + 'SvgSaveOptions.MaxImageResolution.svg', save_options=save_options)
         #ExEnd:MaxImageResolution
-
-    def test_save_office_math(self):
-        #ExStart:SaveOfficeMath
-        #ExFor:NodeRendererBase.save(str,SvgSaveOptions)
-        #ExSummary:Shows how to pass save options when rendering office math.
-        doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
-        math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
-        options = aw.saving.SvgSaveOptions()
-        options.text_output_mode = aw.saving.SvgTextOutputMode.USE_PLACED_GLYPHS
-        math.get_math_renderer().save(file_name=ARTIFACTS_DIR + 'SvgSaveOptions.Output.svg', save_options=options)
-        #ExEnd:SaveOfficeMath

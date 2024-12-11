@@ -14,3 +14,7 @@ class Environment(object):
     @staticmethod
     def new_line() -> str:
         return os.linesep
+
+    @staticmethod
+    def get_environment_variable(key: str) -> str:
+        return os.getenv(key)

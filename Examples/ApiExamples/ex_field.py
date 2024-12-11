@@ -6,18 +6,21 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 from document_helper import DocumentHelper
-import sys
-import io
-from enum import Enum
 import aspose.pydrawing as drawing
+from enum import Enum
+import sys
 import aspose.words as aw
 import aspose.words.buildingblocks
 import aspose.words.drawing
 import aspose.words.fields
 import aspose.words.lists
+import aspose.words.loading
 import aspose.words.notes
+import aspose.words.saving
 import datetime
 import document_helper
+import io
+import system_helper
 import test_util
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR
@@ -110,6 +113,46 @@ class ExField(ApiExampleBase):
         builder = aw.DocumentBuilder(doc=doc)
         # Insert a TC field at the current document builder position.
         builder.insert_field(field_code='TC "Entry Text" \\f t')
+
+    @unittest.skip('WORDSNET-16037')
+    def test_update_dirty_fields(self):
+        for update_dirty_fields in [True, False]:
+            #ExStart
+            #ExFor:Field.is_dirty
+            #ExFor:LoadOptions.update_dirty_fields
+            #ExSummary:Shows how to use special property for updating field result.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            # Give the document's built-in "Author" property value, and then display it with a field.
+            doc.built_in_document_properties.author = 'John Doe'
+            field = builder.insert_field(field_type=aw.fields.FieldType.FIELD_AUTHOR, update_field=True).as_field_author()
+            self.assertFalse(field.is_dirty)
+            self.assertEqual('John Doe', field.result)
+            # Update the property. The field still displays the old value.
+            doc.built_in_document_properties.author = 'John & Jane Doe'
+            self.assertEqual('John Doe', field.result)
+            # Since the field's value is out of date, we can mark it as "dirty".
+            # This value will stay out of date until we update the field manually with the Field.Update() method.
+            field.is_dirty = True
+            with io.BytesIO() as doc_stream:
+                # If we save without calling an update method,
+                # the field will keep displaying the out of date value in the output document.
+                doc.save(stream=doc_stream, save_format=aw.SaveFormat.DOCX)
+                # The LoadOptions object has an option to update all fields
+                # marked as "dirty" when loading the document.
+                options = aw.loading.LoadOptions()
+                options.update_dirty_fields = update_dirty_fields
+                doc = aw.Document(stream=doc_stream, load_options=options)
+                self.assertEqual('John & Jane Doe', doc.built_in_document_properties.author)
+                field = doc.range.fields[0].as_field_author()
+                # Updating dirty fields like this automatically set their "IsDirty" flag to false.
+                if update_dirty_fields:
+                    self.assertEqual('John & Jane Doe', field.result)
+                    self.assertFalse(field.is_dirty)
+                else:
+                    self.assertEqual('John Doe', field.result)
+                    self.assertTrue(field.is_dirty)
+            #ExEnd
 
     def test_unlink(self):
         #ExStart
@@ -2199,47 +2242,6 @@ class ExField(ApiExampleBase):
         field = doc.range.fields[0]
         self.verify_field(aw.fields.FieldType.FIELD_DATE, 'DATE', datetime.datetime.now.to_string(de.date_time_format.short_date_pattern), field)
         self.assertEqual(CultureInfo('de-DE').lcid, field.locale_id)
-
-    @unittest.skip('WORDSNET-16037')
-    def test_update_dirty_fields(self):
-        for update_dirty_fields in (True, False):
-            with self.subTest(update_dirty_fields=update_dirty_fields):
-                #ExStart
-                #ExFor:Field.is_dirty
-                #ExFor:LoadOptions.update_dirty_fields
-                #ExSummary:Shows how to use special property for updating field result.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                # Give the document's built-in "author" property value, and then display it with a field.
-                doc.built_in_document_properties.author = 'John Doe'
-                field = builder.insert_field(aw.fields.FieldType.FIELD_AUTHOR, True).as_field_author()
-                self.assertFalse(field.is_dirty)
-                self.assertEqual('John Doe', field.result)
-                # Update the property. The field still displays the old value.
-                doc.built_in_document_properties.author = 'John & Jane Doe'
-                self.assertEqual('John Doe', field.result)
-                # Since the field's value is out of date, we can mark it as "dirty".
-                # This value will stay out of date until we update the field manually with the Field.update() method.
-                field.is_dirty = True
-                with io.BytesIO() as doc_stream:
-                    # If we save without calling an update method,
-                    # the field will keep displaying the out of date value in the output document.
-                    doc.save(doc_stream, aw.SaveFormat.DOCX)
-                    # The LoadOptions object has an option to update all fields
-                    # marked as "dirty" when loading the document.
-                    options = aw.loading.LoadOptions()
-                    options.update_dirty_fields = update_dirty_fields
-                    doc = aw.Document(doc_stream, options)
-                    self.assertEqual('John & Jane Doe', doc.built_in_document_properties.author)
-                    field = doc.range.fields[0].as_field_author()
-                    # Updating dirty fields like this automatically set their "is_dirty" flag to False.
-                    if update_dirty_fields:
-                        self.assertEqual('John & Jane Doe', field.result)
-                        self.assertFalse(field.is_dirty)
-                    else:
-                        self.assertEqual('John Doe', field.result)
-                        self.assertTrue(field.is_dirty)
-                #ExEnd
 
     def test_insert_field_with_field_builder_exception(self):
         doc = aw.Document()

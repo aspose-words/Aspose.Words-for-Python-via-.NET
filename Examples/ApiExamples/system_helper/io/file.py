@@ -1,7 +1,7 @@
 import pathlib
 import codecs
-import os
 import platform
+from typing import IO
 
 
 class File(object):
@@ -25,11 +25,11 @@ class File(object):
             return f.read()
 
     @staticmethod
-    def write_all_bytes(path: str, bytes_: bytes):
+    def write_all_bytes(path: str, bytes_: bytes) -> None:
         pathlib.Path(path).write_bytes(bytes_)
 
     @staticmethod
-    def detect_by_bom(path: str, default: str):
+    def detect_by_bom(path: str, default: str) -> str:
         with open(path, 'rb') as f:
             raw = f.read(4)  # will read less if the file is smaller
         # BOM_UTF32_LE's start is equal to BOM_UTF16_LE so need to try the former first
@@ -40,3 +40,7 @@ class File(object):
             if any(raw.startswith(bom) for bom in boms):
                 return enc
         return default
+
+    @staticmethod
+    def open_read(path: str) -> IO:
+        return open(path, 'rb')

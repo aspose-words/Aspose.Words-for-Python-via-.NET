@@ -14,6 +14,7 @@ import aspose.words.markup
 import aspose.words.replacing
 import aspose.words.tables
 import document_helper
+import system_helper
 import unittest
 import uuid
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR, GOLDS_DIR
@@ -26,7 +27,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         #ExFor:IStructuredDocumentTag.sdt_type
         #ExSummary:Shows how to get the type of a structured document tag.
         doc = aw.Document(file_name=MY_DIR + 'Structured document tags.docx')
-        tags = [x.as_structured_document_tag() for x in list(doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)) if isinstance(x.as_structured_document_tag(), aw.markup.StructuredDocumentTag)]
+        tags = list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_structured_document_tag(), b), list(doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)))))
         self.assertEqual(aw.markup.SdtType.REPEATING_SECTION, tags[0].sdt_type)
         self.assertEqual(aw.markup.SdtType.REPEATING_SECTION_ITEM, tags[1].sdt_type)
         self.assertEqual(aw.markup.SdtType.RICH_TEXT, tags[2].sdt_type)
@@ -38,7 +39,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         #ExFor:IStructuredDocumentTag.word_open_xml
         #ExSummary:Shows how to get XML contained within the node in the FlatOpc format.
         doc = aw.Document(file_name=MY_DIR + 'Structured document tags.docx')
-        tags = [x.as_structured_document_tag() for x in list(doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)) if isinstance(x.as_structured_document_tag(), aw.markup.StructuredDocumentTag)]
+        tags = list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_structured_document_tag(), b), list(doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)))))
         self.assertTrue('<pkg:part pkg:name="/docProps/app.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.extended-properties+xml">' in tags[0].word_open_xml)
         #ExEnd
 
@@ -358,7 +359,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.RepeatingSectionItem.docx')
         #ExEnd
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.RepeatingSectionItem.docx')
-        tags = [x.as_structured_document_tag() for x in list(doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)) if isinstance(x.as_structured_document_tag(), aw.markup.StructuredDocumentTag)]
+        tags = list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_structured_document_tag(), b), list(doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)))))
         self.assertEqual('/books[1]/book', tags[0].xml_mapping.xpath)
         self.assertEqual('', tags[0].xml_mapping.prefix_mappings)
         self.assertEqual('', tags[1].xml_mapping.xpath)

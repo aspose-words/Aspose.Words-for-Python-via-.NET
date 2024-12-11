@@ -5,10 +5,10 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words.drawing import ImageType
 from aspose.words import Document, DocumentBuilder, NodeType
-import aspose.pydrawing as drawing
+from aspose.words.drawing import ImageType
 import os
+import aspose.pydrawing as drawing
 import aspose.words as aw
 import aspose.words.drawing
 import system_helper
@@ -64,6 +64,20 @@ class ExImage(ApiExampleBase):
         self.assertEqual(2, shapes.count)
         test_util.TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shapes[0].as_shape())
         test_util.TestUtil.verify_image_in_shape(272, 92, aw.drawing.ImageType.PNG, shapes[1].as_shape())
+
+    def test_from_stream(self):
+        #ExStart
+        #ExFor:DocumentBuilder.insert_image(BytesIO)
+        #ExSummary:Shows how to insert a shape with an image from a stream into a document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        with system_helper.io.File.open_read(IMAGE_DIR + 'Logo.jpg') as stream:
+            builder.write('Image from stream: ')
+            builder.insert_image(stream=stream)
+        doc.save(file_name=ARTIFACTS_DIR + 'Image.FromStream.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Image.FromStream.docx')
+        test_util.TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, doc.get_child_nodes(aw.NodeType.SHAPE, True)[0].as_shape())
 
     def test_create_floating_page_center(self):
         #ExStart
@@ -232,20 +246,6 @@ class ExImage(ApiExampleBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
         self.assertEqual(aw.drawing.ImageType.WEB_P, shape.image_data.image_type)
         #ExEnd:ReadWebpImage
-
-    def test_from_stream(self):
-        #ExStart
-        #ExFor:DocumentBuilder.insert_image(BytesIO)
-        #ExSummary:Shows how to insert a shape with an image from a stream into a document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        with open(IMAGE_DIR + 'Logo.jpg', 'rb') as stream:
-            builder.write('Image from stream: ')
-            builder.insert_image(stream)
-        doc.save(ARTIFACTS_DIR + 'Image.from_stream.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Image.from_stream.docx')
-        self.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, doc.get_child_nodes(aw.NodeType.SHAPE, True)[0].as_shape())
 
     def test_delete_all_images(self):
         #ExStart
