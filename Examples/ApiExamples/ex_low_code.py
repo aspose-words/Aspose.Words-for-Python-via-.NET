@@ -134,9 +134,6 @@ class ExLowCode(ApiExampleBase):
             streams = aw.lowcode.Converter.convert_to_images(input_stream=stream_in, save_options=image_save_options)
         #ExEnd:ConvertToImagesFromStream
 
-    def test_pdf_renderer(self):
-        raise NotImplementedError('Unsupported call of method named SaveTo')
-
     def test_compare_documents(self):
         #ExStart:CompareDocuments
         #ExFor:Comparer.compare(str,str,str,str,datetime)
