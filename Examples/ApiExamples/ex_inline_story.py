@@ -341,7 +341,7 @@ class ExInlineStory(ApiExampleBase):
         # We can either accept revisions to assimilate them into the document
         # or reject them to undo and discard the proposed change.
         self.assertTrue(doc.has_revisions)
-        footnotes = [x.as_footnote() for x in list(doc.get_child_nodes(aw.NodeType.FOOTNOTE, True)) if isinstance(x.as_footnote(), aw.notes.Footnote)]
+        footnotes = list(map(lambda x: x.as_footnote(), list(doc.get_child_nodes(aw.NodeType.FOOTNOTE, True))))
         self.assertEqual(5, len(footnotes))
         # Below are five types of revisions that can flag an InlineStory node.
         # 1 -  An "insert" revision:

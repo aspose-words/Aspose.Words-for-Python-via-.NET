@@ -5,11 +5,11 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
 from datetime import timedelta, timezone
-from enum import Enum
-import glob
+from document_helper import DocumentHelper
 import io
+import glob
+from enum import Enum
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.digitalsignatures
@@ -258,6 +258,46 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeVerticalPosition.PAGE, shape.relative_vertical_position)
         self.assertEqual((doc.first_section.page_setup.page_width - shape.width) / 2, shape.left)
         self.assertEqual((doc.first_section.page_setup.page_height - shape.height) / 2, shape.top)
+
+    def test_insert_ole_object(self):
+        #ExStart
+        #ExFor:DocumentBuilder.insert_ole_object(str,bool,bool,BytesIO)
+        #ExFor:DocumentBuilder.insert_ole_object(str,str,bool,bool,BytesIO)
+        #ExFor:DocumentBuilder.insert_ole_object_as_icon(str,bool,str,str)
+        #ExSummary:Shows how to insert an OLE object into a document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # OLE objects are links to files in our local file system that can be opened by other installed applications.
+        # Double clicking these shapes will launch the application, and then use it to open the linked object.
+        # There are three ways of using the InsertOleObject method to insert these shapes and configure their appearance.
+        # 1 -  Image taken from the local file system:
+        with system_helper.io.FileStream(IMAGE_DIR + 'Logo.jpg', system_helper.io.FileMode.OPEN) as image_stream:
+            # If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
+            # the icon according to the file extension and uses the filename for the icon caption.
+            builder.insert_ole_object(file_name=MY_DIR + 'Spreadsheet.xlsx', is_linked=False, as_icon=False, presentation=image_stream)
+        # If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
+        # the icon according to 'progId' and uses the filename for the icon caption.
+        # 2 -  Icon based on the application that will open the object:
+        builder.insert_ole_object(file_name=MY_DIR + 'Spreadsheet.xlsx', prog_id='Excel.Sheet', is_linked=False, as_icon=True, presentation=None)
+        # If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
+        # the icon according to 'progId' and uses the predefined icon caption.
+        # 3 -  Image icon that's 32 x 32 pixels or smaller from the local file system, with a custom caption:
+        builder.insert_ole_object_as_icon(file_name=MY_DIR + 'Presentation.pptx', is_linked=False, icon_file=IMAGE_DIR + 'Logo icon.ico', icon_caption='Double click to view presentation!')
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertOleObject.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertOleObject.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        self.assertEqual(aw.drawing.ShapeType.OLE_OBJECT, shape.shape_type)
+        self.assertEqual('Excel.Sheet.12', shape.ole_format.prog_id)
+        self.assertEqual('.xlsx', shape.ole_format.suggested_extension)
+        shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
+        self.assertEqual(aw.drawing.ShapeType.OLE_OBJECT, shape.shape_type)
+        self.assertEqual('Package', shape.ole_format.prog_id)
+        self.assertEqual('.xlsx', shape.ole_format.suggested_extension)
+        shape = doc.get_child(aw.NodeType.SHAPE, 2, True).as_shape()
+        self.assertEqual(aw.drawing.ShapeType.OLE_OBJECT, shape.shape_type)
+        self.assertEqual('PowerPoint.Show.12', shape.ole_format.prog_id)
+        self.assertEqual('.pptx', shape.ole_format.suggested_extension)
 
     def test_insert_html(self):
         #ExStart
@@ -1923,6 +1963,27 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, shape.relative_horizontal_position)
         self.assertEqual('https://vimeo.com/52477838', shape.href)
 
+    def test_insert_ole_object_as_icon(self):
+        #ExStart
+        #ExFor:DocumentBuilder.insert_ole_object_as_icon(str,str,bool,str,str)
+        #ExFor:DocumentBuilder.insert_ole_object_as_icon(BytesIO,str,str,str)
+        #ExSummary:Shows how to insert an embedded or linked OLE object as icon into the document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
+        # the icon according to 'progId' and uses the filename for the icon caption.
+        builder.insert_ole_object_as_icon(file_name=MY_DIR + 'Presentation.pptx', prog_id='Package', is_linked=False, icon_file=IMAGE_DIR + 'Logo icon.ico', icon_caption='My embedded file')
+        builder.insert_break(aw.BreakType.LINE_BREAK)
+        with system_helper.io.FileStream(MY_DIR + 'Presentation.pptx', system_helper.io.FileMode.OPEN) as stream:
+            # If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
+            # the icon according to the file extension and uses the filename for the icon caption.
+            shape = builder.insert_ole_object_as_icon(stream=stream, prog_id='PowerPoint.Application', icon_file=IMAGE_DIR + 'Logo icon.ico', icon_caption='My embedded file stream')
+            set_ole_package = shape.ole_format.ole_package
+            set_ole_package.file_name = 'Presentation.pptx'
+            set_ole_package.display_name = 'Presentation.pptx'
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertOleObjectAsIcon.docx')
+        #ExEnd
+
     def test_preserve_blocks(self):
         #ExStart
         #ExFor:HtmlInsertOptions
@@ -1969,46 +2030,6 @@ class ExDocumentBuilder(ApiExampleBase):
             horizontal_rule_format.height = -1
         with self.assertRaises(Exception):
             horizontal_rule_format.height = 1585
-
-    def test_insert_ole_object(self):
-        #ExStart
-        #ExFor:DocumentBuilder.insert_ole_object(str,bool,bool,BytesIO)
-        #ExFor:DocumentBuilder.insert_ole_object(str,str,bool,bool,BytesIO)
-        #ExFor:DocumentBuilder.insert_ole_object_as_icon(str,bool,str,str)
-        #ExSummary:Shows how to insert an OLE object into a document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # OLE objects are links to files in our local file system that can be opened by other installed applications.
-        # Double clicking these shapes will launch the application, and then use it to open the linked object.
-        # There are three ways of using the "insert_ole_object" method to insert these shapes and configure their appearance.
-        # 1 -  Image taken from the local file system:
-        with open(IMAGE_DIR + 'Logo.jpg', 'rb') as image_stream:
-            # If 'presentation' is omitted and 'as_icon' is set, this overloaded method selects
-            # the icon according to the file extension and uses the filename for the icon caption.
-            builder.insert_ole_object(MY_DIR + 'Spreadsheet.xlsx', False, False, image_stream)
-        # If 'presentation' is omitted and 'as_icon' is set, this overloaded method selects
-        # the icon according to 'prog_id' and uses the filename for the icon caption.
-        # 2 -  Icon based on the application that will open the object:
-        builder.insert_ole_object(MY_DIR + 'Spreadsheet.xlsx', 'Excel.Sheet', False, True, None)
-        # If 'icon_file' and 'icon_caption' are omitted, this overloaded method selects
-        # the icon according to 'prog_id' and uses the predefined icon caption.
-        # 3 -  Image icon that's 32 x 32 pixels or smaller from the local file system, with a custom caption:
-        builder.insert_ole_object_as_icon(MY_DIR + 'Presentation.pptx', False, IMAGE_DIR + 'Logo icon.ico', 'Double click to view presentation!')
-        doc.save(ARTIFACTS_DIR + 'DocumentBuilder.insert_ole_object.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'DocumentBuilder.insert_ole_object.docx')
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.assertEqual(aw.drawing.ShapeType.OLE_OBJECT, shape.shape_type)
-        self.assertEqual('Excel.Sheet.12', shape.ole_format.prog_id)
-        self.assertEqual('.xlsx', shape.ole_format.suggested_extension)
-        shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
-        self.assertEqual(aw.drawing.ShapeType.OLE_OBJECT, shape.shape_type)
-        self.assertEqual('Package', shape.ole_format.prog_id)
-        self.assertEqual('.xlsx', shape.ole_format.suggested_extension)
-        shape = doc.get_child(aw.NodeType.SHAPE, 2, True).as_shape()
-        self.assertEqual(aw.drawing.ShapeType.OLE_OBJECT, shape.shape_type)
-        self.assertEqual('PowerPoint.Show.12', shape.ole_format.prog_id)
-        self.assertEqual('.pptx', shape.ole_format.suggested_extension)
 
     def test_insert_html_with_formatting(self):
         for use_builder_formatting in (False, True):
@@ -2259,27 +2280,6 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual('https://vimeo.com/52477838', shape.href)
         #ServicePointManager.security_protocol = SecurityProtocolType.TLS12
         self.verify_web_response_status_code(200, shape.href)
-
-    def test_insert_ole_object_as_icon(self):
-        #ExStart
-        #ExFor:DocumentBuilder.insert_ole_object_as_icon(str,str,bool,str,str)
-        #ExFor:DocumentBuilder.insert_ole_object_as_icon(BytesIO,str,str,str)
-        #ExSummary:Shows how to insert an embedded or linked OLE object as icon into the document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # If 'icon_file' and 'icon_caption' are omitted, this overloaded method selects
-        # the icon according to 'progId' and uses the filename for the icon caption.
-        builder.insert_ole_object_as_icon(MY_DIR + 'Presentation.pptx', 'Package', False, IMAGE_DIR + 'Logo icon.ico', 'My embedded file')
-        builder.insert_break(aw.BreakType.LINE_BREAK)
-        with open(MY_DIR + 'Presentation.pptx', 'rb') as stream:
-            # If 'icon_file' and 'icon_caption' are omitted, this overloaded method selects
-            # the icon according to the file extension and uses the filename for the icon caption.
-            shape = builder.insert_ole_object_as_icon(stream, 'PowerPoint.Application', IMAGE_DIR + 'Logo icon.ico', 'My embedded file stream')
-            set_ole_package = shape.ole_format.ole_package
-            set_ole_package.file_name = 'Presentation.pptx'
-            set_ole_package.display_name = 'Presentation.pptx'
-        doc.save(ARTIFACTS_DIR + 'DocumentBuilder.insert_ole_object_as_icon.docx')
-        #ExEnd
 
     def _test_markdown_document_emphases(self):
         """All markdown tests work with the same file. That's why we need order for them."""

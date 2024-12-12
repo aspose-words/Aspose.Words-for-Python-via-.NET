@@ -6,6 +6,7 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 import aspose.words as aw
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, MY_DIR
 
@@ -21,9 +22,10 @@ class ExComHelper(ApiExampleBase):
         # The ComHelper class allows us to load documents from within COM clients.
         com_helper = aw.ComHelper()
         # 1 -  Using a local system filename:
-        doc = com_helper.open(MY_DIR + 'Document.docx')
+        doc = com_helper.open(file_name=MY_DIR + 'Document.docx')
         self.assertEqual('Hello World!\r\rHello Word!\r\r\rHello World!', doc.get_text().strip())
         # 2 -  From a stream:
-        with open(MY_DIR + 'Document.docx', 'rb') as stream:
-            doc = com_helper.open(stream)
+        with system_helper.io.FileStream(MY_DIR + 'Document.docx', system_helper.io.FileMode.OPEN) as stream:
+            doc = com_helper.open(stream=stream)
             self.assertEqual('Hello World!\r\rHello Word!\r\r\rHello World!', doc.get_text().strip())
+        #ExEnd

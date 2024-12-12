@@ -5,15 +5,14 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
 from datetime import timedelta, timezone
-from urllib.request import urlopen, Request
-import glob
-import sys
-import os
-import io
-import aspose.words.drawing
+from document_helper import DocumentHelper
 import base64
+import aspose.words.drawing
+import os
+import sys
+import glob
+from urllib.request import urlopen, Request
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.digitalsignatures
@@ -28,6 +27,7 @@ import aspose.words.settings
 import aspose.words.webextensions
 import datetime
 import document_helper
+import io
 import system_helper
 import test_util
 import unittest
@@ -54,6 +54,15 @@ class ExDocument(ApiExampleBase):
         # can be done by passing a LoadOptions object when loading the document.
         doc = aw.Document(file_name=MY_DIR + 'Encrypted.docx', load_options=aw.loading.LoadOptions(password='docPassword'))
         self.assertEqual('Test encrypted document.', doc.first_section.body.first_paragraph.get_text().strip())
+        #ExEnd
+
+    def test_load_from_stream(self):
+        #ExStart
+        #ExFor:Document.__init__(BytesIO)
+        #ExSummary:Shows how to load a document using a stream.
+        with system_helper.io.File.open_read(MY_DIR + 'Document.docx') as stream:
+            doc = aw.Document(stream=stream)
+            self.assertEqual('Hello World!\r\rHello Word!\r\r\rHello World!', doc.get_text().strip())
         #ExEnd
 
     def test_convert_to_pdf(self):
@@ -87,6 +96,27 @@ class ExDocument(ApiExampleBase):
         load_options.load_format = aw.LoadFormat.PDF
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Document.PdfDocumentEncrypted.pdf', load_options=load_options)
 
+    def test_open_from_stream_with_base_uri(self):
+        #ExStart
+        #ExFor:Document.__init__(BytesIO,LoadOptions)
+        #ExFor:LoadOptions.__init__
+        #ExFor:LoadOptions.base_uri
+        #ExFor:ShapeBase.is_image
+        #ExSummary:Shows how to open an HTML document with images from a stream using a base URI.
+        with system_helper.io.File.open_read(MY_DIR + 'Document.html') as stream:
+            # Pass the URI of the base folder while loading it
+            # so that any images with relative URIs in the HTML document can be found.
+            load_options = aw.loading.LoadOptions()
+            load_options.base_uri = IMAGE_DIR
+            doc = aw.Document(stream=stream, load_options=load_options)
+            # Verify that the first shape of the document contains a valid image.
+            shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+            self.assertTrue(shape.is_image)
+            self.assertIsNotNone(shape.image_data.image_bytes)
+            self.assertAlmostEqual(32, aw.ConvertUtil.point_to_pixel(points=shape.width), delta=0.01)
+            self.assertAlmostEqual(32, aw.ConvertUtil.point_to_pixel(points=shape.height), delta=0.01)
+        #ExEnd
+
     def test_temp_folder(self):
         #ExStart
         #ExFor:LoadOptions.temp_folder
@@ -119,6 +149,17 @@ class ExDocument(ApiExampleBase):
     def test_convert_to_epub(self):
         doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
         doc.save(file_name=ARTIFACTS_DIR + 'Document.ConvertToEpub.epub')
+
+    def test_save_to_stream(self):
+        #ExStart
+        #ExFor:Document.save(BytesIO,SaveFormat)
+        #ExSummary:Shows how to save a document to a stream.
+        doc = aw.Document(file_name=MY_DIR + 'Document.docx')
+        with io.BytesIO() as dst_stream:
+            doc.save(stream=dst_stream, save_format=aw.SaveFormat.DOCX)
+            # Verify that the stream contains the document.
+            self.assertEqual('Hello World!\r\rHello Word!\r\r\rHello World!', aw.Document(stream=dst_stream).get_text().strip())
+        #ExEnd
 
     def test_keep_source_numbering_same_list_ids(self):
         #ExStart
@@ -181,6 +222,46 @@ class ExDocument(ApiExampleBase):
         options.adjust_sentence_and_word_spacing = True
         builder.insert_document(src_doc=src_doc, import_format_mode=aw.ImportFormatMode.USE_DESTINATION_STYLES, import_format_options=options)
         self.assertEqual('Lorem ipsum. Dolor sit amet.', dst_doc.first_section.body.first_paragraph.get_text().strip())
+        #ExEnd
+
+    @unittest.skip('DigitalSignatureUtil.sing method is not supported')
+    def test_digital_signature(self):
+        #ExStart
+        #ExFor:DigitalSignature.certificate_holder
+        #ExFor:DigitalSignature.issuer_name
+        #ExFor:DigitalSignature.subject_name
+        #ExFor:DigitalSignatureCollection
+        #ExFor:DigitalSignatureCollection.is_valid
+        #ExFor:DigitalSignatureCollection.count
+        #ExFor:DigitalSignatureCollection.__getitem__(int)
+        #ExFor:DigitalSignatureUtil.sign(BytesIO,BytesIO,CertificateHolder)
+        #ExFor:DigitalSignatureUtil.sign(str,str,CertificateHolder)
+        #ExFor:DigitalSignatureType
+        #ExFor:Document.digital_signatures
+        #ExSummary:Shows how to sign documents with X.509 certificates.
+        # Verify that a document is not signed.
+        self.assertFalse(aw.FileFormatUtil.detect_file_format(file_name=MY_DIR + 'Document.docx').has_digital_signature)
+        # Create a CertificateHolder object from a PKCS12 file, which we will use to sign the document.
+        certificate_holder = aw.digitalsignatures.CertificateHolder.create(file_name=MY_DIR + 'morzal.pfx', password='aw', alias=None)
+        # There are two ways of saving a signed copy of a document to the local file system:
+        # 1 - Designate a document by a local system filename and save a signed copy at a location specified by another filename.
+        sign_options = aw.digitalsignatures.SignOptions()
+        sign_options.sign_time = datetime.datetime.now()
+        aw.digitalsignatures.DigitalSignatureUtil.sign(src_file_name=MY_DIR + 'Document.docx', dst_file_name=ARTIFACTS_DIR + 'Document.DigitalSignature.docx', cert_holder=certificate_holder, sign_options=sign_options)
+        self.assertTrue(aw.FileFormatUtil.detect_file_format(file_name=ARTIFACTS_DIR + 'Document.DigitalSignature.docx').has_digital_signature)
+        # 2 - Take a document from a stream and save a signed copy to another stream.
+        with system_helper.io.FileStream(MY_DIR + 'Document.docx', system_helper.io.FileMode.OPEN) as in_doc:
+            with system_helper.io.FileStream(ARTIFACTS_DIR + 'Document.DigitalSignature.docx', system_helper.io.FileMode.CREATE) as out_doc:
+                aw.digitalsignatures.DigitalSignatureUtil.sign(src_stream=in_doc, dst_stream=out_doc, cert_holder=certificate_holder)
+        self.assertTrue(aw.FileFormatUtil.detect_file_format(file_name=ARTIFACTS_DIR + 'Document.DigitalSignature.docx').has_digital_signature)
+        # Please verify that all of the document's digital signatures are valid and check their details.
+        signed_doc = aw.Document(file_name=ARTIFACTS_DIR + 'Document.DigitalSignature.docx')
+        digital_signature_collection = signed_doc.digital_signatures
+        self.assertTrue(digital_signature_collection.is_valid)
+        self.assertEqual(1, digital_signature_collection.count)
+        self.assertEqual(aw.digitalsignatures.DigitalSignatureType.XML_DSIG, digital_signature_collection[0].signature_type)
+        self.assertEqual('CN=Morzal.Me', signed_doc.digital_signatures[0].issuer_name)
+        self.assertEqual('CN=Morzal.Me', signed_doc.digital_signatures[0].subject_name)
         #ExEnd
 
     def test_join_runs_with_same_formatting(self):
@@ -1079,6 +1160,26 @@ class ExDocument(ApiExampleBase):
         self.assertFalse(doc.get_page_info(0).colored)
         #ExEnd
 
+    def test_save_document_to_stream(self):
+        for save_format in [aw.SaveFormat.DOC, aw.SaveFormat.DOT, aw.SaveFormat.DOCX, aw.SaveFormat.DOCM, aw.SaveFormat.DOTX, aw.SaveFormat.DOTM, aw.SaveFormat.FLAT_OPC, aw.SaveFormat.FLAT_OPC_MACRO_ENABLED, aw.SaveFormat.FLAT_OPC_TEMPLATE, aw.SaveFormat.FLAT_OPC_TEMPLATE_MACRO_ENABLED, aw.SaveFormat.RTF, aw.SaveFormat.WORD_ML, aw.SaveFormat.PDF, aw.SaveFormat.XPS, aw.SaveFormat.XAML_FIXED, aw.SaveFormat.SVG, aw.SaveFormat.HTML_FIXED, aw.SaveFormat.OPEN_XPS, aw.SaveFormat.PS, aw.SaveFormat.PCL, aw.SaveFormat.HTML, aw.SaveFormat.MHTML, aw.SaveFormat.EPUB, aw.SaveFormat.AZW3, aw.SaveFormat.MOBI, aw.SaveFormat.ODT, aw.SaveFormat.OTT, aw.SaveFormat.TEXT, aw.SaveFormat.XAML_FLOW, aw.SaveFormat.XAML_FLOW_PACK, aw.SaveFormat.MARKDOWN, aw.SaveFormat.XLSX, aw.SaveFormat.TIFF, aw.SaveFormat.PNG, aw.SaveFormat.BMP, aw.SaveFormat.EMF, aw.SaveFormat.JPEG, aw.SaveFormat.GIF, aw.SaveFormat.EPS]:
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.writeln('Lorem ipsum')
+            with io.BytesIO() as stream:
+                if save_format == aw.SaveFormat.HTML_FIXED:
+                    save_options = aw.saving.HtmlFixedSaveOptions()
+                    save_options.export_embedded_css = True
+                    save_options.export_embedded_fonts = True
+                    save_options.save_format = save_format
+                    doc.save(stream=stream, save_options=save_options)
+                elif save_format == aw.SaveFormat.XAML_FIXED:
+                    save_options = aw.saving.XamlFixedSaveOptions()
+                    save_options.resources_folder = ARTIFACTS_DIR
+                    save_options.save_format = save_format
+                    doc.save(stream=stream, save_options=save_options)
+                else:
+                    doc.save(stream=stream, save_format=save_format)
+
     def test_has_macros(self):
         #ExStart:HasMacros
         #ExFor:FileFormatInfo.has_macros
@@ -1099,15 +1200,6 @@ class ExDocument(ApiExampleBase):
         para = body.append_child(aw.Paragraph(doc)).as_paragraph()
         para.append_child(aw.Run(doc=doc, text='Hello world!'))
         #ExEnd:CreateSimpleDocument
-
-    def test_load_from_stream(self):
-        #ExStart
-        #ExFor:Document.__init__(BytesIO)
-        #ExSummary:Shows how to load a document using a stream.
-        with open(MY_DIR + 'Document.docx', 'rb') as stream:
-            doc = aw.Document(stream)
-            self.assertEqual('Hello World!\r\rHello Word!\r\r\rHello World!', doc.get_text().strip())
-        #ExEnd
 
     def test_load_from_web(self):
         #ExStart
@@ -1144,26 +1236,6 @@ class ExDocument(ApiExampleBase):
                 self.assertEqual(aspose.pydrawing.imaging.ImageFormat.bmp, image.raw_format)
                 self.assertEqual(816, image.width)
                 self.assertEqual(1056, image.height)
-        #ExEnd
-
-    def test_open_from_stream_with_base_uri(self):
-        #ExStart
-        #ExFor:Document.__init__(BytesIO,LoadOptions)
-        #ExFor:LoadOptions.__init__()
-        #ExFor:LoadOptions.base_uri
-        #ExSummary:Shows how to open an HTML document with images from a stream using a base URI.
-        with open(MY_DIR + 'Document.html', 'rb') as stream:
-            # Pass the URI of the base folder while loading it
-            # so that any images with relative URIs in the HTML document can be found.
-            load_options = aw.loading.LoadOptions()
-            load_options.base_uri = IMAGE_DIR
-            doc = aw.Document(stream, load_options)
-            # Verify that the first shape of the document contains a valid image.
-            shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-            self.assertTrue(shape.is_image)
-            self.assertIsNotNone(shape.image_data.image_bytes)
-            self.assertAlmostEqual(32.0, aw.ConvertUtil.point_to_pixel(shape.width), delta=0.01)
-            self.assertAlmostEqual(32.0, aw.ConvertUtil.point_to_pixel(shape.height), delta=0.01)
         #ExEnd
 
     def test_insert_html_from_web_page(self):
@@ -1204,17 +1276,6 @@ class ExDocument(ApiExampleBase):
         with open(MY_DIR + 'Encrypted.docx', 'rb') as stream:
             doc = aw.Document(stream, options)
             self.assertEqual('Test encrypted document.', doc.get_text().strip())  #ExSkip
-        #ExEnd
-
-    def test_save_to_stream(self):
-        #ExStart
-        #ExFor:Document.save(BytesIO,SaveFormat)
-        #ExSummary:Shows how to save a document to a stream.
-        doc = aw.Document(MY_DIR + 'Document.docx')
-        with io.BytesIO() as dst_stream:
-            doc.save(dst_stream, aw.SaveFormat.DOCX)
-            # Verify that the stream contains the document.
-            self.assertEqual('Hello World!\r\rHello Word!\r\r\rHello World!', aw.Document(dst_stream).get_text().strip())
         #ExEnd
 
     def test_append_document(self):
@@ -1309,46 +1370,6 @@ class ExDocument(ApiExampleBase):
         # self.assertIsNotNone(digital_sig.certificate_holder.certificate.issuer_name.name is not None)
         # self.assertIn("VeriSign", digital_sig.certificate_holder.certificate.issuer_name.name)
 
-    @unittest.skip('DigitalSignatureUtil.sing method is not supported')
-    def test_digital_signature(self):
-        #ExStart
-        #ExFor:DigitalSignature.certificate_holder
-        #ExFor:DigitalSignature.issuer_name
-        #ExFor:DigitalSignature.subject_name
-        #ExFor:DigitalSignatureCollection
-        #ExFor:DigitalSignatureCollection.is_valid
-        #ExFor:DigitalSignatureCollection.count
-        #ExFor:DigitalSignatureCollection.__getitem__(int)
-        #ExFor:DigitalSignatureUtil.sign(BytesIO,BytesIO,CertificateHolder)
-        #ExFor:DigitalSignatureUtil.sign(str,str,CertificateHolder)
-        #ExFor:DigitalSignatureType
-        #ExFor:Document.digital_signatures
-        #ExSummary:Shows how to sign documents with X.509 certificates.
-        # Verify that a document is not signed.
-        self.assertFalse(aw.FileFormatUtil.detect_file_format(MY_DIR + 'Document.docx').has_digital_signature)
-        # Create a CertificateHolder object from a PKCS12 file, which we will use to sign the document.
-        certificate_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + 'morzal.pfx', 'aw', None)
-        # There are two ways of saving a signed copy of a document to the local file system:
-        # 1 - Designate a document by a local system filename and save a signed copy at a location specified by another filename.
-        sign_options = aw.digitalsignatures.SignOptions()
-        sign_options.sign_time = datetime.utcnow()
-        aw.digitalsignatures.DigitalSignatureUtil.sign(MY_DIR + 'Document.docx', ARTIFACTS_DIR + 'Document.digital_signature.docx', certificate_holder, sign_options)
-        self.assertTrue(aw.FileFormatUtil.detect_file_format(ARTIFACTS_DIR + 'Document.digital_signature.docx').has_digital_signature)
-        # 2 - Take a document from a stream and save a signed copy to another stream.
-        with open(MY_DIR + 'Document.docx', 'rb') as in_doc:
-            with open(ARTIFACTS_DIR + 'Document.digital_signature.docx', 'wb') as out_doc:
-                aw.digitalsignatures.DigitalSignatureUtil.sign(in_doc, out_doc, certificate_holder)
-        self.assertTrue(aw.FileFormatUtil.detect_file_format(ARTIFACTS_DIR + 'Document.digital_signature.docx').has_digital_signature)
-        # Please verify that all of the document's digital signatures are valid and check their details.
-        signed_doc = aw.Document(ARTIFACTS_DIR + 'Document.digital_signature.docx')
-        digital_signature_collection = signed_doc.digital_signatures
-        self.assertTrue(digital_signature_collection.is_valid)
-        self.assertEqual(1, digital_signature_collection.count)
-        self.assertEqual(aw.digitalsignatures.DigitalSignatureType.XML_DSIG, digital_signature_collection[0].signature_type)
-        self.assertEqual('CN=Morzal.Me', signed_doc.digital_signatures[0].issuer_name)
-        self.assertEqual('CN=Morzal.Me', signed_doc.digital_signatures[0].subject_name)
-        #ExEnd
-
     def test_signature_value(self):
         #ExStart
         #ExFor:DigitalSignature.signature_value
@@ -1383,7 +1404,7 @@ class ExDocument(ApiExampleBase):
         dst_doc.save(ARTIFACTS_DIR + 'Document.append_all_documents_in_folder.doc')
         #ExEnd
         self.assertEqual(7, dst_doc.styles.count)
-        self.assertEqual(9, dst_doc.sections.count)
+        self.assertEqual(10, dst_doc.sections.count)
 
     def test_default_tab_stop(self):
         #ExStart
@@ -1636,32 +1657,6 @@ class ExDocument(ApiExampleBase):
         dst_doc.insert_document_inline(src_doc.document, aw.ImportFormatMode.USE_DESTINATION_STYLES, aw.ImportFormatOptions())
         self.assertEqual('Before [src content] after', dst_doc.document.get_text().strip())
         #ExEnd
-
-    def test_save_document_to_stream(self):
-        save_formats = [aw.SaveFormat.DOC, aw.SaveFormat.DOT, aw.SaveFormat.DOCX, aw.SaveFormat.DOCM, aw.SaveFormat.DOTX, aw.SaveFormat.DOTM, aw.SaveFormat.FLAT_OPC, aw.SaveFormat.FLAT_OPC_MACRO_ENABLED, aw.SaveFormat.FLAT_OPC_TEMPLATE, aw.SaveFormat.FLAT_OPC_TEMPLATE_MACRO_ENABLED, aw.SaveFormat.RTF, aw.SaveFormat.WORD_ML, aw.SaveFormat.MHTML, aw.SaveFormat.PDF, aw.SaveFormat.XPS, aw.SaveFormat.XAML_FIXED, aw.SaveFormat.HTML_FIXED, aw.SaveFormat.OPEN_XPS, aw.SaveFormat.PS, aw.SaveFormat.PCL, aw.SaveFormat.AZW3, aw.SaveFormat.MOBI, aw.SaveFormat.OTT, aw.SaveFormat.TEXT, aw.SaveFormat.XAML_FLOW, aw.SaveFormat.XAML_FLOW_PACK, aw.SaveFormat.XLSX, aw.SaveFormat.TIFF, aw.SaveFormat.PNG, aw.SaveFormat.BMP, aw.SaveFormat.EMF, aw.SaveFormat.JPEG, aw.SaveFormat.GIF, aw.SaveFormat.EPS, aw.SaveFormat.EMF]
-        for save_format in save_formats:
-            doc = aw.Document()
-            builder = aw.DocumentBuilder(doc)
-            builder.write('Some text')
-            result = io.BytesIO()
-            if save_format == aw.SaveFormat.HTML_FIXED:
-                save_options = aw.saving.HtmlFixedSaveOptions()
-                save_options.export_embedded_css = True
-                save_options.export_embedded_fonts = True
-                save_options.export_embedded_images = True
-                save_options.save_format = save_format
-                doc.save(result, save_options)
-                result.close()
-                continue
-            if save_format == aw.SaveFormat.XAML_FIXED:
-                save_options = aw.saving.XamlFixedSaveOptions()
-                save_options.resources_folder = ARTIFACTS_DIR
-                save_options.save_format = save_format
-                doc.save(result, save_options)
-                result.close()
-                continue
-            doc.save(result, save_format)
-            result.close()
 
     def _test_doc_package_custom_parts(self, parts: aw.markup.CustomPartCollection):
         self.assertEqual(3, parts.count)

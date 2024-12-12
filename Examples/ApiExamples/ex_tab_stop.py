@@ -6,6 +6,7 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 import aspose.words as aw
+import system_helper
 import test_util
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR
@@ -26,7 +27,7 @@ class ExTabStop(ApiExampleBase):
         # 2 -  Pass the values for properties of a new tab stop to the "Add" method:
         paragraph.paragraph_format.tab_stops.add(position=aw.ConvertUtil.millimeter_to_point(100), alignment=aw.TabAlignment.LEFT, leader=aw.TabLeader.DASHES)
         # Add tab stops at 5 cm to all paragraphs.
-        for para in [x.as_paragraph() for x in list(doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)) if isinstance(x.as_paragraph(), aw.Paragraph)]:
+        for para in filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_paragraph(), b), list(doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)))):
             para.paragraph_format.tab_stops.add(position=aw.ConvertUtil.millimeter_to_point(50), alignment=aw.TabAlignment.LEFT, leader=aw.TabLeader.DASHES)
         # Every "tab" character takes the builder's cursor to the location of the next tab stop.
         builder = aw.DocumentBuilder(doc=doc)

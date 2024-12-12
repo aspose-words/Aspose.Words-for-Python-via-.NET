@@ -9,7 +9,7 @@ class Directory(object):
         pathlib.Path(path).mkdir(parents=True, exist_ok=True)
 
     @staticmethod
-    def get_files(path: str, search_pattern: str, search_option: SearchOption) -> [pathlib.PosixPath]:
+    def get_files(path: str, search_pattern: str, search_option: SearchOption) -> [str]:
         value = ''
         if search_option == SearchOption.All_DIRECTORIES:
             value = f'**/{search_pattern}'
