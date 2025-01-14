@@ -5,22 +5,20 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.pydrawing import Color
-from aspose.pydrawing import Color
-from aspose.words.saving import OoxmlSaveOptions
-from aspose.words.lowcode import Merger, MergeFormatMode
 from aspose.words import SaveFormat, DocumentBuilder
-import io
-import pathlib
-import os
+from aspose.words.lowcode import Merger, MergeFormatMode
+from aspose.words.saving import OoxmlSaveOptions
+from aspose.pydrawing import Color
+from aspose.pydrawing import Color
 import unittest
+import os
+import pathlib
+import io
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.comparing
 import aspose.words.loading
 import aspose.words.lowcode
-import aspose.words.lowcode.mailmerging
-import aspose.words.lowcode.splitting
 import aspose.words.replacing
 import aspose.words.saving
 import datetime
@@ -33,38 +31,56 @@ class ExLowCode(ApiExampleBase):
         #ExStart
         #ExFor:Merger.merge(str,List[str])
         #ExFor:Merger.merge(List[str],MergeFormatMode)
+        #ExFor:Merger.merge(List[str],List[LoadOptions],MergeFormatMode)
         #ExFor:Merger.merge(str,List[str],SaveOptions,MergeFormatMode)
         #ExFor:Merger.merge(str,List[str],SaveFormat,MergeFormatMode)
+        #ExFor:Merger.merge(str,List[str],List[LoadOptions],SaveOptions,MergeFormatMode)
         #ExFor:LowCode.merge_format_mode
         #ExFor:LowCode.merger
         #ExSummary:Shows how to merge documents into a single output document.
         #There is a several ways to merge documents:
-        aw.lowcode.Merger.merge(output_file=ARTIFACTS_DIR + 'LowCode.MergeDocument.SimpleMerge.docx', input_files=[MY_DIR + 'Big document.docx', MY_DIR + 'Tables.docx'])
+        input_doc1 = MY_DIR + 'Big document.docx'
+        input_doc2 = MY_DIR + 'Tables.docx'
+        aw.lowcode.Merger.merge(output_file=ARTIFACTS_DIR + 'LowCode.MergeDocument.1.docx', input_files=[input_doc1, input_doc2])
         save_options = aw.saving.OoxmlSaveOptions()
         save_options.password = 'Aspose.Words'
-        aw.lowcode.Merger.merge(output_file=ARTIFACTS_DIR + 'LowCode.MergeDocument.SaveOptions.docx', input_files=[MY_DIR + 'Big document.docx', MY_DIR + 'Tables.docx'], save_options=save_options, merge_format_mode=aw.lowcode.MergeFormatMode.KEEP_SOURCE_FORMATTING)
-        aw.lowcode.Merger.merge(output_file=ARTIFACTS_DIR + 'LowCode.MergeDocument.SaveFormat.pdf', input_files=[MY_DIR + 'Big document.docx', MY_DIR + 'Tables.docx'], save_format=aw.SaveFormat.PDF, merge_format_mode=aw.lowcode.MergeFormatMode.KEEP_SOURCE_LAYOUT)
-        doc = aw.lowcode.Merger.merge(input_files=[MY_DIR + 'Big document.docx', MY_DIR + 'Tables.docx'], merge_format_mode=aw.lowcode.MergeFormatMode.MERGE_FORMATTING)
-        doc.save(file_name=ARTIFACTS_DIR + 'LowCode.MergeDocument.DocumentInstance.docx')
+        aw.lowcode.Merger.merge(output_file=ARTIFACTS_DIR + 'LowCode.MergeDocument.2.docx', input_files=[input_doc1, input_doc2], save_options=save_options, merge_format_mode=aw.lowcode.MergeFormatMode.KEEP_SOURCE_FORMATTING)
+        aw.lowcode.Merger.merge(output_file=ARTIFACTS_DIR + 'LowCode.MergeDocument.3.pdf', input_files=[input_doc1, input_doc2], save_format=aw.SaveFormat.PDF, merge_format_mode=aw.lowcode.MergeFormatMode.KEEP_SOURCE_LAYOUT)
+        first_load_options = aw.loading.LoadOptions()
+        first_load_options.ignore_ole_data = True
+        second_load_options = aw.loading.LoadOptions()
+        second_load_options.ignore_ole_data = False
+        aw.lowcode.Merger.merge(output_file=ARTIFACTS_DIR + 'LowCode.MergeDocument.4.docx', input_files=[input_doc1, input_doc2], load_options=[first_load_options, second_load_options], save_options=save_options, merge_format_mode=aw.lowcode.MergeFormatMode.KEEP_SOURCE_FORMATTING)
+        doc = aw.lowcode.Merger.merge(input_files=[input_doc1, input_doc2], merge_format_mode=aw.lowcode.MergeFormatMode.MERGE_FORMATTING)
+        doc.save(file_name=ARTIFACTS_DIR + 'LowCode.MergeDocument.5.docx')
+        doc = aw.lowcode.Merger.merge(input_files=[input_doc1, input_doc2], load_options=[first_load_options, second_load_options], merge_format_mode=aw.lowcode.MergeFormatMode.MERGE_FORMATTING)
+        doc.save(file_name=ARTIFACTS_DIR + 'LowCode.MergeDocument.6.docx')
         #ExEnd
 
     def test_merge_stream_document(self):
         #ExStart
-        #ExFor:Merger.merge(List[BytesIO],MergeFormatMode)
-        #ExFor:Merger.merge(BytesIO,List[BytesIO],SaveOptions,MergeFormatMode)
-        #ExFor:Merger.merge(BytesIO,List[BytesIO],SaveFormat)
+        #ExFor:Merger.merge_stream(List[BytesIO],MergeFormatMode)
+        #ExFor:Merger.merge_stream(BytesIO,List[BytesIO],SaveOptions,MergeFormatMode)
+        #ExFor:Merger.merge_stream(BytesIO,List[BytesIO],List[LoadOptions],SaveOptions,MergeFormatMode)
+        #ExFor:Merger.merge_stream(BytesIO,List[BytesIO],SaveFormat)
         #ExSummary:Shows how to merge documents from stream into a single output document.
         #There is a several ways to merge documents from stream:
         with system_helper.io.FileStream(MY_DIR + 'Big document.docx', system_helper.io.FileMode.OPEN, system_helper.io.FileAccess.READ) as first_stream_in:
             with system_helper.io.FileStream(MY_DIR + 'Tables.docx', system_helper.io.FileMode.OPEN, system_helper.io.FileAccess.READ) as second_stream_in:
                 save_options = aw.saving.OoxmlSaveOptions()
                 save_options.password = 'Aspose.Words'
-                with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.MergeStreamDocument.SaveOptions.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
+                with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.MergeStreamDocument.1.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
                     aw.lowcode.Merger.merge_stream(output_stream=stream_out, input_streams=[first_stream_in, second_stream_in], save_options=save_options, merge_format_mode=aw.lowcode.MergeFormatMode.KEEP_SOURCE_FORMATTING)
-                with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.MergeStreamDocument.SaveFormat.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
+                with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.MergeStreamDocument.2.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
                     aw.lowcode.Merger.merge_stream(output_stream=stream_out, input_streams=[first_stream_in, second_stream_in], save_format=aw.SaveFormat.DOCX)
-                doc = aw.lowcode.Merger.merge_stream(input_streams=[first_stream_in, second_stream_in], merge_format_mode=aw.lowcode.MergeFormatMode.MERGE_FORMATTING)
-                doc.save(file_name=ARTIFACTS_DIR + 'LowCode.MergeStreamDocument.DocumentInstance.docx')
+                first_load_options = aw.loading.LoadOptions()
+                first_load_options.ignore_ole_data = True
+                second_load_options = aw.loading.LoadOptions()
+                second_load_options.ignore_ole_data = False
+                with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.MergeStreamDocument.3.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
+                    aw.lowcode.Merger.merge_stream(output_stream=stream_out, input_streams=[first_stream_in, second_stream_in], load_options=[first_load_options, second_load_options], save_options=save_options, merge_format_mode=aw.lowcode.MergeFormatMode.KEEP_SOURCE_FORMATTING)
+                first_doc = aw.lowcode.Merger.merge_stream(input_streams=[first_stream_in, second_stream_in], merge_format_mode=aw.lowcode.MergeFormatMode.MERGE_FORMATTING)
+                first_doc.save(file_name=ARTIFACTS_DIR + 'LowCode.MergeStreamDocument.4.docx')
         #ExEnd
 
     def test_convert(self):
@@ -72,25 +88,35 @@ class ExLowCode(ApiExampleBase):
         #ExFor:Converter.convert(str,str)
         #ExFor:Converter.convert(str,str,SaveFormat)
         #ExFor:Converter.convert(str,str,SaveOptions)
+        #ExFor:Converter.convert(str,LoadOptions,str,SaveOptions)
         #ExSummary:Shows how to convert documents with a single line of code.
-        aw.lowcode.Converter.convert(input_file=MY_DIR + 'Document.docx', output_file=ARTIFACTS_DIR + 'LowCode.Convert.pdf')
-        aw.lowcode.Converter.convert(input_file=MY_DIR + 'Document.docx', output_file=ARTIFACTS_DIR + 'LowCode.Convert.rtf', save_format=aw.SaveFormat.RTF)
+        doc = MY_DIR + 'Document.docx'
+        aw.lowcode.Converter.convert(input_file=doc, output_file=ARTIFACTS_DIR + 'LowCode.Convert.pdf')
+        aw.lowcode.Converter.convert(input_file=doc, output_file=ARTIFACTS_DIR + 'LowCode.Convert.SaveFormat.rtf', save_format=aw.SaveFormat.RTF)
         save_options = aw.saving.OoxmlSaveOptions()
         save_options.password = 'Aspose.Words'
-        aw.lowcode.Converter.convert(input_file=MY_DIR + 'Document.doc', output_file=ARTIFACTS_DIR + 'LowCode.Convert.docx', save_options=save_options)
+        load_options = aw.loading.LoadOptions()
+        load_options.ignore_ole_data = True
+        aw.lowcode.Converter.convert(input_file=doc, load_options=load_options, output_file=ARTIFACTS_DIR + 'LowCode.Convert.LoadOptions.docx', save_options=save_options)
+        aw.lowcode.Converter.convert(input_file=doc, output_file=ARTIFACTS_DIR + 'LowCode.Convert.SaveOptions.docx', save_options=save_options)
         #ExEnd:Convert
 
     def test_convert_stream(self):
         #ExStart:ConvertStream
         #ExFor:Converter.convert(BytesIO,BytesIO,SaveFormat)
         #ExFor:Converter.convert(BytesIO,BytesIO,SaveOptions)
+        #ExFor:Converter.convert(BytesIO,LoadOptions,BytesIO,SaveOptions)
         #ExSummary:Shows how to convert documents with a single line of code (Stream).
         with system_helper.io.FileStream(MY_DIR + 'Big document.docx', system_helper.io.FileMode.OPEN, system_helper.io.FileAccess.READ) as stream_in:
-            with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.ConvertStream.SaveFormat.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
+            with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.ConvertStream.1.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
                 aw.lowcode.Converter.convert(input_stream=stream_in, output_stream=stream_out, save_format=aw.SaveFormat.DOCX)
             save_options = aw.saving.OoxmlSaveOptions()
             save_options.password = 'Aspose.Words'
-            with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.ConvertStream.SaveOptions.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
+            load_options = aw.loading.LoadOptions()
+            load_options.ignore_ole_data = True
+            with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.ConvertStream.2.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
+                aw.lowcode.Converter.convert(input_stream=stream_in, load_options=load_options, output_stream=stream_out, save_options=save_options)
+            with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.ConvertStream.3.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
                 aw.lowcode.Converter.convert(input_stream=stream_in, output_stream=stream_out, save_options=save_options)
         #ExEnd:ConvertStream
 
@@ -99,12 +125,17 @@ class ExLowCode(ApiExampleBase):
         #ExFor:Converter.convert_to_images(str,str)
         #ExFor:Converter.convert_to_images(str,str,SaveFormat)
         #ExFor:Converter.convert_to_images(str,str,ImageSaveOptions)
+        #ExFor:Converter.convert_to_images(str,LoadOptions,str,ImageSaveOptions)
         #ExSummary:Shows how to convert document to images.
-        aw.lowcode.Converter.convert_to_images(input_file=MY_DIR + 'Big document.docx', output_file=ARTIFACTS_DIR + 'LowCode.ConvertToImages.png')
-        aw.lowcode.Converter.convert_to_images(input_file=MY_DIR + 'Big document.docx', output_file=ARTIFACTS_DIR + 'LowCode.ConvertToImages.jpeg', save_format=aw.SaveFormat.JPEG)
+        doc = MY_DIR + 'Big document.docx'
+        aw.lowcode.Converter.convert_to_images(input_file=doc, output_file=ARTIFACTS_DIR + 'LowCode.ConvertToImages.1.png')
+        aw.lowcode.Converter.convert_to_images(input_file=doc, output_file=ARTIFACTS_DIR + 'LowCode.ConvertToImages.2.jpeg', save_format=aw.SaveFormat.JPEG)
+        load_options = aw.loading.LoadOptions()
+        load_options.ignore_ole_data = False
         image_save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
         image_save_options.page_set = aw.saving.PageSet(page=1)
-        aw.lowcode.Converter.convert_to_images(input_file=MY_DIR + 'Big document.docx', output_file=ARTIFACTS_DIR + 'LowCode.ConvertToImages.png', save_options=image_save_options)
+        aw.lowcode.Converter.convert_to_images(input_file=doc, load_options=load_options, output_file=ARTIFACTS_DIR + 'LowCode.ConvertToImages.3.png', save_options=image_save_options)
+        aw.lowcode.Converter.convert_to_images(input_file=doc, output_file=ARTIFACTS_DIR + 'LowCode.ConvertToImages.4.png', save_options=image_save_options)
         #ExEnd:ConvertToImages
 
     def test_convert_to_images_stream(self):
@@ -114,24 +145,29 @@ class ExLowCode(ApiExampleBase):
         #ExFor:Converter.convert_to_images(Document,SaveFormat)
         #ExFor:Converter.convert_to_images(Document,ImageSaveOptions)
         #ExSummary:Shows how to convert document to images stream.
-        streams = aw.lowcode.Converter.convert_to_images(input_file=MY_DIR + 'Big document.docx', save_format=aw.SaveFormat.PNG)
+        doc = MY_DIR + 'Big document.docx'
+        streams = aw.lowcode.Converter.convert_to_images(input_file=doc, save_format=aw.SaveFormat.PNG)
         image_save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
         image_save_options.page_set = aw.saving.PageSet(page=1)
-        streams = aw.lowcode.Converter.convert_to_images(input_file=MY_DIR + 'Big document.docx', save_options=image_save_options)
-        streams = aw.lowcode.Converter.convert_to_images(doc=aw.Document(file_name=MY_DIR + 'Big document.docx'), save_format=aw.SaveFormat.PNG)
-        streams = aw.lowcode.Converter.convert_to_images(doc=aw.Document(file_name=MY_DIR + 'Big document.docx'), save_options=image_save_options)
+        streams = aw.lowcode.Converter.convert_to_images(input_file=doc, save_options=image_save_options)
+        streams = aw.lowcode.Converter.convert_to_images(doc=aw.Document(file_name=doc), save_format=aw.SaveFormat.PNG)
+        streams = aw.lowcode.Converter.convert_to_images(doc=aw.Document(file_name=doc), save_options=image_save_options)
         #ExEnd:ConvertToImagesStream
 
     def test_convert_to_images_from_stream(self):
         #ExStart:ConvertToImagesFromStream
         #ExFor:Converter.convert_to_images(BytesIO,SaveFormat)
         #ExFor:Converter.convert_to_images(BytesIO,ImageSaveOptions)
+        #ExFor:Converter.convert_to_images(BytesIO,LoadOptions,ImageSaveOptions)
         #ExSummary:Shows how to convert document to images from stream.
         with system_helper.io.FileStream(MY_DIR + 'Big document.docx', system_helper.io.FileMode.OPEN, system_helper.io.FileAccess.READ) as stream_in:
             streams = aw.lowcode.Converter.convert_to_images(input_stream=stream_in, save_format=aw.SaveFormat.JPEG)
             image_save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
             image_save_options.page_set = aw.saving.PageSet(page=1)
             streams = aw.lowcode.Converter.convert_to_images(input_stream=stream_in, save_options=image_save_options)
+            load_options = aw.loading.LoadOptions()
+            load_options.ignore_ole_data = False
+            aw.lowcode.Converter.convert_to_images(input_stream=stream_in, load_options=load_options, save_options=image_save_options)
         #ExEnd:ConvertToImagesFromStream
 
     def test_compare_documents(self):
@@ -170,6 +206,8 @@ class ExLowCode(ApiExampleBase):
 
     def test_mail_merge(self):
         #ExStart:MailMerge
+        #ExFor:MailMergeOptions
+        #ExFor:MailMergeOptions.trim_whitespaces
         #ExFor:MailMerger.execute(str,str,List[str],List[object])
         #ExFor:MailMerger.execute(str,str,SaveFormat,List[str],List[object])
         #ExFor:MailMerger.execute(str,str,SaveFormat,MailMergeOptions,List[str],List[object])
@@ -180,7 +218,7 @@ class ExLowCode(ApiExampleBase):
         field_values = ['James Bond', 'London', 'Classified']
         aw.lowcode.MailMerger.execute(input_file_name=doc, output_file_name=ARTIFACTS_DIR + 'LowCode.MailMerge.1.docx', field_names=field_names, field_values=field_values)
         aw.lowcode.MailMerger.execute(input_file_name=doc, output_file_name=ARTIFACTS_DIR + 'LowCode.MailMerge.2.docx', save_format=aw.SaveFormat.DOCX, field_names=field_names, field_values=field_values)
-        mail_merge_options = aw.lowcode.mailmerging.MailMergeOptions()
+        mail_merge_options = aw.lowcode.MailMergeOptions()
         mail_merge_options.trim_whitespaces = True
         aw.lowcode.MailMerger.execute(input_file_name=doc, output_file_name=ARTIFACTS_DIR + 'LowCode.MailMerge.3.docx', save_format=aw.SaveFormat.DOCX, mail_merge_options=mail_merge_options, field_names=field_names, field_values=field_values)
         #ExEnd:MailMerge
@@ -197,7 +235,7 @@ class ExLowCode(ApiExampleBase):
             with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.MailMergeStream.1.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
                 aw.lowcode.MailMerger.execute(input_stream=stream_in, output_stream=stream_out, save_format=aw.SaveFormat.DOCX, field_names=field_names, field_values=field_values)
             with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.MailMergeStream.2.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
-                mail_merge_options = aw.lowcode.mailmerging.MailMergeOptions()
+                mail_merge_options = aw.lowcode.MailMergeOptions()
                 mail_merge_options.trim_whitespaces = True
                 aw.lowcode.MailMerger.execute(input_stream=stream_in, output_stream=stream_out, save_format=aw.SaveFormat.DOCX, mail_merge_options=mail_merge_options, field_names=field_names, field_values=field_values)
         #ExEnd:MailMergeStream
@@ -278,12 +316,14 @@ class ExLowCode(ApiExampleBase):
 
     def test_split_document(self):
         #ExStart:SplitDocument
+        #ExFor:SplitCriteria
+        #ExFor:SplitOptions.split_criteria
         #ExFor:Splitter.split(str,str,SplitOptions)
         #ExFor:Splitter.split(str,str,SaveFormat,SplitOptions)
         #ExSummary:Shows how to split document by pages.
         doc = MY_DIR + 'Big document.docx'
-        options = aw.lowcode.splitting.SplitOptions()
-        options.split_criteria = aw.lowcode.splitting.SplitCriteria.PAGE
+        options = aw.lowcode.SplitOptions()
+        options.split_criteria = aw.lowcode.SplitCriteria.PAGE
         aw.lowcode.Splitter.split(input_file_name=doc, output_file_name=ARTIFACTS_DIR + 'LowCode.SplitDocument.1.docx', options=options)
         aw.lowcode.Splitter.split(input_file_name=doc, output_file_name=ARTIFACTS_DIR + 'LowCode.SplitDocument.2.docx', save_format=aw.SaveFormat.DOCX, options=options)
         #ExEnd:SplitDocument
@@ -293,8 +333,8 @@ class ExLowCode(ApiExampleBase):
         #ExFor:Splitter.split(BytesIO,SaveFormat,SplitOptions)
         #ExSummary:Shows how to split document from the stream by pages.
         with system_helper.io.FileStream(MY_DIR + 'Big document.docx', system_helper.io.FileMode.OPEN, system_helper.io.FileAccess.READ) as stream_in:
-            options = aw.lowcode.splitting.SplitOptions()
-            options.split_criteria = aw.lowcode.splitting.SplitCriteria.PAGE
+            options = aw.lowcode.SplitOptions()
+            options.split_criteria = aw.lowcode.SplitCriteria.PAGE
             stream = aw.lowcode.Splitter.split(input_stream=stream_in, save_format=aw.SaveFormat.DOCX, options=options)
         #ExEnd:SplitDocumentStream
 

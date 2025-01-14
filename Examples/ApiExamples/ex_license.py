@@ -5,23 +5,13 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
+import system_helper
 import shutil
 import aspose.words as aw
 import os
-import system_helper
 from api_example_base import ApiExampleBase, LICENSE_PATH
 
 class ExLicense(ApiExampleBase):
-
-    def test_license_from_stream(self):
-        #ExStart
-        #ExFor:License.set_license(BytesIO)
-        #ExSummary:Shows how to initialize a license for Aspose.Words from a stream.
-        # Set the license for our Aspose.Words product by passing a stream for a valid license file in our local file system.
-        with system_helper.io.File.open_read(LICENSE_PATH) as my_stream:
-            license = aw.License()
-            license.set_license(stream=my_stream)
-        #ExEnd
 
     def test_license_from_file_no_path(self):
         #ExStart
@@ -34,3 +24,13 @@ class ExLicense(ApiExampleBase):
         license.set_license(LICENSE_PATH)
         #ExEnd
         license.set_license('')
+
+    def test_license_from_stream(self):
+        #ExStart
+        #ExFor:License.set_license(BytesIO)
+        #ExSummary:Shows how to initialize a license for Aspose.Words from a stream.
+        # Set the license for our Aspose.Words product by passing a stream for a valid license file in our local file system.
+        with system_helper.io.File.open_read(LICENSE_PATH) as my_stream:
+            license = aw.License()
+            license.set_license(stream=my_stream)
+        #ExEnd

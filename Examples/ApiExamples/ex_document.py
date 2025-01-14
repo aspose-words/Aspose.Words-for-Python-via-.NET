@@ -5,14 +5,14 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import timedelta, timezone
 from document_helper import DocumentHelper
-import base64
-import aspose.words.drawing
-import os
-import sys
-import glob
+from datetime import timedelta, timezone
 from urllib.request import urlopen, Request
+import glob
+import sys
+import os
+import aspose.words.drawing
+import base64
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.digitalsignatures
@@ -1187,6 +1187,25 @@ class ExDocument(ApiExampleBase):
         file_format_info = aw.FileFormatUtil.detect_file_format(file_name=MY_DIR + 'Macro.docm')
         self.assertTrue(file_format_info.has_macros)
         #ExEnd:HasMacros
+
+    def test_punctuation_kerning(self):
+        #ExStart
+        #ExFor:Document.punctuation_kerning
+        #ExSummary:Shows how to work with kerning applies to both Latin text and punctuation.
+        doc = aw.Document(file_name=MY_DIR + 'Document.docx')
+        self.assertTrue(doc.punctuation_kerning)
+        #ExEnd
+
+    def test_remove_blank_pages(self):
+        #ExStart
+        #ExFor:Document.remove_blank_pages
+        #ExSummary:Shows how to remove blank pages from the document.
+        doc = aw.Document(file_name=MY_DIR + 'Blank pages.docx')
+        self.assertEqual(2, doc.page_count)
+        doc.remove_blank_pages()
+        doc.update_page_layout()
+        self.assertEqual(1, doc.page_count)
+        #ExEnd
 
     def test_create_simple_document(self):
         #ExStart:CreateSimpleDocument
