@@ -81,7 +81,6 @@ class ExStyles(ApiExampleBase):
 
     def test_copy_style_same_document(self):
         #ExStart
-        #ExFor:StyleCollection.add(Style)
         #ExFor:StyleCollection.add_copy(Style)
         #ExFor:Style.name
         #ExSummary:Shows how to clone a document's style.

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
-import sys
-from typing import List
-import glob
 import datetime
+import glob
+from typing import List
+import sys
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.saving
@@ -118,6 +118,27 @@ class ExMarkdownSaveOptions(ApiExampleBase):
         new_line = system_helper.environment.Environment.new_line()
         out_doc_contents = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'MarkdownSaveOptions.ExportTableAsHtml.md')
         self.assertEqual(f'Sample table:{new_line}<table cellspacing="0" cellpadding="0" style="width:100%; border:0.75pt solid #000000; border-collapse:collapse">' + '<tr><td style="border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top">' + '<p style="margin-top:0pt; margin-bottom:0pt; text-align:right; font-size:12pt"><span style="font-family:\'Times New Roman\'">Cell1</span></p>' + '</td><td style="border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top">' + '<p style="margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:12pt"><span style="font-family:\'Times New Roman\'">Cell2</span></p>' + '</td></tr></table>', out_doc_contents.strip())
+
+    def test_image_resolution(self):
+        #ExStart:ImageResolution
+        #ExFor:MarkdownSaveOptions.image_resolution
+        #ExSummary:Shows how to set the output resolution for images.
+        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+        save_options = aw.saving.MarkdownSaveOptions()
+        save_options.image_resolution = 300
+        doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.ImageResolution.md', save_options=save_options)
+        #ExEnd:ImageResolution
+
+    def test_office_math_export_mode(self):
+        #ExStart:OfficeMathExportMode
+        #ExFor:MarkdownSaveOptions.office_math_export_mode
+        #ExFor:MarkdownOfficeMathExportMode
+        #ExSummary:Shows how OfficeMath will be written to the document.
+        doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
+        save_options = aw.saving.MarkdownSaveOptions()
+        save_options.office_math_export_mode = aw.saving.MarkdownOfficeMathExportMode.IMAGE
+        doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.OfficeMathExportMode.md', save_options=save_options)
+        #ExEnd:OfficeMathExportMode
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'Windows encoding')
     def test_export_images_as_base64(self):

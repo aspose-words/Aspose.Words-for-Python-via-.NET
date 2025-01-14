@@ -470,7 +470,10 @@ class ExInlineStory(ApiExampleBase):
     def test_footnote_separator(self):
         #ExStart:FootnoteSeparator
         #ExFor:DocumentBase.footnote_separators
+        #ExFor:FootnoteSeparator
         #ExFor:FootnoteSeparatorType
+        #ExFor:FootnoteSeparatorCollection
+        #ExFor:FootnoteSeparatorCollection.__getitem__(FootnoteSeparatorType)
         #ExSummary:Shows how to manage footnote separator format.
         doc = aw.Document(file_name=MY_DIR + 'Footnotes and endnotes.docx')
         footnote_separator = doc.footnote_separators.get_by_footnote_separator_type(aw.notes.FootnoteSeparatorType.FOOTNOTE_SEPARATOR)

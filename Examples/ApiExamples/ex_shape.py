@@ -5,14 +5,14 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
-from aspose.words.themes import ThemeColor
-from aspose.pydrawing import Color
 from aspose.words import Document, DocumentBuilder, NodeType
-from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
-import sys
-import typing
+from aspose.pydrawing import Color
+from aspose.words.themes import ThemeColor
+from document_helper import DocumentHelper
 import os
+import typing
+import sys
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
@@ -1716,12 +1716,14 @@ class ExShape(ApiExampleBase):
     def test_insert_command_button(self):
         #ExStart:InsertCommandButton
         #ExFor:CommandButtonControl
+        #ExFor:CommandButtonControl.__init__
+        #ExFor:CommandButtonControl.type
         #ExFor:DocumentBuilder.insert_forms_2_ole_control(Forms2OleControl)
         #ExSummary:Shows how to insert ActiveX control.
         builder = aw.DocumentBuilder()
         button1 = aw.drawing.ole.CommandButtonControl()
         shape = builder.insert_forms_2_ole_control(button1)
-        self.assertEqual(aw.drawing.ole.Forms2OleControlType.COMMAND_BUTTON, shape.ole_format.ole_control.as_forms2_ole_control().type)
+        self.assertEqual(aw.drawing.ole.Forms2OleControlType.COMMAND_BUTTON, button1.type)
         #ExEnd:InsertCommandButton
 
     def test_hidden(self):
@@ -1743,7 +1745,7 @@ class ExShape(ApiExampleBase):
         button1 = aw.drawing.ole.CommandButtonControl()
         button1.caption = 'Button caption'
         shape = builder.insert_forms_2_ole_control(button1)
-        self.assertEqual('Button caption', shape.ole_format.ole_control.as_forms2_ole_control().caption)
+        self.assertEqual('Button caption', button1.caption)
         #ExEnd:CommandButtonCaption
 
     def test_alt_text(self):

@@ -665,6 +665,8 @@ class ExTable(ApiExampleBase):
 
     def test_context_table_formatting(self):
         #ExStart:ContextTableFormatting
+        #ExFor:DocumentBuilder.__init__(Document,DocumentBuilderOptions)
+        #ExFor:DocumentBuilder.__init__(DocumentBuilderOptions)
         #ExFor:DocumentBuilderOptions
         #ExFor:DocumentBuilderOptions.context_table_formatting
         #ExSummary:Shows how to ignore table formatting for content after.

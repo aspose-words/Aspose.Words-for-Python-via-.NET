@@ -6,9 +6,9 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 from document_helper import DocumentHelper
-import os
-import glob
 import shutil
+import glob
+import os
 import aspose.words as aw
 import aspose.words.saving
 import document_helper
@@ -17,6 +17,26 @@ import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExHtmlFixedSaveOptions(ApiExampleBase):
+
+    def test_id_prefix(self):
+        #ExStart:IdPrefix
+        #ExFor:HtmlFixedSaveOptions.id_prefix
+        #ExSummary:Shows how to add a prefix that is prepended to all generated element IDs.
+        doc = aw.Document(file_name=MY_DIR + 'Id prefix.docx')
+        save_options = aw.saving.HtmlFixedSaveOptions()
+        save_options.id_prefix = 'pfx1_'
+        doc.save(file_name=ARTIFACTS_DIR + 'HtmlFixedSaveOptions.IdPrefix.html', save_options=save_options)
+        #ExEnd:IdPrefix
+
+    def test_remove_java_script_from_links(self):
+        #ExStart:RemoveJavaScriptFromLinks
+        #ExFor:HtmlFixedSaveOptions.remove_java_script_from_links
+        #ExSummary:Shows how to remove JavaScript from the links.
+        doc = aw.Document(file_name=MY_DIR + 'JavaScript in HREF.docx')
+        save_options = aw.saving.HtmlFixedSaveOptions()
+        save_options.remove_java_script_from_links = True
+        doc.save(file_name=ARTIFACTS_DIR + 'HtmlFixedSaveOptions.RemoveJavaScriptFromLinks.html', save_options=save_options)
+        #ExEnd:RemoveJavaScriptFromLinks
 
     def test_use_encoding(self):
         #ExStart

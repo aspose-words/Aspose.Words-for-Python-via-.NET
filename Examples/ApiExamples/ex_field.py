@@ -6,10 +6,11 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 from document_helper import DocumentHelper
-import aspose.pydrawing as drawing
-from enum import Enum
 import sys
+from enum import Enum
+import aspose.pydrawing as drawing
 import aspose.words as aw
+import aspose.words.bibliography
 import aspose.words.buildingblocks
 import aspose.words.drawing
 import aspose.words.fields
@@ -2151,6 +2152,49 @@ class ExField(ApiExampleBase):
         doc.field_options.field_index_format = aw.fields.FieldIndexFormat.FANCY
         doc.update_fields()
         doc.save(file_name=ARTIFACTS_DIR + 'Field.SetFieldIndexFormat.docx')
+        #ExEnd
+
+    def test_bibliography_persons(self):
+        #ExStart
+        #ExFor:Person.__init__(str,str,str)
+        #ExFor:PersonCollection.__init__
+        #ExFor:PersonCollection.__init__(List[Person])
+        #ExFor:PersonCollection.add(Person)
+        #ExFor:PersonCollection.contains(Person)
+        #ExFor:PersonCollection.clear
+        #ExFor:PersonCollection.remove(Person)
+        #ExFor:PersonCollection.remove_at(int)
+        #ExSummary:Shows how to work with person collection.
+        # Create a new person collection.
+        persons = aw.bibliography.PersonCollection()
+        person = aw.bibliography.Person('Roxanne', 'Brielle', 'Tejeda_updated')
+        # Add new person to the collection.
+        persons.add(person)
+        self.assertEqual(1, persons.count)
+        # Remove person from the collection if it exists.
+        if persons.contains(person):
+            persons.remove(person)
+        self.assertEqual(0, persons.count)
+        # Create person collection with two persons.
+        persons = aw.bibliography.PersonCollection(persons=[aw.bibliography.Person('Roxanne_1', 'Brielle_1', 'Tejeda_1'), aw.bibliography.Person('Roxanne_2', 'Brielle_2', 'Tejeda_2')])
+        self.assertEqual(2, persons.count)
+        # Remove person from the collection by the index.
+        persons.remove_at(0)
+        self.assertEqual(1, persons.count)
+        # Remove all persons from the collection.
+        persons.clear()
+        self.assertEqual(0, persons.count)
+        #ExEnd
+
+    def test_captionless_table_of_figures_label(self):
+        #ExStart
+        #ExFor:FieldToc.captionless_table_of_figures_label
+        #ExSummary:Shows how to set the name of the sequence identifier.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        field_toc = builder.insert_field(field_type=aw.fields.FieldType.FIELD_TOC, update_field=True).as_field_toc()
+        field_toc.captionless_table_of_figures_label = 'Test'
+        self.assertEqual(' TOC  \\a Test', field_toc.get_field_code())
         #ExEnd
 
     def test_get_field_from_document(self):

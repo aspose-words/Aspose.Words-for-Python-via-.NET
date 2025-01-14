@@ -9,6 +9,7 @@ from datetime import date
 import aspose.words as aw
 import aspose.words.replacing
 import aspose.words.saving
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR, IMAGE_DIR
 

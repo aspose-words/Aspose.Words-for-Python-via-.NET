@@ -5,11 +5,11 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from math import nan
-from datetime import date
-from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType, ChartShapeType
-from aspose.pydrawing import Color
 from aspose.words import Document, DocumentBuilder, NodeType
+from aspose.pydrawing import Color
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType, ChartShapeType
+from datetime import date
+from math import nan
 import locale
 import aspose.pydrawing
 import aspose.words as aw
@@ -62,6 +62,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartDataLabelCollection.number_format
         #ExFor:ChartDataLabelCollection.font
         #ExFor:ChartNumberFormat.format_code
+        #ExFor:ChartSeries.has_data_labels
         #ExSummary:Shows how to enable and configure data labels for a chart series.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)
@@ -99,6 +100,9 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartAxis.minor_tick_mark
         #ExFor:ChartAxis.major_unit
         #ExFor:ChartAxis.minor_unit
+        #ExFor:ChartAxis.document
+        #ExFor:ChartAxis.tick_labels
+        #ExFor:ChartAxis.format
         #ExFor:AxisTickLabels
         #ExFor:AxisTickLabels.offset
         #ExFor:AxisTickLabels.position
@@ -135,6 +139,7 @@ class ExCharts(ApiExampleBase):
         x_axis.tick_labels.position = aw.drawing.charts.AxisTickLabelPosition.LOW
         x_axis.tick_labels.is_auto_spacing = False
         x_axis.tick_mark_spacing = 1
+        self.assertEqual(doc, x_axis.document)
         y_axis = chart.axis_y
         y_axis.category_type = aw.drawing.charts.AxisCategoryType.AUTOMATIC
         y_axis.crosses = aw.drawing.charts.AxisCrosses.MAXIMUM
@@ -164,6 +169,7 @@ class ExCharts(ApiExampleBase):
         self.assertEqual(aw.drawing.charts.AxisTickLabelPosition.LOW, chart.axis_x.tick_labels.position)
         self.assertFalse(chart.axis_x.tick_labels.is_auto_spacing)
         self.assertEqual(1, chart.axis_x.tick_mark_spacing)
+        self.assertTrue(chart.axis_x.format.is_defined)
         self.assertEqual(aw.drawing.charts.AxisCategoryType.CATEGORY, chart.axis_y.category_type)
         self.assertEqual(aw.drawing.charts.AxisCrosses.MAXIMUM, chart.axis_y.crosses)
         self.assertTrue(chart.axis_y.reverse_order)
@@ -175,6 +181,7 @@ class ExCharts(ApiExampleBase):
         self.assertEqual(aw.ParagraphAlignment.CENTER, chart.axis_y.tick_labels.alignment)
         self.assertEqual(aspose.pydrawing.Color.red.to_argb(), chart.axis_y.tick_labels.font.color.to_argb())
         self.assertEqual(1, chart.axis_y.tick_labels.spacing)
+        self.assertTrue(chart.axis_y.format.is_defined)
 
     def test_axis_collection(self):
         #ExStart
@@ -329,6 +336,7 @@ class ExCharts(ApiExampleBase):
     def test_pie_chart_explosion(self):
         #ExStart
         #ExFor:IChartDataPoint.explosion
+        #ExFor:ChartDataPoint.explosion
         #ExSummary:Shows how to move the slices of a pie chart away from the center.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)
@@ -356,6 +364,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartDataLabel.show_bubble_size
         #ExFor:ChartDataLabel.font
         #ExFor:IChartDataPoint.bubble_3d
+        #ExFor:ChartSeries.bubble_3d
         #ExSummary:Shows how to use 3D effects with bubble charts.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)
@@ -532,6 +541,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:AxisDisplayUnit
         #ExFor:AxisDisplayUnit.custom_unit
         #ExFor:AxisDisplayUnit.unit
+        #ExFor:AxisDisplayUnit.document
         #ExSummary:Shows how to manipulate the tick marks and displayed values of a chart axis.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)
@@ -564,6 +574,7 @@ class ExCharts(ApiExampleBase):
         axis.scaling.maximum = aw.drawing.charts.AxisBound(value=30)
         axis.tick_labels.alignment = aw.ParagraphAlignment.RIGHT
         self.assertEqual(1, axis.tick_labels.spacing)
+        self.assertEqual(doc, axis.display_unit.document)
         # Set the tick labels to display their value in millions.
         axis.display_unit.unit = aw.drawing.charts.AxisBuiltInUnit.MILLIONS
         # We can set a more specific value by which tick labels will display their values.
@@ -596,8 +607,10 @@ class ExCharts(ApiExampleBase):
 
     def test_marker_formatting(self):
         #ExStart
+        #ExFor:ChartDataPoint.marker
         #ExFor:ChartMarker.format
         #ExFor:ChartFormat.fill
+        #ExFor:ChartSeries.marker
         #ExFor:ChartFormat.stroke
         #ExFor:Stroke.fore_color
         #ExFor:Stroke.back_color
@@ -703,6 +716,7 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartLegendEntry
         #ExFor:ChartLegendEntry.font
         #ExFor:ChartLegend.font
+        #ExFor:ChartSeries.legend_entry
         #ExSummary:Shows how to work with a legend font.
         doc = aw.Document(file_name=MY_DIR + 'Reporting engine template - Chart series.docx')
         chart = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape().chart
@@ -712,6 +726,8 @@ class ExCharts(ApiExampleBase):
         # Change font for specific legend entry.
         chart_legend.legend_entries[1].font.italic = True
         chart_legend.legend_entries[1].font.size = 12
+        # Get legend entry for chart series.
+        legend_entry = chart.series[0].legend_entry
         doc.save(file_name=ARTIFACTS_DIR + 'Charts.LegendFont.docx')
         #ExEnd:LegendFont
 
@@ -737,23 +753,27 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartXValue
         #ExFor:ChartXValue.from_double(float)
         #ExFor:ChartYValue.from_double(float)
+        #ExFor:ChartSeries.add(ChartXValue)
         #ExFor:ChartSeries.add(ChartXValue,ChartYValue)
+        #ExFor:ChartSeries.add(ChartXValue,ChartYValue,float)
+        #ExFor:ChartSeries.clear_values
+        #ExFor:ChartSeries.clear
         #ExSummary:Shows how to populate chart series with data.
         doc = aw.Document()
-        builder = aw.DocumentBuilder()
+        builder = aw.DocumentBuilder(doc=doc)
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=432, height=252)
         chart = shape.chart
         series1 = chart.series[0]
         # Clear X and Y values of the first series.
         series1.clear_values()
         # Populate the series with data.
-        series1.add(x_value=aw.drawing.charts.ChartXValue.from_double(3), y_value=aw.drawing.charts.ChartYValue.from_double(10))
+        series1.add(x_value=aw.drawing.charts.ChartXValue.from_double(3), y_value=aw.drawing.charts.ChartYValue.from_double(10), bubble_size=10)
         series1.add(x_value=aw.drawing.charts.ChartXValue.from_double(5), y_value=aw.drawing.charts.ChartYValue.from_double(5))
         series1.add(x_value=aw.drawing.charts.ChartXValue.from_double(7), y_value=aw.drawing.charts.ChartYValue.from_double(11))
-        series1.add(x_value=aw.drawing.charts.ChartXValue.from_double(9), y_value=aw.drawing.charts.ChartYValue.from_double(17))
+        series1.add(x_value=aw.drawing.charts.ChartXValue.from_double(9))
         series2 = chart.series[1]
         # Clear X and Y values of the second series.
-        series2.clear_values()
+        series2.clear()
         # Populate the series with data.
         series2.add(x_value=aw.drawing.charts.ChartXValue.from_double(2), y_value=aw.drawing.charts.ChartYValue.from_double(4))
         series2.add(x_value=aw.drawing.charts.ChartXValue.from_double(4), y_value=aw.drawing.charts.ChartYValue.from_double(7))
@@ -850,6 +870,7 @@ class ExCharts(ApiExampleBase):
 
     def test_chart_axis_title(self):
         #ExStart:ChartAxisTitle
+        #ExFor:ChartAxis.title
         #ExFor:ChartAxisTitle
         #ExFor:ChartAxisTitle.text
         #ExFor:ChartAxisTitle.show
@@ -921,6 +942,12 @@ class ExCharts(ApiExampleBase):
         #ExFor:Chart.data_table
         #ExFor:ChartDataTable
         #ExFor:ChartDataTable.show
+        #ExFor:ChartDataTable.format
+        #ExFor:ChartDataTable.font
+        #ExFor:ChartDataTable.has_legend_keys
+        #ExFor:ChartDataTable.has_horizontal_border
+        #ExFor:ChartDataTable.has_vertical_border
+        #ExFor:ChartDataTable.has_outline_border
         #ExSummary:Shows how to show data table with chart series data.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)
@@ -937,6 +964,7 @@ class ExCharts(ApiExampleBase):
         data_table.has_legend_keys = False
         data_table.has_horizontal_border = False
         data_table.has_vertical_border = False
+        data_table.has_outline_border = False
         data_table.font.italic = True
         data_table.format.stroke.weight = 1
         data_table.format.stroke.dash_style = aw.drawing.DashStyle.SHORT_DOT
@@ -988,6 +1016,7 @@ class ExCharts(ApiExampleBase):
     def test_secondary_axis(self):
         #ExStart:SecondaryAxis
         #ExFor:ChartSeriesGroup
+        #ExFor:ChartSeriesGroup.series_type
         #ExFor:ChartSeriesGroup.axis_group
         #ExFor:ChartSeriesGroup.axis_x
         #ExFor:ChartSeriesGroup.axis_y
@@ -1015,6 +1044,7 @@ class ExCharts(ApiExampleBase):
         # Define title of the secondary Y axis.
         new_series_group.axis_y.title.show = True
         new_series_group.axis_y.title.text = 'Secondary Y axis'
+        self.assertEqual(aw.drawing.charts.ChartSeriesType.LINE, new_series_group.series_type)
         # Add a series to the new series group.
         series3 = new_series_group.series.add(series_name='Series of secondary series group', categories=categories, values=[13, 11, 16])
         series3.format.stroke.weight = 3.5
@@ -1233,6 +1263,9 @@ class ExCharts(ApiExampleBase):
         #ExFor:ChartXValueCollection.format_code
         #ExFor:ChartYValueCollection.format_code
         #ExFor:BubbleSizeCollection.format_code
+        #ExFor:ChartSeries.bubble_sizes
+        #ExFor:ChartSeries.x_values
+        #ExFor:ChartSeries.y_values
         #ExSummary:Shows how to work with the format code of the chart data.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)
@@ -1375,6 +1408,27 @@ class ExCharts(ApiExampleBase):
             i += 1
         doc.save(file_name=ARTIFACTS_DIR + 'Charts.DoughnutChartLabelPosition.docx')
         #ExEnd:DoughnutChartLabelPosition
+
+    def test_insert_chart_series(self):
+        #ExStart
+        #ExFor:ChartSeries.insert(int,ChartXValue)
+        #ExFor:ChartSeries.insert(int,ChartXValue,ChartYValue)
+        #ExFor:ChartSeries.insert(int,ChartXValue,ChartYValue,float)
+        #ExSummary:Shows how to insert data into a chart series.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.LINE, width=432, height=252)
+        chart = shape.chart
+        series1 = chart.series[0]
+        # Clear X and Y values of the first series.
+        series1.clear_values()
+        # Populate the series with data.
+        series1.insert(index=0, x_value=aw.drawing.charts.ChartXValue.from_double(3))
+        series1.insert(index=1, x_value=aw.drawing.charts.ChartXValue.from_double(3), y_value=aw.drawing.charts.ChartYValue.from_double(10))
+        series1.insert(index=2, x_value=aw.drawing.charts.ChartXValue.from_double(3), y_value=aw.drawing.charts.ChartYValue.from_double(10))
+        series1.insert(index=3, x_value=aw.drawing.charts.ChartXValue.from_double(3), y_value=aw.drawing.charts.ChartYValue.from_double(10), bubble_size=10)
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.PopulateChartWithData.docx')
+        #ExEnd
 
     def test_date_time_values(self):
         #ExStart

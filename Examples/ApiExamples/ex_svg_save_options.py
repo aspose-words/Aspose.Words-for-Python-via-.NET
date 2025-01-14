@@ -54,3 +54,23 @@ class ExSvgSaveOptions(ApiExampleBase):
         save_options.max_image_resolution = 72
         doc.save(file_name=ARTIFACTS_DIR + 'SvgSaveOptions.MaxImageResolution.svg', save_options=save_options)
         #ExEnd:MaxImageResolution
+
+    def test_id_prefix_svg(self):
+        #ExStart:IdPrefixSvg
+        #ExFor:SvgSaveOptions.id_prefix
+        #ExSummary:Shows how to add a prefix that is prepended to all generated element IDs (svg).
+        doc = aw.Document(file_name=MY_DIR + 'Id prefix.docx')
+        save_options = aw.saving.SvgSaveOptions()
+        save_options.id_prefix = 'pfx1_'
+        doc.save(file_name=ARTIFACTS_DIR + 'SvgSaveOptions.IdPrefixSvg.html', save_options=save_options)
+        #ExEnd:IdPrefixSvg
+
+    def test_remove_java_script_from_links_svg(self):
+        #ExStart:RemoveJavaScriptFromLinksSvg
+        #ExFor:SvgSaveOptions.remove_java_script_from_links
+        #ExSummary:Shows how to remove JavaScript from the links (svg).
+        doc = aw.Document(file_name=MY_DIR + 'JavaScript in HREF.docx')
+        save_options = aw.saving.SvgSaveOptions()
+        save_options.remove_java_script_from_links = True
+        doc.save(file_name=ARTIFACTS_DIR + 'SvgSaveOptions.RemoveJavaScriptFromLinksSvg.html', save_options=save_options)
+        #ExEnd:RemoveJavaScriptFromLinksSvg
