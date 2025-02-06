@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
@@ -58,6 +58,37 @@ class ExDigitalSignatureUtil(ApiExampleBase):
         aw.digitalsignatures.DigitalSignatureUtil.remove_all_signatures(src_file_name=MY_DIR + 'Digitally signed.odt', dst_file_name=ARTIFACTS_DIR + 'DigitalSignatureUtil.RemoveSignatures.odt')
         self.assertEqual(0, aw.digitalsignatures.DigitalSignatureUtil.load_signatures(file_name=ARTIFACTS_DIR + 'DigitalSignatureUtil.RemoveSignatures.odt').count)
 
+    @unittest.skip('DigitalSignatureUtil.sing method is not supported')
+    def test_sign_document(self):
+        #ExStart
+        #ExFor:CertificateHolder
+        #ExFor:CertificateHolder.create(str,str)
+        #ExFor:DigitalSignatureUtil.sign(BytesIO,BytesIO,CertificateHolder,SignOptions)
+        #ExFor:DigitalSignatures.sign_options
+        #ExFor:SignOptions.comments
+        #ExFor:SignOptions.sign_time
+        #ExSummary:Shows how to digitally sign documents.
+        # Create an X.509 certificate from a PKCS#12 store, which should contain a private key.
+        certificate_holder = aw.digitalsignatures.CertificateHolder.create(file_name=MY_DIR + 'morzal.pfx', password='aw')
+        # Create a comment and date which will be applied with our new digital signature.
+        sign_options = aw.digitalsignatures.SignOptions()
+        sign_options.comments = 'My comment'
+        sign_options.sign_time = datetime.datetime.now()
+        # Take an unsigned document from the local file system via a file stream,
+        # then create a signed copy of it determined by the filename of the output file stream.
+        with system_helper.io.FileStream(MY_DIR + 'Document.docx', system_helper.io.FileMode.OPEN) as stream_in:
+            with system_helper.io.FileStream(ARTIFACTS_DIR + 'DigitalSignatureUtil.SignDocument.docx', system_helper.io.FileMode.OPEN_OR_CREATE) as stream_out:
+                aw.digitalsignatures.DigitalSignatureUtil.sign(src_stream=stream_in, dst_stream=stream_out, cert_holder=certificate_holder, sign_options=sign_options)
+        #ExEnd
+        with system_helper.io.FileStream(ARTIFACTS_DIR + 'DigitalSignatureUtil.SignDocument.docx', system_helper.io.FileMode.OPEN) as stream:
+            digital_signatures = aw.digitalsignatures.DigitalSignatureUtil.load_signatures(stream=stream)
+            self.assertEqual(1, digital_signatures.count)
+            signature = digital_signatures[0]
+            self.assertTrue(signature.is_valid)
+            self.assertEqual(aw.digitalsignatures.DigitalSignatureType.XML_DSIG, signature.signature_type)
+            self.assertEqual(str(sign_options.sign_time), str(signature.sign_time))
+            self.assertEqual('My comment', signature.comments)
+
     def test_decryption_password(self):
         #ExStart
         #ExFor:CertificateHolder
@@ -106,36 +137,6 @@ class ExDigitalSignatureUtil(ApiExampleBase):
         output_file_name = ARTIFACTS_DIR + 'DigitalSignatureUtil.XmlDsig.docx'
         aw.digitalsignatures.DigitalSignatureUtil.sign(src_file_name=input_file_name, dst_file_name=output_file_name, cert_holder=certificate_holder, sign_options=sign_options)
         #ExEnd:XmlDsig
-
-    @unittest.skip('DigitalSignatureUtil.sing method is not supported')
-    def test_sign_document(self):
-        #ExStart
-        #ExFor:CertificateHolder
-        #ExFor:CertificateHolder.create(str,str)
-        #ExFor:DigitalSignatureUtil.sign(BytesIO,BytesIO,CertificateHolder,SignOptions)
-        #ExFor:SignOptions.comments
-        #ExFor:SignOptions.sign_time
-        #ExSummary:Shows how to digitally sign documents.
-        # Create an X.509 certificate from a PKCS#12 store, which should contain a private key.
-        certificate_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + 'morzal.pfx', 'aw')
-        # Create a comment and date which will be applied with our new digital signature.
-        sign_options = aw.digitalsignatures.SignOptions()
-        sign_options.comments = 'My comment'
-        sign_options.sign_time = datetime.datetime.now()
-        # Take an unsigned document from the local file system via a file stream,
-        # then create a signed copy of it determined by the filename of the output file stream.
-        with open(MY_DIR + 'Document.docx', 'rb') as stream_in:
-            with open(ARTIFACTS_DIR + 'DigitalSignatureUtil.sign_document.docx', 'wb') as stream_out:
-                aw.digitalsignatures.DigitalSignatureUtil.sign(stream_in, stream_out, certificate_holder, sign_options)
-        #ExEnd
-        with open(ARTIFACTS_DIR + 'DigitalSignatureUtil.sign_document.docx', 'rb') as stream:
-            digital_signatures = aw.digitalsignatures.DigitalSignatureUtil.load_signatures(stream)
-            self.assertEqual(1, digital_signatures.count)
-            signature = digital_signatures[0]
-            self.assertTrue(signature.is_valid)
-            self.assertEqual(aw.digitalsignatures.DigitalSignatureType.XML_DSIG, signature.signature_type)
-            self.assertEqual(sign_options.sign_time, signature.sign_time)
-            self.assertEqual('My comment', signature.comments)
 
     def test_incorrect_decryption_password(self):
         certificate_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + 'morzal.pfx', 'aw')

@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
 from datetime import timedelta, timezone
-from urllib.request import urlopen, Request
-import glob
-import sys
-import os
-import aspose.words.drawing
+from document_helper import DocumentHelper
 import base64
+import aspose.words.drawing
+import os
+import sys
+import glob
+from urllib.request import urlopen, Request
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.digitalsignatures
@@ -161,6 +161,24 @@ class ExDocument(ApiExampleBase):
             self.assertEqual('Hello World!\r\rHello Word!\r\r\rHello World!', aw.Document(stream=dst_stream).get_text().strip())
         #ExEnd
 
+    def test_append_document(self):
+        #ExStart
+        #ExFor:Document.append_document(Document,ImportFormatMode)
+        #ExSummary:Shows how to append a document to the end of another document.
+        src_doc = aw.Document()
+        src_doc.first_section.body.append_paragraph('Source document text. ')
+        dst_doc = aw.Document()
+        dst_doc.first_section.body.append_paragraph('Destination document text. ')
+        # Append the source document to the destination document while preserving its formatting,
+        # then save the source document to the local file system.
+        dst_doc.append_document(src_doc=src_doc, import_format_mode=aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+        self.assertEqual(2, dst_doc.sections.count)  #ExSkip
+        dst_doc.save(file_name=ARTIFACTS_DIR + 'Document.AppendDocument.docx')
+        #ExEnd
+        out_doc_text = aw.Document(file_name=ARTIFACTS_DIR + 'Document.AppendDocument.docx').get_text()
+        self.assertTrue(out_doc_text.startswith(dst_doc.get_text()))
+        self.assertTrue(out_doc_text.endswith(src_doc.get_text()))
+
     def test_keep_source_numbering_same_list_ids(self):
         #ExStart
         #ExFor:ImportFormatOptions.keep_source_numbering
@@ -263,6 +281,32 @@ class ExDocument(ApiExampleBase):
         self.assertEqual('CN=Morzal.Me', signed_doc.digital_signatures[0].issuer_name)
         self.assertEqual('CN=Morzal.Me', signed_doc.digital_signatures[0].subject_name)
         #ExEnd
+
+    def test_append_all_documents_in_folder(self):
+        #ExStart
+        #ExFor:Document.append_document(Document,ImportFormatMode)
+        #ExSummary:Shows how to append all the documents in a folder to the end of a template document.
+        dst_doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=dst_doc)
+        builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING1
+        builder.writeln('Template Document')
+        builder.paragraph_format.style_identifier = aw.StyleIdentifier.NORMAL
+        builder.writeln('Some content here')
+        self.assertEqual(5, dst_doc.styles.count)  #ExSkip
+        self.assertEqual(1, dst_doc.sections.count)  #ExSkip
+        # Append all unencrypted documents with the .doc extension
+        # from our local file system directory to the base document.
+        doc_files = list(filter(lambda item: item.endswith('.doc'), list(system_helper.io.Directory.get_files(MY_DIR, '*.doc'))))
+        for file_name in doc_files:
+            info = aw.FileFormatUtil.detect_file_format(file_name=file_name)
+            if info.is_encrypted:
+                continue
+            src_doc = aw.Document(file_name=file_name)
+            dst_doc.append_document(src_doc=src_doc, import_format_mode=aw.ImportFormatMode.USE_DESTINATION_STYLES)
+        dst_doc.save(file_name=ARTIFACTS_DIR + 'Document.AppendAllDocumentsInFolder.doc')
+        #ExEnd
+        self.assertEqual(7, dst_doc.styles.count)
+        self.assertEqual(10, dst_doc.sections.count)
 
     def test_join_runs_with_same_formatting(self):
         #ExStart
@@ -1160,6 +1204,25 @@ class ExDocument(ApiExampleBase):
         self.assertFalse(doc.get_page_info(0).colored)
         #ExEnd
 
+    def test_insert_document_inline(self):
+        #ExStart:InsertDocumentInline
+        #ExFor:DocumentBuilder.insert_document_inline(Document,ImportFormatMode,ImportFormatOptions)
+        #ExSummary:Shows how to insert a document inline at the cursor position.
+        src_doc = aw.DocumentBuilder()
+        src_doc.write('[src content]')
+        # Create destination document.
+        dst_doc = aw.DocumentBuilder()
+        dst_doc.write('Before ')
+        dst_doc.insert_node(aw.BookmarkStart(dst_doc.document, 'src_place'))
+        dst_doc.insert_node(aw.BookmarkEnd(dst_doc.document, 'src_place'))
+        dst_doc.write(' after')
+        self.assertEqual('Before  after', dst_doc.document.get_text().rstrip())
+        # Insert source document into destination inline.
+        dst_doc.move_to_bookmark(bookmark_name='src_place')
+        dst_doc.insert_document_inline(src_doc.document, aw.ImportFormatMode.USE_DESTINATION_STYLES, aw.ImportFormatOptions())
+        self.assertEqual('Before [src content] after', dst_doc.document.get_text().rstrip())
+        #ExEnd:InsertDocumentInline
+
     def test_save_document_to_stream(self):
         for save_format in [aw.SaveFormat.DOC, aw.SaveFormat.DOT, aw.SaveFormat.DOCX, aw.SaveFormat.DOCM, aw.SaveFormat.DOTX, aw.SaveFormat.DOTM, aw.SaveFormat.FLAT_OPC, aw.SaveFormat.FLAT_OPC_MACRO_ENABLED, aw.SaveFormat.FLAT_OPC_TEMPLATE, aw.SaveFormat.FLAT_OPC_TEMPLATE_MACRO_ENABLED, aw.SaveFormat.RTF, aw.SaveFormat.WORD_ML, aw.SaveFormat.PDF, aw.SaveFormat.XPS, aw.SaveFormat.XAML_FIXED, aw.SaveFormat.SVG, aw.SaveFormat.HTML_FIXED, aw.SaveFormat.OPEN_XPS, aw.SaveFormat.PS, aw.SaveFormat.PCL, aw.SaveFormat.HTML, aw.SaveFormat.MHTML, aw.SaveFormat.EPUB, aw.SaveFormat.AZW3, aw.SaveFormat.MOBI, aw.SaveFormat.ODT, aw.SaveFormat.OTT, aw.SaveFormat.TEXT, aw.SaveFormat.XAML_FLOW, aw.SaveFormat.XAML_FLOW_PACK, aw.SaveFormat.MARKDOWN, aw.SaveFormat.XLSX, aw.SaveFormat.TIFF, aw.SaveFormat.PNG, aw.SaveFormat.BMP, aw.SaveFormat.EMF, aw.SaveFormat.JPEG, aw.SaveFormat.GIF, aw.SaveFormat.EPS]:
             doc = aw.Document()
@@ -1297,24 +1360,6 @@ class ExDocument(ApiExampleBase):
             self.assertEqual('Test encrypted document.', doc.get_text().strip())  #ExSkip
         #ExEnd
 
-    def test_append_document(self):
-        #ExStart
-        #ExFor:Document.append_document(Document,ImportFormatMode)
-        #ExSummary:Shows how to append a document to the end of another document.
-        src_doc = aw.Document()
-        src_doc.first_section.body.append_paragraph('Source document text. ')
-        dst_doc = aw.Document()
-        dst_doc.first_section.body.append_paragraph('Destination document text. ')
-        # Append the source document to the destination document while preserving its formatting,
-        # then save the source document to the local file system.
-        dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
-        self.assertEqual(2, dst_doc.sections.count)  #ExSkip
-        dst_doc.save(ARTIFACTS_DIR + 'Document.append_document.docx')
-        #ExEnd
-        out_doc_text = aw.Document(ARTIFACTS_DIR + 'Document.append_document.docx').get_text()
-        self.assertTrue(out_doc_text.startswith(dst_doc.get_text()))
-        self.assertTrue(out_doc_text.endswith(src_doc.get_text()))
-
     def test_append_document_from_automation(self):
         doc = aw.Document()
         # We should call this method to clear this document of any existing content.
@@ -1398,32 +1443,6 @@ class ExDocument(ApiExampleBase):
             signature_value = base64.b64encode(digital_signature_val.signature_value)
             self.assertEqual(b'K1cVLLg2kbJRAzT5WK+m++G8eEO+l7S+5ENdjMxxTXkFzGUfvwxREuJdSFj9AbDMhnGvDURv9KEhC25DDF1al8NRVR71TF3CjHVZXpYu7edQS5/yLw/k5CiFZzCp1+MmhOdYPcVO+Fm+9fKr2iNLeyYB+fgEeZHfTqTFM2WwAqo=', signature_value)
         #ExEnd
-
-    def test_append_all_documents_in_folder(self):
-        #ExStart
-        #ExFor:Document.append_document(Document,ImportFormatMode)
-        #ExSummary:Shows how to append all the documents in a folder to the end of a template document.
-        dst_doc = aw.Document()
-        builder = aw.DocumentBuilder(dst_doc)
-        builder.paragraph_format.style_identifier = aw.StyleIdentifier.HEADING1
-        builder.writeln('Template Document')
-        builder.paragraph_format.style_identifier = aw.StyleIdentifier.NORMAL
-        builder.writeln('Some content here')
-        self.assertEqual(5, dst_doc.styles.count)  #ExSkip
-        self.assertEqual(1, dst_doc.sections.count)  #ExSkip
-        # Append all unencrypted documents with the .doc extension
-        # from our local file system directory to the base document.
-        doc_files = glob.glob(MY_DIR + '*.doc')
-        for file_name in doc_files:
-            info = aw.FileFormatUtil.detect_file_format(file_name)
-            if info.is_encrypted:
-                continue
-            src_doc = aw.Document(file_name)
-            dst_doc.append_document(src_doc, aw.ImportFormatMode.USE_DESTINATION_STYLES)
-        dst_doc.save(ARTIFACTS_DIR + 'Document.append_all_documents_in_folder.doc')
-        #ExEnd
-        self.assertEqual(7, dst_doc.styles.count)
-        self.assertEqual(10, dst_doc.sections.count)
 
     def test_default_tab_stop(self):
         #ExStart
@@ -1657,25 +1676,6 @@ class ExDocument(ApiExampleBase):
         #ExEnd
         doc = aw.Document(ARTIFACTS_DIR + 'Document.image_watermark.docx')
         self.assertEqual(aw.WatermarkType.IMAGE, doc.watermark.type)
-
-    def test_insert_document_inline(self):
-        #ExStart
-        #ExFor:DocumentBuilder.insert_document_inline(Document, ImportFormatMode, ImportFormatOptions)
-        #ExSummary:Shows how to insert a document inline at the cursor position.
-        src_doc = aw.DocumentBuilder()
-        src_doc.write('[src content]')
-        # Create destination document.
-        dst_doc = aw.DocumentBuilder()
-        dst_doc.write('Before ')
-        dst_doc.insert_node(aw.BookmarkStart(dst_doc.document, 'src_place'))
-        dst_doc.insert_node(aw.BookmarkEnd(dst_doc.document, 'src_place'))
-        dst_doc.write(' after')
-        self.assertEqual('Before  after', dst_doc.document.get_text().strip())
-        # Insert source document into destination inline.
-        dst_doc.move_to_bookmark('src_place')
-        dst_doc.insert_document_inline(src_doc.document, aw.ImportFormatMode.USE_DESTINATION_STYLES, aw.ImportFormatOptions())
-        self.assertEqual('Before [src content] after', dst_doc.document.get_text().strip())
-        #ExEnd
 
     def _test_doc_package_custom_parts(self, parts: aw.markup.CustomPartCollection):
         self.assertEqual(3, parts.count)

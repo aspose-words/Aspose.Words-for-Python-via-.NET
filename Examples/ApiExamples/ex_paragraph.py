@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
 from datetime import date, timedelta
+from document_helper import DocumentHelper
 import sys
 import aspose.pydrawing
 import aspose.words as aw
@@ -104,6 +104,35 @@ class ExParagraph(ApiExampleBase):
         paragraph.get_child_nodes(aw.NodeType.RUN, True).remove(paragraph_text)
         self.assertEqual('Run 1. Updated run 2. Run 3.', paragraph.get_text().strip())
         self.assertEqual(3, paragraph.get_child_nodes(aw.NodeType.ANY, True).count)
+        #ExEnd
+
+    def test_move_revisions(self):
+        #ExStart
+        #ExFor:Paragraph.is_move_from_revision
+        #ExFor:Paragraph.is_move_to_revision
+        #ExFor:ParagraphCollection
+        #ExFor:ParagraphCollection.__getitem__(int)
+        #ExFor:Story.paragraphs
+        #ExSummary:Shows how to check whether a paragraph is a move revision.
+        doc = aw.Document(file_name=MY_DIR + 'Revisions.docx')
+        # This document contains "Move" revisions, which appear when we highlight text with the cursor,
+        # and then drag it to move it to another location
+        # while tracking revisions in Microsoft Word via "Review" -> "Track changes".
+        self.assertEqual(6, len(list(filter(lambda r: r.revision_type == aw.RevisionType.MOVING, doc.revisions))))
+        paragraphs = doc.first_section.body.paragraphs
+        # Move revisions consist of pairs of "Move from", and "Move to" revisions.
+        # These revisions are potential changes to the document that we can either accept or reject.
+        # Before we accept/reject a move revision, the document
+        # must keep track of both the departure and arrival destinations of the text.
+        # The second and the fourth paragraph define one such revision, and thus both have the same contents.
+        self.assertEqual(paragraphs[1].get_text(), paragraphs[3].get_text())
+        # The "Move from" revision is the paragraph where we dragged the text from.
+        # If we accept the revision, this paragraph will disappear,
+        # and the other will remain and no longer be a revision.
+        self.assertTrue(paragraphs[1].is_move_from_revision)
+        # The "Move to" revision is the paragraph where we dragged the text to.
+        # If we reject the revision, this paragraph instead will disappear, and the other will remain.
+        self.assertTrue(paragraphs[3].is_move_to_revision)
         #ExEnd
 
     def test_range_revisions(self):
@@ -373,35 +402,6 @@ class ExParagraph(ApiExampleBase):
         doc = DocumentHelper.create_document_without_dummy_text()
         ExParagraph.insert_field_using_field_type(doc, aw.fields.FieldType.FIELD_AUTHOR, True, None, False, 0)
         self.assertEqual('\x13 AUTHOR \x14Test Author\x15\r', DocumentHelper.get_paragraph_text(doc, 0))
-
-    def test_move_revisions(self):
-        #ExStart
-        #ExFor:Paragraph.is_move_from_revision
-        #ExFor:Paragraph.is_move_to_revision
-        #ExFor:ParagraphCollection
-        #ExFor:ParagraphCollection.__getitem__(int)
-        #ExFor:Story.paragraphs
-        #ExSummary:Shows how to check whether a paragraph is a move revision.
-        doc = aw.Document(MY_DIR + 'Revisions.docx')
-        # This document contains "Move" revisions, which appear when we highlight text with the cursor,
-        # and then drag it to move it to another location
-        # while tracking revisions in Microsoft Word via "Review" -> "Track changes".
-        self.assertEqual(6, len([r for r in doc.revisions if r.revision_type == aw.RevisionType.MOVING]))
-        paragraphs = doc.first_section.body.paragraphs
-        # Move revisions consist of pairs of "Move from", and "Move to" revisions.
-        # These revisions are potential changes to the document that we can either accept or reject.
-        # Before we accept/reject a move revision, the document
-        # must keep track of both the departure and arrival destinations of the text.
-        # The second and the fourth paragraph define one such revision, and thus both have the same contents.
-        self.assertEqual(paragraphs[1].get_text(), paragraphs[3].get_text())
-        # The "Move from" revision is the paragraph where we dragged the text from.
-        # If we accept the revision, this paragraph will disappear,
-        # and the other will remain and no longer be a revision.
-        self.assertTrue(paragraphs[1].is_move_from_revision)
-        # The "Move to" revision is the paragraph where we dragged the text to.
-        # If we reject the revision, this paragraph instead will disappear, and the other will remain.
-        self.assertTrue(paragraphs[3].is_move_to_revision)
-        #ExEnd
 
     def test_get_frame_properties(self):
         #ExStart

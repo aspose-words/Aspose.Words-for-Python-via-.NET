@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import sys
-import xml.etree.ElementTree as ET
-import platform
 import io
+import platform
+import xml.etree.ElementTree as ET
+import sys
 import aspose.words as aw
 import aspose.words.fonts
 import aspose.words.loading
@@ -35,6 +35,29 @@ class ExFontSettings(ApiExampleBase):
         # Aspose.Words will use "Courier New" to render text that uses the unknown font.
         self.assertIsNone(doc.font_settings)
         doc.save(file_name=ARTIFACTS_DIR + 'FontSettings.DefaultFontInstance.pdf')
+        #ExEnd
+
+    def test_default_font_name(self):
+        #ExStart
+        #ExFor:DefaultFontSubstitutionRule.default_font_name
+        #ExSummary:Shows how to specify a default font.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.font.name = 'Arial'
+        builder.writeln('Hello world!')
+        builder.font.name = 'Arvo'
+        builder.writeln('The quick brown fox jumps over the lazy dog.')
+        font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
+        # The font sources that the document uses contain the font "Arial", but not "Arvo".
+        self.assertEqual(1, len(font_sources))
+        self.assertTrue(any([f.full_font_name == 'Arial' for f in font_sources[0].get_available_fonts()]))
+        self.assertFalse(any([f.full_font_name == 'Arvo' for f in font_sources[0].get_available_fonts()]))
+        # Set the "DefaultFontName" property to "Courier New" to,
+        # while rendering the document, apply that font in all cases when another font is not available.
+        aw.fonts.FontSettings.default_instance.substitution_settings.default_font_substitution.default_font_name = 'Courier New'
+        self.assertTrue(any([f.full_font_name == 'Courier New' for f in font_sources[0].get_available_fonts()]))
+        # Aspose.Words will now use the default font in place of any missing fonts during any rendering calls.
+        doc.save(file_name=ARTIFACTS_DIR + 'FontSettings.DefaultFontName.pdf')
         #ExEnd
 
     def test_font_source_file(self):
@@ -78,6 +101,128 @@ class ExFontSettings(ApiExampleBase):
         self.assertEqual(1, folder_font_source.priority)
         #ExEnd
 
+    def test_set_fonts_folder(self):
+        for recursive in [False, True]:
+            #ExStart
+            #ExFor:FontSettings
+            #ExFor:FontSettings.set_fonts_folder(str,bool)
+            #ExSummary:Shows how to set a font source directory.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.font.name = 'Arvo'
+            builder.writeln('Hello world!')
+            builder.font.name = 'Amethysta'
+            builder.writeln('The quick brown fox jumps over the lazy dog.')
+            # Our font sources do not contain the font that we have used for text in this document.
+            # If we use these font settings while rendering this document,
+            # Aspose.Words will apply a fallback font to text which has a font that Aspose.Words cannot locate.
+            original_font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
+            self.assertEqual(1, len(original_font_sources))
+            self.assertTrue(any([f.full_font_name == 'Arial' for f in original_font_sources[0].get_available_fonts()]))
+            # The default font sources are missing the two fonts that we are using in this document.
+            self.assertFalse(any([f.full_font_name == 'Arvo' for f in original_font_sources[0].get_available_fonts()]))
+            self.assertFalse(any([f.full_font_name == 'Amethysta' for f in original_font_sources[0].get_available_fonts()]))
+            # Use the "SetFontsFolder" method to set a directory which will act as a new font source.
+            # Pass "false" as the "recursive" argument to include fonts from all the font files that are in the directory
+            # that we are passing in the first argument, but not include any fonts in any of that directory's subfolders.
+            # Pass "true" as the "recursive" argument to include all font files in the directory that we are passing
+            # in the first argument, as well as all the fonts in its subdirectories.
+            aw.fonts.FontSettings.default_instance.set_fonts_folder(FONTS_DIR, recursive)
+            new_font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
+            self.assertEqual(1, len(new_font_sources))
+            self.assertFalse(any([f.full_font_name == 'Arial' for f in new_font_sources[0].get_available_fonts()]))
+            self.assertTrue(any([f.full_font_name == 'Arvo' for f in new_font_sources[0].get_available_fonts()]))
+            # The "Amethysta" font is in a subfolder of the font directory.
+            if recursive:
+                self.assertEqual(25, len(new_font_sources[0].get_available_fonts()))
+                self.assertTrue(any([f.full_font_name == 'Amethysta' for f in new_font_sources[0].get_available_fonts()]))
+            else:
+                self.assertEqual(18, len(new_font_sources[0].get_available_fonts()))
+                self.assertFalse(any([f.full_font_name == 'Amethysta' for f in new_font_sources[0].get_available_fonts()]))
+            doc.save(file_name=ARTIFACTS_DIR + 'FontSettings.SetFontsFolder.pdf')
+            # Restore the original font sources.
+            aw.fonts.FontSettings.default_instance.set_fonts_sources(sources=original_font_sources)
+            #ExEnd
+
+    def test_set_fonts_folders(self):
+        for recursive in [False, True]:
+            #ExStart
+            #ExFor:FontSettings
+            #ExFor:FontSettings.set_fonts_folders(List[str],bool)
+            #ExSummary:Shows how to set multiple font source directories.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.font.name = 'Amethysta'
+            builder.writeln('The quick brown fox jumps over the lazy dog.')
+            builder.font.name = 'Junction Light'
+            builder.writeln('The quick brown fox jumps over the lazy dog.')
+            # Our font sources do not contain the font that we have used for text in this document.
+            # If we use these font settings while rendering this document,
+            # Aspose.Words will apply a fallback font to text which has a font that Aspose.Words cannot locate.
+            original_font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
+            self.assertEqual(1, len(original_font_sources))
+            self.assertTrue(any([f.full_font_name == 'Arial' for f in original_font_sources[0].get_available_fonts()]))
+            # The default font sources are missing the two fonts that we are using in this document.
+            self.assertFalse(any([f.full_font_name == 'Amethysta' for f in original_font_sources[0].get_available_fonts()]))
+            self.assertFalse(any([f.full_font_name == 'Junction Light' for f in original_font_sources[0].get_available_fonts()]))
+            # Use the "SetFontsFolders" method to create a font source from each font directory that we pass as the first argument.
+            # Pass "false" as the "recursive" argument to include fonts from all the font files that are in the directories
+            # that we are passing in the first argument, but not include any fonts from any of the directories' subfolders.
+            # Pass "true" as the "recursive" argument to include all font files in the directories that we are passing
+            # in the first argument, as well as all the fonts in their subdirectories.
+            aw.fonts.FontSettings.default_instance.set_fonts_folders([FONTS_DIR + '/Amethysta', FONTS_DIR + '/Junction'], recursive)
+            new_font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
+            self.assertEqual(2, len(new_font_sources))
+            self.assertFalse(any([f.full_font_name == 'Arial' for f in new_font_sources[0].get_available_fonts()]))
+            self.assertEqual(1, len(new_font_sources[0].get_available_fonts()))
+            self.assertTrue(any([f.full_font_name == 'Amethysta' for f in new_font_sources[0].get_available_fonts()]))
+            # The "Junction" folder itself contains no font files, but has subfolders that do.
+            if recursive:
+                self.assertEqual(6, len(new_font_sources[1].get_available_fonts()))
+                self.assertTrue(any([f.full_font_name == 'Junction Light' for f in new_font_sources[1].get_available_fonts()]))
+            else:
+                self.assertEqual(0, len(new_font_sources[1].get_available_fonts()))
+            doc.save(file_name=ARTIFACTS_DIR + 'FontSettings.SetFontsFolders.pdf')
+            # Restore the original font sources.
+            aw.fonts.FontSettings.default_instance.set_fonts_sources(sources=original_font_sources)
+            #ExEnd
+
+    def test_add_font_source(self):
+        #ExStart
+        #ExFor:FontSettings
+        #ExFor:FontSettings.get_fonts_sources()
+        #ExFor:FontSettings.set_fonts_sources(List[FontSourceBase])
+        #ExSummary:Shows how to add a font source to our existing font sources.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.font.name = 'Arial'
+        builder.writeln('Hello world!')
+        builder.font.name = 'Amethysta'
+        builder.writeln('The quick brown fox jumps over the lazy dog.')
+        builder.font.name = 'Junction Light'
+        builder.writeln('The quick brown fox jumps over the lazy dog.')
+        original_font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
+        self.assertEqual(1, len(original_font_sources))
+        self.assertTrue(any([f.full_font_name == 'Arial' for f in original_font_sources[0].get_available_fonts()]))
+        # The default font source is missing two of the fonts that we are using in our document.
+        # When we save this document, Aspose.Words will apply fallback fonts to all text formatted with inaccessible fonts.
+        self.assertFalse(any([f.full_font_name == 'Amethysta' for f in original_font_sources[0].get_available_fonts()]))
+        self.assertFalse(any([f.full_font_name == 'Junction Light' for f in original_font_sources[0].get_available_fonts()]))
+        # Create a font source from a folder that contains fonts.
+        folder_font_source = aw.fonts.FolderFontSource(folder_path=FONTS_DIR, scan_subfolders=True)
+        # Apply a new array of font sources that contains the original font sources, as well as our custom fonts.
+        updated_font_sources = [original_font_sources[0], folder_font_source]
+        aw.fonts.FontSettings.default_instance.set_fonts_sources(sources=updated_font_sources)
+        # Verify that Aspose.Words has access to all required fonts before we render the document to PDF.
+        updated_font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
+        self.assertTrue(any([f.full_font_name == 'Arial' for f in updated_font_sources[0].get_available_fonts()]))
+        self.assertTrue(any([f.full_font_name == 'Amethysta' for f in updated_font_sources[1].get_available_fonts()]))
+        self.assertTrue(any([f.full_font_name == 'Junction Light' for f in updated_font_sources[1].get_available_fonts()]))
+        doc.save(file_name=ARTIFACTS_DIR + 'FontSettings.AddFontSource.pdf')
+        # Restore the original font sources.
+        aw.fonts.FontSettings.default_instance.set_fonts_sources(sources=original_font_sources)
+        #ExEnd
+
     def test_set_specify_font_folder(self):
         font_settings = aw.fonts.FontSettings()
         font_settings.set_fonts_folder(FONTS_DIR, False)
@@ -88,6 +233,37 @@ class ExFontSettings(ApiExampleBase):
         folder_source = doc.font_settings.get_fonts_sources()[0].as_folder_font_source()
         self.assertEqual(FONTS_DIR, folder_source.folder_path)
         self.assertFalse(folder_source.scan_subfolders)
+
+    def test_table_substitution(self):
+        #ExStart
+        #ExFor:Document.font_settings
+        #ExFor:TableSubstitutionRule.set_substitutes(str,List[str])
+        #ExSummary:Shows how set font substitution rules.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.font.name = 'Arial'
+        builder.writeln('Hello world!')
+        builder.font.name = 'Amethysta'
+        builder.writeln('The quick brown fox jumps over the lazy dog.')
+        font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
+        # The default font sources contain the first font that the document uses.
+        self.assertEqual(1, len(font_sources))
+        self.assertTrue(any([f.full_font_name == 'Arial' for f in font_sources[0].get_available_fonts()]))
+        # The second font, "Amethysta", is unavailable.
+        self.assertFalse(any([f.full_font_name == 'Amethysta' for f in font_sources[0].get_available_fonts()]))
+        # We can configure a font substitution table which determines
+        # which fonts Aspose.Words will use as substitutes for unavailable fonts.
+        # Set two substitution fonts for "Amethysta": "Arvo", and "Courier New".
+        # If the first substitute is unavailable, Aspose.Words attempts to use the second substitute, and so on.
+        doc.font_settings = aw.fonts.FontSettings()
+        doc.font_settings.substitution_settings.table_substitution.set_substitutes('Amethysta', ['Arvo', 'Courier New'])
+        # "Amethysta" is unavailable, and the substitution rule states that the first font to use as a substitute is "Arvo".
+        self.assertFalse(any([f.full_font_name == 'Arvo' for f in font_sources[0].get_available_fonts()]))
+        # "Arvo" is also unavailable, but "Courier New" is.
+        self.assertTrue(any([f.full_font_name == 'Courier New' for f in font_sources[0].get_available_fonts()]))
+        # The output document will display the text that uses the "Amethysta" font formatted with "Courier New".
+        doc.save(file_name=ARTIFACTS_DIR + 'FontSettings.TableSubstitution.pdf')
+        #ExEnd
 
     def test_set_specify_font_folders(self):
         font_settings = aw.fonts.FontSettings()
@@ -255,184 +431,6 @@ class ExFontSettings(ApiExampleBase):
         # Font substitution will take place when we render the document.
         self.assertEqual('MissingFont', doc.first_section.body.first_paragraph.runs[0].font.name)
         doc.save(file_name=ARTIFACTS_DIR + 'FontSettings.ResolveFontsBeforeLoadingDocument.pdf')
-        #ExEnd
-
-    def test_default_font_name(self):
-        #ExStart
-        #ExFor:DefaultFontSubstitutionRule.default_font_name
-        #ExSummary:Shows how to specify a default font.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.font.name = 'Arial'
-        builder.writeln('Hello world!')
-        builder.font.name = 'Arvo'
-        builder.writeln('The quick brown fox jumps over the lazy dog.')
-        font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
-        # The font sources that the document uses contain the font "Arial", but not "Arvo".
-        self.assertEqual(1, font_sources.length)
-        self.assertTrue(any((f for f in font_sources[0].get_available_fonts() if f.full_font_name == 'Arial')))
-        self.assertFalse(any((f for f in font_sources[0].get_available_fonts() if f.full_font_name == 'Arvo')))
-        # Set the "default_font_name" property to "Courier New" to,
-        # while rendering the document, apply that font in all cases when another font is not available.
-        aw.fonts.FontSettings.default_instance.substitution_settings.default_font_substitution.default_font_name = 'Courier New'
-        self.assertTrue(any((f for f in font_sources[0].get_available_fonts() if f.full_font_name == 'Courier New')))
-        # Aspose.Words will now use the default font in place of any missing fonts during any rendering calls.
-        doc.save(ARTIFACTS_DIR + 'FontSettings.default_font_name.pdf')
-        #ExEnd
-
-    def test_set_fonts_folder(self):
-        for recursive in (False, True):
-            with self.subTest(recursive=recursive):
-                #ExStart
-                #ExFor:FontSettings
-                #ExFor:FontSettings.set_fonts_folder(str,bool)
-                #ExSummary:Shows how to set a font source directory.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                builder.font.name = 'Arvo'
-                builder.writeln('Hello world!')
-                builder.font.name = 'Amethysta'
-                builder.writeln('The quick brown fox jumps over the lazy dog.')
-                # Our font sources do not contain the font that we have used for text in this document.
-                # If we use these font settings while rendering this document,
-                # Aspose.Words will apply a fallback font to text which has a font that Aspose.Words cannot locate.
-                original_font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
-                self.assertEqual(1, len(original_font_sources))
-                self.assertTrue(any((f for f in original_font_sources[0].get_available_fonts() if f.full_font_name == 'Arial')))
-                # The default font sources are missing the two fonts that we are using in this document.
-                self.assertFalse(any((f for f in original_font_sources[0].get_available_fonts() if f.full_font_name == 'Arvo')))
-                self.assertFalse(any((f for f in original_font_sources[0].get_available_fonts() if f.full_font_name == 'Amethysta')))
-                # Use the "set_fonts_folder" method to set a directory which will act as a new font source.
-                # Pass "False" as the "recursive" argument to include fonts from all the font files that are in the directory
-                # that we are passing in the first argument, but not include any fonts in any of that directory's subfolders.
-                # Pass "True" as the "recursive" argument to include all font files in the directory that we are passing
-                # in the first argument, as well as all the fonts in its subdirectories.
-                aw.fonts.FontSettings.default_instance.set_fonts_folder(FONTS_DIR, recursive)
-                new_font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
-                self.assertEqual(1, len(new_font_sources))
-                self.assertFalse(any((f for f in new_font_sources[0].get_available_fonts() if f.full_font_name == 'Arial')))
-                self.assertTrue(any((f for f in new_font_sources[0].get_available_fonts() if f.full_font_name == 'Arvo')))
-                # The "Amethysta" font is in a subfolder of the font directory.
-                if recursive:
-                    self.assertEqual(25, len(new_font_sources[0].get_available_fonts()))
-                    self.assertTrue(any((f for f in new_font_sources[0].get_available_fonts() if f.full_font_name == 'Amethysta')))
-                else:
-                    self.assertEqual(18, len(new_font_sources[0].get_available_fonts()))
-                    self.assertFalse(any((f for f in new_font_sources[0].get_available_fonts() if f.full_font_name == 'Amethysta')))
-                doc.save(ARTIFACTS_DIR + 'FontSettings.set_fonts_folder.pdf')
-                # Restore the original font sources.
-                aw.fonts.FontSettings.default_instance.set_fonts_sources(original_font_sources)
-                #ExEnd
-
-    def test_set_fonts_folders(self):
-        for recursive in (False, True):
-            with self.subTest(recursive=recursive):
-                #ExStart
-                #ExFor:FontSettings
-                #ExFor:FontSettings.set_fonts_folders(List[str],bool)
-                #ExSummary:Shows how to set multiple font source directories.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                builder.font.name = 'Amethysta'
-                builder.writeln('The quick brown fox jumps over the lazy dog.')
-                builder.font.name = 'Junction Light'
-                builder.writeln('The quick brown fox jumps over the lazy dog.')
-                # Our font sources do not contain the font that we have used for text in this document.
-                # If we use these font settings while rendering this document,
-                # Aspose.Words will apply a fallback font to text which has a font that Aspose.Words cannot locate.
-                original_font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
-                self.assertEqual(1, len(original_font_sources))
-                self.assertTrue(any((f for f in original_font_sources[0].get_available_fonts() if f.full_font_name == 'Arial')))
-                # The default font sources are missing the two fonts that we are using in this document.
-                self.assertFalse(any((f for f in original_font_sources[0].get_available_fonts() if f.full_font_name == 'Amethysta')))
-                self.assertFalse(any((f for f in original_font_sources[0].get_available_fonts() if f.full_font_name == 'Junction Light')))
-                # Use the "set_fonts_folders" method to create a font source from each font directory that we pass as the first argument.
-                # Pass "False" as the "recursive" argument to include fonts from all the font files that are in the directories
-                # that we are passing in the first argument, but not include any fonts from any of the directories' subfolders.
-                # Pass "True" as the "recursive" argument to include all font files in the directories that we are passing
-                # in the first argument, as well as all the fonts in their subdirectories.
-                aw.fonts.FontSettings.default_instance.set_fonts_folders([FONTS_DIR + '/Amethysta', FONTS_DIR + '/Junction'], recursive)
-                new_font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
-                self.assertEqual(2, len(new_font_sources))
-                self.assertFalse(any((f for f in new_font_sources[0].get_available_fonts() if f.full_font_name == 'Arial')))
-                self.assertEqual(1, len(new_font_sources[0].get_available_fonts()))
-                self.assertTrue(any((f for f in new_font_sources[0].get_available_fonts() if f.full_font_name == 'Amethysta')))
-                # The "Junction" folder itself contains no font files, but has subfolders that do.
-                if recursive:
-                    self.assertEqual(6, len(new_font_sources[1].get_available_fonts()))
-                    self.assertTrue(any((f for f in new_font_sources[1].get_available_fonts() if f.full_font_name == 'Junction Light')))
-                else:
-                    self.assertEqual(0, len(new_font_sources[1].get_available_fonts()))
-                doc.save(ARTIFACTS_DIR + 'FontSettings.set_fonts_folders.pdf')
-                # Restore the original font sources.
-                aw.fonts.FontSettings.default_instance.set_fonts_sources(original_font_sources)
-                #ExEnd
-
-    def test_add_font_source(self):
-        #ExStart
-        #ExFor:FontSettings
-        #ExFor:FontSettings.get_fonts_sources()
-        #ExFor:FontSettings.set_fonts_sources(List[FontSourceBase])
-        #ExSummary:Shows how to add a font source to our existing font sources.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.font.name = 'Arial'
-        builder.writeln('Hello world!')
-        builder.font.name = 'Amethysta'
-        builder.writeln('The quick brown fox jumps over the lazy dog.')
-        builder.font.name = 'Junction Light'
-        builder.writeln('The quick brown fox jumps over the lazy dog.')
-        original_font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
-        self.assertEqual(1, len(original_font_sources))
-        self.assertTrue(any((f for f in original_font_sources[0].get_available_fonts() if f.full_font_name == 'Arial')))
-        # The default font source is missing two of the fonts that we are using in our document.
-        # When we save this document, Aspose.Words will apply fallback fonts to all text formatted with inaccessible fonts.
-        self.assertFalse(any((f for f in original_font_sources[0].get_available_fonts() if f.full_font_name == 'Amethysta')))
-        self.assertFalse(any((f for f in original_font_sources[0].get_available_fonts() if f.full_font_name == 'Junction Light')))
-        # Create a font source from a folder that contains fonts.
-        folder_font_source = aw.fonts.FolderFontSource(FONTS_DIR, True)
-        # Apply a new array of font sources that contains the original font sources, as well as our custom fonts.
-        updated_font_sources = [original_font_sources[0], folder_font_source]
-        aw.fonts.FontSettings.default_instance.set_fonts_sources(updated_font_sources)
-        # Verify that Aspose.Words has access to all required fonts before we render the document to PDF.
-        updated_font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
-        self.assertTrue(any((f for f in updated_font_sources[0].get_available_fonts() if f.full_font_name == 'Arial')))
-        self.assertTrue(any((f for f in updated_font_sources[1].get_available_fonts() if f.full_font_name == 'Amethysta')))
-        self.assertTrue(any((f for f in updated_font_sources[1].get_available_fonts() if f.full_font_name == 'Junction Light')))
-        doc.save(ARTIFACTS_DIR + 'FontSettings.add_font_source.pdf')
-        # Restore the original font sources.
-        aw.fonts.FontSettings.default_instance.set_fonts_sources(original_font_sources)
-        #ExEnd
-
-    def test_table_substitution(self):
-        #ExStart
-        #ExFor:Document.font_settings
-        #ExFor:TableSubstitutionRule.set_substitutes(str,List[str])
-        #ExSummary:Shows how set font substitution rules.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.font.name = 'Arial'
-        builder.writeln('Hello world!')
-        builder.font.name = 'Amethysta'
-        builder.writeln('The quick brown fox jumps over the lazy dog.')
-        font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
-        # The default font sources contain the first font that the document uses.
-        self.assertEqual(1, len(font_sources))
-        self.assertTrue(any((f for f in font_sources[0].get_available_fonts() if f.full_font_name == 'Arial')))
-        # The second font, "Amethysta", is unavailable.
-        self.assertFalse(any((f for f in font_sources[0].get_available_fonts() if f.full_font_name == 'Amethysta')))
-        # We can configure a font substitution table which determines
-        # which fonts Aspose.Words will use as substitutes for unavailable fonts.
-        # Set two substitution fonts for "Amethysta": "Arvo", and "Courier New".
-        # If the first substitute is unavailable, Aspose.Words attempts to use the second substitute, and so on.
-        doc.font_settings = aw.fonts.FontSettings()
-        doc.font_settings.substitution_settings.table_substitution.set_substitutes('Amethysta', ['Arvo', 'Courier New'])
-        # "Amethysta" is unavailable, and the substitution rule states that the first font to use as a substitute is "Arvo".
-        self.assertFalse(any((f for f in font_sources[0].get_available_fonts() if f.full_font_name == 'Arvo')))
-        # "Arvo" is also unavailable, but "Courier New" is.
-        self.assertTrue(any((f for f in font_sources[0].get_available_fonts() if f.full_font_name == 'Courier New')))
-        # The output document will display the text that uses the "Amethysta" font formatted with "Courier New".
-        doc.save(ARTIFACTS_DIR + 'FontSettings.table_substitution.pdf')
         #ExEnd
 
     def test_font_source_system(self):

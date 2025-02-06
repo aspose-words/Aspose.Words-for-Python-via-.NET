@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words import Document, DocumentBuilder, NodeType
 from aspose.words.drawing import ImageType
-import os
+from aspose.words import Document, DocumentBuilder, NodeType
 import aspose.pydrawing as drawing
+import os
 import aspose.words as aw
 import aspose.words.drawing
 import system_helper
@@ -228,6 +228,38 @@ class ExImage(ApiExampleBase):
         self.assertEqual(aw.drawing.WrapType.INLINE, shape.wrap_type)
         self.assertEqual(image_file_name, shape.image_data.source_full_name.replace('%20', ' '))
 
+    def test_delete_all_images(self):
+        #ExStart
+        #ExFor:Shape.has_image
+        #ExFor:Node.remove
+        #ExSummary:Shows how to delete all shapes with images from a document.
+        doc = aw.Document(file_name=MY_DIR + 'Images.docx')
+        shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
+        self.assertEqual(9, len(list(filter(lambda s: s.has_image, list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(shapes))))))))
+        for shape in filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(shapes))):
+            if shape.has_image:
+                shape.remove()
+        self.assertEqual(0, len(list(filter(lambda s: s.has_image, list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(shapes))))))))
+        #ExEnd
+
+    def test_delete_all_images_pre_order(self):
+        #ExStart
+        #ExFor:Node.next_pre_order(Node)
+        #ExFor:Node.previous_pre_order(Node)
+        #ExSummary:Shows how to traverse the document's node tree using the pre-order traversal algorithm, and delete any encountered shape with an image.
+        doc = aw.Document(file_name=MY_DIR + 'Images.docx')
+        self.assertEqual(9, len(list(filter(lambda s: s.has_image, list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(doc.get_child_nodes(aw.NodeType.SHAPE, True)))))))))
+        cur_node = doc
+        while cur_node != None:
+            next_node = cur_node.next_pre_order(doc)
+            if cur_node.previous_pre_order(doc) != None and next_node != None:
+                self.assertEqual(cur_node, next_node.previous_pre_order(doc))
+            if cur_node.node_type == aw.NodeType.SHAPE and cur_node.as_shape().has_image:
+                cur_node.remove()
+            cur_node = next_node
+        self.assertEqual(0, len(list(filter(lambda s: s.has_image, list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(doc.get_child_nodes(aw.NodeType.SHAPE, True)))))))))
+        #ExEnd
+
     def test_insert_webp_image(self):
         #ExStart:InsertWebpImage
         #ExFor:DocumentBuilder.insert_image(str)
@@ -246,39 +278,6 @@ class ExImage(ApiExampleBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
         self.assertEqual(aw.drawing.ImageType.WEB_P, shape.image_data.image_type)
         #ExEnd:ReadWebpImage
-
-    def test_delete_all_images(self):
-        #ExStart
-        #ExFor:Shape.has_image
-        #ExFor:Node.remove
-        #ExSummary:Shows how to delete all shapes with images from a document.
-        doc = aw.Document(MY_DIR + 'Images.docx')
-        shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
-        self.assertEqual(9, len([node for node in shapes if node.as_shape().has_image]))
-        for node in shapes:
-            shape = node.as_shape()
-            if shape.has_image:
-                shape.remove()
-        self.assertEqual(0, len([node for node in shapes if node.as_shape().has_image]))
-        #ExEnd
-
-    def test_delete_all_images_pre_order(self):
-        #ExStart
-        #ExFor:Node.next_pre_order(Node)
-        #ExFor:Node.previous_pre_order(Node)
-        #ExSummary:Shows how to traverse the document's node tree using the pre-order traversal algorithm, and delete any encountered shape with an image.
-        doc = aw.Document(MY_DIR + 'Images.docx')
-        self.assertEqual(9, len([node for node in doc.get_child_nodes(aw.NodeType.SHAPE, True) if node.as_shape().has_image]))
-        cur_node = doc
-        while cur_node is not None:
-            next_node = cur_node.next_pre_order(doc)
-            if cur_node.previous_pre_order(doc) is not None and next_node is not None:
-                self.assertEqual(cur_node, next_node.previous_pre_order(doc))
-            if cur_node.node_type == aw.NodeType.SHAPE and cur_node.as_shape().has_image:
-                cur_node.remove()
-            cur_node = next_node
-        self.assertEqual(0, len([node for node in doc.get_child_nodes(aw.NodeType.SHAPE, True) if node.as_shape().has_image]))
-        #ExEnd
 
     def test_scale_image(self):
         #ExStart

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import os
 import unittest
+import os
 import aspose.words as aw
 import aspose.words.ai
 import system_helper
@@ -50,7 +50,6 @@ class ExAI(ApiExampleBase):
     @unittest.skip('This test should be run manually to manage API requests amount')
     def test_ai_translate(self):
         #ExStart:AiTranslate
-        #ExFor:IAiModelText.Translate(Document, AI.Language)
         #ExSummary:Shows how to translate text using Google models.
         doc = aw.Document(file_name=MY_DIR + 'Document.docx')
         api_key = system_helper.environment.Environment.get_environment_variable('API_KEY')
@@ -73,5 +72,5 @@ class ExAI(ApiExampleBase):
         grammar_options = aw.ai.CheckGrammarOptions()
         grammar_options.improve_stylistics = True
         proofed_doc = model.check_grammar(doc, grammar_options)
-        proofed_doc.save(file_name='AI.AiGrammar.docx')
+        proofed_doc.save(file_name=ARTIFACTS_DIR + 'AI.AiGrammar.docx')
         #ExEnd:AiGrammar

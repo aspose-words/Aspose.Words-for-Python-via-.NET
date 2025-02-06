@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
@@ -15,6 +15,36 @@ import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExStyles(ApiExampleBase):
+
+    def test_create_style(self):
+        #ExStart
+        #ExFor:Style.font
+        #ExFor:Style
+        #ExFor:Style.remove
+        #ExFor:Style.automatically_update
+        #ExSummary:Shows how to create and apply a custom style.
+        doc = aw.Document()
+        style = doc.styles.add(aw.StyleType.PARAGRAPH, 'MyStyle')
+        style.font.name = 'Times New Roman'
+        style.font.size = 16
+        style.font.color = aspose.pydrawing.Color.navy
+        # Automatically redefine style.
+        style.automatically_update = True
+        builder = aw.DocumentBuilder(doc=doc)
+        # Apply one of the styles from the document to the paragraph that the document builder is creating.
+        builder.paragraph_format.style = doc.styles.get_by_name('MyStyle')
+        builder.writeln('Hello world!')
+        first_paragraph_style = doc.first_section.body.first_paragraph.paragraph_format.style
+        self.assertEqual(style, first_paragraph_style)
+        # Remove our custom style from the document's styles collection.
+        doc.styles.get_by_name('MyStyle').remove()
+        first_paragraph_style = doc.first_section.body.first_paragraph.paragraph_format.style
+        # Any text that used a removed style reverts to the default formatting.
+        self.assertFalse(any([s.name == 'MyStyle' for s in doc.styles]))
+        self.assertEqual('Times New Roman', first_paragraph_style.font.name)
+        self.assertEqual(12, first_paragraph_style.font.size)
+        self.assertEqual(aspose.pydrawing.Color.empty().to_argb(), first_paragraph_style.font.color.to_argb())
+        #ExEnd
 
     def test_style_collection(self):
         #ExStart
@@ -268,34 +298,4 @@ class ExStyles(ApiExampleBase):
             print(f'\tIs heading:\t\t\t{cur_style.is_heading}')
             print(f'\tIs QuickStyle:\t\t{cur_style.is_quick_style}')
             self.assertEqual(doc, cur_style.document)
-        #ExEnd
-
-    def test_create_style(self):
-        #ExStart
-        #ExFor:Style.font
-        #ExFor:Style
-        #ExFor:Style.remove
-        #ExFor:Style.automatically_update
-        #ExSummary:Shows how to create and apply a custom style.
-        doc = aw.Document()
-        style = doc.styles.add(aw.StyleType.PARAGRAPH, 'MyStyle')
-        style.font.name = 'Times New Roman'
-        style.font.size = 16
-        style.font.color = aspose.pydrawing.Color.navy
-        # Automatically redefine style.
-        style.automatically_update = True
-        builder = aw.DocumentBuilder(doc)
-        # Apply one of the styles from the document to the paragraph that the document builder is creating.
-        builder.paragraph_format.style = doc.styles.get_by_name('MyStyle')
-        builder.writeln('Hello world!')
-        first_paragraph_style = doc.first_section.body.first_paragraph.paragraph_format.style
-        self.assertEqual(style, first_paragraph_style)
-        # Remove our custom style from the document's styles collection.
-        doc.styles.get_by_name('MyStyle').remove()
-        first_paragraph_style = doc.first_section.body.first_paragraph.paragraph_format.style
-        # Any text that used a removed style reverts to the default formatting.
-        self.assertFalse(any((s.name == 'MyStyle' for s in doc.styles)))
-        self.assertEqual('Times New Roman', first_paragraph_style.font.name)
-        self.assertEqual(12.0, first_paragraph_style.font.size)
-        self.assertEqual(aspose.pydrawing.Color.empty().to_argb(), first_paragraph_style.font.color.to_argb())
         #ExEnd

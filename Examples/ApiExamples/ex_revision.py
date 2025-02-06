@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
 from datetime import date, timezone, timedelta
+from document_helper import DocumentHelper
 import aspose.words as aw
 import aspose.words.comparing
 import aspose.words.drawing
@@ -250,9 +250,9 @@ class ExRevision(ApiExampleBase):
         compare_options.ignore_headers_and_footers = False
         compare_options.target = aw.comparing.ComparisonTargetType.NEW
         doc_original.compare(document=doc_edited, author='John Doe', date_time=datetime.datetime.now(), options=compare_options)
-        doc_original.save(file_name=ARTIFACTS_DIR + 'Document.CompareOptions.docx')
+        doc_original.save(file_name=ARTIFACTS_DIR + 'Revision.CompareOptions.docx')
         #ExEnd
-        doc_original = aw.Document(file_name=ARTIFACTS_DIR + 'Document.CompareOptions.docx')
+        doc_original = aw.Document(file_name=ARTIFACTS_DIR + 'Revision.CompareOptions.docx')
         test_util.TestUtil.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, '', 'OriginalEdited endnote text.', doc_original.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
 
     def test_layout_options_revisions(self):
@@ -280,7 +280,7 @@ class ExRevision(ApiExampleBase):
         doc.layout_options.revision_options.inserted_text_color = aw.layout.RevisionColor.BRIGHT_GREEN
         doc.layout_options.revision_options.show_revision_bars = False
         doc.layout_options.revision_options.revision_bars_position = aw.drawing.HorizontalAlignment.RIGHT
-        doc.save(file_name=ARTIFACTS_DIR + 'Document.LayoutOptionsRevisions.pdf')
+        doc.save(file_name=ARTIFACTS_DIR + 'Revision.LayoutOptionsRevisions.pdf')
         #ExEnd
 
     def test_granularity_compare_option(self):

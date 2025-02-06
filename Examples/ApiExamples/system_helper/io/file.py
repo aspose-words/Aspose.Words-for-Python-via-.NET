@@ -1,7 +1,9 @@
 import pathlib
 import codecs
 import platform
-from typing import IO
+from system_helper.io.file_mode import FileMode
+from system_helper.io.file_access import FileAccess
+from system_helper.io.file_stream import FileStream
 
 
 class File(object):
@@ -42,5 +44,15 @@ class File(object):
         return default
 
     @staticmethod
-    def open_read(path: str) -> IO:
-        return open(path, 'rb')
+    def open_read(path: str) -> FileStream:
+        return FileStream(path, FileMode.OPEN, FileAccess.READ)
+
+    @staticmethod
+    def open(path: str, mode: FileMode, access: FileAccess = None) -> FileStream:
+        if access is None:
+            access = FileAccess.WRITE if mode == FileMode.APPEND else FileAccess.READ_WRITE
+
+        if mode == FileMode.APPEND:
+            raise NotImplementedError(f"{mode}  not supported")
+
+        return FileStream(path, mode, access)

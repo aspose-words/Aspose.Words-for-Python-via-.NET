@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import sys
-import pathlib
 import glob
+import pathlib
+import sys
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.fonts
+import aspose.words.settings
 import aspose.words.themes
 import os
 import system_helper
@@ -821,6 +822,26 @@ class ExFont(ApiExampleBase):
                 print(font_info.embedding_licensing_rights.bitmap_embedding_only)
                 print(font_info.embedding_licensing_rights.no_subsetting)
         #ExEnd:PhysicalFontInfoEmbeddingLicensingRights
+
+    def test_number_spacing(self):
+        #ExStart:NumberSpacing
+        #ExFor:Font.number_spacing
+        #ExFor:NumSpacing
+        #ExSummary:Shows how to set the spacing type of the numeral.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # This effect is only supported in newer versions of MS Word.
+        doc.compatibility_options.optimize_for(aw.settings.MsWordVersion.WORD2019)
+        builder.write('1 ')
+        builder.write('This is an example')
+        run = doc.first_section.body.first_paragraph.runs[0]
+        if run.font.number_spacing == aw.NumSpacing.DEFAULT:
+            run.font.number_spacing = aw.NumSpacing.PROPORTIONAL
+        doc.save(file_name=ARTIFACTS_DIR + 'Fonts.NumberSpacing.docx')
+        #ExEnd:NumberSpacing
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Fonts.NumberSpacing.docx')
+        run = doc.first_section.body.first_paragraph.runs[0]
+        self.assertEqual(aw.NumSpacing.PROPORTIONAL, run.font.number_spacing)
 
     def test_get_document_fonts(self):
         #ExStart

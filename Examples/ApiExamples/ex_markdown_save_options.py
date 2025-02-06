@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
-import datetime
-import glob
-from typing import List
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
+#
+# This file is part of Aspose.Words. The source code in this file
+# is only intended as a supplement to the documentation, and is provided
+# "as is", without warranty of any kind, either expressed or implied.
+#####################################
 import sys
+from typing import List
+import glob
+import datetime
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.saving
@@ -59,6 +64,29 @@ class ExMarkdownSaveOptions(ApiExampleBase):
             options.list_export_mode = markdown_list_export_mode
             doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.ListExportMode.md', save_options=options)
         #ExEnd
+
+    def test_images_folder(self):
+        #ExStart
+        #ExFor:MarkdownSaveOptions.images_folder
+        #ExFor:MarkdownSaveOptions.images_folder_alias
+        #ExSummary:Shows how to specifies the name of the folder used to construct image URIs.
+        builder = aw.DocumentBuilder()
+        builder.writeln('Some image below:')
+        builder.insert_image(file_name=IMAGE_DIR + 'Logo.jpg')
+        images_folder = os.path.join(ARTIFACTS_DIR, 'ImagesDir')
+        save_options = aw.saving.MarkdownSaveOptions()
+        # Use the "ImagesFolder" property to assign a folder in the local file system into which
+        # Aspose.Words will save all the document's linked images.
+        save_options.images_folder = images_folder
+        # Use the "ImagesFolderAlias" property to use this folder
+        # when constructing image URIs instead of the images folder's name.
+        save_options.images_folder_alias = 'http://example.com/images'
+        builder.document.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.ImagesFolder.md', save_options=save_options)
+        #ExEnd
+        dir_files = system_helper.io.Directory.get_files(images_folder, 'MarkdownSaveOptions.ImagesFolder.001.jpeg')
+        self.assertEqual(1, len(dir_files))
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.ImagesFolder.md')
+        'http://example.com/images/MarkdownSaveOptions.ImagesFolder.001.jpeg' in doc.get_text()
 
     def test_export_underline_formatting(self):
         #ExStart:ExportUnderlineFormatting
@@ -158,21 +186,3 @@ class ExMarkdownSaveOptions(ApiExampleBase):
                 else:
                     self.assertIn('MarkdownSaveOptions.ExportImagesAsBase64.001.jpeg', out_doc_contents)
                 #ExEnd
-
-    def test_images_folder(self):
-        #ExStart
-        #ExFor:MarkdownSaveOptions.images_folder
-        #ExFor:MarkdownSaveOptions.images_folder_alias
-        #ExSummary: Shows how to specifies the name of the folder used to construct image URIs.
-        builder = aw.DocumentBuilder()
-        builder.writeln('Some image below:')
-        builder.insert_image(IMAGE_DIR + 'Logo.jpg')
-        saveOptions = aw.saving.MarkdownSaveOptions()
-        # Use the "ImagesFolder" property to assign a folder in the local file system into which
-        # Aspose.Words will save all the document's linked images.
-        saveOptions.images_folder = ARTIFACTS_DIR + 'ImagesDir/'
-        # Use the "ImagesFolderAlias" property to use this folder
-        # when constructing image URIs instead of the images folder's name.
-        saveOptions.images_folder_alias = 'http://example.com/images'
-        builder.document.save(ARTIFACTS_DIR + 'MarkdownSaveOptions.ImagesFolder.md', saveOptions)
-        #ExEnd

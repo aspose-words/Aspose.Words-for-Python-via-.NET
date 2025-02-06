@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words import Document, DocumentBuilder, NodeType
-from aspose.pydrawing import Color
-from aspose.words.themes import ThemeColor
 from document_helper import DocumentHelper
-import os
-import typing
-import sys
+from aspose.words.themes import ThemeColor
+from aspose.pydrawing import Color
+from aspose.words import Document, DocumentBuilder, NodeType
 from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
+import sys
+import typing
+import os
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
@@ -630,6 +630,43 @@ class ExShape(ApiExampleBase):
         #ExEnd
         test_util.TestUtil.verify_shape(aw.drawing.ShapeType.CUBE, '', 200, 200, 0, 0, shape)
 
+    def test_replace_textboxes_with_images(self):
+        #ExStart
+        #ExFor:WrapSide
+        #ExFor:ShapeBase.wrap_side
+        #ExFor:NodeCollection
+        #ExFor:CompositeNode.insert_after
+        #ExFor:NodeCollection.to_array
+        #ExSummary:Shows how to replace all textbox shapes with image shapes.
+        doc = aw.Document(file_name=MY_DIR + 'Textboxes in drawing canvas.docx')
+        shapes = list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(doc.get_child_nodes(aw.NodeType.SHAPE, True)))))
+        self.assertEqual(3, len(list(filter(lambda s: s.shape_type == aw.drawing.ShapeType.TEXT_BOX, shapes))))
+        self.assertEqual(1, len(list(filter(lambda s: s.shape_type == aw.drawing.ShapeType.IMAGE, shapes))))
+        for shape in shapes:
+            if shape.shape_type == aw.drawing.ShapeType.TEXT_BOX:
+                replacement_shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.IMAGE)
+                replacement_shape.image_data.set_image(file_name=IMAGE_DIR + 'Logo.jpg')
+                replacement_shape.left = shape.left
+                replacement_shape.top = shape.top
+                replacement_shape.width = shape.width
+                replacement_shape.height = shape.height
+                replacement_shape.relative_horizontal_position = shape.relative_horizontal_position
+                replacement_shape.relative_vertical_position = shape.relative_vertical_position
+                replacement_shape.horizontal_alignment = shape.horizontal_alignment
+                replacement_shape.vertical_alignment = shape.vertical_alignment
+                replacement_shape.wrap_type = shape.wrap_type
+                replacement_shape.wrap_side = shape.wrap_side
+                shape.parent_node.insert_after(replacement_shape, shape)
+                shape.remove()
+        shapes = list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(doc.get_child_nodes(aw.NodeType.SHAPE, True)))))
+        self.assertEqual(0, len(list(filter(lambda s: s.shape_type == aw.drawing.ShapeType.TEXT_BOX, shapes))))
+        self.assertEqual(4, len(list(filter(lambda s: s.shape_type == aw.drawing.ShapeType.IMAGE, shapes))))
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.ReplaceTextboxesWithImages.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.ReplaceTextboxesWithImages.docx')
+        out_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        self.assertEqual(aw.drawing.WrapSide.BOTH, out_shape.wrap_side)
+
     def test_create_text_box(self):
         #ExStart
         #ExFor:Shape.__init__(DocumentBase,ShapeType)
@@ -663,6 +700,35 @@ class ExShape(ApiExampleBase):
         self.assertEqual(aw.drawing.HorizontalAlignment.CENTER, text_box.horizontal_alignment)
         self.assertEqual(aw.drawing.VerticalAlignment.TOP, text_box.vertical_alignment)
         self.assertEqual('Hello world!', text_box.get_text().strip())
+
+    def test_z_order(self):
+        #ExStart
+        #ExFor:ShapeBase.z_order
+        #ExSummary:Shows how to manipulate the order of shapes.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Insert three different colored rectangles that partially overlap each other.
+        # When we insert a shape that overlaps another shape, Aspose.Words places the newer shape on top of the old one.
+        # The light green rectangle will overlap the light blue rectangle and partially obscure it,
+        # and the light blue rectangle will obscure the orange rectangle.
+        shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, horz_pos=aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, left=100, vert_pos=aw.drawing.RelativeVerticalPosition.TOP_MARGIN, top=100, width=200, height=200, wrap_type=aw.drawing.WrapType.NONE)
+        shape.fill_color = aspose.pydrawing.Color.orange
+        shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, horz_pos=aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, left=150, vert_pos=aw.drawing.RelativeVerticalPosition.TOP_MARGIN, top=150, width=200, height=200, wrap_type=aw.drawing.WrapType.NONE)
+        shape.fill_color = aspose.pydrawing.Color.light_blue
+        shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, horz_pos=aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, left=200, vert_pos=aw.drawing.RelativeVerticalPosition.TOP_MARGIN, top=200, width=200, height=200, wrap_type=aw.drawing.WrapType.NONE)
+        shape.fill_color = aspose.pydrawing.Color.light_green
+        shapes = list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(doc.get_child_nodes(aw.NodeType.SHAPE, True)))))
+        # The "ZOrder" property of a shape determines its stacking priority among other overlapping shapes.
+        # If two overlapping shapes have different "ZOrder" values,
+        # Microsoft Word will place the shape with a higher value over the shape with the lower value.
+        # Set the "ZOrder" values of our shapes to place the first orange rectangle over the second light blue one
+        # and the second light blue rectangle over the third light green rectangle.
+        # This will reverse their original stacking order.
+        shapes[0].z_order = 3
+        shapes[1].z_order = 2
+        shapes[2].z_order = 1
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.ZOrder.docx')
+        #ExEnd
 
     def test_get_active_x_control_properties(self):
         #ExStart
@@ -698,6 +764,16 @@ class ExShape(ApiExampleBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
         forms_2_ole_control = shape.ole_format.ole_control.as_forms2_ole_control()
         self.assertEqual('Aspose group name', forms_2_ole_control.group_name)
+
+    def test_linked_chart_source_full_name(self):
+        #ExStart
+        #ExFor:Chart.source_full_name
+        #ExSummary:Shows how to get/set the full name of the external xls/xlsx document if the chart is linked.
+        doc = aw.Document(file_name=MY_DIR + 'Shape with linked chart.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        source_full_name = shape.chart.source_full_name
+        self.assertTrue('Examples\\Data\\Spreadsheet.xlsx' in source_full_name)
+        #ExEnd
 
     def test_ole_control(self):
         #ExStart
@@ -1201,6 +1277,119 @@ class ExShape(ApiExampleBase):
             self.assertEqual(vertical_anchor, shape.text_box.vertical_anchor)
             self.assertEqual('Hello world!', shape.get_text().strip())
 
+    def test_shape_revision(self):
+        #ExStart
+        #ExFor:ShapeBase.is_delete_revision
+        #ExFor:ShapeBase.is_insert_revision
+        #ExSummary:Shows how to work with revision shapes.
+        doc = aw.Document()
+        self.assertFalse(doc.track_revisions)
+        # Insert an inline shape without tracking revisions, which will make this shape not a revision of any kind.
+        shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.CUBE)
+        shape.wrap_type = aw.drawing.WrapType.INLINE
+        shape.width = 100
+        shape.height = 100
+        doc.first_section.body.first_paragraph.append_child(shape)
+        # Start tracking revisions and then insert another shape, which will be a revision.
+        doc.start_track_revisions(author='John Doe')
+        shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.SUN)
+        shape.wrap_type = aw.drawing.WrapType.INLINE
+        shape.width = 100
+        shape.height = 100
+        doc.first_section.body.first_paragraph.append_child(shape)
+        shapes = list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(doc.get_child_nodes(aw.NodeType.SHAPE, True)))))
+        self.assertEqual(2, len(shapes))
+        shapes[0].remove()
+        # Since we removed that shape while we were tracking changes,
+        # the shape persists in the document and counts as a delete revision.
+        # Accepting this revision will remove the shape permanently, and rejecting it will keep it in the document.
+        self.assertEqual(aw.drawing.ShapeType.CUBE, shapes[0].shape_type)
+        self.assertTrue(shapes[0].is_delete_revision)
+        # And we inserted another shape while tracking changes, so that shape will count as an insert revision.
+        # Accepting this revision will assimilate this shape into the document as a non-revision,
+        # and rejecting the revision will remove this shape permanently.
+        self.assertEqual(aw.drawing.ShapeType.SUN, shapes[1].shape_type)
+        self.assertTrue(shapes[1].is_insert_revision)
+        #ExEnd
+
+    def test_move_revisions(self):
+        #ExStart
+        #ExFor:ShapeBase.is_move_from_revision
+        #ExFor:ShapeBase.is_move_to_revision
+        #ExSummary:Shows how to identify move revision shapes.
+        # A move revision is when we move an element in the document body by cut-and-pasting it in Microsoft Word while
+        # tracking changes. If we involve an inline shape in such a text movement, that shape will also be a revision.
+        # Copying-and-pasting or moving floating shapes do not create move revisions.
+        doc = aw.Document(file_name=MY_DIR + 'Revision shape.docx')
+        # Move revisions consist of pairs of "Move from", and "Move to" revisions. We moved in this document in one shape,
+        # but until we accept or reject the move revision, there will be two instances of that shape.
+        shapes = list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(doc.get_child_nodes(aw.NodeType.SHAPE, True)))))
+        self.assertEqual(2, len(shapes))
+        # This is the "Move to" revision, which is the shape at its arrival destination.
+        # If we accept the revision, this "Move to" revision shape will disappear,
+        # and the "Move from" revision shape will remain.
+        self.assertFalse(shapes[0].is_move_from_revision)
+        self.assertTrue(shapes[0].is_move_to_revision)
+        # This is the "Move from" revision, which is the shape at its original location.
+        # If we accept the revision, this "Move from" revision shape will disappear,
+        # and the "Move to" revision shape will remain.
+        self.assertTrue(shapes[1].is_move_from_revision)
+        self.assertFalse(shapes[1].is_move_to_revision)
+        #ExEnd
+
+    def test_adjust_with_effects(self):
+        #ExStart
+        #ExFor:ShapeBase.adjust_with_effects(RectangleF)
+        #ExFor:ShapeBase.bounds_with_effects
+        #ExSummary:Shows how to check how a shape's bounds are affected by shape effects.
+        doc = aw.Document(file_name=MY_DIR + 'Shape shadow effect.docx')
+        shapes = list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(doc.get_child_nodes(aw.NodeType.SHAPE, True)))))
+        self.assertEqual(2, len(shapes))
+        # The two shapes are identical in terms of dimensions and shape type.
+        self.assertEqual(shapes[0].width, shapes[1].width)
+        self.assertEqual(shapes[0].height, shapes[1].height)
+        self.assertEqual(shapes[0].shape_type, shapes[1].shape_type)
+        # The first shape has no effects, and the second one has a shadow and thick outline.
+        # These effects make the size of the second shape's silhouette bigger than that of the first.
+        # Even though the rectangle's size shows up when we click on these shapes in Microsoft Word,
+        # the visible outer bounds of the second shape are affected by the shadow and outline and thus are bigger.
+        # We can use the "AdjustWithEffects" method to see the true size of the shape.
+        self.assertEqual(0, shapes[0].stroke_weight)
+        self.assertEqual(20, shapes[1].stroke_weight)
+        self.assertFalse(shapes[0].shadow_enabled)
+        self.assertTrue(shapes[1].shadow_enabled)
+        shape = shapes[0]
+        # Create a RectangleF object, representing a rectangle,
+        # which we could potentially use as the coordinates and bounds for a shape.
+        rectangle_f = aspose.pydrawing.RectangleF(200, 200, 1000, 1000)
+        # Run this method to get the size of the rectangle adjusted for all our shape effects.
+        rectangle_f_out = shape.adjust_with_effects(rectangle_f)
+        # Since the shape has no border-changing effects, its boundary dimensions are unaffected.
+        self.assertEqual(200, rectangle_f_out.x)
+        self.assertEqual(200, rectangle_f_out.y)
+        self.assertEqual(1000, rectangle_f_out.width)
+        self.assertEqual(1000, rectangle_f_out.height)
+        # Verify the final extent of the first shape, in points.
+        self.assertEqual(0, shape.bounds_with_effects.x)
+        self.assertEqual(0, shape.bounds_with_effects.y)
+        self.assertEqual(147, shape.bounds_with_effects.width)
+        self.assertEqual(147, shape.bounds_with_effects.height)
+        shape = shapes[1]
+        rectangle_f = aspose.pydrawing.RectangleF(200, 200, 1000, 1000)
+        rectangle_f_out = shape.adjust_with_effects(rectangle_f)
+        # The shape effects have moved the apparent top left corner of the shape slightly.
+        self.assertEqual(171.5, rectangle_f_out.x)
+        self.assertEqual(167, rectangle_f_out.y)
+        # The effects have also affected the visible dimensions of the shape.
+        self.assertEqual(1045, rectangle_f_out.width)
+        self.assertEqual(1133.5, rectangle_f_out.height)
+        # The effects have also affected the visible bounds of the shape.
+        self.assertEqual(-28.5, shape.bounds_with_effects.x)
+        self.assertEqual(-33, shape.bounds_with_effects.y)
+        self.assertEqual(192, shape.bounds_with_effects.width)
+        self.assertEqual(280.5, shape.bounds_with_effects.height)
+        #ExEnd
+
     def test_render_all_shapes(self):
         #ExStart
         #ExFor:ShapeBase.get_shape_renderer
@@ -1217,6 +1406,15 @@ class ExShape(ApiExampleBase):
             renderer = shape.get_shape_renderer()
             options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
             renderer.save(file_name=ARTIFACTS_DIR + f'Shape.RenderAllShapes.{shape.name}.png', save_options=options)
+        #ExEnd
+
+    def test_document_has_smart_art_object(self):
+        #ExStart
+        #ExFor:Shape.has_smart_art
+        #ExSummary:Shows how to count the number of shapes in a document with SmartArt objects.
+        doc = aw.Document(file_name=MY_DIR + 'SmartArt.docx')
+        number_of_smart_art_shapes = len(list(filter(lambda shape: shape.has_smart_art, list(map(lambda x: x.as_shape(), list(doc.get_child_nodes(aw.NodeType.SHAPE, True)))))))
+        self.assertEqual(2, number_of_smart_art_shapes)
         #ExEnd
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'different calculation on Linux')
@@ -1874,72 +2072,6 @@ class ExShape(ApiExampleBase):
         self.assertEqual(aspose.pydrawing.Color.cadet_blue.to_argb(), shape.stroke_color.to_argb())
         self.assertAlmostEqual(0.3, shape.fill.opacity, delta=0.01)
 
-    def test_replace_textboxes_with_images(self):
-        #ExStart
-        #ExFor:WrapSide
-        #ExFor:ShapeBase.wrap_side
-        #ExFor:NodeCollection
-        #ExFor:CompositeNode.insert_after(Node,Node)
-        #ExFor:NodeCollection.to_array
-        #ExSummary:Shows how to replace all textbox shapes with image shapes.
-        doc = aw.Document(MY_DIR + 'Textboxes in drawing canvas.docx')
-        shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
-        self.assertEqual(3, len([shape for shape in shapes if shape.shape_type == aw.drawing.ShapeType.TEXT_BOX]))
-        self.assertEqual(1, len([shape for shape in shapes if shape.shape_type == aw.drawing.ShapeType.IMAGE]))
-        for shape in shapes:
-            if shape.shape_type == aw.drawing.ShapeType.TEXT_BOX:
-                replacement_shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.IMAGE)
-                replacement_shape.image_data.set_image(IMAGE_DIR + 'Logo.jpg')
-                replacement_shape.left = shape.left
-                replacement_shape.top = shape.top
-                replacement_shape.width = shape.width
-                replacement_shape.height = shape.height
-                replacement_shape.relative_horizontal_position = shape.relative_horizontal_position
-                replacement_shape.relative_vertical_position = shape.relative_vertical_position
-                replacement_shape.horizontal_alignment = shape.horizontal_alignment
-                replacement_shape.vertical_alignment = shape.vertical_alignment
-                replacement_shape.wrap_type = shape.wrap_type
-                replacement_shape.wrap_side = shape.wrap_side
-                shape.parent_node.insert_after(replacement_shape, shape)
-                shape.remove()
-        shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
-        self.assertEqual(0, len([shape for shape in shapes if shape.shape_type == aw.drawing.ShapeType.TEXT_BOX]))
-        self.assertEqual(4, len([shape for shape in shapes if shape.shape_type == aw.drawing.ShapeType.IMAGE]))
-        doc.save(ARTIFACTS_DIR + 'Shape.replace_textboxes_with_images.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.replace_textboxes_with_images.docx')
-        out_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.assertEqual(aw.drawing.WrapSide.BOTH, out_shape.wrap_side)
-
-    def test_z_order(self):
-        #ExStart
-        #ExFor:ShapeBase.z_order
-        #ExSummary:Shows how to manipulate the order of shapes.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Insert three different colored rectangles that partially overlap each other.
-        # When we insert a shape that overlaps another shape, Aspose.Words places the newer shape on top of the old one.
-        # The light green rectangle will overlap the light blue rectangle and partially obscure it,
-        # and the light blue rectangle will obscure the orange rectangle.
-        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, 100, aw.drawing.RelativeVerticalPosition.TOP_MARGIN, 100, 200, 200, aw.drawing.WrapType.NONE)
-        shape.fill_color = aspose.pydrawing.Color.orange
-        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, 150, aw.drawing.RelativeVerticalPosition.TOP_MARGIN, 150, 200, 200, aw.drawing.WrapType.NONE)
-        shape.fill_color = aspose.pydrawing.Color.light_blue
-        shape = builder.insert_shape(aw.drawing.ShapeType.RECTANGLE, aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, 200, aw.drawing.RelativeVerticalPosition.TOP_MARGIN, 200, 200, 200, aw.drawing.WrapType.NONE)
-        shape.fill_color = aspose.pydrawing.Color.light_green
-        shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
-        # The "z_order" property of a shape determines its stacking priority among other overlapping shapes.
-        # If two overlapping shapes have different "z_order" values,
-        # Microsoft Word will place the shape with a higher value over the shape with the lower value.
-        # Set the "z_order" values of our shapes to place the first orange rectangle over the second light blue one
-        # and the second light blue rectangle over the third light green rectangle.
-        # This will reverse their original stacking order.
-        shapes[0].z_order = 3
-        shapes[1].z_order = 2
-        shapes[2].z_order = 1
-        doc.save(ARTIFACTS_DIR + 'Shape.z_order.docx')
-        #ExEnd
-
     def test_get_ole_object_raw_data(self):
         #ExStart
         #ExFor:OleFormat.get_raw_data
@@ -1954,16 +2086,6 @@ class ExShape(ApiExampleBase):
                     print('This is an embedded object')
                 ole_raw_data = ole_format.get_raw_data()
                 self.assertEqual(24576, len(ole_raw_data))
-        #ExEnd
-
-    def test_linked_chart_source_full_name(self):
-        #ExStart
-        #ExFor:Chart.source_full_name
-        #ExSummary:Shows how to get the full name of the external xls/xlsx document if the chart is linked.
-        doc = aw.Document(MY_DIR + 'Shape with linked chart.docx')
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        source_fullname = shape.chart.source_full_name
-        self.assertTrue(source_fullname.find('Examples\\Data\\Spreadsheet.xlsx') != -1)
         #ExEnd
 
     def test_ole_links(self):
@@ -2223,128 +2345,6 @@ class ExShape(ApiExampleBase):
             return shape
         #ExEnd
         insert_text_paths()
-
-    def test_shape_revision(self):
-        #ExStart
-        #ExFor:ShapeBase.is_delete_revision
-        #ExFor:ShapeBase.is_insert_revision
-        #ExSummary:Shows how to work with revision shapes.
-        doc = aw.Document()
-        self.assertFalse(doc.track_revisions)
-        # Insert an inline shape without tracking revisions, which will make this shape not a revision of any kind.
-        shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.CUBE)
-        shape.wrap_type = aw.drawing.WrapType.INLINE
-        shape.width = 100.0
-        shape.height = 100.0
-        doc.first_section.body.first_paragraph.append_child(shape)
-        # Start tracking revisions and then insert another shape, which will be a revision.
-        doc.start_track_revisions('John Doe')
-        shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.SUN)
-        shape.wrap_type = aw.drawing.WrapType.INLINE
-        shape.width = 100.0
-        shape.height = 100.0
-        doc.first_section.body.first_paragraph.append_child(shape)
-        shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
-        self.assertEqual(2, len(shapes))
-        shapes[0].remove()
-        # Since we removed that shape while we were tracking changes,
-        # the shape persists in the document and counts as a delete revision.
-        # Accepting this revision will remove the shape permanently, and rejecting it will keep it in the document.
-        self.assertEqual(aw.drawing.ShapeType.CUBE, shapes[0].shape_type)
-        self.assertTrue(shapes[0].is_delete_revision)
-        # And we inserted another shape while tracking changes, so that shape will count as an insert revision.
-        # Accepting this revision will assimilate this shape into the document as a non-revision,
-        # and rejecting the revision will remove this shape permanently.
-        self.assertEqual(aw.drawing.ShapeType.SUN, shapes[1].shape_type)
-        self.assertTrue(shapes[1].is_insert_revision)
-        #ExEnd
-
-    def test_move_revisions(self):
-        #ExStart
-        #ExFor:ShapeBase.is_move_from_revision
-        #ExFor:ShapeBase.is_move_to_revision
-        #ExSummary:Shows how to identify move revision shapes.
-        # A move revision is when we move an element in the document body by cut-and-pasting it in Microsoft Word while
-        # tracking changes. If we involve an inline shape in such a text movement, that shape will also be a revision.
-        # Copying-and-pasting or moving floating shapes do not create move revisions.
-        doc = aw.Document(MY_DIR + 'Revision shape.docx')
-        # Move revisions consist of pairs of "Move from", and "Move to" revisions. We moved in this document in one shape,
-        # but until we accept or reject the move revision, there will be two instances of that shape.
-        shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
-        self.assertEqual(2, len(shapes))
-        # This is the "Move to" revision, which is the shape at its arrival destination.
-        # If we accept the revision, this "Move to" revision shape will disappear,
-        # and the "Move from" revision shape will remain.
-        self.assertFalse(shapes[0].is_move_from_revision)
-        self.assertTrue(shapes[0].is_move_to_revision)
-        # This is the "Move from" revision, which is the shape at its original location.
-        # If we accept the revision, this "Move from" revision shape will disappear,
-        # and the "Move to" revision shape will remain.
-        self.assertTrue(shapes[1].is_move_from_revision)
-        self.assertFalse(shapes[1].is_move_to_revision)
-        #ExEnd
-
-    def test_adjust_with_effects(self):
-        #ExStart
-        #ExFor:ShapeBase.adjust_with_effects(RectangleF)
-        #ExFor:ShapeBase.bounds_with_effects
-        #ExSummary:Shows how to check how a shape's bounds are affected by shape effects.
-        doc = aw.Document(MY_DIR + 'Shape shadow effect.docx')
-        shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
-        self.assertEqual(2, len(shapes))
-        # The two shapes are identical in terms of dimensions and shape type.
-        self.assertEqual(shapes[0].width, shapes[1].width)
-        self.assertEqual(shapes[0].height, shapes[1].height)
-        self.assertEqual(shapes[0].shape_type, shapes[1].shape_type)
-        # The first shape has no effects, and the second one has a shadow and thick outline.
-        # These effects make the size of the second shape's silhouette bigger than that of the first.
-        # Even though the rectangle's size shows up when we click on these shapes in Microsoft Word,
-        # the visible outer bounds of the second shape are affected by the shadow and outline and thus are bigger.
-        # We can use the "adjust_with_effects" method to see the true size of the shape.
-        self.assertEqual(0.0, shapes[0].stroke_weight)
-        self.assertEqual(20.0, shapes[1].stroke_weight)
-        self.assertFalse(shapes[0].shadow_enabled)
-        self.assertTrue(shapes[1].shadow_enabled)
-        shape = shapes[0]
-        # Create a aspose.pydrawing.RectangleF object, representing a rectangle,
-        # which we could potentially use as the coordinates and bounds for a shape.
-        rectangle_f = aspose.pydrawing.RectangleF(200, 200, 1000, 1000)
-        # Run this method to get the size of the rectangle adjusted for all our shape effects.
-        rectangle_f_out = shape.adjust_with_effects(rectangle_f)
-        # Since the shape has no border-changing effects, its boundary dimensions are unaffected.
-        self.assertEqual(200, rectangle_f_out.x)
-        self.assertEqual(200, rectangle_f_out.y)
-        self.assertEqual(1000, rectangle_f_out.width)
-        self.assertEqual(1000, rectangle_f_out.height)
-        # Verify the final extent of the first shape, in points.
-        self.assertEqual(0, shape.bounds_with_effects.x)
-        self.assertEqual(0, shape.bounds_with_effects.y)
-        self.assertEqual(147, shape.bounds_with_effects.width)
-        self.assertEqual(147, shape.bounds_with_effects.height)
-        shape = shapes[1]
-        rectangle_f = aspose.pydrawing.RectangleF(200, 200, 1000, 1000)
-        rectangle_f_out = shape.adjust_with_effects(rectangle_f)
-        # The shape effects have moved the apparent top left corner of the shape slightly.
-        self.assertEqual(171.5, rectangle_f_out.x)
-        self.assertEqual(167, rectangle_f_out.y)
-        # The effects have also affected the visible dimensions of the shape.
-        self.assertEqual(1045, rectangle_f_out.width)
-        self.assertEqual(1133.5, rectangle_f_out.height)
-        # The effects have also affected the visible bounds of the shape.
-        self.assertEqual(-28.5, shape.bounds_with_effects.x)
-        self.assertEqual(-33, shape.bounds_with_effects.y)
-        self.assertEqual(192, shape.bounds_with_effects.width)
-        self.assertEqual(280.5, shape.bounds_with_effects.height)
-        #ExEnd
-
-    def test_document_has_smart_art_object(self):
-        #ExStart
-        #ExFor:Shape.has_smart_art
-        #ExSummary:Shows how to count the number of shapes in a document with SmartArt objects.
-        doc = aw.Document(MY_DIR + 'SmartArt.docx')
-        number_of_smart_art_shapes = len([node for node in doc.get_child_nodes(aw.NodeType.SHAPE, True) if node.as_shape().has_smart_art])
-        self.assertEqual(2, number_of_smart_art_shapes)
-        #ExEnd
 
     def def_work_with_math_object_type(self):
         parameters = [(0, aw.math.MathObjectType.O_MATH_PARA), (1, aw.math.MathObjectType.O_MATH), (2, aw.math.MathObjectType.SUPERSCRIPT), (3, aw.math.MathObjectType.ARGUMENT), (4, aw.math.MathObjectType.SUPERSCRIPT_PART)]
