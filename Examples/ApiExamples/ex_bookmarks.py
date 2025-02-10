@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import os
 from document_helper import DocumentHelper
+import os
 import aspose.words as aw
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
@@ -32,6 +32,50 @@ class ExBookmarks(ApiExampleBase):
         #ExEnd
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Bookmarks.Insert.docx')
         self.assertEqual('My Bookmark', doc.range.bookmarks[0].name)
+
+    def test_remove(self):
+        #ExStart
+        #ExFor:BookmarkCollection.clear
+        #ExFor:BookmarkCollection.count
+        #ExFor:BookmarkCollection.remove(Bookmark)
+        #ExFor:BookmarkCollection.remove(str)
+        #ExFor:BookmarkCollection.remove_at
+        #ExFor:Bookmark.remove
+        #ExSummary:Shows how to remove bookmarks from a document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Insert five bookmarks with text inside their boundaries.
+        i = 1
+        while i <= 5:
+            bookmark_name = 'MyBookmark_' + str(i)
+            builder.start_bookmark(bookmark_name)
+            builder.write(f'Text inside {bookmark_name}.')
+            builder.end_bookmark(bookmark_name)
+            builder.insert_break(aw.BreakType.PARAGRAPH_BREAK)
+            i += 1
+        # This collection stores bookmarks.
+        bookmarks = doc.range.bookmarks
+        self.assertEqual(5, bookmarks.count)
+        # There are several ways of removing bookmarks.
+        # 1 -  Calling the bookmark's Remove method:
+        bookmarks.get_by_name('MyBookmark_1').remove()
+        self.assertFalse(any([b.name == 'MyBookmark_1' for b in bookmarks]))
+        # 2 -  Passing the bookmark to the collection's Remove method:
+        bookmark = doc.range.bookmarks[0]
+        doc.range.bookmarks.remove(bookmark=bookmark)
+        self.assertFalse(any([b.name == 'MyBookmark_2' for b in bookmarks]))
+        # 3 -  Removing a bookmark from the collection by name:
+        doc.range.bookmarks.remove(bookmark_name='MyBookmark_3')
+        self.assertFalse(any([b.name == 'MyBookmark_3' for b in bookmarks]))
+        # 4 -  Removing a bookmark at an index in the bookmark collection:
+        doc.range.bookmarks.remove_at(0)
+        self.assertFalse(any([b.name == 'MyBookmark_4' for b in bookmarks]))
+        # We can clear the entire bookmark collection.
+        bookmarks.clear()
+        # The text that was inside the bookmarks is still present in the document.
+        self.assertEqual(0, bookmarks.count)
+        self.assertEqual('Text inside MyBookmark_1.\r' + 'Text inside MyBookmark_2.\r' + 'Text inside MyBookmark_3.\r' + 'Text inside MyBookmark_4.\r' + 'Text inside MyBookmark_5.', doc.get_text().strip())
+        #ExEnd
 
     def test_table_column_bookmarks(self):
         #ExStart
@@ -59,45 +103,3 @@ class ExBookmarks(ApiExampleBase):
         self.assertTrue(second_table_column_bookmark.is_column)
         self.assertEqual(0, second_table_column_bookmark.first_column)
         self.assertEqual(3, second_table_column_bookmark.last_column)
-
-    def test_remove(self):
-        #ExStart
-        #ExFor:BookmarkCollection.clear
-        #ExFor:BookmarkCollection.count
-        #ExFor:BookmarkCollection.remove(Bookmark)
-        #ExFor:BookmarkCollection.remove(str)
-        #ExFor:BookmarkCollection.remove_at
-        #ExFor:Bookmark.remove
-        #ExSummary:Shows how to remove bookmarks from a document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Insert five bookmarks with text inside their boundaries.
-        for i in range(1, 6):
-            bookmark_name = f'MyBookmark_{i}'
-            builder.start_bookmark(bookmark_name)
-            builder.write(f'Text inside {bookmark_name}.')
-            builder.end_bookmark(bookmark_name)
-            builder.insert_break(aw.BreakType.PARAGRAPH_BREAK)
-        # This collection stores bookmarks.
-        bookmarks = doc.range.bookmarks
-        self.assertEqual(5, bookmarks.count)
-        # There are several ways of removing bookmarks.
-        # 1 -  Calling the bookmark's "remove" method:
-        bookmarks.get_by_name('MyBookmark_1').remove()
-        self.assertFalse(any((b for b in bookmarks if b.name == 'MyBookmark_1')))
-        # 2 -  Passing the bookmark to the collection's "remove" method:
-        bookmark = doc.range.bookmarks[0]
-        doc.range.bookmarks.remove(bookmark)
-        self.assertFalse(any((b for b in bookmarks if b.name == 'MyBookmark_2')))
-        # 3 -  Removing a bookmark from the collection by name:
-        doc.range.bookmarks.remove('MyBookmark_3')
-        self.assertFalse(any((b for b in bookmarks if b.name == 'MyBookmark_3')))
-        # 4 -  Removing a bookmark at an index in the bookmark collection:
-        doc.range.bookmarks.remove_at(0)
-        self.assertFalse(any((b for b in bookmarks if b.name == 'MyBookmark_4')))
-        # We can clear the entire bookmark collection.
-        bookmarks.clear()
-        # The text that was inside the bookmarks is still present in the document.
-        self.assertListEqual([], list(bookmarks))
-        self.assertEqual('Text inside MyBookmark_1.\r' + 'Text inside MyBookmark_2.\r' + 'Text inside MyBookmark_3.\r' + 'Text inside MyBookmark_4.\r' + 'Text inside MyBookmark_5.', doc.get_text().strip())
-        #ExEnd

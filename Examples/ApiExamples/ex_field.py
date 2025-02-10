@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 from document_helper import DocumentHelper
-import sys
-from enum import Enum
 import aspose.pydrawing as drawing
+from enum import Enum
+import sys
 import aspose.words as aw
 import aspose.words.bibliography
 import aspose.words.buildingblocks
@@ -155,6 +155,32 @@ class ExField(ApiExampleBase):
                     self.assertTrue(field.is_dirty)
             #ExEnd
 
+    def test_preserve_include_picture(self):
+        for preserve_include_picture_field in [False, True]:
+            #ExStart
+            #ExFor:Field.update(bool)
+            #ExFor:LoadOptions.preserve_include_picture_field
+            #ExSummary:Shows how to preserve or discard INCLUDEPICTURE fields when loading a document.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            include_picture = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INCLUDE_PICTURE, update_field=True).as_field_include_picture()
+            include_picture.source_full_name = IMAGE_DIR + 'Transparent background logo.png'
+            include_picture.update(True)
+            with io.BytesIO() as doc_stream:
+                doc.save(stream=doc_stream, save_options=aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX))
+                # We can set a flag in a LoadOptions object to decide whether to convert all INCLUDEPICTURE fields
+                # into image shapes when loading a document that contains them.
+                load_options = aw.loading.LoadOptions()
+                load_options.preserve_include_picture_field = preserve_include_picture_field
+                doc = aw.Document(stream=doc_stream, load_options=load_options)
+                if preserve_include_picture_field:
+                    self.assertTrue(any([f.type == aw.fields.FieldType.FIELD_INCLUDE_PICTURE for f in doc.range.fields]))
+                    doc.update_fields()
+                    doc.save(file_name=ARTIFACTS_DIR + 'Field.PreserveIncludePicture.docx')
+                else:
+                    self.assertFalse(any([f.type == aw.fields.FieldType.FIELD_INCLUDE_PICTURE for f in doc.range.fields]))
+            #ExEnd
+
     def test_unlink(self):
         #ExStart
         #ExFor:Document.unlink_fields
@@ -165,6 +191,30 @@ class ExField(ApiExampleBase):
         doc = document_helper.DocumentHelper.save_open(doc)
         para_with_fields = document_helper.DocumentHelper.get_paragraph_text(doc, 0)
         self.assertEqual('Fields.Docx   Элементы указателя не найдены.     1.\r', para_with_fields)
+
+    def test_unlink_all_fields_in_range(self):
+        #ExStart
+        #ExFor:Range.unlink_fields
+        #ExSummary:Shows how to unlink all fields in a range.
+        doc = aw.Document(file_name=MY_DIR + 'Linked fields.docx')
+        new_section = doc.sections[0].clone(True).as_section()
+        doc.sections.add(new_section)
+        doc.sections[1].range.unlink_fields()
+        #ExEnd
+        doc = document_helper.DocumentHelper.save_open(doc)
+        sec_with_fields = document_helper.DocumentHelper.get_section_text(doc, 1)
+        self.assertTrue(sec_with_fields.strip().endswith('Fields.Docx   Элементы указателя не найдены.     3.\rОшибка! Не указана последовательность.    Fields.Docx   Элементы указателя не найдены.     4.'))
+
+    def test_unlink_single_field(self):
+        #ExStart
+        #ExFor:Field.unlink
+        #ExSummary:Shows how to unlink a field.
+        doc = aw.Document(file_name=MY_DIR + 'Linked fields.docx')
+        doc.range.fields[1].unlink()
+        #ExEnd
+        doc = document_helper.DocumentHelper.save_open(doc)
+        para_with_fields = document_helper.DocumentHelper.get_paragraph_text(doc, 0)
+        self.assertTrue(para_with_fields.strip().endswith('FILENAME  \\* Caps  \\* MERGEFORMAT \x14Fields.Docx\x15   Элементы указателя не найдены.     \x13 LISTNUM  LegalDefault \x15'))
 
     def test_remove_fields(self):
         #ExStart
@@ -330,6 +380,32 @@ class ExField(ApiExampleBase):
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Field.AUTONUM.docx')
         test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_AUTO_NUM, expected_field_code=' AUTONUM ', expected_result='', field=doc.range.fields[0])
         test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_AUTO_NUM, expected_field_code=' AUTONUM  \\s :', expected_result='', field=doc.range.fields[1])
+
+    def test_field_auto_num_out(self):
+        #ExStart
+        #ExFor:FieldAutoNumOut
+        #ExSummary:Shows how to number paragraphs using AUTONUMOUT fields.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # AUTONUMOUT fields display a number that increments at each AUTONUMOUT field.
+        # Unlike AUTONUM fields, AUTONUMOUT fields use the outline numbering scheme,
+        # which we can define in Microsoft Word via Format -> Bullets & Numbering -> "Outline Numbered".
+        # This allows us to automatically number items like a numbered list.
+        # LISTNUM fields are a newer alternative to AUTONUMOUT fields.
+        # This field will display "1.".
+        builder.insert_field(field_type=aw.fields.FieldType.FIELD_AUTO_NUM_OUTLINE, update_field=True)
+        builder.writeln('\tParagraph 1.')
+        # This field will display "2.".
+        builder.insert_field(field_type=aw.fields.FieldType.FIELD_AUTO_NUM_OUTLINE, update_field=True)
+        builder.writeln('\tParagraph 2.')
+        for field in list(filter(lambda f: f.type == aw.fields.FieldType.FIELD_AUTO_NUM_OUTLINE, list(doc.range.fields))):
+            field = field.as_field_auto_num_out()
+            self.assertEqual(' AUTONUMOUT ', field.get_field_code())
+        doc.save(file_name=ARTIFACTS_DIR + 'Field.AUTONUMOUT.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Field.AUTONUMOUT.docx')
+        for field in doc.range.fields:
+            test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_AUTO_NUM_OUTLINE, expected_field_code=' AUTONUMOUT ', expected_result='', field=field)
 
     def test_field_auto_text(self):
         #ExStart
@@ -861,6 +937,78 @@ class ExField(ApiExampleBase):
         self.assertFalse(index_entry.is_italic)
 
     @unittest.skip('WORDSNET-17524')
+    def test_field_index_sequence(self):
+        #ExStart
+        #ExFor:FieldIndex.has_sequence_name
+        #ExFor:FieldIndex.sequence_name
+        #ExFor:FieldIndex.sequence_separator
+        #ExSummary:Shows how to split a document into portions by combining INDEX and SEQ fields.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Create an INDEX field which will display an entry for each XE field found in the document.
+        # Each entry will display the XE field's Text property value on the left side,
+        # and the number of the page that contains the XE field on the right.
+        # If the XE fields have the same value in their "Text" property,
+        # the INDEX field will group them into one entry.
+        index = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX, update_field=True).as_field_index()
+        # In the SequenceName property, name a SEQ field sequence. Each entry of this INDEX field will now also display
+        # the number that the sequence count is on at the XE field location that created this entry.
+        index.sequence_name = 'MySequence'
+        # Set text that will around the sequence and page numbers to explain their meaning to the user.
+        # An entry created with this configuration will display something like "MySequence at 1 on page 1" at its page number.
+        # PageNumberSeparator and SequenceSeparator cannot be longer than 15 characters.
+        index.page_number_separator = '\tMySequence at '
+        index.sequence_separator = ' on page '
+        self.assertTrue(index.has_sequence_name)
+        self.assertEqual(' INDEX  \\s MySequence \\e "\tMySequence at " \\d " on page "', index.get_field_code())
+        # SEQ fields display a count that increments at each SEQ field.
+        # These fields also maintain separate counts for each unique named sequence
+        # identified by the SEQ field's "SequenceIdentifier" property.
+        # Insert a SEQ field which moves the "MySequence" sequence to 1.
+        # This field no different from normal document text. It will not appear on an INDEX field's table of contents.
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        sequence_field = builder.insert_field(field_type=aw.fields.FieldType.FIELD_SEQUENCE, update_field=True).as_field_seq()
+        sequence_field.sequence_identifier = 'MySequence'
+        self.assertEqual(' SEQ  MySequence', sequence_field.get_field_code())
+        # Insert an XE field which will create an entry in the INDEX field.
+        # Since "MySequence" is at 1 and this XE field is on page 2, along with the custom separators we defined above,
+        # this field's INDEX entry will display "Cat" on the left side, and "MySequence at 1 on page 2" on the right.
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'Cat'
+        self.assertEqual(' XE  Cat', index_entry.get_field_code())
+        # Insert a page break and use SEQ fields to advance "MySequence" to 3.
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        sequence_field = builder.insert_field(field_type=aw.fields.FieldType.FIELD_SEQUENCE, update_field=True).as_field_seq()
+        sequence_field.sequence_identifier = 'MySequence'
+        sequence_field = builder.insert_field(field_type=aw.fields.FieldType.FIELD_SEQUENCE, update_field=True).as_field_seq()
+        sequence_field.sequence_identifier = 'MySequence'
+        # Insert an XE field with the same Text property as the one above.
+        # The INDEX entry will group XE fields with matching values in the "Text" property
+        # into one entry as opposed to making an entry for each XE field.
+        # Since we are on page 2 with "MySequence" at 3, ", 3 on page 3" will be appended to the same INDEX entry as above.
+        # The page number portion of that INDEX entry will now display "MySequence at 1 on page 2, 3 on page 3".
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'Cat'
+        # Insert an XE field with a new and unique Text property value.
+        # This will add a new entry, with MySequence at 3 on page 4.
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'Dog'
+        doc.update_page_layout()
+        doc.update_fields()
+        doc.save(file_name=ARTIFACTS_DIR + 'Field.INDEX.XE.Sequence.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Field.INDEX.XE.Sequence.docx')
+        index = doc.range.fields[0].as_field_index()
+        self.assertEqual('MySequence', index.sequence_name)
+        self.assertEqual('\tMySequence at ', index.page_number_separator)
+        self.assertEqual(' on page ', index.sequence_separator)
+        self.assertTrue(index.has_sequence_name)
+        self.assertEqual(' INDEX  \\s MySequence \\e "\tMySequence at " \\d " on page "', index.get_field_code())
+        self.assertEqual('Cat\tMySequence at 1 on page 2, 3 on page 3\r' + 'Dog\tMySequence at 3 on page 4\r', index.result)
+        self.assertEqual(3, len(list(filter(lambda f: f.type == aw.fields.FieldType.FIELD_SEQUENCE, list(doc.range.fields)))))
+
+    @unittest.skip('WORDSNET-17524')
     def test_field_index_page_number_separator(self):
         #ExStart
         #ExFor:FieldIndex.has_page_number_separator
@@ -1359,19 +1507,19 @@ class ExField(ApiExampleBase):
         self.assertEqual('List Paragraph', field.style_name)
         self.assertTrue(field.search_from_bottom)
         field = doc.range.fields[2].as_field_style_ref()
-        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_STYLE_REF, expected_field_code=' STYLEREF  Quote \\n', expected_result='b )', field=field)
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_STYLE_REF, expected_field_code=' STYLEREF  Quote \\n', expected_result='\u200eb )', field=field)
         self.assertEqual('Quote', field.style_name)
         self.assertTrue(field.insert_paragraph_number)
         field = doc.range.fields[3].as_field_style_ref()
-        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_STYLE_REF, expected_field_code=' STYLEREF  Quote \\r', expected_result='b )', field=field)
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_STYLE_REF, expected_field_code=' STYLEREF  Quote \\r', expected_result='\u200eb )', field=field)
         self.assertEqual('Quote', field.style_name)
         self.assertTrue(field.insert_paragraph_number_in_relative_context)
         field = doc.range.fields[4].as_field_style_ref()
-        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_STYLE_REF, expected_field_code=' STYLEREF  Quote \\w', expected_result='1.b )', field=field)
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_STYLE_REF, expected_field_code=' STYLEREF  Quote \\w', expected_result='\u200e1.b )', field=field)
         self.assertEqual('Quote', field.style_name)
         self.assertTrue(field.insert_paragraph_number_in_full_context)
         field = doc.range.fields[5].as_field_style_ref()
-        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_STYLE_REF, expected_field_code=' STYLEREF  Quote \\w \\t', expected_result='1.b)', field=field)
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_STYLE_REF, expected_field_code=' STYLEREF  Quote \\w \\t', expected_result='\u200e1.b)', field=field)
         self.assertEqual('Quote', field.style_name)
         self.assertTrue(field.insert_paragraph_number_in_full_context)
         self.assertTrue(field.suppress_non_delimiters)
@@ -1964,6 +2112,19 @@ class ExField(ApiExampleBase):
         self.assertEqual(10, doc.built_in_document_properties.total_editing_time)
         test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_EDIT_TIME, expected_field_code=' EDITTIME ', expected_result='10', field=doc.range.fields[0])
 
+    def test_field_eq_as_office_math(self):
+        #ExStart
+        #ExFor:FieldEQ
+        #ExFor:FieldEQ.as_office_math
+        #ExSummary:Shows how to replace the EQ field with Office Math.
+        doc = aw.Document(file_name=MY_DIR + 'Field sample - EQ.docx')
+        field_eq = list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_field_eq(), b), list(doc.range.fields))))[0]
+        office_math = field_eq.as_office_math()
+        field_eq.start.parent_node.insert_before(office_math, field_eq.start)
+        field_eq.remove()
+        doc.save(file_name=ARTIFACTS_DIR + 'Field.EQAsOfficeMath.docx')
+        #ExEnd
+
     def test_field_forms(self):
         #ExStart
         #ExFor:FieldFormCheckBox
@@ -2298,33 +2459,6 @@ class ExField(ApiExampleBase):
         with self.assertRaises(Exception):
             field_builder.add_argument(argument_builder).add_argument('=').add_argument('BestField').add_argument(10).add_argument(20.0).build_and_insert(run)
 
-    def test_preserve_include_picture(self):
-        for preserve_include_picture_field in (False, True):
-            with self.subTest(preserve_include_picture_field=preserve_include_picture_field):
-                #ExStart
-                #ExFor:Field.update(bool)
-                #ExFor:LoadOptions.preserve_include_picture_field
-                #ExSummary:Shows how to preserve or discard INCLUDEPICTURE fields when loading a document.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                include_picture = builder.insert_field(aw.fields.FieldType.FIELD_INCLUDE_PICTURE, True).as_field_include_picture()
-                include_picture.source_full_name = IMAGE_DIR + 'Transparent background logo.png'
-                include_picture.update(True)
-                with io.BytesIO() as doc_stream:
-                    doc.save(doc_stream, aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX))
-                    # We can set a flag in a LoadOptions object to decide whether to convert all INCLUDEPICTURE fields
-                    # into image shapes when loading a document that contains them.
-                    load_options = aw.loading.LoadOptions()
-                    load_options.preserve_include_picture_field = preserve_include_picture_field
-                    doc = aw.Document(doc_stream, load_options)
-                    if preserve_include_picture_field:
-                        self.assertTrue(any((f for f in doc.range.fields if f.type == aw.fields.FieldType.FIELD_INCLUDE_PICTURE)))
-                        doc.update_fields()
-                        doc.save(ARTIFACTS_DIR + 'Field.preserve_include_picture.docx')
-                    else:
-                        self.assertFalse(any((f for f in doc.range.fields if f.type == aw.fields.FieldType.FIELD_INCLUDE_PICTURE)))
-                #ExEnd
-
     def test_field_format(self):
         #ExStart
         #ExFor:Field.format
@@ -2384,30 +2518,6 @@ class ExField(ApiExampleBase):
         self.assertEqual('58', field.result)
         self.assertEqual(0, format.general_formats.count)
         #ExEnd
-
-    def test_unlink_all_fields_in_range(self):
-        #ExStart
-        #ExFor:Range.unlink_fields
-        #ExSummary:Shows how to unlink all fields in a range.
-        doc = aw.Document(MY_DIR + 'Linked fields.docx')
-        new_section = doc.sections[0].clone(True).as_section()
-        doc.sections.add(new_section)
-        doc.sections[1].range.unlink_fields()
-        #ExEnd
-        doc = DocumentHelper.save_open(doc)
-        sec_with_fields = DocumentHelper.get_section_text(doc, 1)
-        self.assertTrue(sec_with_fields.strip().endswith('Fields.Docx   Элементы указателя не найдены.     3.\rОшибка! Не указана последовательность.    Fields.Docx   Элементы указателя не найдены.     4.'))
-
-    def test_unlink_single_field(self):
-        #ExStart
-        #ExFor:Field.unlink
-        #ExSummary:Shows how to unlink a field.
-        doc = aw.Document(MY_DIR + 'Linked fields.docx')
-        doc.range.fields[1].unlink()
-        #ExEnd
-        doc = DocumentHelper.save_open(doc)
-        para_with_fields = DocumentHelper.get_paragraph_text(doc, 0)
-        self.assertTrue(para_with_fields.strip().endswith('FILENAME  \\* Caps  \\* MERGEFORMAT \x14Fields.Docx\x15   Элементы указателя не найдены.     \x13 LISTNUM  LegalDefault \x15'))
 
     def test_update_toc_page_numbers(self):
         doc = aw.Document(MY_DIR + 'Field sample - TOC.docx')
@@ -2584,33 +2694,6 @@ class ExField(ApiExampleBase):
                     self.assertEqual(':', field.separator_character)
                     self.assertTrue(field.remove_trailing_period)
         field_auto_num_lgl()
-
-    def test_field_auto_num_out(self):
-        #ExStart
-        #ExFor:FieldAutoNumOut
-        #ExSummary:Shows how to number paragraphs using AUTONUMOUT fields.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # AUTONUMOUT fields display a number that increments at each AUTONUMOUT field.
-        # Unlike AUTONUM fields, AUTONUMOUT fields use the outline numbering scheme,
-        # which we can define in Microsoft Word via Format -> Bullets & Numbering -> "Outline Numbered".
-        # This allows us to automatically number items like a numbered list.
-        # LISTNUM fields are a newer alternative to AUTONUMOUT fields.
-        # This field will display "1.".
-        builder.insert_field(aw.fields.FieldType.FIELD_AUTO_NUM_OUTLINE, True)
-        builder.writeln('\tParagraph 1.')
-        # This field will display "2.".
-        builder.insert_field(aw.fields.FieldType.FIELD_AUTO_NUM_OUTLINE, True)
-        builder.writeln('\tParagraph 2.')
-        for field in doc.range.fields:
-            if field.type == aw.fields.FieldType.FIELD_AUTO_NUM_OUTLINE:
-                field = field.as_field_auto_num_out()
-                self.assertEqual(' AUTONUMOUT ', field.get_field_code())
-        doc.save(ARTIFACTS_DIR + 'Field.field_auto_num_out.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Field.field_auto_num_out.docx')
-        for field in doc.range.fields:
-            self.verify_field(aw.fields.FieldType.FIELD_AUTO_NUM_OUTLINE, ' AUTONUMOUT ', '', field)
 
     def test_field_auto_text_list(self):
         #ExStart
@@ -3186,78 +3269,6 @@ class ExField(ApiExampleBase):
                 expected_field_result += catalog_data.child_nodes[i].child_nodes[0].child_nodes[0].value
             self.assertEqual(expected_field_result, field_include_text.result)
         field_include_text()
-
-    @unittest.skip('WORDSNET-17524')
-    def test_field_index_sequence(self):
-        #ExStart
-        #ExFor:FieldIndex.has_sequence_name
-        #ExFor:FieldIndex.sequence_name
-        #ExFor:FieldIndex.sequence_separator
-        #ExSummary:Shows how to split a document into portions by combining INDEX and SEQ fields.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Create an INDEX field which will display an entry for each XE field found in the document.
-        # Each entry will display the XE field's Text property value on the left side,
-        # and the number of the page that contains the XE field on the right.
-        # If the XE fields have the same value in their "text" property,
-        # the INDEX field will group them into one entry.
-        index = builder.insert_field(aw.fields.FieldType.FIELD_INDEX, True).as_field_index()
-        # In the sequence_name property, name a SEQ field sequence. Each entry of this INDEX field will now also display
-        # the number that the sequence count is on at the XE field location that created this entry.
-        index.sequence_name = 'MySequence'
-        # Set text that will around the sequence and page numbers to explain their meaning to the user.
-        # An entry created with this configuration will display something like "MySequence at 1 on page 1" at its page number.
-        # "page_number_separator" and "sequence_separator" cannot be longer than 15 characters.
-        index.page_number_separator = '\tMySequence at '
-        index.sequence_separator = ' on page '
-        self.assertTrue(index.has_sequence_name)
-        self.assertEqual(' INDEX  \\s MySequence \\e "\tMySequence at " \\d " on page "', index.get_field_code())
-        # SEQ fields display a count that increments at each SEQ field.
-        # These fields also maintain separate counts for each unique named sequence
-        # identified by the SEQ field's "sequence_identifier" property.
-        # Insert a SEQ field which moves the "MySequence" sequence to 1.
-        # This field no different from normal document text. It will not appear on an INDEX field's table of contents.
-        builder.insert_break(aw.BreakType.PAGE_BREAK)
-        sequence_field = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
-        sequence_field.sequence_identifier = 'MySequence'
-        self.assertEqual(' SEQ  MySequence', sequence_field.get_field_code())
-        # Insert an XE field which will create an entry in the INDEX field.
-        # Since "MySequence" is at 1 and this XE field is on page 2, along with the custom separators we defined above,
-        # this field's INDEX entry will display "Cat" on the left side, and "MySequence at 1 on page 2" on the right.
-        index_entry = builder.insert_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, True).as_field_xe()
-        index_entry.text = 'Cat'
-        self.assertEqual(' XE  Cat', index_entry.get_field_code())
-        # Insert a page break and use SEQ fields to advance "MySequence" to 3.
-        builder.insert_break(aw.BreakType.PAGE_BREAK)
-        sequence_field = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
-        sequence_field.sequence_identifier = 'MySequence'
-        sequence_field = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
-        sequence_field.sequence_identifier = 'MySequence'
-        # Insert an XE field with the same "text" property as the one above.
-        # The INDEX entry will group XE fields with matching values in the "text" property
-        # into one entry as opposed to making an entry for each XE field.
-        # Since we are on page 2 with "MySequence" at 3, ", 3 on page 3" will be appended to the same INDEX entry as above.
-        # The page number portion of that INDEX entry will now display "MySequence at 1 on page 2, 3 on page 3".
-        index_entry = builder.insert_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, True).as_field_xe()
-        index_entry.text = 'Cat'
-        # Insert an XE field with a new and unique "text" property value.
-        # This will add a new entry, with MySequence at 3 on page 4.
-        builder.insert_break(aw.BreakType.PAGE_BREAK)
-        index_entry = builder.insert_field(aw.fields.FieldType.FIELD_INDEX_ENTRY, True).as_field_xe()
-        index_entry.text = 'Dog'
-        doc.update_page_layout()
-        doc.update_fields()
-        doc.save(ARTIFACTS_DIR + 'Field.field_index_sequence.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Field.field_index_sequence.docx')
-        index = doc.range.fields[0].as_field_index()
-        self.assertEqual('MySequence', index.sequence_name)
-        self.assertEqual('\tMySequence at ', index.page_number_separator)
-        self.assertEqual(' on page ', index.sequence_separator)
-        self.assertTrue(index.has_sequence_name)
-        self.assertEqual(' INDEX  \\s MySequence \\e "\tMySequence at " \\d " on page "', index.get_field_code())
-        self.assertEqual('Cat\tMySequence at 1 on page 2, 3 on page 3\r' + 'Dog\tMySequence at 3 on page 4\r', index.result)
-        self.assertEqual(3, len([f for f in doc.range.fields if f.type == aw.fields.FieldType.FIELD_SEQUENCE]))
 
     def test_field_display_barcode(self):
         #ExStart
@@ -4361,23 +4372,6 @@ class ExField(ApiExampleBase):
             self.verify_field(aw.fields.FieldType.FIELD_EQUATION, ' EQ \\i \\in( tan x, \\s \\up2(sec x), \\b(\\r(3) )\\s \\up4(t) \\s \\up7(2)  dt)', '', doc.range.fields[12])
             self.verify_web_response_status_code(200, 'https://blogs.msdn.microsoft.com/murrays/2018/01/23/microsoft-word-eq-field/')
         field_eq()
-
-    def test_field_eq_as_office_math(self):
-        #ExStart
-        #ExFor:FieldEQ
-        #ExSummary:Shows how to replace the EQ field with Office Math.
-        doc = aw.Document(MY_DIR + 'Field sample - EQ.docx')
-        import aspose.words.fields as awf
-        field_eq = None
-        for field in doc.range.fields:
-            if field.type == awf.FieldType.FIELD_EQUATION:
-                field_eq = field.as_field_eq()
-                break
-        officeMath = field_eq.as_office_math()
-        field_eq.start.parent_node.insert_before(officeMath, field_eq.start)
-        field_eq.remove()
-        doc.save(ARTIFACTS_DIR + 'Field.EQAsOfficeMath.docx')
-        #ExEnd
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'windows date time parameters')
     def test_field_time(self):

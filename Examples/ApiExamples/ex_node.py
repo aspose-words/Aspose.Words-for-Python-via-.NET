@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import aspose.pydrawing as drawing
 import io
+import aspose.pydrawing as drawing
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.saving
 import aspose.words.tables
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, IMAGE_DIR, MY_DIR
 
@@ -256,6 +257,45 @@ class ExNode(ApiExampleBase):
         self.assertFalse(runs.contains(run))
         #ExEnd
 
+    @unittest.skip("drawing.Image type isn't supported yet")
+    def test_node_list(self):
+        #ExStart
+        #ExFor:NodeList.count
+        #ExFor:NodeList.__getitem__(int)
+        #ExSummary:Shows how to use XPaths to navigate a NodeList.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Insert some nodes with a DocumentBuilder.
+        builder.writeln('Hello world!')
+        builder.start_table()
+        builder.insert_cell()
+        builder.write('Cell 1')
+        builder.insert_cell()
+        builder.write('Cell 2')
+        builder.end_table()
+        builder.insert_image(file_name=IMAGE_DIR + 'Logo.jpg')
+        # Our document contains three Run nodes.
+        node_list = doc.select_nodes('//Run')
+        self.assertEqual(3, node_list.count)
+        self.assertTrue(any([n.get_text().strip() == 'Hello world!' for n in node_list]))
+        self.assertTrue(any([n.get_text().strip() == 'Cell 1' for n in node_list]))
+        self.assertTrue(any([n.get_text().strip() == 'Cell 2' for n in node_list]))
+        # Use a double forward slash to select all Run nodes
+        # that are indirect descendants of a Table node, which would be the runs inside the two cells we inserted.
+        node_list = doc.select_nodes('//Table//Run')
+        self.assertEqual(2, node_list.count)
+        self.assertTrue(any([n.get_text().strip() == 'Cell 1' for n in node_list]))
+        self.assertTrue(any([n.get_text().strip() == 'Cell 2' for n in node_list]))
+        # Single forward slashes specify direct descendant relationships,
+        # which we skipped when we used double slashes.
+        self.assertEqual(doc.select_nodes('//Table//Run'), doc.select_nodes('//Table/Row/Cell/Paragraph/Run'))
+        # Access the shape that contains the image we inserted.
+        node_list = doc.select_nodes('//Shape')
+        self.assertEqual(1, node_list.count)
+        shape = node_list[0].as_shape()
+        self.assertTrue(shape.has_image)
+        #ExEnd
+
     def test_recurse_children(self):
         doc = aw.Document(MY_DIR + 'Paragraphs.docx')
         # Any node that can contain child nodes, such as the document itself, is composite.
@@ -394,45 +434,6 @@ class ExNode(ApiExampleBase):
                 run = run.as_run()
                 self.assertTrue(navigator_result.contains(run.get_text().strip()))
         node_x_path_navigator()
-
-    @unittest.skip("drawing.Image type isn't supported yet")
-    def test_node_list(self):
-        #ExStart
-        #ExFor:NodeList.count
-        #ExFor:NodeList.__getitem__(int)
-        #ExSummary:Shows how to use XPaths to navigate a NodeList.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Insert some nodes with a DocumentBuilder.
-        builder.writeln('Hello world!')
-        builder.start_table()
-        builder.insert_cell()
-        builder.write('Cell 1')
-        builder.insert_cell()
-        builder.write('Cell 2')
-        builder.end_table()
-        builder.insert_image(drawing.Image.from_file(IMAGE_DIR + 'Logo.jpg'))
-        # Our document contains three Run nodes.
-        node_list = doc.select_nodes('//Run')
-        self.assertEqual(3, node_list.count)
-        self.assertTrue(any((node.get_text().strip() == 'Hello world!' for node in node_list)))
-        self.assertTrue(any((node.get_text().strip() == 'Cell 1' for node in node_list)))
-        self.assertTrue(any((node.get_text().strip() == 'Cell 2' for node in node_list)))
-        # Use a double forward slash to select all Run nodes
-        # that are indirect descendants of a Table node, which would be the runs inside the two cells we inserted.
-        node_list = doc.select_nodes('//Table//Run')
-        self.assertEqual(2, node_list.count)
-        self.assertTrue(any((node.get_text().strip() == 'Cell 1' for node in node_list)))
-        self.assertTrue(any((node.get_text().strip() == 'Cell 2' for node in node_list)))
-        # Single forward slashes specify direct descendant relationships,
-        # which we skipped when we used double slashes.
-        self.assertEqual(doc.select_nodes('//Table//Run'), doc.select_nodes('//Table/Row/Cell/Paragraph/Run'))
-        # Access the shape that contains the image we inserted.
-        node_list = doc.select_nodes('//Shape')
-        self.assertEqual(1, node_list.count)
-        shape = node_list[0].as_shape()
-        self.assertTrue(shape.has_image)
-        #ExEnd
 
     @staticmethod
     def traverse_all_nodes(parent_node: aw.CompositeNode, depth: int):

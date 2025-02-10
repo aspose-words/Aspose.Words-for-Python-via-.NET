@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
@@ -8,6 +8,7 @@
 from datetime import timezone
 import aspose.words as aw
 import datetime
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -43,6 +44,29 @@ class ExComment(ApiExampleBase):
         self.assertEqual(1, comment.replies.count)
         self.assertEqual('\x05My comment.\r', doc_comment.get_text())
         self.assertEqual('\x05New reply\r', doc_comment.replies[0].get_text())
+
+    def test_print_all_comments(self):
+        #ExStart
+        #ExFor:Comment.ancestor
+        #ExFor:Comment.author
+        #ExFor:Comment.replies
+        #ExFor:CompositeNode.__iter__
+        #ExFor:CompositeNode.get_child_nodes(NodeType,bool)
+        #ExSummary:Shows how to print all of a document's comments and their replies.
+        doc = aw.Document(file_name=MY_DIR + 'Comments.docx')
+        comments = doc.get_child_nodes(aw.NodeType.COMMENT, True)
+        self.assertEqual(12, comments.count)  #ExSkip
+        # If a comment has no ancestor, it is a "top-level" comment as opposed to a reply-type comment.
+        # Print all top-level comments along with any replies they may have.
+        for comment in list(filter(lambda c: c.ancestor == None, list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_comment(), b), list(comments)))))):
+            print('Top-level comment:')
+            print(f'\t"{comment.get_text().strip()}", by {comment.author}')
+            print(f'Has {comment.replies.count} replies')
+            for comment_reply in comment.replies:
+                comment_reply = comment_reply.as_comment()
+                print(f'\t"{comment_reply.get_text().strip()}", by {comment_reply.author}')
+            print()
+        #ExEnd
 
     def test_remove_comment_replies(self):
         #ExStart
@@ -96,30 +120,6 @@ class ExComment(ApiExampleBase):
         self.assertTrue(comment.done)
         self.assertEqual('\x05Fix the spelling error!', comment.get_text().strip())
         self.assertEqual('Hello world!', doc.first_section.body.first_paragraph.runs[0].text)
-
-    def test_print_all_comments(self):
-        #ExStart
-        #ExFor:Comment.ancestor
-        #ExFor:Comment.author
-        #ExFor:Comment.replies
-        #ExFor:CompositeNode.get_child_nodes(NodeType,bool)
-        #ExSummary:Shows how to print all of a document's comments and their replies.
-        doc = aw.Document(MY_DIR + 'Comments.docx')
-        comments = doc.get_child_nodes(aw.NodeType.COMMENT, True)
-        self.assertEqual(12, comments.count)  #ExSkip
-        # If a comment has no ancestor, it is a "top-level" comment as opposed to a reply-type comment.
-        # Print all top-level comments along with any replies they may have.
-        for comment in comments:
-            comment = comment.as_comment()
-            if comment.ancestor is None:
-                print('Top-level comment:')
-                print(f'\t"{comment.get_text().strip()}", by {comment.author}')
-                print(f'Has {comment.replies.count} replies')
-                for comment_reply in comment.replies:
-                    comment_reply = comment_reply.as_comment()
-                    print(f'\t"{comment_reply.get_text().strip()}", by {comment_reply.author}')
-                print()
-        #ExEnd
 
     def test_utc_date_time(self):
         #ExStart:UtcDateTime

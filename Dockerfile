@@ -98,6 +98,30 @@ RUN python3.12 -m pip install --upgrade setuptools
 RUN python3.12 -m pip install --upgrade pip
 RUN python3.12 -m pip install pillow
 # End image ubuntu_22.04_py312
+
+# Start image ubuntu_22.04_py313
+FROM ubuntu:22.04
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt update && apt install -y
+RUN apt install software-properties-common -y
+RUN add-apt-repository ppa:deadsnakes/ppa -y
+Run ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
+Run apt-get install -y --no-install-recommends tzdata
+RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
+RUN apt install -y ttf-mscorefonts-installer
+RUN apt install -y wget
+RUN wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.0g-2ubuntu4_amd64.deb
+RUN dpkg -i ./libssl1.1_1.1.0g-2ubuntu4_amd64.deb
+RUN rm -i libssl1.1_1.1.0g-2ubuntu4_amd64.deb
+RUN apt install -y python3.13-full
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 2
+RUN update-alternatives --auto python3
+RUN python3.13 -m ensurepip --upgrade
+RUN python3.13 -m pip install --upgrade setuptools
+RUN python3.13 -m pip install --upgrade pip
+RUN python3.13 -m pip install pillow
+# End image ubuntu_22.04_py313
 #
 #--------------------------------------------------------------------------
 #
@@ -163,6 +187,16 @@ RUN apt install -y ./ttf-mscorefonts-installer_3.8_all.deb
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install pillow
 # End image python_3.12_bullseye
+
+# Start image python_3.13_bullseye
+FROM python:3.13-bullseye
+RUN apt update
+RUN apt install -y wget
+RUN wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb
+RUN apt install -y ./ttf-mscorefonts-installer_3.8_all.deb
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install pillow
+# End image python_3.13_bullseye
 #
 #--------------------------------------------------------------------------
 #
@@ -378,6 +412,31 @@ RUN update-alternatives --auto python3
 RUN sed -i 's|#!/usr/bin/python3|#!/usr/bin/python3.10|g' /usr/bin/dnf
 RUN python3 -m pip install pillow
 # End image fedora_35_py312
+
+# Start image fedora_35_py313
+FROM fedora:35
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=0
+RUN yum update -y
+RUN yum groupinstall 'Development Tools' -y
+RUN yum install -y openssl-devel bzip2-devel libffi-devel sqlite-devel
+RUN dnf install -y curl cabextract xorg-x11-font-utils fontconfig
+RUN rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
+RUN dnf install -y libicu wget
+RUN wget https://www.python.org/ftp/python/3.13.0/Python-3.13.0.tgz
+RUN tar -xf Python-3.13.0.tgz
+WORKDIR "/Python-3.13.0"
+RUN ./configure --enable-optimizations
+RUN make -j 8
+RUN make altinstall
+RUN python3.13 -m ensurepip --upgrade
+RUN python3.13 -m pip install --upgrade setuptools
+RUN python3.13 -m pip install --upgrade pip
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.13 2
+RUN update-alternatives --auto python3
+RUN sed -i 's|#!/usr/bin/python3|#!/usr/bin/python3.10|g' /usr/bin/dnf
+RUN python3 -m pip install pillow
+# End image fedora_35_py313
 #
 #--------------------------------------------------------------------------
 #
@@ -465,3 +524,37 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.12 2
 RUN update-alternatives --auto python3
 # End image debian_py312
+
+# Start image debian_py313
+FROM debian:bookworm
+ENV DEBIAN_FRONTEND=noninteractive
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+RUN apt update && apt upgrade -y
+RUN apt install software-properties-common -y
+RUN apt install -y python3-launchpadlib
+RUN add-apt-repository ppa:deadsnakes/ppa -y
+RUN apt install -y wget
+RUN apt install -y libicu-dev
+RUN wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.0g-2ubuntu4_amd64.deb
+RUN dpkg -i ./libssl1.1_1.1.0g-2ubuntu4_amd64.deb
+RUN wget http://archive.ubuntu.com/ubuntu/pool/main/i/icu/libicu66_66.1-2ubuntu2_amd64.deb
+RUN dpkg -i ./libicu66_66.1-2ubuntu2_amd64.deb
+RUN apt install -y build-essential libssl-dev zlib1g-dev libbz2-dev
+RUN apt install -y libreadline-dev libsqlite3-dev curl llvm libncurses5-dev libncursesw5-dev
+RUN apt install -y xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git
+RUN wget https://www.python.org/ftp/python/3.13.0/Python-3.13.0.tgz
+RUN tar -xf Python-3.13.0.tgz
+WORKDIR "/Python-3.13.0"
+RUN ./configure --enable-optimizations
+RUN make -j 8
+RUN make altinstall
+RUN python3.13 -m ensurepip --upgrade
+RUN python3.13 -m pip install --upgrade setuptools
+RUN python3.13 -m pip install --upgrade pip
+RUN python3.13 -m pip install pillow
+RUN wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb
+RUN apt install -y ./ttf-mscorefonts-installer_3.8_all.deb
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python3.13 2
+RUN update-alternatives --auto python3
+# End image debian_py313

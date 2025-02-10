@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
@@ -74,6 +74,28 @@ class ExStructuredDocumentTag(ApiExampleBase):
             self.assertEqual('Quote', sdt.style_name)
         #ExEnd
 
+    def test_check_box(self):
+        #ExStart
+        #ExFor:StructuredDocumentTag.__init__(DocumentBase,SdtType,MarkupLevel)
+        #ExFor:StructuredDocumentTag.checked
+        #ExFor:StructuredDocumentTag.set_checked_symbol(int,str)
+        #ExFor:StructuredDocumentTag.set_unchecked_symbol(int,str)
+        #ExSummary:Show how to create a structured document tag in the form of a check box.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        sdt_check_box = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.CHECKBOX, aw.markup.MarkupLevel.INLINE)
+        sdt_check_box.checked = True
+        # We can set the symbols used to represent the checked/unchecked state of a checkbox content control.
+        sdt_check_box.set_checked_symbol(169, 'Times New Roman')
+        sdt_check_box.set_unchecked_symbol(174, 'Times New Roman')
+        builder.insert_node(sdt_check_box)
+        doc.save(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.CheckBox.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.CheckBox.docx')
+        tags = list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_structured_document_tag(), b), list(doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)))))
+        self.assertEqual(True, tags[0].checked)
+        self.assertEqual('', tags[0].xml_mapping.store_item_id)
+
     def test_plain_text(self):
         #ExStart
         #ExFor:StructuredDocumentTag.color
@@ -133,6 +155,37 @@ class ExStructuredDocumentTag(ApiExampleBase):
         self.assertEqual('Arial Black', tag.end_character_font.name)
         self.assertTrue(tag.multiline)
         self.assertEqual(aw.markup.SdtAppearance.TAGS, tag.appearance)
+
+    def test_is_temporary(self):
+        for is_temporary in [False, True]:
+            #ExStart
+            #ExFor:StructuredDocumentTag.is_temporary
+            #ExSummary:Shows how to make single-use controls.
+            doc = aw.Document()
+            # Insert a plain text structured document tag,
+            # which will act as a plain text form that the user may enter text into.
+            tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.INLINE)
+            # Set the "IsTemporary" property to "true" to make the structured document tag disappear and
+            # assimilate its contents into the document after the user edits it once in Microsoft Word.
+            # Set the "IsTemporary" property to "false" to allow the user to edit the contents
+            # of the structured document tag any number of times.
+            tag.is_temporary = is_temporary
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.write('Please enter text: ')
+            builder.insert_node(tag)
+            # Insert another structured document tag in the form of a check box and set its default state to "checked".
+            tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.CHECKBOX, aw.markup.MarkupLevel.INLINE)
+            tag.checked = True
+            # Set the "IsTemporary" property to "true" to make the check box become a symbol
+            # once the user clicks on it in Microsoft Word.
+            # Set the "IsTemporary" property to "false" to allow the user to click on the check box any number of times.
+            tag.is_temporary = is_temporary
+            builder.write('\nPlease click the check box: ')
+            builder.insert_node(tag)
+            doc.save(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.IsTemporary.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.IsTemporary.docx')
+            self.assertEqual(2, len(list(filter(lambda sdt: sdt.as_structured_document_tag().is_temporary == is_temporary, doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)))))
 
     def test_placeholder_building_block(self):
         for is_showing_placeholder_text in [False, True]:
@@ -602,28 +655,6 @@ class ExStructuredDocumentTag(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.InsertStructuredDocumentTag.docx')
         #ExEnd:InsertStructuredDocumentTag
 
-    def test_check_box(self):
-        #ExStart
-        #ExFor:StructuredDocumentTag.__init__(DocumentBase,SdtType,MarkupLevel)
-        #ExFor:StructuredDocumentTag.checked
-        #ExFor:StructuredDocumentTag.set_checked_symbol(int,str)
-        #ExFor:StructuredDocumentTag.set_unchecked_symbol(int,str)
-        #ExSummary:Show how to create a structured document tag in the form of a check box.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        sdt_check_box = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.CHECKBOX, aw.markup.MarkupLevel.INLINE)
-        sdt_check_box.checked = True
-        # We can set the symbols used to represent the checked/unchecked state of a checkbox content control.
-        sdt_check_box.set_checked_symbol(169, 'Times New Roman')
-        sdt_check_box.set_unchecked_symbol(174, 'Times New Roman')
-        builder.insert_node(sdt_check_box)
-        doc.save(ARTIFACTS_DIR + 'StructuredDocumentTag.check_box.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'StructuredDocumentTag.check_box.docx')
-        tags = [node.as_structured_document_tag() for node in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)]
-        self.assertTrue(tags[0].checked)
-        self.assertEqual(tags[0].xml_mapping.store_item_id, '')
-
     def test_date(self):
         #ExStart
         #ExFor:StructuredDocumentTag.calendar_type
@@ -653,38 +684,6 @@ class ExStructuredDocumentTag(ApiExampleBase):
         builder.insert_node(sdt_date)
         doc.save(ARTIFACTS_DIR + 'StructuredDocumentTag.date.docx')
         #ExEnd
-
-    def test_is_temporary(self):
-        for is_temporary in (False, True):
-            with self.subTest(is_temporary=is_temporary):
-                #ExStart
-                #ExFor:StructuredDocumentTag.is_temporary
-                #ExSummary:Shows how to make single-use controls.
-                doc = aw.Document()
-                # Insert a plain text structured document tag,
-                # which will act as a plain text form that the user may enter text into.
-                tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.INLINE)
-                # Set the "is_temporary" property to "True" to make the structured document tag disappear and
-                # assimilate its contents into the document after the user edits it once in Microsoft Word.
-                # Set the "is_temporary" property to "False" to allow the user to edit the contents
-                # of the structured document tag any number of times.
-                tag.is_temporary = is_temporary
-                builder = aw.DocumentBuilder(doc)
-                builder.write('Please enter text: ')
-                builder.insert_node(tag)
-                # Insert another structured document tag in the form of a check box and set its default state to "checked".
-                tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.CHECKBOX, aw.markup.MarkupLevel.INLINE)
-                tag.checked = True
-                # Set the "is_temporary" property to "True" to make the check box become a symbol
-                # once the user clicks on it in Microsoft Word.
-                # Set the "is_temporary" property to "False" to allow the user to click on the check box any number of times.
-                tag.is_temporary = is_temporary
-                builder.write('\nPlease click the check box: ')
-                builder.insert_node(tag)
-                doc.save(ARTIFACTS_DIR + 'StructuredDocumentTag.is_temporary.docx')
-                #ExEnd
-                doc = aw.Document(ARTIFACTS_DIR + 'StructuredDocumentTag.is_temporary.docx')
-                self.assertEqual(2, len([sdt.as_structured_document_tag().is_temporary == is_temporary for sdt in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)]))
 
     def test_list_item_collection(self):
         #ExStart

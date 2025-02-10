@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import timedelta, timezone
 from document_helper import DocumentHelper
-import io
-import glob
+from datetime import timedelta, timezone
 from enum import Enum
+import glob
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.digitalsignatures
@@ -21,6 +20,7 @@ import aspose.words.notes
 import aspose.words.tables
 import datetime
 import document_helper
+import io
 import system_helper
 import test_util
 import unittest
@@ -1020,6 +1020,33 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(216, table.first_row.first_cell.cell_format.preferred_width.value)
         #ExEnd
 
+    def test_insert_hyperlink_to_local_bookmark(self):
+        #ExStart
+        #ExFor:DocumentBuilder.start_bookmark
+        #ExFor:DocumentBuilder.end_bookmark
+        #ExFor:DocumentBuilder.insert_hyperlink
+        #ExSummary:Shows how to insert a hyperlink which references a local bookmark.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.start_bookmark('Bookmark1')
+        builder.write('Bookmarked text. ')
+        builder.end_bookmark('Bookmark1')
+        builder.writeln('Text outside of the bookmark.')
+        # Insert a HYPERLINK field that links to the bookmark. We can pass field switches
+        # to the "InsertHyperlink" method as part of the argument containing the referenced bookmark's name.
+        builder.font.color = aspose.pydrawing.Color.blue
+        builder.font.underline = aw.Underline.SINGLE
+        hyperlink = builder.insert_hyperlink('Link to Bookmark1', 'Bookmark1', True).as_field_hyperlink()
+        hyperlink.screen_tip = 'Hyperlink Tip'
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertHyperlinkToLocalBookmark.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertHyperlinkToLocalBookmark.docx')
+        hyperlink = doc.range.fields[0].as_field_hyperlink()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_HYPERLINK, expected_field_code=' HYPERLINK \\l "Bookmark1" \\o "Hyperlink Tip" ', expected_result='Link to Bookmark1', field=hyperlink)
+        self.assertEqual('Bookmark1', hyperlink.sub_address)
+        self.assertEqual('Hyperlink Tip', hyperlink.screen_tip)
+        self.assertTrue(any([b.name == 'Bookmark1' for b in doc.range.bookmarks]))
+
     def test_cursor_position(self):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)
@@ -1822,6 +1849,40 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(1, doc.first_section.body.tables.count)
         self.assertEqual('Row 1, cell 1\x07Row 1, cell 2\x07\x07\rText added to current Story.', doc.first_section.body.get_text().strip())
 
+    def test_insert_ole_objects(self):
+        #ExStart
+        #ExFor:DocumentBuilder.insert_ole_object(BytesIO,str,bool,BytesIO)
+        #ExSummary:Shows how to use document builder to embed OLE objects in a document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Insert a Microsoft Excel spreadsheet from the local file system
+        # into the document while keeping its default appearance.
+        with system_helper.io.File.open(MY_DIR + 'Spreadsheet.xlsx', system_helper.io.FileMode.OPEN) as spreadsheet_stream:
+            builder.writeln('Spreadsheet Ole object:')
+            # If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
+            # the icon according to 'progId' and uses the predefined icon caption.
+            builder.insert_ole_object(stream=spreadsheet_stream, prog_id='OleObject.xlsx', as_icon=False, presentation=None)
+        # Insert a Microsoft Powerpoint presentation as an OLE object.
+        # This time, it will have an image downloaded from the web for an icon.
+        with system_helper.io.File.open(MY_DIR + 'Presentation.pptx', system_helper.io.FileMode.OPEN) as powerpoint_stream:
+            img_bytes = system_helper.io.File.read_all_bytes(IMAGE_DIR + 'Logo.jpg')
+            with io.BytesIO(img_bytes) as image_stream:
+                builder.insert_paragraph()
+                builder.writeln('Powerpoint Ole object:')
+                builder.insert_ole_object(stream=powerpoint_stream, prog_id='OleObject.pptx', as_icon=True, presentation=image_stream)
+        # Double-click these objects in Microsoft Word to open
+        # the linked files using their respective applications.
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertOleObjects.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertOleObjects.docx')
+        self.assertEqual(2, doc.get_child_nodes(aw.NodeType.SHAPE, True).count)
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        self.assertEqual('', shape.ole_format.icon_caption)
+        self.assertFalse(shape.ole_format.ole_icon)
+        shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
+        self.assertEqual('Unknown', shape.ole_format.icon_caption)
+        self.assertTrue(shape.ole_format.ole_icon)
+
     def test_insert_style_separator(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_style_separator
@@ -2089,33 +2150,6 @@ class ExDocumentBuilder(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + 'Bookmarks.create_column_bookmark.docx')
         #ExEnd
 
-    def test_insert_hyperlink_to_local_bookmark(self):
-        #ExStart
-        #ExFor:DocumentBuilder.start_bookmark
-        #ExFor:DocumentBuilder.end_bookmark
-        #ExFor:DocumentBuilder.insert_hyperlink
-        #ExSummary:Shows how to insert a hyperlink which references a local bookmark.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.start_bookmark('Bookmark1')
-        builder.write('Bookmarked text. ')
-        builder.end_bookmark('Bookmark1')
-        builder.writeln('Text outside of the bookmark.')
-        # Insert a HYPERLINK field that links to the bookmark. We can pass field switches
-        # to the "insert_hyperlink" method as part of the argument containing the referenced bookmark's name.
-        builder.font.color = aspose.pydrawing.Color.blue
-        builder.font.underline = aw.Underline.SINGLE
-        hyper_link = builder.insert_hyperlink('Link to Bookmark1', 'Bookmark1', True).as_field_hyperlink()
-        hyper_link.screen_tip = 'Hyperlink Tip'
-        doc.save(ARTIFACTS_DIR + 'DocumentBuilder.insert_hyperlink_to_local_bookmark.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'DocumentBuilder.insert_hyperlink_to_local_bookmark.docx')
-        hyperlink = doc.range.fields[0].as_field_hyperlink()
-        self.verify_field(aw.fields.FieldType.FIELD_HYPERLINK, ' HYPERLINK \\l "Bookmark1" \\o "Hyperlink Tip" ', 'Link to Bookmark1', hyperlink)
-        self.assertEqual('Bookmark1', hyperlink.sub_address)
-        self.assertEqual('Hyperlink Tip', hyperlink.screen_tip)
-        self.assertTrue(any((b for b in doc.range.bookmarks if b.name == 'Bookmark1')))
-
     def test_signature_line_provider_id(self):
         #ExStart
         #ExFor:SignatureLine.is_signed
@@ -2199,39 +2233,6 @@ class ExDocumentBuilder(ApiExampleBase):
         # This overload of the "insert_field" method automatically updates inserted fields.
         self.assertAlmostEqual(datetime.datetime.strptime(field.result, '%A, %B %d, %Y'), datetime.datetime.now(), delta=timedelta(1))
         #ExEnd
-
-    def test_insert_ole_objects(self):
-        #ExStart
-        #ExFor:DocumentBuilder.insert_ole_object(BytesIO,str,bool,BytesIO)
-        #ExSummary:Shows how to use document builder to embed OLE objects in a document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Insert a Microsoft Excel spreadsheet from the local file system
-        # into the document while keeping its default appearance.
-        with open(MY_DIR + 'Spreadsheet.xlsx', 'rb') as spreadsheet_stream:
-            builder.writeln('Spreadsheet Ole object:')
-            # If 'presentation' is omitted and 'as_icon' is set, this overloaded method selects
-            # the icon according to 'progId' and uses the predefined icon caption.
-            builder.insert_ole_object(spreadsheet_stream, 'OleObject.xlsx', False, None)
-        # Insert a Microsoft Powerpoint presentation as an OLE object.
-        # This time, it will have an image downloaded from the web for an icon.
-        with open(MY_DIR + 'Presentation.pptx', 'rb') as powerpoint_stream:
-            with open(IMAGE_DIR + 'Logo.jpg', 'rb') as image_stream:
-                builder.insert_paragraph()
-                builder.writeln('Powerpoint Ole object:')
-                builder.insert_ole_object(powerpoint_stream, 'OleObject.pptx', True, image_stream)
-        # Double-click these objects in Microsoft Word to open
-        # the linked files using their respective applications.
-        doc.save(ARTIFACTS_DIR + 'DocumentBuilder.insert_ole_objects.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'DocumentBuilder.insert_ole_objects.docx')
-        self.assertEqual(2, doc.get_child_nodes(aw.NodeType.SHAPE, True).count)
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.assertEqual('', shape.ole_format.icon_caption)
-        self.assertFalse(shape.ole_format.ole_icon)
-        shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
-        self.assertEqual('Unknown', shape.ole_format.icon_caption)
-        self.assertTrue(shape.ole_format.ole_icon)
 
     @unittest.skip('Calculation problems')
     def test_insert_online_video_custom_thumbnail(self):

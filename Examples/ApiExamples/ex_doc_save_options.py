@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
@@ -15,6 +15,23 @@ import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExDocSaveOptions(ApiExampleBase):
+
+    def test_temp_folder(self):
+        #ExStart
+        #ExFor:SaveOptions.temp_folder
+        #ExSummary:Shows how to use the hard drive instead of memory when saving a document.
+        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+        # When we save a document, various elements are temporarily stored in memory as the save operation is taking place.
+        # We can use this option to use a temporary folder in the local file system instead,
+        # which will reduce our application's memory overhead.
+        options = aw.saving.DocSaveOptions()
+        options.temp_folder = ARTIFACTS_DIR + 'TempFiles'
+        # The specified temporary folder must exist in the local file system before the save operation.
+        system_helper.io.Directory.create_directory(options.temp_folder)
+        doc.save(file_name=ARTIFACTS_DIR + 'DocSaveOptions.TempFolder.doc', save_options=options)
+        # The folder will persist with no residual contents from the load operation.
+        self.assertEqual(0, len(system_helper.io.Directory.get_files(options.temp_folder)))
+        #ExEnd
 
     def test_picture_bullets(self):
         #ExStart
@@ -123,21 +140,4 @@ class ExDocSaveOptions(ApiExampleBase):
         load_options = aw.loading.LoadOptions('MyPassword')
         doc = aw.Document(ARTIFACTS_DIR + 'DocSaveOptions.save_as_doc.doc', load_options)
         self.assertEqual('Hello world!', doc.get_text().strip())
-        #ExEnd
-
-    def test_temp_folder(self):
-        #ExStart
-        #ExFor:SaveOptions.temp_folder
-        #ExSummary:Shows how to use the hard drive instead of memory when saving a document.
-        doc = aw.Document(MY_DIR + 'Rendering.docx')
-        # When we save a document, various elements are temporarily stored in memory as the save operation is taking place.
-        # We can use this option to use a temporary folder in the local file system instead,
-        # which will reduce our application's memory overhead.
-        options = aw.saving.DocSaveOptions()
-        options.temp_folder = ARTIFACTS_DIR + 'TempFiles'
-        # The specified temporary folder must exist in the local file system before the save operation.
-        os.makedirs(options.temp_folder, exist_ok=True)
-        doc.save(ARTIFACTS_DIR + 'DocSaveOptions.temp_folder.doc', options)
-        # The folder will persist with no residual contents from the load operation.
-        self.assertEqual(0, len(os.listdir(options.temp_folder)))
         #ExEnd

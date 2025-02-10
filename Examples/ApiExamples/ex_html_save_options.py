@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 from document_helper import DocumentHelper
-import io
-import glob
-import textwrap
-import shutil
-import sys
 import aspose.pydrawing as drawing
+import sys
+import shutil
+import textwrap
+import glob
+import io
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.fields
@@ -124,6 +124,24 @@ class ExHtmlSaveOptions(ApiExampleBase):
             save_options = aw.saving.HtmlSaveOptions()
             save_options.html_version = html_version
             doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.Html5Support.html', save_options=save_options)
+
+    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
+    def test_export_fonts(self):
+        for export_as_base64 in [False, True]:
+            fonts_folder = ARTIFACTS_DIR + 'HtmlSaveOptions.ExportFonts.Resources'
+            doc = aw.Document(file_name=MY_DIR + 'Document.docx')
+            save_options = aw.saving.HtmlSaveOptions()
+            save_options.export_font_resources = True
+            save_options.fonts_folder = fonts_folder
+            save_options.export_fonts_as_base64 = export_as_base64
+            switch_condition = export_as_base64
+            if switch_condition == False:
+                doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ExportFonts.False.html', save_options=save_options)
+                self.assertTrue(system_helper.io.Directory.get_files(fonts_folder, 'HtmlSaveOptions.ExportFonts.False.times.ttf', system_helper.io.SearchOption.All_DIRECTORIES))
+                system_helper.io.Directory.delete(fonts_folder, True)
+            elif switch_condition == True:
+                doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ExportFonts.True.html', save_options=save_options)
+                self.assertFalse(system_helper.io.Directory.exists(fonts_folder))
 
     def test_resource_folder_priority(self):
         doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
@@ -601,6 +619,45 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 self.assertTrue('<p style="margin-top:0pt; margin-bottom:0pt">' + '<img src="HtmlSaveOptions.ExportTextBox.001.png" width="136" height="83" alt="" ' + 'style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />' + '</p>' in out_doc_contents)
             #ExEnd
 
+    def test_round_trip_information(self):
+        for export_roundtrip_information in [False, True]:
+            #ExStart
+            #ExFor:HtmlSaveOptions.export_roundtrip_information
+            #ExSummary:Shows how to preserve hidden elements when converting to .html.
+            doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+            # When converting a document to .html, some elements such as hidden bookmarks, original shape positions,
+            # or footnotes will be either removed or converted to plain text and effectively be lost.
+            # Saving with a HtmlSaveOptions object with ExportRoundtripInformation set to true will preserve these elements.
+            # When we save the document to HTML, we can pass a SaveOptions object to determine
+            # how the saving operation will export document elements that HTML does not support or use,
+            # such as hidden bookmarks and original shape positions.
+            # If we set the "ExportRoundtripInformation" flag to "true", the save operation will preserve these elements.
+            # If we set the "ExportRoundTripInformation" flag to "false", the save operation will discard these elements.
+            # We will want to preserve such elements if we intend to load the saved HTML using Aspose.Words,
+            # as they could be of use once again.
+            options = aw.saving.HtmlSaveOptions()
+            options.export_roundtrip_information = export_roundtrip_information
+            doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.RoundTripInformation.html', save_options=options)
+            out_doc_contents = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'HtmlSaveOptions.RoundTripInformation.html')
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.RoundTripInformation.html')
+            if export_roundtrip_information:
+                self.assertTrue('<div style="-aw-headerfooter-type:header-primary; clear:both">' in out_doc_contents)
+                self.assertTrue('<span style="-aw-import:ignore">&#xa0;</span>' in out_doc_contents)
+                self.assertTrue('td colspan="2" style="width:210.6pt; border-style:solid; border-width:0.75pt 6pt 0.75pt 0.75pt; ' + 'padding-right:2.4pt; padding-left:5.03pt; vertical-align:top; ' + '-aw-border-bottom:0.5pt single; -aw-border-left:0.5pt single; -aw-border-top:0.5pt single">' in out_doc_contents)
+                self.assertTrue('<li style="margin-left:30.2pt; padding-left:5.8pt; -aw-font-family:\'Courier New\'; -aw-font-weight:normal; -aw-number-format:\'o\'">' in out_doc_contents)
+                self.assertTrue('<img src="HtmlSaveOptions.RoundTripInformation.003.jpeg" width="350" height="180" alt="" ' + 'style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />' in out_doc_contents)
+                self.assertTrue('<span>Page number </span>' + '<span style="-aw-field-start:true"></span>' + '<span style="-aw-field-code:\' PAGE   \\\\* MERGEFORMAT \'"></span>' + '<span style="-aw-field-separator:true"></span>' + '<span>1</span>' + '<span style="-aw-field-end:true"></span>' in out_doc_contents)
+                self.assertEqual(1, len(list(filter(lambda f: f.type == aw.fields.FieldType.FIELD_PAGE, doc.range.fields))))
+            else:
+                self.assertTrue('<div style="clear:both">' in out_doc_contents)
+                self.assertTrue('<span>&#xa0;</span>' in out_doc_contents)
+                self.assertTrue('<td colspan="2" style="width:210.6pt; border-style:solid; border-width:0.75pt 6pt 0.75pt 0.75pt; ' + 'padding-right:2.4pt; padding-left:5.03pt; vertical-align:top">' in out_doc_contents)
+                self.assertTrue('<li style="margin-left:30.2pt; padding-left:5.8pt">' in out_doc_contents)
+                self.assertTrue('<img src="HtmlSaveOptions.RoundTripInformation.003.jpeg" width="350" height="180" alt="" />' in out_doc_contents)
+                self.assertTrue('<span>Page number 1</span>' in out_doc_contents)
+                self.assertEqual(0, len(list(filter(lambda f: f.type == aw.fields.FieldType.FIELD_PAGE, doc.range.fields))))
+            #ExEnd
+
     @unittest.skip('Calculation problems')
     def test_export_toc_page_numbers(self):
         for export_toc_page_numbers in [False, True]:
@@ -669,6 +726,27 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 self.assertTrue(tested_image_length < 3000)
             else:
                 self.assertTrue(tested_image_length < 16000)
+
+    def test_image_folder(self):
+        #ExStart
+        #ExFor:HtmlSaveOptions
+        #ExFor:HtmlSaveOptions.export_text_input_form_field_as_text
+        #ExFor:HtmlSaveOptions.images_folder
+        #ExSummary:Shows how to specify the folder for storing linked images after saving to .html.
+        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+        images_dir = os.path.join(ARTIFACTS_DIR, 'SaveHtmlWithOptions')
+        if system_helper.io.Directory.exists(images_dir):
+            system_helper.io.Directory.delete(images_dir, True)
+        system_helper.io.Directory.create_directory(images_dir)
+        # Set an option to export form fields as plain text instead of HTML input elements.
+        options = aw.saving.HtmlSaveOptions(aw.SaveFormat.HTML)
+        options.export_text_input_form_field_as_text = True
+        options.images_folder = images_dir
+        doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.SaveHtmlWithOptions.html', save_options=options)
+        #ExEnd
+        self.assertTrue(system_helper.io.File.exist(ARTIFACTS_DIR + 'HtmlSaveOptions.SaveHtmlWithOptions.html'))
+        self.assertEqual(9, len(system_helper.io.Directory.get_files(images_dir)))
+        system_helper.io.Directory.delete(images_dir, True)
 
     def test_pretty_format(self):
         for use_pretty_format in [True, False]:
@@ -739,24 +817,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.export_url_for_linked_image.html', save_options)
                 dir_files = glob.glob(ARTIFACTS_DIR + '**/HtmlSaveOptions.export_url_for_linked_image.001.png', recursive=True)
                 DocumentHelper.find_text_in_file(ARTIFACTS_DIR + 'HtmlSaveOptions.export_url_for_linked_image.html', '<img src="http://www.aspose.com/images/aspose-logo.gif"' if not dir_files else '<img src="HtmlSaveOptions.export_url_for_linked_image.001.png"')
-
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
-    def test_export_fonts(self):
-        for export_as_base64 in (False, True):
-            with self.subTest(export_as_base64=export_as_base64):
-                fonts_folder = ARTIFACTS_DIR + 'HtmlSaveOptions.export_fonts.resources/'
-                doc = aw.Document(MY_DIR + 'Document.docx')
-                save_options = aw.saving.HtmlSaveOptions()
-                save_options.export_font_resources = True
-                save_options.fonts_folder = fonts_folder
-                save_options.export_fonts_as_base64 = export_as_base64
-                if export_as_base64:
-                    doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.export_fonts.True.html', save_options)
-                    self.assertFalse(os.path.exists(fonts_folder))
-                else:
-                    doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.export_fonts.False.html', save_options)
-                    self.assertTrue(os.path.exists(fonts_folder + 'HtmlSaveOptions.export_fonts.False.times.ttf'))
-                    shutil.rmtree(fonts_folder)
 
     def test_css_class_names_not_valid_prefix(self):
         save_options = aw.saving.HtmlSaveOptions()
@@ -915,47 +975,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertIn('<span>Привет, мир!</span>', out_doc_contents)
                 #ExEnd
 
-    def test_round_trip_information(self):
-        for export_roundtrip_information in (False, True):
-            with self.subTest(export_roundtrip_information=export_roundtrip_information):
-                #ExStart
-                #ExFor:HtmlSaveOptions.export_roundtrip_information
-                #ExSummary:Shows how to preserve hidden elements when converting to .html.
-                doc = aw.Document(MY_DIR + 'Rendering.docx')
-                # When converting a document to .html, some elements such as hidden bookmarks, original shape positions,
-                # or footnotes will be either removed or converted to plain text and effectively be lost.
-                # Saving with a HtmlSaveOptions object with "export_roundtrip_information" set to True will preserve these elements.
-                # When we save the document to HTML, we can pass a SaveOptions object to determine
-                # how the saving operation will export document elements that HTML does not support or use,
-                # such as hidden bookmarks and original shape positions.
-                # If we set the "export_roundtrip_information" flag to "True", the save operation will preserve these elements.
-                # If we set the "export_roundtrip_information" flag to "False", the save operation will discard these elements.
-                # We will want to preserve such elements if we intend to load the saved HTML using Aspose.Words,
-                # as they could be of use once again.
-                options = aw.saving.HtmlSaveOptions()
-                options.export_roundtrip_information = export_roundtrip_information
-                doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.round_trip_information.html', options)
-                with open(ARTIFACTS_DIR + 'HtmlSaveOptions.round_trip_information.html', 'rt', encoding='utf-8') as file:
-                    out_doc_contents = file.read()
-                doc = aw.Document(ARTIFACTS_DIR + 'HtmlSaveOptions.round_trip_information.html')
-                if export_roundtrip_information:
-                    self.assertIn('<div style="-aw-headerfooter-type:header-primary; clear:both">', out_doc_contents)
-                    self.assertIn('<span style="-aw-import:ignore">&#xa0;</span>', out_doc_contents)
-                    self.assertIn('td colspan="2" style="width:210.6pt; border-style:solid; border-width:0.75pt 6pt 0.75pt 0.75pt; ' + 'padding-right:2.4pt; padding-left:5.03pt; vertical-align:top; ' + '-aw-border-bottom:0.5pt single; -aw-border-left:0.5pt single; -aw-border-top:0.5pt single">', out_doc_contents)
-                    self.assertIn('<li style="margin-left:30.2pt; padding-left:5.8pt; -aw-font-family:\'Courier New\'; -aw-font-weight:normal; -aw-number-format:\'o\'">', out_doc_contents)
-                    self.assertIn('<img src="HtmlSaveOptions.round_trip_information.003.jpeg" width="350" height="180" alt="" ' + 'style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />', out_doc_contents)
-                    self.assertIn('<span>Page number </span>' + '<span style="-aw-field-start:true"></span>' + '<span style="-aw-field-code:\' PAGE   \\\\* MERGEFORMAT \'"></span>' + '<span style="-aw-field-separator:true"></span>' + '<span>1</span>' + '<span style="-aw-field-end:true"></span>', out_doc_contents)
-                    self.assertEqual(1, len([f for f in doc.range.fields if f.type == aw.fields.FieldType.FIELD_PAGE]))
-                else:
-                    self.assertIn('<div style="clear:both">', out_doc_contents)
-                    self.assertIn('<span>&#xa0;</span>', out_doc_contents)
-                    self.assertIn('<td colspan="2" style="width:210.6pt; border-style:solid; border-width:0.75pt 6pt 0.75pt 0.75pt; ' + 'padding-right:2.4pt; padding-left:5.03pt; vertical-align:top">', out_doc_contents)
-                    self.assertIn('<li style="margin-left:30.2pt; padding-left:5.8pt">', out_doc_contents)
-                    self.assertIn('<img src="HtmlSaveOptions.round_trip_information.003.jpeg" width="350" height="180" alt="" />', out_doc_contents)
-                    self.assertIn('<span>Page number 1</span>', out_doc_contents)
-                    self.assertEqual(0, len([f for f in doc.range.fields if f.type == aw.fields.FieldType.FIELD_PAGE]))
-                #ExEnd
-
     @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_font_subsetting(self):
         for font_resources_subsetting_size_threshold in (0, 1000000, 2 ** 31 - 1):
@@ -1066,24 +1085,3 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 elif html_office_math_output_mode == aw.saving.HtmlOfficeMathOutputMode.TEXT:
                     self.assertRegex(out_doc_contents, '<p style="margin-top:0pt; margin-bottom:10pt; text-align:center">' + '<span style="font-family:\\\'Cambria Math\\\'">i[+]b-c≥iM[+]bM-cM </span>' + '</p>')
                 #ExEnd
-
-    def test_image_folder(self):
-        #ExStart
-        #ExFor:HtmlSaveOptions
-        #ExFor:HtmlSaveOptions.export_text_input_form_field_as_text
-        #ExFor:HtmlSaveOptions.images_folder
-        #ExSummary:Shows how to specify the folder for storing linked images after saving to .html.
-        doc = aw.Document(MY_DIR + 'Rendering.docx')
-        images_dir = os.path.join(ARTIFACTS_DIR, 'SaveHtmlWithOptions')
-        if os.path.exists(images_dir):
-            shutil.rmtree(images_dir)
-        os.makedirs(images_dir)
-        # Set an option to export form fields as plain text instead of HTML input elements.
-        options = aw.saving.HtmlSaveOptions(aw.SaveFormat.HTML)
-        options.export_text_input_form_field_as_text = True
-        options.images_folder = images_dir
-        doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.image_folder.html', options)
-        #ExEnd
-        self.assertTrue(os.path.exists(ARTIFACTS_DIR + 'HtmlSaveOptions.image_folder.html'))
-        self.assertEqual(9, len(os.listdir(images_dir)))
-        shutil.rmtree(images_dir)

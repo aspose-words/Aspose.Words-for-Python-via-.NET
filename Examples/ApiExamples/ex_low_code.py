@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words import SaveFormat, DocumentBuilder
-from aspose.words.lowcode import Merger, MergeFormatMode
+from aspose.pydrawing import Color
+from aspose.pydrawing import Color
 from aspose.words.saving import OoxmlSaveOptions
-from aspose.pydrawing import Color
-from aspose.pydrawing import Color
-import unittest
-import os
-import pathlib
+from aspose.words.lowcode import Merger, MergeFormatMode
+from aspose.words import SaveFormat, DocumentBuilder
 import io
+import pathlib
+import os
+import unittest
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.comparing
@@ -55,32 +55,6 @@ class ExLowCode(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'LowCode.MergeDocument.5.docx')
         doc = aw.lowcode.Merger.merge(input_files=[input_doc1, input_doc2], load_options=[first_load_options, second_load_options], merge_format_mode=aw.lowcode.MergeFormatMode.MERGE_FORMATTING)
         doc.save(file_name=ARTIFACTS_DIR + 'LowCode.MergeDocument.6.docx')
-        #ExEnd
-
-    def test_merge_stream_document(self):
-        #ExStart
-        #ExFor:Merger.merge_stream(List[BytesIO],MergeFormatMode)
-        #ExFor:Merger.merge_stream(BytesIO,List[BytesIO],SaveOptions,MergeFormatMode)
-        #ExFor:Merger.merge_stream(BytesIO,List[BytesIO],List[LoadOptions],SaveOptions,MergeFormatMode)
-        #ExFor:Merger.merge_stream(BytesIO,List[BytesIO],SaveFormat)
-        #ExSummary:Shows how to merge documents from stream into a single output document.
-        #There is a several ways to merge documents from stream:
-        with system_helper.io.FileStream(MY_DIR + 'Big document.docx', system_helper.io.FileMode.OPEN, system_helper.io.FileAccess.READ) as first_stream_in:
-            with system_helper.io.FileStream(MY_DIR + 'Tables.docx', system_helper.io.FileMode.OPEN, system_helper.io.FileAccess.READ) as second_stream_in:
-                save_options = aw.saving.OoxmlSaveOptions()
-                save_options.password = 'Aspose.Words'
-                with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.MergeStreamDocument.1.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
-                    aw.lowcode.Merger.merge_stream(output_stream=stream_out, input_streams=[first_stream_in, second_stream_in], save_options=save_options, merge_format_mode=aw.lowcode.MergeFormatMode.KEEP_SOURCE_FORMATTING)
-                with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.MergeStreamDocument.2.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
-                    aw.lowcode.Merger.merge_stream(output_stream=stream_out, input_streams=[first_stream_in, second_stream_in], save_format=aw.SaveFormat.DOCX)
-                first_load_options = aw.loading.LoadOptions()
-                first_load_options.ignore_ole_data = True
-                second_load_options = aw.loading.LoadOptions()
-                second_load_options.ignore_ole_data = False
-                with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.MergeStreamDocument.3.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
-                    aw.lowcode.Merger.merge_stream(output_stream=stream_out, input_streams=[first_stream_in, second_stream_in], load_options=[first_load_options, second_load_options], save_options=save_options, merge_format_mode=aw.lowcode.MergeFormatMode.KEEP_SOURCE_FORMATTING)
-                first_doc = aw.lowcode.Merger.merge_stream(input_streams=[first_stream_in, second_stream_in], merge_format_mode=aw.lowcode.MergeFormatMode.MERGE_FORMATTING)
-                first_doc.save(file_name=ARTIFACTS_DIR + 'LowCode.MergeStreamDocument.4.docx')
         #ExEnd
 
     def test_convert(self):
@@ -386,6 +360,32 @@ class ExLowCode(ApiExampleBase):
         aw.lowcode.Watermarker.set_image(input_file_name=doc, output_file_name=ARTIFACTS_DIR + 'LowCode.SetWatermarkText.3.docx', watermark_image_file_name=watermark_image, options=options)
         aw.lowcode.Watermarker.set_image(input_file_name=doc, output_file_name=ARTIFACTS_DIR + 'LowCode.SetWatermarkText.4.docx', save_format=aw.SaveFormat.DOCX, watermark_image_file_name=watermark_image, options=options)
         #ExEnd:WatermarkImage
+
+    def test_merge_stream_document(self):
+        #ExStart
+        #ExFor:Merger.merge_stream(List[BytesIO],MergeFormatMode)
+        #ExFor:Merger.merge_stream(BytesIO,List[BytesIO],SaveOptions,MergeFormatMode)
+        #ExFor:Merger.merge_stream(BytesIO,List[BytesIO],List[LoadOptions],SaveOptions,MergeFormatMode)
+        #ExFor:Merger.merge_stream(BytesIO,List[BytesIO],SaveFormat)
+        #ExSummary:Shows how to merge documents from stream into a single output document.
+        #There is a several ways to merge documents from stream:
+        with system_helper.io.FileStream(MY_DIR + 'Big document.docx', system_helper.io.FileMode.OPEN, system_helper.io.FileAccess.READ) as first_stream_in:
+            with system_helper.io.FileStream(MY_DIR + 'Tables.docx', system_helper.io.FileMode.OPEN, system_helper.io.FileAccess.READ) as second_stream_in:
+                save_options = aw.saving.OoxmlSaveOptions()
+                save_options.password = 'Aspose.Words'
+                with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.MergeStreamDocument.1.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
+                    aw.lowcode.Merger.merge_stream(output_stream=stream_out, input_streams=[first_stream_in, second_stream_in], save_options=save_options, merge_format_mode=aw.lowcode.MergeFormatMode.KEEP_SOURCE_FORMATTING)
+                with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.MergeStreamDocument.2.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
+                    aw.lowcode.Merger.merge_stream(output_stream=stream_out, input_streams=[first_stream_in, second_stream_in], save_format=aw.SaveFormat.DOCX)
+                first_load_options = aw.loading.LoadOptions()
+                first_load_options.ignore_ole_data = True
+                second_load_options = aw.loading.LoadOptions()
+                second_load_options.ignore_ole_data = False
+                with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.MergeStreamDocument.3.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
+                    aw.lowcode.Merger.merge_stream(output_stream=stream_out, input_streams=[first_stream_in, second_stream_in], load_options=[first_load_options, second_load_options], save_options=save_options, merge_format_mode=aw.lowcode.MergeFormatMode.KEEP_SOURCE_FORMATTING)
+                first_doc = aw.lowcode.Merger.merge_stream(input_streams=[first_stream_in, second_stream_in], merge_format_mode=aw.lowcode.MergeFormatMode.MERGE_FORMATTING)
+                first_doc.save(file_name=ARTIFACTS_DIR + 'LowCode.MergeStreamDocument.4.docx')
+        #ExEnd
 
     def test_merge_document_instances(self):
         #ExStart:MergeDocumentInstances

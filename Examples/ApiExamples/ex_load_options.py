@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from typing import List
-import os
 import datetime
+import os
+from typing import List
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.fonts
@@ -70,6 +70,22 @@ class ExLoadOptions(ApiExampleBase):
         self.assertAlmostEqual(12.95, doc.styles.default_paragraph_format.line_spacing, delta=0.01)
         #ExEnd
 
+    def test_temp_folder(self):
+        #ExStart
+        #ExFor:LoadOptions.temp_folder
+        #ExSummary:Shows how to use the hard drive instead of memory when loading a document.
+        # When we load a document, various elements are temporarily stored in memory as the save operation occurs.
+        # We can use this option to use a temporary folder in the local file system instead,
+        # which will reduce our application's memory overhead.
+        options = aw.loading.LoadOptions()
+        options.temp_folder = ARTIFACTS_DIR + 'TempFiles'
+        # The specified temporary folder must exist in the local file system before the load operation.
+        system_helper.io.Directory.create_directory(options.temp_folder)
+        doc = aw.Document(file_name=MY_DIR + 'Document.docx', load_options=options)
+        # The folder will persist with no residual contents from the load operation.
+        self.assertEqual(0, len(system_helper.io.Directory.get_files(options.temp_folder)))
+        #ExEnd
+
     def test_convert_metafiles_to_png(self):
         #ExStart
         #ExFor:LoadOptions.convert_metafiles_to_png
@@ -121,22 +137,6 @@ class ExLoadOptions(ApiExampleBase):
         # Load the document while passing the LoadOptions object, then verify the document's contents.
         doc = aw.Document(MY_DIR + 'Encoded in UTF-7.txt', load_options)
         self.assertEqual('Hello world!', doc.to_string(aw.SaveFormat.TEXT).strip())
-        #ExEnd
-
-    def test_temp_folder(self):
-        #ExStart
-        #ExFor:LoadOptions.temp_folder
-        #ExSummary:Shows how to use the hard drive instead of memory when loading a document.
-        # When we load a document, various elements are temporarily stored in memory as the save operation occurs.
-        # We can use this option to use a temporary folder in the local file system instead,
-        # which will reduce our application's memory overhead.
-        options = aw.loading.LoadOptions()
-        options.temp_folder = ARTIFACTS_DIR + 'TempFiles'
-        # The specified temporary folder must exist in the local file system before the load operation.
-        os.makedirs(options.temp_folder, exist_ok=True)
-        doc = aw.Document(MY_DIR + 'Document.docx', options)
-        # The folder will persist with no residual contents from the load operation.
-        self.assertListEqual([], os.listdir(options.temp_folder))
         #ExEnd
 
     def test_add_editing_language(self):

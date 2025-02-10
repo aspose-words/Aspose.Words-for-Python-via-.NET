@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
@@ -10,6 +10,7 @@ import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.lists
 import document_helper
+import system_helper
 import test_util
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR
@@ -385,6 +386,98 @@ class ExLists(ApiExampleBase):
         self.assertTrue(list3.is_list_style_reference)
         self.assertTrue(list3.is_multi_level)
 
+    def test_detect_bulleted_paragraphs(self):
+        #ExStart
+        #ExFor:Paragraph.list_format
+        #ExFor:ListFormat.is_list_item
+        #ExFor:CompositeNode.get_text
+        #ExFor:List.list_id
+        #ExSummary:Shows how to output all paragraphs in a document that are list items.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.list_format.apply_number_default()
+        builder.writeln('Numbered list item 1')
+        builder.writeln('Numbered list item 2')
+        builder.writeln('Numbered list item 3')
+        builder.list_format.remove_numbers()
+        builder.list_format.apply_bullet_default()
+        builder.writeln('Bulleted list item 1')
+        builder.writeln('Bulleted list item 2')
+        builder.writeln('Bulleted list item 3')
+        builder.list_format.remove_numbers()
+        paras = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)
+        for para in list(filter(lambda p: p.list_format.is_list_item, list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_paragraph(), b), list(paras)))))):
+            print(f'This paragraph belongs to list ID# {para.list_format.list.list_id}, number style "{para.list_format.list_level.number_style}"')
+            print(f'\t"{para.get_text().strip()}"')
+        #ExEnd
+        doc = document_helper.DocumentHelper.save_open(doc)
+        paras = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)
+        self.assertEqual(6, len(list(filter(lambda n: n.as_paragraph().list_format.is_list_item, paras))))
+
+    def test_remove_bullets_from_paragraphs(self):
+        #ExStart
+        #ExFor:ListFormat.remove_numbers
+        #ExSummary:Shows how to remove list formatting from all paragraphs in the main text of a section.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.list_format.apply_number_default()
+        builder.writeln('Numbered list item 1')
+        builder.writeln('Numbered list item 2')
+        builder.writeln('Numbered list item 3')
+        builder.list_format.remove_numbers()
+        paras = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)
+        self.assertEqual(3, len(list(filter(lambda n: n.as_paragraph().list_format.is_list_item, paras))))
+        for paragraph in paras:
+            paragraph = paragraph.as_paragraph()
+            paragraph.list_format.remove_numbers()
+        self.assertEqual(0, len(list(filter(lambda n: n.as_paragraph().list_format.is_list_item, paras))))
+        #ExEnd
+
+    def test_apply_existing_list_to_paragraphs(self):
+        #ExStart
+        #ExFor:ListCollection.__getitem__(int)
+        #ExSummary:Shows how to apply list formatting of an existing list to a collection of paragraphs.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.writeln('Paragraph 1')
+        builder.writeln('Paragraph 2')
+        builder.write('Paragraph 3')
+        paras = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)
+        self.assertEqual(0, len(list(filter(lambda n: n.as_paragraph().list_format.is_list_item, paras))))
+        doc.lists.add(list_template=aw.lists.ListTemplate.NUMBER_DEFAULT)
+        doc_list = doc.lists[0]
+        for paragraph in filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_paragraph(), b), list(paras))):
+            paragraph.list_format.list = doc_list
+            paragraph.list_format.list_level_number = 2
+        self.assertEqual(3, len(list(filter(lambda n: n.as_paragraph().list_format.is_list_item, paras))))
+        #ExEnd
+        doc = document_helper.DocumentHelper.save_open(doc)
+        paras = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)
+        self.assertEqual(3, len(list(filter(lambda n: n.as_paragraph().list_format.is_list_item, paras))))
+        self.assertEqual(3, len(list(filter(lambda n: n.as_paragraph().list_format.list_level_number == 2, paras))))
+
+    def test_apply_new_list_to_paragraphs(self):
+        #ExStart
+        #ExFor:ListCollection.add(ListTemplate)
+        #ExSummary:Shows how to create a list by applying a new list format to a collection of paragraphs.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.writeln('Paragraph 1')
+        builder.writeln('Paragraph 2')
+        builder.write('Paragraph 3')
+        paras = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)
+        self.assertEqual(0, len(list(filter(lambda n: n.as_paragraph().list_format.is_list_item, paras))))
+        doc_list = doc.lists.add(list_template=aw.lists.ListTemplate.NUMBER_UPPERCASE_LETTER_DOT)
+        for paragraph in filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_paragraph(), b), list(paras))):
+            paragraph.list_format.list = doc_list
+            paragraph.list_format.list_level_number = 1
+        self.assertEqual(3, len(list(filter(lambda n: n.as_paragraph().list_format.is_list_item, paras))))
+        #ExEnd
+        doc = document_helper.DocumentHelper.save_open(doc)
+        paras = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)
+        self.assertEqual(3, len(list(filter(lambda n: n.as_paragraph().list_format.is_list_item, paras))))
+        self.assertEqual(3, len(list(filter(lambda n: n.as_paragraph().list_format.list_level_number == 1, paras))))
+
     def test_list_document(self):
         #ExStart
         #ExFor:ListCollection.document
@@ -473,6 +566,35 @@ class ExLists(ApiExampleBase):
         self.assertEqual(0, list_level.restart_after_level)
         self.assertIsNone(list_level.linked_style)
 
+    def test_get_list_labels(self):
+        #ExStart
+        #ExFor:Document.update_list_labels()
+        #ExFor:Node.__str__(SaveFormat)
+        #ExFor:ListLabel
+        #ExFor:Paragraph.list_label
+        #ExFor:ListLabel.label_value
+        #ExFor:ListLabel.label_string
+        #ExSummary:Shows how to extract the list labels of all paragraphs that are list items.
+        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+        doc.update_list_labels()
+        paras = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)
+        # Find if we have the paragraph list. In our document, our list uses plain Arabic numbers,
+        # which start at three and ends at six.
+        for paragraph in list(filter(lambda p: p.list_format.is_list_item, list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_paragraph(), b), list(paras)))))):
+            print(f'List item paragraph #{paras.index_of(paragraph)}')
+            # This is the text we get when getting when we output this node to text format.
+            # This text output will omit list labels. Trim any paragraph formatting characters.
+            paragraph_text = paragraph.to_string(save_format=aw.SaveFormat.TEXT).strip()
+            print(f'\tExported Text: {paragraph_text}')
+            label = paragraph.list_label
+            # This gets the position of the paragraph in the current level of the list. If we have a list with multiple levels,
+            # this will tell us what position it is on that level.
+            print(f'\tNumerical Id: {label.label_value}')
+            # Combine them together to include the list label with the text in the output.
+            print(f'\tList label combined with text: {label.label_string} {paragraph_text}')
+        #ExEnd
+        self.assertEqual(10, len(list(filter(lambda p: p.list_format.is_list_item, list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_paragraph(), b), list(paras))))))))
+
     def test_create_picture_bullet(self):
         #ExStart
         #ExFor:ListLevel.create_picture_bullet
@@ -522,98 +644,30 @@ class ExLists(ApiExampleBase):
         self.assertEqual('002.', paras[2].list_label.label_string)
         #ExEnd:SetCustomNumberStyleFormat
 
-    def test_detect_bulleted_paragraphs(self):
-        #ExStart
-        #ExFor:Paragraph.list_format
-        #ExFor:ListFormat.is_list_item
-        #ExFor:CompositeNode.get_text
-        #ExFor:List.list_id
-        #ExSummary:Shows how to output all paragraphs in a document that are list items.
+    def test_add_single_level_list(self):
+        #ExStart:AddSingleLevelList
+        #ExFor:ListCollection.add_single_level_list(ListTemplate)
+        #ExSummary:Shows how to create a new single level list based on the predefined template.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.list_format.apply_number_default()
-        builder.writeln('Numbered list item 1')
-        builder.writeln('Numbered list item 2')
-        builder.writeln('Numbered list item 3')
+        builder = aw.DocumentBuilder(doc=doc)
+        list_collection = doc.lists
+        # Creates the bulleted list from BulletCircle template.
+        bulleted_list = list_collection.add_single_level_list(aw.lists.ListTemplate.BULLET_CIRCLE)
+        # Writes the bulleted list to the resulting document.
+        builder.writeln('Bulleted list starts below:')
+        builder.list_format.list = bulleted_list
+        builder.writeln('Item 1')
+        builder.writeln('Item 2')
         builder.list_format.remove_numbers()
-        builder.list_format.apply_bullet_default()
-        builder.writeln('Bulleted list item 1')
-        builder.writeln('Bulleted list item 2')
-        builder.writeln('Bulleted list item 3')
-        builder.list_format.remove_numbers()
-        paras = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)
-        for para in paras:
-            para = para.as_paragraph()
-            if para.list_format.is_list_item:
-                print(f'This paragraph belongs to list ID# {para.list_format.list.list_id}, number style "{para.list_format.list_level.number_style}"')
-                print(f'\t"{para.get_text().strip()}"')
-        #ExEnd
-        doc = DocumentHelper.save_open(doc)
-        paras = doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)
-        self.assertEqual(6, len([p for p in paras if p.as_paragraph().list_format.is_list_item]))
-
-    def test_remove_bullets_from_paragraphs(self):
-        #ExStart
-        #ExFor:ListFormat.remove_numbers
-        #ExSummary:Shows how to remove list formatting from all paragraphs in the main text of a section.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.list_format.apply_number_default()
-        builder.writeln('Numbered list item 1')
-        builder.writeln('Numbered list item 2')
-        builder.writeln('Numbered list item 3')
-        builder.list_format.remove_numbers()
-        paras = [node.as_paragraph() for node in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)]
-        self.assertEqual(3, len([p for p in paras if p.list_format.is_list_item]))
-        for paragraph in paras:
-            paragraph.list_format.remove_numbers()
-        self.assertEqual(0, len([p for p in paras if p.list_format.is_list_item]))
-        #ExEnd
-
-    def test_apply_existing_list_to_paragraphs(self):
-        #ExStart
-        #ExFor:ListCollection.__getitem__(int)
-        #ExSummary:Shows how to apply list formatting of an existing list to a collection of paragraphs.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.writeln('Paragraph 1')
-        builder.writeln('Paragraph 2')
-        builder.write('Paragraph 3')
-        paras = [node.as_paragraph() for node in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)]
-        self.assertEqual(0, len([p for p in paras if p.list_format.is_list_item]))
-        doc.lists.add(aw.lists.ListTemplate.NUMBER_DEFAULT)
-        list = doc.lists[0]
-        for paragraph in paras:
-            paragraph.list_format.list = list
-            paragraph.list_format.list_level_number = 2
-        self.assertEqual(3, len([p for p in paras if p.list_format.is_list_item]))
-        #ExEnd
-        doc = DocumentHelper.save_open(doc)
-        paras = [node.as_paragraph() for node in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)]
-        self.assertEqual(3, len([p for p in paras if p.list_format.is_list_item]))
-        self.assertEqual(3, len([p for p in paras if p.list_format.list_level_number == 2]))
-
-    def test_apply_new_list_to_paragraphs(self):
-        #ExStart
-        #ExFor:ListCollection.add(ListTemplate)
-        #ExSummary:Shows how to create a list by applying a new list format to a collection of paragraphs.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.writeln('Paragraph 1')
-        builder.writeln('Paragraph 2')
-        builder.write('Paragraph 3')
-        paras = [node.as_paragraph() for node in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)]
-        self.assertEqual(0, len([p for p in paras if p.list_format.is_list_item]))
-        list = doc.lists.add(aw.lists.ListTemplate.NUMBER_UPPERCASE_LETTER_DOT)
-        for paragraph in paras:
-            paragraph.list_format.list = list
-            paragraph.list_format.list_level_number = 1
-        self.assertEqual(3, len([p for p in paras if p.list_format.is_list_item]))
-        #ExEnd
-        doc = DocumentHelper.save_open(doc)
-        paras = [node.as_paragraph() for node in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)]
-        self.assertEqual(3, len([p for p in paras if p.list_format.is_list_item]))
-        self.assertEqual(3, len([p for p in paras if p.list_format.list_level_number == 1]))
+        # Creates the numbered list from NumberUppercaseLetterDot template.
+        numbered_list = list_collection.add_single_level_list(aw.lists.ListTemplate.NUMBER_UPPERCASE_LETTER_DOT)
+        # Writes the numbered list to the resulting document.
+        builder.writeln('Numbered list starts below:')
+        builder.list_format.list = numbered_list
+        builder.writeln('Item 1')
+        builder.writeln('Item 2')
+        doc.save(file_name=ARTIFACTS_DIR + 'Lists.AddSingleLevelList.docx')
+        #ExEnd:AddSingleLevelList
 
     def test_outline_heading_templates(self):
         #ExStart
@@ -728,36 +782,6 @@ class ExLists(ApiExampleBase):
                             self.assertEqual(expected_list_level.number_style, list.list_levels[i].number_style)
                             break
         print_out_all_lists()
-
-    def test_get_list_labels(self):
-        #ExStart
-        #ExFor:Document.update_list_labels()
-        #ExFor:Node.to_string(SaveFormat)
-        #ExFor:ListLabel
-        #ExFor:Paragraph.list_label
-        #ExFor:ListLabel.label_value
-        #ExFor:ListLabel.label_string
-        #ExSummary:Shows how to extract the list labels of all paragraphs that are list items.
-        doc = aw.Document(MY_DIR + 'Rendering.docx')
-        doc.update_list_labels()
-        paras = [node.as_paragraph() for node in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True)]
-        # Find if we have the paragraph list. In our document, our list uses plain Arabic numbers,
-        # which start at three and ends at six.
-        for paragraph in paras:
-            if paragraph.list_format.is_list_item:
-                print(f'List item paragraph #{paras.index(paragraph)}')
-                # This is the text we get when getting when we output this node to text format.
-                # This text output will omit list labels. Strip any paragraph formatting characters.
-                paragraph_text = paragraph.to_string(aw.SaveFormat.TEXT).strip()
-                print(f'\tExported Text: {paragraph_text}')
-                label = paragraph.list_label
-                # This gets the position of the paragraph in the current level of the list. If we have a list with multiple levels,
-                # this will tell us what position it is on that level.
-                print(f'\tNumerical Id: {label.label_value}')
-                # Combine them together to include the list label with the text in the output.
-                print(f'\tList label combined with text: {label.label_string} {paragraph_text}')
-        #ExEnd
-        self.assertEqual(10, len([p for p in paras if p.list_format.is_list_item]))
 
     def test_get_custom_number_style_format(self):
         #ExStart:SetCustomNumberStyleFormat

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
+# Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
 # This file is part of Aspose.Words. The source code in this file
 # is only intended as a supplement to the documentation, and is provided
@@ -403,6 +403,26 @@ class ExTable(ApiExampleBase):
             cell.remove_all_children()
         self.assertEqual('', table_clone.to_string(save_format=aw.SaveFormat.TEXT).strip())
 
+    def test_allow_break_across_pages(self):
+        for allow_break_across_pages in [False, True]:
+            #ExStart
+            #ExFor:RowFormat.allow_break_across_pages
+            #ExSummary:Shows how to disable rows breaking across pages for every row in a table.
+            doc = aw.Document(file_name=MY_DIR + 'Table spanning two pages.docx')
+            table = doc.first_section.body.tables[0]
+            # Set the "AllowBreakAcrossPages" property to "false" to keep the row
+            # in one piece if a table spans two pages, which break up along that row.
+            # If the row is too big to fit in one page, Microsoft Word will push it down to the next page.
+            # Set the "AllowBreakAcrossPages" property to "true" to allow the row to break up across two pages.
+            for row in table:
+                row = row.as_row()
+                row.row_format.allow_break_across_pages = allow_break_across_pages
+            doc.save(file_name=ARTIFACTS_DIR + 'Table.AllowBreakAcrossPages.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'Table.AllowBreakAcrossPages.docx')
+            table = doc.first_section.body.tables[0]
+            self.assertEqual(3, len(list(filter(lambda r: r.as_row().row_format.allow_break_across_pages == allow_break_across_pages, table.rows))))
+
     def test_allow_auto_fit_on_table(self):
         for allow_auto_fit in [False, True]:
             #ExStart
@@ -603,6 +623,78 @@ class ExTable(ApiExampleBase):
         self.assertEqual(50, table.absolute_vertical_distance)
         self.assertEqual(100, table.absolute_horizontal_distance)
 
+    def test_table_style_creation(self):
+        #ExStart
+        #ExFor:Table.bidi
+        #ExFor:Table.cell_spacing
+        #ExFor:Table.style
+        #ExFor:Table.style_name
+        #ExFor:TableStyle
+        #ExFor:TableStyle.allow_break_across_pages
+        #ExFor:TableStyle.bidi
+        #ExFor:TableStyle.cell_spacing
+        #ExFor:TableStyle.bottom_padding
+        #ExFor:TableStyle.left_padding
+        #ExFor:TableStyle.right_padding
+        #ExFor:TableStyle.top_padding
+        #ExFor:TableStyle.shading
+        #ExFor:TableStyle.borders
+        #ExFor:TableStyle.vertical_alignment
+        #ExSummary:Shows how to create custom style settings for the table.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        table = builder.start_table()
+        builder.insert_cell()
+        builder.write('Name')
+        builder.insert_cell()
+        builder.write('مرحبًا')
+        builder.end_row()
+        builder.insert_cell()
+        builder.insert_cell()
+        builder.end_table()
+        table_style = doc.styles.add(aw.StyleType.TABLE, 'MyTableStyle1').as_table_style()
+        table_style.allow_break_across_pages = True
+        table_style.bidi = True
+        table_style.cell_spacing = 5
+        table_style.bottom_padding = 20
+        table_style.left_padding = 5
+        table_style.right_padding = 10
+        table_style.top_padding = 20
+        table_style.shading.background_pattern_color = aspose.pydrawing.Color.antique_white
+        table_style.borders.color = aspose.pydrawing.Color.blue
+        table_style.borders.line_style = aw.LineStyle.DOT_DASH
+        table_style.vertical_alignment = aw.tables.CellVerticalAlignment.CENTER
+        table.style = table_style
+        # Setting the style properties of a table may affect the properties of the table itself.
+        self.assertTrue(table.bidi)
+        self.assertEqual(5, table.cell_spacing)
+        self.assertEqual('MyTableStyle1', table.style_name)
+        doc.save(file_name=ARTIFACTS_DIR + 'Table.TableStyleCreation.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Table.TableStyleCreation.docx')
+        table = doc.first_section.body.tables[0]
+        self.assertTrue(table.bidi)
+        self.assertEqual(5, table.cell_spacing)
+        self.assertEqual('MyTableStyle1', table.style_name)
+        self.assertEqual(20, table_style.bottom_padding)
+        self.assertEqual(5, table_style.left_padding)
+        self.assertEqual(10, table_style.right_padding)
+        self.assertEqual(20, table_style.top_padding)
+        self.assertEqual(6, len(list(filter(lambda b: b.color.to_argb() == aspose.pydrawing.Color.blue.to_argb(), table.first_row.row_format.borders))))
+        self.assertEqual(aw.tables.CellVerticalAlignment.CENTER, table_style.vertical_alignment)
+        table_style = doc.styles.get_by_name('MyTableStyle1').as_table_style()
+        self.assertTrue(table_style.allow_break_across_pages)
+        self.assertTrue(table_style.bidi)
+        self.assertEqual(5, table_style.cell_spacing)
+        self.assertEqual(20, table_style.bottom_padding)
+        self.assertEqual(5, table_style.left_padding)
+        self.assertEqual(10, table_style.right_padding)
+        self.assertEqual(20, table_style.top_padding)
+        self.assertEqual(aspose.pydrawing.Color.antique_white.to_argb(), table_style.shading.background_pattern_color.to_argb())
+        self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), table_style.borders.color.to_argb())
+        self.assertEqual(aw.LineStyle.DOT_DASH, table_style.borders.line_style)
+        self.assertEqual(aw.tables.CellVerticalAlignment.CENTER, table_style.vertical_alignment)
+
     def test_set_table_alignment(self):
         #ExStart
         #ExFor:TableStyle.alignment
@@ -643,6 +735,62 @@ class ExTable(ApiExampleBase):
         table_style = doc.styles.get_by_name('MyTableStyle2').as_table_style()
         self.assertEqual(55, table_style.left_indent)
         self.assertEqual(table_style, doc.get_child(aw.NodeType.TABLE, 1, True).as_table().style)
+
+    def test_clear_table_style_formatting(self):
+        #ExStart
+        #ExFor:ConditionalStyle.clear_formatting
+        #ExFor:ConditionalStyleCollection.clear_formatting
+        #ExSummary:Shows how to reset conditional table styles.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        table = builder.start_table()
+        builder.insert_cell()
+        builder.write('First row')
+        builder.end_row()
+        builder.insert_cell()
+        builder.write('Last row')
+        builder.end_table()
+        table_style = doc.styles.add(aw.StyleType.TABLE, 'MyTableStyle1').as_table_style()
+        table.style = table_style
+        # Set the table style to color the borders of the first row of the table in red.
+        table_style.conditional_styles.first_row.borders.color = aspose.pydrawing.Color.red
+        # Set the table style to color the borders of the last row of the table in blue.
+        table_style.conditional_styles.last_row.borders.color = aspose.pydrawing.Color.blue
+        # Below are two ways of using the "ClearFormatting" method to clear the conditional styles.
+        # 1 -  Clear the conditional styles for a specific part of a table:
+        table_style.conditional_styles[0].clear_formatting()
+        self.assertEqual(aspose.pydrawing.Color.empty(), table_style.conditional_styles.first_row.borders.color)
+        # 2 -  Clear the conditional styles for the entire table:
+        table_style.conditional_styles.clear_formatting()
+        self.assertTrue(all([s.borders.color == aspose.pydrawing.Color.empty() for s in table_style.conditional_styles]))
+        #ExEnd
+
+    def test_convert_to_horizontally_merged_cells(self):
+        #ExStart
+        #ExFor:Table.convert_to_horizontally_merged_cells
+        #ExSummary:Shows how to convert cells horizontally merged by width to cells merged by CellFormat.HorizontalMerge.
+        doc = aw.Document(file_name=MY_DIR + 'Table with merged cells.docx')
+        # Microsoft Word does not write merge flags anymore, defining merged cells by width instead.
+        # Aspose.Words by default define only 5 cells in a row, and none of them have the horizontal merge flag,
+        # even though there were 7 cells in the row before the horizontal merging took place.
+        table = doc.first_section.body.tables[0]
+        row = table.rows[0]
+        self.assertEqual(5, row.cells.count)
+        self.assertTrue(all([c.as_cell().cell_format.horizontal_merge == aw.tables.CellMerge.NONE for c in row.cells]))
+        # Use the "ConvertToHorizontallyMergedCells" method to convert cells horizontally merged
+        # by its width to the cell horizontally merged by flags.
+        # Now, we have 7 cells, and some of them have horizontal merge values.
+        table.convert_to_horizontally_merged_cells()
+        row = table.rows[0]
+        self.assertEqual(7, row.cells.count)
+        self.assertEqual(aw.tables.CellMerge.NONE, row.cells[0].cell_format.horizontal_merge)
+        self.assertEqual(aw.tables.CellMerge.FIRST, row.cells[1].cell_format.horizontal_merge)
+        self.assertEqual(aw.tables.CellMerge.PREVIOUS, row.cells[2].cell_format.horizontal_merge)
+        self.assertEqual(aw.tables.CellMerge.NONE, row.cells[3].cell_format.horizontal_merge)
+        self.assertEqual(aw.tables.CellMerge.FIRST, row.cells[4].cell_format.horizontal_merge)
+        self.assertEqual(aw.tables.CellMerge.PREVIOUS, row.cells[5].cell_format.horizontal_merge)
+        self.assertEqual(aw.tables.CellMerge.NONE, row.cells[6].cell_format.horizontal_merge)
+        #ExEnd
 
     def test_get_text_from_cells(self):
         #ExStart
@@ -806,27 +954,6 @@ class ExTable(ApiExampleBase):
                 #ExEnd
                 doc = aw.Document(ARTIFACTS_DIR + 'Table.remove_paragraph_text_and_mark.docx')
                 self.assertEqual(1 if is_smart_paragraph_break_replacement else 2, doc.first_section.body.tables[0].rows[0].cells[0].paragraphs.count)
-
-    def test_allow_break_across_pages(self):
-        for allow_break_across_pages in (False, True):
-            with self.subTest(allow_break_across_pages=allow_break_across_pages):
-                #ExStart
-                #ExFor:RowFormat.allow_break_across_pages
-                #ExSummary:Shows how to disable rows breaking across pages for every row in a table.
-                doc = aw.Document(MY_DIR + 'Table spanning two pages.docx')
-                table = doc.first_section.body.tables[0]
-                # Set the "allow_break_across_pages" property to "False" to keep the row
-                # in one piece if a table spans two pages, which break up along that row.
-                # If the row is too big to fit in one page, Microsoft Word will push it down to the next page.
-                # Set the "allow_break_across_pages" property to "True" to allow the row to break up across two pages.
-                for row in table:
-                    row = row.as_row()
-                    row.row_format.allow_break_across_pages = allow_break_across_pages
-                doc.save(ARTIFACTS_DIR + 'Table.allow_break_across_pages.docx')
-                #ExEnd
-                doc = aw.Document(ARTIFACTS_DIR + 'Table.allow_break_across_pages.docx')
-                table = doc.first_section.body.tables[0]
-                self.assertEqual(3, len([row for row in table if row.as_row().row_format.allow_break_across_pages == allow_break_across_pages]))
 
     def test_allow_cell_spacing(self):
         for allow_cell_spacing in (False, True):
@@ -1000,78 +1127,6 @@ class ExTable(ApiExampleBase):
         self.assertEqual(3, table.rows.count)
         self.assertEqual(3, doc.get_child_nodes(aw.NodeType.TABLE, True).count)
 
-    def test_table_style_creation(self):
-        #ExStart
-        #ExFor:Table.bidi
-        #ExFor:Table.cell_spacing
-        #ExFor:Table.style
-        #ExFor:Table.style_name
-        #ExFor:TableStyle
-        #ExFor:TableStyle.allow_break_across_pages
-        #ExFor:TableStyle.bidi
-        #ExFor:TableStyle.cell_spacing
-        #ExFor:TableStyle.bottom_padding
-        #ExFor:TableStyle.left_padding
-        #ExFor:TableStyle.right_padding
-        #ExFor:TableStyle.top_padding
-        #ExFor:TableStyle.shading
-        #ExFor:TableStyle.borders
-        #ExFor:TableStyle.vertical_alignment
-        #ExSummary:Shows how to create custom style settings for the table.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        table = builder.start_table()
-        builder.insert_cell()
-        builder.write('Name')
-        builder.insert_cell()
-        builder.write('مرحبًا')
-        builder.end_row()
-        builder.insert_cell()
-        builder.insert_cell()
-        builder.end_table()
-        table_style = doc.styles.add(aw.StyleType.TABLE, 'MyTableStyle1').as_table_style()
-        table_style.allow_break_across_pages = True
-        table_style.bidi = True
-        table_style.cell_spacing = 5
-        table_style.bottom_padding = 20
-        table_style.left_padding = 5
-        table_style.right_padding = 10
-        table_style.top_padding = 20
-        table_style.shading.background_pattern_color = aspose.pydrawing.Color.antique_white
-        table_style.borders.color = aspose.pydrawing.Color.blue
-        table_style.borders.line_style = aw.LineStyle.DOT_DASH
-        table_style.vertical_alignment = aw.tables.CellVerticalAlignment.CENTER
-        table.style = table_style
-        # Setting the style properties of a table may affect the properties of the table itself.
-        self.assertTrue(table.bidi)
-        self.assertEqual(5.0, table.cell_spacing)
-        self.assertEqual('MyTableStyle1', table.style_name)
-        doc.save(ARTIFACTS_DIR + 'Table.table_style_creation.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Table.table_style_creation.docx')
-        table = doc.first_section.body.tables[0]
-        self.assertTrue(table.bidi)
-        self.assertEqual(5.0, table.cell_spacing)
-        self.assertEqual('MyTableStyle1', table.style_name)
-        self.assertEqual(20.0, table_style.bottom_padding)
-        self.assertEqual(5.0, table_style.left_padding)
-        self.assertEqual(10.0, table_style.right_padding)
-        self.assertEqual(20.0, table_style.top_padding)
-        self.assertEqual(6, len([b for b in table.first_row.row_format.borders if b.color.to_argb() == aspose.pydrawing.Color.blue.to_argb()]))
-        self.assertEqual(aw.tables.CellVerticalAlignment.CENTER, table_style.vertical_alignment)
-        table_style = doc.styles.get_by_name('MyTableStyle1').as_table_style()
-        self.assertTrue(table_style.allow_break_across_pages)
-        self.assertTrue(table_style.bidi)
-        self.assertEqual(5.0, table_style.cell_spacing)
-        self.assertEqual(20.0, table_style.bottom_padding)
-        self.assertEqual(5.0, table_style.left_padding)
-        self.assertEqual(10.0, table_style.right_padding)
-        self.assertEqual(20.0, table_style.top_padding)
-        self.assertEqual(aspose.pydrawing.Color.antique_white.to_argb(), table_style.shading.background_pattern_color.to_argb())
-        self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), table_style.borders.color.to_argb())
-        self.assertEqual(aw.LineStyle.DOT_DASH, table_style.borders.line_style)
-        self.assertEqual(aw.tables.CellVerticalAlignment.CENTER, table_style.vertical_alignment)
-
     def test_conditional_styles(self):
         #ExStart
         #ExFor:ConditionalStyle
@@ -1165,35 +1220,6 @@ class ExTable(ApiExampleBase):
         self.assertEqual(aw.ConditionalStyleType.LAST_COLUMN, conditional_styles[3].type)
         self.assertTrue(conditional_styles[3].font.bold)
 
-    def test_clear_table_style_formatting(self):
-        #ExStart
-        #ExFor:ConditionalStyle.clear_formatting
-        #ExFor:ConditionalStyleCollection.clear_formatting
-        #ExSummary:Shows how to reset conditional table styles.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        table = builder.start_table()
-        builder.insert_cell()
-        builder.write('First row')
-        builder.end_row()
-        builder.insert_cell()
-        builder.write('Last row')
-        builder.end_table()
-        table_style = doc.styles.add(aw.StyleType.TABLE, 'MyTableStyle1').as_table_style()
-        table.style = table_style
-        # Set the table style to color the borders of the first row of the table in red.
-        table_style.conditional_styles.first_row.borders.color = aspose.pydrawing.Color.red
-        # Set the table style to color the borders of the last row of the table in blue.
-        table_style.conditional_styles.last_row.borders.color = aspose.pydrawing.Color.blue
-        # Below are two ways of using the "clear_formatting" method to clear the conditional styles.
-        # 1 -  Clear the conditional styles for a specific part of a table:
-        table_style.conditional_styles[0].clear_formatting()
-        self.assertEqual(aspose.pydrawing.Color.empty(), table_style.conditional_styles.first_row.borders.color)
-        # 2 -  Clear the conditional styles for the entire table:
-        table_style.conditional_styles.clear_formatting()
-        self.assertTrue(all((s.borders.color == aspose.pydrawing.Color.empty() for s in table_style.conditional_styles)))
-        #ExEnd
-
     def test_alternating_row_styles(self):
         #ExStart
         #ExFor:TableStyle.column_stripe
@@ -1244,33 +1270,6 @@ class ExTable(ApiExampleBase):
         self.assertEqual(aspose.pydrawing.Color.light_cyan.to_argb(), table_style.conditional_styles[aw.ConditionalStyleType.EVEN_ROW_BANDING].shading.background_pattern_color.to_argb())
         self.assertEqual(1, table_style.column_stripe)
         self.assertEqual(aspose.pydrawing.Color.light_salmon.to_argb(), table_style.conditional_styles[aw.ConditionalStyleType.EVEN_COLUMN_BANDING].shading.background_pattern_color.to_argb())
-
-    def test_convert_to_horizontally_merged_cells(self):
-        #ExStart
-        #ExFor:Table.convert_to_horizontally_merged_cells
-        #ExSummary:Shows how to convert cells horizontally merged by width to cells merged by CellFormat.horizontal_merge.
-        doc = aw.Document(MY_DIR + 'Table with merged cells.docx')
-        # Microsoft Word does not write merge flags anymore, defining merged cells by width instead.
-        # Aspose.Words by default define only 5 cells in a row, and none of them have the horizontal merge flag,
-        # even though there were 7 cells in the row before the horizontal merging took place.
-        table = doc.first_section.body.tables[0]
-        row = table.rows[0]
-        self.assertEqual(5, row.cells.count)
-        self.assertTrue(all((c.as_cell().cell_format.horizontal_merge == aw.tables.CellMerge.NONE for c in row.cells)))
-        # Use the "convert_to_horizontally_merged_cells" method to convert cells horizontally merged
-        # by its width to the cell horizontally merged by flags.
-        # Now, we have 7 cells, and some of them have horizontal merge values.
-        table.convert_to_horizontally_merged_cells()
-        row = table.rows[0]
-        self.assertEqual(7, row.cells.count)
-        self.assertEqual(aw.tables.CellMerge.NONE, row.cells[0].cell_format.horizontal_merge)
-        self.assertEqual(aw.tables.CellMerge.FIRST, row.cells[1].cell_format.horizontal_merge)
-        self.assertEqual(aw.tables.CellMerge.PREVIOUS, row.cells[2].cell_format.horizontal_merge)
-        self.assertEqual(aw.tables.CellMerge.NONE, row.cells[3].cell_format.horizontal_merge)
-        self.assertEqual(aw.tables.CellMerge.FIRST, row.cells[4].cell_format.horizontal_merge)
-        self.assertEqual(aw.tables.CellMerge.PREVIOUS, row.cells[5].cell_format.horizontal_merge)
-        self.assertEqual(aw.tables.CellMerge.NONE, row.cells[6].cell_format.horizontal_merge)
-        #ExEnd
 
     @staticmethod
     def merge_cells(start_cell: aw.tables.Cell, end_cell: aw.tables.Cell):
