@@ -1,4 +1,6 @@
 import aspose.words as aw
+import unittest
+import sys
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithLoadOptions(DocsExamplesBase):
@@ -57,6 +59,7 @@ class WorkingWithLoadOptions(DocsExamplesBase):
         doc = aw.Document(MY_DIR + "Document.docx", load_options)
         #ExEnd:UseTempFolder
 
+    @unittest.skipUnless(sys.platform.startswith('win'), 'requires windows')
     def test_load_with_encoding(self):
 
         #ExStart:LoadWithEncoding

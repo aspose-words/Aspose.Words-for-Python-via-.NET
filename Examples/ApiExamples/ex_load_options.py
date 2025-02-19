@@ -16,6 +16,7 @@ import aspose.words.settings
 import system_helper
 import test_util
 import unittest
+import sys
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, FONTS_DIR, IMAGE_DIR, MY_DIR
 
 class ExLoadOptions(ApiExampleBase):
@@ -118,6 +119,7 @@ class ExLoadOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'LoadOptions.IgnoreOleData.docx')
         #ExEnd
 
+    @unittest.skipUnless(sys.platform.startswith('win'), 'requires windows')
     def test_set_encoding(self):
         #ExStart
         #ExFor:LoadOptions.encoding

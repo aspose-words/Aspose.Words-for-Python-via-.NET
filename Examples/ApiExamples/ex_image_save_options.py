@@ -132,6 +132,7 @@ class ExImageSaveOptions(ApiExampleBase):
             #ExEnd
             test_util.TestUtil.verify_image(816, 1056, ARTIFACTS_DIR + 'ImageSaveOptions.WindowsMetaFile.png')
 
+    @unittest.skipUnless(sys.platform.startswith('win'), 'different calculation on Mac')
     def test_color_mode(self):
         for image_color_mode in [aw.saving.ImageColorMode.BLACK_AND_WHITE, aw.saving.ImageColorMode.GRAYSCALE, aw.saving.ImageColorMode.NONE]:
             #ExStart
