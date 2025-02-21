@@ -5,8 +5,8 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import date, timezone, timedelta
 from document_helper import DocumentHelper
+from datetime import date, timezone, timedelta
 import aspose.words as aw
 import aspose.words.comparing
 import aspose.words.drawing

@@ -5,10 +5,10 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words.drawing import ImageType
-from aspose.words import Document, DocumentBuilder, NodeType
-import aspose.pydrawing as drawing
 import os
+import aspose.pydrawing as drawing
+from aspose.words import Document, DocumentBuilder, NodeType
+from aspose.words.drawing import ImageType
 import aspose.words as aw
 import aspose.words.drawing
 import system_helper

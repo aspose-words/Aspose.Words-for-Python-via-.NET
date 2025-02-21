@@ -5,10 +5,10 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import sys
-from typing import List
-import glob
 import datetime
+import glob
+from typing import List
+import sys
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.saving

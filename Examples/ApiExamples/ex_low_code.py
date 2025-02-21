@@ -5,15 +5,15 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.pydrawing import Color
-from aspose.pydrawing import Color
-from aspose.words.saving import OoxmlSaveOptions
-from aspose.words.lowcode import Merger, MergeFormatMode
-from aspose.words import SaveFormat, DocumentBuilder
-import io
-import pathlib
-import os
 import unittest
+import os
+import pathlib
+import io
+from aspose.words import SaveFormat, DocumentBuilder
+from aspose.words.lowcode import Merger, MergeFormatMode
+from aspose.words.saving import OoxmlSaveOptions
+from aspose.pydrawing import Color
+from aspose.pydrawing import Color
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.comparing

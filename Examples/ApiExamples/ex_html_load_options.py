@@ -5,9 +5,9 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import datetime
-import io
 import sys
+import io
+from datetime import datetime
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.drawing
