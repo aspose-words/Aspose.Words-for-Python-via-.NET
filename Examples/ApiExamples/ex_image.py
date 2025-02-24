@@ -15,6 +15,7 @@ import system_helper
 import test_util
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, IMAGE_URL, MY_DIR
+import sys
 
 class ExImage(ApiExampleBase):
 
@@ -185,6 +186,7 @@ class ExImage(ApiExampleBase):
         self.assertEqual('New Window', shape.target)
         self.assertEqual('Aspose.Words Support Forums', shape.screen_tip)
 
+    @unittest.skipUnless(sys.platform.startswith('win'), 'Object reference not set to an instance of an object on Mac')
     def test_create_linked_image(self):
         #ExStart
         #ExFor:Shape.image_data

@@ -5,9 +5,9 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import date, timedelta
-from document_helper import DocumentHelper
 import sys
+from document_helper import DocumentHelper
+from datetime import date, timedelta
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.fields
@@ -62,6 +62,40 @@ class ExParagraph(ApiExampleBase):
         self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), run_font.color.to_argb())
         self.assertEqual('Arial', run_font.name)
         self.assertEqual(aw.Underline.DASH, run_font.underline)
+
+    def test_insert_field(self):
+        #ExStart
+        #ExFor:Paragraph.insert_field(str,Node,bool)
+        #ExFor:Paragraph.insert_field(FieldType,bool,Node,bool)
+        #ExFor:Paragraph.insert_field(str,str,Node,bool)
+        #ExSummary:Shows various ways of adding fields to a paragraph.
+        doc = aw.Document()
+        para = doc.first_section.body.first_paragraph
+        # Below are three ways of inserting a field into a paragraph.
+        # 1 -  Insert an AUTHOR field into a paragraph after one of the paragraph's child nodes:
+        run = aw.Run(doc=doc)
+        run.text = 'This run was written by '
+        para.append_child(run)
+        doc.built_in_document_properties.get_by_name('Author').value = 'John Doe'
+        para.insert_field(field_type=aw.fields.FieldType.FIELD_AUTHOR, update_field=True, ref_node=run, is_after=True)
+        # 2 -  Insert a QUOTE field after one of the paragraph's child nodes:
+        run = aw.Run(doc=doc)
+        run.text = '.'
+        para.append_child(run)
+        field = para.insert_field(field_code=' QUOTE " Real value" ', ref_node=run, is_after=True)
+        # 3 -  Insert a QUOTE field before one of the paragraph's child nodes,
+        # and get it to display a placeholder value:
+        para.insert_field(field_code=' QUOTE " Real value."', field_value=' Placeholder value.', ref_node=field.start, is_after=False)
+        self.assertEqual(' Placeholder value.', doc.range.fields[1].result)
+        # This field will display its placeholder value until we update it.
+        doc.update_fields()
+        self.assertEqual(' Real value.', doc.range.fields[1].result)
+        doc.save(file_name=ARTIFACTS_DIR + 'Paragraph.InsertField.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Paragraph.InsertField.docx')
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_AUTHOR, expected_field_code=' AUTHOR ', expected_result='John Doe', field=doc.range.fields[0])
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_QUOTE, expected_field_code=' QUOTE " Real value."', expected_result=' Real value.', field=doc.range.fields[1])
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_QUOTE, expected_field_code=' QUOTE " Real value" ', expected_result=' Real value', field=doc.range.fields[2])
 
     def test_composite_node_children(self):
         #ExStart
@@ -306,40 +340,6 @@ class ExParagraph(ApiExampleBase):
         self.verify_datetime_field(aw.fields.FieldType.FIELD_DATE, ' DATE ', datetime.datetime.now(), doc.range.fields[0], timedelta())
         self.verify_datetime_field(aw.fields.FieldType.FIELD_TIME, ' TIME  \\@ "HH:mm:ss" ', datetime.datetime.now(), doc.range.fields[1], timedelta(seconds=5))
         self.verify_field(aw.fields.FieldType.FIELD_QUOTE, ' QUOTE "Real value"', 'Real value', doc.range.fields[2])
-
-    def test_insert_field(self):
-        #ExStart
-        #ExFor:Paragraph.insert_field(str,Node,bool)
-        #ExFor:Paragraph.insert_field(FieldType,bool,Node,bool)
-        #ExFor:Paragraph.insert_field(str,str,Node,bool)
-        #ExSummary:Shows various ways of adding fields to a paragraph.
-        doc = aw.Document()
-        para = doc.first_section.body.first_paragraph
-        # Below are three ways of inserting a field into a paragraph.
-        # 1 -  Insert an AUTHOR field into a paragraph after one of the paragraph's child nodes:
-        run = aw.Run(doc)
-        run.text = 'This run was written by '
-        para.append_child(run)
-        doc.built_in_document_properties.get_by_name('Author').value = 'John Doe'
-        para.insert_field(aw.fields.FieldType.FIELD_AUTHOR, True, run, True)
-        # 2 -  Insert a QUOTE field after one of the paragraph's child nodes:
-        run = aw.Run(doc)
-        run.text = '.'
-        para.append_child(run)
-        field = para.insert_field(' QUOTE " Real value" ', run, True)
-        # 3 -  Insert a QUOTE field before one of the paragraph's child nodes,
-        # and get it to display a placeholder value:
-        para.insert_field(' QUOTE " Real value."', ' Placeholder value.', field.start, False)
-        self.assertEqual(' Placeholder value.', doc.range.fields[1].result)
-        # This field will display its placeholder value until we update it.
-        doc.update_fields()
-        self.assertEqual(' Real value.', doc.range.fields[1].result)
-        doc.save(ARTIFACTS_DIR + 'Paragraph.insert_field.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Paragraph.insert_field.docx')
-        self.verify_field(aw.fields.FieldType.FIELD_AUTHOR, ' AUTHOR ', 'John Doe', doc.range.fields[0])
-        self.verify_field(aw.fields.FieldType.FIELD_QUOTE, ' QUOTE " Real value."', ' Real value.', doc.range.fields[1])
-        self.verify_field(aw.fields.FieldType.FIELD_QUOTE, ' QUOTE " Real value" ', ' Real value', doc.range.fields[2])
 
     def test_insert_field_before_text_in_paragraph(self):
         doc = DocumentHelper.create_document_fill_with_dummy_text()

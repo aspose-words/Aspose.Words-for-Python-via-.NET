@@ -5,8 +5,8 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import unittest
 import os
+import unittest
 import aspose.words as aw
 import aspose.words.ai
 import system_helper
@@ -50,7 +50,6 @@ class ExAI(ApiExampleBase):
     @unittest.skip('This test should be run manually to manage API requests amount')
     def test_ai_translate(self):
         #ExStart:AiTranslate
-        #ExFor:IAiModelText.Translate(Document, AI.Language)
         #ExSummary:Shows how to translate text using Google models.
         doc = aw.Document(file_name=MY_DIR + 'Document.docx')
         api_key = system_helper.environment.Environment.get_environment_variable('API_KEY')

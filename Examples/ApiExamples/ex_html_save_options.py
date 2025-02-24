@@ -5,16 +5,17 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
-import aspose.pydrawing as drawing
-import sys
-import shutil
-import textwrap
-import glob
 import io
+import glob
+import textwrap
+import shutil
+import sys
+import aspose.pydrawing as drawing
+from document_helper import DocumentHelper
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.fields
+import aspose.words.fonts
 import aspose.words.lists
 import aspose.words.loading
 import aspose.words.saving
@@ -75,6 +76,10 @@ class ExHtmlSaveOptions(ApiExampleBase):
             builder.writeln('Bulleted list item 2.')
             builder.paragraph_format.clear_formatting()
             save_options = aw.saving.HtmlSaveOptions(aw.SaveFormat.HTML)
+            # 'ExportListLabels.Auto' - this option uses <ul> and <ol> tags are used for list label representation if it does not cause formatting loss,
+            # otherwise HTML <p> tag is used. This is also the default value.
+            # 'ExportListLabels.AsInlineText' - using this option the <p> tag is used for any list label representation.
+            # 'ExportListLabels.ByHtmlTags' - The <ul> and <ol> tags are used for list label representation. Some formatting loss is possible.
             save_options.export_list_labels = how_export_list_labels
             doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ControlListLabelsExport.html', save_options=save_options)
 
@@ -381,8 +386,9 @@ class ExHtmlSaveOptions(ApiExampleBase):
             doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ExportXhtmlTransitional.html', save_options=options)
             # Our document will only contain a DOCTYPE declaration heading if we have set the "ExportXhtmlTransitional" flag to "true".
             out_doc_contents = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'HtmlSaveOptions.ExportXhtmlTransitional.html')
+            new_line = system_helper.environment.Environment.new_line()
             if show_doctype_declaration:
-                self.assertTrue('<?xml version="1.0" encoding="utf-8" standalone="no"?>\r\n' + '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\r\n' + '<html xmlns="http://www.w3.org/1999/xhtml">' in out_doc_contents)
+                self.assertTrue(f'<?xml version="1.0" encoding="utf-8" standalone="no"?>{new_line}' + f'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">{new_line}' + '<html xmlns="http://www.w3.org/1999/xhtml">' in out_doc_contents)
             else:
                 self.assertTrue('<html>' in out_doc_contents)
             #ExEnd
@@ -761,8 +767,9 @@ class ExHtmlSaveOptions(ApiExampleBase):
             doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.PrettyFormat.html', save_options=html_options)
             # Enabling pretty format makes the raw html code more readable by adding tab stop and new line characters.
             html = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'HtmlSaveOptions.PrettyFormat.html')
+            new_line = system_helper.environment.Environment.new_line()
             if use_pretty_format:
-                self.assertEqual('<html>\r\n' + '\t<head>\r\n' + '\t\t<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\r\n' + '\t\t<meta http-equiv="Content-Style-Type" content="text/css" />\r\n' + f'\t\t<meta name="generator" content="{aw.BuildVersionInfo.product} {aw.BuildVersionInfo.version}" />\r\n' + '\t\t<title>\r\n' + '\t\t</title>\r\n' + '\t</head>\r\n' + '\t<body style="font-family:\'Times New Roman\'; font-size:12pt">\r\n' + '\t\t<div>\r\n' + '\t\t\t<p style="margin-top:0pt; margin-bottom:0pt">\r\n' + '\t\t\t\t<span>Hello world!</span>\r\n' + '\t\t\t</p>\r\n' + '\t\t\t<p style="margin-top:0pt; margin-bottom:0pt">\r\n' + '\t\t\t\t<span style="-aw-import:ignore">&#xa0;</span>\r\n' + '\t\t\t</p>\r\n' + '\t\t</div>\r\n' + '\t</body>\r\n</html>', html)
+                self.assertEqual(f'<html>{new_line}' + f'\t<head>{new_line}' + f'\t\t<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />{new_line}' + f'\t\t<meta http-equiv="Content-Style-Type" content="text/css" />{new_line}' + f'\t\t<meta name="generator" content="{aw.BuildVersionInfo.product} {aw.BuildVersionInfo.version}" />{new_line}' + f'\t\t<title>{new_line}' + f'\t\t</title>{new_line}' + f'\t</head>{new_line}' + f"""\t<body style="font-family:'Times New Roman'; font-size:12pt">{new_line}""" + f'\t\t<div>{new_line}' + f'\t\t\t<p style="margin-top:0pt; margin-bottom:0pt">{new_line}' + f'\t\t\t\t<span>Hello world!</span>{new_line}' + f'\t\t\t</p>{new_line}' + f'\t\t\t<p style="margin-top:0pt; margin-bottom:0pt">{new_line}' + f'\t\t\t\t<span style="-aw-import:ignore">&#xa0;</span>{new_line}' + f'\t\t\t</p>{new_line}' + f'\t\t</div>{new_line}' + f'\t</body>{new_line}</html>', html)
             else:
                 self.assertEqual('<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' + '<meta http-equiv="Content-Style-Type" content="text/css" />' + f'<meta name="generator" content="{aw.BuildVersionInfo.product} {aw.BuildVersionInfo.version}" /><title></title></head>' + '<body style="font-family:\'Times New Roman\'; font-size:12pt">' + '<div><p style="margin-top:0pt; margin-bottom:0pt"><span>Hello world!</span></p>' + '<p style="margin-top:0pt; margin-bottom:0pt"><span style="-aw-import:ignore">&#xa0;</span></p></div></body></html>', html)
             #ExEnd

@@ -5,15 +5,15 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import timedelta, timezone
-from aspose.words.saving import PdfTextCompression
-from aspose.words.saving import PdfTextCompression
-from aspose.words import Document
-import aspose.words.fonts
-import io
-import os
-import sys
 import aspose.pydrawing as drawing
+import sys
+import os
+import io
+import aspose.words.fonts
+from aspose.words import Document
+from aspose.words.saving import PdfTextCompression
+from aspose.words.saving import PdfTextCompression
+from datetime import timedelta, timezone
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.saving
@@ -542,6 +542,9 @@ class ExPdfSaveOptions(ApiExampleBase):
             # to modify how that method converts the document to .PDF.
             save_options = aw.saving.PdfSaveOptions()
             save_options.text_compression = aw.saving.PdfTextCompression.NONE
+            # Set the "AdditionalTextPositioning" property to "true" to attempt to fix incorrect
+            # element positioning in the output PDF, should there be any, at the cost of increased file size.
+            # Set the "AdditionalTextPositioning" property to "false" to render the document as usual.
             save_options.additional_text_positioning = apply_additional_text_positioning
             doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.AdditionalTextPositioning.pdf', save_options=save_options)
             #ExEnd
@@ -748,6 +751,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         builder.writeln('Hello world!')
         builder.writeln('Hola mundo!')
         save_options = aw.saving.PdfSaveOptions()
+        # Note, when "ExportDocumentStructure" is false, "ExportLanguageToSpanTag" is ignored.
         save_options.export_document_structure = True
         save_options.export_language_to_span_tag = True
         doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.ExportLanguageToSpanTag.pdf', save_options=save_options)

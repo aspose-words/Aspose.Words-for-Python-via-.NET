@@ -50,13 +50,14 @@ class ExTxtSaveOptions(ApiExampleBase):
             save_options.export_headers_footers_mode = txt_export_headers_footers_mode
             doc.save(file_name=ARTIFACTS_DIR + 'TxtSaveOptions.ExportHeadersFooters.txt', save_options=save_options)
             doc_text = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'TxtSaveOptions.ExportHeadersFooters.txt')
+            new_line = system_helper.environment.Environment.new_line()
             switch_condition = txt_export_headers_footers_mode
             if switch_condition == aw.saving.TxtExportHeadersFootersMode.ALL_AT_END:
-                self.assertEqual('Page 1\r\n' + 'Page 2\r\n' + 'Page 3\r\n' + 'Even header\r\n\r\n' + 'Primary header\r\n\r\n' + 'Even footer\r\n\r\n' + 'Primary footer\r\n\r\n', doc_text)
+                self.assertEqual(f'Page 1{new_line}' + f'Page 2{new_line}' + f'Page 3{new_line}' + f'Even header{new_line}{new_line}' + f'Primary header{new_line}{new_line}' + f'Even footer{new_line}{new_line}' + f'Primary footer{new_line}{new_line}', doc_text)
             elif switch_condition == aw.saving.TxtExportHeadersFootersMode.PRIMARY_ONLY:
-                self.assertEqual('Primary header\r\n' + 'Page 1\r\n' + 'Page 2\r\n' + 'Page 3\r\n' + 'Primary footer\r\n', doc_text)
+                self.assertEqual(f'Primary header{new_line}' + f'Page 1{new_line}' + f'Page 2{new_line}' + f'Page 3{new_line}' + f'Primary footer{new_line}', doc_text)
             elif switch_condition == aw.saving.TxtExportHeadersFootersMode.NONE:
-                self.assertEqual('Page 1\r\n' + 'Page 2\r\n' + 'Page 3\r\n', doc_text)
+                self.assertEqual(f'Page 1{new_line}' + f'Page 2{new_line}' + f'Page 3{new_line}', doc_text)
         #ExEnd
 
     def test_txt_list_indentation(self):
@@ -117,10 +118,11 @@ class ExTxtSaveOptions(ApiExampleBase):
             txt_save_options.simplify_list_labels = simplify_list_labels
             doc.save(file_name=ARTIFACTS_DIR + 'TxtSaveOptions.SimplifyListLabels.txt', save_options=txt_save_options)
             doc_text = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'TxtSaveOptions.SimplifyListLabels.txt')
+            new_line = system_helper.environment.Environment.new_line()
             if simplify_list_labels:
-                self.assertEqual('* Item 1\r\n' + '  > Item 2\r\n' + '    + Item 3\r\n' + '      - Item 4\r\n' + '        o Item 5\r\n', doc_text)
+                self.assertEqual(f'* Item 1{new_line}' + f'  > Item 2{new_line}' + f'    + Item 3{new_line}' + f'      - Item 4{new_line}' + f'        o Item 5{new_line}', doc_text)
             else:
-                self.assertEqual('· Item 1\r\n' + 'o Item 2\r\n' + '§ Item 3\r\n' + '· Item 4\r\n' + 'o Item 5\r\n', doc_text)
+                self.assertEqual(f'· Item 1{new_line}' + f'o Item 2{new_line}' + f'§ Item 3{new_line}' + f'· Item 4{new_line}' + f'o Item 5{new_line}', doc_text)
             #ExEnd
 
     def test_paragraph_break(self):
