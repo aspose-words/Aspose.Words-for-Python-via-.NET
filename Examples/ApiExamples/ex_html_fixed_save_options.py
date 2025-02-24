@@ -5,10 +5,10 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
-import os
-import glob
 import shutil
+import glob
+import os
+from document_helper import DocumentHelper
 import aspose.words as aw
 import aspose.words.saving
 import document_helper

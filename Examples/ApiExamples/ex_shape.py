@@ -5,14 +5,14 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
-from aspose.words.themes import ThemeColor
-from aspose.pydrawing import Color
-from aspose.words import Document, DocumentBuilder, NodeType
-from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
-import sys
-import typing
 import os
+import typing
+import sys
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
+from aspose.words import Document, DocumentBuilder, NodeType
+from aspose.pydrawing import Color
+from aspose.words.themes import ThemeColor
+from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
@@ -377,6 +377,68 @@ class ExShape(ApiExampleBase):
         self.assertEqual(aspose.pydrawing.Color.orange.to_argb(), shape.fill_color.to_argb())
         self.assertEqual(aw.drawing.WrapType.NONE, shape.wrap_type)
         self.assertFalse(shape.is_inline)
+
+    def test_bounds(self):
+        #ExStart
+        #ExFor:ShapeBase.bounds
+        #ExFor:ShapeBase.bounds_in_points
+        #ExSummary:Shows how to verify shape containing block boundaries.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.LINE, horz_pos=aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, left=50, vert_pos=aw.drawing.RelativeVerticalPosition.TOP_MARGIN, top=50, width=100, height=100, wrap_type=aw.drawing.WrapType.NONE)
+        shape.stroke_color = aspose.pydrawing.Color.orange
+        # Even though the line itself takes up little space on the document page,
+        # it occupies a rectangular containing block, the size of which we can determine using the "Bounds" properties.
+        self.assertEqual(aspose.pydrawing.RectangleF(50, 50, 100, 100), shape.bounds)
+        self.assertEqual(aspose.pydrawing.RectangleF(50, 50, 100, 100), shape.bounds_in_points)
+        # Create a group shape, and then set the size of its containing block using the "Bounds" property.
+        group = aw.drawing.GroupShape(doc)
+        group.bounds = aspose.pydrawing.RectangleF(0, 100, 250, 250)
+        self.assertEqual(aspose.pydrawing.RectangleF(0, 100, 250, 250), group.bounds_in_points)
+        # Create a rectangle, verify the size of its bounding block, and then add it to the group shape.
+        shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.RECTANGLE)
+        shape.width = 100
+        shape.height = 100
+        shape.left = 700
+        shape.top = 700
+        self.assertEqual(aspose.pydrawing.RectangleF(700, 700, 100, 100), shape.bounds_in_points)
+        group.append_child(shape)
+        # The group shape's coordinate plane has its origin on the top left-hand side corner of its containing block,
+        # and the x and y coordinates of (1000, 1000) on the bottom right-hand side corner.
+        # Our group shape is 250x250pt in size, so every 4pt on the group shape's coordinate plane
+        # translates to 1pt in the document body's coordinate plane.
+        # Every shape that we insert will also shrink in size by a factor of 4.
+        # The change in the shape's "BoundsInPoints" property will reflect this.
+        self.assertEqual(aspose.pydrawing.RectangleF(175, 275, 25, 25), shape.bounds_in_points)
+        doc.first_section.body.first_paragraph.append_child(group)
+        # Insert a shape and place it outside of the bounds of the group shape's containing block.
+        shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.RECTANGLE)
+        shape.width = 100
+        shape.height = 100
+        shape.left = 1000
+        shape.top = 1000
+        group.append_child(shape)
+        # The group shape's footprint in the document body has increased, but the containing block remains the same.
+        self.assertEqual(aspose.pydrawing.RectangleF(0, 100, 250, 250), group.bounds_in_points)
+        self.assertEqual(aspose.pydrawing.RectangleF(250, 350, 25, 25), shape.bounds_in_points)
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.Bounds.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.Bounds.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.LINE, 'Line 100002', 100, 100, 50, 50, shape)
+        self.assertEqual(aspose.pydrawing.Color.orange.to_argb(), shape.stroke_color.to_argb())
+        self.assertEqual(aspose.pydrawing.RectangleF(50, 50, 100, 100), shape.bounds_in_points)
+        group = doc.get_child(aw.NodeType.GROUP_SHAPE, 0, True).as_group_shape()
+        self.assertEqual(aspose.pydrawing.RectangleF(0, 100, 250, 250), group.bounds)
+        self.assertEqual(aspose.pydrawing.RectangleF(0, 100, 250, 250), group.bounds_in_points)
+        self.assertEqual(aspose.pydrawing.Size(1000, 1000), group.coord_size)
+        self.assertEqual(aspose.pydrawing.Point(0, 0), group.coord_origin)
+        shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.RECTANGLE, '', 100, 100, 700, 700, shape)
+        self.assertEqual(aspose.pydrawing.RectangleF(175, 275, 25, 25), shape.bounds_in_points)
+        shape = doc.get_child(aw.NodeType.SHAPE, 2, True).as_shape()
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.RECTANGLE, '', 100, 100, 1000, 1000, shape)
+        self.assertEqual(aspose.pydrawing.RectangleF(250, 350, 25, 25), shape.bounds_in_points)
 
     def test_flip_shape_orientation(self):
         #ExStart
@@ -1472,6 +1534,7 @@ class ExShape(ApiExampleBase):
         builder.insert_shape(shape_type=aw.drawing.ShapeType.MATH_PLUS, horz_pos=aw.drawing.RelativeHorizontalPosition.RIGHT_MARGIN, left=0, vert_pos=aw.drawing.RelativeVerticalPosition.PAGE, top=0, width=0, height=0, wrap_type=aw.drawing.WrapType.NONE)
         # To correct identify shape types you need to work with shapes as DML.
         save_options = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
+        # "Strict" or "Transitional" compliance allows to save shape as DML.
         save_options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL
         doc.save(file_name=ARTIFACTS_DIR + 'Shape.ShapeTypes.docx', save_options=save_options)
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.ShapeTypes.docx')
@@ -1975,68 +2038,6 @@ class ExShape(ApiExampleBase):
         self.assertEqual('Alt text for MyCube.', shape.alternative_text)
         with open(ARTIFACTS_DIR + 'Shape.alt_text.html', 'rb') as file:
             self.assertIn('<img src="Shape.alt_text.001.png" width="202" height="202" alt="Alt text for MyCube." ' + 'style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />', file.read().decode('utf-8'))
-
-    def test_bounds(self):
-        #ExStart
-        #ExFor:ShapeBase.bounds
-        #ExFor:ShapeBase.bounds_in_points
-        #ExSummary:Shows how to verify shape containing block boundaries.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        shape = builder.insert_shape(aw.drawing.ShapeType.LINE, aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, 50, aw.drawing.RelativeVerticalPosition.TOP_MARGIN, 50, 100, 100, aw.drawing.WrapType.NONE)
-        shape.stroke_color = aspose.pydrawing.Color.orange
-        # Even though the line itself takes up little space on the document page,
-        # it occupies a rectangular containing block, the size of which we can determine using the "bounds" properties.
-        self.assertEqual(aspose.pydrawing.RectangleF(50, 50, 100, 100), shape.bounds)
-        self.assertEqual(aspose.pydrawing.RectangleF(50, 50, 100, 100), shape.bounds_in_points)
-        # Create a group shape, and then set the size of its containing block using the "Bounds" property.
-        group = aw.drawing.GroupShape(doc)
-        group.bounds = aspose.pydrawing.RectangleF(0, 100, 250, 250)
-        self.assertEqual(aspose.pydrawing.RectangleF(0, 100, 250, 250), group.bounds_in_points)
-        # Create a rectangle, verify the size of its bounding block, and then add it to the group shape.
-        shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.RECTANGLE)
-        shape.width = 100
-        shape.height = 100
-        shape.left = 700
-        shape.top = 700
-        self.assertEqual(aspose.pydrawing.RectangleF(700, 700, 100, 100), shape.bounds_in_points)
-        group.append_child(shape)
-        # The group shape's coordinate plane has its origin on the top left-hand side corner of its containing block,
-        # and the x and y coordinates of (1000, 1000) on the bottom right-hand side corner.
-        # Our group shape is 250x250pt in size, so every 4pt on the group shape's coordinate plane
-        # translates to 1pt in the document body's coordinate plane.
-        # Every shape that we insert will also shrink in size by a factor of 4.
-        # The change in the shape's "bounds_in_points" property will reflect this.
-        self.assertEqual(aspose.pydrawing.RectangleF(175, 275, 25, 25), shape.bounds_in_points)
-        doc.first_section.body.first_paragraph.append_child(group)
-        # Insert a shape and place it outside of the bounds of the group shape's containing block.
-        shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.RECTANGLE)
-        shape.width = 100
-        shape.height = 100
-        shape.left = 1000
-        shape.top = 1000
-        group.append_child(shape)
-        # The group shape's footprint in the document body has increased, but the containing block remains the same.
-        self.assertEqual(aspose.pydrawing.RectangleF(0, 100, 250, 250), group.bounds_in_points)
-        self.assertEqual(aspose.pydrawing.RectangleF(250, 350, 25, 25), shape.bounds_in_points)
-        doc.save(ARTIFACTS_DIR + 'Shape.bounds.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.bounds.docx')
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_shape(aw.drawing.ShapeType.LINE, 'Line 100002', 100, 100, 50, 50, shape)
-        self.assertEqual(aspose.pydrawing.Color.orange.to_argb(), shape.stroke_color.to_argb())
-        self.assertEqual(aspose.pydrawing.RectangleF(50, 50, 100, 100), shape.bounds_in_points)
-        group = doc.get_child(aw.NodeType.GROUP_SHAPE, 0, True).as_group_shape()
-        self.assertEqual(aspose.pydrawing.RectangleF(0, 100, 250, 250), group.bounds)
-        self.assertEqual(aspose.pydrawing.RectangleF(0, 100, 250, 250), group.bounds_in_points)
-        self.assertEqual(aspose.pydrawing.Size(1000, 1000), group.coord_size)
-        self.assertEqual(aspose.pydrawing.Point(0, 0), group.coord_origin)
-        shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
-        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, '', 100, 100, 700, 700, shape)
-        self.assertEqual(aspose.pydrawing.RectangleF(175, 275, 25, 25), shape.bounds_in_points)
-        shape = doc.get_child(aw.NodeType.SHAPE, 2, True).as_shape()
-        self.verify_shape(aw.drawing.ShapeType.RECTANGLE, '', 100, 100, 1000, 1000, shape)
-        self.assertEqual(aspose.pydrawing.RectangleF(250, 350, 25, 25), shape.bounds_in_points)
 
     def test_fill(self):
         #ExStart

@@ -5,10 +5,10 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
-import aspose.pydrawing as drawing
-from enum import Enum
 import sys
+from enum import Enum
+import aspose.pydrawing as drawing
+from document_helper import DocumentHelper
 import aspose.words as aw
 import aspose.words.bibliography
 import aspose.words.buildingblocks

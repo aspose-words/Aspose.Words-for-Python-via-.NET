@@ -5,10 +5,10 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words.replacing import FindReplaceOptions
-from aspose.words.drawing import ShapeType
-from aspose.words import Document, DocumentBuilder
 from typing import List
+from aspose.words import Document, DocumentBuilder
+from aspose.words.drawing import ShapeType
+from aspose.words.replacing import FindReplaceOptions
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.notes

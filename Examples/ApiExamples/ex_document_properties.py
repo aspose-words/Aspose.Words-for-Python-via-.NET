@@ -5,10 +5,10 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import timedelta, timezone
-from document_helper import DocumentHelper
-import os
 import sys
+import os
+from document_helper import DocumentHelper
+from datetime import timedelta, timezone
 import aspose.words as aw
 import aspose.words.fields
 import aspose.words.properties

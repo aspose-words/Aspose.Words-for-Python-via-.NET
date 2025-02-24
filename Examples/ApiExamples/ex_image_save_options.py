@@ -5,9 +5,9 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import os
-import glob
 import sys
+import glob
+import os
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.saving
@@ -132,6 +132,7 @@ class ExImageSaveOptions(ApiExampleBase):
             #ExEnd
             test_util.TestUtil.verify_image(816, 1056, ARTIFACTS_DIR + 'ImageSaveOptions.WindowsMetaFile.png')
 
+    @unittest.skipUnless(sys.platform.startswith('win'), 'different calculation on Mac')
     def test_color_mode(self):
         for image_color_mode in [aw.saving.ImageColorMode.BLACK_AND_WHITE, aw.saving.ImageColorMode.GRAYSCALE, aw.saving.ImageColorMode.NONE]:
             #ExStart
@@ -205,10 +206,17 @@ class ExImageSaveOptions(ApiExampleBase):
         # When we save the document as an image, we can pass a SaveOptions object to
         # edit the image while the saving operation renders it.
         options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
+        # We can adjust these properties to change the image's brightness and contrast.
+        # Both are on a 0-1 scale and are at 0.5 by default.
         options.image_brightness = 0.3
         options.image_contrast = 0.7
+        # We can adjust horizontal and vertical resolution with these properties.
+        # This will affect the dimensions of the image.
+        # The default value for these properties is 96.0, for a resolution of 96dpi.
         options.horizontal_resolution = 72
         options.vertical_resolution = 72
+        # We can scale the image using this property. The default value is 1.0, for scaling of 100%.
+        # We can use this property to negate any changes in image dimensions that changing the resolution would cause.
         options.scale = 96 / 72
         doc.save(file_name=ARTIFACTS_DIR + 'ImageSaveOptions.EditImage.png', save_options=options)
         #ExEnd

@@ -111,6 +111,40 @@ class ExHeaderFooter(ApiExampleBase):
         self.assertEqual(5, doc.sections[2].headers_footers.count)
         self.assertEqual(5, len(list(filter(lambda hf: not hf.as_header_footer().is_linked_to_previous, doc.sections[2].headers_footers))))
 
+    def test_remove_footers(self):
+        #ExStart
+        #ExFor:Section.headers_footers
+        #ExFor:HeaderFooterCollection
+        #ExFor:HeaderFooterCollection.__getitem__(HeaderFooterType)
+        #ExFor:HeaderFooter
+        #ExSummary:Shows how to delete all footers from a document.
+        doc = aw.Document(file_name=MY_DIR + 'Header and footer types.docx')
+        # Iterate through each section and remove footers of every kind.
+        for section in filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_section(), b), list(doc))):
+            # There are three kinds of footer and header types.
+            # 1 -  The "First" header/footer, which only appears on the first page of a section.
+            footer = section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_FIRST)
+            cond_expression = footer
+            if cond_expression != None:
+                cond_expression.remove()
+            # 2 -  The "Primary" header/footer, which appears on odd pages.
+            footer = section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_PRIMARY)
+            cond_expression2 = footer
+            if cond_expression2 != None:
+                cond_expression2.remove()
+            # 3 -  The "Even" header/footer, which appears on even pages.
+            footer = section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_EVEN)
+            cond_expression3 = footer
+            if cond_expression3 != None:
+                cond_expression3.remove()
+            self.assertEqual(0, len(list(filter(lambda hf: not hf.as_header_footer().is_header, section.headers_footers))))
+        doc.save(file_name=ARTIFACTS_DIR + 'HeaderFooter.RemoveFooters.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'HeaderFooter.RemoveFooters.docx')
+        self.assertEqual(1, doc.sections.count)
+        self.assertEqual(0, len(list(filter(lambda hf: not hf.as_header_footer().is_header, doc.first_section.headers_footers))))
+        self.assertEqual(3, len(list(filter(lambda hf: hf.as_header_footer().is_header, doc.first_section.headers_footers))))
+
     def test_export_mode(self):
         #ExStart
         #ExFor:HtmlSaveOptions.export_headers_footers_mode
@@ -151,35 +185,3 @@ class ExHeaderFooter(ApiExampleBase):
         #ExEnd
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'HeaderFooter.ReplaceText.docx')
         self.assertTrue(f'Copyright (C) {current_year} by Aspose Pty Ltd.' in doc.range.text)
-
-    def test_remove_footers(self):
-        #ExStart
-        #ExFor:Section.headers_footers
-        #ExFor:HeaderFooterCollection
-        #ExFor:HeaderFooterCollection.__getitem__(HeaderFooterType)
-        #ExFor:HeaderFooter
-        #ExSummary:Shows how to delete all footers from a document.
-        doc = aw.Document(MY_DIR + 'Header and footer types.docx')
-        # Iterate through each section and remove footers of every kind.
-        for section in doc:
-            section = section.as_section()
-            # There are three kinds of footer and header types.
-            # 1 -  The "First" header/footer, which only appears on the first page of a section.
-            footer = section.headers_footers[aw.HeaderFooterType.FOOTER_FIRST]
-            if footer is not None:
-                footer.remove()
-            # 2 -  The "Primary" header/footer, which appears on odd pages.
-            footer = section.headers_footers[aw.HeaderFooterType.FOOTER_PRIMARY]
-            if footer is not None:
-                footer.remove()
-            # 3 -  The "Even" header/footer, which appears on even pages.
-            footer = section.headers_footers[aw.HeaderFooterType.FOOTER_EVEN]
-            if footer is not None:
-                footer.remove()
-            self.assertEqual(0, len([node for node in section.headers_footers if not node.as_header_footer().is_header]))
-        doc.save(ARTIFACTS_DIR + 'HeaderFooter.remove_footers.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'HeaderFooter.remove_footers.docx')
-        self.assertEqual(1, doc.sections.count)
-        self.assertEqual(0, len([node for node in doc.first_section.headers_footers if not node.as_header_footer().is_header]))
-        self.assertEqual(3, len([node for node in doc.first_section.headers_footers if node.as_header_footer().is_header]))

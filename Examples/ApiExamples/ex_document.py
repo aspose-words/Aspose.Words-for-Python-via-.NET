@@ -5,14 +5,14 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from datetime import timedelta, timezone
-from document_helper import DocumentHelper
-import base64
-import aspose.words.drawing
-import os
-import sys
-import glob
 from urllib.request import urlopen, Request
+import glob
+import sys
+import os
+import aspose.words.drawing
+import base64
+from document_helper import DocumentHelper
+from datetime import timedelta, timezone
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.digitalsignatures
