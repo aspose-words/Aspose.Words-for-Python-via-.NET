@@ -5,9 +5,9 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import io
 import aspose.words as aw
 import aspose.words.settings
+import io
 import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR
@@ -60,6 +60,26 @@ class ExViewOptions(ApiExampleBase):
             doc = aw.Document(file_name=ARTIFACTS_DIR + 'ViewOptions.SetZoomType.doc')
             self.assertEqual(zoom_type, doc.view_options.zoom_type)
 
+    def test_display_background_shape(self):
+        for display_background_shape in [False, True]:
+            #ExStart
+            #ExFor:ViewOptions.display_background_shape
+            #ExSummary:Shows how to hide/display document background images in view options.
+            # Use an HTML string to create a new document with a flat background color.
+            html = "<html>\n                <body style='background-color: blue'>\n                    <p>Hello world!</p>\n                </body>\n            </html>"
+            doc = aw.Document(stream=io.BytesIO(system_helper.text.Encoding.get_bytes(html, system_helper.text.Encoding.unicode())))
+            # The source for the document has a flat color background,
+            # the presence of which will set the "DisplayBackgroundShape" flag to "true".
+            self.assertTrue(doc.view_options.display_background_shape)
+            # Keep the "DisplayBackgroundShape" as "true" to get the document to display the background color.
+            # This may affect some text colors to improve visibility.
+            # Set the "DisplayBackgroundShape" to "false" to not display the background color.
+            doc.view_options.display_background_shape = display_background_shape
+            doc.save(file_name=ARTIFACTS_DIR + 'ViewOptions.DisplayBackgroundShape.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'ViewOptions.DisplayBackgroundShape.docx')
+            self.assertEqual(display_background_shape, doc.view_options.display_background_shape)
+
     def test_display_page_boundaries(self):
         for do_not_display_page_boundaries in [False, True]:
             #ExStart
@@ -103,24 +123,3 @@ class ExViewOptions(ApiExampleBase):
             doc.save(file_name=ARTIFACTS_DIR + 'ViewOptions.FormsDesign.xml')
             self.assertEqual(use_forms_design, '<w:formsDesign />' in system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'ViewOptions.FormsDesign.xml'))
             #ExEnd
-
-    def test_display_background_shape(self):
-        for display_background_shape in (False, True):
-            with self.subTest(display_background_shape=display_background_shape):
-                #ExStart
-                #ExFor:ViewOptions.display_background_shape
-                #ExSummary:Shows how to hide/display document background images in view options.
-                # Use an HTML string to create a new document with a flat background color.
-                html = "\n                    <html>\n                        <body style='background-color: blue'>\n                            <p>Hello world!</p>\n                        </body>\n                    </html>"
-                doc = aw.Document(io.BytesIO(html.encode('utf-8')))
-                # The source for the document has a flat color background,
-                # the presence of which will set the "display_background_shape" flag to "True".
-                self.assertTrue(doc.view_options.display_background_shape)
-                # Keep the "display_background_shape" as "True" to get the document to display the background color.
-                # This may affect some text colors to improve visibility.
-                # Set the "display_background_shape" to "False" to not display the background color.
-                doc.view_options.display_background_shape = display_background_shape
-                doc.save(ARTIFACTS_DIR + 'ViewOptions.display_background_shape.docx')
-                #ExEnd
-                doc = aw.Document(ARTIFACTS_DIR + 'ViewOptions.display_background_shape.docx')
-                self.assertEqual(display_background_shape, doc.view_options.display_background_shape)

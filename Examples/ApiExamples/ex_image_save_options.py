@@ -165,6 +165,33 @@ class ExImageSaveOptions(ApiExampleBase):
             elif switch_condition == aw.saving.ImageColorMode.BLACK_AND_WHITE:
                 self.assertTrue(tested_image_length < 15000)
 
+    @unittest.skip("drawing.Image type isn't supported yet")
+    def test_paper_color(self):
+        #ExStart
+        #ExFor:ImageSaveOptions
+        #ExFor:ImageSaveOptions.paper_color
+        #ExSummary:Renders a page of a Word document into an image with transparent or colored background.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.font.name = 'Times New Roman'
+        builder.font.size = 24
+        builder.writeln('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')
+        builder.insert_image(file_name=IMAGE_DIR + 'Logo.jpg')
+        # Create an "ImageSaveOptions" object which we can pass to the document's "Save" method
+        # to modify the way in which that method renders the document into an image.
+        img_options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
+        # Set the "PaperColor" property to a transparent color to apply a transparent
+        # background to the document while rendering it to an image.
+        img_options.paper_color = aspose.pydrawing.Color.transparent
+        doc.save(file_name=ARTIFACTS_DIR + 'ImageSaveOptions.PaperColor.Transparent.png', save_options=img_options)
+        # Set the "PaperColor" property to an opaque color to apply that color
+        # as the background of the document as we render it to an image.
+        img_options.paper_color = aspose.pydrawing.Color.light_coral
+        doc.save(file_name=ARTIFACTS_DIR + 'ImageSaveOptions.PaperColor.LightCoral.png', save_options=img_options)
+        #ExEnd
+        test_util.TestUtil.image_contains_transparency(ARTIFACTS_DIR + 'ImageSaveOptions.PaperColor.Transparent.png')
+        self.assertRaises(Exception, lambda: test_util.TestUtil.image_contains_transparency(ARTIFACTS_DIR + 'ImageSaveOptions.PaperColor.LightCoral.png'))
+
     def test_floyd_steinberg_dithering(self):
         #ExStart
         #ExFor:ImageBinarizationMethod
@@ -367,33 +394,6 @@ class ExImageSaveOptions(ApiExampleBase):
         self.assertEqual(3, len(image_file_names))
         for image_file_name in image_file_names:
             self.verify_image(2325, 5325, filename=image_file_name)
-
-    @unittest.skip("drawing.Image type isn't supported yet")
-    def test_paper_color(self):
-        #ExStart
-        #ExFor:ImageSaveOptions
-        #ExFor:ImageSaveOptions.paper_color
-        #ExSummary:Renders a page of a Word document into an image with transparent or colored background.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.font.name = 'Times New Roman'
-        builder.font.size = 24
-        builder.writeln('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')
-        builder.insert_image(IMAGE_DIR + 'Logo.jpg')
-        # Create an "ImageSaveOptions" object which we can pass to the document's "save" method
-        # to modify the way in which that method renders the document into an image.
-        img_options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
-        # Set the "paper_color" property to a transparent color to apply a transparent
-        # background to the document while rendering it to an image.
-        img_options.paper_color = drawing.Color.transparent
-        doc.save(ARTIFACTS_DIR + 'ImageSaveOptions.paper_color.transparent.png', img_options)
-        # Set the "paper_color" property to an opaque color to apply that color
-        # as the background of the document as we render it to an image.
-        img_options.paper_color = drawing.Color.light_coral
-        doc.save(ARTIFACTS_DIR + 'ImageSaveOptions.paper_color.light_coral.png', img_options)
-        #ExEnd
-        self.verify_image_contains_transparency(ARTIFACTS_DIR + 'ImageSaveOptions.paper_color.transparent.png')
-        self.verify_image_contains_transparency(ARTIFACTS_DIR + 'ImageSaveOptions.paper_color.light_coral.png')
 
     def test_pixel_format(self):
         for image_pixel_format in [aw.saving.ImagePixelFormat.FORMAT_1BPP_INDEXED, aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_555, aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_565, aw.saving.ImagePixelFormat.FORMAT_24BPP_RGB, aw.saving.ImagePixelFormat.FORMAT_32BPP_RGB, aw.saving.ImagePixelFormat.FORMAT_32BPP_ARGB, aw.saving.ImagePixelFormat.FORMAT_32BPP_P_ARGB, aw.saving.ImagePixelFormat.FORMAT_48BPP_RGB, aw.saving.ImagePixelFormat.FORMAT_64BPP_ARGB, aw.saving.ImagePixelFormat.FORMAT_64BPP_P_ARGB]:

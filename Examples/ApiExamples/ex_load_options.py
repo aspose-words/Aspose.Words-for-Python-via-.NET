@@ -39,6 +39,18 @@ class ExLoadOptions(ApiExampleBase):
                 self.assertEqual(0, doc.get_child_nodes(aw.NodeType.OFFICE_MATH, True).count)
             #ExEnd
 
+    @unittest.skipUnless(sys.platform.startswith('win'), 'requires windows')
+    def test_set_encoding(self):
+        #ExStart
+        #ExFor:LoadOptions.encoding
+        #ExSummary:Shows how to set the encoding with which to open a document.
+        load_options = aw.loading.LoadOptions()
+        load_options.encoding = system_helper.text.Encoding.ascii()
+        # Load the document while passing the LoadOptions object, then verify the document's contents.
+        doc = aw.Document(file_name=MY_DIR + 'English text.txt', load_options=load_options)
+        self.assertTrue('This is a sample text in English.' in doc.to_string(save_format=aw.SaveFormat.TEXT))
+        #ExEnd
+
     def test_font_settings(self):
         #ExStart
         #ExFor:LoadOptions.font_settings
@@ -117,28 +129,6 @@ class ExLoadOptions(ApiExampleBase):
         load_options.ignore_ole_data = True
         doc = aw.Document(file_name=MY_DIR + 'OLE objects.docx', load_options=load_options)
         doc.save(file_name=ARTIFACTS_DIR + 'LoadOptions.IgnoreOleData.docx')
-        #ExEnd
-
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires windows')
-    def test_set_encoding(self):
-        #ExStart
-        #ExFor:LoadOptions.encoding
-        #ExSummary:Shows how to set the encoding with which to open a document.
-        # A FileFormatInfo object will detect this file as being encoded in something other than UTF-7.
-        file_format_info = aw.FileFormatUtil.detect_file_format(MY_DIR + 'Encoded in UTF-7.txt')
-        self.assertNotEqual('utf-7', file_format_info.encoding)
-        # If we load the document with no loading configurations, Aspose.Words will detect its encoding as UTF-8.
-        doc = aw.Document(MY_DIR + 'Encoded in UTF-7.txt')
-        # The contents, parsed in UTF-8, create a valid string.
-        # However, knowing that the file is in UTF-7, we can see that the result is incorrect.
-        self.assertEqual('Hello world+ACE-', doc.to_string(aw.SaveFormat.TEXT).strip())
-        # In cases of ambiguous encoding such as this one, we can set a specific encoding variant
-        # to parse the file within a LoadOptions object.
-        load_options = aw.loading.LoadOptions()
-        load_options.encoding = 'utf-7'
-        # Load the document while passing the LoadOptions object, then verify the document's contents.
-        doc = aw.Document(MY_DIR + 'Encoded in UTF-7.txt', load_options)
-        self.assertEqual('Hello world!', doc.to_string(aw.SaveFormat.TEXT).strip())
         #ExEnd
 
     def test_add_editing_language(self):

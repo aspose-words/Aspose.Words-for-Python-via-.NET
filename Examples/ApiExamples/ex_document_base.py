@@ -27,6 +27,30 @@ class ExDocumentBase(ApiExampleBase):
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBase.SetPageColor.docx')
         self.assertEqual(aspose.pydrawing.Color.light_gray.to_argb(), doc.page_color.to_argb())
 
+    def test_import_node(self):
+        #ExStart
+        #ExFor:DocumentBase.import_node(Node,bool)
+        #ExSummary:Shows how to import a node from one document to another.
+        src_doc = aw.Document()
+        dst_doc = aw.Document()
+        src_doc.first_section.body.first_paragraph.append_child(aw.Run(doc=src_doc, text='Source document first paragraph text.'))
+        dst_doc.first_section.body.first_paragraph.append_child(aw.Run(doc=dst_doc, text='Destination document first paragraph text.'))
+        # Every node has a parent document, which is the document that contains the node.
+        # Inserting a node into a document that the node does not belong to will throw an exception.
+        self.assertNotEqual(dst_doc, src_doc.first_section.document)
+        self.assertRaises(Exception, lambda: dst_doc.append_child(src_doc.first_section))
+        # Use the ImportNode method to create a copy of a node, which will have the document
+        # that called the ImportNode method set as its new owner document.
+        imported_section = dst_doc.import_node(src_node=src_doc.first_section, is_import_children=True).as_section()
+        self.assertEqual(dst_doc, imported_section.document)
+        # We can now insert the node into the document.
+        dst_doc.append_child(imported_section)
+        self.assertEqual('Destination document first paragraph text.\r\nSource document first paragraph text.\r\n', dst_doc.to_string(save_format=aw.SaveFormat.TEXT))
+        #ExEnd
+        self.assertNotEqual(imported_section, src_doc.first_section)
+        self.assertNotEqual(imported_section.document, src_doc.first_section.document)
+        self.assertEqual(imported_section.body.first_paragraph.get_text(), src_doc.first_section.body.first_paragraph.get_text())
+
     def test_import_node_custom(self):
         #ExStart
         #ExFor:DocumentBase.import_node(Node,bool,ImportFormatMode)
@@ -60,42 +84,6 @@ class ExDocumentBase(ApiExampleBase):
         self.assertEqual(src_style.font.name, dst_doc.styles.get_by_name('My style_0').font.name)
         #ExEnd
 
-    def test_constructor(self):
-        #ExStart
-        #ExFor:DocumentBase
-        #ExSummary:Shows how to initialize the subclasses of DocumentBase.
-        doc = aw.Document()
-        self.assertIsInstance(doc, aw.DocumentBase)
-        glossary_doc = aw.buildingblocks.GlossaryDocument()
-        doc.glossary_document = glossary_doc
-        self.assertIsInstance(glossary_doc, aw.DocumentBase)
-        #ExEnd
-
-    def test_import_node(self):
-        #ExStart
-        #ExFor:DocumentBase.import_node(Node,bool)
-        #ExSummary:Shows how to import a node from one document to another.
-        src_doc = aw.Document()
-        dst_doc = aw.Document()
-        src_doc.first_section.body.first_paragraph.append_child(aw.Run(src_doc, 'Source document first paragraph text.'))
-        dst_doc.first_section.body.first_paragraph.append_child(aw.Run(dst_doc, 'Destination document first paragraph text.'))
-        # Every node has a parent document, which is the document that contains the node.
-        # Inserting a node into a document that the node does not belong to will throw an exception.
-        self.assertNotEqual(dst_doc, src_doc.first_section.document)
-        with self.assertRaises(Exception):
-            dst_doc.append_child(src_doc.first_section)
-        # Use the "import_node" method to create a copy of a node, which will have the document
-        # that called the ImportNode method set as its new owner document.
-        imported_section = dst_doc.import_node(src_doc.first_section, True).as_section()
-        self.assertEqual(dst_doc, imported_section.document)
-        # We can now insert the node into the document.
-        dst_doc.append_child(imported_section)
-        self.assertEqual('Destination document first paragraph text.\r\nSource document first paragraph text.\r\n', dst_doc.to_string(aw.SaveFormat.TEXT))
-        #ExEnd
-        self.assertNotEqual(imported_section, src_doc.first_section)
-        self.assertNotEqual(imported_section.document, src_doc.first_section.document)
-        self.assertEqual(imported_section.body.first_paragraph.get_text(), src_doc.first_section.body.first_paragraph.get_text())
-
     def test_background_shape(self):
         #ExStart
         #ExFor:DocumentBase.background_shape
@@ -108,10 +96,10 @@ class ExDocumentBase(ApiExampleBase):
         # 1 -  A flat color:
         shape_rectangle.fill_color = aspose.pydrawing.Color.light_blue
         doc.background_shape = shape_rectangle
-        doc.save(ARTIFACTS_DIR + 'DocumentBase.background_shape.flat_color.docx')
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBase.BackgroundShape.FlatColor.docx')
         # 2 -  An image:
         shape_rectangle = aw.drawing.Shape(doc, aw.drawing.ShapeType.RECTANGLE)
-        shape_rectangle.image_data.set_image(IMAGE_DIR + 'Transparent background logo.png')
+        shape_rectangle.image_data.set_image(file_name=IMAGE_DIR + 'Transparent background logo.png')
         # Adjust the image's appearance to make it more suitable as a watermark.
         shape_rectangle.image_data.contrast = 0.2
         shape_rectangle.image_data.brightness = 0.7
@@ -121,9 +109,20 @@ class ExDocumentBase(ApiExampleBase):
         save_options.cache_background_graphics = False
         # Microsoft Word does not support shapes with images as backgrounds,
         # but we can still see these backgrounds in other save formats such as .pdf.
-        doc.save(ARTIFACTS_DIR + 'DocumentBase.background_shape.image.pdf', save_options)
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBase.BackgroundShape.Image.pdf', save_options=save_options)
         #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'DocumentBase.background_shape.flat_color.docx')
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBase.BackgroundShape.FlatColor.docx')
         self.assertEqual(aspose.pydrawing.Color.light_blue.to_argb(), doc.background_shape.fill_color.to_argb())
         with self.assertRaises(Exception):
             doc.background_shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.TRIANGLE)
+
+    def test_constructor(self):
+        #ExStart
+        #ExFor:DocumentBase
+        #ExSummary:Shows how to initialize the subclasses of DocumentBase.
+        doc = aw.Document()
+        self.assertIsInstance(doc, aw.DocumentBase)
+        glossary_doc = aw.buildingblocks.GlossaryDocument()
+        doc.glossary_document = glossary_doc
+        self.assertIsInstance(glossary_doc, aw.DocumentBase)
+        #ExEnd

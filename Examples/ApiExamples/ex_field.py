@@ -155,6 +155,16 @@ class ExField(ApiExampleBase):
                     self.assertTrue(field.is_dirty)
             #ExEnd
 
+    def test_insert_field_with_field_builder_exception(self):
+        doc = aw.Document()
+        run = document_helper.DocumentHelper.insert_new_run(doc, ' Hello World!', 0)
+        argument_builder = aw.fields.FieldArgumentBuilder()
+        argument_builder.add_field(aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_MERGE_FIELD))
+        argument_builder.add_node(run)
+        argument_builder.add_text('Text argument builder')
+        field_builder = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_INCLUDE_TEXT)
+        self.assertRaises(Exception, lambda: field_builder.add_argument(argument=argument_builder).add_argument(argument='=').add_argument(argument='BestField').add_argument(argument=10).add_argument(argument=20).build_and_insert(ref_node=run))
+
     def test_preserve_include_picture(self):
         for preserve_include_picture_field in [False, True]:
             #ExStart
@@ -1524,6 +1534,107 @@ class ExField(ApiExampleBase):
         self.assertTrue(field.insert_paragraph_number_in_full_context)
         self.assertTrue(field.suppress_non_delimiters)
 
+    @unittest.skip('double conversion')
+    def test_field_builder(self):
+        #ExStart
+        #ExFor:FieldBuilder
+        #ExFor:FieldBuilder.add_argument(int)
+        #ExFor:FieldBuilder.add_argument(FieldArgumentBuilder)
+        #ExFor:FieldBuilder.add_argument(str)
+        #ExFor:FieldBuilder.add_argument(float)
+        #ExFor:FieldBuilder.add_argument(FieldBuilder)
+        #ExFor:FieldBuilder.add_switch(str)
+        #ExFor:FieldBuilder.add_switch(str,float)
+        #ExFor:FieldBuilder.add_switch(str,int)
+        #ExFor:FieldBuilder.add_switch(str,str)
+        #ExFor:FieldBuilder.build_and_insert(Paragraph)
+        #ExFor:FieldArgumentBuilder
+        #ExFor:FieldArgumentBuilder.__init__
+        #ExFor:FieldArgumentBuilder.add_field(FieldBuilder)
+        #ExFor:FieldArgumentBuilder.add_text(str)
+        #ExFor:FieldArgumentBuilder.add_node(Inline)
+        #ExSummary:Shows how to construct fields using a field builder, and then insert them into the document.
+        doc = aw.Document()
+        # Below are three examples of field construction done using a field builder.
+        # 1 -  Single field:
+        # Use a field builder to add a SYMBOL field which displays the ƒ (Florin) symbol.
+        builder = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_SYMBOL)
+        builder.add_argument(argument=402)
+        builder.add_switch(switch_name='\\f', switch_argument='Arial')
+        builder.add_switch(switch_name='\\s', switch_argument=25)
+        builder.add_switch(switch_name='\\u')
+        field = builder.build_and_insert(ref_node=doc.first_section.body.first_paragraph)
+        self.assertEqual(' SYMBOL 402 \\f Arial \\s 25 \\u ', field.get_field_code())
+        # 2 -  Nested field:
+        # Use a field builder to create a formula field used as an inner field by another field builder.
+        inner_formula_builder = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_FORMULA)
+        inner_formula_builder.add_argument(argument=100)
+        inner_formula_builder.add_argument(argument='+')
+        inner_formula_builder.add_argument(argument=74)
+        # Create another builder for another SYMBOL field, and insert the formula field
+        # that we have created above into the SYMBOL field as its argument.
+        builder = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_SYMBOL)
+        builder.add_argument(argument=inner_formula_builder)
+        field = builder.build_and_insert(ref_node=doc.first_section.body.append_paragraph(''))
+        # The outer SYMBOL field will use the formula field result, 174, as its argument,
+        # which will make the field display the ® (Registered Sign) symbol since its character number is 174.
+        self.assertEqual(' SYMBOL \x13 = 100 + 74 \x14\x15 ', field.get_field_code())
+        # 3 -  Multiple nested fields and arguments:
+        # Now, we will use a builder to create an IF field, which displays one of two custom string values,
+        # depending on the true/false value of its expression. To get a true/false value
+        # that determines which string the IF field displays, the IF field will test two numeric expressions for equality.
+        # We will provide the two expressions in the form of formula fields, which we will nest inside the IF field.
+        left_expression = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_FORMULA)
+        left_expression.add_argument(argument=2)
+        left_expression.add_argument(argument='+')
+        left_expression.add_argument(argument=3)
+        right_expression = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_FORMULA)
+        right_expression.add_argument(argument=2.5)
+        right_expression.add_argument(argument='*')
+        right_expression.add_argument(argument=5.2)
+        # Next, we will build two field arguments, which will serve as the true/false output strings for the IF field.
+        # These arguments will reuse the output values of our numeric expressions.
+        true_output = aw.fields.FieldArgumentBuilder()
+        true_output.add_text('True, both expressions amount to ')
+        true_output.add_field(left_expression)
+        false_output = aw.fields.FieldArgumentBuilder()
+        false_output.add_node(aw.Run(doc=doc, text='False, '))
+        false_output.add_field(left_expression)
+        false_output.add_node(aw.Run(doc=doc, text=' does not equal '))
+        false_output.add_field(right_expression)
+        # Finally, we will create one more field builder for the IF field and combine all of the expressions.
+        builder = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_IF)
+        builder.add_argument(argument=left_expression)
+        builder.add_argument(argument='=')
+        builder.add_argument(argument=right_expression)
+        builder.add_argument(argument=true_output)
+        builder.add_argument(argument=false_output)
+        field = builder.build_and_insert(ref_node=doc.first_section.body.append_paragraph(''))
+        self.assertEqual(' IF \x13 = 2 + 3 \x14\x15 = \x13 = 2.5 * 5.2 \x14\x15 ' + '"True, both expressions amount to \x13 = 2 + 3 \x14\x15" ' + '"False, \x13 = 2 + 3 \x14\x15 does not equal \x13 = 2.5 * 5.2 \x14\x15" ', field.get_field_code())
+        doc.update_fields()
+        doc.save(file_name=ARTIFACTS_DIR + 'Field.SYMBOL.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Field.SYMBOL.docx')
+        field_symbol = doc.range.fields[0].as_field_symbol()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_SYMBOL, expected_field_code=' SYMBOL 402 \\f Arial \\s 25 \\u ', expected_result='', field=field_symbol)
+        self.assertEqual('ƒ', field_symbol.display_result)
+        field_symbol = doc.range.fields[1].as_field_symbol()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_SYMBOL, expected_field_code=' SYMBOL \x13 = 100 + 74 \x14174\x15 ', expected_result='', field=field_symbol)
+        self.assertEqual('®', field_symbol.display_result)
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_FORMULA, expected_field_code=' = 100 + 74 ', expected_result='174', field=doc.range.fields[2])
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_IF, expected_field_code=' IF \x13 = 2 + 3 \x145\x15 = \x13 = 2.5 * 5.2 \x1413\x15 ' + '"True, both expressions amount to \x13 = 2 + 3 \x14\x15" ' + '"False, \x13 = 2 + 3 \x145\x15 does not equal \x13 = 2.5 * 5.2 \x1413\x15" ', expected_result='False, 5 does not equal 13', field=doc.range.fields[3])
+        self.assertRaises(Exception, lambda: test_util.TestUtil.fields_are_nested(doc.range.fields[2], doc.range.fields[3]))
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_FORMULA, expected_field_code=' = 2 + 3 ', expected_result='5', field=doc.range.fields[4])
+        test_util.TestUtil.fields_are_nested(doc.range.fields[4], doc.range.fields[3])
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_FORMULA, expected_field_code=' = 2.5 * 5.2 ', expected_result='13', field=doc.range.fields[5])
+        test_util.TestUtil.fields_are_nested(doc.range.fields[5], doc.range.fields[3])
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_FORMULA, expected_field_code=' = 2 + 3 ', expected_result='', field=doc.range.fields[6])
+        test_util.TestUtil.fields_are_nested(doc.range.fields[6], doc.range.fields[3])
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_FORMULA, expected_field_code=' = 2 + 3 ', expected_result='5', field=doc.range.fields[7])
+        test_util.TestUtil.fields_are_nested(doc.range.fields[7], doc.range.fields[3])
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_FORMULA, expected_field_code=' = 2.5 * 5.2 ', expected_result='13', field=doc.range.fields[8])
+        test_util.TestUtil.fields_are_nested(doc.range.fields[8], doc.range.fields[3])
+
     def test_field_author(self):
         #ExStart
         #ExFor:FieldAuthor
@@ -2447,17 +2558,6 @@ class ExField(ApiExampleBase):
         field = doc.range.fields[0]
         self.verify_field(aw.fields.FieldType.FIELD_DATE, 'DATE', datetime.datetime.now.to_string(de.date_time_format.short_date_pattern), field)
         self.assertEqual(CultureInfo('de-DE').lcid, field.locale_id)
-
-    def test_insert_field_with_field_builder_exception(self):
-        doc = aw.Document()
-        run = DocumentHelper.insert_new_run(doc, ' Hello World!', 0)
-        argument_builder = aw.fields.FieldArgumentBuilder()
-        argument_builder.add_field(aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_MERGE_FIELD))
-        argument_builder.add_node(run)
-        argument_builder.add_text('Text argument builder')
-        field_builder = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_INCLUDE_TEXT)
-        with self.assertRaises(Exception):
-            field_builder.add_argument(argument_builder).add_argument('=').add_argument('BestField').add_argument(10).add_argument(20.0).build_and_insert(run)
 
     def test_field_format(self):
         #ExStart
@@ -3658,107 +3758,6 @@ class ExField(ApiExampleBase):
         self.assertTrue(field.use_um_al_qura_calendar)
         self.assertEqual(' SAVEDATE  \\u', field.get_field_code())
         self.assertRegex(field.result, '\\d{1,2}[/]\\d{1,2}[/]\\d{4} \\d{1,2}:\\d{1,2}:\\d{1,2} [A,P]M')
-
-    @unittest.skip('double conversion')
-    def test_field_builder(self):
-        #ExStart
-        #ExFor:FieldBuilder
-        #ExFor:FieldBuilder.add_argument(int)
-        #ExFor:FieldBuilder.add_argument(FieldArgumentBuilder)
-        #ExFor:FieldBuilder.add_argument(str)
-        #ExFor:FieldBuilder.add_argument(float)
-        #ExFor:FieldBuilder.add_argument(FieldBuilder)
-        #ExFor:FieldBuilder.add_switch(str)
-        #ExFor:FieldBuilder.add_switch(str,float)
-        #ExFor:FieldBuilder.add_switch(str,int)
-        #ExFor:FieldBuilder.add_switch(str,str)
-        #ExFor:FieldBuilder.build_and_insert(Paragraph)
-        #ExFor:FieldArgumentBuilder
-        #ExFor:FieldArgumentBuilder.add_field(FieldBuilder)
-        #ExFor:FieldArgumentBuilder.add_text(str)
-        #ExFor:FieldArgumentBuilder.add_node(Inline)
-        #ExSummary:Shows how to construct fields using a field builder, and then insert them into the document.
-        doc = aw.Document()
-        # Below are three examples of field construction done using a field builder.
-        # 1 -  Single field:
-        # Use a field builder to add a SYMBOL field which displays the ƒ (Florin) symbol.
-        builder = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_SYMBOL)
-        builder.add_argument(402)
-        builder.add_switch('\\f', 'Arial')
-        builder.add_switch('\\s', 25)
-        builder.add_switch('\\u')
-        field = builder.build_and_insert(doc.first_section.body.first_paragraph)
-        self.assertEqual(' SYMBOL 402 \\f Arial \\s 25 \\u ', field.get_field_code())
-        # 2 -  Nested field:
-        # Use a field builder to create a formula field used as an inner field by another field builder.
-        inner_formula_builder = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_FORMULA)
-        inner_formula_builder.add_argument(100)
-        inner_formula_builder.add_argument('+')
-        inner_formula_builder.add_argument(74)
-        # Create another builder for another SYMBOL field, and insert the formula field
-        # that we have created above into the SYMBOL field as its argument.
-        builder = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_SYMBOL)
-        builder.add_argument(inner_formula_builder)
-        field = builder.build_and_insert(doc.first_section.body.append_paragraph(''))
-        # The outer SYMBOL field will use the formula field result, 174, as its argument,
-        # which will make the field display the ® (Registered Sign) symbol since its character number is 174.
-        self.assertEqual(' SYMBOL \x13 = 100 + 74 \x14\x15 ', field.get_field_code())
-        # 3 -  Multiple nested fields and arguments:
-        # Now, we will use a builder to create an IF field, which displays one of two custom string values,
-        # depending on the True/False value of its expression. To get a True/False value
-        # that determines which string the IF field displays, the IF field will test two numeric expressions for equality.
-        # We will provide the two expressions in the form of formula fields, which we will nest inside the IF field.
-        left_expression = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_FORMULA)
-        left_expression.add_argument(2)
-        left_expression.add_argument('+')
-        left_expression.add_argument(3)
-        right_expression = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_FORMULA)
-        right_expression.add_argument(2.5)
-        right_expression.add_argument('*')
-        right_expression.add_argument(5.2)
-        # Next, we will build two field arguments, which will serve as the True/False output strings for the IF field.
-        # These arguments will reuse the output values of our numeric expressions.
-        true_output = aw.fields.FieldArgumentBuilder()
-        true_output.add_text('True, both expressions amount to ')
-        true_output.add_field(left_expression)
-        false_output = aw.fields.FieldArgumentBuilder()
-        false_output.add_node(aw.Run(doc, 'False, '))
-        false_output.add_field(left_expression)
-        false_output.add_node(aw.Run(doc, ' does not equal '))
-        false_output.add_field(right_expression)
-        # Finally, we will create one more field builder for the IF field and combine all of the expressions.
-        builder = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_IF)
-        builder.add_argument(left_expression)
-        builder.add_argument('=')
-        builder.add_argument(right_expression)
-        builder.add_argument(true_output)
-        builder.add_argument(false_output)
-        field = builder.build_and_insert(doc.first_section.body.append_paragraph(''))
-        self.assertEqual(' IF \x13 = 2 + 3 \x14\x15 = \x13 = 2.5 * 5.2 \x14\x15 ' + '"True, both expressions amount to \x13 = 2 + 3 \x14\x15" ' + '"False, \x13 = 2 + 3 \x14\x15 does not equal \x13 = 2.5 * 5.2 \x14\x15" ', field.get_field_code())
-        doc.update_fields()
-        doc.save(ARTIFACTS_DIR + 'Field.field_builder.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Field.field_builder.docx')
-        field_symbol = doc.range.fields[0].as_field_symbol()
-        self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, ' SYMBOL 402 \\f Arial \\s 25 \\u ', '', field_symbol)
-        self.assertEqual('ƒ', field_symbol.display_result)
-        field_symbol = doc.range.fields[1].as_field_symbol()
-        self.verify_field(aw.fields.FieldType.FIELD_SYMBOL, ' SYMBOL \x13 = 100 + 74 \x14174\x15 ', '', field_symbol)
-        self.assertEqual('®', field_symbol.display_result)
-        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, ' = 100 + 74 ', '174', doc.range.fields[2])
-        self.verify_field(aw.fields.FieldType.FIELD_IF, ' IF \x13 = 2 + 3 \x145\x15 = \x13 = 2.5 * 5.2 \x1413\x15 ' + '"True, both expressions amount to \x13 = 2 + 3 \x14\x15" ' + '"False, \x13 = 2 + 3 \x145\x15 does not equal \x13 = 2.5 * 5.2 \x1413\x15" ', 'False, 5 does not equal 13', doc.range.fields[3])
-        with self.assertRaises(Exception):
-            self.fields_are_nested(doc.range.fields[2], doc.range.fields[3])
-        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, ' = 2 + 3 ', '5', doc.range.fields[4])
-        self.fields_are_nested(doc.range.fields[4], doc.range.fields[3])
-        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, ' = 2.5 * 5.2 ', '13', doc.range.fields[5])
-        self.fields_are_nested(doc.range.fields[5], doc.range.fields[3])
-        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, ' = 2 + 3 ', '', doc.range.fields[6])
-        self.fields_are_nested(doc.range.fields[6], doc.range.fields[3])
-        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, ' = 2 + 3 ', '5', doc.range.fields[7])
-        self.fields_are_nested(doc.range.fields[7], doc.range.fields[3])
-        self.verify_field(aw.fields.FieldType.FIELD_FORMULA, ' = 2.5 * 5.2 ', '13', doc.range.fields[8])
-        self.fields_are_nested(doc.range.fields[8], doc.range.fields[3])
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'windows date time parameters')
     def test_field_quote(self):

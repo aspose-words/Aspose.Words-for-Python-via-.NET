@@ -8,6 +8,7 @@
 import os
 from datetime import datetime, timezone
 import aspose.words as aw
+import aspose.words.loading
 import aspose.words.saving
 import datetime
 import system_helper
@@ -15,6 +16,35 @@ import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExDocSaveOptions(ApiExampleBase):
+
+    def test_save_as_doc(self):
+        #ExStart
+        #ExFor:DocSaveOptions
+        #ExFor:DocSaveOptions.__init__
+        #ExFor:DocSaveOptions.__init__(SaveFormat)
+        #ExFor:DocSaveOptions.password
+        #ExFor:DocSaveOptions.save_format
+        #ExFor:DocSaveOptions.save_routing_slip
+        #ExFor:IncorrectPasswordException
+        #ExSummary:Shows how to set save options for older Microsoft Word formats.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.write('Hello world!')
+        options = aw.saving.DocSaveOptions(aw.SaveFormat.DOC)
+        # Set a password which will protect the loading of the document by Microsoft Word or Aspose.Words.
+        # Note that this does not encrypt the contents of the document in any way.
+        options.password = 'MyPassword'
+        # If the document contains a routing slip, we can preserve it while saving by setting this flag to true.
+        options.save_routing_slip = True
+        doc.save(file_name=ARTIFACTS_DIR + 'DocSaveOptions.SaveAsDoc.doc', save_options=options)
+        # To be able to load the document,
+        # we will need to apply the password we specified in the DocSaveOptions object in a LoadOptions object.
+        with self.assertRaises(Exception):
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocSaveOptions.SaveAsDoc.doc')
+        load_options = aw.loading.LoadOptions(password='MyPassword')
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocSaveOptions.SaveAsDoc.doc', load_options=load_options)
+        self.assertEqual('Hello world!', doc.get_text().strip())
+        #ExEnd
 
     def test_temp_folder(self):
         #ExStart
@@ -114,30 +144,3 @@ class ExDocSaveOptions(ApiExampleBase):
                 self.assertTrue(tested_file_length < 14000)
             else:
                 self.assertTrue(tested_file_length < 22000)
-
-    def test_save_as_doc(self):
-        #ExStart
-        #ExFor:DocSaveOptions
-        #ExFor:DocSaveOptions.__init__(SaveFormat)
-        #ExFor:DocSaveOptions.password
-        #ExFor:DocSaveOptions.save_format
-        #ExFor:DocSaveOptions.save_routing_slip
-        #ExSummary:Shows how to set save options for older Microsoft Word formats.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.write('Hello world!')
-        options = aw.saving.DocSaveOptions(aw.SaveFormat.DOC)
-        # Set a password which will protect the loading of the document by Microsoft Word or Aspose.Words.
-        # Note that this does not encrypt the contents of the document in any way.
-        options.password = 'MyPassword'
-        # If the document contains a routing slip, we can preserve it while saving by setting this flag to True.
-        options.save_routing_slip = True
-        doc.save(ARTIFACTS_DIR + 'DocSaveOptions.save_as_doc.doc', options)
-        # To be able to load the document,
-        # we will need to apply the password we specified in the DocSaveOptions object in a LoadOptions object.
-        with self.assertRaises(Exception):
-            doc = aw.Document(ARTIFACTS_DIR + 'DocSaveOptions.save_as_doc.doc')
-        load_options = aw.loading.LoadOptions('MyPassword')
-        doc = aw.Document(ARTIFACTS_DIR + 'DocSaveOptions.save_as_doc.doc', load_options)
-        self.assertEqual('Hello world!', doc.get_text().strip())
-        #ExEnd

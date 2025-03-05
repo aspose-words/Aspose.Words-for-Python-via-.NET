@@ -6,13 +6,14 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 import sys
-import io
 from datetime import datetime
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.drawing
 import aspose.words.loading
 import datetime
+import io
+import system_helper
 import test_util
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR, IMAGE_URL
@@ -89,6 +90,60 @@ class ExHtmlLoadOptions(ApiExampleBase):
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'HtmlLoadOptions.BaseUri.docx')
         self.assertTrue(len(doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape().image_data.image_bytes) > 0)
 
+    def test_get_select_as_sdt(self):
+        #ExStart
+        #ExFor:HtmlLoadOptions.preferred_control_type
+        #ExFor:HtmlControlType
+        #ExSummary:Shows how to set preferred type of document nodes that will represent imported <input> and <select> elements.
+        html = "\n                <html>\n                    <select name='ComboBox' size='1'>\n                        <option value='val1'>item1</option>\n                        <option value='val2'></option>\n                    </select>\n                </html>\n            "
+        html_load_options = aw.loading.HtmlLoadOptions()
+        html_load_options.preferred_control_type = aw.loading.HtmlControlType.STRUCTURED_DOCUMENT_TAG
+        doc = aw.Document(stream=io.BytesIO(system_helper.text.Encoding.get_bytes(html, system_helper.text.Encoding.utf_8())), load_options=html_load_options)
+        nodes = doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)
+        tag = nodes[0].as_structured_document_tag()
+        #ExEnd
+        self.assertEqual(2, tag.list_items.count)
+        self.assertEqual('val1', tag.list_items[0].value)
+        self.assertEqual('val2', tag.list_items[1].value)
+
+    def test_get_input_as_form_field(self):
+        html = "\n                <html>\n                    <input type='text' value='Input value text' />\n                </html>\n            "
+        # By default, "HtmlLoadOptions.PreferredControlType" value is "HtmlControlType.FormField".
+        # So, we do not set this value.
+        html_load_options = aw.loading.HtmlLoadOptions()
+        doc = aw.Document(stream=io.BytesIO(system_helper.text.Encoding.get_bytes(html, system_helper.text.Encoding.utf_8())), load_options=html_load_options)
+        nodes = doc.get_child_nodes(aw.NodeType.FORM_FIELD, True)
+        self.assertEqual(1, nodes.count)
+        form_field = nodes[0].as_form_field()
+        self.assertEqual('Input value text', form_field.result)
+
+    def test_ignore_noscript_elements(self):
+        for ignore_noscript_elements in [True, False]:
+            #ExStart
+            #ExFor:HtmlLoadOptions.ignore_noscript_elements
+            #ExSummary:Shows how to ignore <noscript> HTML elements.
+            html = '\n                <html>\n                  <head>\n                    <title>NOSCRIPT</title>\n                      <meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"">\n                      <script type=""text/javascript"">\n                        alert(""Hello, world!"");\n                      </script>\n                  </head>\n                <body>\n                  <noscript><p>Your browser does not support JavaScript!</p></noscript>\n                </body>\n                </html>'
+            html_load_options = aw.loading.HtmlLoadOptions()
+            html_load_options.ignore_noscript_elements = ignore_noscript_elements
+            doc = aw.Document(stream=io.BytesIO(system_helper.text.Encoding.get_bytes(html, system_helper.text.Encoding.utf_8())), load_options=html_load_options)
+            doc.save(file_name=ARTIFACTS_DIR + 'HtmlLoadOptions.IgnoreNoscriptElements.pdf')
+            #ExEnd
+
+    def test_block_import(self):
+        for block_import_mode in [aw.loading.BlockImportMode.PRESERVE, aw.loading.BlockImportMode.MERGE]:
+            #ExStart
+            #ExFor:HtmlLoadOptions.block_import_mode
+            #ExFor:BlockImportMode
+            #ExSummary:Shows how properties of block-level elements are imported from HTML-based documents.
+            html = "\n            <html>\n                <div style='border:dotted'>\n                    <div style='border:solid'>\n                        <p>paragraph 1</p>\n                        <p>paragraph 2</p>\n                    </div>\n                </div>\n            </html>"
+            stream = io.BytesIO(system_helper.text.Encoding.get_bytes(html, system_helper.text.Encoding.utf_8()))
+            load_options = aw.loading.HtmlLoadOptions()
+            # Set the new mode of import HTML block-level elements.
+            load_options.block_import_mode = block_import_mode
+            doc = aw.Document(stream=stream, load_options=load_options)
+            doc.save(file_name=ARTIFACTS_DIR + 'HtmlLoadOptions.BlockImport.docx')
+        #ExEnd
+
     def test_font_face_rules(self):
         #ExStart:FontFaceRules
         #ExFor:HtmlLoadOptions.support_font_face_rules
@@ -98,52 +153,3 @@ class ExHtmlLoadOptions(ApiExampleBase):
         doc = aw.Document(file_name=MY_DIR + 'Html with FontFace.html', load_options=load_options)
         self.assertEqual('Squarish Sans CT Regular', doc.font_infos[0].name)
         #ExEnd:FontFaceRules
-
-    def test_get_select_as_sdt(self):
-        #ExStart
-        #ExFor:HtmlLoadOptions.preferred_control_type
-        #ExSummary:Shows how to set preferred type of document nodes that will represent imported <input> and <select> elements.
-        html = "\n            <html>\n                <select name='ComboBox' size='1'>\n                    <option value='val1'>item1</option>\n                    <option value='val2'></option>\n                </select>\n            </html>"
-        html_load_options = aw.loading.HtmlLoadOptions()
-        html_load_options.preferred_control_type = aw.loading.HtmlControlType.STRUCTURED_DOCUMENT_TAG
-        doc = aw.Document(io.BytesIO(html.encode('utf-8')), html_load_options)
-        nodes = doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)
-        tag = nodes[0].as_structured_document_tag()
-        #ExEnd
-        self.assertEqual(2, tag.list_items.count)
-        self.assertEqual('val1', tag.list_items[0].value)
-        self.assertEqual('val2', tag.list_items[1].value)
-
-    def test_get_input_as_form_field(self):
-        html = "\n            <html>\n                <input type='text' value='Input value text' />\n            </html>"
-        # By default, "HtmlLoadOptions.preferred_control_type" value is "HtmlControlType.FORM_FIELD".
-        # So, we do not set this value.
-        html_load_options = aw.loading.HtmlLoadOptions()
-        doc = aw.Document(io.BytesIO(html.encode('utf-8')), html_load_options)
-        nodes = doc.get_child_nodes(aw.NodeType.FORM_FIELD, True)
-        self.assertEqual(1, nodes.count)
-        form_field = nodes[0].as_form_field()
-        self.assertEqual('Input value text', form_field.result)
-
-    def test_ignore_noscript_elements(self):
-        for ignore_noscript_elements in (True, False):
-            with self.subTest(ignore_noscript_elements=ignore_noscript_elements):
-                #ExStart
-                #ExFor:HtmlLoadOptions.ignore_noscript_elements
-                #ExSummary:Shows how to ignore <noscript> HTML elements.
-                html = '\n                    <html>\n                      <head>\n                        <title>NOSCRIPT</title>\n                          <meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"">\n                          <script type=""text/javascript"">\n                            alert(""Hello, world!"")\n                          </script>\n                      </head>\n                    <body>\n                      <noscript><p>Your browser does not support JavaScript!</p></noscript>\n                    </body>\n                    </html>'
-                html_load_options = aw.loading.HtmlLoadOptions()
-                html_load_options.ignore_noscript_elements = ignore_noscript_elements
-                doc = aw.Document(io.BytesIO(html.encode('utf-8')), html_load_options)
-                doc.save(ARTIFACTS_DIR + 'HtmlLoadOptions.ignore_noscript_elements.pdf')
-                #ExEnd
-
-    def test_block_import(self):
-        for block_import_mode in [aw.loading.BlockImportMode.PRESERVE, aw.loading.BlockImportMode.MERGE]:
-            html = "<html><div style='border:dotted'><div style='border:solid'><p>paragraph 1</p><p>paragraph 2</p></div></div></html>"
-            with io.BytesIO(html.encode('utf-8')) as stream:
-                load_options = aw.loading.HtmlLoadOptions()
-                # Set the new mode of import HTML block-level elements.
-                load_options.block_import_mode = block_import_mode
-                doc = aw.Document(stream, load_options)
-                doc.save(ARTIFACTS_DIR + 'HtmlLoadOptions.BlockImport.docx')

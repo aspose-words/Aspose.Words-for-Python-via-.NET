@@ -181,6 +181,16 @@ class ExRevision(ApiExampleBase):
         doc_original = document_helper.DocumentHelper.save_open(doc_original)
         self.assertEqual(0, doc_original.revisions.count)
 
+    def test_compare_document_with_revisions(self):
+        doc1 = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc1)
+        builder.writeln('Hello world! This text is not a revision.')
+        doc_with_revision = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc_with_revision)
+        doc_with_revision.start_track_revisions(author='John Doe')
+        builder.writeln('This is a revision.')
+        self.assertRaises(Exception, lambda: doc_with_revision.compare(document=doc1, author='John Doe', date_time=datetime.datetime.now()))
+
     def test_compare_options(self):
         #ExStart
         #ExFor:CompareOptions
@@ -498,17 +508,6 @@ class ExRevision(ApiExampleBase):
         # In Microsoft Word, we can process them manually via "Review" -> "Changes".
         doc.save(ARTIFACTS_DIR + 'Document.track_revisions.docx')
         #ExEnd
-
-    def test_compare_document_with_revisions(self):
-        doc1 = aw.Document()
-        builder = aw.DocumentBuilder(doc1)
-        builder.writeln('Hello world! This text is not a revision.')
-        doc_with_revision = aw.Document()
-        builder = aw.DocumentBuilder(doc_with_revision)
-        doc_with_revision.start_track_revisions('John Doe')
-        builder.writeln('This is a revision.')
-        with self.assertRaises(Exception):
-            doc_with_revision.compare(doc1, 'John Doe', datetime.datetime.now())
 
     def test_ignore_dml_unique_id(self):
         for is_ignore_dml_unique_id in (False, True):

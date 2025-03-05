@@ -19,6 +19,43 @@ from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExFile(ApiExampleBase):
 
+    def test_file_format_to_string(self):
+        #ExStart
+        #ExFor:FileFormatUtil.content_type_to_load_format(str)
+        #ExFor:FileFormatUtil.content_type_to_save_format(str)
+        #ExSummary:Shows how to find the corresponding Aspose load/save format from each media type string.
+        # The ContentTypeToSaveFormat/ContentTypeToLoadFormat methods only accept official IANA media type names, also known as MIME types.
+        # All valid media types are listed here: https:#www.iana.org/assignments/media-types/media-types.xhtml.
+        # Trying to associate a SaveFormat with a partial media type string will not work.
+        self.assertRaises(Exception, lambda: aw.FileFormatUtil.content_type_to_save_format('jpeg'))
+        # If Aspose.Words does not have a corresponding save/load format for a content type, an exception will also be thrown.
+        self.assertRaises(Exception, lambda: aw.FileFormatUtil.content_type_to_save_format('application/zip'))
+        # Files of the types listed below can be saved, but not loaded using Aspose.Words.
+        self.assertRaises(Exception, lambda: aw.FileFormatUtil.content_type_to_load_format('image/jpeg'))
+        self.assertEqual(aw.SaveFormat.JPEG, aw.FileFormatUtil.content_type_to_save_format('image/jpeg'))
+        self.assertEqual(aw.SaveFormat.PNG, aw.FileFormatUtil.content_type_to_save_format('image/png'))
+        self.assertEqual(aw.SaveFormat.TIFF, aw.FileFormatUtil.content_type_to_save_format('image/tiff'))
+        self.assertEqual(aw.SaveFormat.GIF, aw.FileFormatUtil.content_type_to_save_format('image/gif'))
+        self.assertEqual(aw.SaveFormat.EMF, aw.FileFormatUtil.content_type_to_save_format('image/x-emf'))
+        self.assertEqual(aw.SaveFormat.XPS, aw.FileFormatUtil.content_type_to_save_format('application/vnd.ms-xpsdocument'))
+        self.assertEqual(aw.SaveFormat.PDF, aw.FileFormatUtil.content_type_to_save_format('application/pdf'))
+        self.assertEqual(aw.SaveFormat.SVG, aw.FileFormatUtil.content_type_to_save_format('image/svg+xml'))
+        self.assertEqual(aw.SaveFormat.EPUB, aw.FileFormatUtil.content_type_to_save_format('application/epub+zip'))
+        # For file types that can be saved and loaded, we can match a media type to both a load format and a save format.
+        self.assertEqual(aw.LoadFormat.DOC, aw.FileFormatUtil.content_type_to_load_format('application/msword'))
+        self.assertEqual(aw.SaveFormat.DOC, aw.FileFormatUtil.content_type_to_save_format('application/msword'))
+        self.assertEqual(aw.LoadFormat.DOCX, aw.FileFormatUtil.content_type_to_load_format('application/vnd.openxmlformats-officedocument.wordprocessingml.document'))
+        self.assertEqual(aw.SaveFormat.DOCX, aw.FileFormatUtil.content_type_to_save_format('application/vnd.openxmlformats-officedocument.wordprocessingml.document'))
+        self.assertEqual(aw.LoadFormat.TEXT, aw.FileFormatUtil.content_type_to_load_format('text/plain'))
+        self.assertEqual(aw.SaveFormat.TEXT, aw.FileFormatUtil.content_type_to_save_format('text/plain'))
+        self.assertEqual(aw.LoadFormat.RTF, aw.FileFormatUtil.content_type_to_load_format('application/rtf'))
+        self.assertEqual(aw.SaveFormat.RTF, aw.FileFormatUtil.content_type_to_save_format('application/rtf'))
+        self.assertEqual(aw.LoadFormat.HTML, aw.FileFormatUtil.content_type_to_load_format('text/html'))
+        self.assertEqual(aw.SaveFormat.HTML, aw.FileFormatUtil.content_type_to_save_format('text/html'))
+        self.assertEqual(aw.LoadFormat.MHTML, aw.FileFormatUtil.content_type_to_load_format('multipart/related'))
+        self.assertEqual(aw.SaveFormat.MHTML, aw.FileFormatUtil.content_type_to_save_format('multipart/related'))
+        #ExEnd
+
     def test_detect_document_encryption(self):
         #ExStart
         #ExFor:FileFormatUtil.detect_file_format(str)
@@ -88,6 +125,16 @@ class ExFile(ApiExampleBase):
             doc.save(file_name=ARTIFACTS_DIR + 'File.SaveToDetectedFileFormat' + aw.FileFormatUtil.save_format_to_extension(save_format))
         #ExEnd
 
+    def test_detect_file_format_save_format_to_load_format(self):
+        #ExStart
+        #ExFor:FileFormatUtil.save_format_to_load_format(SaveFormat)
+        #ExSummary:Shows how to convert a save format to its corresponding load format.
+        self.assertEqual(aw.LoadFormat.HTML, aw.FileFormatUtil.save_format_to_load_format(aw.SaveFormat.HTML))
+        # Some file types can have documents saved to, but not loaded from using Aspose.Words.
+        # If we attempt to convert a save format of such a type to a load format, an exception will be thrown.
+        self.assertRaises(Exception, lambda: aw.FileFormatUtil.save_format_to_load_format(aw.SaveFormat.JPEG))
+        #ExEnd
+
     def test_catch_file_corrupted_exception(self):
         #ExStart
         #ExFor:FileCorruptedException
@@ -114,57 +161,6 @@ class ExFile(ApiExampleBase):
         info = aw.FileFormatUtil.detect_file_format(MY_DIR + 'Document.docx')
         self.assertEqual(aw.LoadFormat.DOCX, info.load_format)
         self.assertIsNone(info.encoding)
-
-    def test_file_format_to_string(self):
-        #ExStart
-        #ExFor:FileFormatUtil.content_type_to_load_format(str)
-        #ExFor:FileFormatUtil.content_type_to_save_format(str)
-        #ExSummary:Shows how to find the corresponding Aspose load/save format from each media type string.
-        # The content_type_to_save_format/content_type_to_load_format methods only accept official IANA media type names, also known as MIME types.
-        # All valid media types are listed here: https://www.iana.org/assignments/media-types/media-types.xhtml.
-        # Trying to associate a SaveFormat with a partial media type string will not work.
-        with self.assertRaises(Exception):
-            aw.FileFormatUtil.content_type_to_save_format('jpeg')
-        # If Aspose.Words does not have a corresponding save/load format for a content type, an exception will also be thrown.
-        with self.assertRaises(Exception):
-            aw.FileFormatUtil.content_type_to_save_format('application/zip')
-        # Files of the types listed below can be saved, but not loaded using Aspose.Words.
-        with self.assertRaises(Exception):
-            aw.FileFormatUtil.content_type_to_load_format('image/jpeg')
-        self.assertEqual(aw.SaveFormat.JPEG, aw.FileFormatUtil.content_type_to_save_format('image/jpeg'))
-        self.assertEqual(aw.SaveFormat.PNG, aw.FileFormatUtil.content_type_to_save_format('image/png'))
-        self.assertEqual(aw.SaveFormat.TIFF, aw.FileFormatUtil.content_type_to_save_format('image/tiff'))
-        self.assertEqual(aw.SaveFormat.GIF, aw.FileFormatUtil.content_type_to_save_format('image/gif'))
-        self.assertEqual(aw.SaveFormat.EMF, aw.FileFormatUtil.content_type_to_save_format('image/x-emf'))
-        self.assertEqual(aw.SaveFormat.XPS, aw.FileFormatUtil.content_type_to_save_format('application/vnd.ms-xpsdocument'))
-        self.assertEqual(aw.SaveFormat.PDF, aw.FileFormatUtil.content_type_to_save_format('application/pdf'))
-        self.assertEqual(aw.SaveFormat.SVG, aw.FileFormatUtil.content_type_to_save_format('image/svg+xml'))
-        self.assertEqual(aw.SaveFormat.EPUB, aw.FileFormatUtil.content_type_to_save_format('application/epub+zip'))
-        # For file types that can be saved and loaded, we can match a media type to both a load format and a save format.
-        self.assertEqual(aw.LoadFormat.DOC, aw.FileFormatUtil.content_type_to_load_format('application/msword'))
-        self.assertEqual(aw.SaveFormat.DOC, aw.FileFormatUtil.content_type_to_save_format('application/msword'))
-        self.assertEqual(aw.LoadFormat.DOCX, aw.FileFormatUtil.content_type_to_load_format('application/vnd.openxmlformats-officedocument.wordprocessingml.document'))
-        self.assertEqual(aw.SaveFormat.DOCX, aw.FileFormatUtil.content_type_to_save_format('application/vnd.openxmlformats-officedocument.wordprocessingml.document'))
-        self.assertEqual(aw.LoadFormat.TEXT, aw.FileFormatUtil.content_type_to_load_format('text/plain'))
-        self.assertEqual(aw.SaveFormat.TEXT, aw.FileFormatUtil.content_type_to_save_format('text/plain'))
-        self.assertEqual(aw.LoadFormat.RTF, aw.FileFormatUtil.content_type_to_load_format('application/rtf'))
-        self.assertEqual(aw.SaveFormat.RTF, aw.FileFormatUtil.content_type_to_save_format('application/rtf'))
-        self.assertEqual(aw.LoadFormat.HTML, aw.FileFormatUtil.content_type_to_load_format('text/html'))
-        self.assertEqual(aw.SaveFormat.HTML, aw.FileFormatUtil.content_type_to_save_format('text/html'))
-        self.assertEqual(aw.LoadFormat.MHTML, aw.FileFormatUtil.content_type_to_load_format('multipart/related'))
-        self.assertEqual(aw.SaveFormat.MHTML, aw.FileFormatUtil.content_type_to_save_format('multipart/related'))
-        #ExEnd
-
-    def test_detect_file_format_save_format_to_load_format(self):
-        #ExStart
-        #ExFor:FileFormatUtil.save_format_to_load_format(SaveFormat)
-        #ExSummary:Shows how to convert a save format to its corresponding load format.
-        self.assertEqual(aw.LoadFormat.HTML, aw.FileFormatUtil.save_format_to_load_format(aw.SaveFormat.HTML))
-        # Some file types can have documents saved to, but not loaded from using Aspose.Words.
-        # If we attempt to convert a save format of such a type to a load format, an exception will be thrown.
-        with self.assertRaises(Exception):
-            aw.FileFormatUtil.save_format_to_load_format(aw.SaveFormat.JPEG)
-        #ExEnd
 
     def test_extract_images(self):
         #ExStart

@@ -117,6 +117,29 @@ class ExDocument(ApiExampleBase):
             self.assertAlmostEqual(32, aw.ConvertUtil.point_to_pixel(points=shape.height), delta=0.01)
         #ExEnd
 
+    def test_load_encrypted(self):
+        #ExStart
+        #ExFor:Document.__init__(BytesIO,LoadOptions)
+        #ExFor:Document.__init__(str,LoadOptions)
+        #ExFor:LoadOptions
+        #ExFor:LoadOptions.__init__(str)
+        #ExSummary:Shows how to load an encrypted Microsoft Word document.
+        doc = None
+        # Aspose.Words throw an exception if we try to open an encrypted document without its password.
+        with self.assertRaises(Exception):
+            doc = aw.Document(file_name=MY_DIR + 'Encrypted.docx')
+        # When loading such a document, the password is passed to the document's constructor using a LoadOptions object.
+        options = aw.loading.LoadOptions(password='docPassword')
+        # There are two ways of loading an encrypted document with a LoadOptions object.
+        # 1 -  Load the document from the local file system by filename:
+        doc = aw.Document(file_name=MY_DIR + 'Encrypted.docx', load_options=options)
+        self.assertEqual('Test encrypted document.', doc.get_text().strip())  #ExSkip
+        # 2 -  Load the document from a stream:
+        with system_helper.io.File.open_read(MY_DIR + 'Encrypted.docx') as stream:
+            doc = aw.Document(stream=stream, load_options=options)
+            self.assertEqual('Test encrypted document.', doc.get_text().strip())  #ExSkip
+        #ExEnd
+
     def test_temp_folder(self):
         #ExStart
         #ExFor:LoadOptions.temp_folder
@@ -178,6 +201,25 @@ class ExDocument(ApiExampleBase):
         out_doc_text = aw.Document(file_name=ARTIFACTS_DIR + 'Document.AppendDocument.docx').get_text()
         self.assertTrue(out_doc_text.startswith(dst_doc.get_text()))
         self.assertTrue(out_doc_text.endswith(src_doc.get_text()))
+
+    def test_append_document_from_automation(self):
+        doc = aw.Document()
+        # We should call this method to clear this document of any existing content.
+        doc.remove_all_children()
+        record_count = 5
+        i = 1
+        while i <= record_count:
+            src_doc = aw.Document()
+            self.assertRaises(Exception, lambda: aw.Document(file_name='C:\\DetailsList.doc'))
+            # Append the source document at the end of the destination document.
+            doc.append_document(src_doc=src_doc, import_format_mode=aw.ImportFormatMode.USE_DESTINATION_STYLES)
+            # Automation required you to insert a new section break at this point, however, in Aspose.Words we
+            # do not need to do anything here as the appended document is imported as separate sections already
+            # Unlink all headers/footers in this section from the previous section headers/footers
+            # if this is the second document or above being appended.
+            if i > 1:
+                self.assertRaises(Exception, lambda: doc.sections[i].headers_footers.link_to_previous(is_link_to_previous=False))
+            i += 1
 
     def test_keep_source_numbering_same_list_ids(self):
         #ExStart
@@ -1337,47 +1379,6 @@ class ExDocument(ApiExampleBase):
             doc.save(ARTIFACTS_DIR + 'Document.insert_html_from_web_page.docx')
         #ExEnd
         self.verify_web_response_status_code(200, url)
-
-    def test_load_encrypted(self):
-        #ExStart
-        #ExFor:Document.__init__(BytesIO,LoadOptions)
-        #ExFor:Document.__init__(str,LoadOptions)
-        #ExFor:LoadOptions
-        #ExFor:LoadOptions.__init__(str)
-        #ExSummary:Shows how to load an encrypted Microsoft Word document.
-        # Aspose.Words throw an exception if we try to open an encrypted document without its password.
-        with self.assertRaises(Exception):
-            doc = aw.Document(MY_DIR + 'Encrypted.docx')
-        # When loading such a document, the password is passed to the document's constructor using a LoadOptions object.
-        options = aw.loading.LoadOptions('docPassword')
-        # There are two ways of loading an encrypted document with a LoadOptions object.
-        # 1 -  Load the document from the local file system by filename:
-        doc = aw.Document(MY_DIR + 'Encrypted.docx', options)
-        self.assertEqual('Test encrypted document.', doc.get_text().strip())  #ExSkip
-        # 2 -  Load the document from a stream:
-        with open(MY_DIR + 'Encrypted.docx', 'rb') as stream:
-            doc = aw.Document(stream, options)
-            self.assertEqual('Test encrypted document.', doc.get_text().strip())  #ExSkip
-        #ExEnd
-
-    def test_append_document_from_automation(self):
-        doc = aw.Document()
-        # We should call this method to clear this document of any existing content.
-        doc.remove_all_children()
-        record_count = 5
-        for i in range(1, record_count + 1):
-            src_doc = aw.Document()
-            with self.assertRaises(Exception):
-                src_doc = aw.Document('C:\\DetailsList.doc')
-            # Append the source document at the end of the destination document.
-            doc.append_document(src_doc, aw.ImportFormatMode.USE_DESTINATION_STYLES)
-            # Automation required you to insert a new section break at this point, however, in Aspose.Words we
-            # do not need to do anything here as the appended document is imported as separate sections already
-            # Unlink all headers/footers in this section from the previous section headers/footers
-            # if this is the second document or above being appended.
-            if i > 1:
-                with self.assertRaises(Exception):
-                    doc.sections[i].headers_footers.link_to_previous(False)
 
     def test_import_list(self):
         for is_keep_source_numbering in (True, False):

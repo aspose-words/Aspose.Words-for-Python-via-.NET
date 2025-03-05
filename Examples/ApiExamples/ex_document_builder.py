@@ -156,6 +156,23 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(3, shape.horizontal_rule_format.height)
         self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), shape.horizontal_rule_format.color.to_argb())
 
+    def test_horizontal_rule_format_exceptions(self):
+        builder = aw.DocumentBuilder()
+        shape = builder.insert_horizontal_rule()
+        horizontal_rule_format = shape.horizontal_rule_format
+        horizontal_rule_format.width_percent = 1
+        horizontal_rule_format.width_percent = 100
+        with self.assertRaises(Exception):
+            horizontal_rule_format.width_percent = 0
+        with self.assertRaises(Exception):
+            horizontal_rule_format.width_percent = 101
+        horizontal_rule_format.height = 0
+        horizontal_rule_format.height = 1584
+        with self.assertRaises(Exception):
+            horizontal_rule_format.height = -1
+        with self.assertRaises(Exception):
+            horizontal_rule_format.height = 1585
+
     def test_insert_hyperlink(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_hyperlink
@@ -1715,6 +1732,11 @@ class ExDocumentBuilder(ApiExampleBase):
                 self.assertEqual('Text immediately before the field. \x13 AUTHOR "John Doe" \x14John Doe\x15', doc.get_text().strip())
             #ExEnd
 
+    def test_insert_ole_object_exception(self):
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        self.assertRaises(Exception, lambda: builder.insert_ole_object(file_name='', prog_id='checkbox', is_linked=False, as_icon=True, presentation=None))
+
     def test_insert_pie_chart(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_chart(ChartType,float,float)
@@ -2074,24 +2096,6 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual('ruby', phonetic_guide.ruby_text)
         #ExEnd
 
-    def test_horizontal_rule_format_exceptions(self):
-        """Checking the boundary conditions of WidthPercent and Height properties."""
-        builder = aw.DocumentBuilder()
-        shape = builder.insert_horizontal_rule()
-        horizontal_rule_format = shape.horizontal_rule_format
-        horizontal_rule_format.width_percent = 1
-        horizontal_rule_format.width_percent = 100
-        with self.assertRaises(Exception):
-            horizontal_rule_format.width_percent = 0
-        with self.assertRaises(Exception):
-            horizontal_rule_format.width_percent = 101
-        horizontal_rule_format.height = 0
-        horizontal_rule_format.height = 1584
-        with self.assertRaises(Exception):
-            horizontal_rule_format.height = -1
-        with self.assertRaises(Exception):
-            horizontal_rule_format.height = 1585
-
     def test_insert_html_with_formatting(self):
         for use_builder_formatting in (False, True):
             with self.subTest(use_builder_formatting=use_builder_formatting):
@@ -2209,12 +2213,6 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertAlmostEqual(datetime.datetime.now(tz=timezone.utc), signatures[0].sign_time, delta=timedelta(seconds=5))
         self.assertEqual('CN=Morzal.Me', signatures[0].issuer_name)
         self.assertEqual(aw.digitalsignatures.DigitalSignatureType.XML_DSIG, signatures[0].signature_type)
-
-    def test_insert_ole_object_exception(self):
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        with self.assertRaises(Exception):
-            builder.insert_ole_object('', 'checkbox', False, True, None)
 
     def test_insert_field(self):
         #ExStart
