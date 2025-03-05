@@ -910,6 +910,13 @@ class ExShape(ApiExampleBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
         self.assertEqual('', shape.ole_format.suggested_file_name)
 
+    def test_office_math_display_exception(self):
+        doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
+        office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
+        office_math.display_type = aw.math.OfficeMathDisplayType.DISPLAY
+        with self.assertRaises(Exception):
+            office_math.justification = aw.math.OfficeMathJustification.INLINE
+
     def test_office_math_default_value(self):
         doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
         office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 6, True).as_office_math()
@@ -939,6 +946,20 @@ class ExShape(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'Shape.OfficeMath.docx')
         #ExEnd
         self.assertTrue(document_helper.DocumentHelper.compare_docs(ARTIFACTS_DIR + 'Shape.OfficeMath.docx', GOLDS_DIR + 'Shape.OfficeMath Gold.docx'))
+
+    def test_cannot_be_set_display_with_inline_justification(self):
+        doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
+        office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
+        office_math.display_type = aw.math.OfficeMathDisplayType.DISPLAY
+        with self.assertRaises(Exception):
+            office_math.justification = aw.math.OfficeMathJustification.INLINE
+
+    def test_cannot_be_set_inline_display_with_justification(self):
+        doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
+        office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
+        office_math.display_type = aw.math.OfficeMathDisplayType.INLINE
+        with self.assertRaises(Exception):
+            office_math.justification = aw.math.OfficeMathJustification.CENTER
 
     def test_office_math_display_nested_objects(self):
         doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
@@ -2144,27 +2165,6 @@ class ExShape(ApiExampleBase):
         math.get_math_renderer().save(ARTIFACTS_DIR + 'Shape.render_office_math.png', save_options)
         #ExEnd
         self.verify_image(813, 86, filename=ARTIFACTS_DIR + 'Shape.render_office_math.png')
-
-    def test_office_math_display_exception(self):
-        doc = aw.Document(MY_DIR + 'Office math.docx')
-        office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
-        office_math.display_type = aw.math.OfficeMathDisplayType.DISPLAY
-        with self.assertRaises(Exception):
-            office_math.justification = aw.math.OfficeMathJustification.INLINE
-
-    def test_cannot_be_set_display_with_inline_justification(self):
-        doc = aw.Document(MY_DIR + 'Office math.docx')
-        office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
-        office_math.display_type = aw.math.OfficeMathDisplayType.DISPLAY
-        with self.assertRaises(Exception):
-            office_math.justification = aw.math.OfficeMathJustification.INLINE
-
-    def test_cannot_be_set_inline_display_with_justification(self):
-        doc = aw.Document(MY_DIR + 'Office math.docx')
-        office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
-        office_math.display_type = aw.math.OfficeMathDisplayType.INLINE
-        with self.assertRaises(Exception):
-            office_math.justification = aw.math.OfficeMathJustification.CENTER
 
     def test_get_access_to_ole_package(self):
         doc = aw.Document()

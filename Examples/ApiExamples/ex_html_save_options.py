@@ -5,7 +5,6 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import io
 import glob
 import textwrap
 import shutil
@@ -21,6 +20,7 @@ import aspose.words.loading
 import aspose.words.saving
 import aspose.words.tables
 import document_helper
+import io
 import os
 import system_helper
 import test_util
@@ -217,6 +217,11 @@ class ExHtmlSaveOptions(ApiExampleBase):
         self.assertTrue('.myprefix-Header { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt; -aw-style-name:header }' in out_doc_contents)
         #ExEnd
 
+    def test_css_class_names_not_valid_prefix(self):
+        save_options = aw.saving.HtmlSaveOptions()
+        with self.assertRaises(Exception):
+            save_options.css_class_name_prefix = '@%-'
+
     def test_css_class_names_null_prefix(self):
         doc = aw.Document(file_name=MY_DIR + 'Paragraphs.docx')
         save_options = aw.saving.HtmlSaveOptions()
@@ -392,6 +397,71 @@ class ExHtmlSaveOptions(ApiExampleBase):
             else:
                 self.assertTrue('<html>' in out_doc_contents)
             #ExEnd
+
+    def test_epub_headings(self):
+        #ExStart
+        #ExFor:HtmlSaveOptions.navigation_map_level
+        #ExSummary:Shows how to filter headings that appear in the navigation panel of a saved Epub document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Every paragraph that we format using a "Heading" style can serve as a heading.
+        # Each heading may also have a heading level, determined by the number of its heading style.
+        # The headings below are of levels 1-3.
+        builder.paragraph_format.style = builder.document.styles.get_by_name('Heading 1')
+        builder.writeln('Heading #1')
+        builder.paragraph_format.style = builder.document.styles.get_by_name('Heading 2')
+        builder.writeln('Heading #2')
+        builder.paragraph_format.style = builder.document.styles.get_by_name('Heading 3')
+        builder.writeln('Heading #3')
+        builder.paragraph_format.style = builder.document.styles.get_by_name('Heading 1')
+        builder.writeln('Heading #4')
+        builder.paragraph_format.style = builder.document.styles.get_by_name('Heading 2')
+        builder.writeln('Heading #5')
+        builder.paragraph_format.style = builder.document.styles.get_by_name('Heading 3')
+        builder.writeln('Heading #6')
+        # Epub readers typically create a table of contents for their documents.
+        # Each paragraph with a "Heading" style in the document will create an entry in this table of contents.
+        # We can use the "NavigationMapLevel" property to set a maximum heading level.
+        # The Epub reader will not add headings with a level above the one we specify to the contents table.
+        options = aw.saving.HtmlSaveOptions(aw.SaveFormat.EPUB)
+        options.navigation_map_level = 2
+        # Our document has six headings, two of which are above level 2.
+        # The table of contents for this document will have four entries.
+        doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.EpubHeadings.epub', save_options=options)
+        #ExEnd
+        test_util.TestUtil.doc_package_file_contains_string('<navLabel><text>Heading #1</text></navLabel>', ARTIFACTS_DIR + 'HtmlSaveOptions.EpubHeadings.epub', 'toc.ncx')
+        test_util.TestUtil.doc_package_file_contains_string('<navLabel><text>Heading #2</text></navLabel>', ARTIFACTS_DIR + 'HtmlSaveOptions.EpubHeadings.epub', 'toc.ncx')
+        test_util.TestUtil.doc_package_file_contains_string('<navLabel><text>Heading #4</text></navLabel>', ARTIFACTS_DIR + 'HtmlSaveOptions.EpubHeadings.epub', 'toc.ncx')
+        test_util.TestUtil.doc_package_file_contains_string('<navLabel><text>Heading #5</text></navLabel>', ARTIFACTS_DIR + 'HtmlSaveOptions.EpubHeadings.epub', 'toc.ncx')
+        self.assertRaises(Exception, lambda: test_util.TestUtil.doc_package_file_contains_string('<navLabel><text>Heading #3</text></navLabel>', ARTIFACTS_DIR + 'HtmlSaveOptions.EpubHeadings.epub', 'toc.ncx'))
+        self.assertRaises(Exception, lambda: test_util.TestUtil.doc_package_file_contains_string('<navLabel><text>Heading #6</text></navLabel>', ARTIFACTS_DIR + 'HtmlSaveOptions.EpubHeadings.epub', 'toc.ncx'))
+
+    def test_doc_2_epub_save_options(self):
+        #ExStart
+        #ExFor:DocumentSplitCriteria
+        #ExFor:HtmlSaveOptions
+        #ExFor:HtmlSaveOptions.__init__
+        #ExFor:HtmlSaveOptions.encoding
+        #ExFor:HtmlSaveOptions.document_split_criteria
+        #ExFor:HtmlSaveOptions.export_document_properties
+        #ExFor:HtmlSaveOptions.save_format
+        #ExFor:SaveOptions
+        #ExFor:SaveOptions.save_format
+        #ExSummary:Shows how to use a specific encoding when saving a document to .epub.
+        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+        # Use a SaveOptions object to specify the encoding for a document that we will save.
+        save_options = aw.saving.HtmlSaveOptions()
+        save_options.save_format = aw.SaveFormat.EPUB
+        save_options.encoding = system_helper.text.Encoding.utf_8()
+        # By default, an output .epub document will have all its contents in one HTML part.
+        # A split criterion allows us to segment the document into several HTML parts.
+        # We will set the criteria to split the document into heading paragraphs.
+        # This is useful for readers who cannot read HTML files more significant than a specific size.
+        save_options.document_split_criteria = aw.saving.DocumentSplitCriteria.HEADING_PARAGRAPH
+        # Specify that we want to export document properties.
+        save_options.export_document_properties = True
+        doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.Doc2EpubSaveOptions.epub', save_options=save_options)
+        #ExEnd
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_content_id_urls(self):
@@ -703,6 +773,40 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 self.assertTrue('<p style="margin-top:0pt; margin-bottom:0pt">' + '<span>Entry 2</span>' + '</p>' in out_doc_contents)
             #ExEnd
 
+    def test_metafile_format(self):
+        for html_metafile_format in [aw.saving.HtmlMetafileFormat.PNG, aw.saving.HtmlMetafileFormat.SVG, aw.saving.HtmlMetafileFormat.EMF_OR_WMF]:
+            #ExStart
+            #ExFor:HtmlMetafileFormat
+            #ExFor:HtmlSaveOptions.metafile_format
+            #ExFor:HtmlLoadOptions.convert_svg_to_emf
+            #ExSummary:Shows how to convert SVG objects to a different format when saving HTML documents.
+            html = "<html>\n                    <svg xmlns='http://www.w3.org/2000/svg' width='500' height='40' viewBox='0 0 500 40'>\n                        <text x='0' y='35' font-family='Verdana' font-size='35'>Hello world!</text>\n                    </svg>\n                </html>"
+            # Use 'ConvertSvgToEmf' to turn back the legacy behavior
+            # where all SVG images loaded from an HTML document were converted to EMF.
+            # Now SVG images are loaded without conversion
+            # if the MS Word version specified in load options supports SVG images natively.
+            load_options = aw.loading.HtmlLoadOptions()
+            load_options.convert_svg_to_emf = True
+            doc = aw.Document(stream=io.BytesIO(system_helper.text.Encoding.get_bytes(html, system_helper.text.Encoding.utf_8())), load_options=load_options)
+            # This document contains a <svg> element in the form of text.
+            # When we save the document to HTML, we can pass a SaveOptions object
+            # to determine how the saving operation handles this object.
+            # Setting the "MetafileFormat" property to "HtmlMetafileFormat.Png" to convert it to a PNG image.
+            # Setting the "MetafileFormat" property to "HtmlMetafileFormat.Svg" preserve it as a SVG object.
+            # Setting the "MetafileFormat" property to "HtmlMetafileFormat.EmfOrWmf" to convert it to a metafile.
+            options = aw.saving.HtmlSaveOptions()
+            options.metafile_format = html_metafile_format
+            doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.MetafileFormat.html', save_options=options)
+            out_doc_contents = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'HtmlSaveOptions.MetafileFormat.html')
+            switch_condition = html_metafile_format
+            if switch_condition == aw.saving.HtmlMetafileFormat.PNG:
+                self.assertTrue('<p style="margin-top:0pt; margin-bottom:0pt">' + '<img src="HtmlSaveOptions.MetafileFormat.001.png" width="500" height="40" alt="" ' + 'style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />' + '</p>' in out_doc_contents)
+            elif switch_condition == aw.saving.HtmlMetafileFormat.SVG:
+                self.assertTrue('<span style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline">' + '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="499" height="40">' in out_doc_contents)
+            elif switch_condition == aw.saving.HtmlMetafileFormat.EMF_OR_WMF:
+                self.assertTrue('<p style="margin-top:0pt; margin-bottom:0pt">' + '<img src="HtmlSaveOptions.MetafileFormat.001.emf" width="500" height="40" alt="" ' + 'style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />' + '</p>' in out_doc_contents)
+        #ExEnd
+
     @unittest.skip("drawing.Image type isn't supported yet")
     def test_scale_image_to_shape_size(self):
         for scale_image_to_shape_size in [False, True]:
@@ -825,11 +929,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 dir_files = glob.glob(ARTIFACTS_DIR + '**/HtmlSaveOptions.export_url_for_linked_image.001.png', recursive=True)
                 DocumentHelper.find_text_in_file(ARTIFACTS_DIR + 'HtmlSaveOptions.export_url_for_linked_image.html', '<img src="http://www.aspose.com/images/aspose-logo.gif"' if not dir_files else '<img src="HtmlSaveOptions.export_url_for_linked_image.001.png"')
 
-    def test_css_class_names_not_valid_prefix(self):
-        save_options = aw.saving.HtmlSaveOptions()
-        with self.assertRaises(Exception, msg='The class name prefix must be a valid CSS identifier.'):
-            save_options.css_class_name_prefix = '@%-'
-
     @unittest.skip('Bug')
     def test_resolve_font_names(self):
         for resolve_font_names in (False, True):
@@ -857,73 +956,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 else:
                     self.assertIn('<span style="font-family:\'28 Days Later\'">', out_doc_contents)
                 #ExEnd
-
-    def test_epub_headings(self):
-        #ExStart
-        #ExFor:HtmlSaveOptions.navigation_map_level
-        #ExSummary:Shows how to filter headings that appear in the navigation panel of a saved Epub document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Every paragraph that we format using a "Heading" style can serve as a heading.
-        # Each heading may also have a heading level, determined by the number of its heading style.
-        # The headings below are of levels 1-3.
-        builder.paragraph_format.style = builder.document.styles.get_by_name('Heading 1')
-        builder.writeln('Heading #1')
-        builder.paragraph_format.style = builder.document.styles.get_by_name('Heading 2')
-        builder.writeln('Heading #2')
-        builder.paragraph_format.style = builder.document.styles.get_by_name('Heading 3')
-        builder.writeln('Heading #3')
-        builder.paragraph_format.style = builder.document.styles.get_by_name('Heading 1')
-        builder.writeln('Heading #4')
-        builder.paragraph_format.style = builder.document.styles.get_by_name('Heading 2')
-        builder.writeln('Heading #5')
-        builder.paragraph_format.style = builder.document.styles.get_by_name('Heading 3')
-        builder.writeln('Heading #6')
-        # Epub readers typically create a table of contents for their documents.
-        # Each paragraph with a "Heading" style in the document will create an entry in this table of contents.
-        # We can use the "navigation_map_level" property to set a maximum heading level.
-        # The Epub reader will not add headings with a level above the one we specify to the contents table.
-        options = aw.saving.HtmlSaveOptions(aw.SaveFormat.EPUB)
-        options.navigation_map_level = 2
-        # Our document has six headings, two of which are above level 2.
-        # The table of contents for this document will have four entries.
-        doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.epub_headings.epub', options)
-        #ExEnd
-        self.verify_doc_package_file_contains_string('<navLabel><text>Heading #1</text></navLabel>', ARTIFACTS_DIR + 'HtmlSaveOptions.epub_headings.epub', 'OEBPS/toc.ncx')
-        self.verify_doc_package_file_contains_string('<navLabel><text>Heading #2</text></navLabel>', ARTIFACTS_DIR + 'HtmlSaveOptions.epub_headings.epub', 'OEBPS/toc.ncx')
-        self.verify_doc_package_file_contains_string('<navLabel><text>Heading #4</text></navLabel>', ARTIFACTS_DIR + 'HtmlSaveOptions.epub_headings.epub', 'OEBPS/toc.ncx')
-        self.verify_doc_package_file_contains_string('<navLabel><text>Heading #5</text></navLabel>', ARTIFACTS_DIR + 'HtmlSaveOptions.epub_headings.epub', 'OEBPS/toc.ncx')
-        with self.assertRaises(Exception):
-            self.verify_doc_package_file_contains_string('<navLabel><text>Heading #3</text></navLabel>', ARTIFACTS_DIR + 'HtmlSaveOptions.epub_headings.epub', 'OEBPS/toc.ncx')
-        with self.assertRaises(Exception):
-            self.verify_doc_package_file_contains_string('<navLabel><text>Heading #6</text></navLabel>', ARTIFACTS_DIR + 'HtmlSaveOptions.epub_headings.epub', 'OEBPS/toc.ncx')
-
-    def test_doc_2_epub_save_options(self):
-        #ExStart
-        #ExFor:DocumentSplitCriteria
-        #ExFor:HtmlSaveOptions
-        #ExFor:HtmlSaveOptions.__init__()
-        #ExFor:HtmlSaveOptions.encoding
-        #ExFor:HtmlSaveOptions.document_split_criteria
-        #ExFor:HtmlSaveOptions.export_document_properties
-        #ExFor:HtmlSaveOptions.save_format
-        #ExFor:SaveOptions
-        #ExFor:SaveOptions.save_format
-        #ExSummary:Shows how to use a specific encoding when saving a document to .epub.
-        doc = aw.Document(MY_DIR + 'Rendering.docx')
-        # Use a SaveOptions object to specify the encoding for a document that we will save.
-        save_options = aw.saving.HtmlSaveOptions()
-        save_options.save_format = aw.SaveFormat.EPUB
-        save_options.encoding = 'utf-8'
-        # By default, an output .epub document will have all its contents in one HTML part.
-        # A split criterion allows us to segment the document into several HTML parts.
-        # We will set the criteria to split the document into heading paragraphs.
-        # This is useful for readers who cannot read HTML files more significant than a specific size.
-        save_options.document_split_criteria = aw.saving.DocumentSplitCriteria.HEADING_PARAGRAPH
-        # Specify that we want to export document properties.
-        save_options.export_document_properties = True
-        doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.doc2_epub_save_options.epub', save_options)
-        #ExEnd
 
     def test_export_images_as_base64(self):
         for export_images_as_base64 in (False, True):
@@ -1026,41 +1058,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     font_file_size = os.path.getsize(filename)
                     self.assertTrue(font_file_size > 700000 or font_file_size < 30000)
                     self.assertTrue(max(font_resources_subsetting_size_threshold, 30000) > font_file_size)
-                #ExEnd
-
-    def test_metafile_format(self):
-        for html_metafile_format in (aw.saving.HtmlMetafileFormat.PNG, aw.saving.HtmlMetafileFormat.SVG, aw.saving.HtmlMetafileFormat.EMF_OR_WMF):
-            with self.subTest(html_metafile_format=html_metafile_format):
-                #ExStart
-                #ExFor:HtmlMetafileFormat
-                #ExFor:HtmlSaveOptions.metafile_format
-                #ExFor:HtmlLoadOptions.convert_svg_to_emf
-                #ExSummary:Shows how to convert SVG objects to a different format when saving HTML documents.
-                html = "\n                    <html>\n                        <svg xmlns='http://www.w3.org/2000/svg' width='500' height='40' viewBox='0 0 500 40'>\n                            <text x='0' y='35' font-family='Verdana' font-size='35'>Hello world!</text>\n                        </svg>\n                    </html>\n                    "
-                # Use 'convert_svg_to_emf' to turn back the legacy behavior
-                # where all SVG images loaded from an HTML document were converted to EMF.
-                # Now SVG images are loaded without conversion
-                # if the MS Word version specified in load options supports SVG images natively.
-                load_options = aw.loading.HtmlLoadOptions()
-                load_options.convert_svg_to_emf = True
-                doc = aw.Document(io.BytesIO(html.encode('utf-8')), load_options)
-                # This document contains a <svg> element in the form of text.
-                # When we save the document to HTML, we can pass a SaveOptions object
-                # to determine how the saving operation handles this object.
-                # Setting the "metafile_format" property to "HtmlMetafileFormat.PNG" to convert it to a PNG image.
-                # Setting the "metafile_format" property to "HtmlMetafileFormat.SVG" preserve it as a SVG object.
-                # Setting the "metafile_format" property to "HtmlMetafileFormat.EMF_OR_WMF" to convert it to a metafile.
-                options = aw.saving.HtmlSaveOptions()
-                options.metafile_format = html_metafile_format
-                doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.metafile_format.html', options)
-                with open(ARTIFACTS_DIR + 'HtmlSaveOptions.metafile_format.html', 'rt', encoding='utf-8') as file:
-                    out_doc_contents = file.read()
-                if html_metafile_format == aw.saving.HtmlMetafileFormat.PNG:
-                    self.assertIn('<p style="margin-top:0pt; margin-bottom:0pt">' + '<img src="HtmlSaveOptions.metafile_format.001.png" width="500" height="40" alt="" ' + 'style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />' + '</p>', out_doc_contents)
-                elif html_metafile_format == aw.saving.HtmlMetafileFormat.SVG:
-                    self.assertIn('<span style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline">' + '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="499" height="40">', out_doc_contents)
-                elif html_metafile_format == aw.saving.HtmlMetafileFormat.EMF_OR_WMF:
-                    self.assertIn('<p style="margin-top:0pt; margin-bottom:0pt">' + '<img src="HtmlSaveOptions.metafile_format.001.emf" width="500" height="40" alt="" ' + 'style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />' + '</p>', out_doc_contents)
                 #ExEnd
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')

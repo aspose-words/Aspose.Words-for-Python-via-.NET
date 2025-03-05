@@ -148,6 +148,30 @@ class ExTxtSaveOptions(ApiExampleBase):
         self.assertEqual('Paragraph 1. End of paragraph.\n\n\t' + 'Paragraph 2. End of paragraph.\n\n\t' + 'Paragraph 3. End of paragraph.\n\n\t', doc_text)
         #ExEnd
 
+    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
+    def test_encoding(self):
+        #ExStart
+        #ExFor:TxtSaveOptionsBase.encoding
+        #ExSummary:Shows how to set encoding for a .txt output document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Add some text with characters from outside the ASCII character set.
+        builder.write('À È Ì Ò Ù.')
+        # Create a "TxtSaveOptions" object, which we can pass to the document's "Save" method
+        # to modify how we save the document to plaintext.
+        txt_save_options = aw.saving.TxtSaveOptions()
+        # Verify that the "Encoding" property contains the appropriate encoding for our document's contents.
+        self.assertEqual(system_helper.text.Encoding.utf_8(), txt_save_options.encoding)
+        doc.save(file_name=ARTIFACTS_DIR + 'TxtSaveOptions.Encoding.UTF8.txt', save_options=txt_save_options)
+        doc_text = system_helper.text.Encoding.get_string(system_helper.io.File.read_all_bytes(ARTIFACTS_DIR + 'TxtSaveOptions.Encoding.UTF8.txt'), system_helper.text.Encoding.utf_8())
+        self.assertEqual('\ufeffÀ È Ì Ò Ù.\r\n', doc_text)
+        # Using an unsuitable encoding may result in a loss of document contents.
+        txt_save_options.encoding = system_helper.text.Encoding.ascii()
+        doc.save(file_name=ARTIFACTS_DIR + 'TxtSaveOptions.Encoding.ASCII.txt', save_options=txt_save_options)
+        doc_text = system_helper.text.Encoding.get_string(system_helper.io.File.read_all_bytes(ARTIFACTS_DIR + 'TxtSaveOptions.Encoding.ASCII.txt'), system_helper.text.Encoding.ascii())
+        self.assertEqual('? ? ? ? ?.\r\n', doc_text)
+        #ExEnd
+
     def test_max_characters_per_line(self):
         #ExStart
         #ExFor:TxtSaveOptions.max_characters_per_line
@@ -220,32 +244,6 @@ class ExTxtSaveOptions(ApiExampleBase):
                     self.assertEqual('\ufeffHello world!\r\nשלום עולם!\r\nمرحبا بالعالم!\r\n\r\n', doc_text)
                     self.assertNotIn('\u200f', doc_text)
                 #ExEnd
-
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
-    def test_encoding(self):
-        #ExStart
-        #ExFor:TxtSaveOptionsBase.encoding
-        #ExSummary:Shows how to set encoding for a .txt output document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Add some text with characters from outside the ASCII character set.
-        builder.write('À È Ì Ò Ù.')
-        # Create a "TxtSaveOptions" object, which we can pass to the document's "save" method
-        # to modify how we save the document to plaintext.
-        txt_save_options = aw.saving.TxtSaveOptions()
-        # Verify that the "encoding" property contains the appropriate encoding for our document's contents.
-        self.assertEqual('utf-8', txt_save_options.encoding)
-        doc.save(ARTIFACTS_DIR + 'TxtSaveOptions.encoding.utf8.txt', txt_save_options)
-        with open(ARTIFACTS_DIR + 'TxtSaveOptions.encoding.utf8.txt', 'rb') as file:
-            doc_text = file.read().decode('utf-8')
-        self.assertEqual('\ufeffÀ È Ì Ò Ù.\r\n', doc_text)
-        # Using an unsuitable encoding may result in a loss of document contents.
-        txt_save_options.encoding = 'ascii'
-        doc.save(ARTIFACTS_DIR + 'TxtSaveOptions.encoding.ascii.txt', txt_save_options)
-        with open(ARTIFACTS_DIR + 'TxtSaveOptions.Encoding.ascii.txt', 'rb') as file:
-            doc_text = file.read().decode('ascii')
-        self.assertEqual('? ? ? ? ?.\r\n', doc_text)
-        #ExEnd
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'different chars number in Linux')
     def test_preserve_table_layout(self):

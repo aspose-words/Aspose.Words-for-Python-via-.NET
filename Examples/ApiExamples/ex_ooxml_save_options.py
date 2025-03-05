@@ -13,6 +13,7 @@ import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.drawing
 import aspose.words.lists
+import aspose.words.loading
 import aspose.words.saving
 import aspose.words.settings
 import datetime
@@ -22,6 +23,25 @@ import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR
 
 class ExOoxmlSaveOptions(ApiExampleBase):
+
+    def test_password(self):
+        #ExStart
+        #ExFor:OoxmlSaveOptions.password
+        #ExSummary:Shows how to create a password encrypted Office Open XML document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.writeln('Hello world!')
+        save_options = aw.saving.OoxmlSaveOptions()
+        save_options.password = 'MyPassword'
+        doc.save(file_name=ARTIFACTS_DIR + 'OoxmlSaveOptions.Password.docx', save_options=save_options)
+        # We will not be able to open this document with Microsoft Word or
+        # Aspose.Words without providing the correct password.
+        with self.assertRaises(Exception):
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'OoxmlSaveOptions.Password.docx')
+        # Open the encrypted document by passing the correct password in a LoadOptions object.
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'OoxmlSaveOptions.Password.docx', load_options=aw.loading.LoadOptions(password='MyPassword'))
+        self.assertEqual('Hello world!', doc.get_text().strip())
+        #ExEnd
 
     def test_iso_29500_strict(self):
         #ExStart
@@ -111,25 +131,6 @@ class ExOoxmlSaveOptions(ApiExampleBase):
         self.assertEqual('Some comments', digital_signature_details.sign_options.comments)
         doc.save(file_name=ARTIFACTS_DIR + 'OoxmlSaveOptions.DigitalSignature.docx', save_options=save_options)
         #ExEnd:DigitalSignature
-
-    def test_password(self):
-        #ExStart
-        #ExFor:OoxmlSaveOptions.password
-        #ExSummary:Shows how to create a password encrypted Office Open XML document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.writeln('Hello world!')
-        save_options = aw.saving.OoxmlSaveOptions()
-        save_options.password = 'MyPassword'
-        doc.save(ARTIFACTS_DIR + 'OoxmlSaveOptions.password.docx', save_options)
-        # We will not be able to open this document with Microsoft Word or
-        # Aspose.Words without providing the correct password.
-        with self.assertRaises(Exception):
-            doc = aw.Document(ARTIFACTS_DIR + 'OoxmlSaveOptions.password.docx')
-        # Open the encrypted document by passing the correct password in a LoadOptions object.
-        doc = aw.Document(ARTIFACTS_DIR + 'OoxmlSaveOptions.password.docx', aw.loading.LoadOptions('MyPassword'))
-        self.assertEqual('Hello world!', doc.get_text().strip())
-        #ExEnd
 
     def test_last_saved_time(self):
         for update_last_saved_time_property in (False, True):

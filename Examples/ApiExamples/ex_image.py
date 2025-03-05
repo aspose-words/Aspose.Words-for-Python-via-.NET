@@ -7,6 +7,7 @@
 #####################################
 import os
 import aspose.pydrawing as drawing
+import sys
 from aspose.words import Document, DocumentBuilder, NodeType
 from aspose.words.drawing import ImageType
 import aspose.words as aw
@@ -15,7 +16,6 @@ import system_helper
 import test_util
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, IMAGE_URL, MY_DIR
-import sys
 
 class ExImage(ApiExampleBase):
 

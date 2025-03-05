@@ -100,6 +100,13 @@ class ExEditableRange(ApiExampleBase):
         editable_range = doc.get_child(aw.NodeType.EDITABLE_RANGE_START, 1, True).as_editable_range_start().editable_range
         test_util.TestUtil.verify_editable_range(1, '', aw.EditorType.CONTRIBUTORS, editable_range)
 
+    def test_incorrect_structure_exception(self):
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Assert that isn't valid structure for the current document.
+        self.assertRaises(Exception, lambda: builder.end_editable_range())
+        builder.start_editable_range()
+
     def test_incorrect_structure_do_not_added(self):
         doc = document_helper.DocumentHelper.create_document_fill_with_dummy_text()
         builder = aw.DocumentBuilder(doc=doc)
@@ -113,11 +120,3 @@ class ExEditableRange(ApiExampleBase):
         self.assertEqual(0, start_nodes.count)
         end_nodes = doc.get_child_nodes(aw.NodeType.EDITABLE_RANGE_END, True)
         self.assertEqual(0, end_nodes.count)
-
-    def test_incorrect_structure_exception(self):
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Assert that isn't valid structure for the current document.
-        with self.assertRaises(Exception):
-            builder.end_editable_range()
-        builder.start_editable_range()

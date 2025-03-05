@@ -18,6 +18,11 @@ from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExHtmlFixedSaveOptions(ApiExampleBase):
 
+    def test_page_margins_exception(self):
+        save_options = aw.saving.HtmlFixedSaveOptions()
+        with self.assertRaises(Exception):
+            save_options.page_margins = -1
+
     def test_id_prefix(self):
         #ExStart:IdPrefix
         #ExFor:HtmlFixedSaveOptions.id_prefix
@@ -246,11 +251,6 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
             out_doc_contents = file.read()
         self.assertRegex(out_doc_contents, '[.]awpage { position:relative; border:solid 1pt black; margin:15pt auto 15pt auto; overflow:hidden; }')
         #ExEnd
-
-    def test_page_margins_exception(self):
-        save_options = aw.saving.HtmlFixedSaveOptions()
-        with self.assertRaises(Exception):
-            save_options.page_margins = -1
 
     def test_optimize_graphics_output(self):
         for optimize_output in (False, True):
