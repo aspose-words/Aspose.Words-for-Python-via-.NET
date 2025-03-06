@@ -28,6 +28,15 @@ from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR
 
 class ExField(ApiExampleBase):
 
+    def test_get_field_data(self):
+        #ExStart
+        #ExFor:FieldStart.field_data
+        #ExSummary:Shows how to get data associated with the field.
+        doc = aw.Document(file_name=MY_DIR + 'Field sample - Field with data.docx')
+        field = doc.range.fields[2]
+        print(system_helper.text.Encoding.get_string(field.start.field_data, system_helper.text.Encoding.utf_8()))
+        #ExEnd
+
     def test_get_field_code(self):
         #ExStart
         #ExFor:Field.get_field_code
@@ -2497,15 +2506,6 @@ class ExField(ApiExampleBase):
         #ExEnd
         doc = DocumentHelper.save_open(doc)
         self.verify_field(aw.fields.FieldType.FIELD_DATE, ' DATE  \\@ "dddd, MMMM dd, yyyy"', datetime.datetime.now().strftime('%A, %B %d, %Y'), doc.range.fields[0])
-
-    def test_get_field_data(self):
-        #ExStart
-        #ExFor:FieldStart.field_data
-        #ExSummary:Shows how to get data associated with the field.
-        doc = aw.Document(MY_DIR + 'Field sample - Field with data.docx')
-        field = doc.range.fields[2]
-        print(field.start.field_data)
-        #ExEnd
 
     def test_create_with_field_builder(self):
         #ExStart

@@ -132,6 +132,23 @@ class ExOoxmlSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'OoxmlSaveOptions.DigitalSignature.docx', save_options=save_options)
         #ExEnd:DigitalSignature
 
+    def test_update_ambiguous_text_font(self):
+        #ExStart:UpdateAmbiguousTextFont
+        #ExFor:SaveOptions.update_ambiguous_text_font
+        #ExSummary:Shows how to update the font to match the character code being used.
+        doc = aw.Document(file_name=MY_DIR + 'Special symbol.docx')
+        run = doc.first_section.body.first_paragraph.runs[0]
+        print(run.text)  # ฿
+        print(run.font.name)  # Arial
+        save_options = aw.saving.OoxmlSaveOptions()
+        save_options.update_ambiguous_text_font = True
+        doc.save(file_name=ARTIFACTS_DIR + 'OoxmlSaveOptions.UpdateAmbiguousTextFont.docx', save_options=save_options)
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'OoxmlSaveOptions.UpdateAmbiguousTextFont.docx')
+        run = doc.first_section.body.first_paragraph.runs[0]
+        print(run.text)  # ฿
+        print(run.font.name)  # Angsana New
+        #ExEnd:UpdateAmbiguousTextFont
+
     def test_last_saved_time(self):
         for update_last_saved_time_property in (False, True):
             with self.subTest(update_last_saved_time_property=update_last_saved_time_property):
