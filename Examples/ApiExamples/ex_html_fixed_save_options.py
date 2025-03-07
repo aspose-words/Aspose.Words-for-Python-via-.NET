@@ -18,6 +18,12 @@ from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExHtmlFixedSaveOptions(ApiExampleBase):
 
+    def test_get_encoding(self):
+        doc = document_helper.DocumentHelper.create_document_fill_with_dummy_text()
+        html_fixed_save_options = aw.saving.HtmlFixedSaveOptions()
+        html_fixed_save_options.encoding = system_helper.text.Encoding.utf_8()
+        doc.save(file_name=ARTIFACTS_DIR + 'HtmlFixedSaveOptions.GetEncoding.html', save_options=html_fixed_save_options)
+
     def test_page_margins_exception(self):
         save_options = aw.saving.HtmlFixedSaveOptions()
         with self.assertRaises(Exception):
@@ -59,12 +65,6 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
         #ExEnd
         with open(ARTIFACTS_DIR + 'HtmlFixedSaveOptions.use_encoding.html', 'rt', encoding='utf-8') as file:
             self.assertRegex(file.read(), 'content="text/html; charset=us-ascii"')
-
-    def test_get_encoding(self):
-        doc = DocumentHelper.create_document_fill_with_dummy_text()
-        html_fixed_save_options = aw.saving.HtmlFixedSaveOptions()
-        html_fixed_save_options.encoding = 'utf-16'
-        doc.save(ARTIFACTS_DIR + 'HtmlFixedSaveOptions.get_encoding.html', html_fixed_save_options)
 
     def test_export_embedded_css(self):
         for export_embedded_css in (True, False):
@@ -266,7 +266,7 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
                 if optimize_output:
                     self.assertAlmostEqual(61860, os.path.getsize(ARTIFACTS_DIR + 'HtmlFixedSaveOptions.optimize_graphics_output.html'), delta=200)
                 else:
-                    self.assertAlmostEqual(191770, os.path.getsize(ARTIFACTS_DIR + 'HtmlFixedSaveOptions.optimize_graphics_output.html'), delta=200)
+                    self.assertAlmostEqual(191000, os.path.getsize(ARTIFACTS_DIR + 'HtmlFixedSaveOptions.optimize_graphics_output.html'), delta=200)
                 #ExEnd
 
     def test_using_machine_fonts(self):

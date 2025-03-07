@@ -220,7 +220,7 @@ class ExPdfSaveOptions(ApiExampleBase):
             #ExEnd
 
     def test_compliance(self):
-        for pdf_compliance in [aw.saving.PdfCompliance.PDF_A2U, aw.saving.PdfCompliance.PDF17, aw.saving.PdfCompliance.PDF_A2A, aw.saving.PdfCompliance.PDF_UA1, aw.saving.PdfCompliance.PDF20, aw.saving.PdfCompliance.PDF_A4, aw.saving.PdfCompliance.PDF_A4_UA_2, aw.saving.PdfCompliance.PDF_UA2]:
+        for pdf_compliance in [aw.saving.PdfCompliance.PDF_A2U, aw.saving.PdfCompliance.PDF_A3A, aw.saving.PdfCompliance.PDF_A3U, aw.saving.PdfCompliance.PDF17, aw.saving.PdfCompliance.PDF_A2A, aw.saving.PdfCompliance.PDF_UA1, aw.saving.PdfCompliance.PDF20, aw.saving.PdfCompliance.PDF_A4, aw.saving.PdfCompliance.PDF_A4F, aw.saving.PdfCompliance.PDF_A4_UA_2, aw.saving.PdfCompliance.PDF_UA2]:
             #ExStart
             #ExFor:PdfSaveOptions.compliance
             #ExFor:PdfCompliance
@@ -757,17 +757,17 @@ class ExPdfSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.ExportLanguageToSpanTag.pdf', save_options=save_options)
         #ExEnd
 
-    def test_pdf_embed_attachments(self):
-        #ExStart
-        #ExFor:PdfSaveOptions.embed_attachments
+    def test_attachments_embedding_mode(self):
+        #ExStart:AttachmentsEmbeddingMode
+        #ExFor:PdfSaveOptions.attachments_embedding_mode
         #ExSummary:Shows how to add embed attachments to the PDF document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)
         builder.insert_ole_object(file_name=MY_DIR + 'Spreadsheet.xlsx', prog_id='Excel.Sheet', is_linked=False, as_icon=True, presentation=None)
-        options = aw.saving.PdfSaveOptions()
-        options.embed_attachments = True
-        doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.PdfEmbedAttachments.pdf', save_options=options)
-        #ExEnd
+        save_options = aw.saving.PdfSaveOptions()
+        save_options.attachments_embedding_mode = aw.saving.PdfAttachmentsEmbeddingMode.ANNOTATIONS
+        doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.PdfEmbedAttachments.pdf', save_options=save_options)
+        #ExEnd:AttachmentsEmbeddingMode
 
     def test_cache_background_graphics(self):
         #ExStart
