@@ -42,7 +42,7 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
     def test_remove_java_script_from_links(self):
         #ExStart:RemoveJavaScriptFromLinks
         #ExFor:HtmlFixedSaveOptions.remove_java_script_from_links
-        #ExSummary:Shows how to remove JavaScript from the links.
+        #ExSummary:Shows how to remove JavaScript from the links for html fixed documents.
         doc = aw.Document(file_name=MY_DIR + 'JavaScript in HREF.docx')
         save_options = aw.saving.HtmlFixedSaveOptions()
         save_options.remove_java_script_from_links = True
