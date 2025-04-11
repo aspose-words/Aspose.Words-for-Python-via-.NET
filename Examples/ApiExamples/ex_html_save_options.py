@@ -891,6 +891,16 @@ class ExHtmlSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ReplaceBackslashWithYenSign.html', save_options=save_options)
         #ExEnd:HtmlReplaceBackslashWithYenSign
 
+    def test_remove_java_script_from_links(self):
+        #ExStart:HtmlRemoveJavaScriptFromLinks
+        #ExFor:HtmlFixedSaveOptions.remove_java_script_from_links
+        #ExSummary:Shows how to remove JavaScript from the links.
+        doc = aw.Document(file_name=MY_DIR + 'JavaScript in HREF.docx')
+        save_options = aw.saving.HtmlSaveOptions()
+        save_options.remove_java_script_from_links = True
+        doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.RemoveJavaScriptFromLinks.html', save_options=save_options)
+        #ExEnd:HtmlRemoveJavaScriptFromLinks
+
     def test_export_text_box_as_svg_epub(self):
         parameters = [(aw.SaveFormat.HTML, True, 'TextBox as svg (html)'), (aw.SaveFormat.EPUB, True, 'TextBox as svg (epub)'), (aw.SaveFormat.MHTML, False, 'TextBox as img (mhtml)'), (aw.SaveFormat.AZW3, False, 'TextBox as img (azw3)'), (aw.SaveFormat.MOBI, False, 'TextBox as img (mobi)')]
         for save_format, is_text_box_as_svg, description in parameters:

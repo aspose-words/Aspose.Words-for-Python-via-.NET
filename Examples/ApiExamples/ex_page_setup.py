@@ -10,6 +10,7 @@ import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.notes
 import aspose.words.settings
+import document_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -700,6 +701,21 @@ class ExPageSetup(ApiExampleBase):
         page_setup.chapter_page_separator = aw.ChapterPageSeparator.COLON
         page_setup.heading_level_for_chapter = 1
         #ExEnd
+
+    def test_jisb_paper_size(self):
+        #ExStart:JisbPaperSize
+        #ExFor:PageSetup.paper_size
+        #ExSummary:Shows how to set the paper size of JisB4 or JisB5.
+        doc = aw.Document(file_name=MY_DIR + 'Big document.docx')
+        page_setup = doc.first_section.page_setup
+        # Set the paper size to JisB4 (257x364mm).
+        page_setup.paper_size = aw.PaperSize.JIS_B4
+        # Alternatively, set the paper size to JisB5. (182x257mm).
+        page_setup.paper_size = aw.PaperSize.JIS_B5
+        #ExEnd:JisbPaperSize
+        doc = document_helper.DocumentHelper.save_open(doc)
+        page_setup = doc.first_section.page_setup
+        self.assertEqual(aw.PaperSize.JIS_B5, page_setup.paper_size)
 
     def test_columns_same_width(self):
         #ExStart
