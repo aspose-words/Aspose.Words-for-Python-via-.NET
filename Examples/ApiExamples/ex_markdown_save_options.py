@@ -168,6 +168,30 @@ class ExMarkdownSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.OfficeMathExportMode.md', save_options=save_options)
         #ExEnd:OfficeMathExportMode
 
+    def test_empty_paragraph_export_mode(self):
+        for export_mode in [aw.saving.MarkdownEmptyParagraphExportMode.NONE, aw.saving.MarkdownEmptyParagraphExportMode.EMPTY_LINE, aw.saving.MarkdownEmptyParagraphExportMode.MARKDOWN_HARD_LINE_BREAK]:
+            #ExStart
+            #ExFor:MarkdownEmptyParagraphExportMode
+            #ExFor:MarkdownSaveOptions.empty_paragraph_export_mode
+            #ExSummary:Shows how to export empty paragraphs.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.writeln('First')
+            builder.writeln('\r\n\r\n\r\n')
+            builder.writeln('Last')
+            save_options = aw.saving.MarkdownSaveOptions()
+            save_options.empty_paragraph_export_mode = export_mode
+            doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.EmptyParagraphExportMode.md', save_options=save_options)
+            result = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'MarkdownSaveOptions.EmptyParagraphExportMode.md')
+            switch_condition = export_mode
+            if switch_condition == aw.saving.MarkdownEmptyParagraphExportMode.NONE:
+                self.assertEqual('First\r\n\r\nLast\r\n', result)
+            elif switch_condition == aw.saving.MarkdownEmptyParagraphExportMode.EMPTY_LINE:
+                self.assertEqual('First\r\n\r\n\r\n\r\n\r\nLast\r\n\r\n', result)
+            elif switch_condition == aw.saving.MarkdownEmptyParagraphExportMode.MARKDOWN_HARD_LINE_BREAK:
+                self.assertEqual('First\r\n\\\r\n\\\r\n\\\r\n\\\r\n\\\r\nLast\r\n<br>\r\n', result)
+        #ExEnd
+
     @unittest.skipUnless(sys.platform.startswith('win'), 'Windows encoding')
     def test_export_images_as_base64(self):
         for export_images_as_base64 in (True, False):
