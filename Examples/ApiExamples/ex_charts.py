@@ -1430,6 +1430,23 @@ class ExCharts(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'Charts.PopulateChartWithData.docx')
         #ExEnd
 
+    def test_set_chart_style(self):
+        #ExStart
+        #ExFor:ChartStyle
+        #ExSummary:Shows how to set and get chart style.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Insert a chart in the Black style.
+        builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=400, height=250, chart_style=aw.drawing.charts.ChartStyle.BLACK)
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.SetChartStyle.docx')
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Charts.SetChartStyle.docx')
+        # Get a chart to update.
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        chart = shape.chart
+        # Get the chart style.
+        self.assertEqual(aw.drawing.charts.ChartStyle.BLACK, chart.style)
+        #ExEnd
+
     def test_date_time_values(self):
         #ExStart
         #ExFor:AxisBound

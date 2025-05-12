@@ -197,10 +197,13 @@ class ExDocumentBuilder(ApiExampleBase):
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertHyperlink.docx')
         hyperlink = doc.range.fields[0].as_field_hyperlink()
         self.assertEqual('https://www.google.com', hyperlink.address)
-        field_contents = hyperlink.start.next_sibling.as_run()
-        self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), field_contents.font.color.to_argb())
-        self.assertEqual(aw.Underline.SINGLE, field_contents.font.underline)
-        self.assertEqual('HYPERLINK "https://www.google.com"', field_contents.get_text().strip())
+        # This field is written as w:hyperlink element therefore field code cannot have formatting.
+        field_code = hyperlink.start.next_sibling.as_run()
+        self.assertEqual('HYPERLINK "https://www.google.com"', field_code.get_text().strip())
+        field_result = hyperlink.separator.next_sibling.as_run()
+        self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), field_result.font.color.to_argb())
+        self.assertEqual(aw.Underline.SINGLE, field_result.font.underline)
+        self.assertEqual('Google website', field_result.get_text().strip())
 
     def test_push_pop_font(self):
         #ExStart
