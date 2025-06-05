@@ -1431,7 +1431,7 @@ class ExCharts(ApiExampleBase):
         #ExEnd
 
     def test_set_chart_style(self):
-        #ExStart
+        #ExStart:SetChartStyle
         #ExFor:ChartStyle
         #ExSummary:Shows how to set and get chart style.
         doc = aw.Document()
@@ -1445,7 +1445,7 @@ class ExCharts(ApiExampleBase):
         chart = shape.chart
         # Get the chart style.
         self.assertEqual(aw.drawing.charts.ChartStyle.BLACK, chart.style)
-        #ExEnd
+        #ExEnd:SetChartStyle
 
     def test_date_time_values(self):
         #ExStart

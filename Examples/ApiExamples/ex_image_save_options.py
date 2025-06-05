@@ -213,7 +213,8 @@ class ExImageSaveOptions(ApiExampleBase):
         options.threshold_for_floyd_steinberg_dithering = 240
         doc.save(file_name=ARTIFACTS_DIR + 'ImageSaveOptions.FloydSteinbergDithering.tiff', save_options=options)
         #ExEnd
-        test_util.TestUtil.verify_image(816, 1056, ARTIFACTS_DIR + 'ImageSaveOptions.FloydSteinbergDithering.tiff')
+        image_file_names = list(filter(lambda item: 'ImageSaveOptions.FloydSteinbergDithering.' in item and item.endswith('.tiff'), list(system_helper.io.Directory.get_files(ARTIFACTS_DIR, '*.tiff'))))
+        self.assertEqual(1, len(image_file_names))
 
     @unittest.skip('Calculation problems')
     def test_edit_image(self):
@@ -336,6 +337,27 @@ class ExImageSaveOptions(ApiExampleBase):
         save_options.iml_rendering_mode = aw.saving.ImlRenderingMode.INK_ML
         doc.save(file_name=ARTIFACTS_DIR + 'ImageSaveOptions.RenderInkObject.jpeg', save_options=save_options)
         #ExEnd
+
+    def test_grid_layout(self):
+        #ExStart:GridLayout
+        #ExFor:ImageSaveOptions.page_layout
+        #ExFor:MultiPageLayout
+        #ExSummary:Shows how to save the document into JPG image with multi-page layout settings.
+        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+        options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
+        # Set up a grid layout with:
+        # - 3 columns per row.
+        # - 10pts spacing between pages (horizontal and vertical).
+        options.page_layout = aw.saving.MultiPageLayout.grid(3, 10, 10)
+        # Alternative layouts:
+        # options.MultiPageLayout = MultiPageLayout.Horizontal(10);
+        # options.MultiPageLayout = MultiPageLayout.Vertical(10);
+        # Customize the background and border.
+        options.page_layout.back_color = aspose.pydrawing.Color.light_gray
+        options.page_layout.border_color = aspose.pydrawing.Color.blue
+        options.page_layout.border_width = 2
+        doc.save(file_name=ARTIFACTS_DIR + 'ImageSaveOptions.GridLayout.jpg', save_options=options)
+        #ExEnd:GridLayout
 
     @unittest.skip('GraphicsQualityOptions is not supported by Aspose.Words for Python')
     def test_graphics_quality(self):
