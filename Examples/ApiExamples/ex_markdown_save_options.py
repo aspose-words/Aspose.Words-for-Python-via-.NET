@@ -170,7 +170,7 @@ class ExMarkdownSaveOptions(ApiExampleBase):
 
     def test_empty_paragraph_export_mode(self):
         for export_mode in [aw.saving.MarkdownEmptyParagraphExportMode.NONE, aw.saving.MarkdownEmptyParagraphExportMode.EMPTY_LINE, aw.saving.MarkdownEmptyParagraphExportMode.MARKDOWN_HARD_LINE_BREAK]:
-            #ExStart
+            #ExStart:EmptyParagraphExportMode
             #ExFor:MarkdownEmptyParagraphExportMode
             #ExFor:MarkdownSaveOptions.empty_paragraph_export_mode
             #ExSummary:Shows how to export empty paragraphs.
@@ -190,7 +190,7 @@ class ExMarkdownSaveOptions(ApiExampleBase):
                 self.assertEqual('First\r\n\r\n\r\n\r\n\r\nLast\r\n\r\n', result)
             elif switch_condition == aw.saving.MarkdownEmptyParagraphExportMode.MARKDOWN_HARD_LINE_BREAK:
                 self.assertEqual('First\r\n\\\r\n\\\r\n\\\r\n\\\r\n\\\r\nLast\r\n<br>\r\n', result)
-        #ExEnd
+        #ExEnd:EmptyParagraphExportMode
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'Windows encoding')
     def test_export_images_as_base64(self):
