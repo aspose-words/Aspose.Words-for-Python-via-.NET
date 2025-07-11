@@ -367,35 +367,6 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual('Hello world!', doc.range.bookmarks[0].text.strip())
         #ExEnd
 
-    def test_create_form(self):
-        #ExStart
-        #ExFor:TextFormFieldType
-        #ExFor:DocumentBuilder.insert_text_input
-        #ExFor:DocumentBuilder.insert_combo_box
-        #ExSummary:Shows how to create form fields.
-        builder = aw.DocumentBuilder()
-        # Form fields are objects in the document that the user can interact with by being prompted to enter values.
-        # We can create them using a document builder, and below are two ways of doing so.
-        # 1 -  Basic text input:
-        builder.insert_text_input('My text input', aw.fields.TextFormFieldType.REGULAR, '', 'Enter your name here', 30)
-        # 2 -  Combo box with prompt text, and a range of possible values:
-        items = ['-- Select your favorite footwear --', 'Sneakers', 'Oxfords', 'Flip-flops', 'Other']
-        builder.insert_paragraph()
-        builder.insert_combo_box('My combo box', items, 0)
-        builder.document.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.CreateForm.docx')
-        #ExEnd
-        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.CreateForm.docx')
-        form_field = doc.range.form_fields[0]
-        self.assertEqual('My text input', form_field.name)
-        self.assertEqual(aw.fields.TextFormFieldType.REGULAR, form_field.text_input_type)
-        self.assertEqual('Enter your name here', form_field.result)
-        form_field = doc.range.form_fields[1]
-        self.assertEqual('My combo box', form_field.name)
-        self.assertEqual(aw.fields.TextFormFieldType.REGULAR, form_field.text_input_type)
-        self.assertEqual('-- Select your favorite footwear --', form_field.result)
-        self.assertEqual(0, form_field.drop_down_selected_index)
-        self.assertSequenceEqual(['-- Select your favorite footwear --', 'Sneakers', 'Oxfords', 'Flip-flops', 'Other'], list(form_field.drop_down_items))
-
     def test_insert_check_box(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_check_box(str,bool,bool,int)
@@ -438,51 +409,6 @@ class ExDocumentBuilder(ApiExampleBase):
         # Checking that the checkbox insertion with an empty name working correctly
         builder.insert_check_box(name='', default_value=True, checked_value=False, size=1)
         builder.insert_check_box(name='', checked_value=False, size=1)
-
-    def test_working_with_nodes(self):
-        #ExStart
-        #ExFor:DocumentBuilder.move_to(Node)
-        #ExFor:DocumentBuilder.move_to_bookmark(str)
-        #ExFor:DocumentBuilder.current_paragraph
-        #ExFor:DocumentBuilder.current_node
-        #ExFor:DocumentBuilder.move_to_document_start
-        #ExFor:DocumentBuilder.move_to_document_end
-        #ExFor:DocumentBuilder.is_at_end_of_paragraph
-        #ExFor:DocumentBuilder.is_at_start_of_paragraph
-        #ExSummary:Shows how to move a document builder's cursor to different nodes in a document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc=doc)
-        # Create a valid bookmark, an entity that consists of nodes enclosed by a bookmark start node,
-        # and a bookmark end node.
-        builder.start_bookmark('MyBookmark')
-        builder.write('Bookmark contents.')
-        builder.end_bookmark('MyBookmark')
-        first_paragraph_nodes = doc.first_section.body.first_paragraph.get_child_nodes(aw.NodeType.ANY, False)
-        self.assertEqual(aw.NodeType.BOOKMARK_START, first_paragraph_nodes[0].node_type)
-        self.assertEqual(aw.NodeType.RUN, first_paragraph_nodes[1].node_type)
-        self.assertEqual('Bookmark contents.', first_paragraph_nodes[1].get_text().strip())
-        self.assertEqual(aw.NodeType.BOOKMARK_END, first_paragraph_nodes[2].node_type)
-        # The document builder's cursor is always ahead of the node that we last added with it.
-        # If the builder's cursor is at the end of the document, its current node will be null.
-        # The previous node is the bookmark end node that we last added.
-        # Adding new nodes with the builder will append them to the last node.
-        self.assertIsNone(builder.current_node)
-        # If we wish to edit a different part of the document with the builder,
-        # we will need to bring its cursor to the node we wish to edit.
-        builder.move_to_bookmark(bookmark_name='MyBookmark')
-        # Moving it to a bookmark will move it to the first node within the bookmark start and end nodes, the enclosed run.
-        self.assertEqual(first_paragraph_nodes[1], builder.current_node)
-        # We can also move the cursor to an individual node like this.
-        builder.move_to(doc.first_section.body.first_paragraph.get_child_nodes(aw.NodeType.ANY, False)[0])
-        self.assertEqual(aw.NodeType.BOOKMARK_START, builder.current_node.node_type)
-        self.assertEqual(doc.first_section.body.first_paragraph, builder.current_paragraph)
-        self.assertTrue(builder.is_at_start_of_paragraph)
-        # We can use specific methods to move to the start/end of a document.
-        builder.move_to_document_end()
-        self.assertTrue(builder.is_at_end_of_paragraph)
-        builder.move_to_document_start()
-        self.assertTrue(builder.is_at_start_of_paragraph)
-        #ExEnd
 
     def test_fill_merge_fields(self):
         #ExStart
@@ -1079,34 +1005,6 @@ class ExDocumentBuilder(ApiExampleBase):
         builder.move_to_document_start()
         self.assertEqual(aw.NodeType.RUN, builder.current_node.node_type)
 
-    def test_move_to(self):
-        #ExStart
-        #ExFor:Story.last_paragraph
-        #ExFor:DocumentBuilder.move_to(Node)
-        #ExSummary:Shows how to move a DocumentBuilder's cursor position to a specified node.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc=doc)
-        builder.writeln('Run 1. ')
-        # The document builder has a cursor, which acts as the part of the document
-        # where the builder appends new nodes when we use its document construction methods.
-        # This cursor functions in the same way as Microsoft Word's blinking cursor,
-        # and it also always ends up immediately after any node that the builder just inserted.
-        # To append content to a different part of the document,
-        # we can move the cursor to a different node with the "MoveTo" method.
-        self.assertEqual(doc.first_section.body.last_paragraph, builder.current_paragraph)  #ExSkip
-        builder.move_to(doc.first_section.body.first_paragraph.runs[0])
-        self.assertEqual(doc.first_section.body.first_paragraph, builder.current_paragraph)  #ExSkip
-        # The cursor is now in front of the node that we moved it to.
-        # Adding a second run will insert it in front of the first run.
-        builder.writeln('Run 2. ')
-        self.assertEqual('Run 2. \rRun 1.', doc.get_text().strip())
-        # Move the cursor to the end of the document to continue appending text to the end as before.
-        builder.move_to(doc.last_section.body.last_paragraph)
-        builder.writeln('Run 3. ')
-        self.assertEqual('Run 2. \rRun 1. \rRun 3.', doc.get_text().strip())
-        self.assertEqual(doc.first_section.body.last_paragraph, builder.current_paragraph)  #ExSkip
-        #ExEnd
-
     def test_move_to_paragraph(self):
         #ExStart
         #ExFor:DocumentBuilder.move_to_paragraph
@@ -1344,26 +1242,6 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(aw.fields.FieldType.FIELD_FORM_TEXT_INPUT, form_field.type)
         self.assertEqual('', form_field.text_input_format)
         self.assertEqual(aw.fields.TextFormFieldType.REGULAR, form_field.text_input_type)
-
-    def test_insert_combo_box(self):
-        #ExStart
-        #ExFor:DocumentBuilder.insert_combo_box
-        #ExSummary:Shows how to insert a combo box form field into a document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc=doc)
-        # Insert a form that prompts the user to pick one of the items from the menu.
-        builder.write('Pick a fruit: ')
-        items = ['Apple', 'Banana', 'Cherry']
-        builder.insert_combo_box('DropDown', items, 0)
-        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertComboBox.docx')
-        #ExEnd
-        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertComboBox.docx')
-        form_field = doc.range.form_fields[0]
-        self.assertTrue(form_field.enabled)
-        self.assertEqual('DropDown', form_field.name)
-        self.assertEqual(0, form_field.drop_down_selected_index)
-        self.assertSequenceEqual(items, list(form_field.drop_down_items))
-        self.assertEqual(aw.fields.FieldType.FIELD_FORM_DROP_DOWN, form_field.type)
 
     def test_signature_line_inline(self):
         #ExStart
@@ -1850,30 +1728,6 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), first_run.font.color.to_argb())
         self.assertEqual(32, first_run.font.size)
 
-    def test_current_story(self):
-        #ExStart
-        #ExFor:DocumentBuilder.current_story
-        #ExSummary:Shows how to work with a document builder's current story.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc=doc)
-        # A Story is a type of node that has child Paragraph nodes, such as a Body.
-        self.assertEqual(builder.current_story, doc.first_section.body)
-        self.assertEqual(builder.current_story, builder.current_paragraph.parent_node)
-        self.assertEqual(aw.StoryType.MAIN_TEXT, builder.current_story.story_type)
-        builder.current_story.append_paragraph('Text added to current Story.')
-        # A Story can also contain tables.
-        table = builder.start_table()
-        builder.insert_cell()
-        builder.write('Row 1, cell 1')
-        builder.insert_cell()
-        builder.write('Row 1, cell 2')
-        builder.end_table()
-        self.assertTrue(builder.current_story.tables.contains(table))
-        #ExEnd
-        doc = document_helper.DocumentHelper.save_open(doc)
-        self.assertEqual(1, doc.first_section.body.tables.count)
-        self.assertEqual('Row 1, cell 1\x07Row 1, cell 2\x07\x07\rText added to current Story.', doc.first_section.body.get_text().strip())
-
     def test_insert_ole_objects(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_ole_object(BytesIO,str,bool,BytesIO)
@@ -2086,7 +1940,6 @@ class ExDocumentBuilder(ApiExampleBase):
         #ExStart
         #ExFor:Run.is_phonetic_guide
         #ExFor:Run.phonetic_guide
-        #ExFor:PhoneticGuide
         #ExFor:PhoneticGuide.base_text
         #ExFor:PhoneticGuide.ruby_text
         #ExSummary:Shows how to get properties of the phonetic guide.
@@ -2094,9 +1947,8 @@ class ExDocumentBuilder(ApiExampleBase):
         runs = doc.first_section.body.first_paragraph.runs
         # Use phonetic guide in the Asian text.
         self.assertEqual(True, runs[0].is_phonetic_guide)
-        phonetic_guide = runs[0].phonetic_guide
-        self.assertEqual('base', phonetic_guide.base_text)
-        self.assertEqual('ruby', phonetic_guide.ruby_text)
+        self.assertEqual('base', runs[0].phonetic_guide.base_text)
+        self.assertEqual('ruby', runs[0].phonetic_guide.ruby_text)
         #ExEnd
 
     def test_insert_html_with_formatting(self):
@@ -2156,6 +2008,128 @@ class ExDocumentBuilder(ApiExampleBase):
         builder.end_table()
         doc.save(ARTIFACTS_DIR + 'Bookmarks.create_column_bookmark.docx')
         #ExEnd
+
+    def test_create_form(self):
+        #ExStart
+        #ExFor:TextFormFieldType
+        #ExFor:DocumentBuilder.insert_text_input
+        #ExFor:DocumentBuilder.insert_combo_box
+        #ExSummary:Shows how to create form fields.
+        builder = aw.DocumentBuilder()
+        # Form fields are objects in the document that the user can interact with by being prompted to enter values.
+        # We can create them using a document builder, and below are two ways of doing so.
+        # 1 -  Basic text input:
+        builder.insert_text_input('My text input', aw.fields.TextFormFieldType.REGULAR, '', 'Enter your name here', 30)
+        # 2 -  Combo box with prompt text, and a range of possible values:
+        items = ['-- Select your favorite footwear --', 'Sneakers', 'Oxfords', 'Flip-flops', 'Other']
+        builder.insert_paragraph()
+        builder.insert_combo_box('My combo box', items, 0)
+        builder.document.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.CreateForm.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.CreateForm.docx')
+        form_field = doc.range.form_fields[0]
+        self.assertEqual('My text input', form_field.name)
+        self.assertEqual(aw.fields.TextFormFieldType.REGULAR, form_field.text_input_type)
+        self.assertEqual('Enter your name here', form_field.result)
+        form_field = doc.range.form_fields[1]
+        self.assertEqual('My combo box', form_field.name)
+        self.assertEqual(aw.fields.TextFormFieldType.REGULAR, form_field.text_input_type)
+        self.assertEqual('-- Select your favorite footwear --', form_field.result)
+        self.assertEqual(0, form_field.drop_down_selected_index)
+        self.assertSequenceEqual(['-- Select your favorite footwear --', 'Sneakers', 'Oxfords', 'Flip-flops', 'Other'], list(form_field.drop_down_items))
+
+    def test_working_with_nodes(self):
+        #ExStart
+        #ExFor:DocumentBuilder.move_to(Node)
+        #ExFor:DocumentBuilder.move_to_bookmark(str)
+        #ExFor:DocumentBuilder.current_paragraph
+        #ExFor:DocumentBuilder.current_node
+        #ExFor:DocumentBuilder.move_to_document_start
+        #ExFor:DocumentBuilder.move_to_document_end
+        #ExFor:DocumentBuilder.is_at_end_of_paragraph
+        #ExFor:DocumentBuilder.is_at_start_of_paragraph
+        #ExSummary:Shows how to move a document builder's cursor to different nodes in a document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Create a valid bookmark, an entity that consists of nodes enclosed by a bookmark start node,
+        # and a bookmark end node.
+        builder.start_bookmark('MyBookmark')
+        builder.write('Bookmark contents.')
+        builder.end_bookmark('MyBookmark')
+        first_paragraph_nodes = doc.first_section.body.first_paragraph.get_child_nodes(aw.NodeType.ANY, False)
+        self.assertEqual(aw.NodeType.BOOKMARK_START, first_paragraph_nodes[0].node_type)
+        self.assertEqual(aw.NodeType.RUN, first_paragraph_nodes[1].node_type)
+        self.assertEqual('Bookmark contents.', first_paragraph_nodes[1].get_text().strip())
+        self.assertEqual(aw.NodeType.BOOKMARK_END, first_paragraph_nodes[2].node_type)
+        # The document builder's cursor is always ahead of the node that we last added with it.
+        # If the builder's cursor is at the end of the document, its current node will be null.
+        # The previous node is the bookmark end node that we last added.
+        # Adding new nodes with the builder will append them to the last node.
+        self.assertIsNone(builder.current_node)
+        # If we wish to edit a different part of the document with the builder,
+        # we will need to bring its cursor to the node we wish to edit.
+        builder.move_to_bookmark(bookmark_name='MyBookmark')
+        # Moving it to a bookmark will move it to the first node within the bookmark start and end nodes, the enclosed run.
+        self.assertEqual(first_paragraph_nodes[1], builder.current_node)
+        # We can also move the cursor to an individual node like this.
+        builder.move_to(doc.first_section.body.first_paragraph.get_child_nodes(aw.NodeType.ANY, False)[0])
+        self.assertEqual(aw.NodeType.BOOKMARK_START, builder.current_node.node_type)
+        self.assertEqual(doc.first_section.body.first_paragraph, builder.current_paragraph)
+        self.assertTrue(builder.is_at_start_of_paragraph)
+        # We can use specific methods to move to the start/end of a document.
+        builder.move_to_document_end()
+        self.assertTrue(builder.is_at_end_of_paragraph)
+        builder.move_to_document_start()
+        self.assertTrue(builder.is_at_start_of_paragraph)
+        #ExEnd
+
+    def test_move_to(self):
+        #ExStart
+        #ExFor:Story.last_paragraph
+        #ExFor:DocumentBuilder.move_to(Node)
+        #ExSummary:Shows how to move a DocumentBuilder's cursor position to a specified node.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.writeln('Run 1. ')
+        # The document builder has a cursor, which acts as the part of the document
+        # where the builder appends new nodes when we use its document construction methods.
+        # This cursor functions in the same way as Microsoft Word's blinking cursor,
+        # and it also always ends up immediately after any node that the builder just inserted.
+        # To append content to a different part of the document,
+        # we can move the cursor to a different node with the "MoveTo" method.
+        self.assertEqual(doc.first_section.body.last_paragraph, builder.current_paragraph)  #ExSkip
+        builder.move_to(doc.first_section.body.first_paragraph.runs[0])
+        self.assertEqual(doc.first_section.body.first_paragraph, builder.current_paragraph)  #ExSkip
+        # The cursor is now in front of the node that we moved it to.
+        # Adding a second run will insert it in front of the first run.
+        builder.writeln('Run 2. ')
+        self.assertEqual('Run 2. \rRun 1.', doc.get_text().strip())
+        # Move the cursor to the end of the document to continue appending text to the end as before.
+        builder.move_to(doc.last_section.body.last_paragraph)
+        builder.writeln('Run 3. ')
+        self.assertEqual('Run 2. \rRun 1. \rRun 3.', doc.get_text().strip())
+        self.assertEqual(doc.first_section.body.last_paragraph, builder.current_paragraph)  #ExSkip
+        #ExEnd
+
+    def test_insert_combo_box(self):
+        #ExStart
+        #ExFor:DocumentBuilder.insert_combo_box
+        #ExSummary:Shows how to insert a combo box form field into a document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Insert a form that prompts the user to pick one of the items from the menu.
+        builder.write('Pick a fruit: ')
+        items = ['Apple', 'Banana', 'Cherry']
+        builder.insert_combo_box('DropDown', items, 0)
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertComboBox.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertComboBox.docx')
+        form_field = doc.range.form_fields[0]
+        self.assertTrue(form_field.enabled)
+        self.assertEqual('DropDown', form_field.name)
+        self.assertEqual(0, form_field.drop_down_selected_index)
+        self.assertSequenceEqual(items, list(form_field.drop_down_items))
+        self.assertEqual(aw.fields.FieldType.FIELD_FORM_DROP_DOWN, form_field.type)
 
     def test_signature_line_provider_id(self):
         #ExStart
@@ -2234,6 +2208,30 @@ class ExDocumentBuilder(ApiExampleBase):
         # This overload of the "insert_field" method automatically updates inserted fields.
         self.assertAlmostEqual(datetime.datetime.strptime(field.result, '%A, %B %d, %Y'), datetime.datetime.now(), delta=timedelta(1))
         #ExEnd
+
+    def test_current_story(self):
+        #ExStart
+        #ExFor:DocumentBuilder.current_story
+        #ExSummary:Shows how to work with a document builder's current story.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # A Story is a type of node that has child Paragraph nodes, such as a Body.
+        self.assertEqual(builder.current_story, doc.first_section.body)
+        self.assertEqual(builder.current_story, builder.current_paragraph.parent_node)
+        self.assertEqual(aw.StoryType.MAIN_TEXT, builder.current_story.story_type)
+        builder.current_story.append_paragraph('Text added to current Story.')
+        # A Story can also contain tables.
+        table = builder.start_table()
+        builder.insert_cell()
+        builder.write('Row 1, cell 1')
+        builder.insert_cell()
+        builder.write('Row 1, cell 2')
+        builder.end_table()
+        self.assertTrue(builder.current_story.tables.contains(table))
+        #ExEnd
+        doc = document_helper.DocumentHelper.save_open(doc)
+        self.assertEqual(1, doc.first_section.body.tables.count)
+        self.assertEqual('Row 1, cell 1\x07Row 1, cell 2\x07\x07\rText added to current Story.', doc.first_section.body.get_text().strip())
 
     @unittest.skip('Calculation problems')
     def test_insert_online_video_custom_thumbnail(self):

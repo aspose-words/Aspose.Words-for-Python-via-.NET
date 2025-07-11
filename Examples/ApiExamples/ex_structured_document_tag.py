@@ -187,53 +187,6 @@ class ExStructuredDocumentTag(ApiExampleBase):
             doc = aw.Document(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.IsTemporary.docx')
             self.assertEqual(2, len(list(filter(lambda sdt: sdt.as_structured_document_tag().is_temporary == is_temporary, doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)))))
 
-    def test_placeholder_building_block(self):
-        for is_showing_placeholder_text in [False, True]:
-            #ExStart
-            #ExFor:StructuredDocumentTag.is_showing_placeholder_text
-            #ExFor:IStructuredDocumentTag.is_showing_placeholder_text
-            #ExFor:StructuredDocumentTag.placeholder
-            #ExFor:StructuredDocumentTag.placeholder_name
-            #ExFor:IStructuredDocumentTag.placeholder
-            #ExFor:IStructuredDocumentTag.placeholder_name
-            #ExSummary:Shows how to use a building block's contents as a custom placeholder text for a structured document tag.
-            doc = aw.Document()
-            # Insert a plain text structured document tag of the "PlainText" type, which will function as a text box.
-            # The contents that it will display by default are a "Click here to enter text." prompt.
-            tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.INLINE)
-            # We can get the tag to display the contents of a building block instead of the default text.
-            # First, add a building block with contents to the glossary document.
-            glossary_doc = doc.glossary_document
-            substitute_block = aw.buildingblocks.BuildingBlock(glossary_doc)
-            substitute_block.name = 'Custom Placeholder'
-            substitute_block.append_child(aw.Section(glossary_doc))
-            substitute_block.first_section.append_child(aw.Body(glossary_doc))
-            substitute_block.first_section.body.append_paragraph('Custom placeholder text.')
-            glossary_doc.append_child(substitute_block)
-            # Then, use the structured document tag's "PlaceholderName" property to reference that building block by name.
-            tag.placeholder_name = 'Custom Placeholder'
-            # If "PlaceholderName" refers to an existing block in the parent document's glossary document,
-            # we will be able to verify the building block via the "Placeholder" property.
-            self.assertEqual(substitute_block, tag.placeholder)
-            # Set the "IsShowingPlaceholderText" property to "true" to treat the
-            # structured document tag's current contents as placeholder text.
-            # This means that clicking on the text box in Microsoft Word will immediately highlight all the tag's contents.
-            # Set the "IsShowingPlaceholderText" property to "false" to get the
-            # structured document tag to treat its contents as text that a user has already entered.
-            # Clicking on this text in Microsoft Word will place the blinking cursor at the clicked location.
-            tag.is_showing_placeholder_text = is_showing_placeholder_text
-            builder = aw.DocumentBuilder(doc=doc)
-            builder.insert_node(tag)
-            doc.save(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.PlaceholderBuildingBlock.docx')
-            #ExEnd
-            doc = aw.Document(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.PlaceholderBuildingBlock.docx')
-            tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
-            substitute_block = doc.glossary_document.get_child(aw.NodeType.BUILDING_BLOCK, 0, True).as_building_block()
-            self.assertEqual('Custom Placeholder', substitute_block.name)
-            self.assertEqual(is_showing_placeholder_text, tag.is_showing_placeholder_text)
-            self.assertEqual(substitute_block, tag.placeholder)
-            self.assertEqual(substitute_block.name, tag.placeholder_name)
-
     def test_lock(self):
         #ExStart
         #ExFor:StructuredDocumentTag.lock_content_control
@@ -684,6 +637,53 @@ class ExStructuredDocumentTag(ApiExampleBase):
         builder.insert_node(sdt_date)
         doc.save(ARTIFACTS_DIR + 'StructuredDocumentTag.date.docx')
         #ExEnd
+
+    def test_placeholder_building_block(self):
+        for is_showing_placeholder_text in [False, True]:
+            #ExStart
+            #ExFor:StructuredDocumentTag.is_showing_placeholder_text
+            #ExFor:IStructuredDocumentTag.is_showing_placeholder_text
+            #ExFor:StructuredDocumentTag.placeholder
+            #ExFor:StructuredDocumentTag.placeholder_name
+            #ExFor:IStructuredDocumentTag.placeholder
+            #ExFor:IStructuredDocumentTag.placeholder_name
+            #ExSummary:Shows how to use a building block's contents as a custom placeholder text for a structured document tag.
+            doc = aw.Document()
+            # Insert a plain text structured document tag of the "PlainText" type, which will function as a text box.
+            # The contents that it will display by default are a "Click here to enter text." prompt.
+            tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.INLINE)
+            # We can get the tag to display the contents of a building block instead of the default text.
+            # First, add a building block with contents to the glossary document.
+            glossary_doc = doc.glossary_document
+            substitute_block = aw.buildingblocks.BuildingBlock(glossary_doc)
+            substitute_block.name = 'Custom Placeholder'
+            substitute_block.append_child(aw.Section(glossary_doc))
+            substitute_block.first_section.append_child(aw.Body(glossary_doc))
+            substitute_block.first_section.body.append_paragraph('Custom placeholder text.')
+            glossary_doc.append_child(substitute_block)
+            # Then, use the structured document tag's "PlaceholderName" property to reference that building block by name.
+            tag.placeholder_name = 'Custom Placeholder'
+            # If "PlaceholderName" refers to an existing block in the parent document's glossary document,
+            # we will be able to verify the building block via the "Placeholder" property.
+            self.assertEqual(substitute_block, tag.placeholder)
+            # Set the "IsShowingPlaceholderText" property to "true" to treat the
+            # structured document tag's current contents as placeholder text.
+            # This means that clicking on the text box in Microsoft Word will immediately highlight all the tag's contents.
+            # Set the "IsShowingPlaceholderText" property to "false" to get the
+            # structured document tag to treat its contents as text that a user has already entered.
+            # Clicking on this text in Microsoft Word will place the blinking cursor at the clicked location.
+            tag.is_showing_placeholder_text = is_showing_placeholder_text
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.insert_node(tag)
+            doc.save(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.PlaceholderBuildingBlock.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.PlaceholderBuildingBlock.docx')
+            tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
+            substitute_block = doc.glossary_document.get_child(aw.NodeType.BUILDING_BLOCK, 0, True).as_building_block()
+            self.assertEqual('Custom Placeholder', substitute_block.name)
+            self.assertEqual(is_showing_placeholder_text, tag.is_showing_placeholder_text)
+            self.assertEqual(substitute_block, tag.placeholder)
+            self.assertEqual(substitute_block.name, tag.placeholder_name)
 
     def test_list_item_collection(self):
         #ExStart

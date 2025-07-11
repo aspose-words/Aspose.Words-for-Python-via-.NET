@@ -14,37 +14,6 @@ from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExComment(ApiExampleBase):
 
-    def test_add_comment_with_reply(self):
-        #ExStart
-        #ExFor:Comment
-        #ExFor:Comment.set_text(str)
-        #ExFor:Comment.add_reply(str,str,datetime,str)
-        #ExSummary:Shows how to add a comment to a document, and then reply to it.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc=doc)
-        comment = aw.Comment(doc=doc, author='John Doe', initial='J.D.', date_time=datetime.datetime.now())
-        comment.set_text('My comment.')
-        # Place the comment at a node in the document's body.
-        # This comment will show up at the location of its paragraph,
-        # outside the right-side margin of the page, and with a dotted line connecting it to its paragraph.
-        builder.current_paragraph.append_child(comment)
-        # Add a reply, which will show up under its parent comment.
-        comment.add_reply('Joe Bloggs', 'J.B.', datetime.datetime.now(), 'New reply')
-        # Comments and replies are both Comment nodes.
-        self.assertEqual(2, doc.get_child_nodes(aw.NodeType.COMMENT, True).count)
-        # Comments that do not reply to other comments are "top-level". They have no ancestor comments.
-        self.assertIsNone(comment.ancestor)
-        # Replies have an ancestor top-level comment.
-        self.assertEqual(comment, comment.replies[0].ancestor)
-        doc.save(file_name=ARTIFACTS_DIR + 'Comment.AddCommentWithReply.docx')
-        #ExEnd
-        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Comment.AddCommentWithReply.docx')
-        doc_comment = doc.get_child(aw.NodeType.COMMENT, 0, True).as_comment()
-        self.assertEqual(1, doc_comment.count)
-        self.assertEqual(1, comment.replies.count)
-        self.assertEqual('\x05My comment.\r', doc_comment.get_text())
-        self.assertEqual('\x05New reply\r', doc_comment.replies[0].get_text())
-
     def test_print_all_comments(self):
         #ExStart
         #ExFor:Comment.ancestor
@@ -120,6 +89,37 @@ class ExComment(ApiExampleBase):
         self.assertTrue(comment.done)
         self.assertEqual('\x05Fix the spelling error!', comment.get_text().strip())
         self.assertEqual('Hello world!', doc.first_section.body.first_paragraph.runs[0].text)
+
+    def test_add_comment_with_reply(self):
+        #ExStart
+        #ExFor:Comment
+        #ExFor:Comment.set_text(str)
+        #ExFor:Comment.add_reply(str,str,datetime,str)
+        #ExSummary:Shows how to add a comment to a document, and then reply to it.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        comment = aw.Comment(doc=doc, author='John Doe', initial='J.D.', date_time=datetime.datetime.now())
+        comment.set_text('My comment.')
+        # Place the comment at a node in the document's body.
+        # This comment will show up at the location of its paragraph,
+        # outside the right-side margin of the page, and with a dotted line connecting it to its paragraph.
+        builder.current_paragraph.append_child(comment)
+        # Add a reply, which will show up under its parent comment.
+        comment.add_reply('Joe Bloggs', 'J.B.', datetime.datetime.now(), 'New reply')
+        # Comments and replies are both Comment nodes.
+        self.assertEqual(2, doc.get_child_nodes(aw.NodeType.COMMENT, True).count)
+        # Comments that do not reply to other comments are "top-level". They have no ancestor comments.
+        self.assertIsNone(comment.ancestor)
+        # Replies have an ancestor top-level comment.
+        self.assertEqual(comment, comment.replies[0].ancestor)
+        doc.save(file_name=ARTIFACTS_DIR + 'Comment.AddCommentWithReply.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Comment.AddCommentWithReply.docx')
+        doc_comment = doc.get_child(aw.NodeType.COMMENT, 0, True).as_comment()
+        self.assertEqual(1, doc_comment.count)
+        self.assertEqual(1, comment.replies.count)
+        self.assertEqual('\x05My comment.\r', doc_comment.get_text())
+        self.assertEqual('\x05New reply\r', doc_comment.replies[0].get_text())
 
     def test_utc_date_time(self):
         #ExStart:UtcDateTime

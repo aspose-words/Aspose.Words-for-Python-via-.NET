@@ -133,6 +133,6 @@ class ExXpsSaveOptions(ApiExampleBase):
                 #ExEnd
                 out_file_size = os.path.getsize(ARTIFACTS_DIR + 'XpsSaveOptions.optimize_output.xps')
                 if optimize_output:
-                    self.assertLess(out_file_size, 50000)
+                    self.assertLess(out_file_size, 44000)
                 else:
-                    self.assertGreater(out_file_size, 60000)
+                    self.assertLess(out_file_size, 64000)

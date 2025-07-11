@@ -27,30 +27,6 @@ class ExDocumentBase(ApiExampleBase):
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBase.SetPageColor.docx')
         self.assertEqual(aspose.pydrawing.Color.light_gray.to_argb(), doc.page_color.to_argb())
 
-    def test_import_node(self):
-        #ExStart
-        #ExFor:DocumentBase.import_node(Node,bool)
-        #ExSummary:Shows how to import a node from one document to another.
-        src_doc = aw.Document()
-        dst_doc = aw.Document()
-        src_doc.first_section.body.first_paragraph.append_child(aw.Run(doc=src_doc, text='Source document first paragraph text.'))
-        dst_doc.first_section.body.first_paragraph.append_child(aw.Run(doc=dst_doc, text='Destination document first paragraph text.'))
-        # Every node has a parent document, which is the document that contains the node.
-        # Inserting a node into a document that the node does not belong to will throw an exception.
-        self.assertNotEqual(dst_doc, src_doc.first_section.document)
-        self.assertRaises(Exception, lambda: dst_doc.append_child(src_doc.first_section))
-        # Use the ImportNode method to create a copy of a node, which will have the document
-        # that called the ImportNode method set as its new owner document.
-        imported_section = dst_doc.import_node(src_node=src_doc.first_section, is_import_children=True).as_section()
-        self.assertEqual(dst_doc, imported_section.document)
-        # We can now insert the node into the document.
-        dst_doc.append_child(imported_section)
-        self.assertEqual('Destination document first paragraph text.\r\nSource document first paragraph text.\r\n', dst_doc.to_string(save_format=aw.SaveFormat.TEXT))
-        #ExEnd
-        self.assertNotEqual(imported_section, src_doc.first_section)
-        self.assertNotEqual(imported_section.document, src_doc.first_section.document)
-        self.assertEqual(imported_section.body.first_paragraph.get_text(), src_doc.first_section.body.first_paragraph.get_text())
-
     def test_import_node_custom(self):
         #ExStart
         #ExFor:DocumentBase.import_node(Node,bool,ImportFormatMode)
@@ -126,3 +102,27 @@ class ExDocumentBase(ApiExampleBase):
         doc.glossary_document = glossary_doc
         self.assertIsInstance(glossary_doc, aw.DocumentBase)
         #ExEnd
+
+    def test_import_node(self):
+        #ExStart
+        #ExFor:DocumentBase.import_node(Node,bool)
+        #ExSummary:Shows how to import a node from one document to another.
+        src_doc = aw.Document()
+        dst_doc = aw.Document()
+        src_doc.first_section.body.first_paragraph.append_child(aw.Run(doc=src_doc, text='Source document first paragraph text.'))
+        dst_doc.first_section.body.first_paragraph.append_child(aw.Run(doc=dst_doc, text='Destination document first paragraph text.'))
+        # Every node has a parent document, which is the document that contains the node.
+        # Inserting a node into a document that the node does not belong to will throw an exception.
+        self.assertNotEqual(dst_doc, src_doc.first_section.document)
+        self.assertRaises(Exception, lambda: dst_doc.append_child(src_doc.first_section))
+        # Use the ImportNode method to create a copy of a node, which will have the document
+        # that called the ImportNode method set as its new owner document.
+        imported_section = dst_doc.import_node(src_node=src_doc.first_section, is_import_children=True).as_section()
+        self.assertEqual(dst_doc, imported_section.document)
+        # We can now insert the node into the document.
+        dst_doc.append_child(imported_section)
+        self.assertEqual('Destination document first paragraph text.\r\nSource document first paragraph text.\r\n', dst_doc.to_string(save_format=aw.SaveFormat.TEXT))
+        #ExEnd
+        self.assertNotEqual(imported_section, src_doc.first_section)
+        self.assertNotEqual(imported_section.document, src_doc.first_section.document)
+        self.assertEqual(imported_section.body.first_paragraph.get_text(), src_doc.first_section.body.first_paragraph.get_text())

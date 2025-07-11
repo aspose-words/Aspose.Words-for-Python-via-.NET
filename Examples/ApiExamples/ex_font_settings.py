@@ -134,7 +134,7 @@ class ExFontSettings(ApiExampleBase):
             self.assertTrue(any([f.full_font_name == 'Arvo' for f in new_font_sources[0].get_available_fonts()]))
             # The "Amethysta" font is in a subfolder of the font directory.
             if recursive:
-                self.assertEqual(25, len(new_font_sources[0].get_available_fonts()))
+                self.assertEqual(30, len(new_font_sources[0].get_available_fonts()))
                 self.assertTrue(any([f.full_font_name == 'Amethysta' for f in new_font_sources[0].get_available_fonts()]))
             else:
                 self.assertEqual(18, len(new_font_sources[0].get_available_fonts()))
@@ -178,7 +178,7 @@ class ExFontSettings(ApiExampleBase):
             self.assertTrue(any([f.full_font_name == 'Amethysta' for f in new_font_sources[0].get_available_fonts()]))
             # The "Junction" folder itself contains no font files, but has subfolders that do.
             if recursive:
-                self.assertEqual(6, len(new_font_sources[1].get_available_fonts()))
+                self.assertEqual(11, len(new_font_sources[1].get_available_fonts()))
                 self.assertTrue(any([f.full_font_name == 'Junction Light' for f in new_font_sources[1].get_available_fonts()]))
             else:
                 self.assertEqual(0, len(new_font_sources[1].get_available_fonts()))
@@ -279,17 +279,6 @@ class ExFontSettings(ApiExampleBase):
         self.assertEqual('C:\\Windows\\Fonts\\', folder_source.folder_path)
         self.assertTrue(folder_source.scan_subfolders)
 
-    def test_add_font_substitutes(self):
-        font_settings = aw.fonts.FontSettings()
-        font_settings.substitution_settings.table_substitution.set_substitutes('Slab', ['Times New Roman', 'Arial'])
-        font_settings.substitution_settings.table_substitution.add_substitutes('Arvo', ['Open Sans', 'Arial'])
-        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
-        doc.font_settings = font_settings
-        alternative_fonts = list(doc.font_settings.substitution_settings.table_substitution.get_substitutes('Slab'))
-        self.assertSequenceEqual(['Times New Roman', 'Arial'], alternative_fonts)
-        alternative_fonts = list(doc.font_settings.substitution_settings.table_substitution.get_substitutes('Arvo'))
-        self.assertSequenceEqual(['Open Sans', 'Arial'], alternative_fonts)
-
     def test_font_source_memory(self):
         #ExStart
         #ExFor:MemoryFontSource
@@ -366,54 +355,6 @@ class ExFontSettings(ApiExampleBase):
         #ExEnd
         self.assertEqual('Courier New', default_font_substitution_rule.default_font_name)
 
-    def test_table_substitution_rule_custom(self):
-        #ExStart
-        #ExFor:FontSubstitutionSettings.table_substitution
-        #ExFor:TableSubstitutionRule.add_substitutes(str,List[str])
-        #ExFor:TableSubstitutionRule.get_substitutes(str)
-        #ExFor:TableSubstitutionRule.load(BytesIO)
-        #ExFor:TableSubstitutionRule.load(str)
-        #ExFor:TableSubstitutionRule.set_substitutes(str,List[str])
-        #ExSummary:Shows how to work with custom font substitution tables.
-        doc = aw.Document()
-        font_settings = aw.fonts.FontSettings()
-        doc.font_settings = font_settings
-        # Create a new table substitution rule and load the default Windows font substitution table.
-        table_substitution_rule = font_settings.substitution_settings.table_substitution
-        # If we select fonts exclusively from our folder, we will need a custom substitution table.
-        # We will no longer have access to the Microsoft Windows fonts,
-        # such as "Arial" or "Times New Roman" since they do not exist in our new font folder.
-        folder_font_source = aw.fonts.FolderFontSource(folder_path=FONTS_DIR, scan_subfolders=False)
-        font_settings.set_fonts_sources(sources=[folder_font_source])
-        # Below are two ways of loading a substitution table from a file in the local file system.
-        # 1 -  From a stream:
-        with system_helper.io.FileStream(MY_DIR + 'Font substitution rules.xml', system_helper.io.FileMode.OPEN) as file_stream:
-            table_substitution_rule.load(stream=file_stream)
-        # 2 -  Directly from a file:
-        table_substitution_rule.load(file_name=MY_DIR + 'Font substitution rules.xml')
-        # Since we no longer have access to "Arial", our font table will first try substitute it with "Nonexistent Font".
-        # We do not have this font so that it will move onto the next substitute, "Kreon", found in the "MyFonts" folder.
-        self.assertSequenceEqual(['Missing Font', 'Kreon'], list(table_substitution_rule.get_substitutes('Arial')))
-        # We can expand this table programmatically. We will add an entry that substitutes "Times New Roman" with "Arvo"
-        self.assertIsNone(table_substitution_rule.get_substitutes('Times New Roman'))
-        table_substitution_rule.add_substitutes('Times New Roman', ['Arvo'])
-        self.assertSequenceEqual(['Arvo'], list(table_substitution_rule.get_substitutes('Times New Roman')))
-        # We can add a secondary fallback substitute for an existing font entry with AddSubstitutes().
-        # In case "Arvo" is unavailable, our table will look for "M+ 2m" as a second substitute option.
-        table_substitution_rule.add_substitutes('Times New Roman', ['M+ 2m'])
-        self.assertSequenceEqual(['Arvo', 'M+ 2m'], list(table_substitution_rule.get_substitutes('Times New Roman')))
-        # SetSubstitutes() can set a new list of substitute fonts for a font.
-        table_substitution_rule.set_substitutes('Times New Roman', ['Squarish Sans CT', 'M+ 2m'])
-        self.assertSequenceEqual(['Squarish Sans CT', 'M+ 2m'], list(table_substitution_rule.get_substitutes('Times New Roman')))
-        # Writing text in fonts that we do not have access to will invoke our substitution rules.
-        builder = aw.DocumentBuilder(doc=doc)
-        builder.font.name = 'Arial'
-        builder.writeln('Text written in Arial, to be substituted by Kreon.')
-        builder.font.name = 'Times New Roman'
-        builder.writeln('Text written in Times New Roman, to be substituted by Squarish Sans CT.')
-        doc.save(file_name=ARTIFACTS_DIR + 'FontSettings.TableSubstitutionRule.Custom.pdf')
-        #ExEnd
-
     def test_resolve_fonts_before_loading_document(self):
         #ExStart
         #ExFor:LoadOptions.font_settings
@@ -432,6 +373,17 @@ class ExFontSettings(ApiExampleBase):
         self.assertEqual('MissingFont', doc.first_section.body.first_paragraph.runs[0].font.name)
         doc.save(file_name=ARTIFACTS_DIR + 'FontSettings.ResolveFontsBeforeLoadingDocument.pdf')
         #ExEnd
+
+    def test_add_font_substitutes(self):
+        font_settings = aw.fonts.FontSettings()
+        font_settings.substitution_settings.table_substitution.set_substitutes('Slab', ['Times New Roman', 'Arial'])
+        font_settings.substitution_settings.table_substitution.add_substitutes('Arvo', ['Open Sans', 'Arial'])
+        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+        doc.font_settings = font_settings
+        alternative_fonts = list(doc.font_settings.substitution_settings.table_substitution.get_substitutes('Slab'))
+        self.assertSequenceEqual(['Times New Roman', 'Arial'], alternative_fonts)
+        alternative_fonts = list(doc.font_settings.substitution_settings.table_substitution.get_substitutes('Arvo'))
+        self.assertSequenceEqual(['Open Sans', 'Arial'], alternative_fonts)
 
     def test_font_source_system(self):
         #ExStart
@@ -641,3 +593,51 @@ class ExFontSettings(ApiExampleBase):
         rules = fallback_settings_doc.getroot().find('{Aspose.Words}SubstitutesTable').findall('{Aspose.Words}Item')
         self.assertEqual('Times New Roman CE', rules[31].attrib['OriginalFont'])
         self.assertEqual('FreeSerif, Liberation Serif, DejaVu Serif', rules[31].attrib['SubstituteFonts'])
+
+    def test_table_substitution_rule_custom(self):
+        #ExStart
+        #ExFor:FontSubstitutionSettings.table_substitution
+        #ExFor:TableSubstitutionRule.add_substitutes(str,List[str])
+        #ExFor:TableSubstitutionRule.get_substitutes(str)
+        #ExFor:TableSubstitutionRule.load(BytesIO)
+        #ExFor:TableSubstitutionRule.load(str)
+        #ExFor:TableSubstitutionRule.set_substitutes(str,List[str])
+        #ExSummary:Shows how to work with custom font substitution tables.
+        doc = aw.Document()
+        font_settings = aw.fonts.FontSettings()
+        doc.font_settings = font_settings
+        # Create a new table substitution rule and load the default Windows font substitution table.
+        table_substitution_rule = font_settings.substitution_settings.table_substitution
+        # If we select fonts exclusively from our folder, we will need a custom substitution table.
+        # We will no longer have access to the Microsoft Windows fonts,
+        # such as "Arial" or "Times New Roman" since they do not exist in our new font folder.
+        folder_font_source = aw.fonts.FolderFontSource(folder_path=FONTS_DIR, scan_subfolders=False)
+        font_settings.set_fonts_sources(sources=[folder_font_source])
+        # Below are two ways of loading a substitution table from a file in the local file system.
+        # 1 -  From a stream:
+        with system_helper.io.FileStream(MY_DIR + 'Font substitution rules.xml', system_helper.io.FileMode.OPEN) as file_stream:
+            table_substitution_rule.load(stream=file_stream)
+        # 2 -  Directly from a file:
+        table_substitution_rule.load(file_name=MY_DIR + 'Font substitution rules.xml')
+        # Since we no longer have access to "Arial", our font table will first try substitute it with "Nonexistent Font".
+        # We do not have this font so that it will move onto the next substitute, "Kreon", found in the "MyFonts" folder.
+        self.assertSequenceEqual(['Missing Font', 'Kreon'], list(table_substitution_rule.get_substitutes('Arial')))
+        # We can expand this table programmatically. We will add an entry that substitutes "Times New Roman" with "Arvo"
+        self.assertIsNone(table_substitution_rule.get_substitutes('Times New Roman'))
+        table_substitution_rule.add_substitutes('Times New Roman', ['Arvo'])
+        self.assertSequenceEqual(['Arvo'], list(table_substitution_rule.get_substitutes('Times New Roman')))
+        # We can add a secondary fallback substitute for an existing font entry with AddSubstitutes().
+        # In case "Arvo" is unavailable, our table will look for "M+ 2m" as a second substitute option.
+        table_substitution_rule.add_substitutes('Times New Roman', ['M+ 2m'])
+        self.assertSequenceEqual(['Arvo', 'M+ 2m'], list(table_substitution_rule.get_substitutes('Times New Roman')))
+        # SetSubstitutes() can set a new list of substitute fonts for a font.
+        table_substitution_rule.set_substitutes('Times New Roman', ['Squarish Sans CT', 'M+ 2m'])
+        self.assertSequenceEqual(['Squarish Sans CT', 'M+ 2m'], list(table_substitution_rule.get_substitutes('Times New Roman')))
+        # Writing text in fonts that we do not have access to will invoke our substitution rules.
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.font.name = 'Arial'
+        builder.writeln('Text written in Arial, to be substituted by Kreon.')
+        builder.font.name = 'Times New Roman'
+        builder.writeln('Text written in Times New Roman, to be substituted by Squarish Sans CT.')
+        doc.save(file_name=ARTIFACTS_DIR + 'FontSettings.TableSubstitutionRule.Custom.pdf')
+        #ExEnd

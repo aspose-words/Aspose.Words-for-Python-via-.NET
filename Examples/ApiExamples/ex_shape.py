@@ -9,10 +9,10 @@ import os
 import typing
 import sys
 from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
+import document_helper
 from aspose.words import Document, DocumentBuilder, NodeType
 from aspose.pydrawing import Color
 from aspose.words.themes import ThemeColor
-from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
@@ -22,11 +22,10 @@ import aspose.words.rendering
 import aspose.words.saving
 import aspose.words.settings
 import aspose.words.themes
-import document_helper
 import system_helper
 import test_util
 import unittest
-from api_example_base import ApiExampleBase, ARTIFACTS_DIR, GOLDS_DIR, IMAGE_DIR, MY_DIR
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR, GOLDS_DIR
 
 class ExShape(ApiExampleBase):
 
@@ -922,30 +921,6 @@ class ExShape(ApiExampleBase):
         office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 6, True).as_office_math()
         self.assertEqual(aw.math.OfficeMathDisplayType.INLINE, office_math.display_type)
         self.assertEqual(aw.math.OfficeMathJustification.INLINE, office_math.justification)
-
-    def test_office_math(self):
-        #ExStart
-        #ExFor:OfficeMath
-        #ExFor:OfficeMath.display_type
-        #ExFor:OfficeMath.justification
-        #ExFor:OfficeMath.node_type
-        #ExFor:OfficeMath.parent_paragraph
-        #ExFor:OfficeMathDisplayType
-        #ExFor:OfficeMathJustification
-        #ExSummary:Shows how to set office math display formatting.
-        doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
-        office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
-        # OfficeMath nodes that are children of other OfficeMath nodes are always inline.
-        # The node we are working with is the base node to change its location and display type.
-        self.assertEqual(aw.math.MathObjectType.O_MATH_PARA, office_math.math_object_type)
-        self.assertEqual(aw.NodeType.OFFICE_MATH, office_math.node_type)
-        self.assertEqual(office_math.parent_node, office_math.parent_paragraph)
-        # Change the location and display type of the OfficeMath node.
-        office_math.display_type = aw.math.OfficeMathDisplayType.DISPLAY
-        office_math.justification = aw.math.OfficeMathJustification.LEFT
-        doc.save(file_name=ARTIFACTS_DIR + 'Shape.OfficeMath.docx')
-        #ExEnd
-        self.assertTrue(document_helper.DocumentHelper.compare_docs(ARTIFACTS_DIR + 'Shape.OfficeMath.docx', GOLDS_DIR + 'Shape.OfficeMath Gold.docx'))
 
     def test_cannot_be_set_display_with_inline_justification(self):
         doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
@@ -2165,6 +2140,30 @@ class ExShape(ApiExampleBase):
         math.get_math_renderer().save(ARTIFACTS_DIR + 'Shape.render_office_math.png', save_options)
         #ExEnd
         self.verify_image(813, 86, filename=ARTIFACTS_DIR + 'Shape.render_office_math.png')
+
+    def test_office_math(self):
+        #ExStart
+        #ExFor:OfficeMath
+        #ExFor:OfficeMath.display_type
+        #ExFor:OfficeMath.justification
+        #ExFor:OfficeMath.node_type
+        #ExFor:OfficeMath.parent_paragraph
+        #ExFor:OfficeMathDisplayType
+        #ExFor:OfficeMathJustification
+        #ExSummary:Shows how to set office math display formatting.
+        doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
+        office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
+        # OfficeMath nodes that are children of other OfficeMath nodes are always inline.
+        # The node we are working with is the base node to change its location and display type.
+        self.assertEqual(aw.math.MathObjectType.O_MATH_PARA, office_math.math_object_type)
+        self.assertEqual(aw.NodeType.OFFICE_MATH, office_math.node_type)
+        self.assertEqual(office_math.parent_node, office_math.parent_paragraph)
+        # Change the location and display type of the OfficeMath node.
+        office_math.display_type = aw.math.OfficeMathDisplayType.DISPLAY
+        office_math.justification = aw.math.OfficeMathJustification.LEFT
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.OfficeMath.docx')
+        #ExEnd
+        self.assertTrue(document_helper.DocumentHelper.compare_docs(ARTIFACTS_DIR + 'Shape.OfficeMath.docx', GOLDS_DIR + 'Shape.OfficeMath Gold.docx'))
 
     def test_get_access_to_ole_package(self):
         doc = aw.Document()

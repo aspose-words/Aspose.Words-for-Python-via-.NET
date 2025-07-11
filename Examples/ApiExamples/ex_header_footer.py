@@ -16,6 +16,81 @@ from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR, IMAGE_DIR
 
 class ExHeaderFooter(ApiExampleBase):
 
+    def test_remove_footers(self):
+        #ExStart
+        #ExFor:Section.headers_footers
+        #ExFor:HeaderFooterCollection
+        #ExFor:HeaderFooterCollection.__getitem__(HeaderFooterType)
+        #ExFor:HeaderFooter
+        #ExSummary:Shows how to delete all footers from a document.
+        doc = aw.Document(file_name=MY_DIR + 'Header and footer types.docx')
+        # Iterate through each section and remove footers of every kind.
+        for section in filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_section(), b), list(doc))):
+            # There are three kinds of footer and header types.
+            # 1 -  The "First" header/footer, which only appears on the first page of a section.
+            footer = section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_FIRST)
+            cond_expression = footer
+            if cond_expression != None:
+                cond_expression.remove()
+            # 2 -  The "Primary" header/footer, which appears on odd pages.
+            footer = section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_PRIMARY)
+            cond_expression2 = footer
+            if cond_expression2 != None:
+                cond_expression2.remove()
+            # 3 -  The "Even" header/footer, which appears on even pages.
+            footer = section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_EVEN)
+            cond_expression3 = footer
+            if cond_expression3 != None:
+                cond_expression3.remove()
+            self.assertEqual(0, len(list(filter(lambda hf: not hf.as_header_footer().is_header, section.headers_footers))))
+        doc.save(file_name=ARTIFACTS_DIR + 'HeaderFooter.RemoveFooters.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'HeaderFooter.RemoveFooters.docx')
+        self.assertEqual(1, doc.sections.count)
+        self.assertEqual(0, len(list(filter(lambda hf: not hf.as_header_footer().is_header, doc.first_section.headers_footers))))
+        self.assertEqual(3, len(list(filter(lambda hf: hf.as_header_footer().is_header, doc.first_section.headers_footers))))
+
+    def test_export_mode(self):
+        #ExStart
+        #ExFor:HtmlSaveOptions.export_headers_footers_mode
+        #ExFor:ExportHeadersFootersMode
+        #ExSummary:Shows how to omit headers/footers when saving a document to HTML.
+        doc = aw.Document(file_name=MY_DIR + 'Header and footer types.docx')
+        # This document contains headers and footers. We can access them via the "HeadersFooters" collection.
+        self.assertEqual('First header', doc.first_section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.HEADER_FIRST).get_text().strip())
+        # Formats such as .html do not split the document into pages, so headers/footers will not function the same way
+        # they would when we open the document as a .docx using Microsoft Word.
+        # If we convert a document with headers/footers to html, the conversion will assimilate the headers/footers into body text.
+        # We can use a SaveOptions object to omit headers/footers while converting to html.
+        save_options = aw.saving.HtmlSaveOptions(aw.SaveFormat.HTML)
+        save_options.export_headers_footers_mode = aw.saving.ExportHeadersFootersMode.NONE
+        doc.save(file_name=ARTIFACTS_DIR + 'HeaderFooter.ExportMode.html', save_options=save_options)
+        # Open our saved document and verify that it does not contain the header's text
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'HeaderFooter.ExportMode.html')
+        self.assertFalse('First header' in doc.range.text)
+        #ExEnd
+
+    def test_replace_text(self):
+        #ExStart
+        #ExFor:Document.first_section
+        #ExFor:Section.headers_footers
+        #ExFor:HeaderFooterCollection.__getitem__(HeaderFooterType)
+        #ExFor:HeaderFooter
+        #ExFor:Range.replace(str,str,FindReplaceOptions)
+        #ExSummary:Shows how to replace text in a document's footer.
+        doc = aw.Document(file_name=MY_DIR + 'Footer.docx')
+        headers_footers = doc.first_section.headers_footers
+        footer = headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_PRIMARY)
+        options = aw.replacing.FindReplaceOptions()
+        options.match_case = False
+        options.find_whole_words_only = False
+        current_year = datetime.datetime.now().year
+        footer.range.replace(pattern='(C) 2006 Aspose Pty Ltd.', replacement=f'Copyright (C) {current_year} by Aspose Pty Ltd.', options=options)
+        doc.save(file_name=ARTIFACTS_DIR + 'HeaderFooter.ReplaceText.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'HeaderFooter.ReplaceText.docx')
+        self.assertTrue(f'Copyright (C) {current_year} by Aspose Pty Ltd.' in doc.range.text)
+
     def test_create(self):
         #ExStart
         #ExFor:HeaderFooter
@@ -110,78 +185,3 @@ class ExHeaderFooter(ApiExampleBase):
         self.assertEqual(0, len(list(filter(lambda hf: hf.as_header_footer().is_linked_to_previous, doc.sections[1].headers_footers))))
         self.assertEqual(5, doc.sections[2].headers_footers.count)
         self.assertEqual(5, len(list(filter(lambda hf: not hf.as_header_footer().is_linked_to_previous, doc.sections[2].headers_footers))))
-
-    def test_remove_footers(self):
-        #ExStart
-        #ExFor:Section.headers_footers
-        #ExFor:HeaderFooterCollection
-        #ExFor:HeaderFooterCollection.__getitem__(HeaderFooterType)
-        #ExFor:HeaderFooter
-        #ExSummary:Shows how to delete all footers from a document.
-        doc = aw.Document(file_name=MY_DIR + 'Header and footer types.docx')
-        # Iterate through each section and remove footers of every kind.
-        for section in filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_section(), b), list(doc))):
-            # There are three kinds of footer and header types.
-            # 1 -  The "First" header/footer, which only appears on the first page of a section.
-            footer = section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_FIRST)
-            cond_expression = footer
-            if cond_expression != None:
-                cond_expression.remove()
-            # 2 -  The "Primary" header/footer, which appears on odd pages.
-            footer = section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_PRIMARY)
-            cond_expression2 = footer
-            if cond_expression2 != None:
-                cond_expression2.remove()
-            # 3 -  The "Even" header/footer, which appears on even pages.
-            footer = section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_EVEN)
-            cond_expression3 = footer
-            if cond_expression3 != None:
-                cond_expression3.remove()
-            self.assertEqual(0, len(list(filter(lambda hf: not hf.as_header_footer().is_header, section.headers_footers))))
-        doc.save(file_name=ARTIFACTS_DIR + 'HeaderFooter.RemoveFooters.docx')
-        #ExEnd
-        doc = aw.Document(file_name=ARTIFACTS_DIR + 'HeaderFooter.RemoveFooters.docx')
-        self.assertEqual(1, doc.sections.count)
-        self.assertEqual(0, len(list(filter(lambda hf: not hf.as_header_footer().is_header, doc.first_section.headers_footers))))
-        self.assertEqual(3, len(list(filter(lambda hf: hf.as_header_footer().is_header, doc.first_section.headers_footers))))
-
-    def test_export_mode(self):
-        #ExStart
-        #ExFor:HtmlSaveOptions.export_headers_footers_mode
-        #ExFor:ExportHeadersFootersMode
-        #ExSummary:Shows how to omit headers/footers when saving a document to HTML.
-        doc = aw.Document(file_name=MY_DIR + 'Header and footer types.docx')
-        # This document contains headers and footers. We can access them via the "HeadersFooters" collection.
-        self.assertEqual('First header', doc.first_section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.HEADER_FIRST).get_text().strip())
-        # Formats such as .html do not split the document into pages, so headers/footers will not function the same way
-        # they would when we open the document as a .docx using Microsoft Word.
-        # If we convert a document with headers/footers to html, the conversion will assimilate the headers/footers into body text.
-        # We can use a SaveOptions object to omit headers/footers while converting to html.
-        save_options = aw.saving.HtmlSaveOptions(aw.SaveFormat.HTML)
-        save_options.export_headers_footers_mode = aw.saving.ExportHeadersFootersMode.NONE
-        doc.save(file_name=ARTIFACTS_DIR + 'HeaderFooter.ExportMode.html', save_options=save_options)
-        # Open our saved document and verify that it does not contain the header's text
-        doc = aw.Document(file_name=ARTIFACTS_DIR + 'HeaderFooter.ExportMode.html')
-        self.assertFalse('First header' in doc.range.text)
-        #ExEnd
-
-    def test_replace_text(self):
-        #ExStart
-        #ExFor:Document.first_section
-        #ExFor:Section.headers_footers
-        #ExFor:HeaderFooterCollection.__getitem__(HeaderFooterType)
-        #ExFor:HeaderFooter
-        #ExFor:Range.replace(str,str,FindReplaceOptions)
-        #ExSummary:Shows how to replace text in a document's footer.
-        doc = aw.Document(file_name=MY_DIR + 'Footer.docx')
-        headers_footers = doc.first_section.headers_footers
-        footer = headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_PRIMARY)
-        options = aw.replacing.FindReplaceOptions()
-        options.match_case = False
-        options.find_whole_words_only = False
-        current_year = datetime.datetime.now().year
-        footer.range.replace(pattern='(C) 2006 Aspose Pty Ltd.', replacement=f'Copyright (C) {current_year} by Aspose Pty Ltd.', options=options)
-        doc.save(file_name=ARTIFACTS_DIR + 'HeaderFooter.ReplaceText.docx')
-        #ExEnd
-        doc = aw.Document(file_name=ARTIFACTS_DIR + 'HeaderFooter.ReplaceText.docx')
-        self.assertTrue(f'Copyright (C) {current_year} by Aspose Pty Ltd.' in doc.range.text)

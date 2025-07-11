@@ -766,7 +766,7 @@ class ExPdfSaveOptions(ApiExampleBase):
         builder.insert_ole_object(file_name=MY_DIR + 'Spreadsheet.xlsx', prog_id='Excel.Sheet', is_linked=False, as_icon=True, presentation=None)
         save_options = aw.saving.PdfSaveOptions()
         save_options.attachments_embedding_mode = aw.saving.PdfAttachmentsEmbeddingMode.ANNOTATIONS
-        doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.PdfEmbedAttachments.pdf', save_options=save_options)
+        doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.AttachmentsEmbeddingMode.pdf', save_options=save_options)
         #ExEnd:AttachmentsEmbeddingMode
 
     def test_cache_background_graphics(self):

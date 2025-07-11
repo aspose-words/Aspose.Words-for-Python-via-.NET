@@ -36,49 +36,6 @@ class ExNode(ApiExampleBase):
         self.assertEqual('', clone_without_children.get_text().strip())
         #ExEnd
 
-    def test_get_parent_node(self):
-        #ExStart
-        #ExFor:Node.parent_node
-        #ExSummary:Shows how to access a node's parent node.
-        doc = aw.Document()
-        para = doc.first_section.body.first_paragraph
-        # Append a child Run node to the document's first paragraph.
-        run = aw.Run(doc=doc, text='Hello world!')
-        para.append_child(run)
-        # The paragraph is the parent node of the run node. We can trace this lineage
-        # all the way to the document node, which is the root of the document's node tree.
-        self.assertEqual(para, run.parent_node)
-        self.assertEqual(doc.first_section.body, para.parent_node)
-        self.assertEqual(doc.first_section, doc.first_section.body.parent_node)
-        self.assertEqual(doc, doc.first_section.parent_node)
-        #ExEnd
-
-    def test_owner_document(self):
-        #ExStart
-        #ExFor:Node.document
-        #ExFor:Node.parent_node
-        #ExSummary:Shows how to create a node and set its owning document.
-        doc = aw.Document()
-        para = aw.Paragraph(doc)
-        para.append_child(aw.Run(doc=doc, text='Hello world!'))
-        # We have not yet appended this paragraph as a child to any composite node.
-        self.assertIsNone(para.parent_node)
-        # If a node is an appropriate child node type of another composite node,
-        # we can attach it as a child only if both nodes have the same owner document.
-        # The owner document is the document we passed to the node's constructor.
-        # We have not attached this paragraph to the document, so the document does not contain its text.
-        self.assertEqual(para.document, doc)
-        self.assertEqual('', doc.get_text().strip())
-        # Since the document owns this paragraph, we can apply one of its styles to the paragraph's contents.
-        para.paragraph_format.style = doc.styles.get_by_name('Heading 1')
-        # Add this node to the document, and then verify its contents.
-        doc.first_section.body.append_child(para)
-        self.assertEqual(doc.first_section.body, para.parent_node)
-        self.assertEqual('Hello world!', doc.get_text().strip())
-        #ExEnd
-        self.assertEqual(doc, para.document)
-        self.assertIsNotNone(para.parent_node)
-
     def test_child_nodes_enumerate(self):
         #ExStart
         #ExFor:Node
@@ -279,44 +236,48 @@ class ExNode(ApiExampleBase):
         self.assertFalse(runs.contains(run))
         #ExEnd
 
-    @unittest.skip("drawing.Image type isn't supported yet")
-    def test_node_list(self):
+    def test_get_parent_node(self):
         #ExStart
-        #ExFor:NodeList.count
-        #ExFor:NodeList.__getitem__(int)
-        #ExSummary:Shows how to use XPaths to navigate a NodeList.
+        #ExFor:Node.parent_node
+        #ExSummary:Shows how to access a node's parent node.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc=doc)
-        # Insert some nodes with a DocumentBuilder.
-        builder.writeln('Hello world!')
-        builder.start_table()
-        builder.insert_cell()
-        builder.write('Cell 1')
-        builder.insert_cell()
-        builder.write('Cell 2')
-        builder.end_table()
-        builder.insert_image(file_name=IMAGE_DIR + 'Logo.jpg')
-        # Our document contains three Run nodes.
-        node_list = doc.select_nodes('//Run')
-        self.assertEqual(3, node_list.count)
-        self.assertTrue(any([n.get_text().strip() == 'Hello world!' for n in node_list]))
-        self.assertTrue(any([n.get_text().strip() == 'Cell 1' for n in node_list]))
-        self.assertTrue(any([n.get_text().strip() == 'Cell 2' for n in node_list]))
-        # Use a double forward slash to select all Run nodes
-        # that are indirect descendants of a Table node, which would be the runs inside the two cells we inserted.
-        node_list = doc.select_nodes('//Table//Run')
-        self.assertEqual(2, node_list.count)
-        self.assertTrue(any([n.get_text().strip() == 'Cell 1' for n in node_list]))
-        self.assertTrue(any([n.get_text().strip() == 'Cell 2' for n in node_list]))
-        # Single forward slashes specify direct descendant relationships,
-        # which we skipped when we used double slashes.
-        self.assertEqual(doc.select_nodes('//Table//Run'), doc.select_nodes('//Table/Row/Cell/Paragraph/Run'))
-        # Access the shape that contains the image we inserted.
-        node_list = doc.select_nodes('//Shape')
-        self.assertEqual(1, node_list.count)
-        shape = node_list[0].as_shape()
-        self.assertTrue(shape.has_image)
+        para = doc.first_section.body.first_paragraph
+        # Append a child Run node to the document's first paragraph.
+        run = aw.Run(doc=doc, text='Hello world!')
+        para.append_child(run)
+        # The paragraph is the parent node of the run node. We can trace this lineage
+        # all the way to the document node, which is the root of the document's node tree.
+        self.assertEqual(para, run.parent_node)
+        self.assertEqual(doc.first_section.body, para.parent_node)
+        self.assertEqual(doc.first_section, doc.first_section.body.parent_node)
+        self.assertEqual(doc, doc.first_section.parent_node)
         #ExEnd
+
+    def test_owner_document(self):
+        #ExStart
+        #ExFor:Node.document
+        #ExFor:Node.parent_node
+        #ExSummary:Shows how to create a node and set its owning document.
+        doc = aw.Document()
+        para = aw.Paragraph(doc)
+        para.append_child(aw.Run(doc=doc, text='Hello world!'))
+        # We have not yet appended this paragraph as a child to any composite node.
+        self.assertIsNone(para.parent_node)
+        # If a node is an appropriate child node type of another composite node,
+        # we can attach it as a child only if both nodes have the same owner document.
+        # The owner document is the document we passed to the node's constructor.
+        # We have not attached this paragraph to the document, so the document does not contain its text.
+        self.assertEqual(para.document, doc)
+        self.assertEqual('', doc.get_text().strip())
+        # Since the document owns this paragraph, we can apply one of its styles to the paragraph's contents.
+        para.paragraph_format.style = doc.styles.get_by_name('Heading 1')
+        # Add this node to the document, and then verify its contents.
+        doc.first_section.body.append_child(para)
+        self.assertEqual(doc.first_section.body, para.parent_node)
+        self.assertEqual('Hello world!', doc.get_text().strip())
+        #ExEnd
+        self.assertEqual(doc, para.document)
+        self.assertIsNotNone(para.parent_node)
 
     def test_recurse_children(self):
         doc = aw.Document(MY_DIR + 'Paragraphs.docx')
@@ -435,6 +396,45 @@ class ExNode(ApiExampleBase):
                 run = run.as_run()
                 self.assertTrue(navigator_result.contains(run.get_text().strip()))
         node_x_path_navigator()
+
+    @unittest.skip("drawing.Image type isn't supported yet")
+    def test_node_list(self):
+        #ExStart
+        #ExFor:NodeList.count
+        #ExFor:NodeList.__getitem__(int)
+        #ExSummary:Shows how to use XPaths to navigate a NodeList.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Insert some nodes with a DocumentBuilder.
+        builder.writeln('Hello world!')
+        builder.start_table()
+        builder.insert_cell()
+        builder.write('Cell 1')
+        builder.insert_cell()
+        builder.write('Cell 2')
+        builder.end_table()
+        builder.insert_image(file_name=IMAGE_DIR + 'Logo.jpg')
+        # Our document contains three Run nodes.
+        node_list = doc.select_nodes('//Run')
+        self.assertEqual(3, node_list.count)
+        self.assertTrue(any([n.get_text().strip() == 'Hello world!' for n in node_list]))
+        self.assertTrue(any([n.get_text().strip() == 'Cell 1' for n in node_list]))
+        self.assertTrue(any([n.get_text().strip() == 'Cell 2' for n in node_list]))
+        # Use a double forward slash to select all Run nodes
+        # that are indirect descendants of a Table node, which would be the runs inside the two cells we inserted.
+        node_list = doc.select_nodes('//Table//Run')
+        self.assertEqual(2, node_list.count)
+        self.assertTrue(any([n.get_text().strip() == 'Cell 1' for n in node_list]))
+        self.assertTrue(any([n.get_text().strip() == 'Cell 2' for n in node_list]))
+        # Single forward slashes specify direct descendant relationships,
+        # which we skipped when we used double slashes.
+        self.assertEqual(doc.select_nodes('//Table//Run'), doc.select_nodes('//Table/Row/Cell/Paragraph/Run'))
+        # Access the shape that contains the image we inserted.
+        node_list = doc.select_nodes('//Shape')
+        self.assertEqual(1, node_list.count)
+        shape = node_list[0].as_shape()
+        self.assertTrue(shape.has_image)
+        #ExEnd
 
     @staticmethod
     def traverse_all_nodes(parent_node: aw.CompositeNode, depth: int):
