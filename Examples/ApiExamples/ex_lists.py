@@ -478,32 +478,6 @@ class ExLists(ApiExampleBase):
         self.assertEqual(3, len(list(filter(lambda n: n.as_paragraph().list_format.is_list_item, paras))))
         self.assertEqual(3, len(list(filter(lambda n: n.as_paragraph().list_format.list_level_number == 1, paras))))
 
-    def test_list_document(self):
-        #ExStart
-        #ExFor:ListCollection.document
-        #ExFor:ListCollection.count
-        #ExFor:ListCollection.__getitem__(int)
-        #ExFor:ListCollection.get_list_by_list_id
-        #ExFor:List.document
-        #ExFor:List.list_id
-        #ExSummary:Shows how to verify owner document properties of lists.
-        doc = aw.Document()
-        lists = doc.lists
-        self.assertEqual(doc, lists.document)
-        list = lists.add(list_template=aw.lists.ListTemplate.BULLET_DEFAULT)
-        self.assertEqual(doc, list.document)
-        print('Current list count: ' + str(lists.count))
-        print('Is the first document list: ' + str(lists[0].equals(list=list)))
-        print('ListId: ' + str(list.list_id))
-        print('List is the same by ListId: ' + str(lists.get_list_by_list_id(1).equals(list=list)))
-        #ExEnd
-        doc = document_helper.DocumentHelper.save_open(doc)
-        lists = doc.lists
-        self.assertEqual(doc, lists.document)
-        self.assertEqual(1, lists.count)
-        self.assertEqual(1, lists[0].list_id)
-        self.assertEqual(lists[0], lists.get_list_by_list_id(1))
-
     def test_create_list_restart_after_higher(self):
         #ExStart
         #ExFor:ListLevel.number_style
@@ -801,3 +775,29 @@ class ExLists(ApiExampleBase):
                             self.assertEqual(expected_list_level.number_style, list.list_levels[i].number_style)
                             break
         print_out_all_lists()
+
+    def test_list_document(self):
+        #ExStart
+        #ExFor:ListCollection.document
+        #ExFor:ListCollection.count
+        #ExFor:ListCollection.__getitem__(int)
+        #ExFor:ListCollection.get_list_by_list_id
+        #ExFor:List.document
+        #ExFor:List.list_id
+        #ExSummary:Shows how to verify owner document properties of lists.
+        doc = aw.Document()
+        lists = doc.lists
+        self.assertEqual(doc, lists.document)
+        list = lists.add(list_template=aw.lists.ListTemplate.BULLET_DEFAULT)
+        self.assertEqual(doc, list.document)
+        print('Current list count: ' + str(lists.count))
+        print('Is the first document list: ' + str(lists[0].equals(list=list)))
+        print('ListId: ' + str(list.list_id))
+        print('List is the same by ListId: ' + str(lists.get_list_by_list_id(1).equals(list=list)))
+        #ExEnd
+        doc = document_helper.DocumentHelper.save_open(doc)
+        lists = doc.lists
+        self.assertEqual(doc, lists.document)
+        self.assertEqual(1, lists.count)
+        self.assertEqual(1, lists[0].list_id)
+        self.assertEqual(lists[0], lists.get_list_by_list_id(1))

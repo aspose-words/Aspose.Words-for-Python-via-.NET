@@ -350,8 +350,8 @@ class ExImageSaveOptions(ApiExampleBase):
         # - 10pts spacing between pages (horizontal and vertical).
         options.page_layout = aw.saving.MultiPageLayout.grid(3, 10, 10)
         # Alternative layouts:
-        # options.MultiPageLayout = MultiPageLayout.Horizontal(10);
-        # options.MultiPageLayout = MultiPageLayout.Vertical(10);
+        # options.PageLayout = MultiPageLayout.Horizontal(10);
+        # options.PageLayout = MultiPageLayout.Vertical(10);
         # Customize the background and border.
         options.page_layout.back_color = aspose.pydrawing.Color.light_gray
         options.page_layout.border_color = aspose.pydrawing.Color.blue

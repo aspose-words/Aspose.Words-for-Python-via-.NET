@@ -90,99 +90,6 @@ class ExCharts(ApiExampleBase):
         self.assertTrue(series.data_labels.show_value)
         self.assertEqual('"US$" #,##0.000"M"', series.data_labels.number_format.format_code)
 
-    def test_axis_properties(self):
-        #ExStart
-        #ExFor:ChartAxis
-        #ExFor:ChartAxis.category_type
-        #ExFor:ChartAxis.crosses
-        #ExFor:ChartAxis.reverse_order
-        #ExFor:ChartAxis.major_tick_mark
-        #ExFor:ChartAxis.minor_tick_mark
-        #ExFor:ChartAxis.major_unit
-        #ExFor:ChartAxis.minor_unit
-        #ExFor:ChartAxis.document
-        #ExFor:ChartAxis.tick_labels
-        #ExFor:ChartAxis.format
-        #ExFor:AxisTickLabels
-        #ExFor:AxisTickLabels.offset
-        #ExFor:AxisTickLabels.position
-        #ExFor:AxisTickLabels.is_auto_spacing
-        #ExFor:AxisTickLabels.alignment
-        #ExFor:AxisTickLabels.font
-        #ExFor:AxisTickLabels.spacing
-        #ExFor:ChartAxis.tick_mark_spacing
-        #ExFor:AxisCategoryType
-        #ExFor:AxisCrosses
-        #ExFor:Chart.axis_x
-        #ExFor:Chart.axis_y
-        #ExFor:Chart.axis_z
-        #ExSummary:Shows how to insert a chart and modify the appearance of its axes.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc=doc)
-        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=500, height=300)
-        chart = shape.chart
-        # Clear the chart's demo data series to start with a clean chart.
-        chart.series.clear()
-        # Insert a chart series with categories for the X-axis and respective numeric values for the Y-axis.
-        chart.series.add(series_name='Aspose Test Series', categories=['Word', 'PDF', 'Excel', 'GoogleDocs', 'Note'], values=[640, 320, 280, 120, 150])
-        # Chart axes have various options that can change their appearance,
-        # such as their direction, major/minor unit ticks, and tick marks.
-        x_axis = chart.axis_x
-        x_axis.category_type = aw.drawing.charts.AxisCategoryType.CATEGORY
-        x_axis.crosses = aw.drawing.charts.AxisCrosses.MINIMUM
-        x_axis.reverse_order = False
-        x_axis.major_tick_mark = aw.drawing.charts.AxisTickMark.INSIDE
-        x_axis.minor_tick_mark = aw.drawing.charts.AxisTickMark.CROSS
-        x_axis.major_unit = 10
-        x_axis.minor_unit = 15
-        x_axis.tick_labels.offset = 50
-        x_axis.tick_labels.position = aw.drawing.charts.AxisTickLabelPosition.LOW
-        x_axis.tick_labels.is_auto_spacing = False
-        x_axis.tick_mark_spacing = 1
-        self.assertEqual(doc, x_axis.document)
-        y_axis = chart.axis_y
-        y_axis.category_type = aw.drawing.charts.AxisCategoryType.AUTOMATIC
-        y_axis.crosses = aw.drawing.charts.AxisCrosses.MAXIMUM
-        y_axis.reverse_order = True
-        y_axis.major_tick_mark = aw.drawing.charts.AxisTickMark.INSIDE
-        y_axis.minor_tick_mark = aw.drawing.charts.AxisTickMark.CROSS
-        y_axis.major_unit = 100
-        y_axis.minor_unit = 20
-        y_axis.tick_labels.position = aw.drawing.charts.AxisTickLabelPosition.NEXT_TO_AXIS
-        y_axis.tick_labels.alignment = aw.ParagraphAlignment.CENTER
-        y_axis.tick_labels.font.color = aspose.pydrawing.Color.red
-        y_axis.tick_labels.spacing = 1
-        # Column charts do not have a Z-axis.
-        self.assertIsNone(chart.axis_z)
-        doc.save(file_name=ARTIFACTS_DIR + 'Charts.AxisProperties.docx')
-        #ExEnd
-        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Charts.AxisProperties.docx')
-        chart = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape().chart
-        self.assertEqual(aw.drawing.charts.AxisCategoryType.CATEGORY, chart.axis_x.category_type)
-        self.assertEqual(aw.drawing.charts.AxisCrosses.MINIMUM, chart.axis_x.crosses)
-        self.assertFalse(chart.axis_x.reverse_order)
-        self.assertEqual(aw.drawing.charts.AxisTickMark.INSIDE, chart.axis_x.major_tick_mark)
-        self.assertEqual(aw.drawing.charts.AxisTickMark.CROSS, chart.axis_x.minor_tick_mark)
-        self.assertEqual(1, chart.axis_x.major_unit)
-        self.assertEqual(0.5, chart.axis_x.minor_unit)
-        self.assertEqual(50, chart.axis_x.tick_labels.offset)
-        self.assertEqual(aw.drawing.charts.AxisTickLabelPosition.LOW, chart.axis_x.tick_labels.position)
-        self.assertFalse(chart.axis_x.tick_labels.is_auto_spacing)
-        self.assertEqual(1, chart.axis_x.tick_mark_spacing)
-        self.assertTrue(chart.axis_x.format.is_defined)
-        self.assertEqual(aw.drawing.charts.AxisCategoryType.CATEGORY, chart.axis_y.category_type)
-        self.assertEqual(aw.drawing.charts.AxisCrosses.MAXIMUM, chart.axis_y.crosses)
-        self.assertTrue(chart.axis_y.reverse_order)
-        self.assertEqual(aw.drawing.charts.AxisTickMark.INSIDE, chart.axis_y.major_tick_mark)
-        self.assertEqual(aw.drawing.charts.AxisTickMark.CROSS, chart.axis_y.minor_tick_mark)
-        self.assertEqual(100, chart.axis_y.major_unit)
-        self.assertEqual(20, chart.axis_y.minor_unit)
-        self.assertEqual(aw.drawing.charts.AxisTickLabelPosition.NEXT_TO_AXIS, chart.axis_y.tick_labels.position)
-        self.assertEqual(aw.ParagraphAlignment.CENTER, chart.axis_y.tick_labels.alignment)
-        self.assertEqual(aspose.pydrawing.Color.red.to_argb(), chart.axis_y.tick_labels.font.color.to_argb())
-        self.assertEqual(1, chart.axis_y.tick_labels.spacing)
-        self.assertTrue(chart.axis_y.format.is_defined)
-
     def test_axis_collection(self):
         #ExStart
         #ExFor:ChartAxisCollection
@@ -529,81 +436,6 @@ class ExCharts(ApiExampleBase):
         self.assertTrue(axis.axis_between_categories)
         self.assertEqual(aw.drawing.charts.AxisCrosses.CUSTOM, axis.crosses)
         self.assertEqual(3, axis.crosses_at)
-
-    def test_axis_display_unit(self):
-        #ExStart
-        #ExFor:AxisBuiltInUnit
-        #ExFor:ChartAxis.display_unit
-        #ExFor:ChartAxis.major_unit_is_auto
-        #ExFor:ChartAxis.major_unit_scale
-        #ExFor:ChartAxis.minor_unit_is_auto
-        #ExFor:ChartAxis.minor_unit_scale
-        #ExFor:AxisDisplayUnit
-        #ExFor:AxisDisplayUnit.custom_unit
-        #ExFor:AxisDisplayUnit.unit
-        #ExFor:AxisDisplayUnit.document
-        #ExSummary:Shows how to manipulate the tick marks and displayed values of a chart axis.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc=doc)
-        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.SCATTER, width=450, height=250)
-        chart = shape.chart
-        self.assertEqual(1, chart.series.count)
-        self.assertEqual('Y-Values', chart.series[0].name)
-        # Set the minor tick marks of the Y-axis to point away from the plot area,
-        # and the major tick marks to cross the axis.
-        axis = chart.axis_y
-        axis.major_tick_mark = aw.drawing.charts.AxisTickMark.CROSS
-        axis.minor_tick_mark = aw.drawing.charts.AxisTickMark.OUTSIDE
-        # Set they Y-axis to show a major tick every 10 units, and a minor tick every 1 unit.
-        axis.major_unit = 10
-        axis.minor_unit = 1
-        # Set the Y-axis bounds to -10 and 20.
-        # This Y-axis will now display 4 major tick marks and 27 minor tick marks.
-        axis.scaling.minimum = aw.drawing.charts.AxisBound(value=-10)
-        axis.scaling.maximum = aw.drawing.charts.AxisBound(value=20)
-        # For the X-axis, set the major tick marks at every 10 units,
-        # every minor tick mark at 2.5 units.
-        axis = chart.axis_x
-        axis.major_unit = 10
-        axis.minor_unit = 2.5
-        # Configure both types of tick marks to appear inside the graph plot area.
-        axis.major_tick_mark = aw.drawing.charts.AxisTickMark.INSIDE
-        axis.minor_tick_mark = aw.drawing.charts.AxisTickMark.INSIDE
-        # Set the X-axis bounds so that the X-axis spans 5 major tick marks and 12 minor tick marks.
-        axis.scaling.minimum = aw.drawing.charts.AxisBound(value=-10)
-        axis.scaling.maximum = aw.drawing.charts.AxisBound(value=30)
-        axis.tick_labels.alignment = aw.ParagraphAlignment.RIGHT
-        self.assertEqual(1, axis.tick_labels.spacing)
-        self.assertEqual(doc, axis.display_unit.document)
-        # Set the tick labels to display their value in millions.
-        axis.display_unit.unit = aw.drawing.charts.AxisBuiltInUnit.MILLIONS
-        # We can set a more specific value by which tick labels will display their values.
-        # This statement is equivalent to the one above.
-        axis.display_unit.custom_unit = 1000000
-        self.assertEqual(aw.drawing.charts.AxisBuiltInUnit.CUSTOM, axis.display_unit.unit)  #ExSkip
-        doc.save(file_name=ARTIFACTS_DIR + 'Charts.AxisDisplayUnit.docx')
-        #ExEnd
-        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Charts.AxisDisplayUnit.docx')
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.assertEqual(450, shape.width)
-        self.assertEqual(250, shape.height)
-        axis = shape.chart.axis_x
-        self.assertEqual(aw.drawing.charts.AxisTickMark.INSIDE, axis.major_tick_mark)
-        self.assertEqual(aw.drawing.charts.AxisTickMark.INSIDE, axis.minor_tick_mark)
-        self.assertEqual(10, axis.major_unit)
-        self.assertEqual(-10, axis.scaling.minimum.value)
-        self.assertEqual(30, axis.scaling.maximum.value)
-        self.assertEqual(1, axis.tick_labels.spacing)
-        self.assertEqual(aw.ParagraphAlignment.RIGHT, axis.tick_labels.alignment)
-        self.assertEqual(aw.drawing.charts.AxisBuiltInUnit.CUSTOM, axis.display_unit.unit)
-        self.assertEqual(1000000, axis.display_unit.custom_unit)
-        axis = shape.chart.axis_y
-        self.assertEqual(aw.drawing.charts.AxisTickMark.CROSS, axis.major_tick_mark)
-        self.assertEqual(aw.drawing.charts.AxisTickMark.OUTSIDE, axis.minor_tick_mark)
-        self.assertEqual(10, axis.major_unit)
-        self.assertEqual(1, axis.minor_unit)
-        self.assertEqual(-10, axis.scaling.minimum.value)
-        self.assertEqual(20, axis.scaling.maximum.value)
 
     def test_marker_formatting(self):
         #ExStart
@@ -1431,7 +1263,7 @@ class ExCharts(ApiExampleBase):
         #ExEnd
 
     def test_set_chart_style(self):
-        #ExStart:SetChartStyle
+        #ExStart
         #ExFor:ChartStyle
         #ExSummary:Shows how to set and get chart style.
         doc = aw.Document()
@@ -1445,7 +1277,100 @@ class ExCharts(ApiExampleBase):
         chart = shape.chart
         # Get the chart style.
         self.assertEqual(aw.drawing.charts.ChartStyle.BLACK, chart.style)
-        #ExEnd:SetChartStyle
+        #ExEnd
+
+    def test_axis_properties(self):
+        #ExStart
+        #ExFor:ChartAxis
+        #ExFor:ChartAxis.category_type
+        #ExFor:ChartAxis.crosses
+        #ExFor:ChartAxis.reverse_order
+        #ExFor:ChartAxis.major_tick_mark
+        #ExFor:ChartAxis.minor_tick_mark
+        #ExFor:ChartAxis.major_unit
+        #ExFor:ChartAxis.minor_unit
+        #ExFor:ChartAxis.document
+        #ExFor:ChartAxis.tick_labels
+        #ExFor:ChartAxis.format
+        #ExFor:AxisTickLabels
+        #ExFor:AxisTickLabels.offset
+        #ExFor:AxisTickLabels.position
+        #ExFor:AxisTickLabels.is_auto_spacing
+        #ExFor:AxisTickLabels.alignment
+        #ExFor:AxisTickLabels.font
+        #ExFor:AxisTickLabels.spacing
+        #ExFor:ChartAxis.tick_mark_spacing
+        #ExFor:AxisCategoryType
+        #ExFor:AxisCrosses
+        #ExFor:Chart.axis_x
+        #ExFor:Chart.axis_y
+        #ExFor:Chart.axis_z
+        #ExSummary:Shows how to insert a chart and modify the appearance of its axes.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=500, height=300)
+        chart = shape.chart
+        # Clear the chart's demo data series to start with a clean chart.
+        chart.series.clear()
+        # Insert a chart series with categories for the X-axis and respective numeric values for the Y-axis.
+        chart.series.add(series_name='Aspose Test Series', categories=['Word', 'PDF', 'Excel', 'GoogleDocs', 'Note'], values=[640, 320, 280, 120, 150])
+        # Chart axes have various options that can change their appearance,
+        # such as their direction, major/minor unit ticks, and tick marks.
+        x_axis = chart.axis_x
+        x_axis.category_type = aw.drawing.charts.AxisCategoryType.CATEGORY
+        x_axis.crosses = aw.drawing.charts.AxisCrosses.MINIMUM
+        x_axis.reverse_order = False
+        x_axis.major_tick_mark = aw.drawing.charts.AxisTickMark.INSIDE
+        x_axis.minor_tick_mark = aw.drawing.charts.AxisTickMark.CROSS
+        x_axis.major_unit = 10
+        x_axis.minor_unit = 15
+        x_axis.tick_labels.offset = 50
+        x_axis.tick_labels.position = aw.drawing.charts.AxisTickLabelPosition.LOW
+        x_axis.tick_labels.is_auto_spacing = False
+        x_axis.tick_mark_spacing = 1
+        self.assertEqual(doc, x_axis.document)
+        y_axis = chart.axis_y
+        y_axis.category_type = aw.drawing.charts.AxisCategoryType.AUTOMATIC
+        y_axis.crosses = aw.drawing.charts.AxisCrosses.MAXIMUM
+        y_axis.reverse_order = True
+        y_axis.major_tick_mark = aw.drawing.charts.AxisTickMark.INSIDE
+        y_axis.minor_tick_mark = aw.drawing.charts.AxisTickMark.CROSS
+        y_axis.major_unit = 100
+        y_axis.minor_unit = 20
+        y_axis.tick_labels.position = aw.drawing.charts.AxisTickLabelPosition.NEXT_TO_AXIS
+        y_axis.tick_labels.alignment = aw.ParagraphAlignment.CENTER
+        y_axis.tick_labels.font.color = aspose.pydrawing.Color.red
+        y_axis.tick_labels.spacing = 1
+        # Column charts do not have a Z-axis.
+        self.assertIsNone(chart.axis_z)
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.AxisProperties.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Charts.AxisProperties.docx')
+        chart = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape().chart
+        self.assertEqual(aw.drawing.charts.AxisCategoryType.CATEGORY, chart.axis_x.category_type)
+        self.assertEqual(aw.drawing.charts.AxisCrosses.MINIMUM, chart.axis_x.crosses)
+        self.assertFalse(chart.axis_x.reverse_order)
+        self.assertEqual(aw.drawing.charts.AxisTickMark.INSIDE, chart.axis_x.major_tick_mark)
+        self.assertEqual(aw.drawing.charts.AxisTickMark.CROSS, chart.axis_x.minor_tick_mark)
+        self.assertEqual(1, chart.axis_x.major_unit)
+        self.assertEqual(0.5, chart.axis_x.minor_unit)
+        self.assertEqual(50, chart.axis_x.tick_labels.offset)
+        self.assertEqual(aw.drawing.charts.AxisTickLabelPosition.LOW, chart.axis_x.tick_labels.position)
+        self.assertFalse(chart.axis_x.tick_labels.is_auto_spacing)
+        self.assertEqual(1, chart.axis_x.tick_mark_spacing)
+        self.assertTrue(chart.axis_x.format.is_defined)
+        self.assertEqual(aw.drawing.charts.AxisCategoryType.CATEGORY, chart.axis_y.category_type)
+        self.assertEqual(aw.drawing.charts.AxisCrosses.MAXIMUM, chart.axis_y.crosses)
+        self.assertTrue(chart.axis_y.reverse_order)
+        self.assertEqual(aw.drawing.charts.AxisTickMark.INSIDE, chart.axis_y.major_tick_mark)
+        self.assertEqual(aw.drawing.charts.AxisTickMark.CROSS, chart.axis_y.minor_tick_mark)
+        self.assertEqual(100, chart.axis_y.major_unit)
+        self.assertEqual(20, chart.axis_y.minor_unit)
+        self.assertEqual(aw.drawing.charts.AxisTickLabelPosition.NEXT_TO_AXIS, chart.axis_y.tick_labels.position)
+        self.assertEqual(aw.ParagraphAlignment.CENTER, chart.axis_y.tick_labels.alignment)
+        self.assertEqual(aspose.pydrawing.Color.red.to_argb(), chart.axis_y.tick_labels.font.color.to_argb())
+        self.assertEqual(1, chart.axis_y.tick_labels.spacing)
+        self.assertTrue(chart.axis_y.format.is_defined)
 
     def test_date_time_values(self):
         #ExStart
@@ -1741,6 +1666,81 @@ class ExCharts(ApiExampleBase):
         chart_data.clear()
         self.assertEqual(0, chart_data.count)  #ExSkip
         #ExEnd
+
+    def test_axis_display_unit(self):
+        #ExStart
+        #ExFor:AxisBuiltInUnit
+        #ExFor:ChartAxis.display_unit
+        #ExFor:ChartAxis.major_unit_is_auto
+        #ExFor:ChartAxis.major_unit_scale
+        #ExFor:ChartAxis.minor_unit_is_auto
+        #ExFor:ChartAxis.minor_unit_scale
+        #ExFor:AxisDisplayUnit
+        #ExFor:AxisDisplayUnit.custom_unit
+        #ExFor:AxisDisplayUnit.unit
+        #ExFor:AxisDisplayUnit.document
+        #ExSummary:Shows how to manipulate the tick marks and displayed values of a chart axis.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.SCATTER, width=450, height=250)
+        chart = shape.chart
+        self.assertEqual(1, chart.series.count)
+        self.assertEqual('Y-Values', chart.series[0].name)
+        # Set the minor tick marks of the Y-axis to point away from the plot area,
+        # and the major tick marks to cross the axis.
+        axis = chart.axis_y
+        axis.major_tick_mark = aw.drawing.charts.AxisTickMark.CROSS
+        axis.minor_tick_mark = aw.drawing.charts.AxisTickMark.OUTSIDE
+        # Set they Y-axis to show a major tick every 10 units, and a minor tick every 1 unit.
+        axis.major_unit = 10
+        axis.minor_unit = 1
+        # Set the Y-axis bounds to -10 and 20.
+        # This Y-axis will now display 4 major tick marks and 27 minor tick marks.
+        axis.scaling.minimum = aw.drawing.charts.AxisBound(value=-10)
+        axis.scaling.maximum = aw.drawing.charts.AxisBound(value=20)
+        # For the X-axis, set the major tick marks at every 10 units,
+        # every minor tick mark at 2.5 units.
+        axis = chart.axis_x
+        axis.major_unit = 10
+        axis.minor_unit = 2.5
+        # Configure both types of tick marks to appear inside the graph plot area.
+        axis.major_tick_mark = aw.drawing.charts.AxisTickMark.INSIDE
+        axis.minor_tick_mark = aw.drawing.charts.AxisTickMark.INSIDE
+        # Set the X-axis bounds so that the X-axis spans 5 major tick marks and 12 minor tick marks.
+        axis.scaling.minimum = aw.drawing.charts.AxisBound(value=-10)
+        axis.scaling.maximum = aw.drawing.charts.AxisBound(value=30)
+        axis.tick_labels.alignment = aw.ParagraphAlignment.RIGHT
+        self.assertEqual(1, axis.tick_labels.spacing)
+        self.assertEqual(doc, axis.display_unit.document)
+        # Set the tick labels to display their value in millions.
+        axis.display_unit.unit = aw.drawing.charts.AxisBuiltInUnit.MILLIONS
+        # We can set a more specific value by which tick labels will display their values.
+        # This statement is equivalent to the one above.
+        axis.display_unit.custom_unit = 1000000
+        self.assertEqual(aw.drawing.charts.AxisBuiltInUnit.CUSTOM, axis.display_unit.unit)  #ExSkip
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.AxisDisplayUnit.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Charts.AxisDisplayUnit.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        self.assertEqual(450, shape.width)
+        self.assertEqual(250, shape.height)
+        axis = shape.chart.axis_x
+        self.assertEqual(aw.drawing.charts.AxisTickMark.INSIDE, axis.major_tick_mark)
+        self.assertEqual(aw.drawing.charts.AxisTickMark.INSIDE, axis.minor_tick_mark)
+        self.assertEqual(10, axis.major_unit)
+        self.assertEqual(-10, axis.scaling.minimum.value)
+        self.assertEqual(30, axis.scaling.maximum.value)
+        self.assertEqual(1, axis.tick_labels.spacing)
+        self.assertEqual(aw.ParagraphAlignment.RIGHT, axis.tick_labels.alignment)
+        self.assertEqual(aw.drawing.charts.AxisBuiltInUnit.CUSTOM, axis.display_unit.unit)
+        self.assertEqual(1000000, axis.display_unit.custom_unit)
+        axis = shape.chart.axis_y
+        self.assertEqual(aw.drawing.charts.AxisTickMark.CROSS, axis.major_tick_mark)
+        self.assertEqual(aw.drawing.charts.AxisTickMark.OUTSIDE, axis.minor_tick_mark)
+        self.assertEqual(10, axis.major_unit)
+        self.assertEqual(1, axis.minor_unit)
+        self.assertEqual(-10, axis.scaling.minimum.value)
+        self.assertEqual(20, axis.scaling.maximum.value)
 
     def test_data_arrays_wrong_size(self):
         doc = aw.Document()

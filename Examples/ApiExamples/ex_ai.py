@@ -21,17 +21,16 @@ class ExAI(ApiExampleBase):
         #ExFor:OpenAiModel
         #ExFor:OpenAiModel.with_organization(str)
         #ExFor:OpenAiModel.with_project(str)
-        #ExFor:IAiModelText
-        #ExFor:IAiModelText.summarize(Document,SummarizeOptions)
-        #ExFor:IAiModelText.summarize(List[Document],SummarizeOptions)
+        #ExFor:AiModel
+        #ExFor:AiModel.summarize(Document,SummarizeOptions)
+        #ExFor:AiModel.summarize(List[Document],SummarizeOptions)
+        #ExFor:AiModel.create(AiModelType)
+        #ExFor:AiModel.with_api_key(str)
+        #ExFor:AiModelType
         #ExFor:SummarizeOptions
         #ExFor:SummarizeOptions.__init__
         #ExFor:SummarizeOptions.summary_length
         #ExFor:SummaryLength
-        #ExFor:AiModel
-        #ExFor:AiModel.create(AiModelType)
-        #ExFor:AiModel.with_api_key(str)
-        #ExFor:AiModelType
         #ExSummary:Shows how to summarize text using OpenAI and Google models.
         first_doc = aw.Document(file_name=MY_DIR + 'Big document.docx')
         second_doc = aw.Document(file_name=MY_DIR + 'Document.docx')
@@ -50,12 +49,13 @@ class ExAI(ApiExampleBase):
     @unittest.skip('This test should be run manually to manage API requests amount')
     def test_ai_translate(self):
         #ExStart:AiTranslate
-        #ExFor:IAiModelText.Translate(Document, AI.Language)
+        #ExFor:AiModel.translate(Document,AI.Language)
+        #ExFor:AI.language
         #ExSummary:Shows how to translate text using Google models.
         doc = aw.Document(file_name=MY_DIR + 'Document.docx')
         api_key = system_helper.environment.Environment.get_environment_variable('API_KEY')
         # Use Google generative language models.
-        model = aw.ai.AiModel.create(aw.ai.AiModelType.GEMINI_15_FLASH).with_api_key(api_key).as_google_ai_model()
+        model = aw.ai.AiModel.create(aw.ai.AiModelType.GEMINI_15_FLASH).with_api_key(api_key)
         translated_doc = model.translate(doc, aw.ai.Language.ARABIC)
         translated_doc.save(file_name=ARTIFACTS_DIR + 'AI.AiTranslate.docx')
         #ExEnd:AiTranslate
@@ -63,13 +63,13 @@ class ExAI(ApiExampleBase):
     @unittest.skip('This test should be run manually to manage API requests amount')
     def test_ai_grammar(self):
         #ExStart:AiGrammar
-        #ExFor:IAiModelText.check_grammar(Document,CheckGrammarOptions)
+        #ExFor:AiModel.check_grammar(Document,CheckGrammarOptions)
         #ExFor:CheckGrammarOptions
         #ExSummary:Shows how to check the grammar of a document.
         doc = aw.Document(file_name=MY_DIR + 'Big document.docx')
         api_key = system_helper.environment.Environment.get_environment_variable('API_KEY')
         # Use OpenAI generative language models.
-        model = aw.ai.AiModel.create(aw.ai.AiModelType.GPT_4O_MINI).with_api_key(api_key).as_open_ai_model()
+        model = aw.ai.AiModel.create(aw.ai.AiModelType.GPT_4O_MINI).with_api_key(api_key)
         grammar_options = aw.ai.CheckGrammarOptions()
         grammar_options.improve_stylistics = True
         proofed_doc = model.check_grammar(doc, grammar_options)

@@ -121,50 +121,6 @@ class ExTable(ApiExampleBase):
         self.assertEqual(110.8, cell_format.width)
         self.assertEqual(aspose.pydrawing.Color.orange.to_argb(), cell_format.shading.background_pattern_color.to_argb())
 
-    def test_display_content_of_tables(self):
-        #ExStart
-        #ExFor:Cell
-        #ExFor:CellCollection
-        #ExFor:CellCollection.__getitem__(int)
-        #ExFor:CellCollection.to_array
-        #ExFor:Row
-        #ExFor:Row.cells
-        #ExFor:RowCollection
-        #ExFor:RowCollection.__getitem__(int)
-        #ExFor:RowCollection.to_array
-        #ExFor:Table
-        #ExFor:Table.rows
-        #ExFor:TableCollection.__getitem__(int)
-        #ExFor:TableCollection.to_array
-        #ExSummary:Shows how to iterate through all tables in the document and print the contents of each cell.
-        doc = aw.Document(file_name=MY_DIR + 'Tables.docx')
-        tables = doc.first_section.body.tables
-        self.assertEqual(2, len(list(tables)))
-        i = 0
-        while i < tables.count:
-            print(f'Start of Table {i}')
-            rows = tables[i].rows
-            # We can use the "ToArray" method on a row collection to clone it into an array.
-            self.assertSequenceEqual(list(rows), list(rows))
-            self.assertNotEqual(rows, list(rows))
-            j = 0
-            while j < rows.count:
-                print(f'\tStart of Row {j}')
-                cells = rows[j].cells
-                # We can use the "ToArray" method on a cell collection to clone it into an array.
-                self.assertSequenceEqual(list(cells), list(cells))
-                self.assertNotEqual(cells, list(cells))
-                k = 0
-                while k < cells.count:
-                    cell_text = cells[k].to_string(save_format=aw.SaveFormat.TEXT).strip()
-                    print(f'\t\tContents of Cell:{k} = "{cell_text}"')
-                    k += 1
-                print(f'\tEnd of Row {j}')
-                j += 1
-            print(f'End of Table {i}\n')
-            i += 1
-        #ExEnd
-
     def test_ensure_table_minimum(self):
         #ExStart
         #ExFor:Table.ensure_minimum
@@ -868,6 +824,86 @@ class ExTable(ApiExampleBase):
         builder.writeln('Font size 12 here.')
         doc.save(file_name=ARTIFACTS_DIR + 'Table.ContextTableFormatting.docx')
         #ExEnd:ContextTableFormatting
+
+    def test_autofit_to_window(self):
+        expected_percents = [51, 49]
+        doc = aw.Document(file_name=MY_DIR + 'Table wrapped by text.docx')
+        table = doc.first_section.body.tables[0]
+        table.auto_fit(aw.tables.AutoFitBehavior.AUTO_FIT_TO_WINDOW)
+        self.assertEqual(len(expected_percents), table.first_row.cells.count)
+        for row in table.rows:
+            row = row.as_row()
+            i = 0
+            for cell in row.cells:
+                cell = cell.as_cell()
+                expected_percent = expected_percents[i]
+                cell_preffered_width = cell.cell_format.preferred_width
+                self.assertEqual(expected_percent, cell_preffered_width.value)
+                i += 1
+
+    def test_hidden_row(self):
+        #ExStart:HiddenRow
+        #ExFor:Row.hidden
+        #ExSummary:Shows how to hide a table row.
+        doc = aw.Document(file_name=MY_DIR + 'Tables.docx')
+        row = doc.first_section.body.tables[0].first_row
+        row.hidden = True
+        doc.save(file_name=ARTIFACTS_DIR + 'Table.HiddenRow.docx')
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Table.HiddenRow.docx')
+        row = doc.first_section.body.tables[0].first_row
+        self.assertTrue(row.hidden)
+        for cell in row.cells:
+            cell = cell.as_cell()
+            for para in cell.paragraphs:
+                para = para.as_paragraph()
+                for run in para.runs:
+                    run = run.as_run()
+                    self.assertTrue(run.font.hidden)
+        #ExEnd:HiddenRow
+
+    def test_display_content_of_tables(self):
+        #ExStart
+        #ExFor:Cell
+        #ExFor:CellCollection
+        #ExFor:CellCollection.__getitem__(int)
+        #ExFor:CellCollection.to_array
+        #ExFor:Row
+        #ExFor:Row.cells
+        #ExFor:RowCollection
+        #ExFor:RowCollection.__getitem__(int)
+        #ExFor:RowCollection.to_array
+        #ExFor:Table
+        #ExFor:Table.rows
+        #ExFor:TableCollection.__getitem__(int)
+        #ExFor:TableCollection.to_array
+        #ExSummary:Shows how to iterate through all tables in the document and print the contents of each cell.
+        doc = aw.Document(file_name=MY_DIR + 'Tables.docx')
+        tables = doc.first_section.body.tables
+        self.assertEqual(2, len(list(tables)))
+        i = 0
+        while i < tables.count:
+            print(f'Start of Table {i}')
+            rows = tables[i].rows
+            # We can use the "ToArray" method on a row collection to clone it into an array.
+            self.assertSequenceEqual(list(rows), list(rows))
+            self.assertNotEqual(rows, list(rows))
+            j = 0
+            while j < rows.count:
+                print(f'\tStart of Row {j}')
+                cells = rows[j].cells
+                # We can use the "ToArray" method on a cell collection to clone it into an array.
+                self.assertSequenceEqual(list(cells), list(cells))
+                self.assertNotEqual(cells, list(cells))
+                k = 0
+                while k < cells.count:
+                    cell_text = cells[k].to_string(save_format=aw.SaveFormat.TEXT).strip()
+                    print(f'\t\tContents of Cell:{k} = "{cell_text}"')
+                    k += 1
+                print(f'\tEnd of Row {j}')
+                j += 1
+            print(f'End of Table {i}\n')
+            i += 1
+        #ExEnd
 
     def test_calculate_depth_of_nested_tables(self):
         #ExStart
