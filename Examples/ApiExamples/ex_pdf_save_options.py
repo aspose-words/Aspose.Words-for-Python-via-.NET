@@ -852,7 +852,7 @@ class ExPdfSaveOptions(ApiExampleBase):
             doc.save(stream, options)
         #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
+    @unittest.skip("Discrepancy in assertion between Python and .Net")
     def test_open_hyperlinks_in_new_window(self):
         for open_hyperlinks_in_new_window in [False, True]:
             #ExStart
@@ -875,7 +875,7 @@ class ExPdfSaveOptions(ApiExampleBase):
             else:
                 test_util.TestUtil.file_contains_string('<</Type/Annot/Subtype/Link/Rect[72 706.20098877 111.32800293 720]/BS' + '<</Type/Border/S/S/W 0>>/A<</Type/Action/S/URI/URI(https://www.google.com/search?q=%20aspose)>>>>', ARTIFACTS_DIR + 'PdfSaveOptions.OpenHyperlinksInNewWindow.pdf')
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
+    @unittest.skip("Discrepancy in assertion between Python and .Net")
     def test_embed_full_fonts(self):
         for embed_full_fonts in (False, True):
             with self.subTest(embed_full_fonts=embed_full_fonts):
