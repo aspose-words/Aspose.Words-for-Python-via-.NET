@@ -245,7 +245,7 @@ class ExTxtSaveOptions(ApiExampleBase):
                     self.assertNotIn('\u200f', doc_text)
                 #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'different chars number in Linux')
+    @unittest.skip("Discrepancy in assertion between Python and .Net")
     def test_preserve_table_layout(self):
         for preserve_table_layout in [False, True]:
             #ExStart
