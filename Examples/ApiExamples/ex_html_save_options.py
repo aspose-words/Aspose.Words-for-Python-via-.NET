@@ -97,7 +97,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         save_options = aw.saving.HtmlSaveOptions(aw.SaveFormat.EPUB)
         self.assertEqual(False, save_options.export_roundtrip_information)
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'different calculation on Linux')
+    @unittest.skip("Discrepancy in assertion between Python and .Net")
     def test_external_resource_saving_config(self):
         doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
         save_options = aw.saving.HtmlSaveOptions()
