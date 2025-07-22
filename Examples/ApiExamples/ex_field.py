@@ -7,7 +7,7 @@
 #####################################
 import sys
 from enum import Enum
-import aspose.pydrawing as drawing
+import aspose.pydrawing
 from document_helper import DocumentHelper
 import aspose.words as aw
 import aspose.words.bibliography
@@ -4201,7 +4201,7 @@ class ExField(ApiExampleBase):
             # The format from the TA fields will carry over into our table.
             # We can disable this by setting the "remove_entry_formatting" flag.
             field_toa.remove_entry_formatting = True
-            builder.font.color = drawing.Color.green
+            builder.font.color = aspose.pydrawing.Color.green
             builder.font.name = 'Arial Black'
             self.assertEqual(' TOA  \\c 1 \\h \\b MyBookmark \\e " \t p." \\l " & p. " \\p \\g " to " \\f', field_toa.get_field_code())
             builder.insert_break(aw.BreakType.PAGE_BREAK)

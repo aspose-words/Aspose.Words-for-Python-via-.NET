@@ -70,7 +70,6 @@ class ExShape(ApiExampleBase):
             self.assertEqual('This text is inside the text box.', shape.get_text().strip())
             self.assertEqual('Hello world!\rThis text is inside the text box.\r\rThis text is outside the text box.', doc.get_text().strip())
 
-    @unittest.skip("drawing.Image type isn't supported yet")
     def test_rotate(self):
         #ExStart
         #ExFor:ShapeBase.can_have_image

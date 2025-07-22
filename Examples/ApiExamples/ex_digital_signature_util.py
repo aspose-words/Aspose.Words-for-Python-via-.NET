@@ -33,7 +33,6 @@ class ExDigitalSignatureUtil(ApiExampleBase):
             self.assertEqual(1, digital_signatures.count)
         #ExEnd
 
-    @unittest.skip('DigitalSignatureUtil.remove_all_signatures method is not supported')
     def test_remove(self):
         #ExStart
         #ExFor:DigitalSignatureUtil
@@ -58,7 +57,7 @@ class ExDigitalSignatureUtil(ApiExampleBase):
         aw.digitalsignatures.DigitalSignatureUtil.remove_all_signatures(src_file_name=MY_DIR + 'Digitally signed.odt', dst_file_name=ARTIFACTS_DIR + 'DigitalSignatureUtil.RemoveSignatures.odt')
         self.assertEqual(0, aw.digitalsignatures.DigitalSignatureUtil.load_signatures(file_name=ARTIFACTS_DIR + 'DigitalSignatureUtil.RemoveSignatures.odt').count)
 
-    @unittest.skip('DigitalSignatureUtil.sing method is not supported')
+    @unittest.skip("Discrepancy in assertion between Python and .Net")
     def test_sign_document(self):
         #ExStart
         #ExFor:CertificateHolder

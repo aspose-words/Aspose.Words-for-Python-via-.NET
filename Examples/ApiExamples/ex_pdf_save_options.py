@@ -668,7 +668,6 @@ class ExPdfSaveOptions(ApiExampleBase):
             else:
                 test_util.TestUtil.file_contains_string('<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>', ARTIFACTS_DIR + 'PdfSaveOptions.ExportDocumentStructure.pdf')
 
-    @unittest.skip("drawing.Image type isn't supported yet")
     def test_interpolate_images(self):
         for interpolate_images in [False, True]:
             #ExStart
@@ -915,47 +914,6 @@ class ExPdfSaveOptions(ApiExampleBase):
                 aw.fonts.FontSettings.default_instance.set_fonts_sources(original_fonts_sources)
                 #ExEnd
 
-    @unittest.skip("system.globalization.CultureInfo type isn't supported yet")
-    def test_page_mode(self):
-        for page_mode in (aw.saving.PdfPageMode.FULL_SCREEN, aw.saving.PdfPageMode.USE_THUMBS, aw.saving.PdfPageMode.USE_OC, aw.saving.PdfPageMode.USE_OUTLINES, aw.saving.PdfPageMode.USE_NONE, aw.saving.PdfPageMode.USE_ATTACHMENTS):
-            with self.subTest(page_mode=page_mode):
-                #ExStart
-                #ExFor:PdfSaveOptions.page_mode
-                #ExFor:PdfPageMode
-                #ExSummary:Shows how to set instructions for some PDF readers to follow when opening an output document.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                builder.writeln('Hello world!')
-                # Create a "PdfSaveOptions" object that we can pass to the document's "save" method
-                # to modify how that method converts the document to .PDF.
-                options = aw.saving.PdfSaveOptions()
-                # Set the "page_mode" property to "PdfPageMode.FULL_SCREEN" to get the PDF reader to open the saved
-                # document in full-screen mode, which takes over the monitor's display and has no controls visible.
-                # Set the "page_mode" property to "PdfPageMode.USE_THUMBS" to get the PDF reader to display a separate panel
-                # with a thumbnail for each page in the document.
-                # Set the "page_mode" property to "PdfPageMode.USE_OC" to get the PDF reader to display a separate panel
-                # that allows us to work with any layers present in the document.
-                # Set the "page_mode" property to "PdfPageMode.USE_OUTLINES" to get the PDF reader
-                # also to display the outline, if possible.
-                # Set the "page_mode" property to "PdfPageMode.USE_NONE" to get the PDF reader to display just the document itself.
-                # Set the "page_mode" property to "PdfPageMode.USE_ATTACHMENTS" to make visible attachments panel.
-                options.page_mode = page_mode
-                doc.save(ARTIFACTS_DIR + 'PdfSaveOptions.page_mode.pdf', options)
-                #ExEnd
-                doc_locale_name = CultureInfo(doc.styles.default_font.locale_id).name
-                with open(ARTIFACTS_DIR + 'PdfSaveOptions.page_mode.pdf', 'rb') as file:
-                    content = file.read().decode('utf-8')
-                    if page_mode == aw.saving.PdfPageMode.FULL_SCREEN:
-                        self.assertIn('<</Type /Catalog/Pages 3 0 R/PageMode /FullScreen/Lang({})/Metadata 4 0 R>>\r\n'.format(doc_locale_name), content)
-                    elif page_mode == aw.saving.PdfPageMode.USE_THUMBS:
-                        self.assertIn('<</Type /Catalog/Pages 3 0 R/PageMode /UseThumbs/Lang({})/Metadata 4 0 R>>'.format(doc_locale_name), content)
-                    elif page_mode == aw.saving.PdfPageMode.USE_OC:
-                        self.assertIn('<</Type /Catalog/Pages 3 0 R/PageMode /UseOC/Lang({})/Metadata 4 0 R>>\r\n'.format(doc_locale_name), content)
-                    elif page_mode in (aw.saving.PdfPageMode.USE_OUTLINES, aw.saving.PdfPageMode.USE_NONE):
-                        self.assertIn('<</Type /Catalog/Pages 3 0 R/Lang({})/Metadata 4 0 R>>\r\n'.format(doc_locale_name), content)
-                    elif page_mode == aw.saving.PdfPageMode.USE_ATTACHMENTS:
-                        self.assertIn(f'<</Type /Catalog/Pages 3 0 R/PageMode /UseAttachments/Lang({doc_locale_name})/Metadata 4 0 R>>\r\n', content)
-
     def test_note_hyperlinks(self):
         for create_note_hyperlinks in (False, True):
             with self.subTest(create_note_hyperlinks=create_note_hyperlinks):
@@ -1018,38 +976,6 @@ class ExPdfSaveOptions(ApiExampleBase):
                 elif pdf_custom_properties_export_mode == aw.saving.PdfCustomPropertiesExport.METADATA:
                     self.assertIn(b'<</Type/Metadata/Subtype/XML/Length 8 0 R/Filter/FlateDecode>>', content)
 
-    @unittest.skip("drawing.Image type isn't supported yet")
-    def test_preblend_images(self):
-        for preblend_images in (False, True):
-            with self.subTest(preblend_images=preblend_images):
-                #ExStart
-                #ExFor:PdfSaveOptions.preblend_images
-                #ExSummary:Shows how to preblend images with transparent backgrounds while saving a document to PDF.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                img = drawing.Image.from_file(IMAGE_DIR + 'Transparent background logo.png')
-                builder.insert_image(img)
-                # Create a "PdfSaveOptions" object that we can pass to the document's "save" method
-                # to modify how that method converts the document to .PDF.
-                options = aw.saving.PdfSaveOptions()
-                # Set the "preblend_images" property to "True" to preblend transparent images
-                # with a background, which may reduce artifacts.
-                # Set the "preblend_images" property to "False" to render transparent images normally.
-                options.preblend_images = preblend_images
-                doc.save(ARTIFACTS_DIR + 'PdfSaveOptions.preblend_images.pdf', options)
-                #ExEnd
-                pdf_document = aspose.pdf.Document(ARTIFACTS_DIR + 'PdfSaveOptions.preblend_images.pdf')
-                image = pdf_document.pages[1].resources.images[1]
-                with open(ARTIFACTS_DIR + 'PdfSaveOptions.preblend_images.pdf', 'rb') as file:
-                    content = file.read()
-                with io.BytesIO() as stream:
-                    image.save(stream)
-                    if preblend_images:
-                        self.assertIn('11 0 obj\r\n20849 ', content)
-                        self.assertEqual(17898, len(stream.getvalue()))
-                    else:
-                        self.assertIn('11 0 obj\r\n19289 ', content)
-                        self.assertEqual(19216, len(stream.getvalue()))
 
     def test_pdf_digital_signature(self):
         #ExStart
