@@ -8,10 +8,10 @@
 import sys
 import xml.etree.ElementTree as ET
 import platform
-import io
 import aspose.words as aw
 import aspose.words.fonts
 import aspose.words.loading
+import io
 import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, FONTS_DIR, MY_DIR
@@ -59,6 +59,59 @@ class ExFontSettings(ApiExampleBase):
         # Aspose.Words will now use the default font in place of any missing fonts during any rendering calls.
         doc.save(file_name=ARTIFACTS_DIR + 'FontSettings.DefaultFontName.pdf')
         #ExEnd
+
+    def test_enable_font_substitution(self):
+        #ExStart
+        #ExFor:FontInfoSubstitutionRule
+        #ExFor:FontSubstitutionSettings.font_info_substitution
+        #ExFor:LayoutOptions.keep_original_font_metrics
+        #ExFor:IWarningCallback
+        #ExFor:IWarningCallback.warning(WarningInfo)
+        #ExFor:WarningInfo
+        #ExFor:WarningInfo.description
+        #ExFor:WarningInfo.warning_type
+        #ExFor:WarningInfoCollection
+        #ExFor:WarningInfoCollection.warning(WarningInfo)
+        #ExFor:WarningInfoCollection.clear
+        #ExFor:WarningType
+        #ExFor:DocumentBase.warning_callback
+        #ExSummary:Shows how to set the property for finding the closest match for a missing font from the available font sources.
+        # Open a document that contains text formatted with a font that does not exist in any of our font sources.
+        doc = aw.Document(file_name=MY_DIR + 'Missing font.docx')
+        # Assign a callback for handling font substitution warnings.
+        warning_collector = aw.WarningInfoCollection()
+        doc.warning_callback = warning_collector
+        # Set a default font name and enable font substitution.
+        font_settings = aw.fonts.FontSettings()
+        font_settings.substitution_settings.default_font_substitution.default_font_name = 'Arial'
+        font_settings.substitution_settings.font_info_substitution.enabled = True
+        # Original font metrics should be used after font substitution.
+        doc.layout_options.keep_original_font_metrics = True
+        # We will get a font substitution warning if we save a document with a missing font.
+        doc.font_settings = font_settings
+        doc.save(file_name=ARTIFACTS_DIR + 'FontSettings.EnableFontSubstitution.pdf')
+        for info in warning_collector:
+            if info.warning_type == aw.WarningType.FONT_SUBSTITUTION:
+                print(info.description)
+        #ExEnd
+        # We can also verify warnings in the collection and clear them.
+        self.assertEqual(aw.WarningSource.LAYOUT, warning_collector[0].source)
+        self.assertEqual("Font '28 Days Later' has not been found. Using 'Calibri' font instead. Reason: alternative name from document.", warning_collector[0].description)
+        warning_collector.clear()
+        self.assertEqual(0, warning_collector.count)
+
+    def test_substitution_warnings(self):
+        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+        callback = aw.WarningInfoCollection()
+        doc.warning_callback = callback
+        font_settings = aw.fonts.FontSettings()
+        font_settings.substitution_settings.default_font_substitution.default_font_name = 'Arial'
+        font_settings.set_fonts_folder(FONTS_DIR, False)
+        font_settings.substitution_settings.table_substitution.add_substitutes('Arial', ['Arvo', 'Slab'])
+        doc.font_settings = font_settings
+        doc.save(file_name=ARTIFACTS_DIR + 'FontSettings.SubstitutionWarnings.pdf')
+        self.assertEqual("Font 'Arial' has not been found. Using 'Arvo' font instead. Reason: table substitution.", callback[0].description)
+        self.assertEqual("Font 'Times New Roman' has not been found. Using 'M+ 2m' font instead. Reason: font info substitution.", callback[1].description)
 
     def test_font_source_file(self):
         #ExStart

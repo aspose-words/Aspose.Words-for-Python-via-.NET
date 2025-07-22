@@ -1301,7 +1301,7 @@ class ExDocumentBuilder(ApiExampleBase):
             self.assertEqual(50, paragraph.paragraph_format.right_indent)
             self.assertEqual(25, paragraph.paragraph_format.space_after)
 
-    @unittest.skip("Discrepancy in assertion between Python and .Net")
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_set_cell_formatting(self):
         #ExStart
         #ExFor:DocumentBuilder.cell_format

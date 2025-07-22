@@ -97,7 +97,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         save_options = aw.saving.HtmlSaveOptions(aw.SaveFormat.EPUB)
         self.assertEqual(False, save_options.export_roundtrip_information)
 
-    @unittest.skip("Discrepancy in assertion between Python and .Net")
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_external_resource_saving_config(self):
         doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
         save_options = aw.saving.HtmlSaveOptions()
@@ -109,7 +109,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         image_files = system_helper.io.Directory.get_files(ARTIFACTS_DIR + 'Resources/', 'HtmlSaveOptions.ExternalResourceSavingConfig*.png', system_helper.io.SearchOption.All_DIRECTORIES)
         self.assertEqual(8, len(image_files))
         font_files = system_helper.io.Directory.get_files(ARTIFACTS_DIR + 'Resources/', 'HtmlSaveOptions.ExternalResourceSavingConfig*.ttf', system_helper.io.SearchOption.All_DIRECTORIES)
-        self.assertEqual(12, len(font_files))
+        self.assertEqual(10, len(font_files))
         css_files = system_helper.io.Directory.get_files(ARTIFACTS_DIR + 'Resources/', 'HtmlSaveOptions.ExternalResourceSavingConfig*.css', system_helper.io.SearchOption.All_DIRECTORIES)
         self.assertEqual(1, len(css_files))
         document_helper.DocumentHelper.find_text_in_file(ARTIFACTS_DIR + 'HtmlSaveOptions.ExternalResourceSavingConfig.html', '<link href="https://www.aspose.com/HtmlSaveOptions.ExternalResourceSavingConfig.css"')

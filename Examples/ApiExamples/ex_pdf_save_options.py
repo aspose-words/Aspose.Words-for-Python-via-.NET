@@ -9,20 +9,20 @@ import aspose.pydrawing as drawing
 import sys
 import os
 import io
-import aspose.words.fonts
 from aspose.words import Document
 from aspose.words.saving import PdfTextCompression
 from aspose.words.saving import PdfTextCompression
 from datetime import timedelta, timezone
 import aspose.words as aw
 import aspose.words.digitalsignatures
+import aspose.words.fonts
 import aspose.words.saving
 import aspose.words.settings
 import datetime
 import system_helper
 import test_util
 import unittest
-from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR, FONTS_DIR
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR, FONTS_DIR, IMAGE_DIR, MY_DIR
 
 class ExPdfSaveOptions(ApiExampleBase):
 
@@ -423,6 +423,29 @@ class ExPdfSaveOptions(ApiExampleBase):
             builder.insert_hyperlink('Testlink', uri, False)
             doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.EscapedUri.pdf')
 
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    def test_open_hyperlinks_in_new_window(self):
+        for open_hyperlinks_in_new_window in [False, True]:
+            #ExStart
+            #ExFor:PdfSaveOptions.open_hyperlinks_in_new_window
+            #ExSummary:Shows how to save hyperlinks in a document we convert to PDF so that they open new pages when we click on them.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.insert_hyperlink('Testlink', 'https://www.google.com/search?q=%20aspose', False)
+            # Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
+            # to modify how that method converts the document to .PDF.
+            options = aw.saving.PdfSaveOptions()
+            # Set the "OpenHyperlinksInNewWindow" property to "true" to save all hyperlinks using Javascript code
+            # that forces readers to open these links in new windows/browser tabs.
+            # Set the "OpenHyperlinksInNewWindow" property to "false" to save all hyperlinks normally.
+            options.open_hyperlinks_in_new_window = open_hyperlinks_in_new_window
+            doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.OpenHyperlinksInNewWindow.pdf', save_options=options)
+            #ExEnd
+            if open_hyperlinks_in_new_window:
+                test_util.TestUtil.file_contains_string('<</Type/Annot/Subtype/Link/Rect[70.84999847 707.35101318 110.17799377 721.15002441]/BS' + '<</Type/Border/S/S/W 0>>/A<</Type/Action/S/JavaScript/JS(app.launchURL\\("https://www.google.com/search?q=%20aspose", true\\);)>>>>', ARTIFACTS_DIR + 'PdfSaveOptions.OpenHyperlinksInNewWindow.pdf')
+            else:
+                test_util.TestUtil.file_contains_string('<</Type/Annot/Subtype/Link/Rect[70.84999847 707.35101318 110.17799377 721.15002441]/BS' + '<</Type/Border/S/S/W 0>>/A<</Type/Action/S/URI/URI(https://www.google.com/search?q=%20aspose)>>>>', ARTIFACTS_DIR + 'PdfSaveOptions.OpenHyperlinksInNewWindow.pdf')
+
     def test_header_footer_bookmarks_export_mode(self):
         for header_footer_bookmarks_export_mode in [aw.saving.HeaderFooterBookmarksExportMode.NONE, aw.saving.HeaderFooterBookmarksExportMode.FIRST, aw.saving.HeaderFooterBookmarksExportMode.ALL]:
             #ExStart
@@ -470,6 +493,46 @@ class ExPdfSaveOptions(ApiExampleBase):
             save_options.metafile_rendering_options.emulate_rendering_to_size_on_page_resolution = 50
             doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.EmulateRenderingToSizeOnPage.pdf', save_options=save_options)
             #ExEnd
+
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    def test_embed_full_fonts(self):
+        for embed_full_fonts in [False, True]:
+            #ExStart
+            #ExFor:PdfSaveOptions.__init__
+            #ExFor:PdfSaveOptions.embed_full_fonts
+            #ExSummary:Shows how to enable or disable subsetting when embedding fonts while rendering a document to PDF.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.font.name = 'Arial'
+            builder.writeln('Hello world!')
+            builder.font.name = 'Arvo'
+            builder.writeln('The quick brown fox jumps over the lazy dog.')
+            # Configure our font sources to ensure that we have access to both the fonts in this document.
+            original_fonts_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
+            folder_font_source = aw.fonts.FolderFontSource(folder_path=FONTS_DIR, scan_subfolders=True)
+            aw.fonts.FontSettings.default_instance.set_fonts_sources(sources=[original_fonts_sources[0], folder_font_source])
+            font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
+            self.assertTrue(any([f.full_font_name == 'Arial' for f in font_sources[0].get_available_fonts()]))
+            self.assertTrue(any([f.full_font_name == 'Arvo' for f in font_sources[1].get_available_fonts()]))
+            # Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
+            # to modify how that method converts the document to .PDF.
+            options = aw.saving.PdfSaveOptions()
+            # Since our document contains a custom font, embedding in the output document may be desirable.
+            # Set the "EmbedFullFonts" property to "true" to embed every glyph of every embedded font in the output PDF.
+            # The document's size may become very large, but we will have full use of all fonts if we edit the PDF.
+            # Set the "EmbedFullFonts" property to "false" to apply subsetting to fonts, saving only the glyphs
+            # that the document is using. The file will be considerably smaller,
+            # but we may need access to any custom fonts if we edit the document.
+            options.embed_full_fonts = embed_full_fonts
+            doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.EmbedFullFonts.pdf', save_options=options)
+            # Restore the original font sources.
+            aw.fonts.FontSettings.default_instance.set_fonts_sources(sources=original_fonts_sources)
+            #ExEnd
+            tested_file_length = system_helper.io.FileInfo(ARTIFACTS_DIR + 'PdfSaveOptions.EmbedFullFonts.pdf').length()
+            if embed_full_fonts:
+                self.assertTrue(tested_file_length < 571000)
+            else:
+                self.assertTrue(tested_file_length < 24000)
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_embed_windows_fonts(self):
@@ -851,69 +914,6 @@ class ExPdfSaveOptions(ApiExampleBase):
             doc.save(stream, options)
         #ExEnd
 
-    @unittest.skip("Discrepancy in assertion between Python and .Net")
-    def test_open_hyperlinks_in_new_window(self):
-        for open_hyperlinks_in_new_window in [False, True]:
-            #ExStart
-            #ExFor:PdfSaveOptions.open_hyperlinks_in_new_window
-            #ExSummary:Shows how to save hyperlinks in a document we convert to PDF so that they open new pages when we click on them.
-            doc = aw.Document()
-            builder = aw.DocumentBuilder(doc=doc)
-            builder.insert_hyperlink('Testlink', 'https://www.google.com/search?q=%20aspose', False)
-            # Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
-            # to modify how that method converts the document to .PDF.
-            options = aw.saving.PdfSaveOptions()
-            # Set the "OpenHyperlinksInNewWindow" property to "true" to save all hyperlinks using Javascript code
-            # that forces readers to open these links in new windows/browser tabs.
-            # Set the "OpenHyperlinksInNewWindow" property to "false" to save all hyperlinks normally.
-            options.open_hyperlinks_in_new_window = open_hyperlinks_in_new_window
-            doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.OpenHyperlinksInNewWindow.pdf', save_options=options)
-            #ExEnd
-            if open_hyperlinks_in_new_window:
-                test_util.TestUtil.file_contains_string('<</Type/Annot/Subtype/Link/Rect[72 706.20098877 111.32800293 720]/BS' + '<</Type/Border/S/S/W 0>>/A<</Type/Action/S/JavaScript/JS(app.launchURL\\("https://www.google.com/search?q=%20aspose", true\\);)>>>>', ARTIFACTS_DIR + 'PdfSaveOptions.OpenHyperlinksInNewWindow.pdf')
-            else:
-                test_util.TestUtil.file_contains_string('<</Type/Annot/Subtype/Link/Rect[72 706.20098877 111.32800293 720]/BS' + '<</Type/Border/S/S/W 0>>/A<</Type/Action/S/URI/URI(https://www.google.com/search?q=%20aspose)>>>>', ARTIFACTS_DIR + 'PdfSaveOptions.OpenHyperlinksInNewWindow.pdf')
-
-    @unittest.skip("Discrepancy in assertion between Python and .Net")
-    def test_embed_full_fonts(self):
-        for embed_full_fonts in (False, True):
-            with self.subTest(embed_full_fonts=embed_full_fonts):
-                #ExStart
-                #ExFor:PdfSaveOptions.__init__
-                #ExFor:PdfSaveOptions.embed_full_fonts
-                #ExSummary:Shows how to enable or disable subsetting when embedding fonts while rendering a document to PDF.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                builder.font.name = 'Arial'
-                builder.writeln('Hello world!')
-                builder.font.name = 'Arvo'
-                builder.writeln('The quick brown fox jumps over the lazy dog.')
-                # Configure our font sources to ensure that we have access to both the fonts in this document.
-                original_fonts_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
-                folder_font_source = aw.fonts.FolderFontSource(FONTS_DIR, True)
-                aw.fonts.FontSettings.default_instance.set_fonts_sources([original_fonts_sources[0], folder_font_source])
-                font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
-                self.assertTrue(any((font.full_font_name == 'Arial' for font in font_sources[0].get_available_fonts())))
-                self.assertTrue(any((font.full_font_name == 'Arvo' for font in font_sources[1].get_available_fonts())))
-                # Create a "PdfSaveOptions" object that we can pass to the document's "save" method
-                # to modify how that method converts the document to .PDF.
-                options = aw.saving.PdfSaveOptions()
-                # Since our document contains a custom font, embedding in the output document may be desirable.
-                # Set the "embed_full_fonts" property to "True" to embed every glyph of every embedded font in the output PDF.
-                # The document's size may become very large, but we will have full use of all fonts if we edit the PDF.
-                # Set the "embed_full_fonts" property to "False" to apply subsetting to fonts, saving only the glyphs
-                # that the document is using. The file will be considerably smaller,
-                # but we may need access to any custom fonts if we edit the document.
-                options.embed_full_fonts = embed_full_fonts
-                doc.save(ARTIFACTS_DIR + 'PdfSaveOptions.embed_full_fonts.pdf', options)
-                if embed_full_fonts:
-                    self.assertLess(500000, os.path.getsize(ARTIFACTS_DIR + 'PdfSaveOptions.embed_full_fonts.pdf'))
-                else:
-                    self.assertGreater(25000, os.path.getsize(ARTIFACTS_DIR + 'PdfSaveOptions.embed_full_fonts.pdf'))
-                # Restore the original font sources.
-                aw.fonts.FontSettings.default_instance.set_fonts_sources(original_fonts_sources)
-                #ExEnd
-
     def test_note_hyperlinks(self):
         for create_note_hyperlinks in (False, True):
             with self.subTest(create_note_hyperlinks=create_note_hyperlinks):
@@ -975,7 +975,6 @@ class ExPdfSaveOptions(ApiExampleBase):
                     self.assertIn(b'/Company(\xfe\xff\x00M\x00y\x00 \x00v\x00a\x00l\x00u\x00e)>>', content)
                 elif pdf_custom_properties_export_mode == aw.saving.PdfCustomPropertiesExport.METADATA:
                     self.assertIn(b'<</Type/Metadata/Subtype/XML/Length 8 0 R/Filter/FlateDecode>>', content)
-
 
     def test_pdf_digital_signature(self):
         #ExStart

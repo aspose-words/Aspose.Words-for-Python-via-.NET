@@ -992,7 +992,7 @@ class ExFont(ApiExampleBase):
             print('FilePath :', font_info.file_path)
             print()
         #ExEnd
-        self.assertEqual(len(folder_font_source[0].get_available_fonts()), len(glob.glob(FONTS_DIR + '**/*.ttf', recursive=True) + glob.glob(FONTS_DIR + '**/*.otf', recursive=True))+5)
+        self.assertEqual(len(folder_font_source[0].get_available_fonts()), len(glob.glob(FONTS_DIR + '**/*.ttf', recursive=True) + glob.glob(FONTS_DIR + '**/*.otf', recursive=True)) + 5)
 
     def test_get_font_info_from_file(self):
         #ExStart
