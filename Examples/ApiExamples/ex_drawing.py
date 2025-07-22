@@ -19,6 +19,16 @@ from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR
 
 class ExDrawing(ApiExampleBase):
 
+    def test_type_of_image(self):
+        #ExStart
+        #ExFor:ImageType
+        #ExSummary:Shows how to add an image to a shape and check its type.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        img_shape = builder.insert_image(file_name=IMAGE_DIR + 'Logo.jpg')
+        self.assertEqual(aw.drawing.ImageType.JPEG, img_shape.image_data.image_type)
+        #ExEnd
+
     def test_fill_solid(self):
         #ExStart
         #ExFor:Fill.color()

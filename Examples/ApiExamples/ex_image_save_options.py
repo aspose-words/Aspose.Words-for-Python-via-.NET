@@ -149,6 +149,45 @@ class ExImageSaveOptions(ApiExampleBase):
             elif switch_condition == aw.saving.ImageColorMode.BLACK_AND_WHITE:
                 self.assertTrue(tested_image_length < 15000)
 
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    def test_pixel_format(self):
+        for image_pixel_format in [aw.saving.ImagePixelFormat.FORMAT_1BPP_INDEXED, aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_555, aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_565, aw.saving.ImagePixelFormat.FORMAT_24BPP_RGB, aw.saving.ImagePixelFormat.FORMAT_32BPP_RGB, aw.saving.ImagePixelFormat.FORMAT_32BPP_ARGB, aw.saving.ImagePixelFormat.FORMAT_32BPP_P_ARGB, aw.saving.ImagePixelFormat.FORMAT_48BPP_RGB, aw.saving.ImagePixelFormat.FORMAT_64BPP_ARGB, aw.saving.ImagePixelFormat.FORMAT_64BPP_P_ARGB]:
+            #ExStart
+            #ExFor:ImagePixelFormat
+            #ExFor:ImageSaveOptions.clone
+            #ExFor:ImageSaveOptions.pixel_format
+            #ExSummary:Shows how to select a bit-per-pixel rate with which to render a document to an image.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.paragraph_format.style = doc.styles.get_by_name('Heading 1')
+            builder.writeln('Hello world!')
+            builder.insert_image(file_name=IMAGE_DIR + 'Logo.jpg')
+            # When we save the document as an image, we can pass a SaveOptions object to
+            # select a pixel format for the image that the saving operation will generate.
+            # Various bit per pixel rates will affect the quality and file size of the generated image.
+            image_save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
+            image_save_options.pixel_format = image_pixel_format
+            # We can clone ImageSaveOptions instances.
+            self.assertNotEqual(image_save_options, image_save_options.clone())
+            doc.save(file_name=ARTIFACTS_DIR + 'ImageSaveOptions.PixelFormat.png', save_options=image_save_options)
+            #ExEnd
+            tested_image_length = system_helper.io.FileInfo(ARTIFACTS_DIR + 'ImageSaveOptions.PixelFormat.png').length()
+            switch_condition = image_pixel_format
+            if switch_condition == aw.saving.ImagePixelFormat.FORMAT_1BPP_INDEXED:
+                self.assertTrue(tested_image_length < 2500)
+            elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_565:
+                self.assertTrue(tested_image_length < 104000)
+            elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_555:
+                self.assertTrue(tested_image_length < 88000)
+            elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_24BPP_RGB:
+                self.assertTrue(tested_image_length < 160000)
+            elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_32BPP_RGB and switch_condition == aw.saving.ImagePixelFormat.FORMAT_32BPP_ARGB:
+                self.assertTrue(tested_image_length < 175000)
+            elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_48BPP_RGB:
+                self.assertTrue(tested_image_length < 212000)
+            elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_64BPP_ARGB and switch_condition == aw.saving.ImagePixelFormat.FORMAT_64BPP_P_ARGB:
+                self.assertTrue(tested_image_length < 239000)
+
     def test_floyd_steinberg_dithering(self):
         #ExStart
         #ExFor:ImageBinarizationMethod
@@ -173,7 +212,7 @@ class ExImageSaveOptions(ApiExampleBase):
         image_file_names = list(filter(lambda item: 'ImageSaveOptions.FloydSteinbergDithering.' in item and item.endswith('.tiff'), list(system_helper.io.Directory.get_files(ARTIFACTS_DIR, '*.tiff'))))
         self.assertEqual(1, len(image_file_names))
 
-    @unittest.skip("Discrepancy in assertion between Python and .Net")
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_edit_image(self):
         #ExStart
         #ExFor:ImageSaveOptions.horizontal_resolution
@@ -347,45 +386,6 @@ class ExImageSaveOptions(ApiExampleBase):
         self.assertEqual(3, len(image_file_names))
         for image_file_name in image_file_names:
             self.verify_image(2325, 5325, filename=image_file_name)
-
-    @unittest.skip("Discrepancy in assertion between Python and .Net")
-    def test_pixel_format(self):
-        for image_pixel_format in [aw.saving.ImagePixelFormat.FORMAT_1BPP_INDEXED, aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_555, aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_565, aw.saving.ImagePixelFormat.FORMAT_24BPP_RGB, aw.saving.ImagePixelFormat.FORMAT_32BPP_RGB, aw.saving.ImagePixelFormat.FORMAT_32BPP_ARGB, aw.saving.ImagePixelFormat.FORMAT_32BPP_P_ARGB, aw.saving.ImagePixelFormat.FORMAT_48BPP_RGB, aw.saving.ImagePixelFormat.FORMAT_64BPP_ARGB, aw.saving.ImagePixelFormat.FORMAT_64BPP_P_ARGB]:
-            #ExStart
-            #ExFor:ImagePixelFormat
-            #ExFor:ImageSaveOptions.clone
-            #ExFor:ImageSaveOptions.pixel_format
-            #ExSummary:Shows how to select a bit-per-pixel rate with which to render a document to an image.
-            doc = aw.Document()
-            builder = aw.DocumentBuilder(doc=doc)
-            builder.paragraph_format.style = doc.styles.get_by_name('Heading 1')
-            builder.writeln('Hello world!')
-            builder.insert_image(file_name=IMAGE_DIR + 'Logo.jpg')
-            # When we save the document as an image, we can pass a SaveOptions object to
-            # select a pixel format for the image that the saving operation will generate.
-            # Various bit per pixel rates will affect the quality and file size of the generated image.
-            image_save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
-            image_save_options.pixel_format = image_pixel_format
-            # We can clone ImageSaveOptions instances.
-            self.assertNotEqual(image_save_options, image_save_options.clone())
-            doc.save(file_name=ARTIFACTS_DIR + 'ImageSaveOptions.PixelFormat.png', save_options=image_save_options)
-            #ExEnd
-            tested_image_length = system_helper.io.FileInfo(ARTIFACTS_DIR + 'ImageSaveOptions.PixelFormat.png').length()
-            switch_condition = image_pixel_format
-            if switch_condition == aw.saving.ImagePixelFormat.FORMAT_1BPP_INDEXED:
-                self.assertTrue(tested_image_length < 10000)
-            elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_565:
-                self.assertTrue(tested_image_length < 150000)
-            elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_555:
-                self.assertTrue(tested_image_length < 150000)
-            elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_24BPP_RGB:
-                self.assertTrue(tested_image_length < 90000)
-            elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_32BPP_RGB or switch_condition == aw.saving.ImagePixelFormat.FORMAT_32BPP_ARGB:
-                self.assertTrue(tested_image_length < 150000)
-            elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_48BPP_RGB:
-                self.assertTrue(tested_image_length < 150000)
-            elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_64BPP_ARGB or switch_condition == aw.saving.ImagePixelFormat.FORMAT_64BPP_P_ARGB:
-                self.assertTrue(tested_image_length < 150000)
 
     def test_resolution(self):
         #ExStart
