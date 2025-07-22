@@ -576,7 +576,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 self.assertTrue('<ol type="a" style="margin-right:0pt; margin-left:0pt; padding-left:0pt">' + '<li style="margin-left:31.33pt; padding-left:4.67pt">' + '<span>Default numbered list item 3.</span>' + '</li>' + '</ol>' in out_doc_contents)
         #ExEnd
 
-    @unittest.skip('Calculation problems')
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_export_page_margins(self):
         for export_page_margins in [False, True]:
             #ExStart
@@ -609,7 +609,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 self.assertTrue('<div><p style="margin-top:0pt; margin-left:220.85pt; margin-bottom:0pt">' in out_doc_contents)
             #ExEnd
 
-    @unittest.skip('Calculation problems')
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_export_page_setup(self):
         for export_page_setup in [False, True]:
             #ExStart
@@ -807,36 +807,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 self.assertTrue('<p style="margin-top:0pt; margin-bottom:0pt">' + '<img src="HtmlSaveOptions.MetafileFormat.001.emf" width="500" height="40" alt="" ' + 'style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />' + '</p>' in out_doc_contents)
         #ExEnd
 
-    @unittest.skip("drawing.Image type isn't supported yet")
-    def test_scale_image_to_shape_size(self):
-        for scale_image_to_shape_size in [False, True]:
-            #ExStart
-            #ExFor:HtmlSaveOptions.scale_image_to_shape_size
-            #ExSummary:Shows how to disable the scaling of images to their parent shape dimensions when saving to .html.
-            doc = aw.Document()
-            builder = aw.DocumentBuilder(doc=doc)
-            # Insert a shape which contains an image, and then make that shape considerably smaller than the image.
-            image_shape = builder.insert_image(file_name=IMAGE_DIR + 'Transparent background logo.png')
-            image_shape.width = 50
-            image_shape.height = 50
-            # Saving a document that contains shapes with images to HTML will create an image file in the local file system
-            # for each such shape. The output HTML document will use <image> tags to link to and display these images.
-            # When we save the document to HTML, we can pass a SaveOptions object to determine
-            # whether to scale all images that are inside shapes to the sizes of their shapes.
-            # Setting the "ScaleImageToShapeSize" flag to "true" will shrink every image
-            # to the size of the shape that contains it, so that no saved images will be larger than the document requires them to be.
-            # Setting the "ScaleImageToShapeSize" flag to "false" will preserve these images' original sizes,
-            # which will take up more space in exchange for preserving image quality.
-            options = aw.saving.HtmlSaveOptions()
-            options.scale_image_to_shape_size = scale_image_to_shape_size
-            doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ScaleImageToShapeSize.html', save_options=options)
-            #ExEnd
-            tested_image_length = system_helper.io.FileInfo(ARTIFACTS_DIR + 'HtmlSaveOptions.ScaleImageToShapeSize.001.png').length()
-            if scale_image_to_shape_size:
-                self.assertTrue(tested_image_length < 3000)
-            else:
-                self.assertTrue(tested_image_length < 16000)
-
     def test_image_folder(self):
         #ExStart
         #ExFor:HtmlSaveOptions
@@ -938,34 +908,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.export_url_for_linked_image.html', save_options)
                 dir_files = glob.glob(ARTIFACTS_DIR + '**/HtmlSaveOptions.export_url_for_linked_image.001.png', recursive=True)
                 DocumentHelper.find_text_in_file(ARTIFACTS_DIR + 'HtmlSaveOptions.export_url_for_linked_image.html', '<img src="http://www.aspose.com/images/aspose-logo.gif"' if not dir_files else '<img src="HtmlSaveOptions.export_url_for_linked_image.001.png"')
-
-    @unittest.skip('Bug')
-    def test_resolve_font_names(self):
-        for resolve_font_names in (False, True):
-            with self.subTest(resolve_font_names=resolve_font_names):
-                #ExStart
-                #ExFor:HtmlSaveOptions.resolve_font_names
-                #ExSummary:Shows how to resolve all font names before writing them to HTML.
-                doc = aw.Document(MY_DIR + 'Missing font.docx')
-                # This document contains text that names a font that we do not have.
-                self.assertIsNotNone(doc.font_infos.get_by_name('28 Days Later'))
-                # If we have no way of getting this font, and we want to be able to display all the text
-                # in this document in an output HTML, we can substitute it with another font.
-                font_settings = aw.fonts.FontSettings()
-                font_settings.substitution_settings.default_font_substitution.default_font_name = 'Arial'
-                font_settings.substitution_settings.default_font_substitution.enabled = True
-                doc.font_settings = font_settings
-                save_options = aw.saving.HtmlSaveOptions(aw.SaveFormat.HTML)
-                # By default, this option is set to 'False' and Aspose.Words writes font names as specified in the source document
-                save_options.resolve_font_names = resolve_font_names
-                doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.resolve_font_names.html', save_options)
-                with open(ARTIFACTS_DIR + 'HtmlSaveOptions.resolve_font_names.html', 'rt', encoding='utf-8') as file:
-                    out_doc_contents = file.read()
-                if resolve_font_names:
-                    self.assertIn('<span style="font-family:Arial">', out_doc_contents)
-                else:
-                    self.assertIn('<span style="font-family:\'28 Days Later\'">', out_doc_contents)
-                #ExEnd
 
     def test_export_images_as_base64(self):
         for export_images_as_base64 in (False, True):

@@ -730,7 +730,7 @@ class ExField(ApiExampleBase):
         #ExEnd
         test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_DATA, expected_field_code=' DATA ', expected_result='', field=document_helper.DocumentHelper.save_open(doc).range.fields[0])
 
-    @unittest.skip("Discrepancy in assertion between Python and .Net")
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_field_hyperlink(self):
         #ExStart
         #ExFor:FieldHyperlink
@@ -1221,7 +1221,7 @@ class ExField(ApiExampleBase):
             test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  "Heading 1:Subheading 2"', expected_result='', field=index_entry)
             self.assertEqual('Heading 1:Subheading 2', index_entry.text)
 
-    @unittest.skip("Discrepancy in assertion between Python and .Net")
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_field_index_yomi(self):
         for sort_entries_using_yomi in [True, False]:
             #ExStart

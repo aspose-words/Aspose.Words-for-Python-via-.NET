@@ -143,62 +143,6 @@ class ExDocumentBuilderImages(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilderImages.InsertSvgImage.Emf.docx')
         #ExEnd
 
-    @unittest.skip("drawing.Image type isn't supported yet")
-    def test_insert_image_from_image_object(self):
-        #ExStart
-        #ExFor:DocumentBuilder.insert_image(Image)
-        #ExFor:DocumentBuilder.insert_image(Image,float,float)
-        #ExFor:DocumentBuilder.insert_image(Image,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)
-        #ExSummary:Shows how to insert an image from an object into a document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc=doc)
-        image_file = IMAGE_DIR + 'Logo.jpg'
-        # Below are three ways of inserting an image from an Image object instance.
-        # 1 -  Inline shape with a default size based on the image's original dimensions:
-        builder.insert_image(file_name=image_file)
-        builder.insert_break(aw.BreakType.PAGE_BREAK)
-        # 2 -  Inline shape with custom dimensions:
-        builder.insert_image(file_name=image_file, width=aw.ConvertUtil.pixel_to_point(pixels=250), height=aw.ConvertUtil.pixel_to_point(pixels=144))
-        builder.insert_break(aw.BreakType.PAGE_BREAK)
-        # 3 -  Floating shape with custom dimensions:
-        builder.insert_image(file_name=image_file, horz_pos=aw.drawing.RelativeHorizontalPosition.MARGIN, left=100, vert_pos=aw.drawing.RelativeVerticalPosition.MARGIN, top=100, width=200, height=100, wrap_type=aw.drawing.WrapType.SQUARE)
-        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilderImages.InsertImageFromImageObject.docx')
-        #ExEnd
-        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilderImages.InsertImageFromImageObject.docx')
-        image_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.assertEqual(300, image_shape.height)
-        self.assertEqual(300, image_shape.width)
-        self.assertEqual(0, image_shape.left)
-        self.assertEqual(0, image_shape.top)
-        self.assertEqual(aw.drawing.WrapType.INLINE, image_shape.wrap_type)
-        self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, image_shape.relative_horizontal_position)
-        self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, image_shape.relative_vertical_position)
-        test_util.TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
-        self.assertEqual(300, image_shape.image_data.image_size.height_points)
-        self.assertEqual(300, image_shape.image_data.image_size.width_points)
-        image_shape = doc.get_child(aw.NodeType.SHAPE, 1, True).as_shape()
-        self.assertEqual(108, image_shape.height)
-        self.assertEqual(187.5, image_shape.width)
-        self.assertEqual(0, image_shape.left)
-        self.assertEqual(0, image_shape.top)
-        self.assertEqual(aw.drawing.WrapType.INLINE, image_shape.wrap_type)
-        self.assertEqual(aw.drawing.RelativeHorizontalPosition.COLUMN, image_shape.relative_horizontal_position)
-        self.assertEqual(aw.drawing.RelativeVerticalPosition.PARAGRAPH, image_shape.relative_vertical_position)
-        test_util.TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
-        self.assertEqual(300, image_shape.image_data.image_size.height_points)
-        self.assertEqual(300, image_shape.image_data.image_size.width_points)
-        image_shape = doc.get_child(aw.NodeType.SHAPE, 2, True).as_shape()
-        self.assertEqual(100, image_shape.height)
-        self.assertEqual(200, image_shape.width)
-        self.assertEqual(100, image_shape.left)
-        self.assertEqual(100, image_shape.top)
-        self.assertEqual(aw.drawing.WrapType.SQUARE, image_shape.wrap_type)
-        self.assertEqual(aw.drawing.RelativeHorizontalPosition.MARGIN, image_shape.relative_horizontal_position)
-        self.assertEqual(aw.drawing.RelativeVerticalPosition.MARGIN, image_shape.relative_vertical_position)
-        test_util.TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
-        self.assertEqual(300, image_shape.image_data.image_size.height_points)
-        self.assertEqual(300, image_shape.image_data.image_size.width_points)
-
     def test_insert_image_from_byte_array(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_image(bytes)

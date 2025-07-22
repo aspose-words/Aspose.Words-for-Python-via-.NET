@@ -245,6 +245,39 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertNotEqual(runs[0].font.underline, runs[2].font.underline)
         self.assertEqual('http://www.google.com', doc.range.fields[0].as_field_hyperlink().address)
 
+    def test_insert_watermark(self):
+        #ExStart
+        #ExFor:DocumentBuilder.move_to_header_footer
+        #ExFor:PageSetup.page_width
+        #ExFor:PageSetup.page_height
+        #ExFor:WrapType
+        #ExFor:RelativeHorizontalPosition
+        #ExFor:RelativeVerticalPosition
+        #ExSummary:Shows how to insert an image, and use it as a watermark.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Insert the image into the header so that it will be visible on every page.
+        builder.move_to_header_footer(aw.HeaderFooterType.HEADER_PRIMARY)
+        shape = builder.insert_image(file_name=IMAGE_DIR + 'Transparent background logo.png')
+        shape.wrap_type = aw.drawing.WrapType.NONE
+        shape.behind_text = True
+        # Place the image at the center of the page.
+        shape.relative_horizontal_position = aw.drawing.RelativeHorizontalPosition.PAGE
+        shape.relative_vertical_position = aw.drawing.RelativeVerticalPosition.PAGE
+        shape.left = (builder.page_setup.page_width - shape.width) / 2
+        shape.top = (builder.page_setup.page_height - shape.height) / 2
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertWatermark.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertWatermark.docx')
+        shape = doc.first_section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.HEADER_PRIMARY).get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, shape)
+        self.assertEqual(aw.drawing.WrapType.NONE, shape.wrap_type)
+        self.assertTrue(shape.behind_text)
+        self.assertEqual(aw.drawing.RelativeHorizontalPosition.PAGE, shape.relative_horizontal_position)
+        self.assertEqual(aw.drawing.RelativeVerticalPosition.PAGE, shape.relative_vertical_position)
+        self.assertEqual((doc.first_section.page_setup.page_width - shape.width) / 2, shape.left)
+        self.assertEqual((doc.first_section.page_setup.page_height - shape.height) / 2, shape.top)
+
     def test_insert_ole_object(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_ole_object(str,bool,bool,BytesIO)
@@ -1656,6 +1689,24 @@ class ExDocumentBuilder(ApiExampleBase):
             test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_AUTHOR, expected_field_code=' AUTHOR ', expected_result='John Doe', field=doc.range.fields[0])
             test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_PAGE, expected_field_code=' PAGE ', expected_result='1', field=doc.range.fields[1])
 
+    @unittest.skip("Discrepancy in assertion between Python and .Net")
+    def test_insert_video_with_url(self):
+        #ExStart
+        #ExFor:DocumentBuilder.insert_online_video(str,float,float)
+        #ExSummary:Shows how to insert an online video into a document using a URL.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.insert_online_video(video_url='https://youtu.be/g1N9ke8Prmk', width=360, height=270)
+        # We can watch the video from Microsoft Word by clicking on the shape.
+        doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertVideoWithUrl.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertVideoWithUrl.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_image_in_shape(480, 360, aw.drawing.ImageType.JPEG, shape)
+        self.assertEqual('https://youtu.be/t_1LYZ102RA', shape.href)
+        self.assertEqual(360, shape.width)
+        self.assertEqual(270, shape.height)
+
     def test_insert_underline(self):
         #ExStart
         #ExFor:DocumentBuilder.underline
@@ -1743,6 +1794,23 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(' ', doc.first_section.body.paragraphs[1].runs[0].get_text())
         test_util.TestUtil.doc_package_file_contains_string('w:rPr><w:vanish /><w:specVanish /></w:rPr>', ARTIFACTS_DIR + 'DocumentBuilder.InsertStyleSeparator.docx', 'document.xml')
         test_util.TestUtil.doc_package_file_contains_string('<w:t xml:space="preserve"> </w:t>', ARTIFACTS_DIR + 'DocumentBuilder.InsertStyleSeparator.docx', 'document.xml')
+
+    @unittest.skip("Discrepancy in assertion between Python and .Net")
+    def test_insert_document(self):
+        #ExStart
+        #ExFor:DocumentBuilder.insert_document(Document,ImportFormatMode)
+        #ExFor:ImportFormatMode
+        #ExSummary:Shows how to insert a document into another document.
+        doc = aw.Document(file_name=MY_DIR + 'Document.docx')
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.move_to_document_end()
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        doc_to_insert = aw.Document(file_name=MY_DIR + 'Formatted elements.docx')
+        builder.insert_document(src_doc=doc_to_insert, import_format_mode=aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+        builder.document.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertDocument.docx')
+        #ExEnd
+        self.assertEqual(29, doc.styles.count)
+        self.assertTrue(document_helper.DocumentHelper.compare_docs(ARTIFACTS_DIR + 'DocumentBuilder.InsertDocument.docx', GOLDS_DIR + 'DocumentBuilder.InsertDocument Gold.docx'))
 
     def test_smart_style_behavior(self):
         #ExStart
