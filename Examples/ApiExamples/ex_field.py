@@ -7,8 +7,8 @@
 #####################################
 import sys
 from enum import Enum
-import aspose.pydrawing
 from document_helper import DocumentHelper
+import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.bibliography
 import aspose.words.buildingblocks
@@ -24,7 +24,7 @@ import io
 import system_helper
 import test_util
 import unittest
-from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR, DATABASE_DIR, IMAGE_DIR, MY_DIR
 
 class ExField(ApiExampleBase):
 
@@ -114,6 +114,45 @@ class ExField(ApiExampleBase):
         builder = aw.DocumentBuilder(doc=doc)
         # Insert a TC field at the current document builder position.
         builder.insert_field(field_code='TC "Entry Text" \\f t')
+
+    def test_update_dirty_fields(self):
+        for update_dirty_fields in [True, False]:
+            #ExStart
+            #ExFor:Field.is_dirty
+            #ExFor:LoadOptions.update_dirty_fields
+            #ExSummary:Shows how to use special property for updating field result.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            # Give the document's built-in "Author" property value, and then display it with a field.
+            doc.built_in_document_properties.author = 'John Doe'
+            field = builder.insert_field(field_type=aw.fields.FieldType.FIELD_AUTHOR, update_field=True).as_field_author()
+            self.assertFalse(field.is_dirty)
+            self.assertEqual('John Doe', field.result)
+            # Update the property. The field still displays the old value.
+            doc.built_in_document_properties.author = 'John & Jane Doe'
+            self.assertEqual('John Doe', field.result)
+            # Since the field's value is out of date, we can mark it as "dirty".
+            # This value will stay out of date until we update the field manually with the Field.Update() method.
+            field.is_dirty = True
+            with io.BytesIO() as doc_stream:
+                # If we save without calling an update method,
+                # the field will keep displaying the out of date value in the output document.
+                doc.save(stream=doc_stream, save_format=aw.SaveFormat.DOCX)
+                # The LoadOptions object has an option to update all fields
+                # marked as "dirty" when loading the document.
+                options = aw.loading.LoadOptions()
+                options.update_dirty_fields = update_dirty_fields
+                doc = aw.Document(stream=doc_stream, load_options=options)
+                self.assertEqual('John & Jane Doe', doc.built_in_document_properties.author)
+                field = doc.range.fields[0].as_field_author()
+                # Updating dirty fields like this automatically set their "IsDirty" flag to false.
+                if update_dirty_fields:
+                    self.assertEqual('John & Jane Doe', field.result)
+                    self.assertFalse(field.is_dirty)
+                else:
+                    self.assertEqual('John Doe', field.result)
+                    self.assertTrue(field.is_dirty)
+            #ExEnd
 
     def test_insert_field_with_field_builder_exception(self):
         doc = aw.Document()
@@ -691,6 +730,572 @@ class ExField(ApiExampleBase):
         #ExEnd
         test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_DATA, expected_field_code=' DATA ', expected_result='', field=document_helper.DocumentHelper.save_open(doc).range.fields[0])
 
+    @unittest.skip("Discrepancy in assertion between Python and .Net")
+    def test_field_hyperlink(self):
+        #ExStart
+        #ExFor:FieldHyperlink
+        #ExFor:FieldHyperlink.address
+        #ExFor:FieldHyperlink.is_image_map
+        #ExFor:FieldHyperlink.open_in_new_window
+        #ExFor:FieldHyperlink.screen_tip
+        #ExFor:FieldHyperlink.sub_address
+        #ExFor:FieldHyperlink.target
+        #ExSummary:Shows how to use HYPERLINK fields to link to documents in the local file system.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        field = builder.insert_field(field_type=aw.fields.FieldType.FIELD_HYPERLINK, update_field=True).as_field_hyperlink()
+        # When we click this HYPERLINK field in Microsoft Word,
+        # it will open the linked document and then place the cursor at the specified bookmark.
+        field.address = MY_DIR + 'Bookmarks.docx'
+        field.sub_address = 'MyBookmark3'
+        field.screen_tip = 'Open ' + field.address + ' on bookmark ' + field.sub_address + ' in a new window'
+        builder.writeln()
+        # When we click this HYPERLINK field in Microsoft Word,
+        # it will open the linked document, and automatically scroll down to the specified iframe.
+        field = builder.insert_field(field_type=aw.fields.FieldType.FIELD_HYPERLINK, update_field=True).as_field_hyperlink()
+        field.address = MY_DIR + 'Iframes.html'
+        field.screen_tip = 'Open ' + field.address
+        field.target = 'iframe_3'
+        field.open_in_new_window = True
+        field.is_image_map = False
+        doc.update_fields()
+        doc.save(file_name=ARTIFACTS_DIR + 'Field.HYPERLINK.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Field.HYPERLINK.docx')
+        field = doc.range.fields[0].as_field_hyperlink()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_HYPERLINK, expected_field_code=' HYPERLINK "' + MY_DIR.replace('\\', '\\\\') + 'Bookmarks.docx" \\l "MyBookmark3" \\o "Open ' + MY_DIR + 'Bookmarks.docx on bookmark MyBookmark3 in a new window" ', expected_result=MY_DIR + 'Bookmarks.docx - MyBookmark3', field=field)
+        self.assertEqual(MY_DIR + 'Bookmarks.docx', field.address)
+        self.assertEqual('MyBookmark3', field.sub_address)
+        self.assertEqual('Open ' + field.address.replace('\\', '') + ' on bookmark ' + field.sub_address + ' in a new window', field.screen_tip)
+        field = doc.range.fields[1].as_field_hyperlink()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_HYPERLINK, expected_field_code=' HYPERLINK "file:///' + MY_DIR.replace('\\', '\\\\').replace(' ', '%20') + 'Iframes.html" \\t "iframe_3" \\o "Open ' + MY_DIR.replace('\\', '\\\\') + 'Iframes.html" ', expected_result=MY_DIR + 'Iframes.html', field=field)
+        self.assertEqual('file:///' + MY_DIR.replace(' ', '%20') + 'Iframes.html', field.address)
+        self.assertEqual('Open ' + MY_DIR + 'Iframes.html', field.screen_tip)
+        self.assertEqual('iframe_3', field.target)
+        self.assertFalse(field.open_in_new_window)
+        self.assertFalse(field.is_image_map)
+
+    def test_field_index_filter(self):
+        #ExStart
+        #ExFor:FieldIndex
+        #ExFor:FieldIndex.bookmark_name
+        #ExFor:FieldIndex.entry_type
+        #ExFor:FieldXE
+        #ExFor:FieldXE.entry_type
+        #ExFor:FieldXE.text
+        #ExSummary:Shows how to create an INDEX field, and then use XE fields to populate it with entries.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Create an INDEX field which will display an entry for each XE field found in the document.
+        # Each entry will display the XE field's Text property value on the left side
+        # and the page containing the XE field on the right.
+        # If the XE fields have the same value in their "Text" property,
+        # the INDEX field will group them into one entry.
+        index = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX, update_field=True).as_field_index()
+        # Configure the INDEX field only to display XE fields that are within the bounds
+        # of a bookmark named "MainBookmark", and whose "EntryType" properties have a value of "A".
+        # For both INDEX and XE fields, the "EntryType" property only uses the first character of its string value.
+        index.bookmark_name = 'MainBookmark'
+        index.entry_type = 'A'
+        self.assertEqual(' INDEX  \\b MainBookmark \\f A', index.get_field_code())
+        # On a new page, start the bookmark with a name that matches the value
+        # of the INDEX field's "BookmarkName" property.
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        builder.start_bookmark('MainBookmark')
+        # The INDEX field will pick up this entry because it is inside the bookmark,
+        # and its entry type also matches the INDEX field's entry type.
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'Index entry 1'
+        index_entry.entry_type = 'A'
+        self.assertEqual(' XE  "Index entry 1" \\f A', index_entry.get_field_code())
+        # Insert an XE field that will not appear in the INDEX because the entry types do not match.
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'Index entry 2'
+        index_entry.entry_type = 'B'
+        # End the bookmark and insert an XE field afterwards.
+        # It is of the same type as the INDEX field, but will not appear
+        # since it is outside the bookmark's boundaries.
+        builder.end_bookmark('MainBookmark')
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'Index entry 3'
+        index_entry.entry_type = 'A'
+        doc.update_page_layout()
+        doc.update_fields()
+        doc.save(file_name=ARTIFACTS_DIR + 'Field.INDEX.XE.Filtering.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Field.INDEX.XE.Filtering.docx')
+        index = doc.range.fields[0].as_field_index()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX, expected_field_code=' INDEX  \\b MainBookmark \\f A', expected_result='Index entry 1, 2\r', field=index)
+        self.assertEqual('MainBookmark', index.bookmark_name)
+        self.assertEqual('A', index.entry_type)
+        index_entry = doc.range.fields[1].as_field_xe()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  "Index entry 1" \\f A', expected_result='', field=index_entry)
+        self.assertEqual('Index entry 1', index_entry.text)
+        self.assertEqual('A', index_entry.entry_type)
+        index_entry = doc.range.fields[2].as_field_xe()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  "Index entry 2" \\f B', expected_result='', field=index_entry)
+        self.assertEqual('Index entry 2', index_entry.text)
+        self.assertEqual('B', index_entry.entry_type)
+        index_entry = doc.range.fields[3].as_field_xe()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  "Index entry 3" \\f A', expected_result='', field=index_entry)
+        self.assertEqual('Index entry 3', index_entry.text)
+        self.assertEqual('A', index_entry.entry_type)
+
+    def test_field_index_formatting(self):
+        #ExStart
+        #ExFor:FieldIndex
+        #ExFor:FieldIndex.heading
+        #ExFor:FieldIndex.number_of_columns
+        #ExFor:FieldIndex.language_id
+        #ExFor:FieldIndex.letter_range
+        #ExFor:FieldXE
+        #ExFor:FieldXE.is_bold
+        #ExFor:FieldXE.is_italic
+        #ExFor:FieldXE.text
+        #ExSummary:Shows how to populate an INDEX field with entries using XE fields, and also modify its appearance.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Create an INDEX field which will display an entry for each XE field found in the document.
+        # Each entry will display the XE field's Text property value on the left side,
+        # and the number of the page that contains the XE field on the right.
+        # If the XE fields have the same value in their "Text" property,
+        # the INDEX field will group them into one entry.
+        index = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX, update_field=True).as_field_index()
+        index.language_id = '1033'
+        # Setting this property's value to "A" will group all the entries by their first letter,
+        # and place that letter in uppercase above each group.
+        index.heading = 'A'
+        # Set the table created by the INDEX field to span over 2 columns.
+        index.number_of_columns = '2'
+        # Set any entries with starting letters outside the "a-c" character range to be omitted.
+        index.letter_range = 'a-c'
+        self.assertEqual(' INDEX  \\z 1033 \\h A \\c 2 \\p a-c', index.get_field_code())
+        # These next two XE fields will show up under the "A" heading,
+        # with their respective text stylings also applied to their page numbers.
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'Apple'
+        index_entry.is_italic = True
+        self.assertEqual(' XE  Apple \\i', index_entry.get_field_code())
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'Apricot'
+        index_entry.is_bold = True
+        self.assertEqual(' XE  Apricot \\b', index_entry.get_field_code())
+        # Both the next two XE fields will be under a "B" and "C" heading in the INDEX fields table of contents.
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'Banana'
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'Cherry'
+        # INDEX fields sort all entries alphabetically, so this entry will show up under "A" with the other two.
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'Avocado'
+        # This entry will not appear because it starts with the letter "D",
+        # which is outside the "a-c" character range that the INDEX field's LetterRange property defines.
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'Durian'
+        doc.update_page_layout()
+        doc.update_fields()
+        doc.save(file_name=ARTIFACTS_DIR + 'Field.INDEX.XE.Formatting.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Field.INDEX.XE.Formatting.docx')
+        index = doc.range.fields[0].as_field_index()
+        self.assertEqual('1033', index.language_id)
+        self.assertEqual('A', index.heading)
+        self.assertEqual('2', index.number_of_columns)
+        self.assertEqual('a-c', index.letter_range)
+        self.assertEqual(' INDEX  \\z 1033 \\h A \\c 2 \\p a-c', index.get_field_code())
+        self.assertEqual('\x0cA\r' + 'Apple, 2\r' + 'Apricot, 3\r' + 'Avocado, 6\r' + 'B\r' + 'Banana, 4\r' + 'C\r' + 'Cherry, 5\r\x0c', index.result)
+        index_entry = doc.range.fields[1].as_field_xe()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  Apple \\i', expected_result='', field=index_entry)
+        self.assertEqual('Apple', index_entry.text)
+        self.assertFalse(index_entry.is_bold)
+        self.assertTrue(index_entry.is_italic)
+        index_entry = doc.range.fields[2].as_field_xe()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  Apricot \\b', expected_result='', field=index_entry)
+        self.assertEqual('Apricot', index_entry.text)
+        self.assertTrue(index_entry.is_bold)
+        self.assertFalse(index_entry.is_italic)
+        index_entry = doc.range.fields[3].as_field_xe()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  Banana', expected_result='', field=index_entry)
+        self.assertEqual('Banana', index_entry.text)
+        self.assertFalse(index_entry.is_bold)
+        self.assertFalse(index_entry.is_italic)
+        index_entry = doc.range.fields[4].as_field_xe()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  Cherry', expected_result='', field=index_entry)
+        self.assertEqual('Cherry', index_entry.text)
+        self.assertFalse(index_entry.is_bold)
+        self.assertFalse(index_entry.is_italic)
+        index_entry = doc.range.fields[5].as_field_xe()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  Avocado', expected_result='', field=index_entry)
+        self.assertEqual('Avocado', index_entry.text)
+        self.assertFalse(index_entry.is_bold)
+        self.assertFalse(index_entry.is_italic)
+        index_entry = doc.range.fields[6].as_field_xe()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  Durian', expected_result='', field=index_entry)
+        self.assertEqual('Durian', index_entry.text)
+        self.assertFalse(index_entry.is_bold)
+        self.assertFalse(index_entry.is_italic)
+
+    def test_field_index_sequence(self):
+        #ExStart
+        #ExFor:FieldIndex.has_sequence_name
+        #ExFor:FieldIndex.sequence_name
+        #ExFor:FieldIndex.sequence_separator
+        #ExSummary:Shows how to split a document into portions by combining INDEX and SEQ fields.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Create an INDEX field which will display an entry for each XE field found in the document.
+        # Each entry will display the XE field's Text property value on the left side,
+        # and the number of the page that contains the XE field on the right.
+        # If the XE fields have the same value in their "Text" property,
+        # the INDEX field will group them into one entry.
+        index = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX, update_field=True).as_field_index()
+        # In the SequenceName property, name a SEQ field sequence. Each entry of this INDEX field will now also display
+        # the number that the sequence count is on at the XE field location that created this entry.
+        index.sequence_name = 'MySequence'
+        # Set text that will around the sequence and page numbers to explain their meaning to the user.
+        # An entry created with this configuration will display something like "MySequence at 1 on page 1" at its page number.
+        # PageNumberSeparator and SequenceSeparator cannot be longer than 15 characters.
+        index.page_number_separator = '\tMySequence at '
+        index.sequence_separator = ' on page '
+        self.assertTrue(index.has_sequence_name)
+        self.assertEqual(' INDEX  \\s MySequence \\e "\tMySequence at " \\d " on page "', index.get_field_code())
+        # SEQ fields display a count that increments at each SEQ field.
+        # These fields also maintain separate counts for each unique named sequence
+        # identified by the SEQ field's "SequenceIdentifier" property.
+        # Insert a SEQ field which moves the "MySequence" sequence to 1.
+        # This field no different from normal document text. It will not appear on an INDEX field's table of contents.
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        sequence_field = builder.insert_field(field_type=aw.fields.FieldType.FIELD_SEQUENCE, update_field=True).as_field_seq()
+        sequence_field.sequence_identifier = 'MySequence'
+        self.assertEqual(' SEQ  MySequence', sequence_field.get_field_code())
+        # Insert an XE field which will create an entry in the INDEX field.
+        # Since "MySequence" is at 1 and this XE field is on page 2, along with the custom separators we defined above,
+        # this field's INDEX entry will display "Cat" on the left side, and "MySequence at 1 on page 2" on the right.
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'Cat'
+        self.assertEqual(' XE  Cat', index_entry.get_field_code())
+        # Insert a page break and use SEQ fields to advance "MySequence" to 3.
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        sequence_field = builder.insert_field(field_type=aw.fields.FieldType.FIELD_SEQUENCE, update_field=True).as_field_seq()
+        sequence_field.sequence_identifier = 'MySequence'
+        sequence_field = builder.insert_field(field_type=aw.fields.FieldType.FIELD_SEQUENCE, update_field=True).as_field_seq()
+        sequence_field.sequence_identifier = 'MySequence'
+        # Insert an XE field with the same Text property as the one above.
+        # The INDEX entry will group XE fields with matching values in the "Text" property
+        # into one entry as opposed to making an entry for each XE field.
+        # Since we are on page 2 with "MySequence" at 3, ", 3 on page 3" will be appended to the same INDEX entry as above.
+        # The page number portion of that INDEX entry will now display "MySequence at 1 on page 2, 3 on page 3".
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'Cat'
+        # Insert an XE field with a new and unique Text property value.
+        # This will add a new entry, with MySequence at 3 on page 4.
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'Dog'
+        doc.update_page_layout()
+        doc.update_fields()
+        doc.save(file_name=ARTIFACTS_DIR + 'Field.INDEX.XE.Sequence.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Field.INDEX.XE.Sequence.docx')
+        index = doc.range.fields[0].as_field_index()
+        self.assertEqual('MySequence', index.sequence_name)
+        self.assertEqual('\tMySequence at ', index.page_number_separator)
+        self.assertEqual(' on page ', index.sequence_separator)
+        self.assertTrue(index.has_sequence_name)
+        self.assertEqual(' INDEX  \\s MySequence \\e "\tMySequence at " \\d " on page "', index.get_field_code())
+        self.assertEqual('Cat\tMySequence at 1 on page 2, 3 on page 3\r' + 'Dog\tMySequence at 3 on page 4\r', index.result)
+        self.assertEqual(3, len(list(filter(lambda f: f.type == aw.fields.FieldType.FIELD_SEQUENCE, list(doc.range.fields)))))
+
+    def test_field_index_page_number_separator(self):
+        #ExStart
+        #ExFor:FieldIndex.has_page_number_separator
+        #ExFor:FieldIndex.page_number_separator
+        #ExFor:FieldIndex.page_number_list_separator
+        #ExSummary:Shows how to edit the page number separator in an INDEX field.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Create an INDEX field which will display an entry for each XE field found in the document.
+        # Each entry will display the XE field's Text property value on the left side,
+        # and the number of the page that contains the XE field on the right.
+        # The INDEX entry will group XE fields with matching values in the "Text" property
+        # into one entry as opposed to making an entry for each XE field.
+        index = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX, update_field=True).as_field_index()
+        # If our INDEX field has an entry for a group of XE fields,
+        # this entry will display the number of each page that contains an XE field that belongs to this group.
+        # We can set custom separators to customize the appearance of these page numbers.
+        index.page_number_separator = ', on page(s) '
+        index.page_number_list_separator = ' & '
+        self.assertEqual(' INDEX  \\e ", on page(s) " \\l " & "', index.get_field_code())
+        self.assertTrue(index.has_page_number_separator)
+        # After we insert these XE fields, the INDEX field will display "First entry, on page(s) 2 & 3 & 4".
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'First entry'
+        self.assertEqual(' XE  "First entry"', index_entry.get_field_code())
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'First entry'
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'First entry'
+        doc.update_page_layout()
+        doc.update_fields()
+        doc.save(file_name=ARTIFACTS_DIR + 'Field.INDEX.XE.PageNumberList.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Field.INDEX.XE.PageNumberList.docx')
+        index = doc.range.fields[0].as_field_index()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX, expected_field_code=' INDEX  \\e ", on page(s) " \\l " & "', expected_result='First entry, on page(s) 2 & 3 & 4\r', field=index)
+        self.assertEqual(', on page(s) ', index.page_number_separator)
+        self.assertEqual(' & ', index.page_number_list_separator)
+        self.assertTrue(index.has_page_number_separator)
+
+    def test_field_index_page_range_bookmark(self):
+        #ExStart
+        #ExFor:FieldIndex.page_range_separator
+        #ExFor:FieldXE.page_range_bookmark_name
+        #ExSummary:Shows how to specify a bookmark's spanned pages as a page range for an INDEX field entry.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Create an INDEX field which will display an entry for each XE field found in the document.
+        # Each entry will display the XE field's Text property value on the left side,
+        # and the number of the page that contains the XE field on the right.
+        # The INDEX entry will collect all XE fields with matching values in the "Text" property
+        # into one entry as opposed to making an entry for each XE field.
+        index = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX, update_field=True).as_field_index()
+        # For INDEX entries that display page ranges, we can specify a separator string
+        # which will appear between the number of the first page, and the number of the last.
+        index.page_number_separator = ', on page(s) '
+        index.page_range_separator = ' to '
+        self.assertEqual(' INDEX  \\e ", on page(s) " \\g " to "', index.get_field_code())
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'My entry'
+        # If an XE field names a bookmark using the PageRangeBookmarkName property,
+        # its INDEX entry will show the range of pages that the bookmark spans
+        # instead of the number of the page that contains the XE field.
+        index_entry.page_range_bookmark_name = 'MyBookmark'
+        self.assertEqual(' XE  "My entry" \\r MyBookmark', index_entry.get_field_code())
+        self.assertEqual('MyBookmark', index_entry.page_range_bookmark_name)
+        # Insert a bookmark that starts on page 3 and ends on page 5.
+        # The INDEX entry for the XE field that references this bookmark will display this page range.
+        # In our table, the INDEX entry will display "My entry, on page(s) 3 to 5".
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        builder.start_bookmark('MyBookmark')
+        builder.write('Start of MyBookmark')
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        builder.write('End of MyBookmark')
+        builder.end_bookmark('MyBookmark')
+        doc.update_page_layout()
+        doc.update_fields()
+        doc.save(file_name=ARTIFACTS_DIR + 'Field.INDEX.XE.PageRangeBookmark.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Field.INDEX.XE.PageRangeBookmark.docx')
+        index = doc.range.fields[0].as_field_index()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX, expected_field_code=' INDEX  \\e ", on page(s) " \\g " to "', expected_result='My entry, on page(s) 3 to 5\r', field=index)
+        self.assertEqual(', on page(s) ', index.page_number_separator)
+        self.assertEqual(' to ', index.page_range_separator)
+        index_entry = doc.range.fields[1].as_field_xe()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  "My entry" \\r MyBookmark', expected_result='', field=index_entry)
+        self.assertEqual('My entry', index_entry.text)
+        self.assertEqual('MyBookmark', index_entry.page_range_bookmark_name)
+
+    def test_field_index_cross_reference_separator(self):
+        #ExStart
+        #ExFor:FieldIndex.cross_reference_separator
+        #ExFor:FieldXE.page_number_replacement
+        #ExSummary:Shows how to define cross references in an INDEX field.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Create an INDEX field which will display an entry for each XE field found in the document.
+        # Each entry will display the XE field's Text property value on the left side,
+        # and the number of the page that contains the XE field on the right.
+        # The INDEX entry will collect all XE fields with matching values in the "Text" property
+        # into one entry as opposed to making an entry for each XE field.
+        index = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX, update_field=True).as_field_index()
+        # We can configure an XE field to get its INDEX entry to display a string instead of a page number.
+        # First, for entries that substitute a page number with a string,
+        # specify a custom separator between the XE field's Text property value and the string.
+        index.cross_reference_separator = ', see: '
+        self.assertEqual(' INDEX  \\k ", see: "', index.get_field_code())
+        # Insert an XE field, which creates a regular INDEX entry which displays this field's page number,
+        # and does not invoke the CrossReferenceSeparator value.
+        # The entry for this XE field will display "Apple, 2".
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'Apple'
+        self.assertEqual(' XE  Apple', index_entry.get_field_code())
+        # Insert another XE field on page 3 and set a value for the PageNumberReplacement property.
+        # This value will show up instead of the number of the page that this field is on,
+        # and the INDEX field's CrossReferenceSeparator value will appear in front of it.
+        # The entry for this XE field will display "Banana, see: Tropical fruit".
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+        index_entry.text = 'Banana'
+        index_entry.page_number_replacement = 'Tropical fruit'
+        self.assertEqual(' XE  Banana \\t "Tropical fruit"', index_entry.get_field_code())
+        doc.update_page_layout()
+        doc.update_fields()
+        doc.save(file_name=ARTIFACTS_DIR + 'Field.INDEX.XE.CrossReferenceSeparator.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Field.INDEX.XE.CrossReferenceSeparator.docx')
+        index = doc.range.fields[0].as_field_index()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX, expected_field_code=' INDEX  \\k ", see: "', expected_result='Apple, 2\r' + 'Banana, see: Tropical fruit\r', field=index)
+        self.assertEqual(', see: ', index.cross_reference_separator)
+        index_entry = doc.range.fields[1].as_field_xe()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  Apple', expected_result='', field=index_entry)
+        self.assertEqual('Apple', index_entry.text)
+        self.assertIsNone(index_entry.page_number_replacement)
+        index_entry = doc.range.fields[2].as_field_xe()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  Banana \\t "Tropical fruit"', expected_result='', field=index_entry)
+        self.assertEqual('Banana', index_entry.text)
+        self.assertEqual('Tropical fruit', index_entry.page_number_replacement)
+
+    def test_field_index_subheading(self):
+        for run_subentries_on_the_same_line in [True, False]:
+            #ExStart
+            #ExFor:FieldIndex.run_subentries_on_same_line
+            #ExSummary:Shows how to work with subentries in an INDEX field.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            # Create an INDEX field which will display an entry for each XE field found in the document.
+            # Each entry will display the XE field's Text property value on the left side,
+            # and the number of the page that contains the XE field on the right.
+            # The INDEX entry will collect all XE fields with matching values in the "Text" property
+            # into one entry as opposed to making an entry for each XE field.
+            index = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX, update_field=True).as_field_index()
+            index.page_number_separator = ', see page '
+            index.heading = 'A'
+            # XE fields that have a Text property whose value becomes the heading of the INDEX entry.
+            # If this value contains two string segments split by a colon (the INDEX entry will treat :) delimiter,
+            # the first segment is heading, and the second segment will become the subheading.
+            # The INDEX field first groups entries alphabetically, then, if there are multiple XE fields with the same
+            # headings, the INDEX field will further subgroup them by the values of these headings.
+            # There can be multiple subgrouping layers, depending on how many times
+            # the Text properties of XE fields get segmented like this.
+            # By default, an INDEX field entry group will create a new line for every subheading within this group.
+            # We can set the RunSubentriesOnSameLine flag to true to keep the heading,
+            # and every subheading for the group on one line instead, which will make the INDEX field more compact.
+            index.run_subentries_on_same_line = run_subentries_on_the_same_line
+            if run_subentries_on_the_same_line:
+                self.assertEqual(' INDEX  \\e ", see page " \\h A \\r', index.get_field_code())
+            else:
+                self.assertEqual(' INDEX  \\e ", see page " \\h A', index.get_field_code())
+            # Insert two XE fields, each on a new page, and with the same heading named "Heading 1",
+            # which the INDEX field will use to group them.
+            # If RunSubentriesOnSameLine is false, then the INDEX table will create three lines:
+            # one line for the grouping heading "Heading 1", and one more line for each subheading.
+            # If RunSubentriesOnSameLine is true, then the INDEX table will create a one-line
+            # entry that encompasses the heading and every subheading.
+            builder.insert_break(aw.BreakType.PAGE_BREAK)
+            index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+            index_entry.text = 'Heading 1:Subheading 1'
+            self.assertEqual(' XE  "Heading 1:Subheading 1"', index_entry.get_field_code())
+            builder.insert_break(aw.BreakType.PAGE_BREAK)
+            index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+            index_entry.text = 'Heading 1:Subheading 2'
+            doc.update_page_layout()
+            doc.update_fields()
+            doc.save(file_name=ARTIFACTS_DIR + f'Field.INDEX.XE.Subheading.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + f'Field.INDEX.XE.Subheading.docx')
+            index = doc.range.fields[0].as_field_index()
+            if run_subentries_on_the_same_line:
+                test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX, expected_field_code=' INDEX  \\e ", see page " \\h A \\r', expected_result='H\r' + 'Heading 1: Subheading 1, see page 2; Subheading 2, see page 3\r', field=index)
+                self.assertTrue(index.run_subentries_on_same_line)
+            else:
+                test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX, expected_field_code=' INDEX  \\e ", see page " \\h A', expected_result='H\r' + 'Heading 1\r' + 'Subheading 1, see page 2\r' + 'Subheading 2, see page 3\r', field=index)
+                self.assertFalse(index.run_subentries_on_same_line)
+            index_entry = doc.range.fields[1].as_field_xe()
+            test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  "Heading 1:Subheading 1"', expected_result='', field=index_entry)
+            self.assertEqual('Heading 1:Subheading 1', index_entry.text)
+            index_entry = doc.range.fields[2].as_field_xe()
+            test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  "Heading 1:Subheading 2"', expected_result='', field=index_entry)
+            self.assertEqual('Heading 1:Subheading 2', index_entry.text)
+
+    @unittest.skip("Discrepancy in assertion between Python and .Net")
+    def test_field_index_yomi(self):
+        for sort_entries_using_yomi in [True, False]:
+            #ExStart
+            #ExFor:FieldIndex.use_yomi
+            #ExFor:FieldXE.yomi
+            #ExSummary:Shows how to sort INDEX field entries phonetically.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            # Create an INDEX field which will display an entry for each XE field found in the document.
+            # Each entry will display the XE field's Text property value on the left side,
+            # and the number of the page that contains the XE field on the right.
+            # The INDEX entry will collect all XE fields with matching values in the "Text" property
+            # into one entry as opposed to making an entry for each XE field.
+            index = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX, update_field=True).as_field_index()
+            # The INDEX table automatically sorts its entries by the values of their Text properties in alphabetic order.
+            # Set the INDEX table to sort entries phonetically using Hiragana instead.
+            index.use_yomi = sort_entries_using_yomi
+            if sort_entries_using_yomi:
+                self.assertEqual(' INDEX  \\y', index.get_field_code())
+            else:
+                self.assertEqual(' INDEX ', index.get_field_code())
+            # Insert 4 XE fields, which would show up as entries in the INDEX field's table of contents.
+            # The "Text" property may contain a word's spelling in Kanji, whose pronunciation may be ambiguous,
+            # while the "Yomi" version of the word will spell exactly how it is pronounced using Hiragana.
+            # If we set our INDEX field to use Yomi, it will sort these entries
+            # by the value of their Yomi properties, instead of their Text values.
+            builder.insert_break(aw.BreakType.PAGE_BREAK)
+            index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+            index_entry.text = '愛子'
+            index_entry.yomi = 'あ'
+            self.assertEqual(' XE  愛子 \\y あ', index_entry.get_field_code())
+            builder.insert_break(aw.BreakType.PAGE_BREAK)
+            index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+            index_entry.text = '明美'
+            index_entry.yomi = 'あ'
+            builder.insert_break(aw.BreakType.PAGE_BREAK)
+            index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+            index_entry.text = '恵美'
+            index_entry.yomi = 'え'
+            builder.insert_break(aw.BreakType.PAGE_BREAK)
+            index_entry = builder.insert_field(field_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, update_field=True).as_field_xe()
+            index_entry.text = '愛美'
+            index_entry.yomi = 'え'
+            doc.update_page_layout()
+            doc.update_fields()
+            doc.save(file_name=ARTIFACTS_DIR + 'Field.INDEX.XE.Yomi.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'Field.INDEX.XE.Yomi.docx')
+            index = doc.range.fields[0].as_field_index()
+            if sort_entries_using_yomi:
+                self.assertTrue(index.use_yomi)
+                self.assertEqual(' INDEX  \\y', index.get_field_code())
+                self.assertEqual('愛子, 2\r' + '明美, 3\r' + '恵美, 4\r' + '愛美, 5\r', index.result)
+            else:
+                self.assertFalse(index.use_yomi)
+                self.assertEqual(' INDEX ', index.get_field_code())
+                self.assertEqual('恵美, 4\r' + '愛子, 2\r' + '愛美, 5\r' + '明美, 3\r', index.result)
+            index_entry = doc.range.fields[1].as_field_xe()
+            test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  愛子 \\y あ', expected_result='', field=index_entry)
+            self.assertEqual('愛子', index_entry.text)
+            self.assertEqual('あ', index_entry.yomi)
+            index_entry = doc.range.fields[2].as_field_xe()
+            test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  明美 \\y あ', expected_result='', field=index_entry)
+            self.assertEqual('明美', index_entry.text)
+            self.assertEqual('あ', index_entry.yomi)
+            index_entry = doc.range.fields[3].as_field_xe()
+            test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  恵美 \\y え', expected_result='', field=index_entry)
+            self.assertEqual('恵美', index_entry.text)
+            self.assertEqual('え', index_entry.yomi)
+            index_entry = doc.range.fields[4].as_field_xe()
+            test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  愛美 \\y え', expected_result='', field=index_entry)
+            self.assertEqual('愛美', index_entry.text)
+            self.assertEqual('え', index_entry.yomi)
+
     def test_field_barcode(self):
         #ExStart
         #ExFor:FieldBarcode
@@ -831,6 +1436,194 @@ class ExField(ApiExampleBase):
         field_user_name = doc.range.fields[0].as_field_user_name()
         test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_USER_NAME, expected_field_code=' USERNAME  "Jane Doe"', expected_result='Jane Doe', field=field_user_name)
         self.assertEqual('Jane Doe', field_user_name.user_name)
+
+    def test_field_style_ref_paragraph_numbers(self):
+        #ExStart
+        #ExFor:FieldStyleRef
+        #ExFor:FieldStyleRef.insert_paragraph_number
+        #ExFor:FieldStyleRef.insert_paragraph_number_in_full_context
+        #ExFor:FieldStyleRef.insert_paragraph_number_in_relative_context
+        #ExFor:FieldStyleRef.insert_relative_position
+        #ExFor:FieldStyleRef.search_from_bottom
+        #ExFor:FieldStyleRef.style_name
+        #ExFor:FieldStyleRef.suppress_non_delimiters
+        #ExSummary:Shows how to use STYLEREF fields.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Create a list based using a Microsoft Word list template.
+        list = doc.lists.add(list_template=aw.lists.ListTemplate.NUMBER_DEFAULT)
+        # This generated list will display "1.a )".
+        # Space before the bracket is a non-delimiter character, which we can suppress.
+        list.list_levels[0].number_format = '\x00.'
+        list.list_levels[1].number_format = '\x01 )'
+        # Add text and apply paragraph styles that STYLEREF fields will reference.
+        builder.list_format.list = list
+        builder.list_format.list_indent()
+        builder.paragraph_format.style = doc.styles.get_by_name('List Paragraph')
+        builder.writeln('Item 1')
+        builder.paragraph_format.style = doc.styles.get_by_name('Quote')
+        builder.writeln('Item 2')
+        builder.paragraph_format.style = doc.styles.get_by_name('List Paragraph')
+        builder.writeln('Item 3')
+        builder.list_format.remove_numbers()
+        builder.paragraph_format.style = doc.styles.get_by_name('Normal')
+        # Place a STYLEREF field in the header and display the first "List Paragraph"-styled text in the document.
+        builder.move_to_header_footer(aw.HeaderFooterType.HEADER_PRIMARY)
+        field = builder.insert_field(field_type=aw.fields.FieldType.FIELD_STYLE_REF, update_field=True).as_field_style_ref()
+        field.style_name = 'List Paragraph'
+        # Place a STYLEREF field in the footer, and have it display the last text.
+        builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_PRIMARY)
+        field = builder.insert_field(field_type=aw.fields.FieldType.FIELD_STYLE_REF, update_field=True).as_field_style_ref()
+        field.style_name = 'List Paragraph'
+        field.search_from_bottom = True
+        builder.move_to_document_end()
+        # We can also use STYLEREF fields to reference the list numbers of lists.
+        builder.write('\nParagraph number: ')
+        field = builder.insert_field(field_type=aw.fields.FieldType.FIELD_STYLE_REF, update_field=True).as_field_style_ref()
+        field.style_name = 'Quote'
+        field.insert_paragraph_number = True
+        builder.write('\nParagraph number, relative context: ')
+        field = builder.insert_field(field_type=aw.fields.FieldType.FIELD_STYLE_REF, update_field=True).as_field_style_ref()
+        field.style_name = 'Quote'
+        field.insert_paragraph_number_in_relative_context = True
+        builder.write('\nParagraph number, full context: ')
+        field = builder.insert_field(field_type=aw.fields.FieldType.FIELD_STYLE_REF, update_field=True).as_field_style_ref()
+        field.style_name = 'Quote'
+        field.insert_paragraph_number_in_full_context = True
+        builder.write('\nParagraph number, full context, non-delimiter chars suppressed: ')
+        field = builder.insert_field(field_type=aw.fields.FieldType.FIELD_STYLE_REF, update_field=True).as_field_style_ref()
+        field.style_name = 'Quote'
+        field.insert_paragraph_number_in_full_context = True
+        field.suppress_non_delimiters = True
+        doc.update_page_layout()
+        doc.update_fields()
+        doc.save(file_name=ARTIFACTS_DIR + 'Field.STYLEREF.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Field.STYLEREF.docx')
+        field = doc.range.fields[0].as_field_style_ref()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_STYLE_REF, expected_field_code=' STYLEREF  "List Paragraph"', expected_result='Item 1', field=field)
+        self.assertEqual('List Paragraph', field.style_name)
+        field = doc.range.fields[1].as_field_style_ref()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_STYLE_REF, expected_field_code=' STYLEREF  "List Paragraph" \\l', expected_result='Item 3', field=field)
+        self.assertEqual('List Paragraph', field.style_name)
+        self.assertTrue(field.search_from_bottom)
+        field = doc.range.fields[2].as_field_style_ref()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_STYLE_REF, expected_field_code=' STYLEREF  Quote \\n', expected_result='\u200eb )', field=field)
+        self.assertEqual('Quote', field.style_name)
+        self.assertTrue(field.insert_paragraph_number)
+        field = doc.range.fields[3].as_field_style_ref()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_STYLE_REF, expected_field_code=' STYLEREF  Quote \\r', expected_result='\u200eb )', field=field)
+        self.assertEqual('Quote', field.style_name)
+        self.assertTrue(field.insert_paragraph_number_in_relative_context)
+        field = doc.range.fields[4].as_field_style_ref()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_STYLE_REF, expected_field_code=' STYLEREF  Quote \\w', expected_result='\u200e1.b )', field=field)
+        self.assertEqual('Quote', field.style_name)
+        self.assertTrue(field.insert_paragraph_number_in_full_context)
+        field = doc.range.fields[5].as_field_style_ref()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_STYLE_REF, expected_field_code=' STYLEREF  Quote \\w \\t', expected_result='\u200e1.b)', field=field)
+        self.assertEqual('Quote', field.style_name)
+        self.assertTrue(field.insert_paragraph_number_in_full_context)
+        self.assertTrue(field.suppress_non_delimiters)
+
+    def test_field_builder(self):
+        #ExStart
+        #ExFor:FieldBuilder
+        #ExFor:FieldBuilder.add_argument(int)
+        #ExFor:FieldBuilder.add_argument(FieldArgumentBuilder)
+        #ExFor:FieldBuilder.add_argument(str)
+        #ExFor:FieldBuilder.add_argument(float)
+        #ExFor:FieldBuilder.add_argument(FieldBuilder)
+        #ExFor:FieldBuilder.add_switch(str)
+        #ExFor:FieldBuilder.add_switch(str,float)
+        #ExFor:FieldBuilder.add_switch(str,int)
+        #ExFor:FieldBuilder.add_switch(str,str)
+        #ExFor:FieldBuilder.build_and_insert(Paragraph)
+        #ExFor:FieldArgumentBuilder
+        #ExFor:FieldArgumentBuilder.__init__
+        #ExFor:FieldArgumentBuilder.add_field(FieldBuilder)
+        #ExFor:FieldArgumentBuilder.add_text(str)
+        #ExFor:FieldArgumentBuilder.add_node(Inline)
+        #ExSummary:Shows how to construct fields using a field builder, and then insert them into the document.
+        doc = aw.Document()
+        # Below are three examples of field construction done using a field builder.
+        # 1 -  Single field:
+        # Use a field builder to add a SYMBOL field which displays the ƒ (Florin) symbol.
+        builder = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_SYMBOL)
+        builder.add_argument(argument=402)
+        builder.add_switch(switch_name='\\f', switch_argument='Arial')
+        builder.add_switch(switch_name='\\s', switch_argument=25)
+        builder.add_switch(switch_name='\\u')
+        field = builder.build_and_insert(ref_node=doc.first_section.body.first_paragraph)
+        self.assertEqual(' SYMBOL 402 \\f Arial \\s 25 \\u ', field.get_field_code())
+        # 2 -  Nested field:
+        # Use a field builder to create a formula field used as an inner field by another field builder.
+        inner_formula_builder = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_FORMULA)
+        inner_formula_builder.add_argument(argument=100)
+        inner_formula_builder.add_argument(argument='+')
+        inner_formula_builder.add_argument(argument=74)
+        # Create another builder for another SYMBOL field, and insert the formula field
+        # that we have created above into the SYMBOL field as its argument.
+        builder = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_SYMBOL)
+        builder.add_argument(argument=inner_formula_builder)
+        field = builder.build_and_insert(ref_node=doc.first_section.body.append_paragraph(''))
+        # The outer SYMBOL field will use the formula field result, 174, as its argument,
+        # which will make the field display the ® (Registered Sign) symbol since its character number is 174.
+        self.assertEqual(' SYMBOL \x13 = 100 + 74 \x14\x15 ', field.get_field_code())
+        # 3 -  Multiple nested fields and arguments:
+        # Now, we will use a builder to create an IF field, which displays one of two custom string values,
+        # depending on the true/false value of its expression. To get a true/false value
+        # that determines which string the IF field displays, the IF field will test two numeric expressions for equality.
+        # We will provide the two expressions in the form of formula fields, which we will nest inside the IF field.
+        left_expression = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_FORMULA)
+        left_expression.add_argument(argument=2)
+        left_expression.add_argument(argument='+')
+        left_expression.add_argument(argument=3)
+        right_expression = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_FORMULA)
+        right_expression.add_argument(argument=2.5)
+        right_expression.add_argument(argument='*')
+        right_expression.add_argument(argument=5.2)
+        # Next, we will build two field arguments, which will serve as the true/false output strings for the IF field.
+        # These arguments will reuse the output values of our numeric expressions.
+        true_output = aw.fields.FieldArgumentBuilder()
+        true_output.add_text('True, both expressions amount to ')
+        true_output.add_field(left_expression)
+        false_output = aw.fields.FieldArgumentBuilder()
+        false_output.add_node(aw.Run(doc=doc, text='False, '))
+        false_output.add_field(left_expression)
+        false_output.add_node(aw.Run(doc=doc, text=' does not equal '))
+        false_output.add_field(right_expression)
+        # Finally, we will create one more field builder for the IF field and combine all of the expressions.
+        builder = aw.fields.FieldBuilder(aw.fields.FieldType.FIELD_IF)
+        builder.add_argument(argument=left_expression)
+        builder.add_argument(argument='=')
+        builder.add_argument(argument=right_expression)
+        builder.add_argument(argument=true_output)
+        builder.add_argument(argument=false_output)
+        field = builder.build_and_insert(ref_node=doc.first_section.body.append_paragraph(''))
+        self.assertEqual(' IF \x13 = 2 + 3 \x14\x15 = \x13 = 2.5 * 5.2 \x14\x15 ' + '"True, both expressions amount to \x13 = 2 + 3 \x14\x15" ' + '"False, \x13 = 2 + 3 \x14\x15 does not equal \x13 = 2.5 * 5.2 \x14\x15" ', field.get_field_code())
+        doc.update_fields()
+        doc.save(file_name=ARTIFACTS_DIR + 'Field.SYMBOL.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Field.SYMBOL.docx')
+        field_symbol = doc.range.fields[0].as_field_symbol()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_SYMBOL, expected_field_code=' SYMBOL 402 \\f Arial \\s 25 \\u ', expected_result='', field=field_symbol)
+        self.assertEqual('ƒ', field_symbol.display_result)
+        field_symbol = doc.range.fields[1].as_field_symbol()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_SYMBOL, expected_field_code=' SYMBOL \x13 = 100 + 74 \x14174\x15 ', expected_result='', field=field_symbol)
+        self.assertEqual('®', field_symbol.display_result)
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_FORMULA, expected_field_code=' = 100 + 74 ', expected_result='174', field=doc.range.fields[2])
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_IF, expected_field_code=' IF \x13 = 2 + 3 \x145\x15 = \x13 = 2.5 * 5.2 \x1413\x15 ' + '"True, both expressions amount to \x13 = 2 + 3 \x14\x15" ' + '"False, \x13 = 2 + 3 \x145\x15 does not equal \x13 = 2.5 * 5.2 \x1413\x15" ', expected_result='False, 5 does not equal 13', field=doc.range.fields[3])
+        self.assertRaises(Exception, lambda: test_util.TestUtil.fields_are_nested(doc.range.fields[2], doc.range.fields[3]))
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_FORMULA, expected_field_code=' = 2 + 3 ', expected_result='5', field=doc.range.fields[4])
+        test_util.TestUtil.fields_are_nested(doc.range.fields[4], doc.range.fields[3])
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_FORMULA, expected_field_code=' = 2.5 * 5.2 ', expected_result='13', field=doc.range.fields[5])
+        test_util.TestUtil.fields_are_nested(doc.range.fields[5], doc.range.fields[3])
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_FORMULA, expected_field_code=' = 2 + 3 ', expected_result='', field=doc.range.fields[6])
+        test_util.TestUtil.fields_are_nested(doc.range.fields[6], doc.range.fields[3])
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_FORMULA, expected_field_code=' = 2 + 3 ', expected_result='5', field=doc.range.fields[7])
+        test_util.TestUtil.fields_are_nested(doc.range.fields[7], doc.range.fields[3])
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_FORMULA, expected_field_code=' = 2.5 * 5.2 ', expected_result='13', field=doc.range.fields[8])
+        test_util.TestUtil.fields_are_nested(doc.range.fields[8], doc.range.fields[3])
 
     def test_field_author(self):
         #ExStart
@@ -1256,6 +2049,33 @@ class ExField(ApiExampleBase):
         self.assertEqual('1/5/1942 12:00:00 AM', field.result)
         self.assertEqual(' PRINTDATE  \\s', field.get_field_code())
         #ExEnd
+
+    def test_note_ref(self):
+        #ExStart
+        #ExFor:FieldNoteRef
+        #ExSummary:Shows how to cross-reference footnotes with the NOTEREF field.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.write('CrossReference: ')
+        field = builder.insert_field(field_type=aw.fields.FieldType.FIELD_NOTE_REF, update_field=False).as_field_note_ref()  # <--- don't update field
+        field.bookmark_name = 'CrossRefBookmark'
+        field.insert_hyperlink = True
+        field.insert_reference_mark = True
+        field.insert_relative_position = False
+        builder.writeln()
+        builder.start_bookmark('CrossRefBookmark')
+        builder.write('Hello world!')
+        builder.insert_footnote(footnote_type=aw.notes.FootnoteType.FOOTNOTE, footnote_text='Cross referenced footnote.')
+        builder.end_bookmark('CrossRefBookmark')
+        builder.writeln()
+        doc.update_fields()
+        # This field works only in older versions of Microsoft Word.
+        doc.save(file_name=ARTIFACTS_DIR + 'Field.NOTEREF.doc')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Field.NOTEREF.doc')
+        field = doc.range.fields[0].as_field_note_ref()
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_NOTE_REF, expected_field_code=' NOTEREF  CrossRefBookmark \\h \\f', expected_result='1', field=field)
+        test_util.TestUtil.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, None, 'Cross referenced footnote.', doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
 
     def test_field_set_ref(self):
         #ExStart
@@ -1700,7 +2520,6 @@ class ExField(ApiExampleBase):
         self.verify_field(aw.fields.FieldType.FIELD_BARCODE, ' BARCODE 90210 \\f A \\u ', '', doc.range.fields[0])
         self.assertEqual(doc.first_section.body.first_paragraph.runs[11].previous_sibling, doc.range.fields[0].end)
         self.assertEqual(f'{aw.ControlChar.FIELD_START_CHAR} BARCODE 90210 \\f A \\u {aw.ControlChar.FIELD_END_CHAR} Hello world! This text is one Run, which is an inline node.', doc.get_text().strip())
-
 
     def test_field_format(self):
         #ExStart
