@@ -83,7 +83,6 @@ class ExFont(ApiExampleBase):
         self.assertFalse(doc.font_infos.embed_system_fonts)
         self.assertFalse(doc.font_infos.save_subset_fonts)
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_font_info_collection(self):
         for embed_all_fonts in [False, True]:
             #ExStart
@@ -645,7 +644,6 @@ class ExFont(ApiExampleBase):
         system_helper.io.File.write_all_bytes(ARTIFACTS_DIR + 'Alte DIN 1451 Mittelschrift.otf', embedded_font_bytes)
         #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'different calculation on Linux')
     def test_line_spacing(self):
         #ExStart
         #ExFor:Font.line_spacing
@@ -1031,7 +1029,6 @@ class ExFont(ApiExampleBase):
         self.assertEqual(bytes([2, 15, 3, 2, 2, 2, 4, 3, 2, 4]), doc.font_infos.get_by_name('Calibri Light').panose)
         self.assertEqual(bytes([2, 2, 6, 3, 5, 4, 5, 2, 3, 4]), doc.font_infos.get_by_name('Times New Roman').panose)
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_check_scan_user_fonts_folder(self):
         user_profile = pathlib.Path(os.environ['USERPROFILE'])
         current_user_fonts_folder = user_profile.joinpath('AppData\\Local\\Microsoft\\Windows\\Fonts')

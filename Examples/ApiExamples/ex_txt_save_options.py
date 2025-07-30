@@ -148,7 +148,6 @@ class ExTxtSaveOptions(ApiExampleBase):
         self.assertEqual('Paragraph 1. End of paragraph.\n\n\t' + 'Paragraph 2. End of paragraph.\n\n\t' + 'Paragraph 3. End of paragraph.\n\n\t', doc_text)
         #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_encoding(self):
         #ExStart
         #ExFor:TxtSaveOptionsBase.encoding
@@ -172,7 +171,6 @@ class ExTxtSaveOptions(ApiExampleBase):
         self.assertEqual('? ? ? ? ?.\r\n', doc_text)
         #ExEnd
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_preserve_table_layout(self):
         for preserve_table_layout in [False, True]:
             #ExStart

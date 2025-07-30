@@ -249,7 +249,6 @@ class ExPdfSaveOptions(ApiExampleBase):
             doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.Compliance.pdf', save_options=save_options)
         #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_text_compression(self):
         for pdf_text_compression in [aw.saving.PdfTextCompression.NONE, aw.saving.PdfTextCompression.FLATE]:
             #ExStart
@@ -423,7 +422,6 @@ class ExPdfSaveOptions(ApiExampleBase):
             builder.insert_hyperlink('Testlink', uri, False)
             doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.EscapedUri.pdf')
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_open_hyperlinks_in_new_window(self):
         for open_hyperlinks_in_new_window in [False, True]:
             #ExStart
@@ -494,7 +492,6 @@ class ExPdfSaveOptions(ApiExampleBase):
             doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.EmulateRenderingToSizeOnPage.pdf', save_options=save_options)
             #ExEnd
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_embed_full_fonts(self):
         for embed_full_fonts in [False, True]:
             #ExStart
@@ -534,7 +531,6 @@ class ExPdfSaveOptions(ApiExampleBase):
             else:
                 self.assertTrue(tested_file_length < 24000)
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_embed_windows_fonts(self):
         for pdf_font_embedding_mode in [aw.saving.PdfFontEmbeddingMode.EMBED_ALL, aw.saving.PdfFontEmbeddingMode.EMBED_NONE, aw.saving.PdfFontEmbeddingMode.EMBED_NONSTANDARD]:
             #ExStart
@@ -568,7 +564,6 @@ class ExPdfSaveOptions(ApiExampleBase):
             elif switch_condition == aw.saving.PdfFontEmbeddingMode.EMBED_NONE:
                 self.assertTrue(tested_file_length < 4300)
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_embed_core_fonts(self):
         for use_core_fonts in [False, True]:
             #ExStart

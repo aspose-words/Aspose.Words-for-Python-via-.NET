@@ -296,7 +296,6 @@ class ExDocumentProperties(ApiExampleBase):
         #ExEnd
         self.assertEqual(2, doc.custom_document_properties.count)
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_content(self):
         #ExStart
         #ExFor:BuiltInDocumentProperties.bytes

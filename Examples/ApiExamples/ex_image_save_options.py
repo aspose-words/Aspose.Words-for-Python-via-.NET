@@ -47,7 +47,6 @@ class ExImageSaveOptions(ApiExampleBase):
         #ExEnd
         test_util.TestUtil.verify_image(816, 1056, ARTIFACTS_DIR + 'ImageSaveOptions.OnePage.jpg')
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'different calculation on Linux')
     def test_renderer(self):
         for use_gdi_emf_renderer in [False, True]:
             #ExStart
@@ -116,7 +115,6 @@ class ExImageSaveOptions(ApiExampleBase):
             #ExEnd
             test_util.TestUtil.verify_image(816, 1056, ARTIFACTS_DIR + 'ImageSaveOptions.WindowsMetaFile.png')
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'different calculation on Mac')
     def test_color_mode(self):
         for image_color_mode in [aw.saving.ImageColorMode.BLACK_AND_WHITE, aw.saving.ImageColorMode.GRAYSCALE, aw.saving.ImageColorMode.NONE]:
             #ExStart
@@ -149,7 +147,6 @@ class ExImageSaveOptions(ApiExampleBase):
             elif switch_condition == aw.saving.ImageColorMode.BLACK_AND_WHITE:
                 self.assertTrue(tested_image_length < 15000)
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_pixel_format(self):
         for image_pixel_format in [aw.saving.ImagePixelFormat.FORMAT_1BPP_INDEXED, aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_555, aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_565, aw.saving.ImagePixelFormat.FORMAT_24BPP_RGB, aw.saving.ImagePixelFormat.FORMAT_32BPP_RGB, aw.saving.ImagePixelFormat.FORMAT_32BPP_ARGB, aw.saving.ImagePixelFormat.FORMAT_32BPP_P_ARGB, aw.saving.ImagePixelFormat.FORMAT_48BPP_RGB, aw.saving.ImagePixelFormat.FORMAT_64BPP_ARGB, aw.saving.ImagePixelFormat.FORMAT_64BPP_P_ARGB]:
             #ExStart
@@ -212,7 +209,6 @@ class ExImageSaveOptions(ApiExampleBase):
         image_file_names = list(filter(lambda item: 'ImageSaveOptions.FloydSteinbergDithering.' in item and item.endswith('.tiff'), list(system_helper.io.Directory.get_files(ARTIFACTS_DIR, '*.tiff'))))
         self.assertEqual(1, len(image_file_names))
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_edit_image(self):
         #ExStart
         #ExFor:ImageSaveOptions.horizontal_resolution

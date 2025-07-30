@@ -730,7 +730,6 @@ class ExField(ApiExampleBase):
         #ExEnd
         test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_DATA, expected_field_code=' DATA ', expected_result='', field=document_helper.DocumentHelper.save_open(doc).range.fields[0])
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_field_hyperlink(self):
         #ExStart
         #ExFor:FieldHyperlink
@@ -1221,7 +1220,6 @@ class ExField(ApiExampleBase):
             test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  "Heading 1:Subheading 2"', expected_result='', field=index_entry)
             self.assertEqual('Heading 1:Subheading 2', index_entry.text)
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_field_index_yomi(self):
         for sort_entries_using_yomi in [True, False]:
             #ExStart
@@ -1948,7 +1946,6 @@ class ExField(ApiExampleBase):
         test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_KEYWORD, expected_field_code=' KEYWORDS  OverridingKeyword', expected_result='OverridingKeyword', field=field)
         self.assertEqual('OverridingKeyword', field.text)
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_field_num(self):
         #ExStart
         #ExFor:FieldPage
@@ -3237,7 +3234,6 @@ class ExField(ApiExampleBase):
         self.assertEqual('09312345678907', field.barcode_value)
         self.assertEqual('STD', field.case_code_style)
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'windows date time parameters')
     def test_field_date(self):
         #ExStart
         #ExFor:FieldDate
@@ -3291,7 +3287,6 @@ class ExField(ApiExampleBase):
         self.verify_field(aw.fields.FieldType.FIELD_DATE, ' DATE  \\l', today, field)
         self.assertTrue(field.use_last_format)
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'windows date time parameters')
     def test_field_quote(self):
         #ExStart
         #ExFor:FieldQuote
@@ -3682,7 +3677,6 @@ class ExField(ApiExampleBase):
             self.verify_web_response_status_code(200, 'https://blogs.msdn.microsoft.com/murrays/2018/01/23/microsoft-word-eq-field/')
         field_eq()
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'windows date time parameters')
     def test_field_time(self):
         #ExStart
         #ExFor:FieldTime

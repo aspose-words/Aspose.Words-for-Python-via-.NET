@@ -1499,7 +1499,6 @@ class ExShape(ApiExampleBase):
         self.assertEqual(2, number_of_smart_art_shapes)
         #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'different calculation on Linux')
     def test_office_math_renderer(self):
         #ExStart
         #ExFor:NodeRendererBase
@@ -2147,7 +2146,6 @@ class ExShape(ApiExampleBase):
         self.assertEqual(76, len(ole_entry_bytes))
         #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'different calculation on Linux')
     def test_render_office_math(self):
         #ExStart
         #ExFor:ImageSaveOptions.scale

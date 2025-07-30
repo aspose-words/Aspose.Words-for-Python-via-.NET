@@ -37,7 +37,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
             save_options.export_page_margins = True
             doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ExportPageMarginsEpub' + aw.FileFormatUtil.save_format_to_extension(save_format), save_options=save_options)
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_export_office_math_epub(self):
         for save_format, output_mode in [(aw.SaveFormat.HTML, aw.saving.HtmlOfficeMathOutputMode.IMAGE), (aw.SaveFormat.MHTML, aw.saving.HtmlOfficeMathOutputMode.MATH_ML), (aw.SaveFormat.EPUB, aw.saving.HtmlOfficeMathOutputMode.TEXT), (aw.SaveFormat.AZW3, aw.saving.HtmlOfficeMathOutputMode.TEXT), (aw.SaveFormat.MOBI, aw.saving.HtmlOfficeMathOutputMode.TEXT)]:
             doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
@@ -97,7 +96,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
         save_options = aw.saving.HtmlSaveOptions(aw.SaveFormat.EPUB)
         self.assertEqual(False, save_options.export_roundtrip_information)
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_external_resource_saving_config(self):
         doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
         save_options = aw.saving.HtmlSaveOptions()
@@ -130,7 +128,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
             save_options.html_version = html_version
             doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.Html5Support.html', save_options=save_options)
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_export_fonts(self):
         for export_as_base64 in [False, True]:
             fonts_folder = ARTIFACTS_DIR + 'HtmlSaveOptions.ExportFonts.Resources'
@@ -463,7 +460,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.Doc2EpubSaveOptions.epub', save_options=save_options)
         #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_content_id_urls(self):
         for export_cid_urls_for_mhtml_resources in [False, True]:
             #ExStart
@@ -576,7 +572,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 self.assertTrue('<ol type="a" style="margin-right:0pt; margin-left:0pt; padding-left:0pt">' + '<li style="margin-left:31.33pt; padding-left:4.67pt">' + '<span>Default numbered list item 3.</span>' + '</li>' + '</ol>' in out_doc_contents)
         #ExEnd
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_export_page_margins(self):
         for export_page_margins in [False, True]:
             #ExStart
@@ -609,7 +604,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 self.assertTrue('<div><p style="margin-top:0pt; margin-left:220.85pt; margin-bottom:0pt">' in out_doc_contents)
             #ExEnd
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_export_page_setup(self):
         for export_page_setup in [False, True]:
             #ExStart
@@ -734,7 +728,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 self.assertEqual(0, len(list(filter(lambda f: f.type == aw.fields.FieldType.FIELD_PAGE, doc.range.fields))))
             #ExEnd
 
-    @unittest.skip('Calculation problems')
     def test_export_toc_page_numbers(self):
         for export_toc_page_numbers in [False, True]:
             #ExStart
@@ -806,6 +799,35 @@ class ExHtmlSaveOptions(ApiExampleBase):
             elif switch_condition == aw.saving.HtmlMetafileFormat.EMF_OR_WMF:
                 self.assertTrue('<p style="margin-top:0pt; margin-bottom:0pt">' + '<img src="HtmlSaveOptions.MetafileFormat.001.emf" width="500" height="40" alt="" ' + 'style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />' + '</p>' in out_doc_contents)
         #ExEnd
+
+    def test_scale_image_to_shape_size(self):
+        for scale_image_to_shape_size in [False, True]:
+            #ExStart
+            #ExFor:HtmlSaveOptions.scale_image_to_shape_size
+            #ExSummary:Shows how to disable the scaling of images to their parent shape dimensions when saving to .html.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            # Insert a shape which contains an image, and then make that shape considerably smaller than the image.
+            image_shape = builder.insert_image(file_name=IMAGE_DIR + 'Transparent background logo.png')
+            image_shape.width = 50
+            image_shape.height = 50
+            # Saving a document that contains shapes with images to HTML will create an image file in the local file system
+            # for each such shape. The output HTML document will use <image> tags to link to and display these images.
+            # When we save the document to HTML, we can pass a SaveOptions object to determine
+            # whether to scale all images that are inside shapes to the sizes of their shapes.
+            # Setting the "ScaleImageToShapeSize" flag to "true" will shrink every image
+            # to the size of the shape that contains it, so that no saved images will be larger than the document requires them to be.
+            # Setting the "ScaleImageToShapeSize" flag to "false" will preserve these images' original sizes,
+            # which will take up more space in exchange for preserving image quality.
+            options = aw.saving.HtmlSaveOptions()
+            options.scale_image_to_shape_size = scale_image_to_shape_size
+            doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ScaleImageToShapeSize.html', save_options=options)
+            #ExEnd
+            tested_image_length = system_helper.io.FileInfo(ARTIFACTS_DIR + 'HtmlSaveOptions.ScaleImageToShapeSize.001.png').length()
+            if scale_image_to_shape_size:
+                self.assertTrue(tested_image_length < 3000)
+            else:
+                self.assertTrue(tested_image_length < 16000)
 
     def test_image_folder(self):
         #ExStart
@@ -966,7 +988,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertIn('<span>Привет, мир!</span>', out_doc_contents)
                 #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_font_subsetting(self):
         for font_resources_subsetting_size_threshold in (0, 1000000, 2 ** 31 - 1):
             with self.subTest(font_resources_subsetting_size_threshold=font_resources_subsetting_size_threshold):
@@ -1012,7 +1033,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertTrue(max(font_resources_subsetting_size_threshold, 30000) > font_file_size)
                 #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_office_math_output_mode(self):
         for html_office_math_output_mode in (aw.saving.HtmlOfficeMathOutputMode.IMAGE, aw.saving.HtmlOfficeMathOutputMode.MATH_ML, aw.saving.HtmlOfficeMathOutputMode.TEXT):
             with self.subTest(html_office_math_output_mode=html_office_math_output_mode):

@@ -20,7 +20,6 @@ from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR, I
 
 class ExHtmlLoadOptions(ApiExampleBase):
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'different calculation on Linux')
     def test_support_vml(self):
         for support_vml in [True, False]:
             #ExStart

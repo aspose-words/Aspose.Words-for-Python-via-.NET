@@ -509,7 +509,6 @@ class ExFontSettings(ApiExampleBase):
         self.assertEqual('MS Mincho', rules[4].attrib['FallbackFonts'])
         self.assertEqual('Arial Unicode MS', rules[5].attrib['FallbackFonts'])
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_font_config_substitution(self):
         #ExStart
         #ExFor:FontConfigSubstitutionRule

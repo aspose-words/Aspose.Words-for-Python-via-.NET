@@ -174,7 +174,6 @@ class ExOoxmlSaveOptions(ApiExampleBase):
                     self.assertEqual(datetime.datetime(2021, 5, 11, 6, 32, 0, tzinfo=datetime.timezone.utc), last_saved_time_new)
                 #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'windows date time parameters')
     def test_keep_legacy_control_chars(self):
         for keep_legacy_control_chars in (False, True):
             with self.subTest(keep_legacy_control_chars=keep_legacy_control_chars):
@@ -248,7 +247,6 @@ class ExOoxmlSaveOptions(ApiExampleBase):
                     self.assertEqual(file_signature, ApiExampleBase.dump_array(bytes(stream.getvalue()), 0, 10))
                     prev_file_size = file_size
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'windows Bitmap')
     def test_zip_64_mode_option(self):
         #ExStart
         #ExFor:OoxmlSaveOptions.zip_64_mode
