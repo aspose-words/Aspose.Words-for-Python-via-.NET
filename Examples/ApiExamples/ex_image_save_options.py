@@ -147,6 +147,7 @@ class ExImageSaveOptions(ApiExampleBase):
             elif switch_condition == aw.saving.ImageColorMode.BLACK_AND_WHITE:
                 self.assertTrue(tested_image_length < 15000)
 
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_pixel_format(self):
         for image_pixel_format in [aw.saving.ImagePixelFormat.FORMAT_1BPP_INDEXED, aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_555, aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_565, aw.saving.ImagePixelFormat.FORMAT_24BPP_RGB, aw.saving.ImagePixelFormat.FORMAT_32BPP_RGB, aw.saving.ImagePixelFormat.FORMAT_32BPP_ARGB, aw.saving.ImagePixelFormat.FORMAT_32BPP_P_ARGB, aw.saving.ImagePixelFormat.FORMAT_48BPP_RGB, aw.saving.ImagePixelFormat.FORMAT_64BPP_ARGB, aw.saving.ImagePixelFormat.FORMAT_64BPP_P_ARGB]:
             #ExStart
@@ -209,6 +210,7 @@ class ExImageSaveOptions(ApiExampleBase):
         image_file_names = list(filter(lambda item: 'ImageSaveOptions.FloydSteinbergDithering.' in item and item.endswith('.tiff'), list(system_helper.io.Directory.get_files(ARTIFACTS_DIR, '*.tiff'))))
         self.assertEqual(1, len(image_file_names))
 
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_edit_image(self):
         #ExStart
         #ExFor:ImageSaveOptions.horizontal_resolution

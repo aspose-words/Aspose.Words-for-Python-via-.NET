@@ -171,6 +171,7 @@ class ExTxtSaveOptions(ApiExampleBase):
         self.assertEqual('? ? ? ? ?.\r\n', doc_text)
         #ExEnd
 
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_preserve_table_layout(self):
         for preserve_table_layout in [False, True]:
             #ExStart

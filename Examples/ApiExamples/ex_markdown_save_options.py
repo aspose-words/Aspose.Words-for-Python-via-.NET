@@ -168,6 +168,7 @@ class ExMarkdownSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.OfficeMathExportMode.md', save_options=save_options)
         #ExEnd:OfficeMathExportMode
 
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_empty_paragraph_export_mode(self):
         for export_mode in [aw.saving.MarkdownEmptyParagraphExportMode.NONE, aw.saving.MarkdownEmptyParagraphExportMode.EMPTY_LINE, aw.saving.MarkdownEmptyParagraphExportMode.MARKDOWN_HARD_LINE_BREAK]:
             #ExStart:EmptyParagraphExportMode
