@@ -7,8 +7,8 @@
 #####################################
 import sys
 from enum import Enum
-import aspose.pydrawing as drawing
 from document_helper import DocumentHelper
+import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.bibliography
 import aspose.words.buildingblocks
@@ -24,7 +24,7 @@ import io
 import system_helper
 import test_util
 import unittest
-from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR, DATABASE_DIR, IMAGE_DIR, MY_DIR
 
 class ExField(ApiExampleBase):
 
@@ -115,7 +115,6 @@ class ExField(ApiExampleBase):
         # Insert a TC field at the current document builder position.
         builder.insert_field(field_code='TC "Entry Text" \\f t')
 
-    @unittest.skip('WORDSNET-16037')
     def test_update_dirty_fields(self):
         for update_dirty_fields in [True, False]:
             #ExStart
@@ -731,7 +730,7 @@ class ExField(ApiExampleBase):
         #ExEnd
         test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_DATA, expected_field_code=' DATA ', expected_result='', field=document_helper.DocumentHelper.save_open(doc).range.fields[0])
 
-    @unittest.skip('WORDSNET-17545')
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_field_hyperlink(self):
         #ExStart
         #ExFor:FieldHyperlink
@@ -776,7 +775,6 @@ class ExField(ApiExampleBase):
         self.assertFalse(field.open_in_new_window)
         self.assertFalse(field.is_image_map)
 
-    @unittest.skip('WORDSNET-17524')
     def test_field_index_filter(self):
         #ExStart
         #ExFor:FieldIndex
@@ -845,7 +843,6 @@ class ExField(ApiExampleBase):
         self.assertEqual('Index entry 3', index_entry.text)
         self.assertEqual('A', index_entry.entry_type)
 
-    @unittest.skip('WORDSNET-17524')
     def test_field_index_formatting(self):
         #ExStart
         #ExFor:FieldIndex
@@ -946,7 +943,6 @@ class ExField(ApiExampleBase):
         self.assertFalse(index_entry.is_bold)
         self.assertFalse(index_entry.is_italic)
 
-    @unittest.skip('WORDSNET-17524')
     def test_field_index_sequence(self):
         #ExStart
         #ExFor:FieldIndex.has_sequence_name
@@ -1018,7 +1014,6 @@ class ExField(ApiExampleBase):
         self.assertEqual('Cat\tMySequence at 1 on page 2, 3 on page 3\r' + 'Dog\tMySequence at 3 on page 4\r', index.result)
         self.assertEqual(3, len(list(filter(lambda f: f.type == aw.fields.FieldType.FIELD_SEQUENCE, list(doc.range.fields)))))
 
-    @unittest.skip('WORDSNET-17524')
     def test_field_index_page_number_separator(self):
         #ExStart
         #ExFor:FieldIndex.has_page_number_separator
@@ -1062,7 +1057,6 @@ class ExField(ApiExampleBase):
         self.assertEqual(' & ', index.page_number_list_separator)
         self.assertTrue(index.has_page_number_separator)
 
-    @unittest.skip('WORDSNET-17524')
     def test_field_index_page_range_bookmark(self):
         #ExStart
         #ExFor:FieldIndex.page_range_separator
@@ -1114,7 +1108,6 @@ class ExField(ApiExampleBase):
         self.assertEqual('My entry', index_entry.text)
         self.assertEqual('MyBookmark', index_entry.page_range_bookmark_name)
 
-    @unittest.skip('WORDSNET-17524')
     def test_field_index_cross_reference_separator(self):
         #ExStart
         #ExFor:FieldIndex.cross_reference_separator
@@ -1166,7 +1159,6 @@ class ExField(ApiExampleBase):
         self.assertEqual('Banana', index_entry.text)
         self.assertEqual('Tropical fruit', index_entry.page_number_replacement)
 
-    @unittest.skip('WORDSNET-17524')
     def test_field_index_subheading(self):
         for run_subentries_on_the_same_line in [True, False]:
             #ExStart
@@ -1229,7 +1221,7 @@ class ExField(ApiExampleBase):
             test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_INDEX_ENTRY, expected_field_code=' XE  "Heading 1:Subheading 2"', expected_result='', field=index_entry)
             self.assertEqual('Heading 1:Subheading 2', index_entry.text)
 
-    @unittest.skip('WORDSNET-17524')
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_field_index_yomi(self):
         for sort_entries_using_yomi in [True, False]:
             #ExStart
@@ -1445,7 +1437,6 @@ class ExField(ApiExampleBase):
         test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_USER_NAME, expected_field_code=' USERNAME  "Jane Doe"', expected_result='Jane Doe', field=field_user_name)
         self.assertEqual('Jane Doe', field_user_name.user_name)
 
-    @unittest.skip('WORDSNET-17657')
     def test_field_style_ref_paragraph_numbers(self):
         #ExStart
         #ExFor:FieldStyleRef
@@ -1534,7 +1525,6 @@ class ExField(ApiExampleBase):
         self.assertTrue(field.insert_paragraph_number_in_full_context)
         self.assertTrue(field.suppress_non_delimiters)
 
-    @unittest.skip('double conversion')
     def test_field_builder(self):
         #ExStart
         #ExFor:FieldBuilder
@@ -1958,7 +1948,6 @@ class ExField(ApiExampleBase):
         test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_KEYWORD, expected_field_code=' KEYWORDS  OverridingKeyword', expected_result='OverridingKeyword', field=field)
         self.assertEqual('OverridingKeyword', field.text)
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_field_num(self):
         #ExStart
         #ExFor:FieldPage
@@ -2060,7 +2049,6 @@ class ExField(ApiExampleBase):
         self.assertEqual(' PRINTDATE  \\s', field.get_field_code())
         #ExEnd
 
-    @unittest.skip('WORDSNET-17845')
     def test_note_ref(self):
         #ExStart
         #ExFor:FieldNoteRef
@@ -2532,33 +2520,6 @@ class ExField(ApiExampleBase):
         self.assertEqual(doc.first_section.body.first_paragraph.runs[11].previous_sibling, doc.range.fields[0].end)
         self.assertEqual(f'{aw.ControlChar.FIELD_START_CHAR} BARCODE 90210 \\f A \\u {aw.ControlChar.FIELD_END_CHAR} Hello world! This text is one Run, which is an inline node.', doc.get_text().strip())
 
-    @unittest.skip("system.globalization.CultureInfo type isn't supported yet")
-    def test_field_locale(self):
-        #ExStart
-        #ExFor:Field.locale_id
-        #ExSummary:Shows how to insert a field and work with its locale.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Insert a DATE field, and then print the date it will display.
-        # Your thread's current culture determines the formatting of the date.
-        field = builder.insert_field('DATE')
-        print(f'''Today's date, as displayed in the "{CultureInfo.current_culture.english_name}" culture: {field.result}''')
-        self.assertEqual(1033, field.locale_id)
-        self.assertEqual(aw.fields.FieldUpdateCultureSource.CURRENT_THREAD, doc.field_options.field_update_culture_source)  #ExSkip
-        # Changing the culture of our thread will impact the result of the DATE field.
-        # Another way to get the DATE field to display a date in a different culture is to use its LocaleId property.
-        # This way allows us to avoid changing the thread's culture to get this effect.
-        doc.field_options.field_update_culture_source = aw.fields.FieldUpdateCultureSource.FIELD_CODE
-        de_culture = CultureInfo('de-DE')
-        field.locale_id = de_culture.LCID
-        field.update()
-        print(f'''Today's date, as displayed according to the "{CultureInfo.get_culture_info(field.LocaleId).english_name}" culture: {field.Result}''')
-        #ExEnd
-        doc = DocumentHelper.save_open(doc)
-        field = doc.range.fields[0]
-        self.verify_field(aw.fields.FieldType.FIELD_DATE, 'DATE', datetime.datetime.now.to_string(de.date_time_format.short_date_pattern), field)
-        self.assertEqual(CultureInfo('de-DE').lcid, field.locale_id)
-
     def test_field_format(self):
         #ExStart
         #ExFor:Field.format
@@ -3018,97 +2979,6 @@ class ExField(ApiExampleBase):
             self.assertEqual('5', field_tc.entry_level)
         field_toc_entry_identifier()
 
-    @unittest.skip('WORDSNET-18083')
-    def test_toc_seq_bookmark(self):
-        #ExStart
-        #ExFor:FieldSeq
-        #ExFor:FieldSeq.bookmark_name
-        #ExSummary:Shows how to combine table of contents and sequence fields.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # A TOC field can create an entry in its table of contents for each SEQ field found in the document.
-        # Each entry contains the paragraph that contains the SEQ field,
-        # and the number of the page that the field appears on.
-        field_toc = builder.insert_field(aw.fields.FieldType.FIELD_TOC, True).as_field_toc()
-        # Configure this TOC field to have a "sequence_identifier" property with a value of "MySequence".
-        field_toc.table_of_figures_label = 'MySequence'
-        # Configure this TOC field to only pick up SEQ fields that are within the bounds of a bookmark
-        # named "TOCBookmark".
-        field_toc.bookmark_name = 'TOCBookmark'
-        builder.insert_break(aw.BreakType.PAGE_BREAK)
-        self.assertEqual(' TOC  \\c MySequence \\b TOCBookmark', field_toc.get_field_code())
-        # SEQ fields display a count that increments at each SEQ field.
-        # These fields also maintain separate counts for each unique named sequence
-        # identified by the SEQ field's "sequence_identifier" property.
-        # Insert a SEQ field that has a sequence identifier that matches the TOC's
-        # "table_of_figures_label" property. This field will not create an entry in the TOC since it is outside
-        # the bookmark's bounds designated by "BookmarkName".
-        builder.write('MySequence #')
-        field_seq = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
-        field_seq.sequence_identifier = 'MySequence'
-        builder.writeln(', will not show up in the TOC because it is outside of the bookmark.')
-        builder.start_bookmark('TOCBookmark')
-        # This SEQ field's sequence matches the TOC's "table_of_figures_label" property and is within the bookmark's bounds.
-        # The paragraph that contains this field will show up in the TOC as an entry.
-        builder.write('MySequence #')
-        field_seq = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
-        field_seq.sequence_identifier = 'MySequence'
-        builder.writeln(', will show up in the TOC next to the entry for the above caption.')
-        # This SEQ field's sequence does not match the TOC's "table_of_figures_label" property,
-        # and is within the bounds of the bookmark. Its paragraph will not show up in the TOC as an entry.
-        builder.write('MySequence #')
-        field_seq = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
-        field_seq.sequence_identifier = 'OtherSequence'
-        builder.writeln(", will not show up in the TOC because it's from a different sequence identifier.")
-        # This SEQ field's sequence matches the TOC's "table_of_figures_label" property and is within the bounds of the bookmark.
-        # This field also references another bookmark. The contents of that bookmark will appear in the TOC entry for this SEQ field.
-        # The SEQ field itself will not display the contents of that bookmark.
-        field_seq = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
-        field_seq.sequence_identifier = 'MySequence'
-        field_seq.bookmark_name = 'SEQBookmark'
-        self.assertEqual(' SEQ  MySequence SEQBookmark', field_seq.get_field_code())
-        # Create a bookmark with contents that will show up in the TOC entry due to the above SEQ field referencing it.
-        builder.insert_break(aw.BreakType.PAGE_BREAK)
-        builder.start_bookmark('SEQBookmark')
-        builder.write('MySequence #')
-        field_seq = builder.insert_field(aw.fields.FieldType.FIELD_SEQUENCE, True).as_field_seq()
-        field_seq.sequence_identifier = 'MySequence'
-        builder.writeln(', text from inside SEQBookmark.')
-        builder.end_bookmark('SEQBookmark')
-        builder.end_bookmark('TOCBookmark')
-        doc.update_fields()
-        doc.save(ARTIFACTS_DIR + 'Field.toc_seq_bookmark.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Field.toc_seq_bookmark.docx')
-        self.assertEqual(8, doc.range.fields.count)
-        field_toc = doc.range.fields[0].as_field_toc()
-        page_ref_ids = [s for s in field_toc.result.split(' ') if s.startswith('_Toc')]
-        self.assertEqual(aw.fields.FieldType.FIELD_TOC, field_toc.type)
-        self.assertEqual('MySequence', field_toc.table_of_figures_label)
-        self.verify_field(aw.fields.FieldType.FIELD_TOC, ' TOC  \\c MySequence \\b TOCBookmark', f'MySequence #2, will show up in the TOC next to the entry for the above caption.\t\x13 PAGEREF {page_ref_ids[0]} \\h \x142\x15\r' + f'3MySequence #3, text from inside SEQBookmark.\t\x13 PAGEREF {page_ref_ids[1]} \\h \x142\x15\r', field_toc)
-        field_page_ref = doc.range.fields[1].as_field_page_ref()
-        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, f' PAGEREF {page_ref_ids[0]} \\h ', '2', field_page_ref)
-        self.assertEqual(page_ref_ids[0], field_page_ref.bookmark_name)
-        field_page_ref = doc.range.fields[2].as_field_page_ref()
-        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, f' PAGEREF {page_ref_ids[1]} \\h ', '2', field_page_ref)
-        self.assertEqual(page_ref_ids[1], field_page_ref.bookmark_name)
-        field_seq = doc.range.fields[3].as_field_seq()
-        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, ' SEQ  MySequence', '1', field_seq)
-        self.assertEqual('MySequence', field_seq.sequence_identifier)
-        field_seq = doc.range.fields[4].as_field_seq()
-        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, ' SEQ  MySequence', '2', field_seq)
-        self.assertEqual('MySequence', field_seq.sequence_identifier)
-        field_seq = doc.range.fields[5].as_field_seq()
-        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, ' SEQ  OtherSequence', '1', field_seq)
-        self.assertEqual('OtherSequence', field_seq.sequence_identifier)
-        field_seq = doc.range.fields[6].as_field_seq()
-        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, ' SEQ  MySequence SEQBookmark', '3', field_seq)
-        self.assertEqual('MySequence', field_seq.sequence_identifier)
-        self.assertEqual('SEQBookmark', field_seq.bookmark_name)
-        field_seq = doc.range.fields[7].as_field_seq()
-        self.verify_field(aw.fields.FieldType.FIELD_SEQUENCE, ' SEQ  MySequence', '3', field_seq)
-        self.assertEqual('MySequence', field_seq.sequence_identifier)
-
     def test_field_citation(self):
         #ExStart
         #ExFor:FieldCitation
@@ -3280,96 +3150,6 @@ class ExField(ApiExampleBase):
         self.assertIsNone(image.image_data.image_bytes)
         self.assertEqual(IMAGE_DIR + 'Transparent background logo.png', image.image_data.source_full_name.replace('%20', ' '))
 
-    @unittest.skip('WORDSNET-17543')
-    def test_field_include_text(self):
-        #ExStart
-        #ExFor:FieldIncludeText
-        #ExFor:FieldIncludeText.bookmark_name
-        #ExFor:FieldIncludeText.encoding
-        #ExFor:FieldIncludeText.lock_fields
-        #ExFor:FieldIncludeText.mime_type
-        #ExFor:FieldIncludeText.namespace_mappings
-        #ExFor:FieldIncludeText.source_full_name
-        #ExFor:FieldIncludeText.text_converter
-        #ExFor:FieldIncludeText.xpath
-        #ExFor:FieldIncludeText.xsl_transformation
-        #ExSummary:Shows how to create an INCLUDETEXT field, and set its properties.
-
-        def field_include_text():
-            doc = aw.Document()
-            builder = aw.DocumentBuilder(doc)
-            # Below are two ways to use INCLUDETEXT fields to display the contents of an XML file in the local file system.
-            # 1 -  Perform an XSL transformation on an XML document:
-            field_include_text = create_field_include_text(builder, MY_DIR + 'CD collection data.xml', False, 'text/xml', 'XML', 'ISO-8859-1')
-            field_include_text.xsl_transformation = MY_DIR + 'CD collection XSL transformation.xsl'
-            builder.writeln()
-            # 2 -  Use an XPath to take specific elements from an XML document:
-            field_include_text = create_field_include_text(builder, MY_DIR + 'CD collection data.xml', False, 'text/xml', 'XML', 'ISO-8859-1')
-            field_include_text.namespace_mappings = "xmlns:n='myNamespace'"
-            field_include_text.xpath = '/catalog/cd/title'
-            doc.update_fields()
-            doc.save(ARTIFACTS_DIR + 'Field.field_include_text.docx')
-            _test_field_include_text(aw.Document(ARTIFACTS_DIR + 'Field.field_include_text.docx'))  #ExSkip
-
-        def create_field_include_text(builder: aw.DocumentBuilder, source_full_name: str, lock_fields: bool, mime_type: str, text_converter: str, encoding: str) -> aw.fields.FieldIncludeText:
-            """Use a document builder to insert an INCLUDETEXT field with custom properties."""
-            field_include_text = builder.insert_field(aw.fields.FieldType.FIELD_INCLUDE_TEXT, True).as_field_include_text()
-            field_include_text.source_full_name = source_full_name
-            field_include_text.lock_fields = lock_fields
-            field_include_text.mime_type = mime_type
-            field_include_text.text_converter = text_converter
-            field_include_text.encoding = encoding
-            return field_include_text
-        #ExEnd
-
-        def _test_field_include_text(doc: aw.Document):
-            doc = DocumentHelper.save_open(doc)
-            field_include_text = doc.range.fields[0].as_field_include_text()
-            self.assertEqual(MY_DIR + 'CD collection data.xml', field_include_text.source_full_name)
-            self.assertEqual(MY_DIR + 'CD collection XSL transformation.xsl', field_include_text.xsl_transformation)
-            self.assertFalse(field_include_text.lock_fields)
-            self.assertEqual('text/xml', field_include_text.mime_type)
-            self.assertEqual('XML', field_include_text.text_converter)
-            self.assertEqual('ISO-8859-1', field_include_text.encoding)
-            self.assertEqual(' INCLUDETEXT  "' + MY_DIR.replace('\\', '\\\\') + 'CD collection data.xml" \\m text/xml \\c XML \\e ISO-8859-1 \\t "' + MY_DIR.replace('\\', '\\\\') + 'CD collection XSL transformation.xsl"', field_include_text.get_field_code())
-            self.assertTrue(field_include_text.result.startswith('My CD Collection'))
-            cd_collection_data = XmlDocument()
-            with open(MY_DIR + 'CD collection data.xml', 'rt', encoding='utf-8') as file:
-                cd_collection_data.load_xml(file.read())
-            catalog_data = cd_collection_data.child_nodes[0]
-            cd_collection_xsl_transformation = XmlDocument()
-            with open(MY_DIR + 'CD collection XSL transformation.xsl', 'rt', encoding='utf-8') as file:
-                cd_collection_xsl_transformation.load_xml(file.read())
-            table = doc.first_section.body.tables[0]
-            manager = XmlNamespaceManager(cd_collection_xsl_transformation.name_table)
-            manager.add_namespace('xsl', 'http://www.w3.org/1999/XSL/Transform')
-            for i in range(table.rows.count):
-                for j in range(table.rows[i].count):
-                    if i == 0:
-                        # When on the first row from the input document's table, ensure that all table's cells match all XML element Names.
-                        for k in range(table.rows.count - 1):
-                            self.assertEqual(catalog_data.child_nodes[k].child_nodes[j].name, table.rows[i].cells[j].get_text().replace(aw.ControlChar.CELL, '').lower())
-                        # Also, make sure that the whole first row has the same color as the XSL transform.
-                        self.assertEqual(cd_collection_xsl_transformation.select_nodes('//xsl:stylesheet/xsl:template/html/body/table/tr', manager)[0].attributes.get_named_item('bgcolor').value, drawing.ColorTranslator.to_html(table.rows[i].cells[j].cell_format.shading.background_pattern_color).lower())
-                    else:
-                        # When on all other rows of the input document's table, ensure that cell contents match XML element Values.
-                        self.assertEqual(catalog_data.child_nodes[i - 1].child_nodes[j].first_child.value, table.rows[i].cells[j].get_text().replace(aw.ControlChar.CELL, ''))
-                        self.assertEqual(drawing.Color.empty(), table.rows[i].cells[j].cell_format.shading.background_pattern_color)
-                    self.assertEqual(float(cd_collection_xsl_transformation.select_nodes('//xsl:stylesheet/xsl:template/html/body/table', manager)[0].attributes.get_named_item('border').value) * 0.75, table.first_row.row_format.borders.bottom.line_width)
-            field_include_text = doc.range.fields[1].as_field_include_text()
-            self.assertEqual(MY_DIR + 'CD collection data.xml', field_include_text.source_full_name)
-            self.assertIsNone(field_include_text.xsl_transformation)
-            self.assertFalse(field_include_text.lock_fields)
-            self.assertEqual('text/xml', field_include_text.mime_type)
-            self.assertEqual('XML', field_include_text.text_converter)
-            self.assertEqual('ISO-8859-1', field_include_text.encoding)
-            self.assertEqual(' INCLUDETEXT  "' + MY_DIR.replace('\\', '\\\\') + 'CD collection data.xml" \\m text/xml \\c XML \\e ISO-8859-1 \\n xmlns:n=\'myNamespace\' \\x /catalog/cd/title', field_include_text.get_field_code())
-            expected_field_result = ''
-            for i in range(catalog_data.child_nodes.count):
-                expected_field_result += catalog_data.child_nodes[i].child_nodes[0].child_nodes[0].value
-            self.assertEqual(expected_field_result, field_include_text.result)
-        field_include_text()
-
     def test_field_display_barcode(self):
         #ExStart
         #ExFor:FieldDisplayBarcode
@@ -3456,160 +3236,7 @@ class ExField(ApiExampleBase):
         self.assertEqual('09312345678907', field.barcode_value)
         self.assertEqual('STD', field.case_code_style)
 
-    @unittest.skip('WORDSNET-16226')
-    def test_field_linked_objects_as_text(self):
-        #ExStart
-        #ExFor:FieldLink
-        #ExFor:FieldLink.auto_update
-        #ExFor:FieldLink.format_update_type
-        #ExFor:FieldLink.insert_as_bitmap
-        #ExFor:FieldLink.insert_as_html
-        #ExFor:FieldLink.insert_as_picture
-        #ExFor:FieldLink.insert_as_rtf
-        #ExFor:FieldLink.insert_as_text
-        #ExFor:FieldLink.insert_as_unicode
-        #ExFor:FieldLink.is_linked
-        #ExFor:FieldLink.prog_id
-        #ExFor:FieldLink.source_full_name
-        #ExFor:FieldLink.source_item
-        #ExFor:FieldDde
-        #ExFor:FieldDde.auto_update
-        #ExFor:FieldDde.insert_as_bitmap
-        #ExFor:FieldDde.insert_as_html
-        #ExFor:FieldDde.insert_as_picture
-        #ExFor:FieldDde.insert_as_rtf
-        #ExFor:FieldDde.insert_as_text
-        #ExFor:FieldDde.insert_as_unicode
-        #ExFor:FieldDde.is_linked
-        #ExFor:FieldDde.prog_id
-        #ExFor:FieldDde.source_full_name
-        #ExFor:FieldDde.source_item
-        #ExFor:FieldDdeAuto
-        #ExFor:FieldDdeAuto.insert_as_bitmap
-        #ExFor:FieldDdeAuto.insert_as_html
-        #ExFor:FieldDdeAuto.insert_as_picture
-        #ExFor:FieldDdeAuto.insert_as_rtf
-        #ExFor:FieldDdeAuto.insert_as_text
-        #ExFor:FieldDdeAuto.insert_as_unicode
-        #ExFor:FieldDdeAuto.is_linked
-        #ExFor:FieldDdeAuto.prog_id
-        #ExFor:FieldDdeAuto.source_full_name
-        #ExFor:FieldDdeAuto.source_item
-        #ExSummary:Shows how to use various field types to link to other documents in the local file system, and display their contents.
-
-        def field_linked_objects_as_text():
-            for insert_linked_object_as in (InsertLinkedObjectAs.TEXT, InsertLinkedObjectAs.UNICODE, InsertLinkedObjectAs.HTML, InsertLinkedObjectAs.RTF):
-                with self.subTest(insert_linked_object_as=insert_linked_object_as):
-                    doc = aw.Document()
-                    builder = aw.DocumentBuilder(doc)
-                    # Below are three types of fields we can use to display contents from a linked document in the form of text.
-                    # 1 -  A LINK field:
-                    builder.writeln('FieldLink:\n')
-                    insert_field_link(builder, insert_linked_object_as, 'Word.document.8', MY_DIR + 'Document.docx', None, True)
-                    # 2 -  A DDE field:
-                    builder.writeln('FieldDde:\n')
-                    insert_field_fde(builder, insert_linked_object_as, 'Excel.Sheet', MY_DIR + 'Spreadsheet.xlsx', 'Sheet1!R1C1', True, True)
-                    # 3 -  A DDEAUTO field:
-                    builder.writeln('FieldDdeAuto:\n')
-                    insert_field_fde_auto(builder, insert_linked_object_as, 'Excel.Sheet', MY_DIR + 'Spreadsheet.xlsx', 'Sheet1!R1C1', True)
-                    doc.update_fields()
-                    doc.save(ARTIFACTS_DIR + 'Field.field_linked_objects_as_text.docx')
-
-        def field_linked_objects_as_image():
-            for insert_linked_object_as in (InsertLinkedObjectAs.PICTURE, InsertLinkedObjectAs.BITMAP):
-                with self.subTest(insert_linked_object_as=insert_linked_object_as):
-                    doc = aw.Document()
-                    builder = aw.DocumentBuilder(doc)
-                    # Below are three types of fields we can use to display contents from a linked document in the form of an image.
-                    # 1 -  A LINK field:
-                    builder.writeln('FieldLink:\n')
-                    insert_field_link(builder, insert_linked_object_as, 'Excel.Sheet', MY_DIR + 'MySpreadsheet.xlsx', 'Sheet1!R2C2', True)
-                    # 2 -  A DDE field:
-                    builder.writeln('FieldDde:\n')
-                    insert_field_fde(builder, insert_linked_object_as, 'Excel.Sheet', MY_DIR + 'Spreadsheet.xlsx', 'Sheet1!R1C1', True, True)
-                    # 3 -  A DDEAUTO field:
-                    builder.writeln('FieldDdeAuto:\n')
-                    insert_field_fde_auto(builder, insert_linked_object_as, 'Excel.Sheet', MY_DIR + 'Spreadsheet.xlsx', 'Sheet1!R1C1', True)
-                    doc.update_fields()
-                    doc.save(ARTIFACTS_DIR + 'Field.field_linked_objects_as_image.docx')
-
-        def insert_field_link(builder: aw.DocumentBuilder, insert_linked_object_as: 'ExField.InsertLinkedObjectAs', prog_id: str, source_full_name: str, source_item: str, should_auto_update: bool):
-            """ExField.InsertLinkedObjectAs.BITMAP"""
-            field = builder.insert_field(aw.fields.FieldType.FIELD_LINK, True).as_field_link()
-            if insert_linked_object_as == ExField.InsertLinkedObjectAs.TEXT:
-                field.insert_as_text = True
-            elif insert_linked_object_as == ExField.InsertLinkedObjectAs.UNICODE:
-                field.insert_as_unicode = True
-            elif insert_linked_object_as == ExField.InsertLinkedObjectAs.HTML:
-                field.insert_as_html = True
-            elif insert_linked_object_as == ExField.InsertLinkedObjectAs.RTF:
-                field.insert_as_rtf = True
-            elif insert_linked_object_as == ExField.InsertLinkedObjectAs.PICTURE:
-                field.insert_as_picture = True
-            elif insert_linked_object_as == ExField.InsertLinkedObjectAs.BITMAP:
-                field.insert_as_bitmap = True
-            field.auto_update = should_auto_update
-            field.prog_id = prog_id
-            field.source_full_name = source_full_name
-            field.source_item = source_item
-            builder.writeln('\n')
-
-        def insert_field_fde(builder: aw.DocumentBuilder, insert_linked_object_as: 'ExField.InsertLinkedObjectAs', prog_id: str, source_full_name: str, source_item: str, is_linked: bool, should_auto_update: bool):
-            """Use a document builder to insert a DDE field, and set its properties according to parameters."""
-            field = builder.insert_field(aw.fields.FieldType.FIELD_DDE, True).as_field_dde()
-            if insert_linked_object_as == ExField.InsertLinkedObjectAs.TEXT:
-                field.insert_as_text = True
-            elif insert_linked_object_as == ExField.InsertLinkedObjectAs.UNICODE:
-                field.insert_as_unicode = True
-            elif insert_linked_object_as == ExField.InsertLinkedObjectAs.HTML:
-                field.insert_as_html = True
-            elif insert_linked_object_as == ExField.InsertLinkedObjectAs.RTF:
-                field.insert_as_rtf = True
-            elif insert_linked_object_as == ExField.InsertLinkedObjectAs.PICTURE:
-                field.insert_as_picture = True
-            elif insert_linked_object_as == ExField.InsertLinkedObjectAs.BITMAP:
-                field.insert_as_bitmap = True
-            field.auto_update = should_auto_update
-            field.prog_id = prog_id
-            field.source_full_name = source_full_name
-            field.source_item = source_item
-            field.is_linked = is_linked
-            builder.writeln('\n')
-
-        def insert_field_fde_auto(builder: aw.DocumentBuilder, insert_linked_object_as: 'ExField.InsertLinkedObjectAs', prog_id: str, source_full_name: str, source_item: str, is_linked: bool):
-            """Use a document builder to insert a DDEAUTO, field and set its properties according to parameters."""
-            field = builder.insert_field(aw.fields.FieldType.FIELD_DDEAUTO, True).as_field_dde_auto()
-            if insert_linked_object_as == ExField.InsertLinkedObjectAs.TEXT:
-                field.insert_as_text = True
-            elif insert_linked_object_as == ExField.InsertLinkedObjectAs.UNICODE:
-                field.insert_as_unicode = True
-            elif insert_linked_object_as == ExField.InsertLinkedObjectAs.HTML:
-                field.insert_as_html = True
-            elif insert_linked_object_as == ExField.InsertLinkedObjectAs.RTF:
-                field.insert_as_rtf = True
-            elif insert_linked_object_as == ExField.InsertLinkedObjectAs.PICTURE:
-                field.insert_as_picture = True
-            elif insert_linked_object_as == ExField.InsertLinkedObjectAs.BITMAP:
-                field.insert_as_bitmap = True
-            field.prog_id = prog_id
-            field.source_full_name = source_full_name
-            field.source_item = source_item
-            field.is_linked = is_linked
-
-        class InsertLinkedObjectAs(Enum):
-            # LinkedObjectAsText
-            TEXT = 1
-            UNICODE = 2
-            HTML = 3
-            RTF = 4
-            # LinkedObjectAsImage
-            PICTURE = 5
-            BITMAP = 6
-        #ExEnd
-        field_linked_objects_as_text()
-        field_linked_objects_as_image()
-
-    @unittest.skipUnless(sys.platform.startswith('win'), 'windows date time parameters')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_field_date(self):
         #ExStart
         #ExFor:FieldDate
@@ -3663,103 +3290,7 @@ class ExField(ApiExampleBase):
         self.verify_field(aw.fields.FieldType.FIELD_DATE, ' DATE  \\l', today, field)
         self.assertTrue(field.use_last_format)
 
-    @unittest.skip('WORDSNET-17669')
-    def test_field_create_date(self):
-        #ExStart
-        #ExFor:FieldCreateDate
-        #ExFor:FieldCreateDate.use_lunar_calendar
-        #ExFor:FieldCreateDate.use_saka_era_calendar
-        #ExFor:FieldCreateDate.use_um_al_qura_calendar
-        #ExSummary:Shows how to use the CREATEDATE field to display the creation date/time of the document.
-        doc = aw.Document(MY_DIR + 'Document.docx')
-        builder = aw.DocumentBuilder(doc)
-        builder.move_to_document_end()
-        builder.writeln(' Date this document was created:')
-        # We can use the CREATEDATE field to display the date and time of the creation of the document.
-        # Below are three different calendar types according to which the CREATEDATE field can display the date/time.
-        # 1 -  Islamic Lunar Calendar:
-        builder.write('According to the Lunar Calendar - ')
-        field = builder.insert_field(aw.fields.FieldType.FIELD_CREATE_DATE, True).as_field_create_date()
-        field.use_lunar_calendar = True
-        self.assertEqual(' CREATEDATE  \\h', field.get_field_code())
-        # 2 -  Umm al-Qura calendar:
-        builder.write('\nAccording to the Umm al-Qura Calendar - ')
-        field = builder.insert_field(aw.fields.FieldType.FIELD_CREATE_DATE, True).as_field_create_date()
-        field.use_um_al_qura_calendar = True
-        self.assertEqual(' CREATEDATE  \\u', field.get_field_code())
-        # 3 -  Indian National Calendar:
-        builder.write('\nAccording to the Indian National Calendar - ')
-        field = builder.insert_field(aw.fields.FieldType.FIELD_CREATE_DATE, True).as_field_create_date()
-        field.use_saka_era_calendar = True
-        self.assertEqual(' CREATEDATE  \\s', field.get_field_code())
-        doc.update_fields()
-        doc.save(ARTIFACTS_DIR + 'Field.field_create_date.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Field.field_create_date.docx')
-        self.assertEqual(datetime.datetime(2017, 12, 5, 9, 56, 0), doc.built_in_document_properties.created_time)
-        expected_date = doc.built_in_document_properties.created_time.add_hours(TimeZoneInfo.local.get_utc_offset(datetime.datetime.utcnow()).hours)
-        field = doc.range.fields[0].as_field_create_date()
-        um_al_qura_calendar = UmAlQuraCalendar()
-        self.verify_field(aw.fields.FieldType.FIELD_CREATE_DATE, ' CREATEDATE  \\h', f'{umAlQuraCalendar.get_month(expected_date)}/{umAlQuraCalendar.get_day_of_month(expected_date)}/{umAlQuraCalendar.get_year(expected_date)} ' + expected_date.add_hours(1).to_string('hh:mm:ss tt'), field)
-        self.assertEqual(aw.fields.FieldType.FIELD_CREATE_DATE, field.type)
-        self.assertTrue(field.use_lunar_calendar)
-        field = doc.range.fields[1].as_field_create_date()
-        self.verify_field(aw.fields.FieldType.FIELD_CREATE_DATE, ' CREATEDATE  \\u', f'{umAlQuraCalendar.get_month(expected_date)}/{umAlQuraCalendar.get_day_of_month(expected_date)}/{umAlQuraCalendar.get_year(expected_date)} ' + expected_date.add_hours(1).to_string('hh:mm:ss tt'), field)
-        self.assertEqual(aw.fields.FieldType.FIELD_CREATE_DATE, field.type)
-        self.assertTrue(field.use_um_al_qura_calendar)
-
-    @unittest.skip('WORDSNET-17669')
-    def test_field_save_date(self):
-        #ExStart
-        #ExFor:BuiltInDocumentProperties.last_saved_time
-        #ExFor:FieldSaveDate
-        #ExFor:FieldSaveDate.use_lunar_calendar
-        #ExFor:FieldSaveDate.use_saka_era_calendar
-        #ExFor:FieldSaveDate.use_um_al_qura_calendar
-        #ExSummary:Shows how to use the SAVEDATE field to display the date/time of the document's most recent save operation performed using Microsoft Word.
-        doc = aw.Document(MY_DIR + 'Document.docx')
-        builder = aw.DocumentBuilder(doc)
-        builder.move_to_document_end()
-        builder.writeln(' Date this document was last saved:')
-        # We can use the SAVEDATE field to display the last save operation's date and time on the document.
-        # The save operation that these fields refer to is the manual save in an application like Microsoft Word,
-        # not the document's "save" method.
-        # Below are three different calendar types according to which the SAVEDATE field can display the date/time.
-        # 1 -  Islamic Lunar Calendar:
-        builder.write('According to the Lunar Calendar - ')
-        field = builder.insert_field(aw.fields.FieldType.FIELD_SAVE_DATE, True).as_field_save_date()
-        field.use_lunar_calendar = True
-        self.assertEqual(' SAVEDATE  \\h', field.get_field_code())
-        # 2 -  Umm al-Qura calendar:
-        builder.write('\nAccording to the Umm al-Qura calendar - ')
-        field = builder.insert_field(aw.fields.FieldType.FIELD_SAVE_DATE, True).as_field_save_date()
-        field.use_um_al_qura_calendar = True
-        self.assertEqual(' SAVEDATE  \\u', field.get_field_code())
-        # 3 -  Indian National calendar:
-        builder.write('\nAccording to the Indian National calendar - ')
-        field = builder.insert_field(aw.fields.FieldType.FIELD_SAVE_DATE, True).as_field_save_date()
-        field.use_saka_era_calendar = True
-        self.assertEqual(' SAVEDATE  \\s', field.get_field_code())
-        # The SAVEDATE fields draw their date/time values from the "last_saved_time" built-in property.
-        # The document's Save method will not update this value, but we can still update it manually.
-        doc.built_in_document_properties.last_saved_time = datetime.datetime.now()
-        doc.update_fields()
-        doc.save(ARTIFACTS_DIR + 'Field.field_save_date.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Field.field_save_date.docx')
-        print(doc.built_in_document_properties.last_saved_time)
-        field = doc.range.fields[0].as_field_save_date()
-        self.assertEqual(aw.fields.FieldType.FIELD_SAVE_DATE, field.type)
-        self.assertTrue(field.use_lunar_calendar)
-        self.assertEqual(' SAVEDATE  \\h', field.get_field_code())
-        self.assertRegex(field.result, '\\d{1,2}[/]\\d{1,2}[/]\\d{4} \\d{1,2}:\\d{1,2}:\\d{1,2} [A,P]M')
-        field = doc.range.fields[1].as_field_save_date()
-        self.assertEqual(aw.fields.FieldType.FIELD_SAVE_DATE, field.type)
-        self.assertTrue(field.use_um_al_qura_calendar)
-        self.assertEqual(' SAVEDATE  \\u', field.get_field_code())
-        self.assertRegex(field.result, '\\d{1,2}[/]\\d{1,2}[/]\\d{4} \\d{1,2}:\\d{1,2}:\\d{1,2} [A,P]M')
-
-    @unittest.skipUnless(sys.platform.startswith('win'), 'windows date time parameters')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_field_quote(self):
         #ExStart
         #ExFor:FieldQuote
@@ -3791,81 +3322,7 @@ class ExField(ApiExampleBase):
         self.verify_field(aw.fields.FieldType.FIELD_QUOTE, ' QUOTE  "\\"Quoted text\\""', '"Quoted text"', doc.range.fields[0])
         self.verify_field(aw.fields.FieldType.FIELD_QUOTE, ' QUOTE \x13 DATE \x14' + today + '\x15', today, doc.range.fields[1])
 
-    @unittest.skip('WORDSNET-17845')
-    def test_field_note_ref(self):
-        # @unittest.skip("WORDSNET-17845")
-        #ExStart
-        #ExFor:FieldNoteRef
-        #ExFor:FieldNoteRef.bookmark_name
-        #ExFor:FieldNoteRef.insert_hyperlink
-        #ExFor:FieldNoteRef.insert_reference_mark
-        #ExFor:FieldNoteRef.insert_relative_position
-        #ExSummary:Shows to insert NOTEREF fields, and modify their appearance.
-
-        def field_note_ref():
-            doc = aw.Document()
-            builder = aw.DocumentBuilder(doc)
-            # Create a bookmark with a footnote that the NOTEREF field will reference.
-            insert_bookmark_with_footnote(builder, 'MyBookmark1', 'Contents of MyBookmark1', 'Footnote from MyBookmark1')
-            # This NOTEREF field will display the number of the footnote inside the referenced bookmark.
-            # Setting the "insert_hyperlink" property lets us jump to the bookmark by Ctrl + clicking the field in Microsoft Word.
-            self.assertEqual(' NOTEREF  MyBookmark2 \\h', insert_field_note_ref(builder, 'MyBookmark2', True, False, False, 'Hyperlink to Bookmark2, with footnote number ').get_field_code())
-            # When using the \p flag, after the footnote number, the field also displays the bookmark's position relative to the field.
-            # Bookmark1 is above this field and contains footnote number 1, so the result will be "1 above" on update.
-            self.assertEqual(' NOTEREF  MyBookmark1 \\h \\p', insert_field_note_ref(builder, 'MyBookmark1', True, True, False, 'Bookmark1, with footnote number ').get_field_code())
-            # Bookmark2 is below this field and contains footnote number 2, so the field will display "2 below".
-            # The \f flag makes the number 2 appear in the same format as the footnote number label in the actual text.
-            self.assertEqual(' NOTEREF  MyBookmark2 \\h \\p \\f', insert_field_note_ref(builder, 'MyBookmark2', True, True, True, 'Bookmark2, with footnote number ').get_field_code())
-            builder.insert_break(aw.BreakType.PAGE_BREAK)
-            insert_bookmark_with_footnote(builder, 'MyBookmark2', 'Contents of MyBookmark2', 'Footnote from MyBookmark2')
-            doc.update_page_layout()
-            doc.update_fields()
-            doc.save(ARTIFACTS_DIR + 'Field.field_note_ref.docx')
-            _test_note_ref(aw.Document(ARTIFACTS_DIR + 'Field.field_note_ref.docx'))  #ExSkip
-
-        def insert_field_note_ref(builder: aw.DocumentBuilder, bookmark_name: str, insert_hyperlink: bool, insert_relative_position: bool, insert_reference_mark: bool, text_before: str) -> aw.fields.FieldNoteRef:
-            """Uses a document builder to insert a NOTEREF field with specified properties."""
-            builder.write(text_before)
-            field = builder.insert_field(aw.fields.FieldType.FIELD_NOTE_REF, True).as_field_note_ref()
-            field.bookmark_name = bookmark_name
-            field.insert_hyperlink = insert_hyperlink
-            field.insert_relative_position = insert_relative_position
-            field.insert_reference_mark = insert_reference_mark
-            builder.writeln()
-            return field
-
-        def insert_bookmark_with_footnote(builder: aw.DocumentBuilder, bookmark_name: str, bookmark_text: str, footnote_text: str):
-            """Uses a document builder to insert a named bookmark with a footnote at the end."""
-            builder.start_bookmark(bookmark_name)
-            builder.write(bookmark_text)
-            builder.insert_footnote(aw.notes.FootnoteType.FOOTNOTE, footnote_text)
-            builder.end_bookmark(bookmark_name)
-            builder.writeln()
-        #ExEnd
-
-        def _test_note_ref(doc: aw.Document):
-            field = doc.range.fields[0].as_field_note_ref()
-            self.verify_field(aw.fields.FieldType.FIELD_NOTE_REF, ' NOTEREF  MyBookmark2 \\h', '2', field)
-            self.assertEqual('MyBookmark2', field.bookmark_name)
-            self.assertTrue(field.insert_hyperlink)
-            self.assertFalse(field.insert_relative_position)
-            self.assertFalse(field.insert_reference_mark)
-            field = doc.range.fields[1].as_field_note_ref()
-            self.verify_field(aw.fields.FieldType.FIELD_NOTE_REF, ' NOTEREF  MyBookmark1 \\h \\p', '1 above', field)
-            self.assertEqual('MyBookmark1', field.bookmark_name)
-            self.assertTrue(field.insert_hyperlink)
-            self.assertTrue(field.insert_relative_position)
-            self.assertFalse(field.insert_reference_mark)
-            field = doc.range.fields[2].as_field_note_ref()
-            self.verify_field(aw.fields.FieldType.FIELD_NOTE_REF, ' NOTEREF  MyBookmark2 \\h \\p \\f', '2 below', field)
-            self.assertEqual('MyBookmark2', field.bookmark_name)
-            self.assertTrue(field.insert_hyperlink)
-            self.assertTrue(field.insert_relative_position)
-            self.assertTrue(field.insert_reference_mark)
-        field_note_ref()
-
     def test_field_page_ref(self):
-        # @unittest.skip("WORDSNET-17836")
         #ExStart
         #ExFor:FieldPageRef
         #ExFor:FieldPageRef.bookmark_name
@@ -3935,154 +3392,6 @@ class ExField(ApiExampleBase):
             self.assertTrue(field.insert_hyperlink)
             self.assertTrue(field.insert_relative_position)
         field_page_ref()
-
-    @unittest.skip('WORDSNET-18067')
-    def test_field_ref(self):
-        # @unittest.skip("WORDSNET-18067")  # ExSkip
-        #ExStart
-        #ExFor:FieldRef
-        #ExFor:FieldRef.bookmark_name
-        #ExFor:FieldRef.include_note_or_comment
-        #ExFor:FieldRef.insert_hyperlink
-        #ExFor:FieldRef.insert_paragraph_number
-        #ExFor:FieldRef.insert_paragraph_number_in_full_context
-        #ExFor:FieldRef.insert_paragraph_number_in_relative_context
-        #ExFor:FieldRef.insert_relative_position
-        #ExFor:FieldRef.number_separator
-        #ExFor:FieldRef.suppress_non_delimiters
-        #ExSummary:Shows how to insert REF fields to reference bookmarks.
-
-        def field_ref():
-            doc = aw.Document()
-            builder = aw.DocumentBuilder(doc)
-            builder.start_bookmark('MyBookmark')
-            builder.insert_footnote(aw.notes.FootnoteType.FOOTNOTE, 'MyBookmark footnote #1')
-            builder.write('Text that will appear in REF field')
-            builder.insert_footnote(aw.notes.FootnoteType.FOOTNOTE, 'MyBookmark footnote #2')
-            builder.end_bookmark('MyBookmark')
-            builder.move_to_document_start()
-            # We will apply a custom list format, where the amount of angle brackets indicates the list level we are currently at.
-            builder.list_format.apply_number_default()
-            builder.list_format.list_level.number_format = '> \x0000'
-            # Insert a REF field that will contain the text within our bookmark, act as a hyperlink, and clone the bookmark's footnotes.
-            field = insert_field_ref(builder, 'MyBookmark', '', '\n')
-            field.include_note_or_comment = True
-            field.insert_hyperlink = True
-            self.assertEqual(' REF  MyBookmark \\f \\h', field.get_field_code())
-            # Insert a REF field, and display whether the referenced bookmark is above or below it.
-            field = insert_field_ref(builder, 'MyBookmark', 'The referenced paragraph is ', ' this field.\n')
-            field.insert_relative_position = True
-            self.assertEqual(' REF  MyBookmark \\p', field.get_field_code())
-            # Display the list number of the bookmark as it appears in the document.
-            field = insert_field_ref(builder, 'MyBookmark', "The bookmark's paragraph number is ", '\n')
-            field.insert_paragraph_number = True
-            self.assertEqual(' REF  MyBookmark \\n', field.get_field_code())
-            # Display the bookmark's list number, but with non-delimiter characters, such as the angle brackets, omitted.
-            field = insert_field_ref(builder, 'MyBookmark', "The bookmark's paragraph number, non-delimiters suppressed, is ", '\n')
-            field.insert_paragraph_number = True
-            field.suppress_non_delimiters = True
-            self.assertEqual(' REF  MyBookmark \\n \\t', field.get_field_code())
-            # Move down one list level.
-            builder.list_format.list_level_number += 1
-            builder.list_format.list_level.number_format = '>> \x0001'
-            # Display the list number of the bookmark and the numbers of all the list levels above it.
-            field = insert_field_ref(builder, 'MyBookmark', "The bookmark's full context paragraph number is ", '\n')
-            field.insert_paragraph_number_in_full_context = True
-            self.assertEqual(' REF  MyBookmark \\w', field.get_field_code())
-            builder.insert_break(aw.BreakType.PAGE_BREAK)
-            # Display the list level numbers between this REF field, and the bookmark that it is referencing.
-            field = insert_field_ref(builder, 'MyBookmark', "The bookmark's relative paragraph number is ", '\n')
-            field.insert_paragraph_number_in_relative_context = True
-            self.assertEqual(' REF  MyBookmark \\r', field.get_field_code())
-            # At the end of the document, the bookmark will show up as a list item here.
-            builder.writeln('List level above bookmark')
-            builder.list_format.list_level_number += 1
-            builder.list_format.list_level.number_format = '>>> \x0002'
-            doc.update_fields()
-            doc.save(ARTIFACTS_DIR + 'Field.field_ref.docx')
-            _test_field_ref(aw.Document(ARTIFACTS_DIR + 'Field.field_ref.docx'))  #ExSkip
-
-        def insert_field_ref(builder: aw.DocumentBuilder, bookmark_name: str, text_before: str, text_after: str) -> aw.fields.FieldRef:
-            """Get the document builder to insert a REF field, reference a bookmark with it, and add text before and after it."""
-            builder.write(text_before)
-            field = builder.insert_field(aw.fields.FieldType.FIELD_REF, True).as_field_ref()
-            field.bookmark_name = bookmark_name
-            builder.write(text_after)
-            return field
-        #ExEnd
-
-        def _test_field_ref(doc: aw.Document):
-            self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, '', 'MyBookmark footnote #1', doc.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
-            self.verify_footnote(aw.notes.FootnoteType.FOOTNOTE, True, '', 'MyBookmark footnote #2', doc.get_child(aw.NodeType.FOOTNOTE, 1, True).as_footnote())
-            field = doc.range.fields[0].as_field_ref()
-            self.verify_field(aw.fields.FieldType.FIELD_REF, ' REF  MyBookmark \\f \\h', 'Text that will appear in REF field', field)
-            self.assertEqual('MyBookmark', field.bookmark_name)
-            self.assertTrue(field.include_note_or_comment)
-            self.assertTrue(field.insert_hyperlink)
-            field = doc.range.fields[1].as_field_ref()
-            self.verify_field(aw.fields.FieldType.FIELD_REF, ' REF  MyBookmark \\p', 'below', field)
-            self.assertEqual('MyBookmark', field.bookmark_name)
-            self.assertTrue(field.insert_relative_position)
-            field = doc.range.fields[2].as_field_ref()
-            self.verify_field(aw.fields.FieldType.FIELD_REF, ' REF  MyBookmark \\n', '>>> i', field)
-            self.assertEqual('MyBookmark', field.bookmark_name)
-            self.assertTrue(field.insert_paragraph_number)
-            self.assertEqual(' REF  MyBookmark \\n', field.get_field_code())
-            self.assertEqual('>>> i', field.result)
-            field = doc.range.fields[3].as_field_ref()
-            self.verify_field(aw.fields.FieldType.FIELD_REF, ' REF  MyBookmark \\n \\t', 'i', field)
-            self.assertEqual('MyBookmark', field.bookmark_name)
-            self.assertTrue(field.insert_paragraph_number)
-            self.assertTrue(field.suppress_non_delimiters)
-            field = doc.range.fields[4].as_field_ref()
-            self.verify_field(aw.fields.FieldType.FIELD_REF, ' REF  MyBookmark \\w', '> 4>> c>>> i', field)
-            self.assertEqual('MyBookmark', field.bookmark_name)
-            self.assertTrue(field.insert_paragraph_number_in_full_context)
-            field = doc.range.fields[5].as_field_ref()
-            self.verify_field(aw.fields.FieldType.FIELD_REF, ' REF  MyBookmark \\r', '>> c>>> i', field)
-            self.assertEqual('MyBookmark', field.bookmark_name)
-            self.assertTrue(field.insert_paragraph_number_in_relative_context)
-        field_ref()
-
-    @unittest.skip('WORDSNET-18068')
-    def test_field_rd(self):
-        #ExStart
-        #ExFor:FieldRD
-        #ExFor:FieldRD.file_name
-        #ExFor:FieldRD.is_path_relative
-        #ExSummary:Shows to use the RD field to create a table of contents entries from headings in other documents.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Use a document builder to insert a table of contents,
-        # and then add one entry for the table of contents on the following page.
-        builder.insert_field(aw.fields.FieldType.FIELD_TOC, True)
-        builder.insert_break(aw.BreakType.PAGE_BREAK)
-        builder.current_paragraph.paragraph_format.style_name = 'Heading 1'
-        builder.writeln('TOC entry from within this document')
-        # Insert an RD field, which references another local file system document in its FileName property.
-        # The TOC will also now accept all headings from the referenced document as entries for its table.
-        field = builder.insert_field(aw.fields.FieldType.FIELD_REF_DOC, True).as_field_rd()
-        field.file_name = ARTIFACTS_DIR + 'ReferencedDocument.docx'
-        self.assertEqual(' RD  {ArtifactsDir.Replace(@"\\",@"\\\\")}ReferencedDocument.docx', field.get_field_code())
-        # Create the document that the RD field is referencing and insert a heading.
-        # This heading will show up as an entry in the TOC field in our first document.
-        referenced_doc = aw.Document()
-        ref_doc_builder = aw.DocumentBuilder(referenced_doc)
-        ref_doc_builder.current_paragraph.paragraph_format.style_name = 'Heading 1'
-        ref_doc_builder.writeln('TOC entry from referenced document')
-        referenced_doc.save(ARTIFACTS_DIR + 'ReferencedDocument.docx')
-        doc.update_fields()
-        doc.save(ARTIFACTS_DIR + 'Field.field_rd.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Field.field_rd.docx')
-        field_toc = doc.range.fields[0].as_field_toc()
-        self.assertEqual('TOC entry from within this document\t\x13 PAGEREF _Toc256000000 \\h \x142\x15\r' + 'TOC entry from referenced document\t1\r', field_toc.result)
-        field_page_ref = doc.range.fields[1].as_field_page_ref()
-        self.verify_field(aw.fields.FieldType.FIELD_PAGE_REF, ' PAGEREF _Toc256000000 \\h ', '2', field_page_ref)
-        field = doc.range.fields[2].as_field_rd()
-        self.verify_field(aw.fields.FieldType.FIELD_REF_DOC, ' RD  {ArtifactsDir.Replace(@"\\",@"\\\\")}ReferencedDocument.docx', '', field)
-        self.assertEqual(ARTIFACTS_DIR.replace('\\', '\\\\') + 'ReferencedDocument.docx', field.file_name)
-        self.assertFalse(field.is_path_relative)
 
     def test_field_symbol(self):
         #ExStart
@@ -4201,7 +3510,7 @@ class ExField(ApiExampleBase):
             # The format from the TA fields will carry over into our table.
             # We can disable this by setting the "remove_entry_formatting" flag.
             field_toa.remove_entry_formatting = True
-            builder.font.color = drawing.Color.green
+            builder.font.color = aspose.pydrawing.Color.green
             builder.font.name = 'Arial Black'
             self.assertEqual(' TOA  \\c 1 \\h \\b MyBookmark \\e " \t p." \\l " & p. " \\p \\g " to " \\f', field_toa.get_field_code())
             builder.insert_break(aw.BreakType.PAGE_BREAK)
@@ -4372,7 +3681,7 @@ class ExField(ApiExampleBase):
             self.verify_web_response_status_code(200, 'https://blogs.msdn.microsoft.com/murrays/2018/01/23/microsoft-word-eq-field/')
         field_eq()
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'windows date time parameters')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_field_time(self):
         #ExStart
         #ExFor:FieldTime

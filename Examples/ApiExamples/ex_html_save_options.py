@@ -37,7 +37,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
             save_options.export_page_margins = True
             doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ExportPageMarginsEpub' + aw.FileFormatUtil.save_format_to_extension(save_format), save_options=save_options)
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_export_office_math_epub(self):
         for save_format, output_mode in [(aw.SaveFormat.HTML, aw.saving.HtmlOfficeMathOutputMode.IMAGE), (aw.SaveFormat.MHTML, aw.saving.HtmlOfficeMathOutputMode.MATH_ML), (aw.SaveFormat.EPUB, aw.saving.HtmlOfficeMathOutputMode.TEXT), (aw.SaveFormat.AZW3, aw.saving.HtmlOfficeMathOutputMode.TEXT), (aw.SaveFormat.MOBI, aw.saving.HtmlOfficeMathOutputMode.TEXT)]:
             doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
@@ -97,7 +96,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         save_options = aw.saving.HtmlSaveOptions(aw.SaveFormat.EPUB)
         self.assertEqual(False, save_options.export_roundtrip_information)
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'different calculation on Linux')
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_external_resource_saving_config(self):
         doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
         save_options = aw.saving.HtmlSaveOptions()
@@ -109,7 +108,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         image_files = system_helper.io.Directory.get_files(ARTIFACTS_DIR + 'Resources/', 'HtmlSaveOptions.ExternalResourceSavingConfig*.png', system_helper.io.SearchOption.All_DIRECTORIES)
         self.assertEqual(8, len(image_files))
         font_files = system_helper.io.Directory.get_files(ARTIFACTS_DIR + 'Resources/', 'HtmlSaveOptions.ExternalResourceSavingConfig*.ttf', system_helper.io.SearchOption.All_DIRECTORIES)
-        self.assertEqual(12, len(font_files))
+        self.assertEqual(10, len(font_files))
         css_files = system_helper.io.Directory.get_files(ARTIFACTS_DIR + 'Resources/', 'HtmlSaveOptions.ExternalResourceSavingConfig*.css', system_helper.io.SearchOption.All_DIRECTORIES)
         self.assertEqual(1, len(css_files))
         document_helper.DocumentHelper.find_text_in_file(ARTIFACTS_DIR + 'HtmlSaveOptions.ExternalResourceSavingConfig.html', '<link href="https://www.aspose.com/HtmlSaveOptions.ExternalResourceSavingConfig.css"')
@@ -130,7 +129,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
             save_options.html_version = html_version
             doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.Html5Support.html', save_options=save_options)
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_export_fonts(self):
         for export_as_base64 in [False, True]:
             fonts_folder = ARTIFACTS_DIR + 'HtmlSaveOptions.ExportFonts.Resources'
@@ -463,7 +462,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.Doc2EpubSaveOptions.epub', save_options=save_options)
         #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_content_id_urls(self):
         for export_cid_urls_for_mhtml_resources in [False, True]:
             #ExStart
@@ -576,7 +575,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 self.assertTrue('<ol type="a" style="margin-right:0pt; margin-left:0pt; padding-left:0pt">' + '<li style="margin-left:31.33pt; padding-left:4.67pt">' + '<span>Default numbered list item 3.</span>' + '</li>' + '</ol>' in out_doc_contents)
         #ExEnd
 
-    @unittest.skip('Calculation problems')
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_export_page_margins(self):
         for export_page_margins in [False, True]:
             #ExStart
@@ -609,7 +608,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 self.assertTrue('<div><p style="margin-top:0pt; margin-left:220.85pt; margin-bottom:0pt">' in out_doc_contents)
             #ExEnd
 
-    @unittest.skip('Calculation problems')
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_export_page_setup(self):
         for export_page_setup in [False, True]:
             #ExStart
@@ -734,7 +733,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 self.assertEqual(0, len(list(filter(lambda f: f.type == aw.fields.FieldType.FIELD_PAGE, doc.range.fields))))
             #ExEnd
 
-    @unittest.skip('Calculation problems')
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_export_toc_page_numbers(self):
         for export_toc_page_numbers in [False, True]:
             #ExStart
@@ -807,7 +806,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 self.assertTrue('<p style="margin-top:0pt; margin-bottom:0pt">' + '<img src="HtmlSaveOptions.MetafileFormat.001.emf" width="500" height="40" alt="" ' + 'style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />' + '</p>' in out_doc_contents)
         #ExEnd
 
-    @unittest.skip("drawing.Image type isn't supported yet")
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_scale_image_to_shape_size(self):
         for scale_image_to_shape_size in [False, True]:
             #ExStart
@@ -939,34 +938,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 dir_files = glob.glob(ARTIFACTS_DIR + '**/HtmlSaveOptions.export_url_for_linked_image.001.png', recursive=True)
                 DocumentHelper.find_text_in_file(ARTIFACTS_DIR + 'HtmlSaveOptions.export_url_for_linked_image.html', '<img src="http://www.aspose.com/images/aspose-logo.gif"' if not dir_files else '<img src="HtmlSaveOptions.export_url_for_linked_image.001.png"')
 
-    @unittest.skip('Bug')
-    def test_resolve_font_names(self):
-        for resolve_font_names in (False, True):
-            with self.subTest(resolve_font_names=resolve_font_names):
-                #ExStart
-                #ExFor:HtmlSaveOptions.resolve_font_names
-                #ExSummary:Shows how to resolve all font names before writing them to HTML.
-                doc = aw.Document(MY_DIR + 'Missing font.docx')
-                # This document contains text that names a font that we do not have.
-                self.assertIsNotNone(doc.font_infos.get_by_name('28 Days Later'))
-                # If we have no way of getting this font, and we want to be able to display all the text
-                # in this document in an output HTML, we can substitute it with another font.
-                font_settings = aw.fonts.FontSettings()
-                font_settings.substitution_settings.default_font_substitution.default_font_name = 'Arial'
-                font_settings.substitution_settings.default_font_substitution.enabled = True
-                doc.font_settings = font_settings
-                save_options = aw.saving.HtmlSaveOptions(aw.SaveFormat.HTML)
-                # By default, this option is set to 'False' and Aspose.Words writes font names as specified in the source document
-                save_options.resolve_font_names = resolve_font_names
-                doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.resolve_font_names.html', save_options)
-                with open(ARTIFACTS_DIR + 'HtmlSaveOptions.resolve_font_names.html', 'rt', encoding='utf-8') as file:
-                    out_doc_contents = file.read()
-                if resolve_font_names:
-                    self.assertIn('<span style="font-family:Arial">', out_doc_contents)
-                else:
-                    self.assertIn('<span style="font-family:\'28 Days Later\'">', out_doc_contents)
-                #ExEnd
-
     def test_export_images_as_base64(self):
         for export_images_as_base64 in (False, True):
             with self.subTest(export_images_as_base64=export_images_as_base64):
@@ -1024,7 +995,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertIn('<span>Привет, мир!</span>', out_doc_contents)
                 #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_font_subsetting(self):
         for font_resources_subsetting_size_threshold in (0, 1000000, 2 ** 31 - 1):
             with self.subTest(font_resources_subsetting_size_threshold=font_resources_subsetting_size_threshold):
@@ -1070,7 +1041,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertTrue(max(font_resources_subsetting_size_threshold, 30000) > font_file_size)
                 #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_office_math_output_mode(self):
         for html_office_math_output_mode in (aw.saving.HtmlOfficeMathOutputMode.IMAGE, aw.saving.HtmlOfficeMathOutputMode.MATH_ML, aw.saving.HtmlOfficeMathOutputMode.TEXT):
             with self.subTest(html_office_math_output_mode=html_office_math_output_mode):

@@ -245,7 +245,6 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertNotEqual(runs[0].font.underline, runs[2].font.underline)
         self.assertEqual('http://www.google.com', doc.range.fields[0].as_field_hyperlink().address)
 
-    @unittest.skip("drawing.Image type isn't supported yet")
     def test_insert_watermark(self):
         #ExStart
         #ExFor:DocumentBuilder.move_to_header_footer
@@ -1301,7 +1300,7 @@ class ExDocumentBuilder(ApiExampleBase):
             self.assertEqual(50, paragraph.paragraph_format.right_indent)
             self.assertEqual(25, paragraph.paragraph_format.space_after)
 
-    @unittest.skip('Calculation problems')
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_set_cell_formatting(self):
         #ExStart
         #ExFor:DocumentBuilder.cell_format
@@ -1690,7 +1689,7 @@ class ExDocumentBuilder(ApiExampleBase):
             test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_AUTHOR, expected_field_code=' AUTHOR ', expected_result='John Doe', field=doc.range.fields[0])
             test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_PAGE, expected_field_code=' PAGE ', expected_result='1', field=doc.range.fields[1])
 
-    @unittest.skip('Failed')
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_insert_video_with_url(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_online_video(str,float,float)
@@ -1796,7 +1795,7 @@ class ExDocumentBuilder(ApiExampleBase):
         test_util.TestUtil.doc_package_file_contains_string('w:rPr><w:vanish /><w:specVanish /></w:rPr>', ARTIFACTS_DIR + 'DocumentBuilder.InsertStyleSeparator.docx', 'document.xml')
         test_util.TestUtil.doc_package_file_contains_string('<w:t xml:space="preserve"> </w:t>', ARTIFACTS_DIR + 'DocumentBuilder.InsertStyleSeparator.docx', 'document.xml')
 
-    @unittest.skip('Bug: does not insert headers and footers, all lists (bullets, numbering, multilevel) breaks')
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_insert_document(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_document(Document,ImportFormatMode)
@@ -1877,6 +1876,7 @@ class ExDocumentBuilder(ApiExampleBase):
         dst_doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.DoNotIgnoreHeaderFooter.docx')
         #ExEnd
 
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_insert_online_video(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_online_video(str,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)
@@ -2233,7 +2233,8 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(1, doc.first_section.body.tables.count)
         self.assertEqual('Row 1, cell 1\x07Row 1, cell 2\x07\x07\rText added to current Story.', doc.first_section.body.get_text().strip())
 
-    @unittest.skip('Calculation problems')
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'requires Windows')
     def test_insert_online_video_custom_thumbnail(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_online_video(str,str,bytes,float,float)

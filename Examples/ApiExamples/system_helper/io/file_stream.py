@@ -11,6 +11,11 @@ class FileStream(_io.FileIO):
         if file_mode == FileMode.OPEN and (file_access is None or file_access == FileAccess.READ):
             super().__init__(file_path, 'rb')
             return
+
+        if file_mode == FileMode.OPEN_OR_CREATE and file_access is None:
+            super().__init__(file_path, 'w+b')
+            return
+
         if file_mode == FileMode.OPEN and file_access == FileAccess.WRITE:
             super().__init__(file_path, 'ab')
             return

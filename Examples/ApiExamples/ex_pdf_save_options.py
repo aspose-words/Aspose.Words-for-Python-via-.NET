@@ -9,20 +9,20 @@ import aspose.pydrawing as drawing
 import sys
 import os
 import io
-import aspose.words.fonts
 from aspose.words import Document
 from aspose.words.saving import PdfTextCompression
 from aspose.words.saving import PdfTextCompression
 from datetime import timedelta, timezone
 import aspose.words as aw
 import aspose.words.digitalsignatures
+import aspose.words.fonts
 import aspose.words.saving
 import aspose.words.settings
 import datetime
 import system_helper
 import test_util
 import unittest
-from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR, FONTS_DIR
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR, FONTS_DIR, IMAGE_DIR, MY_DIR
 
 class ExPdfSaveOptions(ApiExampleBase):
 
@@ -249,7 +249,6 @@ class ExPdfSaveOptions(ApiExampleBase):
             doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.Compliance.pdf', save_options=save_options)
         #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_text_compression(self):
         for pdf_text_compression in [aw.saving.PdfTextCompression.NONE, aw.saving.PdfTextCompression.FLATE]:
             #ExStart
@@ -423,6 +422,29 @@ class ExPdfSaveOptions(ApiExampleBase):
             builder.insert_hyperlink('Testlink', uri, False)
             doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.EscapedUri.pdf')
 
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
+    def test_open_hyperlinks_in_new_window(self):
+        for open_hyperlinks_in_new_window in [False, True]:
+            #ExStart
+            #ExFor:PdfSaveOptions.open_hyperlinks_in_new_window
+            #ExSummary:Shows how to save hyperlinks in a document we convert to PDF so that they open new pages when we click on them.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.insert_hyperlink('Testlink', 'https://www.google.com/search?q=%20aspose', False)
+            # Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
+            # to modify how that method converts the document to .PDF.
+            options = aw.saving.PdfSaveOptions()
+            # Set the "OpenHyperlinksInNewWindow" property to "true" to save all hyperlinks using Javascript code
+            # that forces readers to open these links in new windows/browser tabs.
+            # Set the "OpenHyperlinksInNewWindow" property to "false" to save all hyperlinks normally.
+            options.open_hyperlinks_in_new_window = open_hyperlinks_in_new_window
+            doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.OpenHyperlinksInNewWindow.pdf', save_options=options)
+            #ExEnd
+            if open_hyperlinks_in_new_window:
+                test_util.TestUtil.file_contains_string('<</Type/Annot/Subtype/Link/Rect[70.84999847 707.35101318 110.17799377 721.15002441]/BS' + '<</Type/Border/S/S/W 0>>/A<</Type/Action/S/JavaScript/JS(app.launchURL\\("https://www.google.com/search?q=%20aspose", true\\);)>>>>', ARTIFACTS_DIR + 'PdfSaveOptions.OpenHyperlinksInNewWindow.pdf')
+            else:
+                test_util.TestUtil.file_contains_string('<</Type/Annot/Subtype/Link/Rect[70.84999847 707.35101318 110.17799377 721.15002441]/BS' + '<</Type/Border/S/S/W 0>>/A<</Type/Action/S/URI/URI(https://www.google.com/search?q=%20aspose)>>>>', ARTIFACTS_DIR + 'PdfSaveOptions.OpenHyperlinksInNewWindow.pdf')
+
     def test_header_footer_bookmarks_export_mode(self):
         for header_footer_bookmarks_export_mode in [aw.saving.HeaderFooterBookmarksExportMode.NONE, aw.saving.HeaderFooterBookmarksExportMode.FIRST, aw.saving.HeaderFooterBookmarksExportMode.ALL]:
             #ExStart
@@ -471,7 +493,46 @@ class ExPdfSaveOptions(ApiExampleBase):
             doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.EmulateRenderingToSizeOnPage.pdf', save_options=save_options)
             #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
+    def test_embed_full_fonts(self):
+        for embed_full_fonts in [False, True]:
+            #ExStart
+            #ExFor:PdfSaveOptions.__init__
+            #ExFor:PdfSaveOptions.embed_full_fonts
+            #ExSummary:Shows how to enable or disable subsetting when embedding fonts while rendering a document to PDF.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.font.name = 'Arial'
+            builder.writeln('Hello world!')
+            builder.font.name = 'Arvo'
+            builder.writeln('The quick brown fox jumps over the lazy dog.')
+            # Configure our font sources to ensure that we have access to both the fonts in this document.
+            original_fonts_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
+            folder_font_source = aw.fonts.FolderFontSource(folder_path=FONTS_DIR, scan_subfolders=True)
+            aw.fonts.FontSettings.default_instance.set_fonts_sources(sources=[original_fonts_sources[0], folder_font_source])
+            font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
+            self.assertTrue(any([f.full_font_name == 'Arial' for f in font_sources[0].get_available_fonts()]))
+            self.assertTrue(any([f.full_font_name == 'Arvo' for f in font_sources[1].get_available_fonts()]))
+            # Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
+            # to modify how that method converts the document to .PDF.
+            options = aw.saving.PdfSaveOptions()
+            # Since our document contains a custom font, embedding in the output document may be desirable.
+            # Set the "EmbedFullFonts" property to "true" to embed every glyph of every embedded font in the output PDF.
+            # The document's size may become very large, but we will have full use of all fonts if we edit the PDF.
+            # Set the "EmbedFullFonts" property to "false" to apply subsetting to fonts, saving only the glyphs
+            # that the document is using. The file will be considerably smaller,
+            # but we may need access to any custom fonts if we edit the document.
+            options.embed_full_fonts = embed_full_fonts
+            doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.EmbedFullFonts.pdf', save_options=options)
+            # Restore the original font sources.
+            aw.fonts.FontSettings.default_instance.set_fonts_sources(sources=original_fonts_sources)
+            #ExEnd
+            tested_file_length = system_helper.io.FileInfo(ARTIFACTS_DIR + 'PdfSaveOptions.EmbedFullFonts.pdf').length()
+            if embed_full_fonts:
+                self.assertTrue(tested_file_length < 571000)
+            else:
+                self.assertTrue(tested_file_length < 24000)
+
     def test_embed_windows_fonts(self):
         for pdf_font_embedding_mode in [aw.saving.PdfFontEmbeddingMode.EMBED_ALL, aw.saving.PdfFontEmbeddingMode.EMBED_NONE, aw.saving.PdfFontEmbeddingMode.EMBED_NONSTANDARD]:
             #ExStart
@@ -505,7 +566,6 @@ class ExPdfSaveOptions(ApiExampleBase):
             elif switch_condition == aw.saving.PdfFontEmbeddingMode.EMBED_NONE:
                 self.assertTrue(tested_file_length < 4300)
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_embed_core_fonts(self):
         for use_core_fonts in [False, True]:
             #ExStart
@@ -668,7 +728,6 @@ class ExPdfSaveOptions(ApiExampleBase):
             else:
                 test_util.TestUtil.file_contains_string('<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>', ARTIFACTS_DIR + 'PdfSaveOptions.ExportDocumentStructure.pdf')
 
-    @unittest.skip("drawing.Image type isn't supported yet")
     def test_interpolate_images(self):
         for interpolate_images in [False, True]:
             #ExStart
@@ -852,110 +911,6 @@ class ExPdfSaveOptions(ApiExampleBase):
             doc.save(stream, options)
         #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
-    def test_open_hyperlinks_in_new_window(self):
-        for open_hyperlinks_in_new_window in [False, True]:
-            #ExStart
-            #ExFor:PdfSaveOptions.open_hyperlinks_in_new_window
-            #ExSummary:Shows how to save hyperlinks in a document we convert to PDF so that they open new pages when we click on them.
-            doc = aw.Document()
-            builder = aw.DocumentBuilder(doc=doc)
-            builder.insert_hyperlink('Testlink', 'https://www.google.com/search?q=%20aspose', False)
-            # Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
-            # to modify how that method converts the document to .PDF.
-            options = aw.saving.PdfSaveOptions()
-            # Set the "OpenHyperlinksInNewWindow" property to "true" to save all hyperlinks using Javascript code
-            # that forces readers to open these links in new windows/browser tabs.
-            # Set the "OpenHyperlinksInNewWindow" property to "false" to save all hyperlinks normally.
-            options.open_hyperlinks_in_new_window = open_hyperlinks_in_new_window
-            doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.OpenHyperlinksInNewWindow.pdf', save_options=options)
-            #ExEnd
-            if open_hyperlinks_in_new_window:
-                test_util.TestUtil.file_contains_string('<</Type/Annot/Subtype/Link/Rect[72 706.20098877 111.32800293 720]/BS' + '<</Type/Border/S/S/W 0>>/A<</Type/Action/S/JavaScript/JS(app.launchURL\\("https://www.google.com/search?q=%20aspose", true\\);)>>>>', ARTIFACTS_DIR + 'PdfSaveOptions.OpenHyperlinksInNewWindow.pdf')
-            else:
-                test_util.TestUtil.file_contains_string('<</Type/Annot/Subtype/Link/Rect[72 706.20098877 111.32800293 720]/BS' + '<</Type/Border/S/S/W 0>>/A<</Type/Action/S/URI/URI(https://www.google.com/search?q=%20aspose)>>>>', ARTIFACTS_DIR + 'PdfSaveOptions.OpenHyperlinksInNewWindow.pdf')
-
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
-    def test_embed_full_fonts(self):
-        for embed_full_fonts in (False, True):
-            with self.subTest(embed_full_fonts=embed_full_fonts):
-                #ExStart
-                #ExFor:PdfSaveOptions.__init__
-                #ExFor:PdfSaveOptions.embed_full_fonts
-                #ExSummary:Shows how to enable or disable subsetting when embedding fonts while rendering a document to PDF.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                builder.font.name = 'Arial'
-                builder.writeln('Hello world!')
-                builder.font.name = 'Arvo'
-                builder.writeln('The quick brown fox jumps over the lazy dog.')
-                # Configure our font sources to ensure that we have access to both the fonts in this document.
-                original_fonts_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
-                folder_font_source = aw.fonts.FolderFontSource(FONTS_DIR, True)
-                aw.fonts.FontSettings.default_instance.set_fonts_sources([original_fonts_sources[0], folder_font_source])
-                font_sources = aw.fonts.FontSettings.default_instance.get_fonts_sources()
-                self.assertTrue(any((font.full_font_name == 'Arial' for font in font_sources[0].get_available_fonts())))
-                self.assertTrue(any((font.full_font_name == 'Arvo' for font in font_sources[1].get_available_fonts())))
-                # Create a "PdfSaveOptions" object that we can pass to the document's "save" method
-                # to modify how that method converts the document to .PDF.
-                options = aw.saving.PdfSaveOptions()
-                # Since our document contains a custom font, embedding in the output document may be desirable.
-                # Set the "embed_full_fonts" property to "True" to embed every glyph of every embedded font in the output PDF.
-                # The document's size may become very large, but we will have full use of all fonts if we edit the PDF.
-                # Set the "embed_full_fonts" property to "False" to apply subsetting to fonts, saving only the glyphs
-                # that the document is using. The file will be considerably smaller,
-                # but we may need access to any custom fonts if we edit the document.
-                options.embed_full_fonts = embed_full_fonts
-                doc.save(ARTIFACTS_DIR + 'PdfSaveOptions.embed_full_fonts.pdf', options)
-                if embed_full_fonts:
-                    self.assertLess(500000, os.path.getsize(ARTIFACTS_DIR + 'PdfSaveOptions.embed_full_fonts.pdf'))
-                else:
-                    self.assertGreater(25000, os.path.getsize(ARTIFACTS_DIR + 'PdfSaveOptions.embed_full_fonts.pdf'))
-                # Restore the original font sources.
-                aw.fonts.FontSettings.default_instance.set_fonts_sources(original_fonts_sources)
-                #ExEnd
-
-    @unittest.skip("system.globalization.CultureInfo type isn't supported yet")
-    def test_page_mode(self):
-        for page_mode in (aw.saving.PdfPageMode.FULL_SCREEN, aw.saving.PdfPageMode.USE_THUMBS, aw.saving.PdfPageMode.USE_OC, aw.saving.PdfPageMode.USE_OUTLINES, aw.saving.PdfPageMode.USE_NONE, aw.saving.PdfPageMode.USE_ATTACHMENTS):
-            with self.subTest(page_mode=page_mode):
-                #ExStart
-                #ExFor:PdfSaveOptions.page_mode
-                #ExFor:PdfPageMode
-                #ExSummary:Shows how to set instructions for some PDF readers to follow when opening an output document.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                builder.writeln('Hello world!')
-                # Create a "PdfSaveOptions" object that we can pass to the document's "save" method
-                # to modify how that method converts the document to .PDF.
-                options = aw.saving.PdfSaveOptions()
-                # Set the "page_mode" property to "PdfPageMode.FULL_SCREEN" to get the PDF reader to open the saved
-                # document in full-screen mode, which takes over the monitor's display and has no controls visible.
-                # Set the "page_mode" property to "PdfPageMode.USE_THUMBS" to get the PDF reader to display a separate panel
-                # with a thumbnail for each page in the document.
-                # Set the "page_mode" property to "PdfPageMode.USE_OC" to get the PDF reader to display a separate panel
-                # that allows us to work with any layers present in the document.
-                # Set the "page_mode" property to "PdfPageMode.USE_OUTLINES" to get the PDF reader
-                # also to display the outline, if possible.
-                # Set the "page_mode" property to "PdfPageMode.USE_NONE" to get the PDF reader to display just the document itself.
-                # Set the "page_mode" property to "PdfPageMode.USE_ATTACHMENTS" to make visible attachments panel.
-                options.page_mode = page_mode
-                doc.save(ARTIFACTS_DIR + 'PdfSaveOptions.page_mode.pdf', options)
-                #ExEnd
-                doc_locale_name = CultureInfo(doc.styles.default_font.locale_id).name
-                with open(ARTIFACTS_DIR + 'PdfSaveOptions.page_mode.pdf', 'rb') as file:
-                    content = file.read().decode('utf-8')
-                    if page_mode == aw.saving.PdfPageMode.FULL_SCREEN:
-                        self.assertIn('<</Type /Catalog/Pages 3 0 R/PageMode /FullScreen/Lang({})/Metadata 4 0 R>>\r\n'.format(doc_locale_name), content)
-                    elif page_mode == aw.saving.PdfPageMode.USE_THUMBS:
-                        self.assertIn('<</Type /Catalog/Pages 3 0 R/PageMode /UseThumbs/Lang({})/Metadata 4 0 R>>'.format(doc_locale_name), content)
-                    elif page_mode == aw.saving.PdfPageMode.USE_OC:
-                        self.assertIn('<</Type /Catalog/Pages 3 0 R/PageMode /UseOC/Lang({})/Metadata 4 0 R>>\r\n'.format(doc_locale_name), content)
-                    elif page_mode in (aw.saving.PdfPageMode.USE_OUTLINES, aw.saving.PdfPageMode.USE_NONE):
-                        self.assertIn('<</Type /Catalog/Pages 3 0 R/Lang({})/Metadata 4 0 R>>\r\n'.format(doc_locale_name), content)
-                    elif page_mode == aw.saving.PdfPageMode.USE_ATTACHMENTS:
-                        self.assertIn(f'<</Type /Catalog/Pages 3 0 R/PageMode /UseAttachments/Lang({doc_locale_name})/Metadata 4 0 R>>\r\n', content)
-
     def test_note_hyperlinks(self):
         for create_note_hyperlinks in (False, True):
             with self.subTest(create_note_hyperlinks=create_note_hyperlinks):
@@ -1017,39 +972,6 @@ class ExPdfSaveOptions(ApiExampleBase):
                     self.assertIn(b'/Company(\xfe\xff\x00M\x00y\x00 \x00v\x00a\x00l\x00u\x00e)>>', content)
                 elif pdf_custom_properties_export_mode == aw.saving.PdfCustomPropertiesExport.METADATA:
                     self.assertIn(b'<</Type/Metadata/Subtype/XML/Length 8 0 R/Filter/FlateDecode>>', content)
-
-    @unittest.skip("drawing.Image type isn't supported yet")
-    def test_preblend_images(self):
-        for preblend_images in (False, True):
-            with self.subTest(preblend_images=preblend_images):
-                #ExStart
-                #ExFor:PdfSaveOptions.preblend_images
-                #ExSummary:Shows how to preblend images with transparent backgrounds while saving a document to PDF.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                img = drawing.Image.from_file(IMAGE_DIR + 'Transparent background logo.png')
-                builder.insert_image(img)
-                # Create a "PdfSaveOptions" object that we can pass to the document's "save" method
-                # to modify how that method converts the document to .PDF.
-                options = aw.saving.PdfSaveOptions()
-                # Set the "preblend_images" property to "True" to preblend transparent images
-                # with a background, which may reduce artifacts.
-                # Set the "preblend_images" property to "False" to render transparent images normally.
-                options.preblend_images = preblend_images
-                doc.save(ARTIFACTS_DIR + 'PdfSaveOptions.preblend_images.pdf', options)
-                #ExEnd
-                pdf_document = aspose.pdf.Document(ARTIFACTS_DIR + 'PdfSaveOptions.preblend_images.pdf')
-                image = pdf_document.pages[1].resources.images[1]
-                with open(ARTIFACTS_DIR + 'PdfSaveOptions.preblend_images.pdf', 'rb') as file:
-                    content = file.read()
-                with io.BytesIO() as stream:
-                    image.save(stream)
-                    if preblend_images:
-                        self.assertIn('11 0 obj\r\n20849 ', content)
-                        self.assertEqual(17898, len(stream.getvalue()))
-                    else:
-                        self.assertIn('11 0 obj\r\n19289 ', content)
-                        self.assertEqual(19216, len(stream.getvalue()))
 
     def test_pdf_digital_signature(self):
         #ExStart

@@ -113,7 +113,6 @@ class ExXpsSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'XpsSaveOptions.XpsDigitalSignature.docx', save_options=save_options)
         #ExEnd:XpsDigitalSignature
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'different calculation on Linux')
     def test_optimize_output(self):
         for optimize_output in (False, True):
             with self.subTest(optimize_output=optimize_output):

@@ -1217,3 +1217,11 @@ class TestUtil(object):
             return
         file_text = pathlib.Path(filename).read_text()
         TestUtil.unit_test.assertIn(expected, file_text)
+
+    @staticmethod
+    def fields_are_nested(inner_field: aw.fields.Field, outer_field: aw.fields.Field) -> None:
+        inner_field_parent = inner_field.start.parent_node
+        TestUtil.unit_test.assertTrue(inner_field_parent == outer_field.start.parent_node)
+        TestUtil.unit_test.assertTrue(inner_field_parent.get_child_nodes(aw.NodeType.ANY, False).index_of(inner_field.start) > inner_field_parent.get_child_nodes(aw.NodeType.ANY, False).index_of(outer_field.start))
+        TestUtil.unit_test.assertTrue(inner_field_parent.get_child_nodes(aw.NodeType.ANY, False).index_of(
+            inner_field.end) < inner_field_parent.get_child_nodes(aw.NodeType.ANY, False).index_of(outer_field.end))

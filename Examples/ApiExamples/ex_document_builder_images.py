@@ -143,7 +143,6 @@ class ExDocumentBuilderImages(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilderImages.InsertSvgImage.Emf.docx')
         #ExEnd
 
-    @unittest.skip("drawing.Image type isn't supported yet")
     def test_insert_image_from_image_object(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_image(Image)

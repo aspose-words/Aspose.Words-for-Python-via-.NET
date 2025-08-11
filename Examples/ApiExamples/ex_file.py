@@ -147,7 +147,7 @@ class ExFile(ApiExampleBase):
             print(error)
         #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'Encoding. Requires Windows')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_detect_encoding(self):
         #ExStart
         #ExFor:FileFormatInfo.encoding

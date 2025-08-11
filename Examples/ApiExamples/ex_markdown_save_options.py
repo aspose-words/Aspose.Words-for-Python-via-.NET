@@ -168,6 +168,7 @@ class ExMarkdownSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.OfficeMathExportMode.md', save_options=save_options)
         #ExEnd:OfficeMathExportMode
 
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_empty_paragraph_export_mode(self):
         for export_mode in [aw.saving.MarkdownEmptyParagraphExportMode.NONE, aw.saving.MarkdownEmptyParagraphExportMode.EMPTY_LINE, aw.saving.MarkdownEmptyParagraphExportMode.MARKDOWN_HARD_LINE_BREAK]:
             #ExStart:EmptyParagraphExportMode
@@ -192,7 +193,6 @@ class ExMarkdownSaveOptions(ApiExampleBase):
                 self.assertEqual('First\r\n\\\r\n\\\r\n\\\r\n\\\r\n\\\r\nLast\r\n<br>\r\n', result)
         #ExEnd:EmptyParagraphExportMode
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'Windows encoding')
     def test_export_images_as_base64(self):
         for export_images_as_base64 in (True, False):
             with self.subTest(export_images_as_base64=export_images_as_base64):

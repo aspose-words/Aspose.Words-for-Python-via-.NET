@@ -296,7 +296,6 @@ class ExDocumentProperties(ApiExampleBase):
         #ExEnd
         self.assertEqual(2, doc.custom_document_properties.count)
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires Windows')
     def test_content(self):
         #ExStart
         #ExFor:BuiltInDocumentProperties.bytes
@@ -492,28 +491,4 @@ class ExDocumentProperties(ApiExampleBase):
         # 3 -  Empty the entire collection at once:
         properties.clear()
         self.assertEqual(0, properties.count)
-        #ExEnd
-
-    @unittest.skip("Unable to cast object of type 'System.Int32' to type 'System.Double")
-    def test_property_types(self):
-        #ExStart
-        #ExFor:DocumentProperty.to_bool
-        #ExFor:DocumentProperty.to_int
-        #ExFor:DocumentProperty.to_double
-        #ExFor:DocumentProperty.__str__
-        #ExFor:DocumentProperty.to_date_time
-        #ExSummary:Shows various type conversion methods of custom document properties.
-        doc = aw.Document()
-        properties = doc.custom_document_properties
-        auth_date = datetime.date.today()
-        properties.add(name='Authorized', value=True)
-        properties.add(name='Authorized By', value='John Doe')
-        properties.add(name='Authorized Date', value=auth_date)
-        properties.add(name='Authorized Revision', value=doc.built_in_document_properties.revision_number)
-        properties.add(name='Authorized Amount', value=123.45)
-        self.assertEqual(True, properties.get_by_name('Authorized').to_bool())
-        self.assertEqual('John Doe', properties.get_by_name('Authorized By').to_string())
-        self.assertEqual(auth_date, properties.get_by_name('Authorized Date').to_date_time())
-        self.assertEqual(1, properties.get_by_name('Authorized Revision').to_int())
-        self.assertEqual(123.45, properties.get_by_name('Authorized Amount').to_double())
         #ExEnd

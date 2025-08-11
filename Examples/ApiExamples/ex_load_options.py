@@ -39,7 +39,6 @@ class ExLoadOptions(ApiExampleBase):
                 self.assertEqual(0, doc.get_child_nodes(aw.NodeType.OFFICE_MATH, True).count)
             #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires windows')
     def test_set_encoding(self):
         #ExStart
         #ExFor:LoadOptions.encoding

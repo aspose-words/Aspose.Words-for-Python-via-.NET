@@ -284,7 +284,6 @@ class ExDocument(ApiExampleBase):
         self.assertEqual('Lorem ipsum. Dolor sit amet.', dst_doc.first_section.body.first_paragraph.get_text().strip())
         #ExEnd
 
-    @unittest.skip('DigitalSignatureUtil.sing method is not supported')
     def test_digital_signature(self):
         #ExStart
         #ExFor:DigitalSignature.certificate_holder
@@ -616,7 +615,6 @@ class ExDocument(ApiExampleBase):
         self.assertEqual(doc.compliance, aw.saving.OoxmlCompliance.ISO29500_2008_TRANSITIONAL)
         #ExEnd
 
-    @unittest.skip('WORDSNET-20342')
     def test_image_save_options(self):
         #ExStart
         #ExFor:Document.save(str,SaveOptions)
@@ -1330,7 +1328,7 @@ class ExDocument(ApiExampleBase):
             doc.save(ARTIFACTS_DIR + 'Document.load_from_web.docx')
         #ExEnd
 
-    @unittest.skipUnless(sys.platform.startswith('win'), 'requires windows')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'requires Windows')
     def test_save_to_image_stream(self):
         #ExStart
         #ExFor:Document.save(BytesIO,SaveFormat)
@@ -1674,25 +1672,6 @@ class ExDocument(ApiExampleBase):
         doc.web_extension_task_panes.remove(0)
         self.assertEqual(0, doc.web_extension_task_panes.count)
         #ExEnd
-
-    @unittest.skip("drawing.Image type isn't supported yet")
-    def test_image_watermark(self):
-        #ExStart
-        #ExFor:Watermark.set_image(Image,ImageWatermarkOptions)
-        #ExFor:ImageWatermarkOptions.scale
-        #ExFor:ImageWatermarkOptions.is_washout
-        #ExSummary:Shows how to create a watermark from an image in the local file system.
-        doc = aw.Document()
-        # Modify the image watermark's appearance with an ImageWatermarkOptions object,
-        # then pass it while creating a watermark from an image file.
-        image_watermark_options = aw.ImageWatermarkOptions()
-        image_watermark_options.scale = 5
-        image_watermark_options.is_washout = False
-        doc.watermark.set_image(drawing.Image.from_file(IMAGE_DIR + 'Logo.jpg'), image_watermark_options)
-        doc.save(ARTIFACTS_DIR + 'Document.image_watermark.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Document.image_watermark.docx')
-        self.assertEqual(aw.WatermarkType.IMAGE, doc.watermark.type)
 
     def _test_doc_package_custom_parts(self, parts: aw.markup.CustomPartCollection):
         self.assertEqual(3, parts.count)
