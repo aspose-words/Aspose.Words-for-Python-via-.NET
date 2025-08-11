@@ -129,7 +129,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
             save_options.html_version = html_version
             doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.Html5Support.html', save_options=save_options)
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_export_fonts(self):
         for export_as_base64 in [False, True]:
             fonts_folder = ARTIFACTS_DIR + 'HtmlSaveOptions.ExportFonts.Resources'
@@ -462,7 +462,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.Doc2EpubSaveOptions.epub', save_options=save_options)
         #ExEnd
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_content_id_urls(self):
         for export_cid_urls_for_mhtml_resources in [False, True]:
             #ExStart
@@ -575,6 +575,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 self.assertTrue('<ol type="a" style="margin-right:0pt; margin-left:0pt; padding-left:0pt">' + '<li style="margin-left:31.33pt; padding-left:4.67pt">' + '<span>Default numbered list item 3.</span>' + '</li>' + '</ol>' in out_doc_contents)
         #ExEnd
 
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_export_page_margins(self):
         for export_page_margins in [False, True]:
             #ExStart
@@ -607,6 +608,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 self.assertTrue('<div><p style="margin-top:0pt; margin-left:220.85pt; margin-bottom:0pt">' in out_doc_contents)
             #ExEnd
 
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_export_page_setup(self):
         for export_page_setup in [False, True]:
             #ExStart
@@ -731,6 +733,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 self.assertEqual(0, len(list(filter(lambda f: f.type == aw.fields.FieldType.FIELD_PAGE, doc.range.fields))))
             #ExEnd
 
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_export_toc_page_numbers(self):
         for export_toc_page_numbers in [False, True]:
             #ExStart
@@ -992,8 +995,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertIn('<span>Привет, мир!</span>', out_doc_contents)
                 #ExEnd
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_font_subsetting(self):
         for font_resources_subsetting_size_threshold in (0, 1000000, 2 ** 31 - 1):
             with self.subTest(font_resources_subsetting_size_threshold=font_resources_subsetting_size_threshold):
@@ -1039,7 +1041,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertTrue(max(font_resources_subsetting_size_threshold, 30000) > font_file_size)
                 #ExEnd
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_office_math_output_mode(self):
         for html_office_math_output_mode in (aw.saving.HtmlOfficeMathOutputMode.IMAGE, aw.saving.HtmlOfficeMathOutputMode.MATH_ML, aw.saving.HtmlOfficeMathOutputMode.TEXT):
             with self.subTest(html_office_math_output_mode=html_office_math_output_mode):

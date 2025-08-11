@@ -644,7 +644,7 @@ class ExFont(ApiExampleBase):
         system_helper.io.File.write_all_bytes(ARTIFACTS_DIR + 'Alte DIN 1451 Mittelschrift.otf', embedded_font_bytes)
         #ExEnd
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_line_spacing(self):
         #ExStart
         #ExFor:Font.line_spacing
@@ -1030,7 +1030,7 @@ class ExFont(ApiExampleBase):
         self.assertEqual(bytes([2, 15, 3, 2, 2, 2, 4, 3, 2, 4]), doc.font_infos.get_by_name('Calibri Light').panose)
         self.assertEqual(bytes([2, 2, 6, 3, 5, 4, 5, 2, 3, 4]), doc.font_infos.get_by_name('Times New Roman').panose)
 
-    @unittest.skip('requires Windows')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'requires Windows')
     def test_check_scan_user_fonts_folder(self):
         user_profile = pathlib.Path(os.environ['USERPROFILE'])
         current_user_fonts_folder = user_profile.joinpath('AppData\\Local\\Microsoft\\Windows\\Fonts')

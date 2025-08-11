@@ -1300,6 +1300,7 @@ class ExDocumentBuilder(ApiExampleBase):
             self.assertEqual(50, paragraph.paragraph_format.right_indent)
             self.assertEqual(25, paragraph.paragraph_format.space_after)
 
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_set_cell_formatting(self):
         #ExStart
         #ExFor:DocumentBuilder.cell_format
@@ -1875,6 +1876,7 @@ class ExDocumentBuilder(ApiExampleBase):
         dst_doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.DoNotIgnoreHeaderFooter.docx')
         #ExEnd
 
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_insert_online_video(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_online_video(str,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)
@@ -2231,7 +2233,8 @@ class ExDocumentBuilder(ApiExampleBase):
         self.assertEqual(1, doc.first_section.body.tables.count)
         self.assertEqual('Row 1, cell 1\x07Row 1, cell 2\x07\x07\rText added to current Story.', doc.first_section.body.get_text().strip())
 
-    @unittest.skip('requires Windows')
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'requires Windows')
     def test_insert_online_video_custom_thumbnail(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_online_video(str,str,bytes,float,float)

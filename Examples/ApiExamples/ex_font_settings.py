@@ -60,7 +60,7 @@ class ExFontSettings(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'FontSettings.DefaultFontName.pdf')
         #ExEnd
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_enable_font_substitution(self):
         #ExStart
         #ExFor:FontInfoSubstitutionRule
@@ -510,7 +510,7 @@ class ExFontSettings(ApiExampleBase):
         self.assertEqual('MS Mincho', rules[4].attrib['FallbackFonts'])
         self.assertEqual('Arial Unicode MS', rules[5].attrib['FallbackFonts'])
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_font_config_substitution(self):
         #ExStart
         #ExFor:FontConfigSubstitutionRule

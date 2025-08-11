@@ -1499,7 +1499,7 @@ class ExShape(ApiExampleBase):
         self.assertEqual(2, number_of_smart_art_shapes)
         #ExEnd
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_office_math_renderer(self):
         #ExStart
         #ExFor:NodeRendererBase
@@ -2147,7 +2147,7 @@ class ExShape(ApiExampleBase):
         self.assertEqual(76, len(ole_entry_bytes))
         #ExEnd
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_render_office_math(self):
         #ExStart
         #ExFor:ImageSaveOptions.scale

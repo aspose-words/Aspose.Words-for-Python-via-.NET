@@ -3236,7 +3236,7 @@ class ExField(ApiExampleBase):
         self.assertEqual('09312345678907', field.barcode_value)
         self.assertEqual('STD', field.case_code_style)
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_field_date(self):
         #ExStart
         #ExFor:FieldDate
@@ -3290,7 +3290,7 @@ class ExField(ApiExampleBase):
         self.verify_field(aw.fields.FieldType.FIELD_DATE, ' DATE  \\l', today, field)
         self.assertTrue(field.use_last_format)
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_field_quote(self):
         #ExStart
         #ExFor:FieldQuote
@@ -3681,7 +3681,7 @@ class ExField(ApiExampleBase):
             self.verify_web_response_status_code(200, 'https://blogs.msdn.microsoft.com/murrays/2018/01/23/microsoft-word-eq-field/')
         field_eq()
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_field_time(self):
         #ExStart
         #ExFor:FieldTime
