@@ -12,6 +12,7 @@ import sys
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.saving
+import document_helper
 import os
 import system_helper
 import unittest
@@ -192,6 +193,21 @@ class ExMarkdownSaveOptions(ApiExampleBase):
             elif switch_condition == aw.saving.MarkdownEmptyParagraphExportMode.MARKDOWN_HARD_LINE_BREAK:
                 self.assertEqual('First\r\n\\\r\n\\\r\n\\\r\n\\\r\n\\\r\nLast\r\n<br>\r\n', result)
         #ExEnd:EmptyParagraphExportMode
+
+    def test_non_compatible_tables(self):
+        #ExStart:NonCompatibleTables
+        #ExFor:MarkdownExportAsHtml
+        #ExSummary:Shows how to export tables that cannot be correctly represented in pure Markdown as raw HTML.
+        output_path = ARTIFACTS_DIR + 'MarkdownSaveOptions.NonCompatibleTables.md'
+        doc = aw.Document(file_name=MY_DIR + 'Non compatible table.docx')
+        # With the "NonCompatibleTables" option, you can export tables that have a complex structure with merged cells
+        # or nested tables to raw HTML and leave simple tables in Markdown format.
+        save_options = aw.saving.MarkdownSaveOptions()
+        save_options.export_as_html = aw.saving.MarkdownExportAsHtml.NON_COMPATIBLE_TABLES
+        doc.save(file_name=output_path, save_options=save_options)
+        #ExEnd:NonCompatibleTables
+        document_helper.DocumentHelper.find_text_in_file(output_path, '<table><tr><th rowspan="2" valign="top">Heading 1</th>')
+        document_helper.DocumentHelper.find_text_in_file(output_path, '|Heading 1|Heading 2|')
 
     def test_export_images_as_base64(self):
         for export_images_as_base64 in (True, False):

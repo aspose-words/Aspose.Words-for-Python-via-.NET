@@ -33,8 +33,8 @@ class ExCleanupOptions(ApiExampleBase):
         builder = aw.DocumentBuilder(doc=doc)
         builder.font.style = doc.styles.get_by_name('MyParagraphStyle1')
         builder.writeln('Hello world!')
-        list = doc.lists.add(list_style=doc.styles.get_by_name('MyListStyle1'))
-        builder.list_format.list = list
+        doc_list = doc.lists.add(list_style=doc.styles.get_by_name('MyListStyle1'))
+        builder.list_format.list = doc_list
         builder.writeln('Item 1')
         builder.writeln('Item 2')
         # Now, there is one unused character style and one unused list style.

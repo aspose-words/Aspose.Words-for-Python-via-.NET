@@ -31,7 +31,7 @@ class ExDrawing(ApiExampleBase):
 
     def test_fill_solid(self):
         #ExStart
-        #ExFor:Fill.color()
+        #ExFor:Fill.color
         #ExFor:FillType
         #ExFor:Fill.fill_type
         #ExFor:Fill.solid

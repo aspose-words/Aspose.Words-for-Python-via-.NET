@@ -46,3 +46,14 @@ class ExMarkdownLoadOptions(ApiExampleBase):
             para = doc.get_child(aw.NodeType.PARAGRAPH, 0, True).as_paragraph()
             self.assertEqual(aw.Underline.NONE, para.runs[0].font.underline)
         #ExEnd:ImportUnderlineFormatting
+
+    def test_soft_line_break_character(self):
+        #ExStart:SoftLineBreakCharacter
+        #ExFor:MarkdownLoadOptions.soft_line_break_character
+        #ExSummary:Shows how to set soft line break character.
+        with io.BytesIO(system_helper.text.Encoding.get_bytes('line1\nline2', system_helper.text.Encoding.utf_8())) as stream:
+            load_options = aw.loading.MarkdownLoadOptions()
+            load_options.soft_line_break_character = aw.ControlChar.LINE_BREAK_CHAR
+            doc = aw.Document(stream=stream, load_options=load_options)
+            self.assertEqual('line1\x0bline2', doc.get_text().strip())
+        #ExEnd:SoftLineBreakCharacter

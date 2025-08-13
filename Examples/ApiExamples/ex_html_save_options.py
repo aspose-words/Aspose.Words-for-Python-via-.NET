@@ -535,15 +535,15 @@ class ExHtmlSaveOptions(ApiExampleBase):
             #ExSummary:Shows how to configure list exporting to HTML.
             doc = aw.Document()
             builder = aw.DocumentBuilder(doc=doc)
-            list = doc.lists.add(list_template=aw.lists.ListTemplate.NUMBER_DEFAULT)
-            builder.list_format.list = list
+            doc_list = doc.lists.add(list_template=aw.lists.ListTemplate.NUMBER_DEFAULT)
+            builder.list_format.list = doc_list
             builder.writeln('Default numbered list item 1.')
             builder.writeln('Default numbered list item 2.')
             builder.list_format.list_indent()
             builder.writeln('Default numbered list item 3.')
             builder.list_format.remove_numbers()
-            list = doc.lists.add(list_template=aw.lists.ListTemplate.OUTLINE_HEADINGS_LEGAL)
-            builder.list_format.list = list
+            doc_list = doc.lists.add(list_template=aw.lists.ListTemplate.OUTLINE_HEADINGS_LEGAL)
+            builder.list_format.list = doc_list
             builder.writeln('Outline legal heading list item 1.')
             builder.writeln('Outline legal heading list item 2.')
             builder.list_format.list_indent()

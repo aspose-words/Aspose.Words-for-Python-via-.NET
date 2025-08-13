@@ -653,8 +653,8 @@ class ExDocument(ApiExampleBase):
         builder = aw.DocumentBuilder(doc=doc)
         builder.font.style = doc.styles.get_by_name('MyParagraphStyle1')
         builder.writeln('Hello world!')
-        list = doc.lists.add(list_style=doc.styles.get_by_name('MyListStyle1'))
-        builder.list_format.list = list
+        doc_list = doc.lists.add(list_style=doc.styles.get_by_name('MyListStyle1'))
+        builder.list_format.list = doc_list
         builder.writeln('Item 1')
         builder.writeln('Item 2')
         doc.cleanup()
@@ -1076,10 +1076,10 @@ class ExDocument(ApiExampleBase):
 
     def test_extract_pages(self):
         #ExStart
-        #ExFor:Document.extract_pages
+        #ExFor:Document.extract_pages(int,int)
         #ExSummary:Shows how to get specified range of pages from the document.
         doc = aw.Document(file_name=MY_DIR + 'Layout entities.docx')
-        doc = doc.extract_pages(0, 2)
+        doc = doc.extract_pages(index=0, count=2)
         doc.save(file_name=ARTIFACTS_DIR + 'Document.ExtractPages.docx')
         #ExEnd
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Document.ExtractPages.docx')
@@ -1298,6 +1298,34 @@ class ExDocument(ApiExampleBase):
         doc.update_page_layout()
         self.assertEqual(1, doc.page_count)
         #ExEnd
+
+    def test_extract_pages_with_options(self):
+        #ExStart:ExtractPagesWithOptions
+        #ExFor:Document.extract_pages(int,int)
+        #ExFor:PageExtractOptions
+        #ExFor:PageExtractOptions.update_page_starting_number
+        #ExFor:PageExtractOptions.unlink_pages_number_fields
+        #ExSummary:Show how to reset the initial page numbering and save the NUMPAGE field.
+        doc = aw.Document(file_name=MY_DIR + 'Page fields.docx')
+        # Default behavior:
+        # The extracted page numbering is the same as in the original document, as if we had selected "Print 2 pages" in MS Word.
+        # The start page will be set to 2 and the field indicating the number of pages will be removed
+        # and replaced with a constant value equal to the number of pages.
+        extracted_doc1 = doc.extract_pages(index=1, count=1)
+        extracted_doc1.save(file_name=ARTIFACTS_DIR + 'Document.ExtractPagesWithOptions.Default.docx')
+        self.assertEqual(1, extracted_doc1.range.fields.count)  #ExSkip
+        # Altered behavior:
+        # The extracted page numbering is reset and a new one begins,
+        # as if we had copied the contents of the second page and pasted it into a new document.
+        # The start page will be set to 1 and the field indicating the number of pages will be left unchanged
+        # and will show the current number of pages.
+        extract_options = aw.PageExtractOptions()
+        extract_options.update_page_starting_number = False
+        extract_options.unlink_pages_number_fields = False
+        extracted_doc2 = doc.extract_pages(index=1, count=1, options=extract_options)
+        extracted_doc2.save(file_name=ARTIFACTS_DIR + 'Document.ExtractPagesWithOptions.Options.docx')
+        #ExEnd:ExtractPagesWithOptions
+        self.assertEqual(2, extracted_doc2.range.fields.count)
 
     def test_create_simple_document(self):
         #ExStart:CreateSimpleDocument

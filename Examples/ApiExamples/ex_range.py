@@ -9,6 +9,7 @@ from typing import List
 from aspose.words import Document, DocumentBuilder
 from aspose.words.drawing import ShapeType
 from aspose.words.replacing import FindReplaceOptions
+import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.notes
@@ -135,6 +136,22 @@ class ExRange(ApiExampleBase):
         builder.write('Hello world!')
         self.assertEqual('Hello world!', doc.range.text.strip())
         #ExEnd
+
+    def test_ignore_office_math(self):
+        for is_ignore_office_math in [True, False]:
+            #ExStart:IgnoreOfficeMath
+            #ExFor:FindReplaceOptions.ignore_office_math
+            #ExSummary:Shows how to find and replace text within OfficeMath.
+            doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
+            self.assertEqual('i+b-c≥iM+bM-cM', doc.first_section.body.first_paragraph.get_text().strip())
+            options = aw.replacing.FindReplaceOptions()
+            options.ignore_office_math = is_ignore_office_math
+            doc.range.replace(pattern='b', replacement='x', options=options)
+            if is_ignore_office_math:
+                self.assertEqual('i+b-c≥iM+bM-cM', doc.first_section.body.first_paragraph.get_text().strip())
+            else:
+                self.assertEqual('i+x-c≥iM+xM-cM', doc.first_section.body.first_paragraph.get_text().strip())
+            #ExEnd:IgnoreOfficeMath
 
     def test_replace_match_case(self):
         for match_case in (False, True):
