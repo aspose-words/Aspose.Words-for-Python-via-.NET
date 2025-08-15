@@ -1451,13 +1451,13 @@ class ExField(ApiExampleBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)
         # Create a list based using a Microsoft Word list template.
-        list = doc.lists.add(list_template=aw.lists.ListTemplate.NUMBER_DEFAULT)
+        doc_list = doc.lists.add(list_template=aw.lists.ListTemplate.NUMBER_DEFAULT)
         # This generated list will display "1.a )".
         # Space before the bracket is a non-delimiter character, which we can suppress.
-        list.list_levels[0].number_format = '\x00.'
-        list.list_levels[1].number_format = '\x01 )'
+        doc_list.list_levels[0].number_format = '\x00.'
+        doc_list.list_levels[1].number_format = '\x01 )'
         # Add text and apply paragraph styles that STYLEREF fields will reference.
-        builder.list_format.list = list
+        builder.list_format.list = doc_list
         builder.list_format.list_indent()
         builder.paragraph_format.style = doc.styles.get_by_name('List Paragraph')
         builder.writeln('Item 1')

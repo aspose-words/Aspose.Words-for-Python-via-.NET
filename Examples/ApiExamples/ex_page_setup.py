@@ -12,6 +12,7 @@ import aspose.words.notes
 import aspose.words.settings
 import document_helper
 import unittest
+import sys
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExPageSetup(ApiExampleBase):

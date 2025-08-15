@@ -25,6 +25,7 @@ import system_helper
 import test_util
 import unittest
 import uuid
+import sys
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, GOLDS_DIR, IMAGE_DIR, IMAGE_URL, MY_DIR
 
 class ExDocumentBuilder(ApiExampleBase):
@@ -495,7 +496,7 @@ class ExDocumentBuilder(ApiExampleBase):
     def test_insert_table(self):
         #ExStart
         #ExFor:DocumentBuilder
-        #ExFor:DocumentBuilder.write
+        #ExFor:DocumentBuilder.write(str)
         #ExFor:DocumentBuilder.start_table
         #ExFor:DocumentBuilder.insert_cell
         #ExFor:DocumentBuilder.end_row
@@ -794,7 +795,7 @@ class ExDocumentBuilder(ApiExampleBase):
     def test_create_table(self):
         #ExStart
         #ExFor:DocumentBuilder
-        #ExFor:DocumentBuilder.write
+        #ExFor:DocumentBuilder.write(str)
         #ExFor:DocumentBuilder.insert_cell
         #ExSummary:Shows how to use a document builder to create a table.
         doc = aw.Document()
@@ -1512,8 +1513,8 @@ class ExDocumentBuilder(ApiExampleBase):
             builder = aw.DocumentBuilder(doc=dst_doc)
             builder.insert_break(aw.BreakType.PARAGRAPH_BREAK)
             dst_doc.lists.add(list_template=aw.lists.ListTemplate.NUMBER_DEFAULT)
-            list = dst_doc.lists[0]
-            builder.list_format.list = list
+            doc_list = dst_doc.lists[0]
+            builder.list_format.list = doc_list
             i = 1
             while i <= 15:
                 builder.write(f'List Item {i}\n')
@@ -1876,7 +1877,6 @@ class ExDocumentBuilder(ApiExampleBase):
         dst_doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.DoNotIgnoreHeaderFooter.docx')
         #ExEnd
 
-    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_insert_online_video(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_online_video(str,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)
