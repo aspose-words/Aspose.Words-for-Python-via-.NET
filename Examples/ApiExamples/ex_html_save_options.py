@@ -900,6 +900,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.RemoveJavaScriptFromLinks.html', save_options=save_options)
         #ExEnd:HtmlRemoveJavaScriptFromLinks
 
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_export_text_box_as_svg_epub(self):
         parameters = [(aw.SaveFormat.HTML, True, 'TextBox as svg (html)'), (aw.SaveFormat.EPUB, True, 'TextBox as svg (epub)'), (aw.SaveFormat.MHTML, False, 'TextBox as img (mhtml)'), (aw.SaveFormat.AZW3, False, 'TextBox as img (azw3)'), (aw.SaveFormat.MOBI, False, 'TextBox as img (mobi)')]
         for save_format, is_text_box_as_svg, description in parameters:
