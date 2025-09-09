@@ -130,6 +130,16 @@ class ExLoadOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'LoadOptions.IgnoreOleData.docx')
         #ExEnd
 
+    def test_recovery_mode(self):
+        #ExStart:RecoveryMode
+        #ExFor:LoadOptions.recovery_mode
+        #ExFor:DocumentRecoveryMode
+        #ExSummary:Shows how to try to recover a document if errors occurred during loading.
+        load_options = aw.loading.LoadOptions()
+        load_options.recovery_mode = aw.loading.DocumentRecoveryMode.TRY_RECOVER
+        doc = aw.Document(file_name=MY_DIR + 'Corrupted footnotes.docx', load_options=load_options)
+        #ExEnd:RecoveryMode
+
     def test_add_editing_language(self):
         #ExStart
         #ExFor:LanguagePreferences
