@@ -16,7 +16,7 @@ import document_helper
 import os
 import system_helper
 import unittest
-from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR, FONTS_DIR
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR, GOLDS_DIR, IMAGE_DIR, MY_DIR, FONTS_DIR
 
 class ExMarkdownSaveOptions(ApiExampleBase):
 
@@ -208,6 +208,18 @@ class ExMarkdownSaveOptions(ApiExampleBase):
         #ExEnd:NonCompatibleTables
         document_helper.DocumentHelper.find_text_in_file(output_path, '<table><tr><th rowspan="2" valign="top">Heading 1</th>')
         document_helper.DocumentHelper.find_text_in_file(output_path, '|Heading 1|Heading 2|')
+
+    def test_export_office_math_as_latex(self):
+        #ExStart:ExportOfficeMathAsLatex
+        #ExFor:MarkdownSaveOptions.office_math_export_mode
+        #ExFor:MarkdownOfficeMathExportMode
+        #ExSummary:Shows how to export OfficeMath object as Latex.
+        doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
+        save_options = aw.saving.MarkdownSaveOptions()
+        save_options.office_math_export_mode = aw.saving.MarkdownOfficeMathExportMode.LATEX
+        doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.ExportOfficeMathAsLatex.md', save_options=save_options)
+        #ExEnd:ExportOfficeMathAsLatex
+        self.assertTrue(document_helper.DocumentHelper.compare_docs(ARTIFACTS_DIR + 'MarkdownSaveOptions.ExportOfficeMathAsLatex.md', GOLDS_DIR + 'MarkdownSaveOptions.ExportOfficeMathAsLatex.Gold.md'))
 
     def test_export_images_as_base64(self):
         for export_images_as_base64 in (True, False):

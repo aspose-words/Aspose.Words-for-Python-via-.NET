@@ -21,7 +21,7 @@ class ExOdtSaveOptions(ApiExampleBase):
             #ExFor:OdtSaveOptions
             #ExFor:OdtSaveOptions.__init__
             #ExFor:OdtSaveOptions.is_strict_schema11
-            #ExFor:RevisionOptions.measurement_unit
+            #ExFor:OdtSaveOptions.measure_unit
             #ExFor:MeasurementUnits
             #ExSummary:Shows how to make a saved document conform to an older ODT schema.
             doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
@@ -29,9 +29,9 @@ class ExOdtSaveOptions(ApiExampleBase):
             save_options.measure_unit = aw.saving.OdtSaveMeasureUnit.CENTIMETERS
             save_options.is_strict_schema11 = export_to_odt_11_specs
             doc.save(file_name=ARTIFACTS_DIR + 'OdtSaveOptions.Odt11Schema.odt', save_options=save_options)
-            #ExEnd
             doc = aw.Document(file_name=ARTIFACTS_DIR + 'OdtSaveOptions.Odt11Schema.odt')
             self.assertEqual(aw.MeasurementUnits.CENTIMETERS, doc.layout_options.revision_options.measurement_unit)
+            #ExEnd
             if export_to_odt_11_specs:
                 self.assertEqual(2, doc.range.form_fields.count)
                 self.assertEqual(aw.fields.FieldType.FIELD_FORM_TEXT_INPUT, doc.range.form_fields[0].type)

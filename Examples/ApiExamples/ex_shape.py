@@ -2029,6 +2029,20 @@ class ExShape(ApiExampleBase):
         self.assertEqual('Button caption', button1.caption)
         #ExEnd:CommandButtonCaption
 
+    def test_shadow_format_transparency(self):
+        #ExStart:ShadowFormatTransparency
+        #ExFor:ShadowFormat.color
+        #ExFor:ShadowFormat.transparency
+        #ExSummary:Shows how to set a color with transparency.
+        doc = aw.Document(file_name=MY_DIR + 'Shadow color.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        shadow_format = shape.shadow_format
+        shadow_format.type = aw.drawing.ShadowType.SHADOW21
+        shadow_format.color = aspose.pydrawing.Color.red
+        shadow_format.transparency = 0.8
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.ShadowFormatTransparency.docx')
+        #ExEnd:ShadowFormatTransparency
+
     def test_alt_text(self):
         #ExStart
         #ExFor:ShapeBase.alternative_text
