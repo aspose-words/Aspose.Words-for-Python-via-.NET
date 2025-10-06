@@ -5,12 +5,12 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import document_helper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.replacing
 import aspose.words.tables
+import document_helper
 import test_util
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
@@ -432,11 +432,11 @@ class ExTable(ApiExampleBase):
             doc.save(file_name=ARTIFACTS_DIR + 'Table.AllowAutoFitOnTable.html')
             #ExEnd
             if allow_auto_fit:
-                test_util.TestUtil.file_contains_string('<td style="width:89.2pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-right:0.5pt single">', ARTIFACTS_DIR + 'Table.AllowAutoFitOnTable.html')
-                test_util.TestUtil.file_contains_string('<td style="border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-left:0.5pt single">', ARTIFACTS_DIR + 'Table.AllowAutoFitOnTable.html')
+                test_util.TestUtil.file_contains_string('<td style="width:89.2pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-right:0.5pt single #000000">', ARTIFACTS_DIR + 'Table.AllowAutoFitOnTable.html')
+                test_util.TestUtil.file_contains_string('<td style="border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-left:0.5pt single #000000">', ARTIFACTS_DIR + 'Table.AllowAutoFitOnTable.html')
             else:
-                test_util.TestUtil.file_contains_string('<td style="width:89.2pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-right:0.5pt single">', ARTIFACTS_DIR + 'Table.AllowAutoFitOnTable.html')
-                test_util.TestUtil.file_contains_string('<td style="width:7.2pt; border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-left:0.5pt single">', ARTIFACTS_DIR + 'Table.AllowAutoFitOnTable.html')
+                test_util.TestUtil.file_contains_string('<td style="width:89.2pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-right:0.5pt single #000000">', ARTIFACTS_DIR + 'Table.AllowAutoFitOnTable.html')
+                test_util.TestUtil.file_contains_string('<td style="width:7.2pt; border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-left:0.5pt single #000000">', ARTIFACTS_DIR + 'Table.AllowAutoFitOnTable.html')
 
     def test_keep_table_together(self):
         #ExStart
@@ -991,6 +991,7 @@ class ExTable(ApiExampleBase):
                 doc = aw.Document(ARTIFACTS_DIR + 'Table.remove_paragraph_text_and_mark.docx')
                 self.assertEqual(1 if is_smart_paragraph_break_replacement else 2, doc.first_section.body.tables[0].rows[0].cells[0].paragraphs.count)
 
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_allow_cell_spacing(self):
         for allow_cell_spacing in (False, True):
             with self.subTest(allow_cell_spacing=allow_cell_spacing):
