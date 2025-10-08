@@ -8,9 +8,10 @@
 import sys
 import aspose.words as aw
 import aspose.words.saving
+import document_helper
 import system_helper
 import unittest
-from api_example_base import ApiExampleBase, ARTIFACTS_DIR
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR, GOLDS_DIR, MY_DIR
 
 class ExTxtSaveOptions(ApiExampleBase):
 
@@ -218,6 +219,18 @@ class ExTxtSaveOptions(ApiExampleBase):
         save_options.max_characters_per_line = 30
         doc.save(file_name=ARTIFACTS_DIR + 'TxtSaveOptions.MaxCharactersPerLine.txt', save_options=save_options)
         #ExEnd
+
+    def test_export_office_math_as_latex(self):
+        #ExStart:ExportOfficeMathAsLatexToText
+        #ExFor:TxtSaveOptions.office_math_export_mode
+        #ExFor:TxtOfficeMathExportMode
+        #ExSummary:Shows how to export OfficeMath object as Latex in TXT.
+        doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
+        save_options = aw.saving.TxtSaveOptions()
+        save_options.office_math_export_mode = aw.saving.TxtOfficeMathExportMode.LATEX
+        doc.save(file_name=ARTIFACTS_DIR + 'TxtSaveOptions.ExportOfficeMathAsLatexToText.txt', save_options=save_options)
+        #ExEnd:ExportOfficeMathAsLatexToText
+        self.assertTrue(document_helper.DocumentHelper.compare_docs(ARTIFACTS_DIR + 'TxtSaveOptions.ExportOfficeMathAsLatexToText.txt', GOLDS_DIR + 'TxtSaveOptions.ExportOfficeMathAsLatexToText.Gold.txt'))
 
     def test_page_breaks(self):
         for force_page_breaks in (False, True):

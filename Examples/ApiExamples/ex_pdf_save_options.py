@@ -889,6 +889,16 @@ class ExPdfSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.RenderChoiceFormFieldBorder.pdf', save_options=save_options)
         #ExEnd:RenderChoiceFormFieldBorder
 
+    def test_export_floating_shapes_as_inline_tag(self):
+        #ExStart:ExportFloatingShapesAsInlineTag
+        #ExFor:PdfSaveOptions.export_floating_shapes_as_inline_tag
+        #ExSummary:Shows how to export floating shapes as inline tags.
+        doc = aw.Document(file_name=MY_DIR + 'Floating object.docx')
+        save_options = aw.saving.PdfSaveOptions()
+        save_options.export_floating_shapes_as_inline_tag = True
+        doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.ExportFloatingShapesAsInlineTag.pdf', save_options=save_options)
+        #ExEnd:ExportFloatingShapesAsInlineTag
+
     def test_one_page(self):
         #ExStart
         #ExFor:FixedPageSaveOptions.page_set
