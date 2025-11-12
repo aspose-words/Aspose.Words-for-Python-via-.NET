@@ -20,7 +20,7 @@ class WorkingWithCharts(DocsExamplesBase):
         # Delete default generated series.
         chart.series.clear()
 
-        series1 = chart.series.add("Aspose Series 1", ["Category 1", "Category 2", "Category 3"], [2.5, 1.5, 3.5])
+        series1 = chart.series.add1("Aspose Series 1", ["Category 1", "Category 2", "Category 3"], [2.5, 1.5, 3.5])
 
         series1.has_data_labels = True
         series1.data_labels.show_value = True
@@ -79,11 +79,11 @@ class WorkingWithCharts(DocsExamplesBase):
         categories = ["Category 1", "Category 2"]
 
         # Please note, data arrays must not be empty and arrays must be the same size.
-        series_coll.add("Aspose Series 1", categories, [1, 2])
-        series_coll.add("Aspose Series 2", categories, [3, 4])
-        series_coll.add("Aspose Series 3", categories, [5, 6])
-        series_coll.add("Aspose Series 4", categories, [7, 8])
-        series_coll.add("Aspose Series 5", categories, [9, 10])
+        series_coll.add1("Aspose Series 1", categories, [1, 2])
+        series_coll.add1("Aspose Series 2", categories, [3, 4])
+        series_coll.add1("Aspose Series 3", categories, [5, 6])
+        series_coll.add1("Aspose Series 4", categories, [7, 8])
+        series_coll.add1("Aspose Series 5", categories, [9, 10])
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.insert_simple_column_chart.docx")
         #ExEnd:InsertSimpleColumnChart
@@ -97,7 +97,7 @@ class WorkingWithCharts(DocsExamplesBase):
         shape = builder.insert_chart(aw.drawing.charts.ChartType.COLUMN, 432, 252)
 
         chart = shape.chart
-        chart.series.add("Aspose Series 1", ["Category 1", "Category 2"], [1, 2])
+        chart.series.add1("Aspose Series 1", ["Category 1", "Category 2"], [1, 2])
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.insert_column_chart.docx")
         #ExEnd:InsertColumnChart
@@ -225,7 +225,7 @@ class WorkingWithCharts(DocsExamplesBase):
 
         chart.series.clear()
 
-        chart.series.add("Aspose Series 1",
+        chart.series.add1("Aspose Series 1",
             ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
             [1900000, 850000, 2100000, 600000, 1500000])
 
@@ -246,7 +246,7 @@ class WorkingWithCharts(DocsExamplesBase):
 
         chart.series.clear()
 
-        chart.series.add("Aspose Series 1",
+        chart.series.add1("Aspose Series 1",
             ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
             [1.2, 0.3, 2.1, 2.9, 4.2])
 
@@ -268,7 +268,7 @@ class WorkingWithCharts(DocsExamplesBase):
 
         chart.series.clear()
 
-        chart.series.add("Aspose Series 1",
+        chart.series.add1("Aspose Series 1",
             ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
             [1.2, 0.3, 2.1, 2.9, 4.2])
 
@@ -289,7 +289,7 @@ class WorkingWithCharts(DocsExamplesBase):
 
         chart.series.clear()
 
-        chart.series.add("Aspose Series 1",
+        chart.series.add1("Aspose Series 1",
             ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"],
             [1.2, 0.3, 2.1, 2.9, 4.2])
 
@@ -352,7 +352,7 @@ class WorkingWithCharts(DocsExamplesBase):
 
         chart.series.clear()
 
-        series = chart.series.add("Aspose Series 1",
+        series = chart.series.add1("Aspose Series 1",
             ["Category 1", "Category 2", "Category 3"],
             [2.7, 3.2, 0.8])
 
@@ -448,9 +448,9 @@ class WorkingWithCharts(DocsExamplesBase):
         categories = ["AW Category 1", "AW Category 2"]
 
         # Adding new series. Value and category arrays must be the same size.
-        series1 = series_coll.add("AW Series 1", categories, [1, 2])
-        series2 = series_coll.add("AW Series 2", categories, [3, 4])
-        series3 = series_coll.add("AW Series 3", categories, [5, 6])
+        series1 = series_coll.add1("AW Series 1", categories, [1, 2])
+        series2 = series_coll.add1("AW Series 2", categories, [3, 4])
+        series3 = series_coll.add1("AW Series 3", categories, [5, 6])
 
         # Set series color.
         series1.format.fill.fore_color = drawing.Color.red

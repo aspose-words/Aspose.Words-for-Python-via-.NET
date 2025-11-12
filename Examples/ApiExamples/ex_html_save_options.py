@@ -366,11 +366,11 @@ class ExHtmlSaveOptions(ApiExampleBase):
             if switch_condition == aw.saving.HtmlVersion.HTML5:
                 self.assertTrue('<a id="_Toc76372689"></a>' in out_doc_contents)
                 self.assertTrue('<a id="_Toc76372689"></a>' in out_doc_contents)
-                self.assertTrue('<table style="padding:0pt; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse">' in out_doc_contents)
+                self.assertTrue('<table style="padding:0pt; -aw-border:0.5pt single #000000; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse">' in out_doc_contents)
             elif switch_condition == aw.saving.HtmlVersion.XHTML:
                 self.assertTrue('<a name="_Toc76372689"></a>' in out_doc_contents)
                 self.assertTrue('<ul type="disc" style="margin:0pt; padding-left:0pt">' in out_doc_contents)
-                self.assertTrue('<table cellspacing="0" cellpadding="0" style="-aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse"' in out_doc_contents)
+                self.assertTrue('<table cellspacing="0" cellpadding="0" style="-aw-border:0.5pt single #000000; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse"' in out_doc_contents)
             #ExEnd
 
     def test_export_xhtml_transitional(self):
@@ -718,7 +718,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
             if export_roundtrip_information:
                 self.assertTrue('<div style="-aw-headerfooter-type:header-primary; clear:both">' in out_doc_contents)
                 self.assertTrue('<span style="-aw-import:ignore">&#xa0;</span>' in out_doc_contents)
-                self.assertTrue('td colspan="2" style="width:210.6pt; border-style:solid; border-width:0.75pt 6pt 0.75pt 0.75pt; ' + 'padding-right:2.4pt; padding-left:5.03pt; vertical-align:top; -aw-border-bottom:0.5pt single #000000; ' + '-aw-border-left:0.5pt single #000000; -aw-border-top:0.5pt single #000000">' in out_doc_contents)
+                self.assertTrue('td colspan="2" style="width:210.6pt; border-style:solid; border-width:0.75pt 6pt 0.75pt 0.75pt; ' + 'padding-right:2.4pt; padding-left:5.03pt; vertical-align:top; -aw-border-bottom:0.5pt single #000000; ' + '-aw-border-left:0.5pt single #000000; -aw-border-right:6pt single #000000; -aw-border-top:0.5pt single #000000">' in out_doc_contents)
                 self.assertTrue('<li style="margin-left:30.2pt; padding-left:5.8pt; -aw-font-family:\'Courier New\'; -aw-font-weight:normal; -aw-number-format:\'o\'">' in out_doc_contents)
                 self.assertTrue('<img src="HtmlSaveOptions.RoundTripInformation.003.jpeg" width="350" height="180" alt="" ' + 'style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />' in out_doc_contents)
                 self.assertTrue('<span>Page number </span>' + '<span style="-aw-field-start:true"></span>' + '<span style="-aw-field-code:\' PAGE   \\\\* MERGEFORMAT \'"></span>' + '<span style="-aw-field-separator:true"></span>' + '<span>1</span>' + '<span style="-aw-field-end:true"></span>' in out_doc_contents)
