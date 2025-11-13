@@ -6,10 +6,10 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 import os
-import unittest
 import aspose.words as aw
 import aspose.words.ai
 import system_helper
+import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExAI(ApiExampleBase):
@@ -64,6 +64,7 @@ class ExAI(ApiExampleBase):
     def test_ai_grammar(self):
         #ExStart:AiGrammar
         #ExFor:AiModel.check_grammar(Document,CheckGrammarOptions)
+        #ExFor:AiModel.url
         #ExFor:CheckGrammarOptions
         #ExSummary:Shows how to check the grammar of a document.
         doc = aw.Document(file_name=MY_DIR + 'Big document.docx')
@@ -75,3 +76,25 @@ class ExAI(ApiExampleBase):
         proofed_doc = model.check_grammar(doc, grammar_options)
         proofed_doc.save(file_name=ARTIFACTS_DIR + 'AI.AiGrammar.docx')
         #ExEnd:AiGrammar
+
+    def test_change_default_url(self):
+        #ExStart:ChangeDefaultUrl
+        #ExFor:AiModel.url
+        #ExSummary:Shows how to change model default url.
+        api_key = system_helper.environment.Environment.get_environment_variable('API_KEY')
+        model = aw.ai.AiModel.create(aw.ai.AiModelType.GPT_4O_MINI).with_api_key(api_key)
+        # Default value "https:#api.openai.com/".
+        model.url = 'https://my.a.com/'
+        #ExEnd:ChangeDefaultUrl
+        self.assertEqual('https://my.a.com/', model.url)
+
+    def test_change_default_timeout(self):
+        #ExStart:ChangeDefaultTimeout
+        #ExFor:AiModel.timeout
+        #ExSummary:Shows how to change model default timeout.
+        api_key = system_helper.environment.Environment.get_environment_variable('API_KEY')
+        model = aw.ai.AiModel.create(aw.ai.AiModelType.GPT_4O_MINI).with_api_key(api_key)
+        # Default value 100000ms.
+        model.timeout = 250000
+        #ExEnd:ChangeDefaultTimeout
+        self.assertEqual(250000, model.timeout)

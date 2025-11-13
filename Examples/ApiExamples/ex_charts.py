@@ -74,7 +74,7 @@ class ExCharts(ApiExampleBase):
         chart.title.text = 'Monthly sales report'
         # Insert a custom chart series with months as categories for the X-axis,
         # and respective decimal amounts for the Y-axis.
-        series = chart.series.add(series_name='Revenue', categories=['January', 'February', 'March'], values=[25.611, 21.439, 33.75])
+        series = chart.series.add1(series_name='Revenue', categories=['January', 'February', 'March'], values=[25.611, 21.439, 33.75])
         # Enable data labels, and then apply a custom number format for values displayed in the data labels.
         # This format will treat displayed decimal values as millions of US Dollars.
         series.has_data_labels = True
@@ -117,7 +117,7 @@ class ExCharts(ApiExampleBase):
         # Clear the chart's demo data series to start with a clean chart.
         chart.series.clear()
         # Add a custom series with categories for the X-axis, and respective decimal values for the Y-axis.
-        chart.series.add(series_name='AW Series 1', categories=['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'], values=[1.2, 0.3, 2.1, 2.9, 4.2])
+        chart.series.add1(series_name='AW Series 1', categories=['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'], values=[1.2, 0.3, 2.1, 2.9, 4.2])
         # Hide the chart axes to simplify the appearance of the chart.
         chart.axis_x.hidden = True
         chart.axis_y.hidden = True
@@ -143,7 +143,7 @@ class ExCharts(ApiExampleBase):
         chart.series.clear()
         # Add a custom series to the chart with categories for the X-axis,
         # and large respective numeric values for the Y-axis.
-        chart.series.add(series_name='Aspose Test Series', categories=['Word', 'PDF', 'Excel', 'GoogleDocs', 'Note'], values=[1900000, 850000, 2100000, 600000, 1500000])
+        chart.series.add1(series_name='Aspose Test Series', categories=['Word', 'PDF', 'Excel', 'GoogleDocs', 'Note'], values=[1900000, 850000, 2100000, 600000, 1500000])
         # Set the number format of the Y-axis tick labels to not group digits with commas.
         chart.axis_y.number_format.format_code = '#,##0'
         # This flag can override the above value and draw the number format from the source cell.
@@ -161,7 +161,7 @@ class ExCharts(ApiExampleBase):
             shape = builder.insert_chart(chart_type=chart_type, width=500, height=300)
             chart = shape.chart
             chart.series.clear()
-            chart.series.add(series_name='Aspose Test Series', categories=['Word', 'PDF', 'Excel', 'GoogleDocs', 'Note'], values=[1900000, 850000, 2100000, 600000, 1500000])
+            chart.series.add1(series_name='Aspose Test Series', categories=['Word', 'PDF', 'Excel', 'GoogleDocs', 'Note'], values=[1900000, 850000, 2100000, 600000, 1500000])
             doc.save(file_name=ARTIFACTS_DIR + 'Charts.TestDisplayChartsWithConversion.docx')
             doc.save(file_name=ARTIFACTS_DIR + 'Charts.TestDisplayChartsWithConversion.pdf')
 
@@ -171,9 +171,9 @@ class ExCharts(ApiExampleBase):
         shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.SURFACE_3D, width=500, height=300)
         chart = shape.chart
         chart.series.clear()
-        chart.series.add(series_name='Aspose Test Series 1', categories=['Word', 'PDF', 'Excel', 'GoogleDocs', 'Note'], values=[1900000, 850000, 2100000, 600000, 1500000])
-        chart.series.add(series_name='Aspose Test Series 2', categories=['Word', 'PDF', 'Excel', 'GoogleDocs', 'Note'], values=[900000, 50000, 1100000, 400000, 2500000])
-        chart.series.add(series_name='Aspose Test Series 3', categories=['Word', 'PDF', 'Excel', 'GoogleDocs', 'Note'], values=[500000, 820000, 1500000, 400000, 100000])
+        chart.series.add1(series_name='Aspose Test Series 1', categories=['Word', 'PDF', 'Excel', 'GoogleDocs', 'Note'], values=[1900000, 850000, 2100000, 600000, 1500000])
+        chart.series.add1(series_name='Aspose Test Series 2', categories=['Word', 'PDF', 'Excel', 'GoogleDocs', 'Note'], values=[900000, 50000, 1100000, 400000, 2500000])
+        chart.series.add1(series_name='Aspose Test Series 3', categories=['Word', 'PDF', 'Excel', 'GoogleDocs', 'Note'], values=[500000, 820000, 1500000, 400000, 100000])
         doc.save(file_name=ARTIFACTS_DIR + 'Charts.SurfaceChart.docx')
         doc.save(file_name=ARTIFACTS_DIR + 'Charts.SurfaceChart.pdf')
 
@@ -221,7 +221,7 @@ class ExCharts(ApiExampleBase):
         # Clear the chart's demo data series to start with a clean chart.
         chart.series.clear()
         # Insert a custom chart series with a category name for each of the sectors, and their frequency table.
-        series = chart.series.add(series_name='Aspose Test Series', categories=['Word', 'PDF', 'Excel'], values=[2.7, 3.2, 0.8])
+        series = chart.series.add1(series_name='Aspose Test Series', categories=['Word', 'PDF', 'Excel'], values=[2.7, 3.2, 0.8])
         # Enable data labels that will display both percentage and frequency of each sector, and modify their appearance.
         series.has_data_labels = True
         data_labels = series.data_labels
@@ -310,7 +310,7 @@ class ExCharts(ApiExampleBase):
         # Clear the chart's demo data series to start with a clean chart.
         chart.series.clear()
         # Insert a series with X/Y coordinates for five points.
-        chart.series.add(series_name='Series 1', x_values=[1, 2, 3, 4, 5], y_values=[1, 20, 400, 8000, 160000])
+        chart.series.add_double(series_name='Series 1', x_values=[1, 2, 3, 4, 5], y_values=[1, 20, 400, 8000, 160000])
         # The scaling of the X-axis is linear by default,
         # displaying evenly incrementing values that cover our X-value range (0, 1, 2, 3...).
         # A linear axis is not ideal for our Y-values
@@ -342,7 +342,7 @@ class ExCharts(ApiExampleBase):
         chart.series.clear()
         # Add a series with two decimal arrays. The first array contains the X-values,
         # and the second contains corresponding Y-values for points in the scatter chart.
-        chart.series.add(series_name='Series 1', x_values=[1.1, 5.4, 7.9, 3.5, 2.1, 9.7], y_values=[2.1, 0.3, 0.6, 3.3, 1.4, 1.9])
+        chart.series.add_double(series_name='Series 1', x_values=[1.1, 5.4, 7.9, 3.5, 2.1, 9.7], y_values=[2.1, 0.3, 0.6, 3.3, 1.4, 1.9])
         # By default, default scaling is applied to the graph's X and Y-axes,
         # so that both their ranges are big enough to encompass every X and Y-value of every series.
         self.assertTrue(chart.axis_x.scaling.minimum.is_auto)
@@ -359,7 +359,7 @@ class ExCharts(ApiExampleBase):
         chart = chart_shape.chart
         chart.series.clear()
         dates = [datetime.datetime(1973, 5, 11), datetime.datetime(1981, 2, 4), datetime.datetime(1985, 9, 23), datetime.datetime(1989, 6, 28), datetime.datetime(1994, 12, 15)]
-        chart.series.add(series_name='Series 1', dates=dates, values=[3, 4.7, 5.9, 7.1, 8.9])
+        chart.series.add_date(series_name='Series 1', dates=dates, values=[3, 4.7, 5.9, 7.1, 8.9])
         # We can set axis bounds in the form of dates as well, limiting the chart to a period.
         # Setting the range to 1980-1990 will omit the two of the series values
         # that are outside of the range from the graph.
@@ -457,7 +457,7 @@ class ExCharts(ApiExampleBase):
         chart = shape.chart
         # Delete default generated series.
         chart.series.clear()
-        series = chart.series.add(series_name='AW Series 1', x_values=[0.7, 1.8, 2.6, 3.9], y_values=[2.7, 3.2, 0.8, 1.7])
+        series = chart.series.add_double(series_name='AW Series 1', x_values=[0.7, 1.8, 2.6, 3.9], y_values=[2.7, 3.2, 0.8, 1.7])
         # Set marker formatting.
         series.marker.size = 40
         series.marker.symbol = aw.drawing.charts.MarkerSymbol.SQUARE
@@ -490,9 +490,9 @@ class ExCharts(ApiExampleBase):
         # Create category names array.
         categories = ['Category 1', 'Category 2']
         # Adding new series. Value and category arrays must be the same size.
-        series1 = series_coll.add(series_name='Series 1', categories=categories, values=[1, 2])
-        series2 = series_coll.add(series_name='Series 2', categories=categories, values=[3, 4])
-        series3 = series_coll.add(series_name='Series 3', categories=categories, values=[5, 6])
+        series1 = series_coll.add1(series_name='Series 1', categories=categories, values=[1, 2])
+        series2 = series_coll.add1(series_name='Series 2', categories=categories, values=[3, 4])
+        series3 = series_coll.add1(series_name='Series 3', categories=categories, values=[5, 6])
         # Set series color.
         series1.format.fill.fore_color = aspose.pydrawing.Color.red
         series2.format.fill.fore_color = aspose.pydrawing.Color.yellow
@@ -511,7 +511,7 @@ class ExCharts(ApiExampleBase):
         # Delete default generated series.
         chart.series.clear()
         # Adding new series.
-        series = chart.series.add(series_name='Series 1', categories=['Category 1', 'Category 2', 'Category 3', 'Category 4'], values=[1, 2, 3, 4])
+        series = chart.series.add1(series_name='Series 1', categories=['Category 1', 'Category 2', 'Category 3', 'Category 4'], values=[1, 2, 3, 4])
         # Set column formatting.
         data_points = series.data_points
         data_points[0].format.fill.preset_textured(aw.drawing.PresetTexture.DENIM)
@@ -534,10 +534,10 @@ class ExCharts(ApiExampleBase):
         series = chart.series
         series.clear()
         categories = ['AW Category 1', 'AW Category 2']
-        series1 = series.add(series_name='Series 1', categories=categories, values=[1, 2])
-        series.add(series_name='Series 2', categories=categories, values=[3, 4])
-        series.add(series_name='Series 3', categories=categories, values=[5, 6])
-        series.add(series_name='Series 4', categories=categories, values=[0, 0])
+        series1 = series.add1(series_name='Series 1', categories=categories, values=[1, 2])
+        series.add1(series_name='Series 2', categories=categories, values=[3, 4])
+        series.add1(series_name='Series 3', categories=categories, values=[5, 6])
+        series.add1(series_name='Series 4', categories=categories, values=[0, 0])
         legend_entries = chart.legend.legend_entries
         legend_entries[3].is_hidden = True
         doc.save(file_name=ARTIFACTS_DIR + 'Charts.LegendEntries.docx')
@@ -576,7 +576,7 @@ class ExCharts(ApiExampleBase):
             if chart.series[i].series_type == aw.drawing.charts.ChartSeriesType.COLUMN:
                 chart.series.remove_at(i)
             i -= 1
-        chart.series.add(series_name='Aspose Series', categories=['Category 1', 'Category 2', 'Category 3', 'Category 4'], values=[5.6, 7.1, 2.9, 8.9])
+        chart.series.add1(series_name='Aspose Series', categories=['Category 1', 'Category 2', 'Category 3', 'Category 4'], values=[5.6, 7.1, 2.9, 8.9])
         doc.save(file_name=ARTIFACTS_DIR + 'Charts.RemoveSpecificChartSeries.docx')
         #ExEnd
 
@@ -683,7 +683,7 @@ class ExCharts(ApiExampleBase):
         # Delete default generated series.
         chart.series.clear()
         # Add new series.
-        series = chart.series.add(series_name='AW Series 1', categories=['AW Category 1', 'AW Category 2', 'AW Category 3', 'AW Category 4'], values=[100, 200, 300, 400])
+        series = chart.series.add1(series_name='AW Series 1', categories=['AW Category 1', 'AW Category 2', 'AW Category 3', 'AW Category 4'], values=[100, 200, 300, 400])
         # Show data labels.
         series.has_data_labels = True
         series.data_labels.show_value = True
@@ -716,7 +716,7 @@ class ExCharts(ApiExampleBase):
         series_coll = chart.series
         # Delete default generated series.
         series_coll.clear()
-        series_coll.add(series_name='AW Series 1', categories=['AW Category 1', 'AW Category 2'], values=[1, 2])
+        series_coll.add1(series_name='AW Series 1', categories=['AW Category 1', 'AW Category 2'], values=[1, 2])
         chart_axis_x_title = chart.axis_x.title
         chart_axis_x_title.text = 'Categories'
         chart_axis_x_title.show = True
@@ -788,9 +788,9 @@ class ExCharts(ApiExampleBase):
         series = chart.series
         series.clear()
         x_values = [2020, 2021, 2022, 2023]
-        series.add(series_name='Series1', x_values=x_values, y_values=[5, 11, 2, 7])
-        series.add(series_name='Series2', x_values=x_values, y_values=[6, 5.5, 7, 7.8])
-        series.add(series_name='Series3', x_values=x_values, y_values=[10, 8, 7, 9])
+        series.add_double(series_name='Series1', x_values=x_values, y_values=[5, 11, 2, 7])
+        series.add_double(series_name='Series2', x_values=x_values, y_values=[6, 5.5, 7, 7.8])
+        series.add_double(series_name='Series3', x_values=x_values, y_values=[10, 8, 7, 9])
         data_table = chart.data_table
         data_table.show = True
         data_table.has_legend_keys = False
@@ -821,8 +821,8 @@ class ExCharts(ApiExampleBase):
         series = chart.series
         series.clear()
         categories = ['Category 1', 'Category 2']
-        series.add(series_name='Series 1', categories=categories, values=[1, 2])
-        series.add(series_name='Series 2', categories=categories, values=[3, 4])
+        series.add1(series_name='Series 1', categories=categories, values=[1, 2])
+        series.add1(series_name='Series 2', categories=categories, values=[3, 4])
         # Format chart background.
         chart.format.fill.solid(aspose.pydrawing.Color.dark_slate_gray)
         # Hide axis tick labels.
@@ -865,8 +865,8 @@ class ExCharts(ApiExampleBase):
         # Delete default generated series.
         series.clear()
         categories = ['Category 1', 'Category 2', 'Category 3']
-        series.add(series_name='Series 1 of primary series group', categories=categories, values=[2, 3, 4])
-        series.add(series_name='Series 2 of primary series group', categories=categories, values=[5, 2, 3])
+        series.add1(series_name='Series 1 of primary series group', categories=categories, values=[2, 3, 4])
+        series.add1(series_name='Series 2 of primary series group', categories=categories, values=[5, 2, 3])
         # Create an additional series group, also of the line type.
         new_series_group = chart.series_groups.add(aw.drawing.charts.ChartSeriesType.LINE)
         # Specify the use of secondary axes for the new series group.
@@ -878,7 +878,7 @@ class ExCharts(ApiExampleBase):
         new_series_group.axis_y.title.text = 'Secondary Y axis'
         self.assertEqual(aw.drawing.charts.ChartSeriesType.LINE, new_series_group.series_type)
         # Add a series to the new series group.
-        series3 = new_series_group.series.add(series_name='Series of secondary series group', categories=categories, values=[13, 11, 16])
+        series3 = new_series_group.series.add1(series_name='Series of secondary series group', categories=categories, values=[13, 11, 16])
         series3.format.stroke.weight = 3.5
         doc.save(file_name=ARTIFACTS_DIR + 'Charts.SecondaryAxis.docx')
         #ExEnd:SecondaryAxis
@@ -933,7 +933,7 @@ class ExCharts(ApiExampleBase):
 
     def test_histogram_chart(self):
         #ExStart:HistogramChart
-        #ExFor:ChartSeriesCollection.add(str,List[float])
+        #ExFor:ChartSeriesCollection.add_double(str,List[float])
         #ExSummary:Shows how to create histogram chart.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)
@@ -944,13 +944,13 @@ class ExCharts(ApiExampleBase):
         # Delete default generated series.
         chart.series.clear()
         # Add a series.
-        chart.series.add(series_name='Avg Temperature', x_values=[51.8, 53.6, 50.3, 54.7, 53.9, 54.3, 53.4, 52.9, 53.3, 53.7, 53.8, 52, 55, 52.1, 53.4, 53.8, 53.8, 51.9, 52.1, 52.7, 51.8, 56.6, 53.3, 55.6, 56.3, 56.2, 56.1, 56.2, 53.6, 55.7, 56.3, 55.9, 55.6])
+        chart.series.add_double(series_name='Avg Temperature', x_values=[51.8, 53.6, 50.3, 54.7, 53.9, 54.3, 53.4, 52.9, 53.3, 53.7, 53.8, 52, 55, 52.1, 53.4, 53.8, 53.8, 51.9, 52.1, 52.7, 51.8, 56.6, 53.3, 55.6, 56.3, 56.2, 56.1, 56.2, 53.6, 55.7, 56.3, 55.9, 55.6])
         doc.save(file_name=ARTIFACTS_DIR + 'Charts.Histogram.docx')
         #ExEnd:HistogramChart
 
     def test_pareto_chart(self):
         #ExStart:ParetoChart
-        #ExFor:ChartSeriesCollection.add(str,List[str],List[float])
+        #ExFor:ChartSeriesCollection.add1(str,List[str],List[float])
         #ExSummary:Shows how to create pareto chart.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)
@@ -961,13 +961,13 @@ class ExCharts(ApiExampleBase):
         # Delete default generated series.
         chart.series.clear()
         # Add a series.
-        chart.series.add(series_name='Best-Selling Car', categories=['Tesla Model Y', 'Toyota Corolla', 'Toyota RAV4', 'Ford F-Series', 'Honda CR-V'], values=[1.43, 0.91, 1.17, 0.98, 0.85])
+        chart.series.add1(series_name='Best-Selling Car', categories=['Tesla Model Y', 'Toyota Corolla', 'Toyota RAV4', 'Ford F-Series', 'Honda CR-V'], values=[1.43, 0.91, 1.17, 0.98, 0.85])
         doc.save(file_name=ARTIFACTS_DIR + 'Charts.Pareto.docx')
         #ExEnd:ParetoChart
 
     def test_box_and_whisker_chart(self):
         #ExStart:BoxAndWhiskerChart
-        #ExFor:ChartSeriesCollection.add(str,List[str],List[float])
+        #ExFor:ChartSeriesCollection.add1(str,List[str],List[float])
         #ExSummary:Shows how to create box and whisker chart.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)
@@ -978,7 +978,7 @@ class ExCharts(ApiExampleBase):
         # Delete default generated series.
         chart.series.clear()
         # Add a series.
-        series = chart.series.add(series_name='Points by Years', categories=['WC', 'WC', 'WC', 'WC', 'WC', 'WC', 'WC', 'WC', 'WC', 'WC', 'NR', 'NR', 'NR', 'NR', 'NR', 'NR', 'NR', 'NR', 'NR', 'NR', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA'], values=[91, 80, 100, 77, 90, 104, 105, 118, 120, 101, 114, 107, 110, 60, 79, 78, 77, 102, 101, 113, 94, 93, 84, 71, 80, 103, 80, 94, 100, 101])
+        series = chart.series.add1(series_name='Points by Years', categories=['WC', 'WC', 'WC', 'WC', 'WC', 'WC', 'WC', 'WC', 'WC', 'WC', 'NR', 'NR', 'NR', 'NR', 'NR', 'NR', 'NR', 'NR', 'NR', 'NR', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA'], values=[91, 80, 100, 77, 90, 104, 105, 118, 120, 101, 114, 107, 110, 60, 79, 78, 77, 102, 101, 113, 94, 93, 84, 71, 80, 103, 80, 94, 100, 101])
         # Show data labels.
         series.has_data_labels = True
         doc.save(file_name=ARTIFACTS_DIR + 'Charts.BoxAndWhisker.docx')
@@ -986,7 +986,7 @@ class ExCharts(ApiExampleBase):
 
     def test_waterfall_chart(self):
         #ExStart:WaterfallChart
-        #ExFor:ChartSeriesCollection.add(str,List[str],List[float],List[bool])
+        #ExFor:ChartSeriesCollection.add1(str,List[str],List[float],List[bool])
         #ExSummary:Shows how to create waterfall chart.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)
@@ -997,7 +997,7 @@ class ExCharts(ApiExampleBase):
         # Delete default generated series.
         chart.series.clear()
         # Add a series.
-        series = chart.series.add(series_name='New Zealand GDP', categories=['2018', '2019 growth', '2020 growth', '2020', '2021 growth', '2022 growth', '2022'], values=[100, 0.57, -0.25, 100.32, 20.22, -2.92, 117.62], is_subtotal=[True, False, False, True, False, False, True])
+        series = chart.series.add1(series_name='New Zealand GDP', categories=['2018', '2019 growth', '2020 growth', '2020', '2021 growth', '2022 growth', '2022'], values=[100, 0.57, -0.25, 100.32, 20.22, -2.92, 117.62], is_subtotal=[True, False, False, True, False, False, True])
         # Show data labels.
         series.has_data_labels = True
         doc.save(file_name=ARTIFACTS_DIR + 'Charts.Waterfall.docx')
@@ -1063,7 +1063,7 @@ class ExCharts(ApiExampleBase):
         # Delete the default generated series.
         chart.series.clear()
         categories = ['Category 1', 'Category 2', 'Category 3']
-        chart.series.add(series_name='Series 1', categories=categories, values=[4, 2, 5])
+        chart.series.add1(series_name='Series 1', categories=categories, values=[4, 2, 5])
         # Format the Doughnut chart.
         series_group = chart.series_groups[0]
         series_group.doughnut_hole_size = 10
@@ -1082,7 +1082,7 @@ class ExCharts(ApiExampleBase):
         # Delete the default generated series.
         chart.series.clear()
         categories = ['Category 1', 'Category 2', 'Category 3', 'Category 4']
-        chart.series.add(series_name='Series 1', categories=categories, values=[11, 8, 4, 3])
+        chart.series.add1(series_name='Series 1', categories=categories, values=[11, 8, 4, 3])
         # Format the Pie of Pie chart.
         series_group = chart.series_groups[0]
         series_group.gap_width = 10
@@ -1142,7 +1142,7 @@ class ExCharts(ApiExampleBase):
         # Delete default generated series.
         series_coll.clear()
         # Add series.
-        series = series_coll.add(series_name='Series 1', categories=['Category 1', 'Category 2', 'Category 3'], values=[4, 5, 6])
+        series = series_coll.add1(series_name='Series 1', categories=['Category 1', 'Category 2', 'Category 3'], values=[4, 5, 6])
         # Show data labels and set font color.
         series.has_data_labels = True
         data_labels = series.data_labels
@@ -1185,7 +1185,7 @@ class ExCharts(ApiExampleBase):
             values[i] = data_length - i
             total_value = total_value + values[i]
             i += 1
-        series = series_coll.add(series_name='Series 1', categories=categories, values=values)
+        series = series_coll.add1(series_name='Series 1', categories=categories, values=values)
         series.has_data_labels = True
         data_labels = series.data_labels
         data_labels.show_value = True
@@ -1313,7 +1313,7 @@ class ExCharts(ApiExampleBase):
         # Clear the chart's demo data series to start with a clean chart.
         chart.series.clear()
         # Insert a chart series with categories for the X-axis and respective numeric values for the Y-axis.
-        chart.series.add(series_name='Aspose Test Series', categories=['Word', 'PDF', 'Excel', 'GoogleDocs', 'Note'], values=[640, 320, 280, 120, 150])
+        chart.series.add1(series_name='Aspose Test Series', categories=['Word', 'PDF', 'Excel', 'GoogleDocs', 'Note'], values=[640, 320, 280, 120, 150])
         # Chart axes have various options that can change their appearance,
         # such as their direction, major/minor unit ticks, and tick marks.
         x_axis = chart.axis_x
@@ -1395,7 +1395,7 @@ class ExCharts(ApiExampleBase):
         chart.series.clear()
         # Add a custom series containing date/time values for the X-axis, and respective decimal values for the Y-axis.
         dates = [date(2017, 11, 6), date(2017, 11, 9), date(2017, 11, 15), date(2017, 11, 21), date(2017, 11, 25), date(2017, 11, 29)]
-        chart.series.add('Aspose Test Series', dates=dates, values=[1.2, 0.3, 2.1, 2.9, 4.2, 5.3])
+        chart.series.add_date('Aspose Test Series', dates=dates, values=[1.2, 0.3, 2.1, 2.9, 4.2, 5.3])
         # Set lower and upper bounds for the X-axis.
         x_axis = chart.axis_x
         x_axis.scaling.minimum = aw.drawing.charts.AxisBound(date(2017, 11, 5))
@@ -1585,8 +1585,8 @@ class ExCharts(ApiExampleBase):
             categories = ['Category 1', 'Category 2', 'Category 3']
             # Insert two series of decimal values containing a value for each respective category.
             # This column chart will have three groups, each with two columns.
-            chart.series.add('Series 1', categories, [76.6, 82.1, 91.6])
-            chart.series.add('Series 2', categories, [64.2, 79.5, 94.0])
+            chart.series.add1('Series 1', categories, [76.6, 82.1, 91.6])
+            chart.series.add1('Series 2', categories, [64.2, 79.5, 94.0])
             # Categories are distributed along the X-axis, and values are distributed along the Y-axis.
             self.assertEqual(aw.drawing.charts.ChartAxisType.CATEGORY, chart.axis_x.type)
             self.assertEqual(aw.drawing.charts.ChartAxisType.VALUE, chart.axis_y.type)
@@ -1596,7 +1596,7 @@ class ExCharts(ApiExampleBase):
             # Insert a series with a decimal value for each respective date.
             # The dates will be distributed along a linear X-axis,
             # and the values added to this series will create data points.
-            chart.series.add('Series 1', dates=dates, values=[15.8, 21.5, 22.9, 28.7, 33.1])
+            chart.series.add_date('Series 1', dates=dates, values=[15.8, 21.5, 22.9, 28.7, 33.1])
             self.assertEqual(aw.drawing.charts.ChartAxisType.CATEGORY, chart.axis_x.type)
             self.assertEqual(aw.drawing.charts.ChartAxisType.VALUE, chart.axis_y.type)
             # 3 -  2D scatter plot:
@@ -1604,8 +1604,8 @@ class ExCharts(ApiExampleBase):
             # Each series will need two decimal arrays of equal length.
             # The first array contains X-values, and the second contains corresponding Y-values
             # of data points on the chart's graph.
-            chart.series.add('Series 1', x_values=[3.1, 3.5, 6.3, 4.1, 2.2, 8.3, 1.2, 3.6], y_values=[3.1, 6.3, 4.6, 0.9, 8.5, 4.2, 2.3, 9.9])
-            chart.series.add('Series 2', x_values=[2.6, 7.3, 4.5, 6.6, 2.1, 9.3, 0.7, 3.3], y_values=[7.1, 6.6, 3.5, 7.8, 7.7, 9.5, 1.3, 4.6])
+            chart.series.add_double('Series 1', x_values=[3.1, 3.5, 6.3, 4.1, 2.2, 8.3, 1.2, 3.6], y_values=[3.1, 6.3, 4.6, 0.9, 8.5, 4.2, 2.3, 9.9])
+            chart.series.add_double('Series 2', x_values=[2.6, 7.3, 4.5, 6.6, 2.1, 9.3, 0.7, 3.3], y_values=[7.1, 6.6, 3.5, 7.8, 7.7, 9.5, 1.3, 4.6])
             self.assertEqual(aw.drawing.charts.ChartAxisType.VALUE, chart.axis_x.type)
             self.assertEqual(aw.drawing.charts.ChartAxisType.VALUE, chart.axis_y.type)
             # 4 -  Bubble chart:
@@ -1651,7 +1651,7 @@ class ExCharts(ApiExampleBase):
         categories = ['Category 1', 'Category 2', 'Category 3', 'Category 4']
         # We can add a series with new values for existing categories.
         # This chart will now contain four clusters of four columns.
-        chart.series.add('Series 4', categories, [4.4, 7.0, 3.5, 2.1])
+        chart.series.add1('Series 4', categories, [4.4, 7.0, 3.5, 2.1])
         self.assertEqual(4, chart_data.count)  #ExSkip
         self.assertEqual('Series 4', chart_data[3].name)  #ExSkip
         # A chart series can also be removed by index, like this.
@@ -1750,8 +1750,8 @@ class ExCharts(ApiExampleBase):
         series_coll = chart.series
         series_coll.clear()
         categories = ['Cat1', None, 'Cat3', 'Cat4', 'Cat5', None]
-        series_coll.add('AW Series 1', categories, [1, 2, nan, 4, 5, 6])
-        series_coll.add('AW Series 2', categories, [2, 3, nan, 5, 6, 7])
+        series_coll.add1('AW Series 1', categories, [1, 2, nan, 4, 5, 6])
+        series_coll.add1('AW Series 2', categories, [2, 3, nan, 5, 6, 7])
         with self.assertRaises(Exception):
             series_coll.add('AW Series 3', categories, [nan, 4, 5, nan, nan])
         with self.assertRaises(Exception):
@@ -1815,7 +1815,7 @@ class ExCharts(ApiExampleBase):
         # Delete default generated series.
         chart.series.clear()
         # Add a series.
-        series = chart.series.add(series_name='Population by Age Group', categories=['0-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60-69', '70-79', '80-89', '90-'], values=[0.121, 0.128, 0.132, 0.146, 0.124, 0.124, 0.111, 0.075, 0.032, 0.007])
+        series = chart.series.add1(series_name='Population by Age Group', categories=['0-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60-69', '70-79', '80-89', '90-'], values=[0.121, 0.128, 0.132, 0.146, 0.124, 0.124, 0.111, 0.075, 0.032, 0.007])
         # Show data labels.
         series.has_data_labels = True
         decimal_separator = locale.localeconv()['decimal_point']

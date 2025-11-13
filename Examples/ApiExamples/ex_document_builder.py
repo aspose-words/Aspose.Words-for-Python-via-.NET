@@ -7,6 +7,7 @@
 #####################################
 import glob
 from enum import Enum
+import sys
 from datetime import timedelta, timezone
 from document_helper import DocumentHelper
 import aspose.pydrawing
@@ -25,7 +26,6 @@ import system_helper
 import test_util
 import unittest
 import uuid
-import sys
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, GOLDS_DIR, IMAGE_DIR, IMAGE_URL, MY_DIR
 
 class ExDocumentBuilder(ApiExampleBase):
@@ -1627,7 +1627,7 @@ class ExDocumentBuilder(ApiExampleBase):
         chart = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.PIE, width=aw.ConvertUtil.pixel_to_point(pixels=300), height=aw.ConvertUtil.pixel_to_point(pixels=300)).chart
         self.assertEqual(225, aw.ConvertUtil.pixel_to_point(pixels=300))  #ExSkip
         chart.series.clear()
-        chart.series.add(series_name='My fruit', categories=['Apples', 'Bananas', 'Cherries'], values=[1.3, 2.2, 1.5])
+        chart.series.add1(series_name='My fruit', categories=['Apples', 'Bananas', 'Cherries'], values=[1.3, 2.2, 1.5])
         doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertPieChart.docx')
         #ExEnd
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertPieChart.docx')

@@ -221,6 +221,18 @@ class ExMarkdownSaveOptions(ApiExampleBase):
         #ExEnd:ExportOfficeMathAsLatex
         self.assertTrue(document_helper.DocumentHelper.compare_docs(ARTIFACTS_DIR + 'MarkdownSaveOptions.ExportOfficeMathAsLatex.md', GOLDS_DIR + 'MarkdownSaveOptions.ExportOfficeMathAsLatex.Gold.md'))
 
+    def test_export_office_math_as_mark_it_down(self):
+        #ExStart:ExportOfficeMathAsMarkItDown
+        #ExFor:MarkdownSaveOptions.office_math_export_mode
+        #ExFor:MarkdownOfficeMathExportMode
+        #ExSummary:Shows how to export OfficeMath object as MarkItDown.
+        doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
+        save_options = aw.saving.MarkdownSaveOptions()
+        save_options.office_math_export_mode = aw.saving.MarkdownOfficeMathExportMode.MARK_IT_DOWN
+        doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.ExportOfficeMathAsMarkItDown.md', save_options=save_options)
+        #ExEnd:ExportOfficeMathAsMarkItDown
+        self.assertTrue(document_helper.DocumentHelper.compare_docs(ARTIFACTS_DIR + 'MarkdownSaveOptions.ExportOfficeMathAsMarkItDown.md', GOLDS_DIR + 'MarkdownSaveOptions.ExportOfficeMathAsMarkItDown.Gold.md'))
+
     def test_export_images_as_base64(self):
         for export_images_as_base64 in (True, False):
             with self.subTest(export_images_as_base64=export_images_as_base64):
