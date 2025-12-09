@@ -531,6 +531,101 @@ class ExLowCode(ApiExampleBase):
             images = aw.lowcode.Replacer.replace_to_images(input_stream=stream_in, save_options=aw.saving.ImageSaveOptions(aw.SaveFormat.PNG), pattern=pattern, replacement=replacement, options=options)
         #ExEnd:ReplaceToImagesStream
 
+    def test_replace_regex(self):
+        #ExStart:ReplaceRegex
+        #ExFor:Replacer.replace_regex(str,str,Regex,str)
+        #ExFor:Replacer.replace_regex(str,str,SaveFormat,Regex,str,FindReplaceOptions)
+        #ExSummary:Shows how to replace string with regex in the document.
+        # There is a several ways to replace string with regex in the document:
+        doc = MY_DIR + 'Footer.docx'
+        pattern = 'gr(a|e)y'
+        replacement = 'lavender'
+        aw.lowcode.Replacer.replace_regex(input_file_name=doc, output_file_name=ARTIFACTS_DIR + 'LowCode.ReplaceRegex.1.docx', pattern=pattern, replacement=replacement)
+        aw.lowcode.Replacer.replace_regex(input_file_name=doc, output_file_name=ARTIFACTS_DIR + 'LowCode.ReplaceRegex.2.docx', save_format=aw.SaveFormat.DOCX, pattern=pattern, replacement=replacement)
+        options = aw.replacing.FindReplaceOptions()
+        options.find_whole_words_only = False
+        aw.lowcode.Replacer.replace_regex(input_file_name=doc, output_file_name=ARTIFACTS_DIR + 'LowCode.ReplaceRegex.3.docx', save_format=aw.SaveFormat.DOCX, pattern=pattern, replacement=replacement, options=options)
+        #ExEnd:ReplaceRegex
+
+    def test_replace_context_regex(self):
+        #ExStart:ReplaceContextRegex
+        #ExFor:Replacer.create(ReplacerContext)
+        #ExFor:ReplacerContext
+        #ExFor:ReplacerContext.set_replacement_regex(Regex,str)
+        #ExFor:ReplacerContext.find_replace_options
+        #ExSummary:Shows how to replace string with regex in the document using context.
+        # There is a several ways to replace string with regex in the document:
+        doc = MY_DIR + 'Footer.docx'
+        pattern = 'gr(a|e)y'
+        replacement = 'lavender'
+        replacer_context = aw.lowcode.ReplacerContext()
+        replacer_context.set_replacement_regex(pattern=pattern, replacement=replacement)
+        replacer_context.find_replace_options.find_whole_words_only = False
+        aw.lowcode.Replacer.create(replacer_context).from_file(input=doc).to_file(output=ARTIFACTS_DIR + 'LowCode.ReplaceContextRegex.docx').execute()
+        #ExEnd:ReplaceContextRegex
+
+    def test_replace_to_images_regex(self):
+        #ExStart:ReplaceToImagesRegex
+        #ExFor:Replacer.replace_to_images_regex(str,ImageSaveOptions,Regex,str,FindReplaceOptions)
+        #ExSummary:Shows how to replace string with regex in the document and save result to images.
+        # There is a several ways to replace string with regex in the document:
+        doc = MY_DIR + 'Footer.docx'
+        pattern = 'gr(a|e)y'
+        replacement = 'lavender'
+        images = aw.lowcode.Replacer.replace_to_images_regex(input_file_name=doc, save_options=aw.saving.ImageSaveOptions(aw.SaveFormat.PNG), pattern=pattern, replacement=replacement)
+        options = aw.replacing.FindReplaceOptions()
+        options.find_whole_words_only = False
+        images = aw.lowcode.Replacer.replace_to_images_regex(input_file_name=doc, save_options=aw.saving.ImageSaveOptions(aw.SaveFormat.PNG), pattern=pattern, replacement=replacement, options=options)
+        #ExEnd:ReplaceToImagesRegex
+
+    def test_replace_stream_regex(self):
+        #ExStart:ReplaceStreamRegex
+        #ExFor:Replacer.replace_regex(BytesIO,BytesIO,SaveFormat,Regex,str,FindReplaceOptions)
+        #ExSummary:Shows how to replace string with regex in the document using documents from the stream.
+        # There is a several ways to replace string with regex in the document using documents from the stream:
+        pattern = 'gr(a|e)y'
+        replacement = 'lavender'
+        with system_helper.io.FileStream(MY_DIR + 'Replace regex.docx', system_helper.io.FileMode.OPEN, system_helper.io.FileAccess.READ) as stream_in:
+            with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.ReplaceStreamRegex.1.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
+                aw.lowcode.Replacer.replace_regex(input_stream=stream_in, output_stream=stream_out, save_format=aw.SaveFormat.DOCX, pattern=pattern, replacement=replacement)
+            with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.ReplaceStreamRegex.2.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
+                options = aw.replacing.FindReplaceOptions()
+                options.find_whole_words_only = False
+                aw.lowcode.Replacer.replace_regex(input_stream=stream_in, output_stream=stream_out, save_format=aw.SaveFormat.DOCX, pattern=pattern, replacement=replacement, options=options)
+        #ExEnd:ReplaceStreamRegex
+
+    def test_replace_context_stream_regex(self):
+        #ExStart:ReplaceContextStreamRegex
+        #ExFor:Replacer.create(ReplacerContext)
+        #ExFor:ReplacerContext
+        #ExFor:ReplacerContext.set_replacement_regex(Regex,str)
+        #ExFor:ReplacerContext.find_replace_options
+        #ExSummary:Shows how to replace string with regex in the document using documents from the stream using context.
+        # There is a several ways to replace string with regex in the document using documents from the stream:
+        pattern = 'gr(a|e)y'
+        replacement = 'lavender'
+        with system_helper.io.FileStream(MY_DIR + 'Replace regex.docx', system_helper.io.FileMode.OPEN, system_helper.io.FileAccess.READ) as stream_in:
+            replacer_context = aw.lowcode.ReplacerContext()
+            replacer_context.set_replacement_regex(pattern=pattern, replacement=replacement)
+            replacer_context.find_replace_options.find_whole_words_only = False
+            with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.ReplaceContextStreamRegex.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
+                aw.lowcode.Replacer.create(replacer_context).from_stream(input=stream_in).to_stream(output=stream_out, save_format=aw.SaveFormat.DOCX).execute()
+        #ExEnd:ReplaceContextStreamRegex
+
+    def test_replace_to_images_stream_regex(self):
+        #ExStart:ReplaceToImagesStreamRegex
+        #ExFor:Replacer.replace_to_images_regex(BytesIO,ImageSaveOptions,Regex,str,FindReplaceOptions)
+        #ExSummary:Shows how to replace string with regex in the document using documents from the stream and save result to images.
+        # There is a several ways to replace string with regex in the document using documents from the stream:
+        pattern = 'gr(a|e)y'
+        replacement = 'lavender'
+        with system_helper.io.FileStream(MY_DIR + 'Replace regex.docx', system_helper.io.FileMode.OPEN, system_helper.io.FileAccess.READ) as stream_in:
+            images = aw.lowcode.Replacer.replace_to_images_regex(input_stream=stream_in, save_options=aw.saving.ImageSaveOptions(aw.SaveFormat.PNG), pattern=pattern, replacement=replacement)
+            options = aw.replacing.FindReplaceOptions()
+            options.find_whole_words_only = False
+            images = aw.lowcode.Replacer.replace_to_images_regex(input_stream=stream_in, save_options=aw.saving.ImageSaveOptions(aw.SaveFormat.PNG), pattern=pattern, replacement=replacement, options=options)
+        #ExEnd:ReplaceToImagesStreamRegex
+
     def test_remove_blank_pages(self):
         #ExStart:RemoveBlankPages
         #ExFor:Splitter.remove_blank_pages(str,str)

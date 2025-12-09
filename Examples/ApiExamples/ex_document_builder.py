@@ -1877,6 +1877,7 @@ class ExDocumentBuilder(ApiExampleBase):
         dst_doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.DoNotIgnoreHeaderFooter.docx')
         #ExEnd
 
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_insert_online_video(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_online_video(str,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)

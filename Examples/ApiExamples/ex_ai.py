@@ -64,7 +64,6 @@ class ExAI(ApiExampleBase):
     def test_ai_grammar(self):
         #ExStart:AiGrammar
         #ExFor:AiModel.check_grammar(Document,CheckGrammarOptions)
-        #ExFor:AiModel.url
         #ExFor:CheckGrammarOptions
         #ExSummary:Shows how to check the grammar of a document.
         doc = aw.Document(file_name=MY_DIR + 'Big document.docx')
