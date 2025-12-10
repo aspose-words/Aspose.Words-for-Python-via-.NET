@@ -79,6 +79,17 @@ class ExRange(ApiExampleBase):
         doc.range.replace(pattern='sad', replacement='bad', options=options)
         doc.save(file_name=ARTIFACTS_DIR + 'Range.ReplaceWithString.docx')
 
+    def test_replace_with_regex(self):
+        #ExStart
+        #ExFor:Range.replace_regex(Regex,str)
+        #ExSummary:Shows how to replace all occurrences of a regular expression pattern with other text.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.writeln('I decided to get the curtains in gray, ideal for the grey-accented room.')
+        doc.range.replace_regex(pattern='gr(a|e)y', replacement='lavender')
+        self.assertEqual('I decided to get the curtains in lavender, ideal for the lavender-accented room.', doc.get_text().strip())
+        #ExEnd
+
     def test_apply_paragraph_format(self):
         #ExStart
         #ExFor:FindReplaceOptions.apply_paragraph_format
@@ -321,17 +332,6 @@ class ExRange(ApiExampleBase):
                     expected_text = 'Replaced Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
                 self.assertEqual(expected_text, footnotes[0].to_string(aw.SaveFormat.TEXT).strip())
                 self.assertEqual(expected_text, footnotes[1].to_string(aw.SaveFormat.TEXT).strip())
-
-    def test_replace_with_regex(self):
-        #ExStart
-        #ExFor:Range.replace(Regex,str)
-        #ExSummary:Shows how to replace all occurrences of a regular expression pattern with other text.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.writeln('I decided to get the curtains in gray, ideal for the grey-accented room.')
-        doc.range.replace_regex('gr(a|e)y', 'lavender')
-        self.assertEqual('I decided to get the curtains in lavender, ideal for the lavender-accented room.', doc.get_text().strip())
-        #ExEnd
 
     def test_use_substitutions(self):
         for use_substitutions in (False, True):

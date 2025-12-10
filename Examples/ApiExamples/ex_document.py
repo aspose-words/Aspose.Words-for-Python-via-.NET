@@ -22,6 +22,7 @@ import aspose.words.layout
 import aspose.words.loading
 import aspose.words.notes
 import aspose.words.rendering
+import aspose.words.replacing
 import aspose.words.saving
 import aspose.words.settings
 import aspose.words.webextensions
@@ -704,6 +705,24 @@ class ExDocument(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'Document.DefaultTemplate.docx', save_options=options)
         #ExEnd
         self.assertTrue(system_helper.io.File.exist(options.default_template))
+
+    def test_use_substitutions(self):
+        #ExStart
+        #ExFor:FindReplaceOptions.__init__()
+        #ExFor:FindReplaceOptions.use_substitutions
+        #ExFor:FindReplaceOptions.legacy_mode
+        #ExSummary:Shows how to recognize and use substitutions within replacement patterns.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.write('Jason gave money to Paul.')
+        regex = '([A-z]+) gave money to ([A-z]+)'
+        options = aw.replacing.FindReplaceOptions()
+        options.use_substitutions = True
+        # Using legacy mode does not support many advanced features, so we need to set it to 'false'.
+        options.legacy_mode = False
+        doc.range.replace_regex(pattern=regex, replacement='$2 took money from $1', options=options)
+        self.assertEqual(doc.get_text(), 'Paul took money from Jason.\x0c')
+        #ExEnd
 
     def test_set_invalidate_field_types(self):
         #ExStart
@@ -1502,22 +1521,6 @@ class ExDocument(ApiExampleBase):
         nodes[2].as_paragraph().runs.add(aw.Run(doc=doc, text='Hello world!'))
         #ExEnd
         self.assertEqual('Hello world!', doc.get_text().strip())
-
-    def test_use_substitutions(self):
-        #ExStart
-        #ExFor:FindReplaceOptions.use_substitutions
-        #ExFor:FindReplaceOptions.legacy_mode
-        #ExSummary:Shows how to recognize and use substitutions within replacement patterns.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.write('Jason gave money to Paul.')
-        options = aw.replacing.FindReplaceOptions()
-        options.use_substitutions = True
-        # Using legacy mode does not support many advanced features, so we need to set it to 'False'.
-        options.legacy_mode = False
-        doc.range.replace_regex('([A-z]+) gave money to ([A-z]+)', '$2 took money from $1', options)
-        self.assertEqual(doc.get_text(), 'Paul took money from Jason.\x0c')
-        #ExEnd
 
     def test_doc_package_custom_parts(self):
         #ExStart

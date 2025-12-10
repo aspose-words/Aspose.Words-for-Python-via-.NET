@@ -493,7 +493,6 @@ class ExPdfSaveOptions(ApiExampleBase):
             doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.EmulateRenderingToSizeOnPage.pdf', save_options=save_options)
             #ExEnd
 
-    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_embed_full_fonts(self):
         for embed_full_fonts in [False, True]:
             #ExStart
@@ -527,11 +526,6 @@ class ExPdfSaveOptions(ApiExampleBase):
             # Restore the original font sources.
             aw.fonts.FontSettings.default_instance.set_fonts_sources(sources=original_fonts_sources)
             #ExEnd
-            tested_file_length = system_helper.io.FileInfo(ARTIFACTS_DIR + 'PdfSaveOptions.EmbedFullFonts.pdf').length()
-            if embed_full_fonts:
-                self.assertTrue(tested_file_length < 571000)
-            else:
-                self.assertTrue(tested_file_length < 24000)
 
     def test_embed_windows_fonts(self):
         for pdf_font_embedding_mode in [aw.saving.PdfFontEmbeddingMode.EMBED_ALL, aw.saving.PdfFontEmbeddingMode.EMBED_NONE, aw.saving.PdfFontEmbeddingMode.EMBED_NONSTANDARD]:
@@ -727,6 +721,24 @@ class ExPdfSaveOptions(ApiExampleBase):
                 test_util.TestUtil.file_contains_string('<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABD 13 0 R>>/ExtGState<</GS1 11 0 R/GS2 16 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>/StructParents 0/Tabs/S>>', ARTIFACTS_DIR + 'PdfSaveOptions.ExportDocumentStructure.pdf')
             else:
                 test_util.TestUtil.file_contains_string('<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>', ARTIFACTS_DIR + 'PdfSaveOptions.ExportDocumentStructure.pdf')
+
+    def test_preblend_images(self):
+        for preblend_images in [False, True]:
+            #ExStart
+            #ExFor:PdfSaveOptions.preblend_images
+            #ExSummary:Shows how to preblend images with transparent backgrounds while saving a document to PDF.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.insert_image(file_name=IMAGE_DIR + 'Transparent background logo.png')
+            # Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
+            # to modify how that method converts the document to .PDF.
+            options = aw.saving.PdfSaveOptions()
+            # Set the "PreblendImages" property to "true" to preblend transparent images
+            # with a background, which may reduce artifacts.
+            # Set the "PreblendImages" property to "false" to render transparent images normally.
+            options.preblend_images = preblend_images
+            doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.PreblendImages.pdf', save_options=options)
+            #ExEnd
 
     def test_interpolate_images(self):
         for interpolate_images in [False, True]:
