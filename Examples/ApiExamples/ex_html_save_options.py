@@ -129,7 +129,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
             save_options.html_version = html_version
             doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.Html5Support.html', save_options=save_options)
 
-    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_export_fonts(self):
         for export_as_base64 in [False, True]:
             fonts_folder = ARTIFACTS_DIR + 'HtmlSaveOptions.ExportFonts.Resources'

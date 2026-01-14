@@ -1346,6 +1346,34 @@ class ExDocument(ApiExampleBase):
         #ExEnd:ExtractPagesWithOptions
         self.assertEqual(2, extracted_doc2.range.fields.count)
 
+    def test_append_document_with_new_page(self):
+        #ExStart:AppendDocumentWithNewPage
+        #ExFor:ImportFormatOptions.append_document_with_new_page
+        #ExSummary:Shows how to preserve original section type.
+        dst_doc = aw.Document()
+        src_doc = aw.Document()
+        src_doc.first_section.page_setup.section_start = aw.SectionStart.CONTINUOUS
+        options = aw.ImportFormatOptions()
+        options.append_document_with_new_page = False
+        dst_doc.append_document(src_doc=src_doc, import_format_mode=aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, import_format_options=options)
+        self.assertEqual(aw.SectionStart.CONTINUOUS, dst_doc.sections[1].page_setup.section_start)
+        #ExEnd:AppendDocumentWithNewPage
+
+    def test_docling_json(self):
+        #ExStart:DoclingJson
+        #ExFor:DoclingSaveOptions
+        #ExFor:DoclingSaveOptions.save_format
+        #ExFor:DoclingSaveOptions.render_non_image_shapes
+        #ExSummary:Shows how to save a document into a Docling JSON format.
+        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+        save_options = aw.saving.DoclingSaveOptions()
+        save_options.save_format = aw.SaveFormat.DOCLING
+        # Set to true to render non-image shapes and include them in the output.
+        # Set to false (default) to exclude non-image shapes from the output.
+        save_options.render_non_image_shapes = True
+        doc.save(file_name=ARTIFACTS_DIR + 'DoclingSaveOptions.DoclingJson.json', save_options=save_options)
+        #ExEnd:DoclingJson
+
     def test_create_simple_document(self):
         #ExStart:CreateSimpleDocument
         #ExFor:Document.__init__()

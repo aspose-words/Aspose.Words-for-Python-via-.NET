@@ -55,7 +55,7 @@ class ExAI(ApiExampleBase):
         doc = aw.Document(file_name=MY_DIR + 'Document.docx')
         api_key = system_helper.environment.Environment.get_environment_variable('API_KEY')
         # Use Google generative language models.
-        model = aw.ai.AiModel.create(aw.ai.AiModelType.GEMINI_15_FLASH).with_api_key(api_key)
+        model = aw.ai.AiModel.create(aw.ai.AiModelType.GEMINI_FLASH_LATEST).with_api_key(api_key)
         translated_doc = model.translate(doc, aw.ai.Language.ARABIC)
         translated_doc.save(file_name=ARTIFACTS_DIR + 'AI.AiTranslate.docx')
         #ExEnd:AiTranslate
@@ -97,3 +97,18 @@ class ExAI(ApiExampleBase):
         model.timeout = 250000
         #ExEnd:ChangeDefaultTimeout
         self.assertEqual(250000, model.timeout)
+
+    @unittest.skip('This test should be run manually to manage API requests amount')
+    def test_gemini(self):
+        #ExStart:Gemini
+        #ExFor:GoogleAiModel
+        #ExFor:GoogleAiModel.__init__(str)
+        #ExFor:GoogleAiModel.__init__(str,str)
+        #ExSummary:Shows how to use google AI model.
+        api_key = system_helper.environment.Environment.get_environment_variable('API_KEY')
+        model = aw.ai.GoogleAiModel(name='gemini-flash-latest', api_key=api_key)
+        doc = aw.Document(file_name=MY_DIR + 'Big document.docx')
+        summarize_options = aw.ai.SummarizeOptions()
+        summarize_options.summary_length = aw.ai.SummaryLength.VERY_SHORT
+        summary = model.summarize(doc=doc, options=summarize_options)
+        #ExEnd:Gemini
