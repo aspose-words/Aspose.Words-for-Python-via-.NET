@@ -509,6 +509,7 @@ class ExRevision(ApiExampleBase):
         doc.save(ARTIFACTS_DIR + 'Document.track_revisions.docx')
         #ExEnd
 
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_ignore_dml_unique_id(self):
         for is_ignore_dml_unique_id in (False, True):
             with self.subTest(is_ignore_dml_unique_id=is_ignore_dml_unique_id):

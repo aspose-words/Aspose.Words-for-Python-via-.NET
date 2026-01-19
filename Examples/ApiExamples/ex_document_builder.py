@@ -1627,7 +1627,7 @@ class ExDocumentBuilder(ApiExampleBase):
         chart = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.PIE, width=aw.ConvertUtil.pixel_to_point(pixels=300), height=aw.ConvertUtil.pixel_to_point(pixels=300)).chart
         self.assertEqual(225, aw.ConvertUtil.pixel_to_point(pixels=300))  #ExSkip
         chart.series.clear()
-        chart.series.add1(series_name='My fruit', categories=['Apples', 'Bananas', 'Cherries'], values=[1.3, 2.2, 1.5])
+        chart.series.add(series_name='My fruit', categories=['Apples', 'Bananas', 'Cherries'], values=[1.3, 2.2, 1.5])
         doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertPieChart.docx')
         #ExEnd
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBuilder.InsertPieChart.docx')
@@ -1877,7 +1877,6 @@ class ExDocumentBuilder(ApiExampleBase):
         dst_doc.save(file_name=ARTIFACTS_DIR + 'DocumentBuilder.DoNotIgnoreHeaderFooter.docx')
         #ExEnd
 
-    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_insert_online_video(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_online_video(str,RelativeHorizontalPosition,float,RelativeVerticalPosition,float,float,float,WrapType)
