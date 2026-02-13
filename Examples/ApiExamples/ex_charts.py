@@ -1279,6 +1279,35 @@ class ExCharts(ApiExampleBase):
         self.assertEqual(aw.drawing.charts.ChartStyle.BLACK, chart.style)
         #ExEnd
 
+    def test_title_orientation(self):
+        #ExStart:TitleOrientation
+        #ExFor:ChartTitle.orientation
+        #ExFor:ChartTitle.rotation
+        #ExFor:ChartAxisTitle.orientation
+        #ExFor:ChartAxisTitle.rotation
+        #ExSummary:Shows how to set orientation and rotation of chart and axis titles.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        chart_shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=400, height=300)
+        chart = chart_shape.chart
+        chart.title.text = 'Sample Chart'
+        chart.title.orientation = aw.drawing.ShapeTextOrientation.HORIZONTAL
+        chart.title.rotation = 90
+        # Before setting title properties, make sure that this title will be displayed.
+        chart.axis_x.title.show = True
+        chart.axis_x.title.text = 'X Axis'
+        chart.axis_x.title.orientation = aw.drawing.ShapeTextOrientation.HORIZONTAL
+        chart.axis_x.title.rotation = -90
+        doc.save(file_name=ARTIFACTS_DIR + 'Charts.TitleOrientation.docx')
+        #ExEnd:TitleOrientation
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Charts.TitleOrientation.docx')
+        chart_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        chart = chart_shape.chart
+        self.assertEqual(aw.drawing.ShapeTextOrientation.HORIZONTAL, chart.title.orientation)
+        self.assertEqual(90, chart.title.rotation)
+        self.assertEqual(aw.drawing.ShapeTextOrientation.HORIZONTAL, chart.axis_x.title.orientation)
+        self.assertEqual(-90, chart.axis_x.title.rotation)
+
     def test_axis_properties(self):
         #ExStart
         #ExFor:ChartAxis

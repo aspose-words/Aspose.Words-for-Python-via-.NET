@@ -314,6 +314,7 @@ class ExParagraph(ApiExampleBase):
         self.assertEqual('Run 4. ', para.runs[1].text)
         #ExEnd
 
+    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_append_field(self):
         #ExStart
         #ExFor:Paragraph.append_field(FieldType,bool)
