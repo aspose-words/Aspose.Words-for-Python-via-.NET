@@ -4,6 +4,7 @@
 # Start image ubuntu_18.04_py36
 FROM ubuntu:18.04
 RUN apt update
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
 RUN apt install -y ttf-mscorefonts-installer
 RUN apt install -y python3.6 python3-pip libgdiplus
@@ -13,6 +14,7 @@ RUN python3.6 -m pip install --upgrade pip
 # Start image ubuntu_18.04_py37
 FROM ubuntu:18.04
 RUN apt update
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
 RUN apt install -y ttf-mscorefonts-installer
 RUN apt install -y python3.7 python3-pip libgdiplus
@@ -23,6 +25,7 @@ RUN python3.7 -m pip install --upgrade pip
 FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
 RUN apt install -y ttf-mscorefonts-installer
 RUN apt install -y python3.8 python3-pip
@@ -34,6 +37,7 @@ RUN python3.8 -m pip install --upgrade pip
 FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
 RUN apt install -y ttf-mscorefonts-installer
 RUN apt install -y python3.9 python3-pip
@@ -47,6 +51,7 @@ RUN update-alternatives --auto python3
 # Start image ubuntu_22.04_py310
 FROM ubuntu:22.04
 RUN apt update && apt install -y python3.10
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
 RUN apt install -y ttf-mscorefonts-installer
 RUN apt install -y python3-pip
@@ -61,6 +66,7 @@ RUN rm -i libssl1.1_1.1.0g-2ubuntu4_amd64.deb
 # Start image ubuntu_22.04_py311
 FROM ubuntu:22.04
 RUN apt update && apt install -y python3.11
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
 RUN apt install -y ttf-mscorefonts-installer
 RUN apt install -y python3-pip
@@ -79,6 +85,7 @@ RUN rm -i libssl1.1_1.1.0g-2ubuntu4_amd64.deb
 FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update && apt install -y
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN apt install software-properties-common -y
 RUN add-apt-repository ppa:deadsnakes/ppa -y
 Run ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
@@ -103,6 +110,7 @@ RUN python3.12 -m pip install pillow
 FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update && apt install -y
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN apt install software-properties-common -y
 RUN add-apt-repository ppa:deadsnakes/ppa -y
 Run ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
@@ -130,6 +138,7 @@ RUN python3.13 -m pip install pillow
 # Start image python_3.7_bullseye
 FROM python:3.7-bullseye
 RUN apt update
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN apt install -y wget
 RUN wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb
 RUN apt install -y ./ttf-mscorefonts-installer_3.8_all.deb
@@ -140,6 +149,7 @@ RUN python3 -m pip install --upgrade pip
 # Start image python_3.8_bullseye
 FROM python:3.8-bullseye
 RUN apt update
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN apt install -y wget
 RUN wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb
 RUN apt install -y ./ttf-mscorefonts-installer_3.8_all.deb
@@ -151,6 +161,7 @@ RUN python3 -m pip install pillow
 # Start image python_3.9_bullseye
 FROM python:3.9-bullseye
 RUN apt update
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN apt install -y wget
 RUN wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb
 RUN apt install -y ./ttf-mscorefonts-installer_3.8_all.deb
@@ -161,6 +172,7 @@ RUN python3 -m pip install pillow
 # Start image python_3.10_bullseye
 FROM python:3.10-bullseye
 RUN apt update
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN apt install -y wget
 RUN wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb
 RUN apt install -y ./ttf-mscorefonts-installer_3.8_all.deb
@@ -171,6 +183,7 @@ RUN python3 -m pip install pillow
 # Start image python_3.11_bullseye
 FROM python:3.11-bullseye
 RUN apt update
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN apt install -y wget
 RUN wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb
 RUN apt install -y ./ttf-mscorefonts-installer_3.8_all.deb
@@ -181,6 +194,7 @@ RUN python3 -m pip install pillow
 # Start image python_3.12_bullseye
 FROM python:3.12-bullseye
 RUN apt update
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN apt install -y wget
 RUN wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb
 RUN apt install -y ./ttf-mscorefonts-installer_3.8_all.deb
@@ -191,6 +205,7 @@ RUN python3 -m pip install pillow
 # Start image python_3.13_bullseye
 FROM python:3.13-bullseye
 RUN apt update
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN apt install -y wget
 RUN wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb
 RUN apt install -y ./ttf-mscorefonts-installer_3.8_all.deb
@@ -201,6 +216,8 @@ RUN python3 -m pip install pillow
 #--------------------------------------------------------------------------
 #
 #-----------------------------REDHAT--------------------------------
+# AW HarfBuzz functionality is not available on redhat/ubi8.
+#
 # Start image redhat_8_py3.8
 FROM redhat/ubi8
 RUN yum install -y python3.8 libicu openssl
@@ -236,6 +253,7 @@ RUN fc-cache -fv
 # Start image oraclelinux_py38
 FROM oraclelinux:8.7
 RUN yum install -y python3.8 libicu openssl
+RUN yum install -y harfbuzz harfbuzz-devel
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install pillow
 COPY ./fonts usr/share/fonts
@@ -246,6 +264,7 @@ RUN fc-cache -fv
 # Start image oraclelinux_py39
 FROM oraclelinux:8.7
 RUN yum install -y python3.9 libicu openssl
+RUN yum install -y harfbuzz harfbuzz-devel
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install pillow
 COPY ./fonts usr/share/fonts
@@ -256,6 +275,7 @@ RUN fc-cache -fv
 # Start image oraclelinux_py311
 FROM oraclelinux:8.7
 RUN yum install -y python3.11 python3.11-pip libicu openssl
+RUN yum install -y harfbuzz harfbuzz-devel
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install pillow
 COPY ./fonts usr/share/fonts
@@ -266,6 +286,7 @@ RUN fc-cache -fv
 # Start image oraclelinux_py312
 FROM oraclelinux:8.7
 RUN yum install -y python3.12 python3.12-pip libicu openssl
+RUN yum install -y harfbuzz harfbuzz-devel
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install pillow
 COPY ./fonts usr/share/fonts
@@ -280,6 +301,7 @@ RUN fc-cache -fv
 FROM google/cloud-sdk:431.0.0-slim
 RUN apt update
 RUN apt install -y wget openssl
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN wget http://archive.ubuntu.com/ubuntu/pool/main/i/icu/libicu66_66.1-2ubuntu2_amd64.deb
 RUN dpkg -i ./libicu66_66.1-2ubuntu2_amd64.deb
 RUN python3 -m pip install --upgrade pip
@@ -298,6 +320,7 @@ RUN cd /etc/yum.repos.d/
 RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
 RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
 RUN yum install -y python3.8 libicu
+RUN yum install -y harfbuzz harfbuzz-devel
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install pillow
 COPY ./fonts usr/share/fonts
@@ -312,6 +335,7 @@ RUN cd /etc/yum.repos.d/
 RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
 RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
 RUN yum install -y python3.9 libicu
+RUN yum install -y harfbuzz harfbuzz-devel
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install pillow
 COPY ./fonts usr/share/fonts
@@ -325,6 +349,7 @@ CMD /bin/bash
 # Start image fedora_28_py36
 FROM fedora:28
 RUN dnf install -y curl cabextract xorg-x11-font-utils fontconfig
+RUN dnf install -y harfbuzz harfbuzz-devel
 RUN rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 RUN dnf install -y libicu libstdc++.x86_64 libgdiplus
 RUN python3 -m pip install --upgrade pip
@@ -333,6 +358,7 @@ RUN python3 -m pip install --upgrade pip
 # Start image fedora_31_py37
 FROM fedora:31
 RUN dnf install -y curl cabextract xorg-x11-font-utils fontconfig
+RUN dnf install -y harfbuzz harfbuzz-devel
 RUN rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 RUN dnf install -y python3-pip libicu libgdiplus
 RUN python3 -m pip install --upgrade pip
@@ -341,6 +367,7 @@ RUN python3 -m pip install --upgrade pip
 # Start image fedora_32_py38
 FROM fedora:32
 RUN dnf install -y curl cabextract xorg-x11-font-utils fontconfig
+RUN dnf install -y harfbuzz harfbuzz-devel
 RUN rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 RUN dnf install -y python3-pip libicu
 RUN python3 -m pip install --upgrade pip
@@ -350,6 +377,7 @@ RUN python3 -m pip install pillow
 # Start image fedora_34_py39
 FROM fedora:34
 RUN dnf install -y curl cabextract xorg-x11-font-utils fontconfig
+RUN dnf install -y harfbuzz harfbuzz-devel
 RUN rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 RUN dnf install -y python3-pip libicu
 RUN python3 -m pip install --upgrade pip
@@ -359,6 +387,7 @@ RUN python3 -m pip install pillow
 # Start image fedora_35_py310
 FROM fedora:35
 RUN dnf install -y curl cabextract xorg-x11-font-utils fontconfig
+RUN dnf install -y harfbuzz harfbuzz-devel
 RUN rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 RUN dnf install -y python3-pip libicu
 RUN python3 -m pip install --upgrade pip
@@ -372,6 +401,7 @@ RUN yum update -y
 RUN yum groupinstall 'Development Tools' -y
 RUN yum install -y openssl-devel bzip2-devel libffi-devel sqlite-devel
 RUN dnf install -y curl cabextract xorg-x11-font-utils fontconfig
+RUN dnf install -y harfbuzz harfbuzz-devel
 RUN rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 RUN dnf install -y libicu wget
 RUN wget https://www.python.org/ftp/python/3.11.0/Python-3.11.0.tgz
@@ -395,6 +425,7 @@ RUN yum update -y
 RUN yum groupinstall 'Development Tools' -y
 RUN yum install -y openssl-devel bzip2-devel libffi-devel sqlite-devel
 RUN dnf install -y curl cabextract xorg-x11-font-utils fontconfig
+RUN dnf install -y harfbuzz harfbuzz-devel
 RUN rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 RUN dnf install -y libicu wget
 RUN wget https://www.python.org/ftp/python/3.12.0/Python-3.12.0.tgz
@@ -420,6 +451,7 @@ RUN yum update -y
 RUN yum groupinstall 'Development Tools' -y
 RUN yum install -y openssl-devel bzip2-devel libffi-devel sqlite-devel
 RUN dnf install -y curl cabextract xorg-x11-font-utils fontconfig
+RUN dnf install -y harfbuzz harfbuzz-devel
 RUN rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 RUN dnf install -y libicu wget
 RUN wget https://www.python.org/ftp/python/3.13.0/Python-3.13.0.tgz
@@ -445,6 +477,7 @@ RUN python3 -m pip install pillow
 # Start image amazonlinux_py38
 FROM amazonlinux:1
 RUN yum install -y python38
+RUN yum install -y harfbuzz harfbuzz-devel
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install pillow
 COPY ./fonts usr/share/fonts
@@ -460,6 +493,7 @@ RUN apt install -y wget
 RUN wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb
 RUN apt install -y ./ttf-mscorefonts-installer_3.8_all.deb
 RUN apt install -y python3 python3-pip libgdiplus
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN python3 -m pip install --upgrade pip
 # End image debian_py37
 
@@ -471,6 +505,7 @@ RUN apt install -y libicu-dev
 RUN wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb
 RUN apt install -y ./ttf-mscorefonts-installer_3.8_all.deb
 RUN apt install -y python3 python3-pip
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install pillow
 # End image debian_py39
@@ -487,6 +522,7 @@ RUN dpkg -i ./libssl1.1_1.1.0g-2ubuntu4_amd64.deb
 RUN wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb
 RUN apt install -y ./ttf-mscorefonts-installer_3.8_all.deb
 RUN apt install -y python3 python3-pip
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN python3 -m pip install pillow --break-system-packages
 # End image debian_py311
 
@@ -507,6 +543,7 @@ RUN wget http://archive.ubuntu.com/ubuntu/pool/main/i/icu/libicu66_66.1-2ubuntu2
 RUN dpkg -i ./libicu66_66.1-2ubuntu2_amd64.deb
 RUN apt install -y build-essential libssl-dev zlib1g-dev libbz2-dev
 RUN apt install -y libreadline-dev libsqlite3-dev curl llvm libncurses5-dev libncursesw5-dev
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN apt install -y xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git
 RUN wget https://www.python.org/ftp/python/3.12.0/Python-3.12.0.tgz
 RUN tar -xf Python-3.12.0.tgz
@@ -535,6 +572,7 @@ RUN apt install -y python3-launchpadlib
 RUN add-apt-repository ppa:deadsnakes/ppa -y
 RUN apt install -y wget
 RUN apt install -y libicu-dev
+RUN apt install -y libharfbuzz0b libharfbuzz-dev
 RUN wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.0g-2ubuntu4_amd64.deb
 RUN dpkg -i ./libssl1.1_1.1.0g-2ubuntu4_amd64.deb
 RUN wget http://archive.ubuntu.com/ubuntu/pool/main/i/icu/libicu66_66.1-2ubuntu2_amd64.deb

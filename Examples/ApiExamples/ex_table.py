@@ -616,7 +616,6 @@ class ExTable(ApiExampleBase):
         #ExFor:Table.style_name
         #ExFor:TableStyle
         #ExFor:TableStyle.allow_break_across_pages
-        #ExFor:TableStyle.bidi
         #ExFor:TableStyle.cell_spacing
         #ExFor:TableStyle.bottom_padding
         #ExFor:TableStyle.left_padding
@@ -639,7 +638,6 @@ class ExTable(ApiExampleBase):
         builder.end_table()
         table_style = doc.styles.add(aw.StyleType.TABLE, 'MyTableStyle1').as_table_style()
         table_style.allow_break_across_pages = True
-        table_style.bidi = True
         table_style.cell_spacing = 5
         table_style.bottom_padding = 20
         table_style.left_padding = 5
@@ -650,6 +648,7 @@ class ExTable(ApiExampleBase):
         table_style.borders.line_style = aw.LineStyle.DOT_DASH
         table_style.vertical_alignment = aw.tables.CellVerticalAlignment.CENTER
         table.style = table_style
+        table.bidi = True
         # Setting the style properties of a table may affect the properties of the table itself.
         self.assertTrue(table.bidi)
         self.assertEqual(5, table.cell_spacing)
@@ -669,7 +668,6 @@ class ExTable(ApiExampleBase):
         self.assertEqual(aw.tables.CellVerticalAlignment.CENTER, table_style.vertical_alignment)
         table_style = doc.styles.get_by_name('MyTableStyle1').as_table_style()
         self.assertTrue(table_style.allow_break_across_pages)
-        self.assertTrue(table_style.bidi)
         self.assertEqual(5, table_style.cell_spacing)
         self.assertEqual(20, table_style.bottom_padding)
         self.assertEqual(5, table_style.left_padding)
