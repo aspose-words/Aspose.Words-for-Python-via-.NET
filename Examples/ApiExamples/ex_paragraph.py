@@ -314,6 +314,34 @@ class ExParagraph(ApiExampleBase):
         self.assertEqual('Run 4. ', para.runs[1].text)
         #ExEnd
 
+    def test_join_runs_with_same_formatting_with_options(self):
+        #ExStart:JoinRunsWithSameFormattingWithOptions
+        #ExFor:Paragraph.join_runs_with_same_formatting(JoinRunsOptions)
+        #ExFor:JoinRunsOptions
+        #ExSummary:Shows how to join runs with the same formatting while ignoring redundant and insignificant attributes.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Create runs with identical visible formatting but some internal differences.
+        builder.font.name = 'Arial'
+        builder.font.size = 12
+        builder.write('Hello ')
+        builder.write('world')
+        # Verify runs before join.
+        self.assertEqual(2, doc.first_section.body.first_paragraph.runs.count)
+        self.assertEqual('Hello ', doc.first_section.body.first_paragraph.runs[0].text)
+        self.assertEqual('world', doc.first_section.body.first_paragraph.runs[1].text)
+        # Configure options to ignore redundant and insignificant attributes during join.
+        options = aw.JoinRunsOptions()
+        options.ignore_redundant = True  # Ignore redundant run properties that don't affect appearance.
+        options.ignore_insignificant = True  # Ignore insignificant differences like whitespace-only runs.
+        # Join runs that have the same visible formatting using the extended options.
+        doc.first_section.body.first_paragraph.join_runs_with_same_formatting(options)
+        # Verify that runs were successfully joined.
+        self.assertEqual(1, doc.first_section.body.first_paragraph.runs.count)
+        self.assertEqual('Hello world', doc.first_section.body.first_paragraph.runs[0].text)
+        doc.save(file_name=ARTIFACTS_DIR + 'Paragraph.JoinRunsWithSameFormattingWithOptions.docx')
+        #ExEnd:JoinRunsWithSameFormattingWithOptions
+
     @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_append_field(self):
         #ExStart
