@@ -9,6 +9,7 @@ import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.saving
+import aspose.words.themes
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR
 
@@ -91,6 +92,28 @@ class ExDocumentBase(ApiExampleBase):
         self.assertEqual(aspose.pydrawing.Color.light_blue.to_argb(), doc.background_shape.fill_color.to_argb())
         with self.assertRaises(Exception):
             doc.background_shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.TRIANGLE)
+
+    def test_import_node_with_resolve_theme_colors(self):
+        #ExStart:ImportNodeWithResolveThemeColors
+        #ExFor:DocumentBase.import_node(Node,bool,ImportFormatMode,ImportFormatOptions)
+        #ExFor:ImportFormatOptions.resolve_theme_colors
+        #ExSummary:Shows how to import a node with resolving source theme colors of shapes.
+        src_doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=src_doc)
+        # Move to the primary footer and insert a shape that uses theme colors.
+        builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_PRIMARY)
+        shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, width=100, height=50)
+        shape.stroke.fore_theme_color = aw.themes.ThemeColor.DARK1
+        dst_doc = aw.Document()
+        # Import the source footer into the destination document with theme colors resolved,
+        # so the shape preserves its actual color from the source document.
+        footer = src_doc.first_section.headers_footers.get_by_header_footer_type(aw.HeaderFooterType.FOOTER_PRIMARY)
+        options = aw.ImportFormatOptions()
+        options.resolve_theme_colors = True
+        imported_footer = dst_doc.import_node(src_node=footer, is_import_children=True, import_format_mode=aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, import_format_options=options).as_header_footer()
+        dst_doc.first_section.headers_footers.add(imported_footer)
+        dst_doc.save(file_name=ARTIFACTS_DIR + 'DocumentBase.ImportNodeWithResolveThemeColors.docx')
+        #ExEnd:ImportNodeWithResolveThemeColors
 
     def test_constructor(self):
         #ExStart

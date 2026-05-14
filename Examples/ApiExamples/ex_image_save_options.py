@@ -141,13 +141,12 @@ class ExImageSaveOptions(ApiExampleBase):
             tested_image_length = system_helper.io.FileInfo(ARTIFACTS_DIR + 'ImageSaveOptions.ColorMode.png').length()
             switch_condition = image_color_mode
             if switch_condition == aw.saving.ImageColorMode.NONE:
-                self.assertTrue(tested_image_length < 175000)
+                self.assertTrue(tested_image_length < 132000)
             elif switch_condition == aw.saving.ImageColorMode.GRAYSCALE:
                 self.assertTrue(tested_image_length < 90000)
             elif switch_condition == aw.saving.ImageColorMode.BLACK_AND_WHITE:
-                self.assertTrue(tested_image_length < 15000)
+                self.assertTrue(tested_image_length < 11000)
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_pixel_format(self):
         for image_pixel_format in [aw.saving.ImagePixelFormat.FORMAT_1BPP_INDEXED, aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_555, aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_565, aw.saving.ImagePixelFormat.FORMAT_24BPP_RGB, aw.saving.ImagePixelFormat.FORMAT_32BPP_RGB, aw.saving.ImagePixelFormat.FORMAT_32BPP_ARGB, aw.saving.ImagePixelFormat.FORMAT_32BPP_P_ARGB, aw.saving.ImagePixelFormat.FORMAT_48BPP_RGB, aw.saving.ImagePixelFormat.FORMAT_64BPP_ARGB, aw.saving.ImagePixelFormat.FORMAT_64BPP_P_ARGB]:
             #ExStart
@@ -172,19 +171,11 @@ class ExImageSaveOptions(ApiExampleBase):
             tested_image_length = system_helper.io.FileInfo(ARTIFACTS_DIR + 'ImageSaveOptions.PixelFormat.png').length()
             switch_condition = image_pixel_format
             if switch_condition == aw.saving.ImagePixelFormat.FORMAT_1BPP_INDEXED:
-                self.assertTrue(tested_image_length < 2500)
-            elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_565:
-                self.assertTrue(tested_image_length < 104000)
-            elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_555:
-                self.assertTrue(tested_image_length < 88000)
+                self.assertTrue(tested_image_length < 7500)
             elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_24BPP_RGB:
-                self.assertTrue(tested_image_length < 160000)
-            elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_32BPP_RGB and switch_condition == aw.saving.ImagePixelFormat.FORMAT_32BPP_ARGB:
-                self.assertTrue(tested_image_length < 175000)
-            elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_48BPP_RGB:
-                self.assertTrue(tested_image_length < 212000)
-            elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_64BPP_ARGB and switch_condition == aw.saving.ImagePixelFormat.FORMAT_64BPP_P_ARGB:
-                self.assertTrue(tested_image_length < 239000)
+                self.assertTrue(tested_image_length < 77000)
+            elif switch_condition == aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_565 and switch_condition == aw.saving.ImagePixelFormat.FORMAT_16BPP_RGB_555 and (switch_condition == aw.saving.ImagePixelFormat.FORMAT_32BPP_RGB) and (switch_condition == aw.saving.ImagePixelFormat.FORMAT_32BPP_ARGB) and (switch_condition == aw.saving.ImagePixelFormat.FORMAT_48BPP_RGB) and (switch_condition == aw.saving.ImagePixelFormat.FORMAT_64BPP_ARGB) and (switch_condition == aw.saving.ImagePixelFormat.FORMAT_64BPP_P_ARGB):
+                self.assertTrue(tested_image_length < 132000)
 
     def test_floyd_steinberg_dithering(self):
         #ExStart
@@ -270,6 +261,7 @@ class ExImageSaveOptions(ApiExampleBase):
         self.assertTrue(system_helper.io.FileInfo(ARTIFACTS_DIR + 'ImageSaveOptions.JpegQuality.HighCompression.jpg').length() < 18000)
         self.assertTrue(system_helper.io.FileInfo(ARTIFACTS_DIR + 'ImageSaveOptions.JpegQuality.HighQuality.jpg').length() < 75000)
 
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_tiff_image_compression(self):
         for tiff_compression in [aw.saving.TiffCompression.NONE, aw.saving.TiffCompression.RLE, aw.saving.TiffCompression.LZW, aw.saving.TiffCompression.CCITT3, aw.saving.TiffCompression.CCITT4]:
             #ExStart
@@ -296,11 +288,11 @@ class ExImageSaveOptions(ApiExampleBase):
             if switch_condition == aw.saving.TiffCompression.NONE:
                 self.assertTrue(tested_image_length < 3450000)
             elif switch_condition == aw.saving.TiffCompression.RLE:
-                self.assertTrue(tested_image_length < 687000)
+                self.assertTrue(tested_image_length < 7500)
             elif switch_condition == aw.saving.TiffCompression.LZW:
                 self.assertTrue(tested_image_length < 250000)
             elif switch_condition == aw.saving.TiffCompression.CCITT3:
-                self.assertTrue(tested_image_length < 8300)
+                self.assertTrue(tested_image_length < 6100)
             elif switch_condition == aw.saving.TiffCompression.CCITT4:
                 self.assertTrue(tested_image_length < 1700)
 

@@ -82,6 +82,10 @@ class ApiExampleBase(unittest.TestCase):
 
         super().assertEqual(first, second, msg)
 
+    @staticmethod
+    def is_running_on_mono():
+        return False
+
     def verify_image(self, expected_width: int, expected_height: int, filename: Optional[str] = None, image_stream: Optional[io.BytesIO] = None):
         """Checks whether a file or a stream contains a valid image with specified dimensions.
 

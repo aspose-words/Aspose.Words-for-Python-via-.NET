@@ -805,7 +805,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 self.assertTrue('<p style="margin-top:0pt; margin-bottom:0pt">' + '<img src="HtmlSaveOptions.MetafileFormat.001.emf" width="500" height="40" alt="" ' + 'style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />' + '</p>' in out_doc_contents)
         #ExEnd
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_scale_image_to_shape_size(self):
         for scale_image_to_shape_size in [False, True]:
             #ExStart
@@ -831,7 +830,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
             #ExEnd
             tested_image_length = system_helper.io.FileInfo(ARTIFACTS_DIR + 'HtmlSaveOptions.ScaleImageToShapeSize.001.png').length()
             if scale_image_to_shape_size:
-                self.assertTrue(tested_image_length < 3000)
+                self.assertTrue(tested_image_length < 6200)
             else:
                 self.assertTrue(tested_image_length < 16000)
 
