@@ -112,19 +112,19 @@ class ExAI(ApiExampleBase):
         summarize_options.summary_length = aw.ai.SummaryLength.VERY_SHORT
         summary = model.summarize(doc=doc, options=summarize_options)
         #ExEnd:Gemini
-    
+
     @unittest.skip('This test should be run manually to manage API requests amount')
     def test_open_ai_model_constructor(self):
         #ExStart:OpenAiModelConstructor
         #ExFor:OpenAiModel.__init__(str,str)
         #ExSummary:Shows how to create an OpenAI model instance directly using an API key and model name.
-        api_key = system_helper.environment.Environment.get_environment_variable("API_KEY")
+        api_key = system_helper.environment.Environment.get_environment_variable('API_KEY')
         # Create an OpenAI model instance using the constructor with model name and API key.
-        model = aw.ai.OpenAiModel(name="gpt-4o-mini", api_key=api_key)
-        doc = aw.Document(file_name=MY_DIR + "Big document.docx")
+        model = aw.ai.OpenAiModel(name='gpt-4o-mini', api_key=api_key)
+        doc = aw.Document(file_name=MY_DIR + 'Big document.docx')
         # Summarize the document using the OpenAI model with short summary length.
         summarize_options = aw.ai.SummarizeOptions()
         summarize_options.summary_length = aw.ai.SummaryLength.VERY_SHORT
         summary = model.summarize(source_document=doc, options=summarize_options)
-        summary.save(file_name=ARTIFACTS_DIR + "OpenAiModel.OpenAiModelConstructor.docx")
+        summary.save(file_name=ARTIFACTS_DIR + 'OpenAiModel.OpenAiModelConstructor.docx')
         #ExEnd:OpenAiModelConstructor

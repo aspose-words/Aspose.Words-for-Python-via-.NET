@@ -210,7 +210,7 @@ class TestUtil(object):
 
     @staticmethod
     def file_contains_string(expected: str, filename: str):
-        file_text = pathlib.Path(filename).read_text()
+        file_text = pathlib.Path(filename).read_text(errors='replace')
         TestUtil.unit_test.assertIn(expected, file_text)
 
     @staticmethod

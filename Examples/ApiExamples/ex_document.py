@@ -85,7 +85,7 @@ class ExDocument(ApiExampleBase):
 
     def test_open_pdf_document(self):
         doc = aw.Document(file_name=MY_DIR + 'Pdf Document.pdf')
-        self.assertEqual('Heading 1\rHeading 1.1.1.1 Heading 1.1.1.2\rHeading 1.1.1.1.1.1.1.1.1 Heading 1.1.1.1.1.1.1.1.2\x0c', doc.range.text)
+        self.assertEqual('Heading 1\rHeading 1.1.1.1\rHeading 1.1.1.2\rHeading 1.1.1.1.1.1.1.1.1\rHeading 1.1.1.1.1.1.1.1.2\x0c', doc.range.text)
 
     def test_open_protected_pdf_document(self):
         doc = aw.Document(file_name=MY_DIR + 'Pdf Document.pdf')

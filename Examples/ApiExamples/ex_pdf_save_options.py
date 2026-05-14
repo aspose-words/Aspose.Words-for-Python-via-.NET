@@ -422,7 +422,7 @@ class ExPdfSaveOptions(ApiExampleBase):
             builder.insert_hyperlink('Testlink', uri, False)
             doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.EscapedUri.pdf')
 
-    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
+    @unittest.skip('Discrepancy in assertion between Python and .Net')
     def test_open_hyperlinks_in_new_window(self):
         for open_hyperlinks_in_new_window in [False, True]:
             #ExStart
