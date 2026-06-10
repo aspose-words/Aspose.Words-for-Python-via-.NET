@@ -1,3 +1,6 @@
+import aspose.pydrawing as drawing
+import io
+import sys
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
@@ -5,8 +8,6 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import aspose.pydrawing as drawing
-import io
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.saving
@@ -35,6 +36,49 @@ class ExNode(ApiExampleBase):
         self.assertFalse(clone_without_children.as_composite_node().has_child_nodes)
         self.assertEqual('', clone_without_children.get_text().strip())
         #ExEnd
+
+    def test_get_parent_node(self):
+        import aspose.words as aw
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        doc = aw.Document()
+        para = doc.first_section.body.first_paragraph
+        # Append a child Run node to the document's first paragraph.
+        run = aw.Run(doc=doc, text='Hello world!')
+        para.append_child(run)
+        # The paragraph is the parent node of the run node. We can trace this lineage
+        # all the way to the document node, which is the root of the document's node tree.
+        assert para == run.parent_node
+        assert doc.first_section.body == para.parent_node
+        assert doc.first_section == doc.first_section.body.parent_node
+        assert doc == doc.first_section.parent_node
+
+    def test_owner_document(self):
+        #ExStart
+        #ExFor:Node.document
+        #ExFor:Node.parent_node
+        #ExSummary:Shows how to create a node and set its owning document.
+        from api_example_base import ApiExampleBase
+        doc = aw.Document()
+        para = aw.Paragraph(doc)
+        para.append_child(aw.Run(doc=doc, text='Hello world!'))
+        # We have not yet appended this paragraph as a child to any composite node.
+        self.assertIsNone(para.parent_node)
+        # If a node is an appropriate child node type of another composite node,
+        # we can attach it as a child only if both nodes have the same owner document.
+        # The owner document is the document we passed to the node's constructor.
+        # We have not attached this paragraph to the document, so the document does not contain its text.
+        self.assertEqual(para.document, doc)
+        self.assertEqual('', doc.get_text().strip())
+        # Since the document owns this paragraph, we can apply one of its styles to the paragraph's contents.
+        para.paragraph_format.style = doc.styles.get_by_name('Heading 1')
+        # Add this node to the document, and then verify its contents.
+        doc.first_section.body.append_child(para)
+        self.assertEqual(doc.first_section.body, para.parent_node)
+        self.assertEqual('Hello world!', doc.get_text().strip())
+        #ExEnd
+        #ExEnd
+        self.assertEqual(doc, para.document)
+        self.assertIsNotNone(para.parent_node)
 
     def test_child_nodes_enumerate(self):
         #ExStart
@@ -77,6 +121,91 @@ class ExNode(ApiExampleBase):
         self.assertEqual(aw.NodeType.RUN, paragraph.get_child(aw.NodeType.RUN, 0, True).node_type)
         self.assertEqual('Hello world! Hello again!', doc.get_text().strip())
 
+    def test_recurse_children(self):
+        #ExStart
+        #ExFor:Node.next_sibling
+        #ExFor:CompositeNode.first_child
+        #ExFor:Node.is_composite
+        #ExFor:CompositeNode.is_composite
+        #ExFor:Node.node_type_to_string
+        #ExFor:Paragraph.node_type
+        #ExFor:Table.node_type
+        #ExFor:Node.node_type
+        #ExFor:Footnote.node_type
+        #ExFor:FormField.node_type
+        #ExFor:SmartTag.node_type
+        #ExFor:Cell.node_type
+        #ExFor:Row.node_type
+        #ExFor:Document.node_type
+        #ExFor:Comment.node_type
+        #ExFor:Run.node_type
+        #ExFor:Section.node_type
+        #ExFor:SpecialChar.node_type
+        #ExFor:Shape.node_type
+        #ExFor:FieldEnd.node_type
+        #ExFor:FieldSeparator.node_type
+        #ExFor:FieldStart.node_type
+        #ExFor:BookmarkStart.node_type
+        #ExFor:CommentRangeEnd.node_type
+        #ExFor:BuildingBlock.node_type
+        #ExFor:GlossaryDocument.node_type
+        #ExFor:BookmarkEnd.node_type
+        #ExFor:GroupShape.node_type
+        #ExFor:CommentRangeStart.node_type
+        #ExSummary:Shows how to traverse a composite node's tree of child nodes.
+        doc = aw.Document(file_name=MY_DIR + 'Paragraphs.docx')
+        # Any node that can contain child nodes, such as the document itself, is composite.
+        self.assertTrue(doc.is_composite)
+        # Invoke the recursive function that will go through and print all the child nodes of a composite node.
+        self.traverse_all_nodes(doc, 0)
+        #ExEnd
+    #ExStart
+    #ExFor:Node.next_sibling
+    #ExFor:CompositeNode.first_child
+    #ExFor:Node.is_composite
+    #ExFor:CompositeNode.is_composite
+    #ExFor:Node.node_type_to_string
+    #ExFor:Paragraph.node_type
+    #ExFor:Table.node_type
+    #ExFor:Node.node_type
+    #ExFor:Footnote.node_type
+    #ExFor:FormField.node_type
+    #ExFor:SmartTag.node_type
+    #ExFor:Cell.node_type
+    #ExFor:Row.node_type
+    #ExFor:Document.node_type
+    #ExFor:Comment.node_type
+    #ExFor:Run.node_type
+    #ExFor:Section.node_type
+    #ExFor:SpecialChar.node_type
+    #ExFor:Shape.node_type
+    #ExFor:FieldEnd.node_type
+    #ExFor:FieldSeparator.node_type
+    #ExFor:FieldStart.node_type
+    #ExFor:BookmarkStart.node_type
+    #ExFor:CommentRangeEnd.node_type
+    #ExFor:BuildingBlock.node_type
+    #ExFor:GlossaryDocument.node_type
+    #ExFor:BookmarkEnd.node_type
+    #ExFor:GroupShape.node_type
+    #ExFor:CommentRangeStart.node_type
+    #ExSummary:Shows how to traverse a composite node's tree of child nodes (TraverseAllNodes).
+
+    def traverse_all_nodes(self, parent_node, depth):
+        child_node = parent_node.first_child
+        while child_node != None:
+            sys.stdout.write(f'\t' * depth + aw.Node.node_type_to_string(child_node.node_type))
+            # Recurse into the node if it is a composite node. Otherwise, print its contents if it is an inline node.
+            if child_node.is_composite:
+                sys.stdout.write('\n')
+                self.traverse_all_nodes(child_node.as_composite_node(), depth + 1)
+            elif isinstance(child_node, aw.Inline):
+                sys.stdout.write(f' - "{child_node.get_text().strip()}"\n')
+            else:
+                sys.stdout.write('\n')
+            child_node = child_node.next_sibling
+    #ExEnd
+
     def test_remove_nodes(self):
         #ExStart
         #ExFor:Node
@@ -95,6 +224,23 @@ class ExNode(ApiExampleBase):
                 cur_node.remove()
             cur_node = next_node
         self.assertEqual(0, doc.get_child_nodes(aw.NodeType.TABLE, True).count)
+        #ExEnd
+
+    def test_enum_next_sibling(self):
+        #ExStart
+        #ExFor:CompositeNode.first_child
+        #ExFor:Node.next_sibling
+        #ExFor:Node.node_type_to_string
+        #ExFor:Node.node_type
+        #ExSummary:Shows how to use a node's NextSibling property to enumerate through its immediate children.
+        doc = aw.Document(file_name=MY_DIR + 'Paragraphs.docx')
+        node = doc.first_section.body.first_child
+        while node != None:
+            print()
+            print(f'Node type: {aw.Node.node_type_to_string(node.node_type)}')
+            contents = node.get_text().strip()
+            print('This node contains no text' if contents == '' else f'Contents: "{node.get_text().strip()}"')
+            node = node.next_sibling
         #ExEnd
 
     def test_typed_access(self):
@@ -139,6 +285,46 @@ class ExNode(ApiExampleBase):
         # The section we removed was the first one, leaving the document with only the second.
         self.assertEqual('Section 2 text.', doc.get_text().strip())
         #ExEnd
+
+    def test_select_composite_nodes(self):
+        from api_example_base import ApiExampleBase, MY_DIR
+        import aspose.words as aw
+        #ExStart
+        #ExFor:CompositeNode.select_single_node
+        #ExFor:CompositeNode.select_nodes
+        #ExFor:NodeList.__iter__
+        #ExFor:NodeList.to_array
+        #ExSummary:Shows how to select certain nodes by using an XPath expression.
+        doc = aw.Document(file_name=MY_DIR + 'Tables.docx')
+        # This expression will extract all paragraph nodes,
+        # which are descendants of any table node in the document.
+        node_list = doc.select_nodes('//Table//Paragraph')
+        # Iterate through the list with an enumerator and print the contents of every paragraph in each cell of the table.
+        index = 0
+        for node in node_list:
+            print(f'Table paragraph index {index}, contents: "{node.get_text().strip()}"')
+            index += 1
+        # This expression will select any paragraphs that are direct children of any Body node in the document.
+        node_list = doc.select_nodes('//Body/Paragraph')
+        # We can treat the list as an array.
+        self.assertEqual(4, len(list(node_list)))
+        # Use SelectSingleNode to select the first result of the same expression as above.
+        node = doc.select_single_node('//Body/Paragraph')
+        self.assertEqual(aw.Paragraph, type(node.as_paragraph()))
+
+    def test_node_is_inside_field(self):
+        #ExStart
+        #ExFor:CompositeNode.select_nodes
+        #ExSummary:Shows how to use an XPath expression to test whether a node is inside a field.
+        doc = aw.Document(file_name=MY_DIR + 'Mail merge destination - Northwind employees.docx')
+        # The NodeList that results from this XPath expression will contain all nodes we find inside a field.
+        # However, FieldStart and FieldEnd nodes can be on the list if there are nested fields in the path.
+        # Currently does not find rare fields in which the FieldCode or FieldResult spans across multiple paragraphs.
+        result_list = doc.select_nodes('//FieldStart/following-sibling::node()[following-sibling::FieldEnd]')
+        # Check if the specified run is one of the nodes that are inside the field.
+        first_run = next((n for n in result_list if n.node_type == aw.NodeType.RUN), None)
+        if first_run:
+            print(f"Contents of the first Run node that's part of a field: {first_run.get_text().strip()}")
 
     def test_create_and_add_paragraph_node(self):
         doc = aw.Document()
@@ -236,113 +422,75 @@ class ExNode(ApiExampleBase):
         self.assertFalse(runs.contains(run))
         #ExEnd
 
-    def test_get_parent_node(self):
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
+    def test_node_list(self):
         #ExStart
-        #ExFor:Node.parent_node
-        #ExSummary:Shows how to access a node's parent node.
+        #ExFor:NodeList.count
+        #ExFor:NodeList.__getitem__(int)
+        #ExSummary:Shows how to use XPaths to navigate a NodeList.
         doc = aw.Document()
-        para = doc.first_section.body.first_paragraph
-        # Append a child Run node to the document's first paragraph.
-        run = aw.Run(doc=doc, text='Hello world!')
-        para.append_child(run)
-        # The paragraph is the parent node of the run node. We can trace this lineage
-        # all the way to the document node, which is the root of the document's node tree.
-        self.assertEqual(para, run.parent_node)
-        self.assertEqual(doc.first_section.body, para.parent_node)
-        self.assertEqual(doc.first_section, doc.first_section.body.parent_node)
-        self.assertEqual(doc, doc.first_section.parent_node)
+        builder = aw.DocumentBuilder(doc=doc)
+        # Insert some nodes with a DocumentBuilder.
+        builder.writeln('Hello world!')
+        builder.start_table()
+        builder.insert_cell()
+        builder.write('Cell 1')
+        builder.insert_cell()
+        builder.write('Cell 2')
+        builder.end_table()
+        builder.insert_image(file_name=IMAGE_DIR + 'Logo.jpg')
+        # Our document contains three Run nodes.
+        node_list = doc.select_nodes('//Run')
+        self.assertEqual(3, node_list.count)
+        self.assertTrue(any([n.get_text().strip() == 'Hello world!' for n in node_list]))
+        self.assertTrue(any([n.get_text().strip() == 'Cell 1' for n in node_list]))
+        self.assertTrue(any([n.get_text().strip() == 'Cell 2' for n in node_list]))
+        # Use a double forward slash to select all Run nodes
+        # that are indirect descendants of a Table node, which would be the runs inside the two cells we inserted.
+        node_list = doc.select_nodes('//Table//Run')
+        self.assertEqual(2, node_list.count)
+        self.assertTrue(any([n.get_text().strip() == 'Cell 1' for n in node_list]))
+        self.assertTrue(any([n.get_text().strip() == 'Cell 2' for n in node_list]))
+        # Single forward slashes specify direct descendant relationships,
+        # which we skipped when we used double slashes.
+        self.assertEqual(doc.select_nodes('//Table//Run'), doc.select_nodes('//Table/Row/Cell/Paragraph/Run'))
+        # Access the shape that contains the image we inserted.
+        node_list = doc.select_nodes('//Shape')
+        self.assertEqual(1, node_list.count)
+        shape = node_list[0].as_shape()
+        self.assertTrue(shape.has_image)
         #ExEnd
+    #ExStart
+    #ExFor:NodeChangingAction
+    #ExFor:NodeChangingArgs.action
+    #ExFor:NodeChangingArgs.new_parent
+    #ExFor:NodeChangingArgs.old_parent
+    #ExSummary:Shows how to use a NodeChangingCallback to monitor changes to the document tree in real-time as we edit it (NodeChangingPrinter).
 
-    def test_owner_document(self):
-        #ExStart
-        #ExFor:Node.document
-        #ExFor:Node.parent_node
-        #ExSummary:Shows how to create a node and set its owning document.
-        doc = aw.Document()
-        para = aw.Paragraph(doc)
-        para.append_child(aw.Run(doc=doc, text='Hello world!'))
-        # We have not yet appended this paragraph as a child to any composite node.
-        self.assertIsNone(para.parent_node)
-        # If a node is an appropriate child node type of another composite node,
-        # we can attach it as a child only if both nodes have the same owner document.
-        # The owner document is the document we passed to the node's constructor.
-        # We have not attached this paragraph to the document, so the document does not contain its text.
-        self.assertEqual(para.document, doc)
-        self.assertEqual('', doc.get_text().strip())
-        # Since the document owns this paragraph, we can apply one of its styles to the paragraph's contents.
-        para.paragraph_format.style = doc.styles.get_by_name('Heading 1')
-        # Add this node to the document, and then verify its contents.
-        doc.first_section.body.append_child(para)
-        self.assertEqual(doc.first_section.body, para.parent_node)
-        self.assertEqual('Hello world!', doc.get_text().strip())
-        #ExEnd
-        self.assertEqual(doc, para.document)
-        self.assertIsNotNone(para.parent_node)
+    class NodeChangingPrinter(aw.INodeChangingCallback):
 
-    def test_recurse_children(self):
-        doc = aw.Document(MY_DIR + 'Paragraphs.docx')
-        # Any node that can contain child nodes, such as the document itself, is composite.
-        self.assertTrue(doc.is_composite)
-        # Invoke the recursive function that will go through and print all the child nodes of a composite node.
-        ExNode.traverse_all_nodes(doc, 0)
+        def node_inserting(self, args):
+            self.assertEqual(aw.NodeChangingAction.INSERT, args.action)
+            self.assertEqual(None, args.old_parent)
 
-    def test_enum_next_sibling(self):
-        #ExStart
-        #ExFor:CompositeNode.first_child
-        #ExFor:Node.next_sibling
-        #ExFor:Node.node_type_to_string
-        #ExFor:Node.node_type
-        #ExSummary:Shows how to use a node's next_sibling property to enumerate through its immediate children.
-        doc = aw.Document(MY_DIR + 'Paragraphs.docx')
-        node = doc.first_section.body.first_child
-        while node is not None:
-            print()
-            print('Node type:', aw.Node.node_type_to_string(node.node_type))
-            contents = node.get_text().strip()
-            print('This node contains no text' if contents == '' else f'Contents: "{node.get_text().strip()}"')
-            node = node.next_sibling
-        #ExEnd
+        def node_inserted(self, args):
+            self.assertEqual(aw.NodeChangingAction.INSERT, args.action)
+            self.assertIsNotNone(args.new_parent)
+            print('Inserted node:')
+            print(f'\tType:\t{args.node.node_type}')
+            if args.node.get_text().strip() != '':
+                print(f'\tText:\t"{args.node.get_text().strip()}"')
+            print(f'\tHash:\t{hash(args.node)}')
+            print(f'\tParent:\t{args.new_parent.node_type} ({hash(args.new_parent)})')
 
-    def test_select_composite_nodes(self):
-        #ExStart
-        #ExFor:CompositeNode.select_single_node
-        #ExFor:CompositeNode.select_nodes
-        #ExFor:NodeList.__iter__
-        #ExFor:NodeList.to_array
-        #ExSummary:Shows how to select certain nodes by using an XPath expression.
-        doc = aw.Document(MY_DIR + 'Tables.docx')
-        # This expression will extract all paragraph nodes,
-        # which are descendants of any table node in the document.
-        node_list = doc.select_nodes('//Table//Paragraph')
-        # Iterate through the list with an enumerator and print the contents of every paragraph in each cell of the table.
-        index = 0
-        for node in node_list:
-            print(f'Table paragraph index {index}, contents: "{node.get_text().strip()}"')
-            index += 1
-        # This expression will select any paragraphs that are direct children of any Body node in the document.
-        node_list = doc.select_nodes('//Body/Paragraph')
-        # We can treat the list as an array.
-        self.assertEqual(4, len(node_list.to_array()))
-        # Use "select_single_node" to select the first result of the same expression as above.
-        node = doc.select_single_node('//Body/Paragraph')
-        self.assertIsInstance(node.as_paragraph(), aw.Paragraph)
-        #ExEnd
+        def node_removing(self, args):
+            self.assertEqual(aw.NodeChangingAction.REMOVE, args.action)
 
-    def test_node_is_inside_field(self):
-        #ExStart
-        #ExFor:CompositeNode.select_nodes
-        #ExSummary:Shows how to use an XPath expression to test whether a node is inside a field.
-        doc = aw.Document(MY_DIR + 'Mail merge destination - Northwind employees.docx')
-        # The NodeList that results from this XPath expression will contain all nodes we find inside a field.
-        # However, FieldStart and FieldEnd nodes can be on the list if there are nested fields in the path.
-        # Currently does not find rare fields in which the FieldCode or FieldResult spans across multiple paragraphs.
-        result_list = doc.select_nodes('//FieldStart/following-sibling::node()[following-sibling::FieldEnd]')
-        # Check if the specified run is one of the nodes that are inside the field.
-        for node in result_list:
-            if node.node_type == aw.NodeType.RUN:
-                print("Contents of the first Run node that's part of a field:", node.get_text().strip())
-                break
-        #ExEnd
+        def node_removed(self, args):
+            self.assertEqual(aw.NodeChangingAction.REMOVE, args.action)
+            self.assertIsNone(args.new_parent)
+            print(f'Removed node: {args.node.node_type} ({hash(args.node)})')
+    #ExEnd
 
     @staticmethod
     def traverse_all_nodes(parent_node: aw.CompositeNode, depth: int):

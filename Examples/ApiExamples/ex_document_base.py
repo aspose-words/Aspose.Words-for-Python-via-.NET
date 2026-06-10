@@ -7,13 +7,25 @@
 #####################################
 import aspose.pydrawing
 import aspose.words as aw
+import aspose.words.buildingblocks
 import aspose.words.drawing
+import aspose.words.loading
 import aspose.words.saving
 import aspose.words.themes
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR
 
 class ExDocumentBase(ApiExampleBase):
+
+    def test_constructor(self):
+        #ExStart
+        #ExFor:DocumentBase
+        #ExSummary:Shows how to initialize the subclasses of DocumentBase.
+        doc = aw.Document()
+        self.assertEqual(aw.DocumentBase, type(doc).__bases__[0])
+        glossary_doc = aw.buildingblocks.GlossaryDocument()
+        doc.glossary_document = glossary_doc
+        self.assertEqual(aw.DocumentBase, type(glossary_doc).__bases__[0])
 
     def test_set_page_color(self):
         #ExStart
@@ -27,6 +39,28 @@ class ExDocumentBase(ApiExampleBase):
         #ExEnd
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'DocumentBase.SetPageColor.docx')
         self.assertEqual(aspose.pydrawing.Color.light_gray.to_argb(), doc.page_color.to_argb())
+
+    def test_import_node(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
+        import aspose.words as aw
+        # Every node has a parent document, which is the document that contains the node.
+        # Inserting a node into a document that the node does not belong to will throw an exception.
+        src_doc = aw.Document()
+        dst_doc = aw.Document()
+        src_doc.first_section.body.first_paragraph.append_child(aw.Run(doc=src_doc, text='Source document first paragraph text.'))
+        dst_doc.first_section.body.first_paragraph.append_child(aw.Run(doc=dst_doc, text='Destination document first paragraph text.'))
+        self.assertNotEqual(dst_doc, src_doc.first_section.document)
+        # Use the ImportNode method to create a copy of a node, which will have the document
+        # that called the ImportNode method set as its new owner document.
+        imported_section = dst_doc.import_node(src_node=src_doc.first_section, is_import_children=True).as_section()
+        self.assertEqual(dst_doc, imported_section.document)
+        # We can now insert the node into the document.
+        dst_doc.append_child(imported_section)
+        self.assertEqual('Destination document first paragraph text.\r\nSource document first paragraph text.\r\n', dst_doc.to_string(save_format=aw.SaveFormat.TEXT))
+        #ExEnd
+        self.assertNotEqual(imported_section, src_doc.first_section)
+        self.assertNotEqual(imported_section.document, src_doc.first_section.document)
+        self.assertEqual(imported_section.body.first_paragraph.get_text(), src_doc.first_section.body.first_paragraph.get_text())
 
     def test_import_node_custom(self):
         #ExStart
@@ -93,6 +127,12 @@ class ExDocumentBase(ApiExampleBase):
         with self.assertRaises(Exception):
             doc.background_shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.TRIANGLE)
 
+    def _test_resource_loading_callback(self, doc):
+        for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True):
+            shape = shape.as_shape()
+            self.assertTrue(shape.has_image)
+            self.assertTrue(shape.image_data.image_bytes)
+
     def test_import_node_with_resolve_theme_colors(self):
         #ExStart:ImportNodeWithResolveThemeColors
         #ExFor:DocumentBase.import_node(Node,bool,ImportFormatMode,ImportFormatOptions)
@@ -114,38 +154,36 @@ class ExDocumentBase(ApiExampleBase):
         dst_doc.first_section.headers_footers.add(imported_footer)
         dst_doc.save(file_name=ARTIFACTS_DIR + 'DocumentBase.ImportNodeWithResolveThemeColors.docx')
         #ExEnd:ImportNodeWithResolveThemeColors
+    #ExStart
+    #ExFor:DocumentBase.resource_loading_callback
+    #ExFor:IResourceLoadingCallback
+    #ExFor:IResourceLoadingCallback.resource_loading(ResourceLoadingArgs)
+    #ExFor:ResourceLoadingAction
+    #ExFor:ResourceLoadingArgs
+    #ExFor:ResourceLoadingArgs.original_uri
+    #ExFor:ResourceLoadingArgs.resource_type
+    #ExFor:ResourceLoadingArgs.set_data(bytes)
+    #ExFor:ResourceType
+    #ExSummary:Shows how to customize the process of loading external resources into a document (ImageNameHandler).
 
-    def test_constructor(self):
-        #ExStart
-        #ExFor:DocumentBase
-        #ExSummary:Shows how to initialize the subclasses of DocumentBase.
-        doc = aw.Document()
-        self.assertIsInstance(doc, aw.DocumentBase)
-        glossary_doc = aw.buildingblocks.GlossaryDocument()
-        doc.glossary_document = glossary_doc
-        self.assertIsInstance(glossary_doc, aw.DocumentBase)
-        #ExEnd
+    class ImageNameHandler(aw.loading.IResourceLoadingCallback):
 
-    def test_import_node(self):
-        #ExStart
-        #ExFor:DocumentBase.import_node(Node,bool)
-        #ExSummary:Shows how to import a node from one document to another.
-        src_doc = aw.Document()
-        dst_doc = aw.Document()
-        src_doc.first_section.body.first_paragraph.append_child(aw.Run(doc=src_doc, text='Source document first paragraph text.'))
-        dst_doc.first_section.body.first_paragraph.append_child(aw.Run(doc=dst_doc, text='Destination document first paragraph text.'))
-        # Every node has a parent document, which is the document that contains the node.
-        # Inserting a node into a document that the node does not belong to will throw an exception.
-        self.assertNotEqual(dst_doc, src_doc.first_section.document)
-        self.assertRaises(Exception, lambda: dst_doc.append_child(src_doc.first_section))
-        # Use the ImportNode method to create a copy of a node, which will have the document
-        # that called the ImportNode method set as its new owner document.
-        imported_section = dst_doc.import_node(src_node=src_doc.first_section, is_import_children=True).as_section()
-        self.assertEqual(dst_doc, imported_section.document)
-        # We can now insert the node into the document.
-        dst_doc.append_child(imported_section)
-        self.assertEqual('Destination document first paragraph text.\r\nSource document first paragraph text.\r\n', dst_doc.to_string(save_format=aw.SaveFormat.TEXT))
-        #ExEnd
-        self.assertNotEqual(imported_section, src_doc.first_section)
-        self.assertNotEqual(imported_section.document, src_doc.first_section.document)
-        self.assertEqual(imported_section.body.first_paragraph.get_text(), src_doc.first_section.body.first_paragraph.get_text())
+        def resource_loading(self, args):
+            # If this callback encounters one of the image shorthands while loading an image,
+            # it will apply unique logic for each defined shorthand instead of treating it as a URI.
+            if args.resource_type == aw.loading.ResourceType.IMAGE:
+                switch_condition = args.original_uri
+                if switch_condition == 'Google logo':
+                    import requests
+                    image_data = requests.get('http://www.google.com/images/logos/ps_logo2.png').content
+                    args.set_data(image_data)
+                    return aw.loading.ResourceLoadingAction.USER_PROVIDED
+                elif switch_condition == 'Aspose logo':
+                    from api_example_base import IMAGE_DIR
+                    args.set_data(open(IMAGE_DIR + 'Logo.jpg', 'rb').read())
+                    return aw.loading.ResourceLoadingAction.USER_PROVIDED
+                elif switch_condition == 'Watermark':
+                    args.set_data(open(IMAGE_DIR + 'Transparent background logo.png', 'rb').read())
+                    return aw.loading.ResourceLoadingAction.USER_PROVIDED
+            return aw.loading.ResourceLoadingAction.DEFAULT
+    #ExEnd

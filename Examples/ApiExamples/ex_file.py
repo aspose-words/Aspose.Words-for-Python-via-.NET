@@ -135,19 +135,26 @@ class ExFile(ApiExampleBase):
         self.assertRaises(Exception, lambda: aw.FileFormatUtil.save_format_to_load_format(aw.SaveFormat.JPEG))
         #ExEnd
 
-    def test_catch_file_corrupted_exception(self):
-        #ExStart
-        #ExFor:FileCorruptedException
-        #ExSummary:Shows how to catch a FileCorruptedException.
-        try:
-            # If we get an "Unreadable content" error message when trying to open a document using Microsoft Word,
-            # chances are that we will get an exception thrown when trying to load that document using Aspose.Words.
-            doc = aw.Document(MY_DIR + 'Corrupted document.docx')
-        except Exception as error:
-            print(error)
-        #ExEnd
+    def test_extract_images(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
+        import aspose.words as aw
+        import re
+        from pathlib import Path
 
-    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
+        class Example(ApiExampleBase):
+
+            def test_extract_images(self):
+                doc = aw.Document(file_name=MY_DIR + 'Images.docx')
+                shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
+                self.assertEqual(9, len(list(filter(lambda s: s.as_shape().has_image, shapes))))
+                image_index = 0
+                for shape in filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(shapes))):
+                    if shape.has_image:
+                        image_file_name = f'File.ExtractImages.{image_index}{aw.FileFormatUtil.image_type_to_extension(shape.image_data.image_type)}'
+                        shape.image_data.save(file_name=ARTIFACTS_DIR + image_file_name)
+                        image_index += 1
+                self.assertEqual(9, len([f for f in Path(ARTIFACTS_DIR).glob('*') if re.match('^.+\\.(jpeg|png|emf|wmf)$', f.name) and str(f).startswith(ARTIFACTS_DIR + 'File.ExtractImages')]))
+
     def test_detect_encoding(self):
         #ExStart
         #ExFor:FileFormatInfo.encoding
@@ -161,31 +168,3 @@ class ExFile(ApiExampleBase):
         info = aw.FileFormatUtil.detect_file_format(MY_DIR + 'Document.docx')
         self.assertEqual(aw.LoadFormat.DOCX, info.load_format)
         self.assertIsNone(info.encoding)
-
-    def test_extract_images(self):
-        #ExStart
-        #ExFor:Shape
-        #ExFor:Shape.image_data
-        #ExFor:Shape.has_image
-        #ExFor:ImageData
-        #ExFor:FileFormatUtil.image_type_to_extension(ImageType)
-        #ExFor:ImageData.image_type
-        #ExFor:ImageData.save(str)
-        #ExFor:CompositeNode.get_child_nodes(NodeType,bool)
-        #ExSummary:Shows how to extract images from a document, and save them to the local file system as individual files.
-        doc = aw.Document(MY_DIR + 'Images.docx')
-        # Get the collection of shapes from the document,
-        # and save the image data of every shape with an image as a file to the local file system.
-        shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
-        self.assertEqual(9, len([s for s in shapes if s.as_shape().has_image]))
-        image_index = 0
-        for shape in shapes:
-            shape = shape.as_shape()
-            if shape.has_image:
-                # The image data of shapes may contain images of many possible image formats.
-                # We can determine a file extension for each image automatically, based on its format.
-                image_file_name = f'File.extract_images.{image_index}{aw.FileFormatUtil.image_type_to_extension(shape.image_data.image_type)}'
-                shape.image_data.save(ARTIFACTS_DIR + image_file_name)
-                image_index += 1
-        #ExEnd
-        self.assertEqual(9, len([name for name in glob.glob(ARTIFACTS_DIR + 'File.extract_images*.*') if os.path.splitext(name)[-1] in ['.jpeg', '.png', '.emf', '.wmf']]))

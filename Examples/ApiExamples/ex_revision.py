@@ -20,6 +20,116 @@ from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExRevision(ApiExampleBase):
 
+    def test_revisions(self):
+        import datetime
+        from api_example_base import ApiExampleBase
+        import aspose.words as aw
+        #ExStart
+        #ExFor:Revision
+        #ExFor:Revision.accept
+        #ExFor:Revision.author
+        #ExFor:Revision.date_time
+        #ExFor:Revision.group
+        #ExFor:Revision.reject
+        #ExFor:Revision.revision_type
+        #ExFor:RevisionCollection
+        #ExFor:RevisionCollection.__getitem__(int)
+        #ExFor:RevisionCollection.count
+        #ExFor:RevisionType
+        #ExFor:Document.has_revisions
+        #ExFor:Document.track_revisions
+        #ExFor:Document.revisions
+        #ExSummary:Shows how to work with revisions in a document.
+
+        class ExRevision(ApiExampleBase):
+
+            def test_revisions(self):
+                doc = aw.Document()
+                builder = aw.DocumentBuilder(doc=doc)
+                # Normal editing of the document does not count as a revision.
+                builder.write('This does not count as a revision. ')
+                self.assertFalse(doc.has_revisions)
+                # To register our edits as revisions, we need to declare an author, and then start tracking them.
+                doc.start_track_revisions(author='John Doe', date_time=datetime.datetime.now())
+                builder.write('This is revision #1. ')
+                self.assertTrue(doc.has_revisions)
+                self.assertEqual(1, doc.revisions.count)
+                # This flag corresponds to the "Review" -> "Tracking" -> "Track Changes" option in Microsoft Word.
+                # The "StartTrackRevisions" method does not affect its value,
+                # and the document is tracking revisions programmatically despite it having a value of "false".
+                # If we open this document using Microsoft Word, it will not be tracking revisions.
+                self.assertFalse(doc.track_revisions)
+                # We have added text using the document builder, so the first revision is an insertion-type revision.
+                revision = doc.revisions[0]
+                self.assertEqual('John Doe', revision.author)
+                self.assertEqual('This is revision #1. ', revision.parent_node.get_text())
+                self.assertEqual(aw.RevisionType.INSERTION, revision.revision_type)
+                self.assertEqual(revision.date_time.date(), datetime.datetime.now().date())
+                self.assertEqual(doc.revisions.groups[0], revision.group)
+                # Remove a run to create a deletion-type revision.
+                doc.first_section.body.first_paragraph.runs[0].remove()
+                # Adding a new revision places it at the beginning of the revision collection.
+                self.assertEqual(aw.RevisionType.DELETION, doc.revisions[0].revision_type)
+                self.assertEqual(2, doc.revisions.count)
+                # Insert revisions show up in the document body even before we accept/reject the revision.
+                # Rejecting the revision will remove its nodes from the body. Conversely, nodes that make up delete revisions
+                # also linger in the document until we accept the revision.
+                self.assertEqual('This does not count as a revision. This is revision #1.', doc.get_text().strip())
+                # Accepting the delete revision will remove its parent node from the paragraph text
+                # and then remove the collection's revision itself.
+                doc.revisions[0].accept()
+                self.assertEqual(1, doc.revisions.count)
+                self.assertEqual('This is revision #1.', doc.get_text().strip())
+                builder.writeln('')
+                builder.write('This is revision #2.')
+                # Now move the node to create a moving revision type.
+                node = doc.first_section.body.paragraphs[1]
+                end_node = doc.first_section.body.paragraphs[1].next_sibling
+                reference_node = doc.first_section.body.paragraphs[0]
+                while node != end_node:
+                    next_node = node.next_sibling
+                    doc.first_section.body.insert_before(node, reference_node)
+                    node = next_node
+                self.assertEqual(aw.RevisionType.MOVING, doc.revisions[0].revision_type)
+                self.assertEqual(8, doc.revisions.count)
+                self.assertEqual('This is revision #2.\rThis is revision #1. \rThis is revision #2.', doc.get_text().strip())
+                # The moving revision is now at index 1. Reject the revision to discard its contents.
+                doc.revisions[1].reject()
+                self.assertEqual(6, doc.revisions.count)
+                self.assertEqual('This is revision #1. \rThis is revision #2.', doc.get_text().strip())
+        #ExEnd
+
+    def test_revision_collection(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        doc = aw.Document(file_name=MY_DIR + 'Revisions.docx')
+        revisions = doc.revisions
+        # This collection itself has a collection of revision groups.
+        # Each group is a sequence of adjacent revisions.
+        group_count = sum((1 for _ in revisions.groups))
+        self.assertEqual(7, group_count)  #ExSkip
+        print(f'{group_count} revision groups:')
+        # Iterate over the collection of groups and print the text that the revision concerns.
+        for group in revisions.groups:
+            print(f'\tGroup type "{group.revision_type}", ' + f'author: {group.author}, contents: [{group.text.strip()}]')
+        # Each Run that a revision affects gets a corresponding Revision object.
+        # The revisions' collection is considerably larger than the condensed form we printed above,
+        # depending on how many Runs we have segmented the document into during Microsoft Word editing.
+        revision_count = sum((1 for _ in revisions))
+        self.assertEqual(11, revision_count)  #ExSkip
+        print(f'\n{revision_count} revisions:')
+        for revision in revisions:
+            # A StyleDefinitionChange strictly affects styles and not document nodes. This means the "ParentStyle" property will always be in use, while the ParentNode will always be null.
+            # Since all other changes affect nodes, ParentNode will conversely be in use, and ParentStyle will be null.
+            if revision.revision_type == aw.RevisionType.STYLE_DEFINITION_CHANGE:
+                print(f'\tRevision type "{revision.revision_type}", ' + f'author: {revision.author}, style: [{revision.parent_style.name}]')
+            else:
+                print(f'\tRevision type "{revision.revision_type}", ' + f'author: {revision.author}, contents: [{revision.parent_node.get_text().strip()}]')
+        # Reject all revisions via the collection, reverting the document to its original form.
+        revisions.reject_all()
+        self.assertEqual(0, sum((1 for _ in revisions)))
+        #ExEnd
+
     def test_get_info_about_revisions_in_revision_groups(self):
         #ExStart
         #ExFor:RevisionGroup
@@ -109,6 +219,62 @@ class ExRevision(ApiExampleBase):
         revision_options.comment_color = aw.layout.RevisionColor.BRIGHT_GREEN
         # These features are only applicable to formats such as .pdf or .jpg.
         doc.save(file_name=ARTIFACTS_DIR + 'Revision.RevisionOptions.pdf')
+        #ExEnd
+    #ExStart:RevisionSpecifiedCriteria
+    #ExFor:RevisionCollection.accept(IRevisionCriteria)
+    #ExFor:RevisionCollection.reject(IRevisionCriteria)
+    #ExFor:IRevisionCriteria
+    #ExFor:IRevisionCriteria.is_match(Revision)
+    #ExSummary:Shows how to accept or reject revision based on criteria.
+
+    def test_revision_specified_criteria(self):
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.write('This does not count as a revision. ')
+        # To register our edits as revisions, we need to declare an author, and then start tracking them.
+        doc.start_track_revisions(author='John Doe', date_time=datetime.datetime.now())
+        builder.write('This is insertion revision #1. ')
+        doc.stop_track_revisions()
+        doc.start_track_revisions(author='Jane Doe', date_time=datetime.datetime.now())
+        builder.write('This is insertion revision #2. ')
+        # Remove a run "This does not count as a revision.".
+        doc.first_section.body.first_paragraph.runs[0].remove()
+        doc.stop_track_revisions()
+        self.assertEqual(3, doc.revisions.count)
+        # We have two revisions from different authors, so we need to accept only one.
+        doc.revisions.accept(self.RevisionCriteria('John Doe', aw.RevisionType.INSERTION))
+        self.assertEqual(2, doc.revisions.count)
+        # Reject revision with different author name and revision type.
+        doc.revisions.reject(self.RevisionCriteria('Jane Doe', aw.RevisionType.DELETION))
+        self.assertEqual(1, doc.revisions.count)
+        doc.save(file_name=ARTIFACTS_DIR + 'Revision.RevisionSpecifiedCriteria.docx')
+
+    def test_track_revisions(self):
+        from api_example_base import ApiExampleBase, ARTIFACTS_DIR
+        import datetime
+        import aspose.words as aw
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.write('Hello world! ')
+        self.assertEqual(0, doc.revisions.count)
+        self.assertFalse(doc.first_section.body.paragraphs[0].runs[0].is_insert_revision)
+        doc.start_track_revisions(author='John Doe')
+        builder.write('Hello again! ')
+        self.assertEqual(1, doc.revisions.count)
+        self.assertTrue(doc.first_section.body.paragraphs[0].runs[1].is_insert_revision)
+        self.assertEqual('John Doe', doc.revisions[0].author)
+        now = datetime.datetime.now(datetime.timezone.utc)
+        self.assertTrue(abs((now - doc.revisions[0].date_time).total_seconds() * 1000) <= 10)
+        doc.stop_track_revisions()
+        builder.write('Hello again! ')
+        self.assertEqual(1, doc.revisions.count)
+        self.assertFalse(doc.first_section.body.paragraphs[0].runs[2].is_insert_revision)
+        doc.start_track_revisions('John Doe', datetime.datetime.min.replace(tzinfo=None))
+        builder.write('Hello again! ')
+        self.assertEqual(2, doc.revisions.count)
+        self.assertEqual('John Doe', doc.revisions[1].author)
+        self.assertEqual(datetime.datetime.min.replace(tzinfo=None), doc.revisions[1].date_time)
+        doc.save(file_name=ARTIFACTS_DIR + 'Revision.StartTrackRevisions.docx')
         #ExEnd
 
     def test_accept_all_revisions(self):
@@ -265,6 +431,23 @@ class ExRevision(ApiExampleBase):
         doc_original = aw.Document(file_name=ARTIFACTS_DIR + 'Revision.CompareOptions.docx')
         test_util.TestUtil.verify_footnote(aw.notes.FootnoteType.ENDNOTE, True, '', 'OriginalEdited endnote text.', doc_original.get_child(aw.NodeType.FOOTNOTE, 0, True).as_footnote())
 
+    def test_ignore_dml_unique_id(self):
+        for is_ignore_dml_unique_id in [False, True]:
+            #ExStart
+            #ExFor:CompareOptions.advanced_options
+            #ExFor:AdvancedCompareOptions.ignore_dml_unique_id
+            #ExFor:CompareOptions.ignore_dml_unique_id
+            #ExSummary:Shows how to compare documents ignoring DML unique ID.
+            doc_a = aw.Document(file_name=MY_DIR + 'DML unique ID original.docx')
+            doc_b = aw.Document(file_name=MY_DIR + 'DML unique ID compare.docx')
+            # By default, Aspose.Words do not ignore DML's unique ID, and the revisions count was 2.
+            # If we are ignoring DML's unique ID, and revisions count were 0.
+            compare_options = aw.comparing.CompareOptions()
+            compare_options.advanced_options.ignore_dml_unique_id = is_ignore_dml_unique_id
+            doc_a.compare(document=doc_b, author='Aspose.Words', date_time=datetime.datetime.now(), options=compare_options)
+            self.assertEqual(1 if is_ignore_dml_unique_id else 3, doc_a.revisions.count)
+            #ExEnd
+
     def test_layout_options_revisions(self):
         #ExStart
         #ExFor:Document.layout_options
@@ -366,162 +549,12 @@ class ExRevision(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'Revision.RevisionCellColor.pdf')
         #ExEnd:RevisionCellColor
 
-    def test_revisions(self):
-        #ExStart
-        #ExFor:Revision
-        #ExFor:Revision.accept
-        #ExFor:Revision.author
-        #ExFor:Revision.date_time
-        #ExFor:Revision.group
-        #ExFor:Revision.reject
-        #ExFor:Revision.revision_type
-        #ExFor:RevisionCollection
-        #ExFor:RevisionCollection.__getitem__(int)
-        #ExFor:RevisionCollection.count
-        #ExFor:RevisionType
-        #ExFor:Document.has_revisions
-        #ExFor:Document.track_revisions
-        #ExFor:Document.revisions
-        #ExSummary:Shows how to work with revisions in a document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Normal editing of the document does not count as a revision.
-        builder.write('This does not count as a revision. ')
-        self.assertFalse(doc.has_revisions)
-        # To register our edits as revisions, we need to declare an author, and then start tracking them.
-        doc.start_track_revisions('John Doe', datetime.datetime.now())
-        builder.write('This is revision #1. ')
-        self.assertTrue(doc.has_revisions)
-        self.assertEqual(1, doc.revisions.count)
-        # This flag corresponds to the "Review" -> "Tracking" -> "Track Changes" option in Microsoft Word.
-        # The "start_track_revisions" method does not affect its value,
-        # and the document is tracking revisions programmatically despite it having a value of "False".
-        # If we open this document using Microsoft Word, it will not be tracking revisions.
-        self.assertFalse(doc.track_revisions)
-        # We have added text using the document builder, so the first revision is an insertion-type revision.
-        revision = doc.revisions[0]
-        self.assertEqual('John Doe', revision.author)
-        self.assertEqual('This is revision #1. ', revision.parent_node.get_text())
-        self.assertEqual(aw.RevisionType.INSERTION, revision.revision_type)
-        self.assertEqual(revision.date_time.date(), date.today())
-        self.assertEqual(doc.revisions.groups[0], revision.group)
-        # Remove a run to create a deletion-type revision.
-        doc.first_section.body.first_paragraph.runs[0].remove()
-        # Adding a new revision places it at the beginning of the revision collection.
-        self.assertEqual(aw.RevisionType.DELETION, doc.revisions[0].revision_type)
-        self.assertEqual(2, doc.revisions.count)
-        # Insert revisions show up in the document body even before we accept/reject the revision.
-        # Rejecting the revision will remove its nodes from the body. Conversely, nodes that make up delete revisions
-        # also linger in the document until we accept the revision.
-        self.assertEqual('This does not count as a revision. This is revision #1.', doc.get_text().strip())
-        # Accepting the delete revision will remove its parent node from the paragraph text
-        # and then remove the collection's revision itself.
-        doc.revisions[0].accept()
-        self.assertEqual(1, doc.revisions.count)
-        self.assertEqual('This is revision #1.', doc.get_text().strip())
-        builder.writeln('')
-        builder.write('This is revision #2.')
-        # Now move the node to create a moving revision type.
-        node = doc.first_section.body.paragraphs[1]
-        end_node = doc.first_section.body.paragraphs[1].next_sibling
-        reference_node = doc.first_section.body.paragraphs[0]
-        while node != end_node:
-            next_node = node.next_sibling
-            doc.first_section.body.insert_before(node, reference_node)
-            node = next_node
-        self.assertEqual(aw.RevisionType.MOVING, doc.revisions[0].revision_type)
-        self.assertEqual(8, doc.revisions.count)
-        self.assertEqual('This is revision #2.\rThis is revision #1. \rThis is revision #2.', doc.get_text().strip())
-        # The moving revision is now at index 1. Reject the revision to discard its contents.
-        doc.revisions[1].reject()
-        self.assertEqual(6, doc.revisions.count)
-        self.assertEqual('This is revision #1. \rThis is revision #2.', doc.get_text().strip())
-        #ExEnd
+    class RevisionCriteria(aw.IRevisionCriteria):
 
-    def test_revision_collection(self):
-        #ExStart
-        #ExFor:Revision.parent_style
-        #ExFor:RevisionCollection.__iter__
-        #ExFor:RevisionCollection.groups
-        #ExFor:RevisionCollection.reject_all
-        #ExFor:RevisionGroupCollection.__iter__
-        #ExSummary:Shows how to work with a document's collection of revisions.
-        doc = aw.Document(MY_DIR + 'Revisions.docx')
-        revisions = doc.revisions
-        # This collection itself has a collection of revision groups.
-        # Each group is a sequence of adjacent revisions.
-        self.assertEqual(7, revisions.groups.count)  #ExSkip
-        print(revisions.groups.count, 'revision groups:')
-        # Iterate over the collection of groups and print the text that the revision concerns.
-        for group in revisions.groups:
-            print(f'\tGroup type "{group.revision_type}", ' + f'author: {group.author}, contents: [{group.text.strip()}]')
-        # Each Run that a revision affects gets a corresponding Revision object.
-        # The revisions' collection is considerably larger than the condensed form we printed above,
-        # depending on how many Runs we have segmented the document into during Microsoft Word editing.
-        self.assertEqual(11, revisions.count)  #ExSkip
-        print(f'\n{revisions.count} revisions:')
-        for revision in revisions:
-            # A StyleDefinitionChange strictly affects styles and not document nodes. This means the "parent_style"
-            # property will always be in use, while the "parent_node" will always be None.
-            # Since all other changes affect nodes, "parent_node" will conversely be in use, and "parent_style" will be None.
-            if revision.revision_type == aw.RevisionType.STYLE_DEFINITION_CHANGE:
-                print(f'\tRevision type "{revision.revision_type}", ' + f'author: {revision.author}, style: [{revision.parent_style.name}]')
-            else:
-                print(f'\tRevision type "{revision.revision_type}", ' + f'author: {revision.author}, contents: [{revision.parent_node.get_text().strip()}]')
-        # Reject all revisions via the collection, reverting the document to its original form.
-        revisions.reject_all()
-        self.assertEqual(0, revisions.count)
-        #ExEnd
+        def __init__(self, author_name, revision_type):
+            self.author_name = author_name
+            self.revision_type = revision_type
 
-    def test_track_revisions(self):
-        #ExStart
-        #ExFor:Document.start_track_revisions(str)
-        #ExFor:Document.start_track_revisions(str,datetime)
-        #ExFor:Document.stop_track_revisions
-        #ExSummary:Shows how to track revisions while editing a document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Editing a document usually does not count as a revision until we begin tracking them.
-        builder.write('Hello world! ')
-        self.assertEqual(0, doc.revisions.count)
-        self.assertFalse(doc.first_section.body.paragraphs[0].runs[0].is_insert_revision)
-        doc.start_track_revisions('John Doe')
-        builder.write('Hello again! ')
-        self.assertEqual(1, doc.revisions.count)
-        self.assertTrue(doc.first_section.body.paragraphs[0].runs[1].is_insert_revision)
-        self.assertEqual('John Doe', doc.revisions[0].author)
-        self.assertAlmostEqual(doc.revisions[0].date_time, datetime.datetime.now(tz=timezone.utc), delta=timedelta(seconds=1))
-        # Stop tracking revisions to not count any future edits as revisions.
-        doc.stop_track_revisions()
-        builder.write('Hello again! ')
-        self.assertEqual(1, doc.revisions.count)
-        self.assertFalse(doc.first_section.body.paragraphs[0].runs[2].is_insert_revision)
-        # Creating revisions gives them a date and time of the operation.
-        # We can disable this by passing "datetime.min" when we start tracking revisions.
-        doc.start_track_revisions('John Doe', datetime.datetime.min)
-        builder.write('Hello again! ')
-        self.assertEqual(2, doc.revisions.count)
-        self.assertEqual('John Doe', doc.revisions[1].author)
-        self.assertEqual(datetime.datetime.min, doc.revisions[1].date_time)
-        # We can accept/reject these revisions programmatically
-        # by calling methods such as "Document.accept_all_revisions", or each revision's "accept" method.
-        # In Microsoft Word, we can process them manually via "Review" -> "Changes".
-        doc.save(ARTIFACTS_DIR + 'Document.track_revisions.docx')
-        #ExEnd
-
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
-    def test_ignore_dml_unique_id(self):
-        for is_ignore_dml_unique_id in (False, True):
-            with self.subTest(is_ignore_dml_unique_id=is_ignore_dml_unique_id):
-                #ExStart
-                #ExFor:CompareOptions.ignore_dml_unique_id
-                #ExSummary:Shows how to compare documents ignoring DML unique ID.
-                doc_a = aw.Document(MY_DIR + 'DML unique ID original.docx')
-                doc_b = aw.Document(MY_DIR + 'DML unique ID compare.docx')
-                # By default, Aspose.Words do not ignore DML's unique ID, and the revisions count was 2.
-                # If we are ignoring DML's unique ID, and revisions count were 0.
-                compare_options = aw.comparing.CompareOptions()
-                compare_options.ignore_dml_unique_id = is_ignore_dml_unique_id
-                doc_a.compare(doc_b, 'Aspose.Words', datetime.datetime.now(), compare_options)
-                self.assertEqual(0 if is_ignore_dml_unique_id else 2, doc_a.revisions.count)
-                #ExEnd
+        def is_match(self, revision):
+            return revision.author == self.author_name and revision.revision_type == self.revision_type
+    #ExEnd:RevisionSpecifiedCriteria

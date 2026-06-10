@@ -14,7 +14,7 @@ class ExControlChar(ApiExampleBase):
     def test_carriage_return(self):
         #ExStart
         #ExFor:ControlChar
-        #ExFor:ControlChar.cr
+        #ExFor:ControlChar.CR
         #ExFor:Node.get_text
         #ExSummary:Shows how to use control characters.
         doc = aw.Document()
@@ -31,6 +31,8 @@ class ExControlChar(ApiExampleBase):
         #ExEnd
 
     def test_insert_control_chars(self):
+        from api_example_base import ApiExampleBase, ARTIFACTS_DIR
+        import aspose.words as aw
         #ExStart
         #ExFor:ControlChar.CELL
         #ExFor:ControlChar.COLUMN_BREAK
@@ -59,7 +61,7 @@ class ExControlChar(ApiExampleBase):
         #ExFor:ControlChar.SPACE_CHAR
         #ExSummary:Shows how to add various control characters to a document.
         doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
+        builder = aw.DocumentBuilder(doc=doc)
         # Add a regular space.
         builder.write('Before space.' + aw.ControlChar.SPACE_CHAR + 'After space.')
         # Add an NBSP, which is a non-breaking space.
@@ -94,15 +96,15 @@ class ExControlChar(ApiExampleBase):
         builder.current_section.page_setup.text_columns.set_count(2)
         # We can use a control character to mark the point where text moves to the next column.
         builder.write('Text at end of column 1.' + aw.ControlChar.COLUMN_BREAK + 'Text at beginning of column 2.')
-        doc.save(ARTIFACTS_DIR + 'ControlChar.insert_control_chars.docx')
+        doc.save(file_name=ARTIFACTS_DIR + 'ControlChar.InsertControlChars.docx')
         # There are char and string counterparts for most characters.
-        self.assertEqual(aw.ControlChar.CELL, aw.ControlChar.CELL_CHAR)
-        self.assertEqual(aw.ControlChar.NON_BREAKING_SPACE, aw.ControlChar.NON_BREAKING_SPACE_CHAR)
-        self.assertEqual(aw.ControlChar.TAB, aw.ControlChar.TAB_CHAR)
-        self.assertEqual(aw.ControlChar.LINE_BREAK, aw.ControlChar.LINE_BREAK_CHAR)
-        self.assertEqual(aw.ControlChar.LINE_FEED, aw.ControlChar.LINE_FEED_CHAR)
-        self.assertEqual(aw.ControlChar.PARAGRAPH_BREAK, aw.ControlChar.PARAGRAPH_BREAK_CHAR)
-        self.assertEqual(aw.ControlChar.SECTION_BREAK, aw.ControlChar.SECTION_BREAK_CHAR)
-        self.assertEqual(aw.ControlChar.PAGE_BREAK, aw.ControlChar.SECTION_BREAK_CHAR)
-        self.assertEqual(aw.ControlChar.COLUMN_BREAK, aw.ControlChar.COLUMN_BREAK_CHAR)
-        #ExEnd
+        # There are char and string counterparts for most characters.
+        assert aw.ControlChar.CELL == aw.ControlChar.CELL_CHAR
+        assert aw.ControlChar.NON_BREAKING_SPACE == aw.ControlChar.NON_BREAKING_SPACE_CHAR
+        assert aw.ControlChar.TAB == aw.ControlChar.TAB_CHAR
+        assert aw.ControlChar.LINE_BREAK == aw.ControlChar.LINE_BREAK_CHAR
+        assert aw.ControlChar.LINE_FEED == aw.ControlChar.LINE_FEED_CHAR
+        assert aw.ControlChar.PARAGRAPH_BREAK == aw.ControlChar.PARAGRAPH_BREAK_CHAR
+        assert aw.ControlChar.SECTION_BREAK == aw.ControlChar.SECTION_BREAK_CHAR
+        assert aw.ControlChar.PAGE_BREAK == aw.ControlChar.SECTION_BREAK_CHAR
+        assert aw.ControlChar.COLUMN_BREAK == aw.ControlChar.COLUMN_BREAK_CHAR

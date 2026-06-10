@@ -1,3 +1,8 @@
+import os
+import glob
+import io
+from document_helper import DocumentHelper
+import sys
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
@@ -5,13 +10,10 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import os
-import glob
-from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
-import io
+import document_helper
 import system_helper
 import test_util
 import unittest
@@ -54,6 +56,48 @@ class ExDrawing(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'Drawing.FillSolid.docx')
         #ExEnd
 
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
+    def test_save_all_images(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
+        import aspose.words as aw
+        from pathlib import Path
+        import os
+        # Ensure ARTIFACTS_DIR exists
+        Path(ARTIFACTS_DIR).mkdir(parents=True, exist_ok=True)
+        #ExStart
+        #ExFor:ImageData.has_image
+        #ExFor:ImageData.to_image
+        #ExFor:ImageData.save(BytesIO)
+        #ExSummary:Shows how to save all images from a document to the file system.
+        img_source_doc = aw.Document(file_name=MY_DIR + 'Images.docx')
+        # Get all shape nodes and filter those that have images
+        shapes_with_images = []
+        for node in img_source_doc.get_child_nodes(aw.NodeType.SHAPE, True):
+            shape = node.as_shape()
+            if shape.has_image:
+                shapes_with_images.append(shape)
+        # Go through each shape and save its image.
+        shape_index = 0
+        while shape_index < len(shapes_with_images):
+            image_data = shapes_with_images[shape_index].image_data
+            image_data.save(ARTIFACTS_DIR + f'Drawing.SaveAllImages.{shape_index + 1}.{image_data.image_type}')
+            shape_index += 1
+        #ExEnd
+        image_file_names = list(filter(lambda s: s.startswith(ARTIFACTS_DIR + 'Drawing.SaveAllImages.'), os.listdir(ARTIFACTS_DIR)))
+        image_file_names = [ARTIFACTS_DIR + name for name in image_file_names]
+        image_file_names.sort()
+        file_infos = list(map(lambda s: Path(s), image_file_names))
+        assert len(file_infos) >= 9, f'Expected at least 9 images, found {len(file_infos)}'
+        assert file_infos[0].suffix == '.jpeg', f'Expected .jpeg, got {file_infos[0].suffix}'
+        assert file_infos[1].suffix == '.png', f'Expected .png, got {file_infos[1].suffix}'
+        assert file_infos[2].suffix == '.emf', f'Expected .emf, got {file_infos[2].suffix}'
+        assert file_infos[3].suffix == '.wmf', f'Expected .wmf, got {file_infos[3].suffix}'
+        assert file_infos[4].suffix == '.emf', f'Expected .emf, got {file_infos[4].suffix}'
+        assert file_infos[5].suffix == '.jpeg', f'Expected .jpeg, got {file_infos[5].suffix}'
+        assert file_infos[6].suffix == '.jpeg', f'Expected .jpeg, got {file_infos[6].suffix}'
+        assert file_infos[7].suffix == '.jpeg', f'Expected .jpeg, got {file_infos[7].suffix}'
+        assert file_infos[8].suffix == '.jpeg', f'Expected .jpeg, got {file_infos[8].suffix}'
+
     def test_stroke_pattern(self):
         #ExStart
         #ExFor:Stroke.color2
@@ -70,6 +114,22 @@ class ExDrawing(ApiExampleBase):
         system_helper.io.File.write_all_bytes(ARTIFACTS_DIR + 'Drawing.StrokePattern.png', stroke.image_bytes)
         #ExEnd
         test_util.TestUtil.verify_image(8, 8, ARTIFACTS_DIR + 'Drawing.StrokePattern.png')
+
+    @staticmethod
+    def _test_group_shapes(doc):
+        doc = document_helper.DocumentHelper.save_open(doc)
+        shapes = doc.get_child(aw.NodeType.GROUP_SHAPE, 0, True).as_group_shape()
+        self.assertEqual(2, shapes.get_child_nodes(aw.NodeType.ANY, False).count)
+        shape = shapes.get_child_nodes(aw.NodeType.ANY, False)[0].as_shape()
+        self.assertEqual(aw.drawing.ShapeType.BALLOON, shape.shape_type)
+        self.assertEqual(200, shape.width)
+        self.assertEqual(200, shape.height)
+        self.assertEqual(aspose.pydrawing.Color.red.to_argb(), shape.stroke_color.to_argb())
+        shape = shapes.get_child_nodes(aw.NodeType.ANY, False)[1].as_shape()
+        self.assertEqual(aw.drawing.ShapeType.CUBE, shape.shape_type)
+        self.assertEqual(100, shape.width)
+        self.assertEqual(100, shape.height)
+        self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), shape.stroke_color.to_argb())
 
     def test_text_box(self):
         #ExStart
@@ -94,6 +154,25 @@ class ExDrawing(ApiExampleBase):
         self.assertEqual(100, textbox.height)
         self.assertEqual(aw.drawing.LayoutFlow.BOTTOM_TO_TOP, textbox.text_box.layout_flow)
         self.assertEqual('This text is flipped 90 degrees to the left.', textbox.get_text().strip())
+
+    def test_get_data_from_image(self):
+        #ExStart
+        #ExFor:ImageData.image_bytes
+        #ExFor:ImageData.to_byte_array
+        #ExFor:ImageData.to_stream
+        #ExSummary:Shows how to create an image file from a shape's raw image data.
+        img_source_doc = aw.Document(file_name=MY_DIR + 'Images.docx')
+        self.assertEqual(10, img_source_doc.get_child_nodes(aw.NodeType.SHAPE, True).count)  #ExSkip
+        img_shape = img_source_doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        self.assertTrue(img_shape.has_image)
+        # ToByteArray() returns the array stored in the ImageBytes property.
+        assert img_shape.image_data.image_bytes == img_shape.image_data.to_byte_array()
+        # Save the shape's image data to an image file in the local file system.
+        with img_shape.image_data.to_stream() as img_stream:
+            with system_helper.io.FileStream(ARTIFACTS_DIR + 'Drawing.GetDataFromImage.png', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as out_stream:
+                out_stream.write(img_stream.read())
+        #ExEnd
+        test_util.TestUtil.verify_image(2467, 1500, ARTIFACTS_DIR + 'Drawing.GetDataFromImage.png')
 
     def test_image_data(self):
         #ExStart
@@ -204,25 +283,6 @@ class ExDrawing(ApiExampleBase):
         self.assertEqual(400, image_size.width_pixels)
         self.assertAlmostEqual(95.98, image_size.horizontal_resolution, delta=delta)
         self.assertAlmostEqual(95.98, image_size.vertical_resolution, delta=delta)
-
-    def test_get_data_from_image(self):
-        #ExStart
-        #ExFor:ImageData.image_bytes
-        #ExFor:ImageData.to_byte_array
-        #ExFor:ImageData.to_stream
-        #ExSummary:Shows how to create an image file from a shape's raw image data.
-        img_source_doc = aw.Document(MY_DIR + 'Images.docx')
-        self.assertEqual(10, img_source_doc.get_child_nodes(aw.NodeType.SHAPE, True).count)  #ExSkip
-        img_shape = img_source_doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.assertTrue(img_shape.has_image)
-        # to_byte_array() returns the array stored in the "image_bytes" property.
-        self.assertEqual(img_shape.image_data.image_bytes, img_shape.image_data.to_byte_array())
-        # Save the shape's image data to an image file in the local file system.
-        with img_shape.image_data.to_stream() as img_stream:
-            with open(ARTIFACTS_DIR + 'Drawing.get_data_from_image.png', 'wb') as out_stream:
-                out_stream.write(img_stream.read())
-        #ExEnd
-        self.verify_image(2467, 1500, ARTIFACTS_DIR + 'Drawing.get_data_from_image.png')
 
     def _test_group_shapes(self, doc: aw.Document):
         doc = DocumentHelper.save_open(doc)

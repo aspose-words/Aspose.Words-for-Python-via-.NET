@@ -6,6 +6,8 @@
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
 import aspose.words as aw
+import aspose.words.mailmerging
+import system_helper
 import unittest
 from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 
@@ -41,47 +43,44 @@ class ExNodeImporter(ApiExampleBase):
             else:
                 self.assertEqual('6. Item 1\r\n' + '7. Item 2 \r\n' + '8. Item 3\r\n' + '9. Item 4\r\n' + '10. Item 1\r\n' + '11. Item 2 \r\n' + '12. Item 3\r\n' + '13. Item 4', dst_doc.first_section.body.to_string(save_format=aw.SaveFormat.TEXT).strip())
             #ExEnd
+    #ExStart
+    #ExFor:Paragraph.is_end_of_section
+    #ExFor:NodeImporter
+    #ExFor:NodeImporter.__init__(DocumentBase,DocumentBase,ImportFormatMode)
+    #ExFor:NodeImporter.import_node(Node,bool)
+    #ExSummary:Shows how to insert the contents of one document to a bookmark in another document (InsertDocument).
 
-    def test_insert_at_bookmark(self):
-        #ExStart
-        #ExFor:Paragraph.is_end_of_section
-        #ExFor:NodeImporter
-        #ExFor:NodeImporter.__init__(DocumentBase,DocumentBase,ImportFormatMode)
-        #ExFor:NodeImporter.import_node(Node,bool)
-        #ExSummary:Shows how to insert the contents of one document to a bookmark in another document.
+    @staticmethod
+    def insert_document(insertion_destination, doc_to_insert):
+        if insertion_destination.node_type == aw.NodeType.PARAGRAPH or insertion_destination.node_type == aw.NodeType.TABLE:
+            destination_parent = insertion_destination.parent_node
+            importer = aw.NodeImporter(src_doc=doc_to_insert, dst_doc=insertion_destination.document, import_format_mode=aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+            # Loop through all block-level nodes in the section's body,
+            # then clone and insert every node that is not the last empty paragraph of a section.
+            for src_section in filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_section(), b), list(doc_to_insert.sections))):
+                for src_node in src_section.body:
+                    if src_node.node_type == aw.NodeType.PARAGRAPH:
+                        para = src_node.as_paragraph()
+                        if para.is_end_of_section and (not para.has_child_nodes):
+                            continue
+                    new_node = importer.import_node(src_node, True)
+                    destination_parent.insert_after(new_node, insertion_destination)
+                    insertion_destination = new_node
+        else:
+            raise Exception()
+    #ExEnd
 
-        def insert_at_bookmark():
-            doc = aw.Document()
-            builder = aw.DocumentBuilder(doc)
-            builder.start_bookmark('InsertionPoint')
-            builder.write('We will insert a document here: ')
-            builder.end_bookmark('InsertionPoint')
-            doc_to_insert = aw.Document()
-            builder = aw.DocumentBuilder(doc_to_insert)
-            builder.write('Hello world!')
-            doc_to_insert.save(ARTIFACTS_DIR + 'NodeImporter.insert_at_bookmark.docx')
-            bookmark = doc.range.bookmarks.get_by_name('InsertionPoint')
-            insert_document(bookmark.bookmark_start.parent_node, doc_to_insert)
-            self.assertEqual('We will insert a document here: ' + '\rHello world!', doc.get_text().strip())
+    class InsertDocumentAtMailMergeHandler(aw.mailmerging.IFieldMergingCallback):
 
-        def insert_document(insertion_destination: aw.Node, doc_to_insert: aw.Document):
-            """Inserts the contents of a document after the specified node."""
-            if insertion_destination.node_type == aw.NodeType.PARAGRAPH or insertion_destination.node_type == aw.NodeType.TABLE:
-                destination_parent = insertion_destination.parent_node
-                importer = aw.NodeImporter(doc_to_insert, insertion_destination.document, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
-                # Loop through all block-level nodes in the section's body,
-                # then clone and insert every node that is not the last empty paragraph of a section.
-                for src_section in doc_to_insert.sections:
-                    src_section = src_section.as_section()
-                    for src_node in src_section.body:
-                        if src_node.node_type == aw.NodeType.PARAGRAPH:
-                            para = src_node.as_paragraph()
-                            if para.is_end_of_section and (not para.has_child_nodes):
-                                continue
-                        new_node = importer.import_node(src_node, True)
-                        destination_parent.insert_after(new_node, insertion_destination)
-                        insertion_destination = new_node
-            else:
-                raise Exception('The destination node should be either a paragraph or table.')
-        #ExEnd
-        insert_at_bookmark()
+        def field_merging(self, args):
+            if args.document_field_name == 'Document_1':
+                builder = aw.DocumentBuilder(doc=args.document)
+                builder.move_to_merge_field(field_name=args.document_field_name)
+                sub_doc = aw.Document(args.field_value)
+                ExNodeImporter._insert_document(builder.current_paragraph, sub_doc)
+                if not builder.current_paragraph.has_child_nodes:
+                    builder.current_paragraph.remove()
+                args.text = None
+
+        def image_field_merging(self, args):
+            pass

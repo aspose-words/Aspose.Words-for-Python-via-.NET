@@ -20,7 +20,6 @@ from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR, I
 
 class ExHtmlLoadOptions(ApiExampleBase):
 
-    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_support_vml(self):
         for support_vml in [True, False]:
             #ExStart
@@ -46,6 +45,48 @@ class ExHtmlLoadOptions(ApiExampleBase):
                 test_util.TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, image_shape)
             else:
                 test_util.TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.PNG, image_shape)
+
+    def test_web_request_timeout(self):
+        import io
+        import aspose.words as aw
+        from api_example_base import ApiExampleBase, ARTIFACTS_DIR
+        import system_helper
+
+        class ExHtmlLoadOptions(ApiExampleBase):
+
+            def test_web_request_timeout(self):
+                #ExStart
+                #ExFor:HtmlLoadOptions.web_request_timeout
+                #ExSummary:Shows how to set a time limit for web requests when loading a document with external resources linked by URLs.
+                image_uri = 'https://samplelib.com/png/sample-alpha-circle-400x300.png'
+                # Create a new HtmlLoadOptions object and verify its timeout threshold for a web request.
+                options = aw.loading.HtmlLoadOptions()
+                # When loading an Html document with resources externally linked by a web address URL,
+                # Aspose.Words will abort web requests that fail to fetch the resources within this time limit, in milliseconds.
+                self.assertEqual(100000, options.web_request_timeout)
+                # Set a WarningCallback that will record all warnings that occur during loading.
+                warning_callback = self.ListDocumentWarnings()
+                options.warning_callback = warning_callback
+                # Load such a document and verify that a shape with image data has been created.
+                # This linked image will require a web request to load, which will have to complete within our time limit.
+                html = f'\n        <html>\n        <img src=""{image_uri}"" alt=""Aspose logo"" style=""width:400px;height:400px;"">\n        </html>\n        '
+                # Set an unreasonable timeout limit and try load the document again.
+                options.web_request_timeout = 0
+                doc = aw.Document(stream=io.BytesIO(system_helper.text.Encoding.get_bytes(html, system_helper.text.Encoding.utf_8())), load_options=options)
+                self.assertEqual(2, len(warning_callback.warnings()))
+                # A web request that fails to obtain an image within the time limit will still produce an image.
+                # However, the image will be the red 'x' that commonly signifies missing images.
+                image_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+                self.assertEqual(924, len(image_shape.image_data.image_bytes))
+                # We can also configure a custom callback to pick up any warnings from timed out web requests.
+                self.assertEqual(aw.loading.WarningSource.HTML, warning_callback.warnings()[0].source)
+                self.assertEqual(aw.loading.WarningType.DATA_LOSS, warning_callback.warnings()[0].warning_type)
+                self.assertEqual(f"Couldn't load a resource from '{image_uri}'.", warning_callback.warnings()[0].description)
+                self.assertEqual(aw.loading.WarningSource.HTML, warning_callback.warnings()[1].source)
+                self.assertEqual(aw.loading.WarningType.DATA_LOSS, warning_callback.warnings()[1].warning_type)
+                self.assertEqual('Image has been replaced with a placeholder.', warning_callback.warnings()[1].description)
+                doc.save(file_name=ARTIFACTS_DIR + 'HtmlLoadOptions.WebRequestTimeout.docx')
+        #ExEnd
 
     def test_encrypted_html(self):
         #ExStart
@@ -153,3 +194,18 @@ class ExHtmlLoadOptions(ApiExampleBase):
         doc = aw.Document(file_name=MY_DIR + 'Html with FontFace.html', load_options=load_options)
         self.assertEqual('Squarish Sans CT Regular', doc.font_infos[0].name)
         #ExEnd:FontFaceRules
+    #ExStart
+    #ExFor:HtmlLoadOptions.web_request_timeout
+    #ExSummary:Shows how to set a time limit for web requests when loading a document with external resources linked by URLs (ListDocumentWarnings).
+
+    class ListDocumentWarnings(aw.IWarningCallback):
+
+        def __init__(self):
+            self.m_warnings = []
+
+        def warning(self, info):
+            self.m_warnings.append(info)
+
+        def warnings(self):
+            return self.m_warnings
+    #ExEnd

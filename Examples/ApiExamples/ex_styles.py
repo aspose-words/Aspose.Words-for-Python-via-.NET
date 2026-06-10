@@ -16,6 +16,20 @@ from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExStyles(ApiExampleBase):
 
+    def test_styles(self):
+        import aspose.words as aw
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        doc = aw.Document()
+        self.assertEqual(4, doc.styles.count)
+        # Enumerate and list all the styles that a document created using Aspose.Words contains by default.
+        for cur_style in doc.styles:
+            print(f'Style name:\t"{cur_style.name}", of type "{cur_style.type}"')
+            print(f'\tSubsequent style:\t{cur_style.next_paragraph_style_name}')
+            print(f'\tIs heading:\t\t\t{cur_style.is_heading}')
+            print(f'\tIs QuickStyle:\t\t{cur_style.is_quick_style}')
+            self.assertEqual(doc, cur_style.document)
+    #ExEnd
+
     def test_create_style(self):
         #ExStart
         #ExFor:Style.font
@@ -195,6 +209,27 @@ class ExStyles(ApiExampleBase):
         self.assertEqual('Verdana', style.font.name)
         self.assertEqual(12, style.paragraph_format.space_after)
 
+    def test_style_aliases(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        doc = aw.Document(file_name=MY_DIR + 'Style with alias.docx')
+        # This document contains a style named "MyStyle,MyStyle Alias 1,MyStyle Alias 2".
+        # If a style's name has multiple values separated by commas, each clause is a separate alias.
+        style = doc.styles.get_by_name('MyStyle')
+        self.assertEqual(['MyStyle Alias 1', 'MyStyle Alias 2'], list(style.aliases))
+        self.assertEqual('Title', style.base_style_name)
+        self.assertEqual('MyStyle Char', style.linked_style_name)
+        # We can reference a style using its alias, as well as its name.
+        self.assertEqual(doc.styles.get_by_name('MyStyle Alias 1'), doc.styles.get_by_name('MyStyle Alias 2'))
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.move_to_document_end()
+        builder.paragraph_format.style = doc.styles.get_by_name('MyStyle Alias 1')
+        builder.writeln('Hello world!')
+        builder.paragraph_format.style = doc.styles.get_by_name('MyStyle Alias 2')
+        builder.write('Hello again!')
+        self.assertEqual(doc.first_section.body.paragraphs[0].paragraph_format.style, doc.first_section.body.paragraphs[1].paragraph_format.style)
+        #ExEnd
+
     def test_latent_styles(self):
         # This test is to check that after re-saving a document it doesn't lose LatentStyle information
         # for 4 styles from documents created in Microsoft Word.
@@ -250,52 +285,3 @@ class ExStyles(ApiExampleBase):
         self.assertEqual('Heading 1 Char', style_heading1.linked_style_name)
         self.assertEqual('Heading 1', style_heading_1_char.linked_style_name)
         #ExEnd:LinkedStyleName
-
-    def test_styles(self):
-        #ExStart
-        #ExFor:DocumentBase.styles
-        #ExFor:Style.document
-        #ExFor:Style.name
-        #ExFor:Style.is_heading
-        #ExFor:Style.is_quick_style
-        #ExFor:Style.next_paragraph_style_name
-        #ExFor:Style.styles
-        #ExFor:Style.type
-        #ExFor:StyleCollection.document
-        #ExFor:StyleCollection.__iter__
-        #ExSummary:Shows how to access a document's style collection.
-        doc = aw.Document()
-        self.assertEqual(4, doc.styles.count)
-        # Enumerate and list all the styles that a document created using Aspose.Words contains by default.
-        for cur_style in doc.styles:
-            print(f'Style name:\t"{cur_style.name}", of type "{cur_style.type}"')
-            print(f'\tSubsequent style:\t{cur_style.next_paragraph_style_name}')
-            print(f'\tIs heading:\t\t\t{cur_style.is_heading}')
-            print(f'\tIs QuickStyle:\t\t{cur_style.is_quick_style}')
-            self.assertEqual(doc, cur_style.document)
-        #ExEnd
-
-    def test_style_aliases(self):
-        #ExStart
-        #ExFor:Style.aliases
-        #ExFor:Style.base_style_name
-        #ExFor:Style.__eq__(Style)
-        #ExFor:Style.linked_style_name
-        #ExSummary:Shows how to use style aliases.
-        doc = aw.Document(file_name=MY_DIR + 'Style with alias.docx')
-        # This document contains a style named "MyStyle,MyStyle Alias 1,MyStyle Alias 2".
-        # If a style's name has multiple values separated by commas, each clause is a separate alias.
-        style = doc.styles.get_by_name('MyStyle')
-        self.assertSequenceEqual(['MyStyle Alias 1', 'MyStyle Alias 2'], style.aliases)
-        self.assertEqual('Title', style.base_style_name)
-        self.assertEqual('MyStyle Char', style.linked_style_name)
-        # We can reference a style using its alias, as well as its name.
-        self.assertEqual(doc.styles.get_by_name('MyStyle Alias 1'), doc.styles.get_by_name('MyStyle Alias 2'))
-        builder = aw.DocumentBuilder(doc=doc)
-        builder.move_to_document_end()
-        builder.paragraph_format.style = doc.styles.get_by_name('MyStyle Alias 1')
-        builder.writeln('Hello world!')
-        builder.paragraph_format.style = doc.styles.get_by_name('MyStyle Alias 2')
-        builder.write('Hello again!')
-        self.assertEqual(doc.first_section.body.paragraphs[0].paragraph_format.style, doc.first_section.body.paragraphs[1].paragraph_format.style)
-        #ExEnd

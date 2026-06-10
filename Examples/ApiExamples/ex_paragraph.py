@@ -97,6 +97,74 @@ class ExParagraph(ApiExampleBase):
         test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_QUOTE, expected_field_code=' QUOTE " Real value."', expected_result=' Real value.', field=doc.range.fields[1])
         test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_QUOTE, expected_field_code=' QUOTE " Real value" ', expected_result=' Real value', field=doc.range.fields[2])
 
+    def test_insert_field_before_text_in_paragraph(self):
+        doc = document_helper.DocumentHelper.create_document_fill_with_dummy_text()
+        ExParagraph._insert_field_using_field_code(doc, ' AUTHOR ', None, False, 1)
+        self.assertEqual('\x13 AUTHOR \x14Test Author\x15Hello World!\r', document_helper.DocumentHelper.get_paragraph_text(doc, 1))
+
+    def test_insert_field_after_text_in_paragraph(self):
+        import datetime
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+
+        class ExField(ApiExampleBase):
+
+            def test_insert_field_using_field_code(self):
+                date = datetime.date.today().strftime('%-m/%-d/%Y')
+                doc = document_helper.document_helper.create_document_fill_with_dummy_text()
+                ex_paragraph._insert_field_using_field_code(doc, ' DATE ', None, True, 1)
+                self.assertEqual('Hello World!\x13 DATE \x14{}\x15\r'.format(date), document_helper.document_helper.get_paragraph_text(doc, 1))
+
+    def test_insert_field_before_text_in_paragraph_without_update_field(self):
+        doc = document_helper.DocumentHelper.create_document_fill_with_dummy_text()
+        ExParagraph._insert_field_using_field_type(doc, aw.fields.FieldType.FIELD_AUTHOR, False, None, False, 1)
+        self.assertEqual('\x13 AUTHOR \x14\x15Hello World!\r', document_helper.DocumentHelper.get_paragraph_text(doc, 1))
+
+    def test_insert_field_after_text_in_paragraph_without_update_field(self):
+        doc = document_helper.DocumentHelper.create_document_fill_with_dummy_text()
+        ExParagraph._insert_field_using_field_type(doc, aw.fields.FieldType.FIELD_AUTHOR, False, None, True, 1)
+        self.assertEqual('Hello World!\x13 AUTHOR \x14\x15\r', document_helper.DocumentHelper.get_paragraph_text(doc, 1))
+
+    def test_insert_field_without_separator(self):
+        doc = document_helper.DocumentHelper.create_document_fill_with_dummy_text()
+        ExParagraph._insert_field_using_field_type(doc, aw.fields.FieldType.FIELD_LIST_NUM, True, None, False, 1)
+        self.assertEqual('\x13 LISTNUM \x15Hello World!\r', document_helper.DocumentHelper.get_paragraph_text(doc, 1))
+
+    def test_insert_field_before_paragraph_without_document_author(self):
+        doc = document_helper.DocumentHelper.create_document_fill_with_dummy_text()
+        doc.built_in_document_properties.author = ''
+        ExParagraph._insert_field_using_field_code_field_string(doc, ' AUTHOR ', None, None, False, 1)
+        self.assertEqual('\x13 AUTHOR \x14\x15Hello World!\r', document_helper.DocumentHelper.get_paragraph_text(doc, 1))
+
+    def test_insert_field_after_paragraph_without_changing_document_author(self):
+        doc = document_helper.DocumentHelper.create_document_fill_with_dummy_text()
+        ExParagraph._insert_field_using_field_code_field_string(doc, ' AUTHOR ', None, None, True, 1)
+        self.assertEqual('Hello World!\x13 AUTHOR \x14\x15\r', document_helper.DocumentHelper.get_paragraph_text(doc, 1))
+
+    def test_insert_field_before_run_text(self):
+        doc = document_helper.DocumentHelper.create_document_fill_with_dummy_text()
+        #Add some text into the paragraph
+        run = document_helper.DocumentHelper.insert_new_run(doc, ' Hello World!', 1)
+        ExParagraph._insert_field_using_field_code_field_string(doc, ' AUTHOR ', 'Test Field Value', run, False, 1)
+        self.assertEqual('Hello World!\x13 AUTHOR \x14Test Field Value\x15 Hello World!\r', document_helper.DocumentHelper.get_paragraph_text(doc, 1))
+
+    def test_insert_field_after_run_text(self):
+        doc = document_helper.DocumentHelper.create_document_fill_with_dummy_text()
+        # Add some text into the paragraph
+        run = document_helper.DocumentHelper.insert_new_run(doc, ' Hello World!', 1)
+        ExParagraph._insert_field_using_field_code_field_string(doc, ' AUTHOR ', '', run, True, 1)
+        self.assertEqual('Hello World! Hello World!\x13 AUTHOR \x14\x15\r', document_helper.DocumentHelper.get_paragraph_text(doc, 1))
+
+    def test_insert_field_empty_paragraph_without_update_field(self):
+        doc = document_helper.DocumentHelper.create_document_without_dummy_text()
+        ExParagraph._insert_field_using_field_type(doc, aw.fields.FieldType.FIELD_AUTHOR, False, None, False, 1)
+        self.assertEqual('\x13 AUTHOR \x14\x15\x0c', document_helper.DocumentHelper.get_paragraph_text(doc, 1))
+
+    def test_insert_field_empty_paragraph_with_update_field(self):
+        doc = document_helper.DocumentHelper.create_document_without_dummy_text()
+        ExParagraph._insert_field_using_field_type(doc, aw.fields.FieldType.FIELD_AUTHOR, True, None, False, 0)
+        self.assertEqual('\x13 AUTHOR \x14Test Author\x15\r', document_helper.DocumentHelper.get_paragraph_text(doc, 0))
+
     def test_composite_node_children(self):
         #ExStart
         #ExFor:CompositeNode.count
@@ -191,6 +259,21 @@ class ExParagraph(ApiExampleBase):
         # while tracking revisions in Microsoft Word via "Review" -> "Track changes".
         self.assertTrue(doc.first_section.body.first_paragraph.is_format_revision)
         #ExEnd
+
+    @staticmethod
+    def _insert_field_using_field_type(doc, field_type, update_field, ref_node, is_after, para_index):
+        para = document_helper.DocumentHelper.get_paragraph(doc, para_index)
+        para.insert_field(field_type=field_type, update_field=update_field, ref_node=ref_node, is_after=is_after)
+
+    @staticmethod
+    def _insert_field_using_field_code(doc, field_code, ref_node, is_after, para_index):
+        para = document_helper.DocumentHelper.get_paragraph(doc, para_index)
+        para.insert_field(field_code=field_code, ref_node=ref_node, is_after=is_after)
+
+    @staticmethod
+    def _insert_field_using_field_code_field_string(doc, field_code, field_value, ref_node, is_after, para_index):
+        para = document_helper.DocumentHelper.get_paragraph(doc, para_index)
+        para.insert_field(field_code=field_code, field_value=field_value, ref_node=ref_node, is_after=is_after)
 
     def test_is_revision(self):
         #ExStart
@@ -342,7 +425,6 @@ class ExParagraph(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'Paragraph.JoinRunsWithSameFormattingWithOptions.docx')
         #ExEnd:JoinRunsWithSameFormattingWithOptions
 
-    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_append_field(self):
         #ExStart
         #ExFor:Paragraph.append_field(FieldType,bool)
@@ -368,68 +450,6 @@ class ExParagraph(ApiExampleBase):
         self.verify_datetime_field(aw.fields.FieldType.FIELD_DATE, ' DATE ', datetime.datetime.now(), doc.range.fields[0], timedelta())
         self.verify_datetime_field(aw.fields.FieldType.FIELD_TIME, ' TIME  \\@ "HH:mm:ss" ', datetime.datetime.now(), doc.range.fields[1], timedelta(seconds=5))
         self.verify_field(aw.fields.FieldType.FIELD_QUOTE, ' QUOTE "Real value"', 'Real value', doc.range.fields[2])
-
-    def test_insert_field_before_text_in_paragraph(self):
-        doc = DocumentHelper.create_document_fill_with_dummy_text()
-        ExParagraph.insert_field_using_field_code(doc, ' AUTHOR ', None, False, 1)
-        self.assertEqual('\x13 AUTHOR \x14Test Author\x15Hello World!\r', DocumentHelper.get_paragraph_text(doc, 1))
-
-    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
-    def test_insert_field_after_text_in_paragraph(self):
-        today = date.today().strftime('%d/%m/%Y').lstrip('0')
-        doc = DocumentHelper.create_document_fill_with_dummy_text()
-        ExParagraph.insert_field_using_field_code(doc, ' DATE ', None, True, 1)
-        self.assertEqual(f'Hello World!\x13 DATE \x14{today}\x15\r', DocumentHelper.get_paragraph_text(doc, 1))
-
-    def test_insert_field_before_text_in_paragraph_without_update_field(self):
-        doc = DocumentHelper.create_document_fill_with_dummy_text()
-        ExParagraph.insert_field_using_field_type(doc, aw.fields.FieldType.FIELD_AUTHOR, False, None, False, 1)
-        self.assertEqual('\x13 AUTHOR \x14\x15Hello World!\r', DocumentHelper.get_paragraph_text(doc, 1))
-
-    def test_insert_field_after_text_in_paragraph_without_update_field(self):
-        doc = DocumentHelper.create_document_fill_with_dummy_text()
-        ExParagraph.insert_field_using_field_type(doc, aw.fields.FieldType.FIELD_AUTHOR, False, None, True, 1)
-        self.assertEqual('Hello World!\x13 AUTHOR \x14\x15\r', DocumentHelper.get_paragraph_text(doc, 1))
-
-    def test_insert_field_without_separator(self):
-        doc = DocumentHelper.create_document_fill_with_dummy_text()
-        ExParagraph.insert_field_using_field_type(doc, aw.fields.FieldType.FIELD_LIST_NUM, True, None, False, 1)
-        self.assertEqual('\x13 LISTNUM \x15Hello World!\r', DocumentHelper.get_paragraph_text(doc, 1))
-
-    def test_insert_field_before_paragraph_without_document_author(self):
-        doc = DocumentHelper.create_document_fill_with_dummy_text()
-        doc.built_in_document_properties.author = ''
-        ExParagraph.insert_field_using_field_code_field_string(doc, ' AUTHOR ', None, None, False, 1)
-        self.assertEqual('\x13 AUTHOR \x14\x15Hello World!\r', DocumentHelper.get_paragraph_text(doc, 1))
-
-    def test_insert_field_after_paragraph_without_changing_document_author(self):
-        doc = DocumentHelper.create_document_fill_with_dummy_text()
-        ExParagraph.insert_field_using_field_code_field_string(doc, ' AUTHOR ', None, None, True, 1)
-        self.assertEqual('Hello World!\x13 AUTHOR \x14\x15\r', DocumentHelper.get_paragraph_text(doc, 1))
-
-    def test_insert_field_before_run_text(self):
-        doc = DocumentHelper.create_document_fill_with_dummy_text()
-        #Add some text into the paragraph
-        run = DocumentHelper.insert_new_run(doc, ' Hello World!', 1)
-        ExParagraph.insert_field_using_field_code_field_string(doc, ' AUTHOR ', 'Test Field Value', run, False, 1)
-        self.assertEqual('Hello World!\x13 AUTHOR \x14Test Field Value\x15 Hello World!\r', DocumentHelper.get_paragraph_text(doc, 1))
-
-    def test_insert_field_after_run_text(self):
-        doc = DocumentHelper.create_document_fill_with_dummy_text()
-        # Add some text into the paragraph
-        run = DocumentHelper.insert_new_run(doc, ' Hello World!', 1)
-        ExParagraph.insert_field_using_field_code_field_string(doc, ' AUTHOR ', '', run, True, 1)
-        self.assertEqual('Hello World! Hello World!\x13 AUTHOR \x14\x15\r', DocumentHelper.get_paragraph_text(doc, 1))
-
-    def test_insert_field_empty_paragraph_without_update_field(self):
-        doc = DocumentHelper.create_document_without_dummy_text()
-        ExParagraph.insert_field_using_field_type(doc, aw.fields.FieldType.FIELD_AUTHOR, False, None, False, 1)
-        self.assertEqual('\x13 AUTHOR \x14\x15\x0c', DocumentHelper.get_paragraph_text(doc, 1))
-
-    def test_insert_field_empty_paragraph_with_update_field(self):
-        doc = DocumentHelper.create_document_without_dummy_text()
-        ExParagraph.insert_field_using_field_type(doc, aw.fields.FieldType.FIELD_AUTHOR, True, None, False, 0)
-        self.assertEqual('\x13 AUTHOR \x14Test Author\x15\r', DocumentHelper.get_paragraph_text(doc, 0))
 
     def test_get_frame_properties(self):
         #ExStart

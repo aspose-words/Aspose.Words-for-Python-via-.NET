@@ -8,12 +8,12 @@
 import sys
 from typing import List
 import os
-import datetime
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.fonts
 import aspose.words.loading
 import aspose.words.settings
+import datetime
 import system_helper
 import test_util
 import unittest
@@ -82,6 +82,18 @@ class ExLoadOptions(ApiExampleBase):
         self.assertAlmostEqual(12.95, doc.styles.default_paragraph_format.line_spacing, delta=0.01)
         #ExEnd
 
+    @staticmethod
+    def _test_load_options_warning_callback(warnings):
+        assert warnings[0].warning_type == aw.WarningType.UNEXPECTED_CONTENT
+        assert warnings[0].source == aw.WarningSource.DOCX
+        assert warnings[0].description == '3F01'
+        assert warnings[1].warning_type == aw.WarningType.MINOR_FORMATTING_LOSS
+        assert warnings[1].source == aw.WarningSource.DOCX
+        assert warnings[1].description == "Import of element 'shapedefaults' is not supported in Docx format by Aspose.Words."
+        assert warnings[2].warning_type == aw.WarningType.MINOR_FORMATTING_LOSS
+        assert warnings[2].source == aw.WarningSource.DOCX
+        assert warnings[2].description == "Import of element 'extraClrSchemeLst' is not supported in Docx format by Aspose.Words."
+
     def test_temp_folder(self):
         #ExStart
         #ExFor:LoadOptions.temp_folder
@@ -97,6 +109,22 @@ class ExLoadOptions(ApiExampleBase):
         # The folder will persist with no residual contents from the load operation.
         self.assertEqual(0, len(system_helper.io.Directory.get_files(options.temp_folder)))
         #ExEnd
+
+    def test_set_editing_language_as_default(self):
+        #ExStart
+        #ExFor:LanguagePreferences.default_editing_language
+        #ExSummary:Shows how set a default language when loading a document.
+        from api_example_base import ApiExampleBase, MY_DIR
+        import aspose.words as aw
+        load_options = aw.loading.LoadOptions()
+        load_options.language_preferences.default_editing_language = aw.loading.EditingLanguage.RUSSIAN
+        doc = aw.Document(file_name=MY_DIR + 'No default editing language.docx', load_options=load_options)
+        locale_id = doc.styles.default_font.locale_id
+        print('The document either has no any language set in defaults or it was set to Russian originally.' if locale_id == aw.loading.EditingLanguage.RUSSIAN else 'The document default language was set to another than Russian language originally, so it is not overridden.')
+        #ExEnd
+        assert aw.loading.EditingLanguage.RUSSIAN == doc.styles.default_font.locale_id
+        doc = aw.Document(file_name=MY_DIR + 'No default editing language.docx')
+        assert aw.loading.EditingLanguage.ENGLISH_US == doc.styles.default_font.locale_id
 
     def test_convert_metafiles_to_png(self):
         #ExStart
@@ -139,43 +167,67 @@ class ExLoadOptions(ApiExampleBase):
         load_options.recovery_mode = aw.loading.DocumentRecoveryMode.TRY_RECOVER
         doc = aw.Document(file_name=MY_DIR + 'Corrupted footnotes.docx', load_options=load_options)
         #ExEnd:RecoveryMode
+    #ExStart
+    #ExFor:LoadOptions.resource_loading_callback
+    #ExSummary:Shows how to handle external resources when loading Html documents (HtmlLinkedResourceLoadingCallback).
 
-    def test_add_editing_language(self):
-        #ExStart
-        #ExFor:LanguagePreferences
-        #ExFor:LanguagePreferences.add_editing_language(EditingLanguage)
-        #ExFor:LoadOptions.language_preferences
-        #ExFor:EditingLanguage
-        #ExSummary:Shows how to apply language preferences when loading a document.
-        load_options = aw.loading.LoadOptions()
-        load_options.language_preferences.add_editing_language(aw.loading.EditingLanguage.JAPANESE)
-        doc = aw.Document(MY_DIR + 'No default editing language.docx', load_options)
-        locale_id_far_east = doc.styles.default_font.locale_id_far_east
-        if locale_id_far_east == aw.loading.EditingLanguage.JAPANESE:
-            print('The document either has no any FarEast language set in defaults or it was set to Japanese originally.')
-        else:
-            print('The document default FarEast language was set to another than Japanese language originally, so it is not overridden.')
-        #ExEnd
-        self.assertEqual(aw.loading.EditingLanguage.JAPANESE, doc.styles.default_font.locale_id_far_east)
-        doc = aw.Document(MY_DIR + 'No default editing language.docx')
-        self.assertEqual(aw.loading.EditingLanguage.ENGLISH_US, doc.styles.default_font.locale_id_far_east)
+    class HtmlLinkedResourceLoadingCallback(aw.loading.IResourceLoadingCallback):
 
-    def test_set_editing_language_as_default(self):
-        #ExStart
-        #ExFor:LanguagePreferences.default_editing_language
-        #ExSummary:Shows how set a default language when loading a document.
-        load_options = aw.loading.LoadOptions()
-        load_options.language_preferences.default_editing_language = aw.loading.EditingLanguage.RUSSIAN
-        doc = aw.Document(MY_DIR + 'No default editing language.docx', load_options)
-        locale_id = doc.styles.default_font.locale_id
-        if locale_id == aw.loading.EditingLanguage.RUSSIAN:
-            print('The document either has no any language set in defaults or it was set to Russian originally.')
-        else:
-            print('The document default language was set to another than Russian language originally, so it is not overridden.')
-        #ExEnd
-        self.assertEqual(aw.loading.EditingLanguage.RUSSIAN, doc.styles.default_font.locale_id)
-        doc = aw.Document(MY_DIR + 'No default editing language.docx')
-        self.assertEqual(aw.loading.EditingLanguage.ENGLISH_US, doc.styles.default_font.locale_id)
+        def resource_loading(self, args):
+            switch_condition = args.resource_type
+            if switch_condition == aw.loading.ResourceType.CSS_STYLE_SHEET:
+                print(f'External CSS Stylesheet found upon loading: {args.original_uri}')
+                return aw.loading.ResourceLoadingAction.DEFAULT
+            elif switch_condition == aw.loading.ResourceType.IMAGE:
+                print(f'External Image found upon loading: {args.original_uri}')
+                new_image_filename = 'Logo.jpg'
+                print(f'\tImage will be substituted with: {new_image_filename}')
+                new_image = Image.from_file(IMAGE_DIR + new_image_filename)
+                converter = ImageConverter()
+                image_bytes = converter.convert_to(new_image, bytes)
+                args.set_data(image_bytes)
+                return aw.loading.ResourceLoadingAction.USER_PROVIDED
+            return aw.loading.ResourceLoadingAction.DEFAULT
+    #ExEnd
+    #ExStart
+    #ExFor:LoadOptions.warning_callback
+    #ExSummary:Shows how to print and store warnings that occur during document loading (DocumentLoadingWarningCallback).
+
+    class DocumentLoadingWarningCallback(aw.IWarningCallback):
+
+        def __init__(self):
+            self.m_warnings = []
+
+        def warning(self, info):
+            print(f'Warning: {info.warning_type}')
+            print(f'\tSource: {info.source}')
+            print(f'\tDescription: {info.description}')
+            self.m_warnings.append(info)
+
+        def get_warnings(self):
+            return self.m_warnings
+    #ExEnd
+    #ExStart
+    #ExFor:LoadOptions.progress_callback
+    #ExFor:IDocumentLoadingCallback
+    #ExFor:IDocumentLoadingCallback.notify
+    #ExFor:DocumentLoadingArgs
+    #ExFor:DocumentLoadingArgs.estimated_progress
+    #ExSummary:Shows how to notify the user if document loading exceeded expected loading time (LoadingProgressCallback).
+
+    class LoadingProgressCallback(aw.loading.IDocumentLoadingCallback):
+
+        def __init__(self):
+            self.max_duration = 0.5
+            self.m_loading_started_at = datetime.datetime.now()
+
+        def notify(self, args):
+            from datetime import datetime
+            canceled_at = datetime.now()
+            elapsed_seconds = (canceled_at - self.loading_started_at).total_seconds()
+            if elapsed_seconds > self.max_duration:
+                raise Exception()
+    #ExEnd
 
     def test_open_chm_file(self):
         info = aw.FileFormatUtil.detect_file_format(MY_DIR + 'HTML help.chm')

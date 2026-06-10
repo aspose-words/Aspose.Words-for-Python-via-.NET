@@ -478,6 +478,155 @@ class ExLists(ApiExampleBase):
         self.assertEqual(3, len(list(filter(lambda n: n.as_paragraph().list_format.is_list_item, paras))))
         self.assertEqual(3, len(list(filter(lambda n: n.as_paragraph().list_format.list_level_number == 1, paras))))
 
+    def test_outline_heading_templates(self):
+        #ExStart
+        #ExFor:ListTemplate
+        #ExSummary:Shows how to create a document that contains all outline headings list templates.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        doc_list = doc.lists.add(list_template=aw.lists.ListTemplate.OUTLINE_HEADINGS_ARTICLE_SECTION)
+        ExLists._add_outline_heading_paragraphs(builder, doc_list, 'Aspose.Words Outline - "Article Section"')
+        doc_list = doc.lists.add(list_template=aw.lists.ListTemplate.OUTLINE_HEADINGS_LEGAL)
+        ExLists._add_outline_heading_paragraphs(builder, doc_list, 'Aspose.Words Outline - "Legal"')
+        builder.insert_break(aw.BreakType.PAGE_BREAK)
+        doc_list = doc.lists.add(list_template=aw.lists.ListTemplate.OUTLINE_HEADINGS_NUMBERS)
+        ExLists._add_outline_heading_paragraphs(builder, doc_list, 'Aspose.Words Outline - "Numbers"')
+        doc_list = doc.lists.add(list_template=aw.lists.ListTemplate.OUTLINE_HEADINGS_CHAPTER)
+        ExLists._add_outline_heading_paragraphs(builder, doc_list, 'Aspose.Words Outline - "Chapters"')
+        doc.save(file_name=ARTIFACTS_DIR + 'Lists.OutlineHeadingTemplates.docx')
+        self._test_outline_heading_templates(aw.Document(file_name=ARTIFACTS_DIR + 'Lists.OutlineHeadingTemplates.docx'))  #ExSkip
+        #ExEnd
+    #ExStart
+    #ExFor:ListTemplate
+    #ExSummary:Shows how to create a document that contains all outline headings list templates (AddOutlineHeadingParagraphs).
+
+    @staticmethod
+    def _add_outline_heading_paragraphs(builder, doc_list, title):
+        builder.paragraph_format.clear_formatting()
+        builder.writeln(title)
+        i = 0
+        while i < 9:
+            builder.list_format.list = doc_list
+            builder.list_format.list_level_number = i
+            style_name = 'Heading ' + str(i + 1)
+            builder.paragraph_format.style_name = style_name
+            builder.writeln(style_name)
+            i += 1
+        builder.list_format.remove_numbers()
+    #ExEnd
+
+    def _test_outline_heading_templates(self, doc):
+        doc_list = doc.lists[0]  # Article section list template.
+        test_util.TestUtil.verify_list_level('Article \x00.', 0, aw.NumberStyle.UPPERCASE_ROMAN, doc_list.list_levels[0])
+        test_util.TestUtil.verify_list_level('Section \x00.\x01', 0, aw.NumberStyle.LEADING_ZERO, doc_list.list_levels[1])
+        test_util.TestUtil.verify_list_level('(\x02)', 14.4, aw.NumberStyle.LOWERCASE_LETTER, doc_list.list_levels[2])
+        test_util.TestUtil.verify_list_level('(\x03)', 36, aw.NumberStyle.LOWERCASE_ROMAN, doc_list.list_levels[3])
+        test_util.TestUtil.verify_list_level('\x04)', 28.8, aw.NumberStyle.ARABIC, doc_list.list_levels[4])
+        test_util.TestUtil.verify_list_level('\x05)', 36, aw.NumberStyle.LOWERCASE_LETTER, doc_list.list_levels[5])
+        test_util.TestUtil.verify_list_level('\x06)', 50.4, aw.NumberStyle.LOWERCASE_ROMAN, doc_list.list_levels[6])
+        test_util.TestUtil.verify_list_level('\x07.', 50.4, aw.NumberStyle.LOWERCASE_LETTER, doc_list.list_levels[7])
+        test_util.TestUtil.verify_list_level('\x08.', 72, aw.NumberStyle.LOWERCASE_ROMAN, doc_list.list_levels[8])
+        doc_list = doc.lists[1]  # Legal list template.
+        test_util.TestUtil.verify_list_level('\x00', 0, aw.NumberStyle.ARABIC, doc_list.list_levels[0])
+        test_util.TestUtil.verify_list_level('\x00.\x01', 0, aw.NumberStyle.ARABIC, doc_list.list_levels[1])
+        test_util.TestUtil.verify_list_level('\x00.\x01.\x02', 0, aw.NumberStyle.ARABIC, doc_list.list_levels[2])
+        test_util.TestUtil.verify_list_level('\x00.\x01.\x02.\x03', 0, aw.NumberStyle.ARABIC, doc_list.list_levels[3])
+        test_util.TestUtil.verify_list_level('\x00.\x01.\x02.\x03.\x04', 0, aw.NumberStyle.ARABIC, doc_list.list_levels[4])
+        test_util.TestUtil.verify_list_level('\x00.\x01.\x02.\x03.\x04.\x05', 0, aw.NumberStyle.ARABIC, doc_list.list_levels[5])
+        test_util.TestUtil.verify_list_level('\x00.\x01.\x02.\x03.\x04.\x05.\x06', 0, aw.NumberStyle.ARABIC, doc_list.list_levels[6])
+        test_util.TestUtil.verify_list_level('\x00.\x01.\x02.\x03.\x04.\x05.\x06.\x07', 0, aw.NumberStyle.ARABIC, doc_list.list_levels[7])
+        test_util.TestUtil.verify_list_level('\x00.\x01.\x02.\x03.\x04.\x05.\x06.\x07.\x08', 0, aw.NumberStyle.ARABIC, doc_list.list_levels[8])
+        doc_list = doc.lists[2]  # Numbered list template.
+        test_util.TestUtil.verify_list_level('\x00.', 0, aw.NumberStyle.UPPERCASE_ROMAN, doc_list.list_levels[0])
+        test_util.TestUtil.verify_list_level('\x01.', 36, aw.NumberStyle.UPPERCASE_LETTER, doc_list.list_levels[1])
+        test_util.TestUtil.verify_list_level('\x02.', 72, aw.NumberStyle.ARABIC, doc_list.list_levels[2])
+        test_util.TestUtil.verify_list_level('\x03)', 108, aw.NumberStyle.LOWERCASE_LETTER, doc_list.list_levels[3])
+        test_util.TestUtil.verify_list_level('(\x04)', 144, aw.NumberStyle.ARABIC, doc_list.list_levels[4])
+        test_util.TestUtil.verify_list_level('(\x05)', 180, aw.NumberStyle.LOWERCASE_LETTER, doc_list.list_levels[5])
+        test_util.TestUtil.verify_list_level('(\x06)', 216, aw.NumberStyle.LOWERCASE_ROMAN, doc_list.list_levels[6])
+        test_util.TestUtil.verify_list_level('(\x07)', 252, aw.NumberStyle.LOWERCASE_LETTER, doc_list.list_levels[7])
+        test_util.TestUtil.verify_list_level('(\x08)', 288, aw.NumberStyle.LOWERCASE_ROMAN, doc_list.list_levels[8])
+        doc_list = doc.lists[3]  # Chapter list template.
+        test_util.TestUtil.verify_list_level('Chapter \x00', 0, aw.NumberStyle.ARABIC, doc_list.list_levels[0])
+        test_util.TestUtil.verify_list_level('', 0, aw.NumberStyle.NONE, doc_list.list_levels[1])
+        test_util.TestUtil.verify_list_level('', 0, aw.NumberStyle.NONE, doc_list.list_levels[2])
+        test_util.TestUtil.verify_list_level('', 0, aw.NumberStyle.NONE, doc_list.list_levels[3])
+        test_util.TestUtil.verify_list_level('', 0, aw.NumberStyle.NONE, doc_list.list_levels[4])
+        test_util.TestUtil.verify_list_level('', 0, aw.NumberStyle.NONE, doc_list.list_levels[5])
+        test_util.TestUtil.verify_list_level('', 0, aw.NumberStyle.NONE, doc_list.list_levels[6])
+        test_util.TestUtil.verify_list_level('', 0, aw.NumberStyle.NONE, doc_list.list_levels[7])
+        test_util.TestUtil.verify_list_level('', 0, aw.NumberStyle.NONE, doc_list.list_levels[8])
+
+    def test_print_out_all_lists(self):
+        #ExStart
+        #ExFor:ListCollection
+        #ExFor:ListCollection.add_copy(List)
+        #ExSummary:Shows how to create a document with a sample of all the lists from another document.
+        src_doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+        dst_doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=dst_doc)
+        for src_list in src_doc.lists:
+            dst_list = dst_doc.lists.add_copy(src_list)
+            ExLists._add_list_sample(builder, dst_list)
+        dst_doc.save(file_name=ARTIFACTS_DIR + 'Lists.PrintOutAllLists.docx')
+        self._test_print_out_all_lists(src_doc, aw.Document(file_name=ARTIFACTS_DIR + 'Lists.PrintOutAllLists.docx'))  #ExSkip
+        #ExEnd
+    #ExStart
+    #ExFor:ListCollection
+    #ExFor:ListCollection.add_copy(List)
+    #ExSummary:Shows how to create a document with a sample of all the lists from another document (AddListSample).
+
+    @staticmethod
+    def _add_list_sample(builder, doc_list):
+        builder.writeln('Sample formatting of list with ListId:' + str(doc_list.list_id))
+        builder.list_format.list = doc_list
+        i = 0
+        while i < doc_list.list_levels.count:
+            builder.list_format.list_level_number = i
+            builder.writeln('Level ' + str(i))
+            i += 1
+        builder.list_format.remove_numbers()
+        builder.writeln()
+    #ExEnd
+
+    def _test_print_out_all_lists(self, list_source_doc, out_doc):
+        for doc_list in out_doc.lists:
+            i = 0
+            while i < doc_list.list_levels.count:
+                expected_list_level = next((lst for lst in list_source_doc.lists if lst.list_id == doc_list.list_id)).list_levels[i]
+                self.assertEqual(expected_list_level.number_format, doc_list.list_levels[i].number_format)
+                self.assertEqual(expected_list_level.number_position, doc_list.list_levels[i].number_position)
+                self.assertEqual(expected_list_level.number_style, doc_list.list_levels[i].number_style)
+                i += 1
+
+    def test_list_document(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        #ExStart
+        #ExFor:ListCollection.document
+        #ExFor:ListCollection.count
+        #ExFor:ListCollection.__getitem__(int)
+        #ExFor:ListCollection.get_list_by_list_id
+        #ExFor:List.document
+        #ExFor:List.list_id
+        #ExSummary:Shows how to verify owner document properties of lists.
+        doc = aw.Document()
+        lists = doc.lists
+        self.assertEqual(doc, lists.document)
+        doc_list = lists.add(list_template=aw.lists.ListTemplate.BULLET_DEFAULT)
+        self.assertEqual(doc, doc_list.document)
+        print('Current list count: ' + str(lists.count))
+        print('Is the first document list: ' + str(lists[0].equals(list=doc_list)))
+        print('ListId: ' + str(doc_list.list_id))
+        print('List is the same by ListId: ' + str(lists.get_list_by_list_id(1).equals(list=doc_list)))
+        #ExEnd
+        doc = document_helper.DocumentHelper.save_open(doc)
+        lists = doc.lists
+        self.assertEqual(doc, lists.document)
+        self.assertEqual(1, lists.count)
+        self.assertEqual(1, lists[0].list_id)
+        self.assertEqual(lists[0], lists.get_list_by_list_id(1))
+
     def test_create_list_restart_after_higher(self):
         #ExStart
         #ExFor:ListLevel.number_style
@@ -661,143 +810,3 @@ class ExLists(ApiExampleBase):
         builder.writeln('Item 2')
         doc.save(file_name=ARTIFACTS_DIR + 'Lists.AddSingleLevelList.docx')
         #ExEnd:AddSingleLevelList
-
-    def test_outline_heading_templates(self):
-        #ExStart
-        #ExFor:ListTemplate
-        #ExSummary:Shows how to create a document that contains all outline headings list templates.
-
-        def outline_heading_templates():
-            doc = aw.Document()
-            builder = aw.DocumentBuilder(doc)
-            list_ = doc.lists.add(aw.lists.ListTemplate.OUTLINE_HEADINGS_ARTICLE_SECTION)
-            add_outline_heading_paragraphs(builder, list_, 'Aspose.Words Outline - "Article Section"')
-            list_ = doc.lists.add(aw.lists.ListTemplate.OUTLINE_HEADINGS_LEGAL)
-            add_outline_heading_paragraphs(builder, list_, 'Aspose.Words Outline - "Legal"')
-            builder.insert_break(aw.BreakType.PAGE_BREAK)
-            list_ = doc.lists.add(aw.lists.ListTemplate.OUTLINE_HEADINGS_NUMBERS)
-            add_outline_heading_paragraphs(builder, list_, 'Aspose.Words Outline - "Numbers"')
-            list_ = doc.lists.add(aw.lists.ListTemplate.OUTLINE_HEADINGS_CHAPTER)
-            add_outline_heading_paragraphs(builder, list_, 'Aspose.Words Outline - "Chapters"')
-            doc.save(ARTIFACTS_DIR + 'Lists.outline_heading_templates.docx')
-            _test_outline_heading_templates(aw.Document(ARTIFACTS_DIR + 'Lists.outline_heading_templates.docx'))  #ExSkip
-
-        def add_outline_heading_paragraphs(builder: aw.DocumentBuilder, list: aw.lists.List, title: str):
-            builder.paragraph_format.clear_formatting()
-            builder.writeln(title)
-            for i in range(9):
-                builder.list_format.list = list
-                builder.list_format.list_level_number = i
-                style_name = f'Heading {i + 1}'
-                builder.paragraph_format.style_name = style_name
-                builder.writeln(style_name)
-            builder.list_format.remove_numbers()
-        #ExEnd
-
-        def _test_outline_heading_templates(doc: aw.Document):
-            list = doc.lists[0]  # Article section list template.
-            self.verify_list_level('Article \x00.', 0.0, aw.NumberStyle.UPPERCASE_ROMAN, list.list_levels[0])
-            self.verify_list_level('Section \x00.\x01', 0.0, aw.NumberStyle.LEADING_ZERO, list.list_levels[1])
-            self.verify_list_level('(\x02)', 14.4, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[2])
-            self.verify_list_level('(\x03)', 36.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[3])
-            self.verify_list_level('\x04)', 28.8, aw.NumberStyle.ARABIC, list.list_levels[4])
-            self.verify_list_level('\x05)', 36.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[5])
-            self.verify_list_level('\x06)', 50.4, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[6])
-            self.verify_list_level('\x07.', 50.4, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[7])
-            self.verify_list_level('\x08.', 72.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[8])
-            list = doc.lists[1]  # Legal list template.
-            self.verify_list_level('\x00', 0.0, aw.NumberStyle.ARABIC, list.list_levels[0])
-            self.verify_list_level('\x00.\x01', 0.0, aw.NumberStyle.ARABIC, list.list_levels[1])
-            self.verify_list_level('\x00.\x01.\x02', 0.0, aw.NumberStyle.ARABIC, list.list_levels[2])
-            self.verify_list_level('\x00.\x01.\x02.\x03', 0.0, aw.NumberStyle.ARABIC, list.list_levels[3])
-            self.verify_list_level('\x00.\x01.\x02.\x03.\x04', 0.0, aw.NumberStyle.ARABIC, list.list_levels[4])
-            self.verify_list_level('\x00.\x01.\x02.\x03.\x04.\x05', 0.0, aw.NumberStyle.ARABIC, list.list_levels[5])
-            self.verify_list_level('\x00.\x01.\x02.\x03.\x04.\x05.\x06', 0.0, aw.NumberStyle.ARABIC, list.list_levels[6])
-            self.verify_list_level('\x00.\x01.\x02.\x03.\x04.\x05.\x06.\x07', 0.0, aw.NumberStyle.ARABIC, list.list_levels[7])
-            self.verify_list_level('\x00.\x01.\x02.\x03.\x04.\x05.\x06.\x07.\x08', 0.0, aw.NumberStyle.ARABIC, list.list_levels[8])
-            list = doc.lists[2]  # Numbered list template.
-            self.verify_list_level('\x00.', 0.0, aw.NumberStyle.UPPERCASE_ROMAN, list.list_levels[0])
-            self.verify_list_level('\x01.', 36.0, aw.NumberStyle.UPPERCASE_LETTER, list.list_levels[1])
-            self.verify_list_level('\x02.', 72.0, aw.NumberStyle.ARABIC, list.list_levels[2])
-            self.verify_list_level('\x03)', 108.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[3])
-            self.verify_list_level('(\x04)', 144.0, aw.NumberStyle.ARABIC, list.list_levels[4])
-            self.verify_list_level('(\x05)', 180.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[5])
-            self.verify_list_level('(\x06)', 216.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[6])
-            self.verify_list_level('(\x07)', 252.0, aw.NumberStyle.LOWERCASE_LETTER, list.list_levels[7])
-            self.verify_list_level('(\x08)', 288.0, aw.NumberStyle.LOWERCASE_ROMAN, list.list_levels[8])
-            list = doc.lists[3]  # Chapter list template.
-            self.verify_list_level('Chapter \x00', 0.0, aw.NumberStyle.ARABIC, list.list_levels[0])
-            self.verify_list_level('', 0.0, aw.NumberStyle.NONE, list.list_levels[1])
-            self.verify_list_level('', 0.0, aw.NumberStyle.NONE, list.list_levels[2])
-            self.verify_list_level('', 0.0, aw.NumberStyle.NONE, list.list_levels[3])
-            self.verify_list_level('', 0.0, aw.NumberStyle.NONE, list.list_levels[4])
-            self.verify_list_level('', 0.0, aw.NumberStyle.NONE, list.list_levels[5])
-            self.verify_list_level('', 0.0, aw.NumberStyle.NONE, list.list_levels[6])
-            self.verify_list_level('', 0.0, aw.NumberStyle.NONE, list.list_levels[7])
-            self.verify_list_level('', 0.0, aw.NumberStyle.NONE, list.list_levels[8])
-        outline_heading_templates()
-
-    def test_print_out_all_lists(self):
-        #ExStart
-        #ExFor:ListCollection
-        #ExFor:ListCollection.add_copy(List)
-        #ExFor:ListCollection.__iter__
-        #ExSummary:Shows how to create a document with a sample of all the lists from another document.
-
-        def print_out_all_lists():
-            src_doc = aw.Document(MY_DIR + 'Rendering.docx')
-            dst_doc = aw.Document()
-            builder = aw.DocumentBuilder(dst_doc)
-            for src_list in src_doc.lists:
-                dst_list = dst_doc.lists.add_copy(src_list)
-                add_list_sample(builder, dst_list)
-            dst_doc.save(ARTIFACTS_DIR + 'Lists.print_out_all_lists.docx')
-            _test_print_out_all_lists(src_doc, aw.Document(ARTIFACTS_DIR + 'Lists.print_out_all_lists.docx'))  #ExSkip
-
-        def add_list_sample(builder: aw.DocumentBuilder, list: aw.lists.List):
-            builder.writeln(f'Sample formatting of list with list_id: {list.list_id}')
-            builder.list_format.list = list
-            for i in range(list.list_levels.count):
-                builder.list_format.list_level_number = i
-                builder.writeln(f'Level {i}')
-            builder.list_format.remove_numbers()
-            builder.writeln()
-        #ExEnd
-
-        def _test_print_out_all_lists(list_source_doc: aw.Document, out_doc: aw.Document):
-            for list in out_doc.lists:
-                for i in range(list.list_levels.count):
-                    for src_list in list_source_doc.lists:
-                        if src_list.list_id == list.list_id:
-                            expected_list_level = src_list.list_levels[i]
-                            self.assertEqual(expected_list_level.number_format, list.list_levels[i].number_format)
-                            self.assertEqual(expected_list_level.number_position, list.list_levels[i].number_position)
-                            self.assertEqual(expected_list_level.number_style, list.list_levels[i].number_style)
-                            break
-        print_out_all_lists()
-
-    def test_list_document(self):
-        #ExStart
-        #ExFor:ListCollection.document
-        #ExFor:ListCollection.count
-        #ExFor:ListCollection.__getitem__(int)
-        #ExFor:ListCollection.get_list_by_list_id
-        #ExFor:List.document
-        #ExFor:List.list_id
-        #ExSummary:Shows how to verify owner document properties of lists.
-        doc = aw.Document()
-        lists = doc.lists
-        self.assertEqual(doc, lists.document)
-        list = lists.add(list_template=aw.lists.ListTemplate.BULLET_DEFAULT)
-        self.assertEqual(doc, list.document)
-        print('Current list count: ' + str(lists.count))
-        print('Is the first document list: ' + str(lists[0].equals(list=list)))
-        print('ListId: ' + str(list.list_id))
-        print('List is the same by ListId: ' + str(lists.get_list_by_list_id(1).equals(list=list)))
-        #ExEnd
-        doc = document_helper.DocumentHelper.save_open(doc)
-        lists = doc.lists
-        self.assertEqual(doc, lists.document)
-        self.assertEqual(1, lists.count)
-        self.assertEqual(1, lists[0].list_id)
-        self.assertEqual(lists[0], lists.get_list_by_list_id(1))

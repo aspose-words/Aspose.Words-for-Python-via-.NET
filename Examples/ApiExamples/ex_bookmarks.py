@@ -8,6 +8,8 @@
 import os
 from document_helper import DocumentHelper
 import aspose.words as aw
+import aspose.words.tables
+import document_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -32,6 +34,50 @@ class ExBookmarks(ApiExampleBase):
         #ExEnd
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Bookmarks.Insert.docx')
         self.assertEqual('My Bookmark', doc.range.bookmarks[0].name)
+
+    @staticmethod
+    def _create_document_with_bookmarks(number_of_bookmarks):
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        i = 1
+        while i <= number_of_bookmarks:
+            bookmark_name = 'MyBookmark_' + str(i)
+            builder.write('Text before bookmark.')
+            builder.start_bookmark(bookmark_name)
+            builder.write(f'Text inside {bookmark_name}.')
+            builder.end_bookmark(bookmark_name)
+            builder.writeln('Text after bookmark.')
+            i += 1
+        return doc
+
+    def test_table_column_bookmarks(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        #ExStart
+        #ExFor:Bookmark.is_column
+        #ExFor:Bookmark.first_column
+        #ExFor:Bookmark.last_column
+        #ExSummary:Shows how to get information about table column bookmarks.
+        doc = aw.Document(file_name=MY_DIR + 'Table column bookmarks.doc')
+        for bookmark in doc.range.bookmarks:
+            # If a bookmark encloses columns of a table, it is a table column bookmark, and its IsColumn flag set to true.
+            print(f"Bookmark: {bookmark.name}{(' (Column)' if bookmark.is_column else '')}")
+            if bookmark.is_column:
+                row = bookmark.bookmark_start.get_ancestor(ancestor_type=aw.NodeType.ROW).as_row()
+                if row is not None and bookmark.first_column < row.cells.count:
+                    # Print the contents of the first and last columns enclosed by the bookmark.
+                    print(row.cells[bookmark.first_column].get_text().rstrip(aw.ControlChar.CELL))
+                    print(row.cells[bookmark.last_column].get_text().rstrip(aw.ControlChar.CELL))
+        #ExEnd
+        doc = aw.Document(file_name=MY_DIR + 'Table column bookmarks.doc')
+        first_table_column_bookmark = doc.range.bookmarks.get_by_name('FirstTableColumnBookmark')
+        second_table_column_bookmark = doc.range.bookmarks.get_by_name('SecondTableColumnBookmark')
+        assert first_table_column_bookmark.is_column
+        assert first_table_column_bookmark.first_column == 1
+        assert first_table_column_bookmark.last_column == 3
+        assert second_table_column_bookmark.is_column
+        assert second_table_column_bookmark.first_column == 0
+        assert second_table_column_bookmark.last_column == 3
 
     def test_remove(self):
         #ExStart
@@ -76,30 +122,3 @@ class ExBookmarks(ApiExampleBase):
         self.assertEqual(0, bookmarks.count)
         self.assertEqual('Text inside MyBookmark_1.\r' + 'Text inside MyBookmark_2.\r' + 'Text inside MyBookmark_3.\r' + 'Text inside MyBookmark_4.\r' + 'Text inside MyBookmark_5.', doc.get_text().strip())
         #ExEnd
-
-    def test_table_column_bookmarks(self):
-        #ExStart
-        #ExFor:Bookmark.is_column
-        #ExFor:Bookmark.first_column
-        #ExFor:Bookmark.last_column
-        #ExSummary:Shows how to get information about table column bookmarks.
-        doc = aw.Document(MY_DIR + 'Table column bookmarks.doc')
-        for bookmark in doc.range.bookmarks:
-            # If a bookmark encloses columns of a table, it is a table column bookmark, and its "is_column" flag set to True.
-            print(f"Bookmark: {bookmark.name}{(' (Column)' if bookmark.is_column else '')}")
-            if bookmark.is_column:
-                row = bookmark.bookmark_start.get_ancestor(aw.NodeType.ROW)
-                if row is aw.tables.Row and bookmark.first_column < row.cells.count:
-                    # Print the contents of the first and last columns enclosed by the bookmark.
-                    print(row.cells[bookmark.first_column].get_text().rstrip(aw.ControlChar.CELL_CHAR))
-                    print(row.cells[bookmark.last_column].get_text().rstrip(aw.ControlChar.CELL_CHAR))
-        #ExEnd
-        doc = DocumentHelper.save_open(doc)
-        first_table_column_bookmark = doc.range.bookmarks.get_by_name('FirstTableColumnBookmark')
-        second_table_column_bookmark = doc.range.bookmarks.get_by_name('SecondTableColumnBookmark')
-        self.assertTrue(first_table_column_bookmark.is_column)
-        self.assertEqual(1, first_table_column_bookmark.first_column)
-        self.assertEqual(3, first_table_column_bookmark.last_column)
-        self.assertTrue(second_table_column_bookmark.is_column)
-        self.assertEqual(0, second_table_column_bookmark.first_column)
-        self.assertEqual(3, second_table_column_bookmark.last_column)

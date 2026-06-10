@@ -14,6 +14,42 @@ from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR
 
 class ExRtfSaveOptions(ApiExampleBase):
 
+    def test_export_images(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        import test_util
+        for export_images_for_old_readers in [False, True]:
+            #ExStart
+            #ExFor:RtfSaveOptions
+            #ExFor:RtfSaveOptions.export_compact_size
+            #ExFor:RtfSaveOptions.export_images_for_old_readers
+            #ExFor:RtfSaveOptions.save_format
+            #ExSummary:Shows how to save a document to .rtf with custom options.
+            doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+            # Create an "RtfSaveOptions" object to pass to the document's "Save" method to modify how we save it to an RTF.
+            options = aw.saving.RtfSaveOptions()
+            self.assertEqual(aw.SaveFormat.RTF, options.save_format)
+            # Set the "ExportCompactSize" property to "true" to
+            # reduce the saved document's size at the cost of right-to-left text compatibility.
+            options.export_compact_size = True
+            # Set the "ExportImagesFotOldReaders" property to "true" to use extra keywords to ensure that our document is
+            # compatible with pre-Microsoft Word 97 readers and WordPad.
+            # Set the "ExportImagesFotOldReaders" property to "false" to reduce the size of the document,
+            # but prevent old readers from being able to read any non-metafile or BMP images that the document may contain.
+            options.export_images_for_old_readers = export_images_for_old_readers
+            doc.save(file_name=ARTIFACTS_DIR + 'RtfSaveOptions.ExportImages.rtf', save_options=options)
+            #ExEnd
+            if export_images_for_old_readers:
+                test_util.TestUtil.file_contains_string('nonshppict', ARTIFACTS_DIR + 'RtfSaveOptions.ExportImages.rtf')
+                test_util.TestUtil.file_contains_string('shprslt', ARTIFACTS_DIR + 'RtfSaveOptions.ExportImages.rtf')
+            else:
+                try:
+                    test_util.TestUtil.file_contains_string('nonshppict', ARTIFACTS_DIR + 'RtfSaveOptions.ExportImages.rtf')
+                    test_util.TestUtil.file_contains_string('shprslt', ARTIFACTS_DIR + 'RtfSaveOptions.ExportImages.rtf')
+                    raise AssertionError('Expected exception was not raised')
+                except:
+                    pass
+
     def test_save_images_as_wmf(self):
         for save_images_as_wmf in [False, True]:
             #ExStart
@@ -45,35 +81,3 @@ class ExRtfSaveOptions(ApiExampleBase):
                 self.assertEqual(aw.drawing.ImageType.JPEG, shapes[0].as_shape().image_data.image_type)
                 self.assertEqual(aw.drawing.ImageType.PNG, shapes[1].as_shape().image_data.image_type)
             #ExEnd
-
-    def test_export_images(self):
-        for export_images_for_old_readers in (False, True):
-            with self.subTest(export_images_for_old_readers=export_images_for_old_readers):
-                #ExStart
-                #ExFor:RtfSaveOptions
-                #ExFor:RtfSaveOptions.export_compact_size
-                #ExFor:RtfSaveOptions.export_images_for_old_readers
-                #ExFor:RtfSaveOptions.save_format
-                #ExSummary:Shows how to save a document to .rtf with custom options.
-                doc = aw.Document(MY_DIR + 'Rendering.docx')
-                # Create an "RtfSaveOptions" object to pass to the document's "save" method to modify how we save it to an RTF.
-                options = aw.saving.RtfSaveOptions()
-                self.assertEqual(aw.SaveFormat.RTF, options.save_format)
-                # Set the "export_compact_size" property to "True" to
-                # reduce the saved document's size at the cost of right-to-left text compatibility.
-                options.export_compact_size = True
-                # Set the "export_images_for_old_readers" property to "True" to use extra keywords to ensure that our document is
-                # compatible with pre-Microsoft Word 97 readers and WordPad.
-                # Set the "export_images_for_old_readers" property to "False" to reduce the size of the document,
-                # but prevent old readers from being able to read any non-metafile or BMP images that the document may contain.
-                options.export_images_for_old_readers = export_images_for_old_readers
-                doc.save(ARTIFACTS_DIR + 'RtfSaveOptions.export_images.rtf', options)
-                #ExEnd
-                with open(ARTIFACTS_DIR + 'RtfSaveOptions.export_images.rtf', 'rb') as file:
-                    data = file.read().decode('utf-8')
-                    if export_images_for_old_readers:
-                        self.assertIn('nonshppict', data)
-                        self.assertIn('shprslt', data)
-                    else:
-                        self.assertNotIn('nonshppict', data)
-                        self.assertNotIn('shprslt', data)

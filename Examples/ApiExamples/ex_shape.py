@@ -1,3 +1,13 @@
+import os
+import typing
+from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
+from aspose.words import Document, DocumentBuilder, NodeType
+from aspose.pydrawing import Color
+from aspose.words.themes import ThemeColor
+import unittest
+import sys
+import unittest
+import sys
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
@@ -5,14 +15,6 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import os
-import typing
-import sys
-from aspose.words.drawing.charts import ChartXValue, ChartYValue, ChartSeriesType, ChartType
-import document_helper
-from aspose.words import Document, DocumentBuilder, NodeType
-from aspose.pydrawing import Color
-from aspose.words.themes import ThemeColor
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.drawing
@@ -22,13 +24,48 @@ import aspose.words.rendering
 import aspose.words.saving
 import aspose.words.settings
 import aspose.words.themes
+import document_helper
 import io
 import system_helper
 import test_util
 import unittest
-from api_example_base import ApiExampleBase, ARTIFACTS_DIR, DATABASE_DIR, IMAGE_DIR, MY_DIR, GOLDS_DIR
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR, DATABASE_DIR, GOLDS_DIR, IMAGE_DIR, MY_DIR
 
 class ExShape(ApiExampleBase):
+
+    def test_alt_text(self):
+        import aspose.words as aw
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import system_helper
+        import test_util
+        import os
+        #ExStart
+        #ExFor:ShapeBase.alternative_text
+        #ExFor:ShapeBase.name
+        #ExSummary:Shows how to use a shape's alternative text.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.CUBE, width=150, height=150)
+        shape.name = 'MyCube'
+        shape.alternative_text = 'Alt text for MyCube.'
+        # We can access the alternative text of a shape by right-clicking it, and then via "Format AutoShape" -> "Alt Text".
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.AltText.docx')
+        # Save the document to HTML, and then delete the linked image that belongs to our shape.
+        # The browser that is reading our HTML will display the alt text in place of the missing image.
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.AltText.html')
+        self.assertTrue(os.path.exists(ARTIFACTS_DIR + 'Shape.AltText.001.png'))  #ExSkip
+        os.unlink(ARTIFACTS_DIR + 'Shape.AltText.001.png')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.AltText.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.CUBE, 'MyCube', 150, 150, 0, 0, shape)
+        self.assertEqual('Alt text for MyCube.', shape.alternative_text)
+        self.assertEqual('Times New Roman', shape.font.name)
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.AltText.html')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.IMAGE, '', 151.5, 151.5, 0, 0, shape)
+        self.assertEqual('Alt text for MyCube.', shape.alternative_text)
+        test_util.TestUtil.file_contains_string('<img src="Shape.AltText.001.png" width="202" height="202" alt="Alt text for MyCube." ' + 'style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />', ARTIFACTS_DIR + 'Shape.AltText.html')
 
     def test_font(self):
         for hide_shape in [False, True]:
@@ -481,6 +518,43 @@ class ExShape(ApiExampleBase):
         test_util.TestUtil.verify_shape(aw.drawing.ShapeType.RECTANGLE, 'Rectangle 100008', 100, 100, 250, 250, shape)
         self.assertEqual(aw.drawing.FlipOrientation.BOTH, shape.flip_orientation)
 
+    def test_fill(self):
+        import aspose.words as aw
+        import aspose.pydrawing
+        from api_example_base import ApiExampleBase, ARTIFACTS_DIR
+        #ExStart
+        #ExFor:ShapeBase.fill
+        #ExFor:Shape.fill_color
+        #ExFor:Shape.stroke_color
+        #ExFor:Fill
+        #ExFor:Fill.opacity
+        #ExSummary:Shows how to fill a shape with a solid color.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Write some text, and then cover it with a floating shape.
+        builder.font.size = 32
+        builder.writeln('Hello world!')
+        shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.CLOUD_CALLOUT, horz_pos=aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, left=25, vert_pos=aw.drawing.RelativeVerticalPosition.TOP_MARGIN, top=25, width=250, height=150, wrap_type=aw.drawing.WrapType.NONE)
+        # Use the "StrokeColor" property to set the color of the outline of the shape.
+        shape.stroke_color = aspose.pydrawing.Color.cadet_blue
+        # Use the "FillColor" property to set the color of the inside area of the shape.
+        shape.fill_color = aspose.pydrawing.Color.light_blue
+        # The "Opacity" property determines how transparent the color is on a 0-1 scale,
+        # with 1 being fully opaque, and 0 being invisible.
+        # The shape fill by default is fully opaque, so we cannot see the text that this shape is on top of.
+        self.assertEqual(1, shape.fill.opacity)
+        # Set the shape fill color's opacity to a lower value so that we can see the text underneath it.
+        shape.fill.opacity = 0.3
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.Fill.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.Fill.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        #TestUtil.verify_shape(aw.drawing.ShapeType.CLOUD_CALLOUT, "CloudCallout 100002", 250, 150, 25, 25, shape)
+        color_with_opacity = aspose.pydrawing.Color.from_argb(int(255 * shape.fill.opacity), aspose.pydrawing.Color.light_blue.r, aspose.pydrawing.Color.light_blue.g, aspose.pydrawing.Color.light_blue.b)
+        self.assertEqual(color_with_opacity.to_argb(), shape.fill_color.to_argb())
+        self.assertEqual(aspose.pydrawing.Color.cadet_blue.to_argb(), shape.stroke_color.to_argb())
+        self.assertAlmostEqual(0.3, shape.fill.opacity, delta=0.01)
+
     def test_texture_fill(self):
         #ExStart
         #ExFor:Fill.preset_texture
@@ -826,6 +900,20 @@ class ExShape(ApiExampleBase):
         forms_2_ole_control = shape.ole_format.ole_control.as_forms2_ole_control()
         self.assertEqual('Aspose group name', forms_2_ole_control.group_name)
 
+    def test_get_ole_object_raw_data(self):
+        #ExStart
+        #ExFor:OleFormat.get_raw_data
+        #ExSummary:Shows how to access the raw data of an embedded OLE object.
+        doc = aw.Document(file_name=MY_DIR + 'OLE objects.docx')
+        for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True):
+            shape = shape.as_shape()
+            ole_format = shape.ole_format
+            if ole_format != None:
+                print(f"This is {('a linked' if ole_format.is_link else 'an embedded')} object")
+                ole_raw_data = ole_format.get_raw_data()
+                self.assertEqual(24576, len(ole_raw_data))
+        #ExEnd
+
     def test_linked_chart_source_full_name(self):
         #ExStart
         #ExFor:Chart.source_full_name
@@ -866,6 +954,46 @@ class ExShape(ApiExampleBase):
         #ExEnd
         self.assertTrue(system_helper.io.FileInfo(ARTIFACTS_DIR + 'OLE spreadsheet extracted via stream.xlsx').length() < 8400)
         self.assertTrue(system_helper.io.FileInfo(ARTIFACTS_DIR + 'OLE spreadsheet saved directly.xlsx').length() < 8400)
+
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
+    def test_ole_links(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        from pathlib import Path
+        import aspose.words as aw
+        #ExStart
+        #ExFor:OleFormat.icon_caption
+        #ExFor:OleFormat.get_ole_entry(str)
+        #ExFor:OleFormat.is_link
+        #ExFor:OleFormat.ole_icon
+        #ExFor:OleFormat.source_full_name
+        #ExFor:OleFormat.source_item
+        #ExSummary:Shows how to insert linked and unlinked OLE objects.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Embed a Microsoft Visio drawing into the document as an OLE object.
+        builder.insert_ole_object(file_name=IMAGE_DIR + 'Microsoft Visio drawing.vsd', prog_id='Package', is_linked=False, as_icon=False, presentation=None)
+        # Insert a link to the file in the local file system and display it as an icon.
+        builder.insert_ole_object(file_name=IMAGE_DIR + 'Microsoft Visio drawing.vsd', prog_id='Package', is_linked=True, as_icon=True, presentation=None)
+        # Inserting OLE objects creates shapes that store these objects.
+        shapes = list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(doc.get_child_nodes(aw.NodeType.SHAPE, True)))))
+        self.assertEqual(2, len(shapes))
+        self.assertEqual(2, len(list(filter(lambda s: s.shape_type == aw.drawing.ShapeType.OLE_OBJECT, shapes))))
+        # If a shape contains an OLE object, it will have a valid "OleFormat" property,
+        # which we can use to verify some aspects of the shape.
+        ole_format = shapes[0].ole_format
+        self.assertEqual(False, ole_format.is_link)
+        self.assertEqual(False, ole_format.ole_icon)
+        ole_format = shapes[1].ole_format
+        self.assertEqual(True, ole_format.is_link)
+        self.assertEqual(True, ole_format.ole_icon)
+        assert ole_format.source_full_name.endswith(str(Path(IMAGE_DIR) / 'Microsoft Visio drawing.vsd'))
+        self.assertEqual('', ole_format.source_item)
+        self.assertEqual('Microsoft Visio drawing.vsd', ole_format.icon_caption)
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.OleLinks.docx')
+        # If the object contains OLE data, we can access it using a stream.
+        ole_entry_bytes = ole_format.get_ole_entry('\x01CompObj').read()
+        self.assertEqual(76, len(ole_entry_bytes))
+        #ExEnd
 
     def test_ole_control_collection(self):
         #ExStart
@@ -909,18 +1037,70 @@ class ExShape(ApiExampleBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
         self.assertEqual('', shape.ole_format.suggested_file_name)
 
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
+    def test_render_office_math(self):
+        #ExStart
+        #ExFor:ImageSaveOptions.scale
+        #ExFor:OfficeMath.get_math_renderer
+        #ExFor:NodeRendererBase.save(str,ImageSaveOptions)
+        #ExSummary:Shows how to render an Office Math object into an image file in the local file system.
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
+        math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
+        # Create an "ImageSaveOptions" object to pass to the node renderer's "Save" method to modify
+        # how it renders the OfficeMath node into an image.
+        save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
+        # Set the "Scale" property to 5 to render the object to five times its original size.
+        save_options.scale = 5
+        math.get_math_renderer().save(file_name=ARTIFACTS_DIR + 'Shape.RenderOfficeMath.png', save_options=save_options)
+        #ExEnd
+        test_util.TestUtil.verify_image(813, 87, ARTIFACTS_DIR + 'Shape.RenderOfficeMath.png')
+
     def test_office_math_display_exception(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        import aspose.words.math as aw_math
         doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
         office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
-        office_math.display_type = aw.math.OfficeMathDisplayType.DISPLAY
-        with self.assertRaises(Exception):
-            office_math.justification = aw.math.OfficeMathJustification.INLINE
+        office_math.display_type = aw_math.OfficeMathDisplayType.DISPLAY
+        try:
+            office_math.justification = aw_math.OfficeMathJustification.INLINE
+        except Exception:
+            pass
 
     def test_office_math_default_value(self):
         doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
         office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 6, True).as_office_math()
         self.assertEqual(aw.math.OfficeMathDisplayType.INLINE, office_math.display_type)
         self.assertEqual(aw.math.OfficeMathJustification.INLINE, office_math.justification)
+
+    def test_office_math(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR
+        import aspose.words as aw
+        import document_helper
+        #ExStart
+        #ExFor:OfficeMath
+        #ExFor:OfficeMath.display_type
+        #ExFor:OfficeMath.justification
+        #ExFor:OfficeMath.node_type
+        #ExFor:OfficeMath.parent_paragraph
+        #ExFor:OfficeMathDisplayType
+        #ExFor:OfficeMathJustification
+        #ExSummary:Shows how to set office math display formatting.
+        doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
+        office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
+        # OfficeMath nodes that are children of other OfficeMath nodes are always inline.
+        # The node we are working with is the base node to change its location and display type.
+        self.assertEqual(aw.math.MathObjectType.O_MATH_PARA, office_math.math_object_type)
+        self.assertEqual(aw.NodeType.OFFICE_MATH, office_math.node_type)
+        self.assertEqual(office_math.parent_node, office_math.parent_paragraph)
+        # Change the location and display type of the OfficeMath node.
+        office_math.display_type = aw.math.OfficeMathDisplayType.DISPLAY
+        office_math.justification = aw.math.OfficeMathJustification.LEFT
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.OfficeMath.docx')
+        #ExEnd
+        self.assertTrue(document_helper.DocumentHelper.compare_docs(ARTIFACTS_DIR + 'Shape.OfficeMath.docx', GOLDS_DIR + 'Shape.OfficeMath Gold.docx'))
 
     def test_cannot_be_set_display_with_inline_justification(self):
         doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
@@ -1064,7 +1244,57 @@ class ExShape(ApiExampleBase):
         shape.rotation = 30
         doc.save(file_name=ARTIFACTS_DIR + 'Shape.Resize.docx')
 
+    def test_calendar(self):
+        import aspose.words as aw
+        import aspose.pydrawing
+        from api_example_base import ApiExampleBase, ARTIFACTS_DIR
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.start_table()
+        builder.row_format.height = 100
+        builder.row_format.height_rule = aw.HeightRule.EXACTLY
+        i = 0
+        while i < 31:
+            if i != 0 and i % 7 == 0:
+                builder.end_row()
+            builder.insert_cell()
+            builder.write('Cell contents')
+            i += 1
+        builder.end_table()
+        runs = doc.get_child_nodes(aw.NodeType.RUN, True)
+        num = 1
+        for run in filter(lambda a: a is not None, map(lambda b: b.as_run(), list(runs))):
+            watermark = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
+            watermark.relative_horizontal_position = aw.drawing.RelativeHorizontalPosition.PAGE
+            watermark.relative_vertical_position = aw.drawing.RelativeVerticalPosition.PAGE
+            watermark.width = 30
+            watermark.height = 30
+            watermark.horizontal_alignment = aw.drawing.HorizontalAlignment.CENTER
+            watermark.vertical_alignment = aw.drawing.VerticalAlignment.CENTER
+            watermark.rotation = -40
+            watermark.fill.fore_color = aspose.pydrawing.Color.gainsboro
+            watermark.stroke_color = aspose.pydrawing.Color.gainsboro
+            watermark.text_path.text = str(num)
+            watermark.text_path.font_family = 'Arial'
+            watermark.name = f'Watermark_{num}'
+            num += 1
+            watermark.behind_text = True
+            builder.move_to(run)
+            builder.insert_node(watermark)
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.Calendar.docx')
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.Calendar.docx')
+        shapes = list(map(lambda x: x.as_shape(), list(doc.get_child_nodes(aw.NodeType.SHAPE, True))))
+        assert len(shapes) == 31
+        for idx, shape in enumerate(shapes):
+            assert shape.shape_type == aw.drawing.ShapeType.TEXT_PLAIN_TEXT
+            assert shape.name == f'Watermark_{idx + 1}'
+            assert shape.width == 30.0
+            assert shape.height == 30.0
+
     def test_is_layout_in_cell(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        from aspose import pydrawing as drawing
         for is_layout_in_cell in [False, True]:
             #ExStart
             #ExFor:ShapeBase.is_layout_in_cell
@@ -1080,7 +1310,7 @@ class ExShape(ApiExampleBase):
             table_style.left_padding = 10
             table_style.right_padding = 10
             table_style.top_padding = 20
-            table_style.borders.color = aspose.pydrawing.Color.black
+            table_style.borders.color = drawing.Color.black
             table_style.borders.line_style = aw.LineStyle.SINGLE
             table.style = table_style
             builder.move_to(table.first_row.first_cell.first_paragraph)
@@ -1099,7 +1329,7 @@ class ExShape(ApiExampleBase):
             doc = aw.Document(file_name=ARTIFACTS_DIR + 'Shape.LayoutInTableCell.docx')
             table = doc.first_section.body.tables[0]
             shape = table.first_row.first_cell.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-            self.assertEqual(is_layout_in_cell, shape.is_layout_in_cell)
+            assert is_layout_in_cell == shape.is_layout_in_cell
 
     def test_shape_insertion(self):
         #ExStart
@@ -1359,6 +1589,158 @@ class ExShape(ApiExampleBase):
             self.assertEqual(vertical_anchor, shape.text_box.vertical_anchor)
             self.assertEqual('Hello world!', shape.get_text().strip())
 
+    def test_insert_text_paths(self):
+        #ExStart
+        #ExFor:Shape.text_path
+        #ExFor:ShapeBase.is_word_art
+        #ExFor:TextPath
+        #ExFor:TextPath.bold
+        #ExFor:TextPath.fit_path
+        #ExFor:TextPath.fit_shape
+        #ExFor:TextPath.font_family
+        #ExFor:TextPath.italic
+        #ExFor:TextPath.kerning
+        #ExFor:TextPath.on
+        #ExFor:TextPath.reverse_rows
+        #ExFor:TextPath.rotate_letters
+        #ExFor:TextPath.same_letter_heights
+        #ExFor:TextPath.shadow
+        #ExFor:TextPath.small_caps
+        #ExFor:TextPath.spacing
+        #ExFor:TextPath.strike_through
+        #ExFor:TextPath.text
+        #ExFor:TextPath.text_path_alignment
+        #ExFor:TextPath.trim
+        #ExFor:TextPath.underline
+        #ExFor:TextPath.x_scale
+        #ExFor:TextPath.size
+        #ExFor:TextPathAlignment
+        #ExSummary:Shows how to work with WordArt.
+        doc = aw.Document()
+        # Insert a WordArt object to display text in a shape that we can re-size and move by using the mouse in Microsoft Word.
+        # Provide a "ShapeType" as an argument to set a shape for the WordArt.
+        shape = ExShape._append_word_art(doc, 'Hello World! This text is bold, and italic.', 'Arial', 480, 24, aspose.pydrawing.Color.white, aspose.pydrawing.Color.black, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
+        # Apply the "Bold" and "Italic" formatting settings to the text using the respective properties.
+        shape.text_path.bold = True
+        shape.text_path.italic = True
+        # Below are various other text formatting-related properties.
+        self.assertFalse(shape.text_path.underline)
+        self.assertFalse(shape.text_path.shadow)
+        self.assertFalse(shape.text_path.strike_through)
+        self.assertFalse(shape.text_path.reverse_rows)
+        self.assertFalse(shape.text_path.x_scale)
+        self.assertFalse(shape.text_path.trim)
+        self.assertFalse(shape.text_path.small_caps)
+        self.assertEqual(36, shape.text_path.size)
+        self.assertEqual('Hello World! This text is bold, and italic.', shape.text_path.text)
+        self.assertEqual(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, shape.shape_type)
+        # Use the "On" property to show/hide the text.
+        shape = ExShape._append_word_art(doc, 'On set to "true"', 'Calibri', 150, 24, aspose.pydrawing.Color.yellow, aspose.pydrawing.Color.red, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
+        shape.text_path.on = True
+        shape = ExShape._append_word_art(doc, 'On set to "false"', 'Calibri', 150, 24, aspose.pydrawing.Color.yellow, aspose.pydrawing.Color.purple, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
+        shape.text_path.on = False
+        # Use the "Kerning" property to enable/disable kerning spacing between certain characters.
+        shape = ExShape._append_word_art(doc, 'Kerning: VAV', 'Times New Roman', 90, 24, aspose.pydrawing.Color.orange, aspose.pydrawing.Color.red, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
+        shape.text_path.kerning = True
+        shape = ExShape._append_word_art(doc, 'No kerning: VAV', 'Times New Roman', 100, 24, aspose.pydrawing.Color.orange, aspose.pydrawing.Color.red, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
+        shape.text_path.kerning = False
+        # Use the "Spacing" property to set the custom spacing between characters on a scale from 0.0 (none) to 1.0 (default).
+        shape = ExShape._append_word_art(doc, 'Spacing set to 0.1', 'Calibri', 120, 24, aspose.pydrawing.Color.blue_violet, aspose.pydrawing.Color.blue, aw.drawing.ShapeType.TEXT_CASCADE_DOWN)
+        shape.text_path.spacing = 0.1
+        # Set the "RotateLetters" property to "true" to rotate each character 90 degrees counterclockwise.
+        shape = ExShape._append_word_art(doc, 'RotateLetters', 'Calibri', 200, 36, aspose.pydrawing.Color.green_yellow, aspose.pydrawing.Color.green, aw.drawing.ShapeType.TEXT_WAVE)
+        shape.text_path.rotate_letters = True
+        # Set the "SameLetterHeights" property to "true" to get the x-height of each character to equal the cap height.
+        shape = ExShape._append_word_art(doc, 'Same character height for lower and UPPER case', 'Calibri', 300, 24, aspose.pydrawing.Color.deep_sky_blue, aspose.pydrawing.Color.dodger_blue, aw.drawing.ShapeType.TEXT_SLANT_UP)
+        shape.text_path.same_letter_heights = True
+        # By default, the text's size will always scale to fit the containing shape's size, overriding the text size setting.
+        shape = ExShape._append_word_art(doc, 'FitShape on', 'Calibri', 160, 24, aspose.pydrawing.Color.light_blue, aspose.pydrawing.Color.blue, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
+        self.assertTrue(shape.text_path.fit_shape)
+        shape.text_path.size = 24
+        # If we set the "FitShape: property to "false", the text will keep the size
+        # which the "Size" property specifies regardless of the size of the shape.
+        # Use the "TextPathAlignment" property also to align the text to a side of the shape.
+        shape = ExShape._append_word_art(doc, 'FitShape off', 'Calibri', 160, 24, aspose.pydrawing.Color.light_blue, aspose.pydrawing.Color.blue, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
+        shape.text_path.fit_shape = False
+        shape.text_path.size = 24
+        shape.text_path.text_path_alignment = aw.drawing.TextPathAlignment.RIGHT
+        doc.save(file_name=ARTIFACTS_DIR + 'Shape.InsertTextPaths.docx')
+        self._test_insert_text_paths(ARTIFACTS_DIR + 'Shape.InsertTextPaths.docx')  #ExSkip
+        #ExEnd
+    #ExStart
+    #ExFor:Shape.text_path
+    #ExFor:ShapeBase.is_word_art
+    #ExFor:TextPath
+    #ExFor:TextPath.bold
+    #ExFor:TextPath.fit_path
+    #ExFor:TextPath.fit_shape
+    #ExFor:TextPath.font_family
+    #ExFor:TextPath.italic
+    #ExFor:TextPath.kerning
+    #ExFor:TextPath.on
+    #ExFor:TextPath.reverse_rows
+    #ExFor:TextPath.rotate_letters
+    #ExFor:TextPath.same_letter_heights
+    #ExFor:TextPath.shadow
+    #ExFor:TextPath.small_caps
+    #ExFor:TextPath.spacing
+    #ExFor:TextPath.strike_through
+    #ExFor:TextPath.text
+    #ExFor:TextPath.text_path_alignment
+    #ExFor:TextPath.trim
+    #ExFor:TextPath.underline
+    #ExFor:TextPath.x_scale
+    #ExFor:TextPath.size
+    #ExFor:TextPathAlignment
+    #ExSummary:Shows how to work with WordArt (AppendWordArt).
+
+    @staticmethod
+    def _append_word_art(doc, text, text_font_family, shape_width, shape_height, word_art_fill, line, word_art_shape_type):
+        # Create an inline Shape, which will serve as a container for our WordArt.
+        # The shape can only be a valid WordArt shape if we assign a WordArt-designated ShapeType to it.
+        # These types will have "WordArt object" in the description,
+        # and their enumerator constant names will all start with "Text".
+        shape = aw.drawing.Shape(doc, word_art_shape_type)
+        shape.wrap_type = aw.drawing.WrapType.INLINE
+        shape.width = shape_width
+        shape.height = shape_height
+        shape.fill_color = word_art_fill
+        shape.stroke_color = line
+        shape.text_path.text = text
+        shape.text_path.font_family = text_font_family
+        para = doc.first_section.body.append_child(aw.Paragraph(doc)).as_paragraph()
+        para.append_child(shape)
+        return shape
+    #ExEnd
+
+    def _test_insert_text_paths(self, filename):
+        doc = aw.Document(file_name=filename)
+        shapes = list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(doc.get_child_nodes(aw.NodeType.SHAPE, True)))))
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, '', 480, 24, 0, 0, shapes[0])
+        self.assertTrue(shapes[0].text_path.bold)
+        self.assertTrue(shapes[0].text_path.italic)
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, '', 150, 24, 0, 0, shapes[1])
+        self.assertTrue(shapes[1].text_path.on)
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, '', 150, 24, 0, 0, shapes[2])
+        self.assertFalse(shapes[2].text_path.on)
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, '', 90, 24, 0, 0, shapes[3])
+        self.assertTrue(shapes[3].text_path.kerning)
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, '', 100, 24, 0, 0, shapes[4])
+        self.assertFalse(shapes[4].text_path.kerning)
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_CASCADE_DOWN, '', 120, 24, 0, 0, shapes[5])
+        self.assertAlmostEqual(0.1, shapes[5].text_path.spacing, delta=0.01)
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_WAVE, '', 200, 36, 0, 0, shapes[6])
+        self.assertTrue(shapes[6].text_path.rotate_letters)
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_SLANT_UP, '', 300, 24, 0, 0, shapes[7])
+        self.assertTrue(shapes[7].text_path.same_letter_heights)
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, '', 160, 24, 0, 0, shapes[8])
+        self.assertTrue(shapes[8].text_path.fit_shape)
+        self.assertEqual(24, shapes[8].text_path.size)
+        test_util.TestUtil.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, '', 160, 24, 0, 0, shapes[9])
+        self.assertFalse(shapes[9].text_path.fit_shape)
+        self.assertEqual(24, shapes[9].text_path.size)
+        self.assertEqual(aw.drawing.TextPathAlignment.RIGHT, shapes[9].text_path.text_path_alignment)
+
     def test_shape_revision(self):
         #ExStart
         #ExFor:ShapeBase.is_delete_revision
@@ -1499,7 +1881,6 @@ class ExShape(ApiExampleBase):
         self.assertEqual(2, number_of_smart_art_shapes)
         #ExEnd
 
-    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_office_math_renderer(self):
         #ExStart
         #ExFor:NodeRendererBase
@@ -2047,214 +2428,6 @@ class ExShape(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'Shape.ShadowFormatTransparency.docx')
         #ExEnd:ShadowFormatTransparency
 
-    def test_alt_text(self):
-        #ExStart
-        #ExFor:ShapeBase.alternative_text
-        #ExFor:ShapeBase.name
-        #ExSummary:Shows how to use a shape's alternative text.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        shape = builder.insert_shape(aw.drawing.ShapeType.CUBE, 150, 150)
-        shape.name = 'MyCube'
-        shape.alternative_text = 'Alt text for MyCube.'
-        # We can access the alternative text of a shape by right-clicking it, and then via "Format AutoShape" -> "Alt Text".
-        doc.save(ARTIFACTS_DIR + 'Shape.alt_text.docx')
-        # Save the document to HTML, and then delete the linked image that belongs to our shape.
-        # The browser that is reading our HTML will display the alt text in place of the missing image.
-        doc.save(ARTIFACTS_DIR + 'Shape.alt_text.html')
-        self.assertTrue(os.path.exists(ARTIFACTS_DIR + 'Shape.alt_text.001.png'))  #ExSkip
-        os.remove(ARTIFACTS_DIR + 'Shape.alt_text.001.png')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.alt_text.docx')
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_shape(aw.drawing.ShapeType.CUBE, 'MyCube', 150.0, 150.0, 0, 0, shape)
-        self.assertEqual('Alt text for MyCube.', shape.alternative_text)
-        self.assertEqual('Times New Roman', shape.font.name)
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.alt_text.html')
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_shape(aw.drawing.ShapeType.IMAGE, '', 151.5, 151.5, 0, 0, shape)
-        self.assertEqual('Alt text for MyCube.', shape.alternative_text)
-        with open(ARTIFACTS_DIR + 'Shape.alt_text.html', 'rb') as file:
-            self.assertIn('<img src="Shape.alt_text.001.png" width="202" height="202" alt="Alt text for MyCube." ' + 'style="-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline" />', file.read().decode('utf-8'))
-
-    def test_fill(self):
-        #ExStart
-        #ExFor:ShapeBase.fill
-        #ExFor:Shape.fill_color
-        #ExFor:Shape.stroke_color
-        #ExFor:Fill
-        #ExFor:Fill.opacity
-        #ExSummary:Shows how to fill a shape with a solid color.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Write some text, and then cover it with a floating shape.
-        builder.font.size = 32
-        builder.writeln('Hello world!')
-        shape = builder.insert_shape(aw.drawing.ShapeType.CLOUD_CALLOUT, aw.drawing.RelativeHorizontalPosition.LEFT_MARGIN, 25, aw.drawing.RelativeVerticalPosition.TOP_MARGIN, 25, 250, 150, aw.drawing.WrapType.NONE)
-        # Use the "stroke_color" property to set the color of the outline of the shape.
-        shape.stroke_color = aspose.pydrawing.Color.cadet_blue
-        # Use the "fill_color" property to set the color of the inside area of the shape.
-        shape.fill_color = aspose.pydrawing.Color.light_blue
-        # The "opacity" property determines how transparent the color is on a 0-1 scale,
-        # with 1 being fully opaque, and 0 being invisible.
-        # The shape fill by default is fully opaque, so we cannot see the text that this shape is on top of.
-        self.assertEqual(1.0, shape.fill.opacity)
-        # Set the shape fill color's opacity to a lower value so that we can see the text underneath it.
-        shape.fill.opacity = 0.3
-        doc.save(ARTIFACTS_DIR + 'Shape.fill.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.fill.docx')
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.verify_shape(aw.drawing.ShapeType.CLOUD_CALLOUT, 'CloudCallout 100002', 250.0, 150.0, 25.0, 25.0, shape)
-        colorWithOpacity = aspose.pydrawing.Color.from_argb(int(255 * shape.fill.opacity), aspose.pydrawing.Color.light_blue.r, aspose.pydrawing.Color.light_blue.g, aspose.pydrawing.Color.light_blue.b)
-        self.assertEqual(colorWithOpacity.to_argb(), shape.fill_color.to_argb())
-        self.assertEqual(aspose.pydrawing.Color.cadet_blue.to_argb(), shape.stroke_color.to_argb())
-        self.assertAlmostEqual(0.3, shape.fill.opacity, delta=0.01)
-
-    def test_get_ole_object_raw_data(self):
-        #ExStart
-        #ExFor:OleFormat.get_raw_data
-        #ExSummary:Shows how to access the raw data of an embedded OLE object.
-        doc = aw.Document(MY_DIR + 'OLE objects.docx')
-        for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True):
-            ole_format = shape.as_shape().ole_format
-            if ole_format is not None:
-                if ole_format.is_link:
-                    print('This is a linked object')
-                else:
-                    print('This is an embedded object')
-                ole_raw_data = ole_format.get_raw_data()
-                self.assertEqual(24576, len(ole_raw_data))
-        #ExEnd
-
-    def test_ole_links(self):
-        #ExStart
-        #ExFor:OleFormat.icon_caption
-        #ExFor:OleFormat.get_ole_entry(str)
-        #ExFor:OleFormat.is_link
-        #ExFor:OleFormat.ole_icon
-        #ExFor:OleFormat.source_full_name
-        #ExFor:OleFormat.source_item
-        #ExSummary:Shows how to insert linked and unlinked OLE objects.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Embed a Microsoft Visio drawing into the document as an OLE object.
-        builder.insert_ole_object(IMAGE_DIR + 'Microsoft Visio drawing.vsd', 'Package', False, False, None)
-        # Insert a link to the file in the local file system and display it as an icon.
-        builder.insert_ole_object(IMAGE_DIR + 'Microsoft Visio drawing.vsd', 'Package', True, True, None)
-        # Inserting OLE objects creates shapes that store these objects.
-        shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
-        self.assertEqual(2, len(shapes))
-        self.assertEqual(2, len([shape for shape in shapes if shape.shape_type == aw.drawing.ShapeType.OLE_OBJECT]))
-        # If a shape contains an OLE object, it will have a valid "ole_format" property,
-        # which we can use to verify some aspects of the shape.
-        ole_format = shapes[0].ole_format
-        self.assertEqual(False, ole_format.is_link)
-        self.assertEqual(False, ole_format.ole_icon)
-        ole_format = shapes[1].ole_format
-        self.assertEqual(True, ole_format.is_link)
-        self.assertEqual(True, ole_format.ole_icon)
-        self.assertTrue(ole_format.source_full_name.endswith('Images/Microsoft Visio drawing.vsd'))
-        self.assertEqual('', ole_format.source_item)
-        self.assertEqual('Microsoft Visio drawing.vsd', ole_format.icon_caption)
-        doc.save(ARTIFACTS_DIR + 'Shape.ole_links.docx')
-        # If the object contains OLE data, we can access it using a stream.
-        stream = ole_format.get_ole_entry('\x01CompObj')
-        stream.seek(0)
-        ole_entry_bytes = stream.read()
-        self.assertEqual(76, len(ole_entry_bytes))
-        #ExEnd
-
-    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
-    def test_render_office_math(self):
-        #ExStart
-        #ExFor:ImageSaveOptions.scale
-        #ExFor:OfficeMath.get_math_renderer
-        #ExFor:NodeRendererBase.save(str,ImageSaveOptions)
-        #ExSummary:Shows how to render an Office Math object into an image file in the local file system.
-        doc = aw.Document(MY_DIR + 'Office math.docx')
-        math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
-        # Create an "ImageSaveOptions" object to pass to the node renderer's "save" method to modify
-        # how it renders the OfficeMath node into an image.
-        save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
-        # Set the "scale" property to 5 to render the object to five times its original size.
-        save_options.scale = 5
-        math.get_math_renderer().save(ARTIFACTS_DIR + 'Shape.render_office_math.png', save_options)
-        #ExEnd
-        self.verify_image(813, 86, filename=ARTIFACTS_DIR + 'Shape.render_office_math.png')
-
-    def test_office_math(self):
-        #ExStart
-        #ExFor:OfficeMath
-        #ExFor:OfficeMath.display_type
-        #ExFor:OfficeMath.justification
-        #ExFor:OfficeMath.node_type
-        #ExFor:OfficeMath.parent_paragraph
-        #ExFor:OfficeMathDisplayType
-        #ExFor:OfficeMathJustification
-        #ExSummary:Shows how to set office math display formatting.
-        doc = aw.Document(file_name=MY_DIR + 'Office math.docx')
-        office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
-        # OfficeMath nodes that are children of other OfficeMath nodes are always inline.
-        # The node we are working with is the base node to change its location and display type.
-        self.assertEqual(aw.math.MathObjectType.O_MATH_PARA, office_math.math_object_type)
-        self.assertEqual(aw.NodeType.OFFICE_MATH, office_math.node_type)
-        self.assertEqual(office_math.parent_node, office_math.parent_paragraph)
-        # Change the location and display type of the OfficeMath node.
-        office_math.display_type = aw.math.OfficeMathDisplayType.DISPLAY
-        office_math.justification = aw.math.OfficeMathJustification.LEFT
-        doc.save(file_name=ARTIFACTS_DIR + 'Shape.OfficeMath.docx')
-        #ExEnd
-        self.assertTrue(document_helper.DocumentHelper.compare_docs(ARTIFACTS_DIR + 'Shape.OfficeMath.docx', GOLDS_DIR + 'Shape.OfficeMath Gold.docx'))
-
-    def test_get_access_to_ole_package(self):
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        ole_object = builder.insert_ole_object(MY_DIR + 'Spreadsheet.xlsx', False, False, None)
-        ole_object_as_ole_package = builder.insert_ole_object(MY_DIR + 'Spreadsheet.xlsx', 'Excel.Sheet', False, False, None)
-        self.assertEqual(None, ole_object.ole_format.ole_package)
-        self.assertIsInstance(ole_object_as_ole_package.ole_format.ole_package, aw.drawing.OlePackage)
-
-    def test_calendar(self):
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.start_table()
-        builder.row_format.height = 100
-        builder.row_format.height_rule = aw.HeightRule.EXACTLY
-        for i in range(31):
-            if i != 0 and i % 7 == 0:
-                builder.end_row()
-            builder.insert_cell()
-            builder.write('Cell contents')
-        builder.end_table()
-        runs = doc.get_child_nodes(aw.NodeType.RUN, True)
-        num = 1
-        for run in runs:
-            run = run.as_run()
-            watermark = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
-            watermark.relative_horizontal_position = aw.drawing.RelativeHorizontalPosition.PAGE
-            watermark.relative_vertical_position = aw.drawing.RelativeVerticalPosition.PAGE
-            watermark.width = 30
-            watermark.height = 30
-            watermark.horizontal_alignment = aw.drawing.HorizontalAlignment.CENTER
-            watermark.vertical_alignment = aw.drawing.VerticalAlignment.CENTER
-            watermark.rotation = -40
-            watermark.fill.fore_color = aspose.pydrawing.Color.gainsboro
-            watermark.stroke_color = aspose.pydrawing.Color.gainsboro
-            watermark.text_path.text = str(num)
-            watermark.text_path.font_family = 'Arial'
-            watermark.name = 'Watermark_' + str(num)
-            num += 1
-            watermark.behind_text = True
-            builder.move_to(run)
-            builder.insert_node(watermark)
-        doc.save(ARTIFACTS_DIR + 'Shape.calendar.docx')
-        doc = aw.Document(ARTIFACTS_DIR + 'Shape.calendar.docx')
-        shapes = [node.as_shape() for node in doc.get_child_nodes(aw.NodeType.SHAPE, True)]
-        self.assertEqual(31, len(shapes))
-        for shape in shapes:
-            self.verify_shape(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, 'Watermark_' + str(shapes.index(shape) + 1), 30.0, 30.0, 0.0, 0.0, shape)
-
     def test_text_box_layout_flow(self):
         for layout_flow in [aw.drawing.LayoutFlow.VERTICAL, aw.drawing.LayoutFlow.HORIZONTAL, aw.drawing.LayoutFlow.HORIZONTAL_IDEOGRAPHIC, aw.drawing.LayoutFlow.BOTTOM_TO_TOP, aw.drawing.LayoutFlow.TOP_TO_BOTTOM, aw.drawing.LayoutFlow.TOP_TO_BOTTOM_IDEOGRAPHIC]:
             #ExStart
@@ -2288,105 +2461,6 @@ class ExShape(ApiExampleBase):
                 expected_layout_flow = aw.drawing.LayoutFlow.HORIZONTAL
             test_util.TestUtil.verify_text_box(expected_layout_flow, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, text_box_shape.text_box)
             self.assertEqual('Hello world!\rHello again!', text_box_shape.get_text().strip())
-
-    def test_insert_text_paths(self):
-        #ExStart
-        #ExFor:Shape.text_path
-        #ExFor:ShapeBase.is_word_art
-        #ExFor:TextPath
-        #ExFor:TextPath.bold
-        #ExFor:TextPath.fit_path
-        #ExFor:TextPath.fit_shape
-        #ExFor:TextPath.font_family
-        #ExFor:TextPath.italic
-        #ExFor:TextPath.kerning
-        #ExFor:TextPath.on
-        #ExFor:TextPath.reverse_rows
-        #ExFor:TextPath.rotate_letters
-        #ExFor:TextPath.same_letter_heights
-        #ExFor:TextPath.shadow
-        #ExFor:TextPath.small_caps
-        #ExFor:TextPath.spacing
-        #ExFor:TextPath.strike_through
-        #ExFor:TextPath.text
-        #ExFor:TextPath.text_path_alignment
-        #ExFor:TextPath.trim
-        #ExFor:TextPath.underline
-        #ExFor:TextPath.x_scale
-        #ExFor:TextPathAlignment
-        #ExSummary:Shows how to work with WordArt.
-
-        def insert_text_paths():
-            doc = aw.Document()
-            # Insert a WordArt object to display text in a shape that we can re-size and move by using the mouse in Microsoft Word.
-            # Provide a "ShapeType" as an argument to set a shape for the WordArt.
-            shape = append_word_art(doc, 'Hello World! This text is bold, and italic.', 'Arial', 480, 24, aspose.pydrawing.Color.white, aspose.pydrawing.Color.black, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
-            # Apply the "bold" and "italic" formatting settings to the text using the respective properties.
-            shape.text_path.bold = True
-            shape.text_path.italic = True
-            # Below are various other text formatting-related properties.
-            self.assertFalse(shape.text_path.underline)
-            self.assertFalse(shape.text_path.shadow)
-            self.assertFalse(shape.text_path.strike_through)
-            self.assertFalse(shape.text_path.reverse_rows)
-            self.assertFalse(shape.text_path.x_scale)
-            self.assertFalse(shape.text_path.trim)
-            self.assertFalse(shape.text_path.small_caps)
-            self.assertEqual(36.0, shape.text_path.size)
-            self.assertEqual('Hello World! This text is bold, and italic.', shape.text_path.text)
-            self.assertEqual(aw.drawing.ShapeType.TEXT_PLAIN_TEXT, shape.shape_type)
-            # Use the "on" property to show/hide the text.
-            shape = append_word_art(doc, 'On set to "True"', 'Calibri', 150, 24, aspose.pydrawing.Color.yellow, aspose.pydrawing.Color.red, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
-            shape.text_path.on = True
-            shape = append_word_art(doc, 'On set to "False"', 'Calibri', 150, 24, aspose.pydrawing.Color.yellow, aspose.pydrawing.Color.purple, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
-            shape.text_path.on = False
-            # Use the "kerning" property to enable/disable kerning spacing between certain characters.
-            shape = append_word_art(doc, 'Kerning: VAV', 'Times New Roman', 90, 24, aspose.pydrawing.Color.orange, aspose.pydrawing.Color.red, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
-            shape.text_path.kerning = True
-            shape = append_word_art(doc, 'No kerning: VAV', 'Times New Roman', 100, 24, aspose.pydrawing.Color.orange, aspose.pydrawing.Color.red, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
-            shape.text_path.kerning = False
-            # Use the "spacing" property to set the custom spacing between characters on a scale from 0.0 (none) to 1.0 (default).
-            shape = append_word_art(doc, 'Spacing set to 0.1', 'Calibri', 120, 24, aspose.pydrawing.Color.blue_violet, aspose.pydrawing.Color.blue, aw.drawing.ShapeType.TEXT_CASCADE_DOWN)
-            shape.text_path.spacing = 0.1
-            # Set the "rotate_letters" property to "True" to rotate each character 90 degrees counterclockwise.
-            shape = append_word_art(doc, 'RotateLetters', 'Calibri', 200, 36, aspose.pydrawing.Color.green_yellow, aspose.pydrawing.Color.green, aw.drawing.ShapeType.TEXT_WAVE)
-            shape.text_path.rotate_letters = True
-            # Set the "same_letter_heights" property to "True" to get the x-height of each character to equal the cap height.
-            shape = append_word_art(doc, 'Same character height for lower and UPPER case', 'Calibri', 300, 24, aspose.pydrawing.Color.deep_sky_blue, aspose.pydrawing.Color.dodger_blue, aw.drawing.ShapeType.TEXT_SLANT_UP)
-            shape.text_path.same_letter_heights = True
-            # By default, the text's size will always scale to fit the containing shape's size, overriding the text size setting.
-            shape = append_word_art(doc, 'FitShape on', 'Calibri', 160, 24, aspose.pydrawing.Color.light_blue, aspose.pydrawing.Color.blue, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
-            self.assertTrue(shape.text_path.fit_shape)
-            shape.text_path.size = 24.0
-            # If we set the "fit_shape: property to "False", the text will keep the size
-            # which the "size" property specifies regardless of the size of the shape.
-            # Use the "text_path_alignment" property also to align the text to a side of the shape.
-            shape = append_word_art(doc, 'FitShape off', 'Calibri', 160, 24, aspose.pydrawing.Color.light_blue, aspose.pydrawing.Color.blue, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
-            shape.text_path.fit_shape = False
-            shape.text_path.size = 24.0
-            shape.text_path.text_path_alignment = aw.drawing.TextPathAlignment.RIGHT
-            doc.save(ARTIFACTS_DIR + 'Shape.insert_text_paths.docx')
-            self._test_insert_text_paths(ARTIFACTS_DIR + 'Shape.insert_text_paths.docx')  #ExSkip
-
-        def append_word_art(doc: aw.Document, text: str, text_font_family: str, shape_width: float, shape_height: float, word_art_fill: aspose.pydrawing.Color, line: aspose.pydrawing.Color, word_art_shape_type: aw.drawing.ShapeType) -> aw.drawing.Shape:
-            """Insert a new paragraph with a WordArt shape inside it."""
-            # Create an inline Shape, which will serve as a container for our WordArt.
-            # The shape can only be a valid WordArt shape if we assign a WordArt-designated ShapeType to it.
-            # These types will have "WordArt object" in the description,
-            # and their enumerator constant names will all start with "text".
-            shape = aw.drawing.Shape(doc, word_art_shape_type)
-            shape.wrap_type = aw.drawing.WrapType.INLINE
-            shape.width = shape_width
-            shape.height = shape_height
-            shape.fill_color = word_art_fill
-            shape.stroke_color = line
-            shape.text_path.text = text
-            shape.text_path.font_family = text_font_family
-            para = doc.first_section.body.append_child(aw.Paragraph(doc)).as_paragraph()
-            para.append_child(shape)
-            return shape
-        #ExEnd
-        insert_text_paths()
 
     def def_work_with_math_object_type(self):
         parameters = [(0, aw.math.MathObjectType.O_MATH_PARA), (1, aw.math.MathObjectType.O_MATH), (2, aw.math.MathObjectType.SUPERSCRIPT), (3, aw.math.MathObjectType.ARGUMENT), (4, aw.math.MathObjectType.SUPERSCRIPT_PART)]

@@ -1,3 +1,11 @@
+import aspose.pydrawing as drawing
+import os
+import io
+from aspose.words import Document
+from aspose.words.saving import PdfTextCompression
+from aspose.words.saving import PdfTextCompression
+from datetime import timedelta, timezone
+import sys
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
@@ -5,14 +13,6 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import aspose.pydrawing as drawing
-import sys
-import os
-import io
-from aspose.words import Document
-from aspose.words.saving import PdfTextCompression
-from aspose.words.saving import PdfTextCompression
-from datetime import timedelta, timezone
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.fonts
@@ -310,18 +310,23 @@ class ExPdfSaveOptions(ApiExampleBase):
         #ExEnd
 
     def test_image_color_space_export_mode(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        from pathlib import Path
+        # Handle IMAGE_DIR if it's bytes
+        if isinstance(IMAGE_DIR, bytes):
+            IMAGE_DIR = IMAGE_DIR.decode('utf-8')
+        # Handle ARTIFACTS_DIR if it's bytes
+        if isinstance(ARTIFACTS_DIR, bytes):
+            ARTIFACTS_DIR = ARTIFACTS_DIR.decode('utf-8')
         for pdf_image_color_space_export_mode in [aw.saving.PdfImageColorSpaceExportMode.AUTO, aw.saving.PdfImageColorSpaceExportMode.SIMPLE_CMYK]:
-            #ExStart
-            #ExFor:PdfImageColorSpaceExportMode
-            #ExFor:PdfSaveOptions.image_color_space_export_mode
-            #ExSummary:Shows how to set a different color space for images in a document as we export it to PDF.
             doc = aw.Document()
             builder = aw.DocumentBuilder(doc=doc)
             builder.writeln('Jpeg image:')
-            builder.insert_image(file_name=IMAGE_DIR + 'Logo.jpg')
+            builder.insert_image(file_name=str(Path(IMAGE_DIR) / 'Logo.jpg'))
             builder.insert_paragraph()
             builder.writeln('Png image:')
-            builder.insert_image(file_name=IMAGE_DIR + 'Transparent background logo.png')
+            builder.insert_image(file_name=str(Path(IMAGE_DIR) / 'Transparent background logo.png'))
             # Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
             # to modify how that method converts the document to .PDF.
             pdf_save_options = aw.saving.PdfSaveOptions()
@@ -332,7 +337,7 @@ class ExPdfSaveOptions(ApiExampleBase):
             # to use the CMYK color space for all images in the saved PDF.
             # Aspose.Words will also apply Flate compression to all images and ignore the "ImageCompression" property's value.
             pdf_save_options.image_color_space_export_mode = pdf_image_color_space_export_mode
-            doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.ImageColorSpaceExportMode.pdf', save_options=pdf_save_options)
+            doc.save(file_name=str(Path(ARTIFACTS_DIR) / 'PdfSaveOptions.ImageColorSpaceExportMode.pdf'), save_options=pdf_save_options)
         #ExEnd
 
     def test_downsample_options(self):
@@ -422,7 +427,7 @@ class ExPdfSaveOptions(ApiExampleBase):
             builder.insert_hyperlink('Testlink', uri, False)
             doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.EscapedUri.pdf')
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_open_hyperlinks_in_new_window(self):
         for open_hyperlinks_in_new_window in [False, True]:
             #ExStart
@@ -444,6 +449,34 @@ class ExPdfSaveOptions(ApiExampleBase):
                 test_util.TestUtil.file_contains_string('<</Type/Annot/Subtype/Link/Rect[70.84999847 707.35101318 110.17799377 721.15002441]/BS' + '<</Type/Border/S/S/W 0>>/A<</Type/Action/S/JavaScript/JS(app.launchURL\\("https://www.google.com/search?q=%20aspose", true\\);)>>>>', ARTIFACTS_DIR + 'PdfSaveOptions.OpenHyperlinksInNewWindow.pdf')
             else:
                 test_util.TestUtil.file_contains_string('<</Type/Annot/Subtype/Link/Rect[70.84999847 707.35101318 110.17799377 721.15002441]/BS' + '<</Type/Border/S/S/W 0>>/A<</Type/Action/S/URI/URI(https://www.google.com/search?q=%20aspose)>>>>', ARTIFACTS_DIR + 'PdfSaveOptions.OpenHyperlinksInNewWindow.pdf')
+
+    def test_handle_binary_raster_warnings(self):
+        #ExStart
+        #ExFor:MetafileRenderingMode
+        #ExFor:MetafileRenderingOptions
+        #ExFor:MetafileRenderingOptions.emulate_raster_operations
+        #ExFor:MetafileRenderingOptions.rendering_mode
+        #ExFor:IWarningCallback
+        #ExFor:FixedPageSaveOptions.metafile_rendering_options
+        #ExSummary:Shows added a fallback to bitmap rendering and changing type of warnings about unsupported metafile records.
+        doc = aw.Document(file_name=MY_DIR + 'WMF with image.docx')
+        metafile_rendering_options = aw.saving.MetafileRenderingOptions()
+        # Set the "EmulateRasterOperations" property to "false" to fall back to bitmap when
+        # it encounters a metafile, which will require raster operations to render in the output PDF.
+        metafile_rendering_options.emulate_raster_operations = False
+        # Set the "RenderingMode" property to "VectorWithFallback" to try to render every metafile using vector graphics.
+        metafile_rendering_options.rendering_mode = aw.saving.MetafileRenderingMode.VECTOR_WITH_FALLBACK
+        # Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
+        # to modify how that method converts the document to .PDF and applies the configuration
+        # in our MetafileRenderingOptions object to the saving operation.
+        save_options = aw.saving.PdfSaveOptions()
+        save_options.metafile_rendering_options = metafile_rendering_options
+        callback = self.HandleDocumentWarnings()
+        doc.warning_callback = callback
+        doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.HandleBinaryRasterWarnings.pdf', save_options=save_options)
+        self.assertEqual(1, callback.warnings.count)
+        self.assertEqual("'R2_XORPEN' binary raster operation is not supported.", callback.warnings[0].description)
+        #ExEnd
 
     def test_header_footer_bookmarks_export_mode(self):
         for header_footer_bookmarks_export_mode in [aw.saving.HeaderFooterBookmarksExportMode.NONE, aw.saving.HeaderFooterBookmarksExportMode.FIRST, aw.saving.HeaderFooterBookmarksExportMode.ALL]:
@@ -473,6 +506,13 @@ class ExPdfSaveOptions(ApiExampleBase):
             save_options.header_footer_bookmarks_export_mode = header_footer_bookmarks_export_mode
             doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.HeaderFooterBookmarksExportMode.pdf', save_options=save_options)
         #ExEnd
+
+    def test_unsupported_image_format_warning(self):
+        doc = aw.Document(file_name=MY_DIR + 'Corrupted image.docx')
+        save_warning_callback = self.SaveWarningCallback()
+        doc.warning_callback = save_warning_callback
+        doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOption.UnsupportedImageFormatWarning.pdf', save_format=aw.SaveFormat.PDF)
+        self.assertEqual('Image can not be processed. Possibly unsupported image format.', save_warning_callback.save_warnings[0].description)
 
     def test_emulate_rendering_to_size_on_page(self):
         for render_to_size in [False, True]:
@@ -527,6 +567,7 @@ class ExPdfSaveOptions(ApiExampleBase):
             aw.fonts.FontSettings.default_instance.set_fonts_sources(sources=original_fonts_sources)
             #ExEnd
 
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_embed_windows_fonts(self):
         for pdf_font_embedding_mode in [aw.saving.PdfFontEmbeddingMode.EMBED_ALL, aw.saving.PdfFontEmbeddingMode.EMBED_NONE, aw.saving.PdfFontEmbeddingMode.EMBED_NONSTANDARD]:
             #ExStart
@@ -648,7 +689,46 @@ class ExPdfSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.ZoomBehaviour.pdf', save_options=options)
         #ExEnd
 
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
+    def test_custom_properties_export(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        from pathlib import Path
+        import test_util
+        for pdf_custom_properties_export_mode in [aw.saving.PdfCustomPropertiesExport.NONE, aw.saving.PdfCustomPropertiesExport.STANDARD, aw.saving.PdfCustomPropertiesExport.METADATA]:
+            #ExStart
+            #ExFor:PdfCustomPropertiesExport
+            #ExFor:PdfSaveOptions.custom_properties_export
+            #ExSummary:Shows how to export custom properties while converting a document to PDF.
+            doc = aw.Document()
+            doc.custom_document_properties.add(name='Company', value='My value')
+            # Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
+            # to modify how that method converts the document to .PDF.
+            options = aw.saving.PdfSaveOptions()
+            # Set the "CustomPropertiesExport" property to "PdfCustomPropertiesExport.None" to discard
+            # custom document properties as we save the document to .PDF.
+            # Set the "CustomPropertiesExport" property to "PdfCustomPropertiesExport.Standard"
+            # to preserve custom properties within the output PDF document.
+            # Set the "CustomPropertiesExport" property to "PdfCustomPropertiesExport.Metadata"
+            # to preserve custom properties in an XMP packet.
+            options.custom_properties_export = pdf_custom_properties_export_mode
+            doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.CustomPropertiesExport.pdf', save_options=options)
+            #ExEnd
+            switch_condition = pdf_custom_properties_export_mode
+            if switch_condition == aw.saving.PdfCustomPropertiesExport.NONE:
+                # is_running_on_mono is not available in Python, so we assume it's not running on Mono
+                # and proceed with the file check
+                test_util.TestUtil.file_contains_string(doc.custom_document_properties.get_by_name('Company').name, ARTIFACTS_DIR + 'PdfSaveOptions.CustomPropertiesExport.pdf')
+                test_util.TestUtil.file_contains_string('<</Type /Metadata/Subtype /XML/Length 8 0 R/Filter /FlateDecode>>', ARTIFACTS_DIR + 'PdfSaveOptions.CustomPropertiesExport.pdf')
+            elif switch_condition == aw.saving.PdfCustomPropertiesExport.STANDARD:
+                test_util.TestUtil.file_contains_string('<</Creator(þÿ\x00A\x00s\x00p\x00o\x00s\x00e\x00.\x00W\x00o\x00r\x00d\x00s)/Producer(þÿ\x00A\x00s\x00p\x00o\x00s\x00e\x00.\x00W\x00o\x00r\x00d\x00s\x00 \x00f\x00o\x00r\x00', ARTIFACTS_DIR + 'PdfSaveOptions.CustomPropertiesExport.pdf')
+                test_util.TestUtil.file_contains_string('/Company(þÿ\x00M\x00y\x00 \x00v\x00a\x00l\x00u\x00e)>>', ARTIFACTS_DIR + 'PdfSaveOptions.CustomPropertiesExport.pdf')
+            elif switch_condition == aw.saving.PdfCustomPropertiesExport.METADATA:
+                test_util.TestUtil.file_contains_string('<</Type/Metadata/Subtype/XML/Length 8 0 R/Filter/FlateDecode>>', ARTIFACTS_DIR + 'PdfSaveOptions.CustomPropertiesExport.pdf')
+
     def test_drawing_ml_effects(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
         for effects_rendering_mode in [aw.saving.DmlEffectsRenderingMode.NONE, aw.saving.DmlEffectsRenderingMode.SIMPLIFIED, aw.saving.DmlEffectsRenderingMode.FINE]:
             #ExStart
             #ExFor:DmlRenderingMode
@@ -764,6 +844,78 @@ class ExPdfSaveOptions(ApiExampleBase):
             else:
                 test_util.TestUtil.file_contains_string('<</Type/XObject/Subtype/Image/Width 400/Height 400/ColorSpace/DeviceRGB/BitsPerComponent 8/SMask 10 0 R/Length 11 0 R/Filter/FlateDecode>>', ARTIFACTS_DIR + 'PdfSaveOptions.InterpolateImages.pdf')
 
+    def test_dml_3d_effects_rendering_mode_test(self):
+        #ExStart
+        #ExFor:Dml3DEffectsRenderingMode
+        #ExFor:SaveOptions.dml_3d_effects_rendering_mode
+        #ExSummary:Shows how 3D effects are rendered.
+        doc = aw.Document(file_name=MY_DIR + 'DrawingML shape 3D effects.docx')
+        warning_callback = self.RenderCallback()
+        doc.warning_callback = warning_callback
+        save_options = aw.saving.PdfSaveOptions()
+        save_options.dml_3d_effects_rendering_mode = aw.saving.Dml3DEffectsRenderingMode.ADVANCED
+        doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.Dml3DEffectsRenderingModeTest.pdf', save_options=save_options)
+        #ExEnd
+        self.assertEqual(warning_callback.count, 48)
+
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
+    def test_pdf_digital_signature(self):
+        #ExStart
+        #ExFor:PdfDigitalSignatureDetails
+        #ExFor:PdfDigitalSignatureDetails.__init__
+        #ExFor:PdfDigitalSignatureDetails.__init__(CertificateHolder,str,str,datetime)
+        #ExFor:PdfDigitalSignatureDetails.hash_algorithm
+        #ExFor:PdfDigitalSignatureDetails.location
+        #ExFor:PdfDigitalSignatureDetails.reason
+        #ExFor:PdfDigitalSignatureDetails.signature_date
+        #ExFor:PdfDigitalSignatureHashAlgorithm
+        #ExFor:PdfSaveOptions.digital_signature_details
+        #ExFor:PdfDigitalSignatureDetails.certificate_holder
+        #ExSummary:Shows how to sign a generated PDF document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.writeln('Contents of signed PDF.')
+        certificate_holder = aw.digitalsignatures.CertificateHolder.create(file_name=MY_DIR + 'morzal.pfx', password='aw')
+        # Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
+        # to modify how that method converts the document to .PDF.
+        options = aw.saving.PdfSaveOptions()
+        # Configure the "DigitalSignatureDetails" object of the "SaveOptions" object to
+        # digitally sign the document as we render it with the "Save" method.
+        signing_time = datetime.datetime(2015, 7, 20)
+        options.digital_signature_details = aw.saving.PdfDigitalSignatureDetails(certificate_holder, 'Test Signing', 'My Office', signing_time)
+        options.digital_signature_details.hash_algorithm = aw.saving.PdfDigitalSignatureHashAlgorithm.RIPE_MD160
+        self.assertEqual('Test Signing', options.digital_signature_details.reason)
+        self.assertEqual('My Office', options.digital_signature_details.location)
+        self.assertEqual(signing_time, options.digital_signature_details.signature_date)
+        self.assertEqual(certificate_holder, options.digital_signature_details.certificate_holder)
+        doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.PdfDigitalSignature.pdf', save_options=options)
+        #ExEnd
+        test_util.TestUtil.file_contains_string('<</Type/Annot/Subtype/Widget/Rect[0 0 0 0]/FT/Sig/T', ARTIFACTS_DIR + 'PdfSaveOptions.PdfDigitalSignature.pdf')
+        self.assertFalse(aw.FileFormatUtil.detect_file_format(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.PdfDigitalSignature.pdf').has_digital_signature)
+
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
+    def test_pdf_digital_signature_timestamp(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
+        import aspose.words as aw
+        import datetime
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.writeln('Signed PDF contents.')
+        options = aw.saving.PdfSaveOptions()
+        certificate_holder = aw.digitalsignatures.CertificateHolder.create(file_name=MY_DIR + 'morzal.pfx', password='aw')
+        options.digital_signature_details = aw.saving.PdfDigitalSignatureDetails(certificate_holder, 'Test Signing', 'Aspose Office', datetime.datetime.now())
+        # Create a timestamp authority-verified timestamp.
+        options.digital_signature_details.timestamp_settings = aw.saving.PdfDigitalSignatureTimestampSettings(server_url='https://freetsa.org/tsr', user_name='JohnDoe', password='MyPassword')
+        # The default lifespan of the timestamp is 100 seconds.
+        self.assertEqual(100.0, options.digital_signature_details.timestamp_settings.timeout.total_seconds)
+        # We can set our timeout period via the constructor.
+        options.digital_signature_details.timestamp_settings = aw.saving.PdfDigitalSignatureTimestampSettings(server_url='https://freetsa.org/tsr', user_name='JohnDoe', password='MyPassword', timeout=datetime.timedelta(minutes=30))
+        self.assertEqual(1800.0, options.digital_signature_details.timestamp_settings.timeout.total_seconds)
+        self.assertEqual('https://freetsa.org/tsr', options.digital_signature_details.timestamp_settings.server_url)
+        self.assertEqual('JohnDoe', options.digital_signature_details.timestamp_settings.user_name)
+        self.assertEqual('MyPassword', options.digital_signature_details.timestamp_settings.password)
+        doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf', save_options=options)
+
     def test_render_metafile(self):
         for rendering_mode in [aw.saving.EmfPlusDualRenderingMode.EMF, aw.saving.EmfPlusDualRenderingMode.EMF_PLUS, aw.saving.EmfPlusDualRenderingMode.EMF_PLUS_WITH_FALLBACK]:
             #ExStart
@@ -811,6 +963,37 @@ class ExPdfSaveOptions(ApiExampleBase):
         save_options.encryption_details = encryption_details
         # When we open this document, we will need to provide the password before accessing its contents.
         doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.EncryptionPermissions.pdf', save_options=save_options)
+        #ExEnd
+
+    def test_export_page_set(self):
+        #ExStart
+        #ExFor:FixedPageSaveOptions.page_set
+        #ExFor:PageSet.all
+        #ExFor:PageSet.even
+        #ExFor:PageSet.odd
+        #ExSummary:Shows how to export Odd pages from the document.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        i = 0
+        while i < 5:
+            builder.writeln(f"Page {i + 1} ({('odd' if i % 2 == 0 else 'even')})")
+            if i < 4:
+                builder.insert_break(aw.BreakType.PAGE_BREAK)
+            i += 1
+        # Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
+        # to modify how that method converts the document to .PDF.
+        options = aw.saving.PdfSaveOptions()
+        # Below are three PageSet properties that we can use to filter out a set of pages from
+        # our document to save in an output PDF document based on the parity of their page numbers.
+        # 1 -  Save only the even-numbered pages:
+        options.page_set = aw.saving.PageSet.even
+        doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.ExportPageSet.Even.pdf', save_options=options)
+        # 2 -  Save only the odd-numbered pages:
+        options.page_set = aw.saving.PageSet.odd
+        doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.ExportPageSet.Odd.pdf', save_options=options)
+        # 3 -  Save every page:
+        options.page_set = aw.saving.PageSet.all
+        doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.ExportPageSet.All.pdf', save_options=options)
         #ExEnd
 
     def test_export_language_to_span_tag(self):
@@ -911,210 +1094,64 @@ class ExPdfSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.ExportFloatingShapesAsInlineTag.pdf', save_options=save_options)
         #ExEnd:ExportFloatingShapesAsInlineTag
 
-    def test_one_page(self):
-        #ExStart
-        #ExFor:FixedPageSaveOptions.page_set
-        #ExFor:Document.save(BytesIO,SaveOptions)
-        #ExSummary:Shows how to convert only some of the pages in a document to PDF.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.writeln('Page 1.')
-        builder.insert_break(aw.BreakType.PAGE_BREAK)
-        builder.writeln('Page 2.')
-        builder.insert_break(aw.BreakType.PAGE_BREAK)
-        builder.writeln('Page 3.')
-        with open(ARTIFACTS_DIR + 'PdfSaveOptions.one_page.pdf', 'wb') as stream:
-            # Create a "PdfSaveOptions" object that we can pass to the document's "save" method
-            # to modify how that method converts the document to .PDF.
-            options = aw.saving.PdfSaveOptions()
-            # Set the "page_index" to "1" to render a portion of the document starting from the second page.
-            options.page_set = aw.saving.PageSet(1)
-            # This document will contain one page starting from page two, which will only contain the second page.
-            doc.save(stream, options)
-        #ExEnd
+    def test_generate_form_field_scripts_datetime(self):
+        for input_file in ['DateTime field.docx', 'DateTime sdt.docx']:
+            #ExStart:GenerateFormFieldScriptsDatetime
+            #ExFor:PdfSaveOptions.generate_form_field_scripts
+            #ExSummary:Shows how to enable generation of JavaScript form field scripts for datetime fields when exporting to PDF.
+            doc = aw.Document(file_name=MY_DIR + input_file)
+            # Create save options and enable form field scripts.
+            # Please note that JavaScript actions are prohibited by PDF/A-1, PDF/A-2 and PDF/A-3 compliance.
+            save_options = aw.saving.PdfSaveOptions()
+            save_options.preserve_form_fields = True
+            save_options.generate_form_field_scripts = True
+            doc.save(file_name=ARTIFACTS_DIR + 'PdfSaveOptions.GenerateFormFieldScriptsDatetime.pdf', save_options=save_options)
+            #ExEnd:GenerateFormFieldScriptsDatetime
+    #ExStart
+    #ExFor:MetafileRenderingMode
+    #ExFor:MetafileRenderingOptions
+    #ExFor:MetafileRenderingOptions.emulate_raster_operations
+    #ExFor:MetafileRenderingOptions.rendering_mode
+    #ExFor:IWarningCallback
+    #ExFor:FixedPageSaveOptions.metafile_rendering_options
+    #ExSummary:Shows added a fallback to bitmap rendering and changing type of warnings about unsupported metafile records (HandleDocumentWarnings).
 
-    def test_note_hyperlinks(self):
-        for create_note_hyperlinks in (False, True):
-            with self.subTest(create_note_hyperlinks=create_note_hyperlinks):
-                #ExStart
-                #ExFor:PdfSaveOptions.create_note_hyperlinks
-                #ExSummary:Shows how to make footnotes and endnotes function as hyperlinks.
-                doc = aw.Document(MY_DIR + 'Footnotes and endnotes.docx')
-                # Create a "PdfSaveOptions" object that we can pass to the document's "save" method
-                # to modify how that method converts the document to .PDF.
-                options = aw.saving.PdfSaveOptions()
-                # Set the "create_note_hyperlinks" property to "True" to turn all footnote/endnote symbols
-                # in the text act as links that, upon clicking, take us to their respective footnotes/endnotes.
-                # Set the "create_note_hyperlinks" property to "False" not to have footnote/endnote symbols link to anything.
-                options.create_note_hyperlinks = create_note_hyperlinks
-                doc.save(ARTIFACTS_DIR + 'PdfSaveOptions.note_hyperlinks.pdf', options)
-                #ExEnd
-                with open(ARTIFACTS_DIR + 'PdfSaveOptions.note_hyperlinks.pdf', 'rb') as file:
-                    content = file.read()
-                if create_note_hyperlinks:
-                    self.assertIn(b'<</Type/Annot/Subtype/Link/Rect[157.80099487 720.90106201 159.35600281 733.55004883]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 677 0]>>', content)
-                    self.assertIn(b'<</Type/Annot/Subtype/Link/Rect[202.16900635 720.90106201 206.06201172 733.55004883]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 79 0]>>', content)
-                    self.assertIn(b'<</Type/Annot/Subtype/Link/Rect[212.23199463 699.2510376 215.34199524 711.90002441]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 654 0]>>', content)
-                    self.assertIn(b'<</Type/Annot/Subtype/Link/Rect[258.15499878 699.2510376 262.04800415 711.90002441]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 68 0]>>', content)
-                    self.assertIn(b'<</Type/Annot/Subtype/Link/Rect[85.05000305 68.19904327 88.66500092 79.69804382]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 202 733 0]>>', content)
-                    self.assertIn(b'<</Type/Annot/Subtype/Link/Rect[85.05000305 56.70004272 88.66500092 68.19904327]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 258 711 0]>>', content)
-                    self.assertIn(b'<</Type/Annot/Subtype/Link/Rect[85.05000305 666.10205078 86.4940033 677.60107422]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 157 733 0]>>', content)
-                    self.assertIn(b'<</Type/Annot/Subtype/Link/Rect[85.05000305 643.10406494 87.93800354 654.60308838]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 212 711 0]>>', content)
-                else:
-                    self.assertNotIn(b'<</Type/Annot/Subtype/Link/Rect', content)
+    class HandleDocumentWarnings(aw.IWarningCallback):
 
-    def test_custom_properties_export(self):
-        for pdf_custom_properties_export_mode in (aw.saving.PdfCustomPropertiesExport.NONE, aw.saving.PdfCustomPropertiesExport.STANDARD, aw.saving.PdfCustomPropertiesExport.METADATA):
-            with self.subTest(pdf_custom_properties_export_mode=pdf_custom_properties_export_mode):
-                #ExStart
-                #ExFor:PdfCustomPropertiesExport
-                #ExFor:PdfSaveOptions.custom_properties_export
-                #ExSummary:Shows how to export custom properties while converting a document to PDF.
-                doc = aw.Document()
-                doc.custom_document_properties.add('Company', 'My value')
-                # Create a "PdfSaveOptions" object that we can pass to the document's "save" method
-                # to modify how that method converts the document to .PDF.
-                options = aw.saving.PdfSaveOptions()
-                # Set the "custom_properties_export" property to "PdfCustomPropertiesExport.NONE" to discard
-                # custom document properties as we save the document to .PDF.
-                # Set the "custom_properties_export" property to "PdfCustomPropertiesExport.STANDARD"
-                # to preserve custom properties within the output PDF document.
-                # Set the "custom_properties_export" property to "PdfCustomPropertiesExport.METADATA"
-                # to preserve custom properties in an XMP packet.
-                options.custom_properties_export = pdf_custom_properties_export_mode
-                doc.save(ARTIFACTS_DIR + 'PdfSaveOptions.custom_properties_export.pdf', options)
-                #ExEnd
-                with open(ARTIFACTS_DIR + 'PdfSaveOptions.custom_properties_export.pdf', 'rb') as file:
-                    content = file.read()
-                if pdf_custom_properties_export_mode == aw.saving.PdfCustomPropertiesExport.NONE:
-                    self.assertNotIn(doc.custom_document_properties[0].name.encode('ascii'), content)
-                    self.assertNotIn(b'<</Type/Metadata/Subtype/XML/Length 8 0 R/Filter/FlateDecode>>', content)
-                elif pdf_custom_properties_export_mode == aw.saving.PdfCustomPropertiesExport.STANDARD:
-                    self.assertIn(b'<</Creator(\xfe\xff\x00A\x00s\x00p\x00o\x00s\x00e\x00.\x00W\x00o\x00r\x00d\x00s)/Producer(\xfe\xff\x00A\x00s\x00p\x00o\x00s\x00e\x00.\x00W\x00o\x00r\x00d\x00s\x00 \x00f\x00o\x00r\x00', content)
-                    self.assertIn(b'/Company(\xfe\xff\x00M\x00y\x00 \x00v\x00a\x00l\x00u\x00e)>>', content)
-                elif pdf_custom_properties_export_mode == aw.saving.PdfCustomPropertiesExport.METADATA:
-                    self.assertIn(b'<</Type/Metadata/Subtype/XML/Length 8 0 R/Filter/FlateDecode>>', content)
+        def __init__(self):
+            self.warnings = aw.WarningInfoCollection()
 
-    def test_pdf_digital_signature(self):
-        #ExStart
-        #ExFor:PdfDigitalSignatureDetails
-        #ExFor:PdfDigitalSignatureDetails.__init__(CertificateHolder,str,str,datetime)
-        #ExFor:PdfDigitalSignatureDetails.hash_algorithm
-        #ExFor:PdfDigitalSignatureDetails.location
-        #ExFor:PdfDigitalSignatureDetails.reason
-        #ExFor:PdfDigitalSignatureDetails.signature_date
-        #ExFor:PdfDigitalSignatureHashAlgorithm
-        #ExFor:PdfSaveOptions.digital_signature_details
-        #ExSummary:Shows how to sign a generated PDF document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.writeln('Contents of signed PDF.')
-        certificate_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + 'morzal.pfx', 'aw')
-        # Create a "PdfSaveOptions" object that we can pass to the document's "save" method
-        # to modify how that method converts the document to .PDF.
-        options = aw.saving.PdfSaveOptions()
-        # Configure the "digital_signature_details" object of the "SaveOptions" object to
-        # digitally sign the document as we render it with the "save" method.
-        signing_time = datetime.datetime.now()
-        import aspose.words.saving as aws
-        options.digital_signature_details = aw.saving.PdfDigitalSignatureDetails(certificate_holder, 'Test Signing', 'My Office', signing_time)
-        options.digital_signature_details.hash_algorithm = aw.saving.PdfDigitalSignatureHashAlgorithm.RIPE_MD160
-        self.assertEqual('Test Signing', options.digital_signature_details.reason)
-        self.assertEqual('My Office', options.digital_signature_details.location)
-        self.assertEqual(signing_time.astimezone(timezone.utc), options.digital_signature_details.signature_date)
-        doc.save(ARTIFACTS_DIR + 'PdfSaveOptions.pdf_digital_signature.pdf', options)
-        #ExEnd
-        with open(ARTIFACTS_DIR + 'PdfSaveOptions.pdf_digital_signature.pdf', 'rb') as file:
-            content = file.read()
-        self.assertIn(b'7 0 obj\r\n' + b'<</Type/Annot/Subtype/Widget/Rect[0 0 0 0]/FT/Sig/T', content)
-        self.assertFalse(aw.FileFormatUtil.detect_file_format(ARTIFACTS_DIR + 'PdfSaveOptions.pdf_digital_signature.pdf').has_digital_signature)
+        def warning(self, info):
+            if info.warning_type == aw.WarningType.MINOR_FORMATTING_LOSS:
+                print('Unsupported operation: ' + info.description)
+                self.warnings.warning(info)
+    #ExEnd
 
-    def test_pdf_digital_signature_timestamp(self):
-        #ExStart
-        #ExFor:PdfDigitalSignatureDetails.timestamp_settings
-        #ExFor:PdfDigitalSignatureTimestampSettings
-        #ExFor:PdfDigitalSignatureTimestampSettings.__init__(str,str,str)
-        #ExFor:PdfDigitalSignatureTimestampSettings.__init__(str,str,str,TimeSpan)
-        #ExFor:PdfDigitalSignatureTimestampSettings.password
-        #ExFor:PdfDigitalSignatureTimestampSettings.server_url
-        #ExFor:PdfDigitalSignatureTimestampSettings.timeout
-        #ExFor:PdfDigitalSignatureTimestampSettings.user_name
-        #ExSummary:Shows how to sign a saved PDF document digitally and timestamp it.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.writeln('Signed PDF contents.')
-        # Create a "PdfSaveOptions" object that we can pass to the document's "save" method
-        # to modify how that method converts the document to .PDF.
-        options = aw.saving.PdfSaveOptions()
-        # Create a digital signature and assign it to our SaveOptions object to sign the document when we save it to PDF.
-        certificate_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + 'morzal.pfx', 'aw')
-        options.digital_signature_details = aw.saving.PdfDigitalSignatureDetails(certificate_holder, 'Test Signing', 'Aspose Office', datetime.datetime.now())
-        # Create a timestamp authority-verified timestamp.
-        options.digital_signature_details.timestamp_settings = aw.saving.PdfDigitalSignatureTimestampSettings('https://freetsa.org/tsr', 'JohnDoe', 'MyPassword')
-        # The default lifespan of the timestamp is 100 seconds.
-        self.assertEqual(100.0, options.digital_signature_details.timestamp_settings.timeout.total_seconds())
-        # We can set our timeout period via the constructor.
-        options.digital_signature_details.timestamp_settings = aw.saving.PdfDigitalSignatureTimestampSettings('https://freetsa.org/tsr', 'JohnDoe', 'MyPassword', timedelta(minutes=30))
-        self.assertEqual(1800.0, options.digital_signature_details.timestamp_settings.timeout.total_seconds())
-        self.assertEqual('https://freetsa.org/tsr', options.digital_signature_details.timestamp_settings.server_url)
-        self.assertEqual('JohnDoe', options.digital_signature_details.timestamp_settings.user_name)
-        self.assertEqual('MyPassword', options.digital_signature_details.timestamp_settings.password)
-        # The "save" method will apply our signature to the output document at this time.
-        doc.save(ARTIFACTS_DIR + 'PdfSaveOptions.pdf_digital_signature_timestamp.pdf', options)
-        #ExEnd
-        self.assertFalse(aw.FileFormatUtil.detect_file_format(ARTIFACTS_DIR + 'PdfSaveOptions.pdf_digital_signature_timestamp.pdf').has_digital_signature)
-        with open(ARTIFACTS_DIR + 'PdfSaveOptions.pdf_digital_signature_timestamp.pdf', 'rb') as file:
-            content = file.read()
-        self.assertIn(b'7 0 obj\r\n' + b'<</Type/Annot/Subtype/Widget/Rect[0 0 0 0]/FT/Sig/T', content)
+    class SaveWarningCallback(aw.IWarningCallback):
 
-    def test_set_numeral_format(self):
-        for numeral_format in (aw.saving.NumeralFormat.ARABIC_INDIC, aw.saving.NumeralFormat.CONTEXT, aw.saving.NumeralFormat.EASTERN_ARABIC_INDIC, aw.saving.NumeralFormat.EUROPEAN, aw.saving.NumeralFormat.SYSTEM):
-            with self.subTest(numeral_forma=numeral_format):
-                #ExStart
-                #ExFor:FixedPageSaveOptions.numeral_format
-                #ExFor:NumeralFormat
-                #ExSummary:Shows how to set the numeral format used when saving to PDF.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                builder.font.locale_id = 4096  # CultureInfo("ar-AR").lcid
-                builder.writeln('1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 50, 100')
-                # Create a "PdfSaveOptions" object that we can pass to the document's "save" method
-                # to modify how that method converts the document to .PDF.
-                options = aw.saving.PdfSaveOptions()
-                # Set the "numeral_format" property to "NumeralFormat.ARABIC_INDIC" to
-                # use glyphs from the U+0660 to U+0669 range as numbers.
-                # Set the "numeral_format" property to "NumeralFormat.CONTEXT" to
-                # look up the locale to determine what number of glyphs to use.
-                # Set the "numeral_format" property to "NumeralFormat.EASTERN_ARABIC_INDIC" to
-                # use glyphs from the U+06F0 to U+06F9 range as numbers.
-                # Set the "numeral_format" property to "NumeralFormat.EUROPEAN" to use european numerals.
-                # Set the "numeral_format" property to "NumeralFormat.SYSTEM" to determine the symbol set from regional settings.
-                options.numeral_format = numeral_format
-                doc.save(ARTIFACTS_DIR + 'PdfSaveOptions.set_numeral_format.pdf', options)
-                #ExEnd
+        def __init__(self):
+            self.save_warnings = aw.WarningInfoCollection()
 
-    def test_export_page_set(self):
-        #ExStart
-        #ExFor:FixedPageSaveOptions.page_set
-        #ExSummary:Shows how to export Odd pages from the document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        for i in range(5):
-            builder.writeln('Page ' + str(i + 1) + '(' + ('odd' if i % 2 == 0 else 'even') + ')')
-            if i < 4:
-                builder.insert_break(aw.BreakType.PAGE_BREAK)
-        # Create a "PdfSaveOptions" object that we can pass to the document's "save" method
-        # to modify how that method converts the document to .PDF.
-        options = aw.saving.PdfSaveOptions()
-        # Below are three "page_set" properties that we can use to filter out a set of pages from
-        # our document to save in an output PDF document based on the parity of their page numbers.
-        # 1 -  Save only the even-numbered pages:
-        options.page_set = aw.saving.PageSet.even
-        doc.save(ARTIFACTS_DIR + 'PdfSaveOptions.export_page_set.even.pdf', options)
-        # 2 -  Save only the odd-numbered pages:
-        options.page_set = aw.saving.PageSet.odd
-        doc.save(ARTIFACTS_DIR + 'PdfSaveOptions.export_page_set.odd.pdf', options)
-        # 3 -  Save every page:
-        options.page_set = aw.saving.PageSet.all
-        doc.save(ARTIFACTS_DIR + 'PdfSaveOptions.export_page_set.all.pdf', options)
-        #ExEnd
+        def warning(self, info):
+            if info.warning_type == aw.WarningType.MINOR_FORMATTING_LOSS:
+                print(f'{info.warning_type}: {info.description}.')
+                self.save_warnings.warning(info)
+
+    class RenderCallback(aw.IWarningCallback):
+
+        @property
+        def count(self):
+            return len(self.m_warnings)
+
+        def __init__(self):
+            self.m_warnings = []
+
+        def warning(self, info):
+            print(f'{info.warning_type}: {info.description}.')
+            self.m_warnings.append(info)
+
+        def clear(self):
+            mWarnings.Clear()
+
+        def contains(self, source, type, description):
+            return any([warning.source == source and warning.warning_type == type and (warning.description == description) for warning in self.m_warnings])

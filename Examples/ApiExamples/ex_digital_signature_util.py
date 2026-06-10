@@ -1,3 +1,5 @@
+from aspose.words.digitalsignatures import DigitalSignatureUtil
+import sys
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
@@ -5,7 +7,6 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from aspose.words.digitalsignatures import DigitalSignatureUtil
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.loading
@@ -57,7 +58,7 @@ class ExDigitalSignatureUtil(ApiExampleBase):
         aw.digitalsignatures.DigitalSignatureUtil.remove_all_signatures(src_file_name=MY_DIR + 'Digitally signed.odt', dst_file_name=ARTIFACTS_DIR + 'DigitalSignatureUtil.RemoveSignatures.odt')
         self.assertEqual(0, aw.digitalsignatures.DigitalSignatureUtil.load_signatures(file_name=ARTIFACTS_DIR + 'DigitalSignatureUtil.RemoveSignatures.odt').count)
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_sign_document(self):
         #ExStart
         #ExFor:CertificateHolder
