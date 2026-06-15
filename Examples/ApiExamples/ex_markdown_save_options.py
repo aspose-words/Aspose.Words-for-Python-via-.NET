@@ -1,3 +1,7 @@
+import datetime
+import glob
+from typing import List
+import sys
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
@@ -5,15 +9,12 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import datetime
-import glob
-from typing import List
-import sys
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.saving
 import document_helper
 import os
+import pathlib
 import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, GOLDS_DIR, IMAGE_DIR, MY_DIR, FONTS_DIR
@@ -52,6 +53,41 @@ class ExMarkdownSaveOptions(ApiExampleBase):
                 self.assertEqual(aw.ParagraphAlignment.RIGHT, table.first_row.cells[0].first_paragraph.paragraph_format.alignment)
                 self.assertEqual(aw.ParagraphAlignment.RIGHT, table.first_row.cells[1].first_paragraph.paragraph_format.alignment)
         #ExEnd
+
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
+    def test_rename_images(self):
+        #ExStart
+        #ExFor:MarkdownSaveOptions
+        #ExFor:MarkdownSaveOptions.__init__
+        #ExFor:MarkdownSaveOptions.image_saving_callback
+        #ExFor:MarkdownSaveOptions.save_format
+        #ExFor:IImageSavingCallback
+        #ExSummary:Shows how to rename the image name during saving into Markdown document.
+        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+        save_options = aw.saving.MarkdownSaveOptions()
+        # If we convert a document that contains images into Markdown, we will end up with one Markdown file which links to several images.
+        # Each image will be in the form of a file in the local file system.
+        # There is also a callback that can customize the name and file system location of each image.
+        save_options.image_saving_callback = self.SavedImageRename('MarkdownSaveOptions.HandleDocument.md')
+        save_options.save_format = aw.SaveFormat.MARKDOWN
+        # The ImageSaving() method of our callback will be run at this time.
+        doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.HandleDocument.md', save_options=save_options)
+        self.assertEqual(1, len(list(filter(lambda f: f.endswith('.jpeg'), list(filter(lambda s: s.startswith(ARTIFACTS_DIR + 'MarkdownSaveOptions.HandleDocument.md shape'), list(system_helper.io.Directory.get_files(ARTIFACTS_DIR))))))))
+        self.assertEqual(8, len(list(filter(lambda f: f.endswith('.png'), list(filter(lambda s: s.startswith(ARTIFACTS_DIR + 'MarkdownSaveOptions.HandleDocument.md shape'), list(system_helper.io.Directory.get_files(ARTIFACTS_DIR))))))))
+        #ExEnd
+
+    def test_export_images_as_base64(self):
+        for export_images_as_base64 in [True, False]:
+            #ExStart
+            #ExFor:MarkdownSaveOptions.export_images_as_base64
+            #ExSummary:Shows how to save a .md document with images embedded inside it.
+            doc = aw.Document(file_name=MY_DIR + 'Images.docx')
+            save_options = aw.saving.MarkdownSaveOptions()
+            save_options.export_images_as_base64 = export_images_as_base64
+            doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.ExportImagesAsBase64.md', save_options=save_options)
+            out_doc_contents = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'MarkdownSaveOptions.ExportImagesAsBase64.md')
+            self.assertTrue('data:image/jpeg;base64' in out_doc_contents if export_images_as_base64 else 'MarkdownSaveOptions.ExportImagesAsBase64.001.jpeg' in out_doc_contents)
+            #ExEnd
 
     def test_list_export_mode(self):
         for markdown_list_export_mode in [aw.saving.MarkdownListExportMode.PLAIN_TEXT, aw.saving.MarkdownListExportMode.MARKDOWN_SYNTAX]:
@@ -169,7 +205,6 @@ class ExMarkdownSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.OfficeMathExportMode.md', save_options=save_options)
         #ExEnd:OfficeMathExportMode
 
-    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_empty_paragraph_export_mode(self):
         for export_mode in [aw.saving.MarkdownEmptyParagraphExportMode.NONE, aw.saving.MarkdownEmptyParagraphExportMode.EMPTY_LINE, aw.saving.MarkdownEmptyParagraphExportMode.MARKDOWN_HARD_LINE_BREAK]:
             #ExStart:EmptyParagraphExportMode
@@ -221,6 +256,14 @@ class ExMarkdownSaveOptions(ApiExampleBase):
         #ExEnd:ExportOfficeMathAsLatex
         self.assertTrue(document_helper.DocumentHelper.compare_docs(ARTIFACTS_DIR + 'MarkdownSaveOptions.ExportOfficeMathAsLatex.md', GOLDS_DIR + 'MarkdownSaveOptions.ExportOfficeMathAsLatex.Gold.md'))
 
+    def test_resource_saving_callback(self):
+        output_path = ARTIFACTS_DIR + 'MarkdownSaveOptions.ResourceSavingCallback.md'
+        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+        save_options = aw.saving.MarkdownSaveOptions()
+        save_options.resource_saving_callback = self.ChangeUriPath()
+        doc.save(file_name=output_path, save_options=save_options)
+        document_helper.DocumentHelper.find_text_in_file(output_path, '/uri/for/')
+
     def test_export_office_math_as_mark_it_down(self):
         #ExStart:ExportOfficeMathAsMarkItDown
         #ExFor:MarkdownSaveOptions.office_math_export_mode
@@ -232,21 +275,26 @@ class ExMarkdownSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'MarkdownSaveOptions.ExportOfficeMathAsMarkItDown.md', save_options=save_options)
         #ExEnd:ExportOfficeMathAsMarkItDown
         self.assertTrue(document_helper.DocumentHelper.compare_docs(ARTIFACTS_DIR + 'MarkdownSaveOptions.ExportOfficeMathAsMarkItDown.md', GOLDS_DIR + 'MarkdownSaveOptions.ExportOfficeMathAsMarkItDown.Gold.md'))
+    #ExStart
+    #ExFor:MarkdownSaveOptions
+    #ExFor:MarkdownSaveOptions.__init__
+    #ExFor:MarkdownSaveOptions.image_saving_callback
+    #ExFor:MarkdownSaveOptions.save_format
+    #ExFor:IImageSavingCallback
+    #ExSummary:Shows how to rename the image name during saving into Markdown document (SavedImageRename).
 
-    def test_export_images_as_base64(self):
-        for export_images_as_base64 in (True, False):
-            with self.subTest(export_images_as_base64=export_images_as_base64):
-                #ExStart
-                #ExFor:MarkdownSaveOptions.export_images_as_base64
-                #ExSummary:Shows how to save a .md document with images embedded inside it.
-                doc = aw.Document(MY_DIR + 'Images.docx')
-                save_options = aw.saving.MarkdownSaveOptions()
-                save_options.export_images_as_base64 = export_images_as_base64
-                doc.save(ARTIFACTS_DIR + 'MarkdownSaveOptions.ExportImagesAsBase64.md', save_options)
-                with open(ARTIFACTS_DIR + 'MarkdownSaveOptions.ExportImagesAsBase64.md') as stream:
-                    out_doc_contents = stream.read()
-                if export_images_as_base64:
-                    self.assertIn('data:image/jpeg;base64', out_doc_contents)
-                else:
-                    self.assertIn('MarkdownSaveOptions.ExportImagesAsBase64.001.jpeg', out_doc_contents)
-                #ExEnd
+    class SavedImageRename(aw.saving.IImageSavingCallback):
+
+        def __init__(self, out_file_name):
+            self.m_out_file_name = out_file_name
+            self.m_count = 0
+
+        def image_saving(self, args):
+            from pathlib import Path
+            self.m_count += 1
+            image_file_name = f'{self.m_out_file_name} shape {self.m_count}, of type {args.current_shape.shape_type}{Path(args.image_file_name).suffix}'
+            args.image_file_name = image_file_name
+            args.image_stream = system_helper.io.FileStream(ARTIFACTS_DIR + image_file_name, system_helper.io.FileMode.CREATE)
+            assert args.is_image_available
+            assert not args.keep_image_stream_open
+    #ExEnd

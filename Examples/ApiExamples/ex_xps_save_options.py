@@ -13,6 +13,7 @@ import aspose.words.saving
 import aspose.words.settings
 import datetime
 import system_helper
+import test_util
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -74,6 +75,25 @@ class ExXpsSaveOptions(ApiExampleBase):
             doc.save(file_name=ARTIFACTS_DIR + 'XpsSaveOptions.BookFold.xps', save_options=xps_options)
             #ExEnd
 
+    def test_optimize_output(self):
+        for optimize_output in [False, True]:
+            #ExStart
+            #ExFor:FixedPageSaveOptions.optimize_output
+            #ExSummary:Shows how to optimize document objects while saving to xps.
+            doc = aw.Document(file_name=MY_DIR + 'Unoptimized document.docx')
+            # Create an "XpsSaveOptions" object to pass to the document's "Save" method
+            # to modify how that method converts the document to .XPS.
+            save_options = aw.saving.XpsSaveOptions()
+            # Set the "OptimizeOutput" property to "true" to take measures such as removing nested or empty canvases
+            # and concatenating adjacent runs with identical formatting to optimize the output document's content.
+            # This may affect the appearance of the document.
+            # Set the "OptimizeOutput" property to "false" to save the document normally.
+            save_options.optimize_output = optimize_output
+            doc.save(file_name=ARTIFACTS_DIR + 'XpsSaveOptions.OptimizeOutput.xps', save_options=save_options)
+            #ExEnd
+            tested_file_length = system_helper.io.FileInfo(ARTIFACTS_DIR + 'XpsSaveOptions.OptimizeOutput.xps').length()
+            test_util.TestUtil.doc_package_file_contains_string('Glyphs OriginX="34.294998169" OriginY="10.31799984" ' + 'UnicodeString="This document contains complex content which can be optimized to save space when "' if optimize_output else '<Glyphs OriginX="34.294998169" OriginY="10.31799984" UnicodeString="This"', ARTIFACTS_DIR + 'XpsSaveOptions.OptimizeOutput.xps', '1.fpage')
+
     def test_export_exact_pages(self):
         #ExStart
         #ExFor:FixedPageSaveOptions.page_set
@@ -112,26 +132,3 @@ class ExXpsSaveOptions(ApiExampleBase):
         self.assertEqual('Some comments', digital_signature_details.sign_options.comments)
         doc.save(file_name=ARTIFACTS_DIR + 'XpsSaveOptions.XpsDigitalSignature.docx', save_options=save_options)
         #ExEnd:XpsDigitalSignature
-
-    def test_optimize_output(self):
-        for optimize_output in (False, True):
-            with self.subTest(optimize_output=optimize_output):
-                #ExStart
-                #ExFor:FixedPageSaveOptions.optimize_output
-                #ExSummary:Shows how to optimize document objects while saving to xps.
-                doc = aw.Document(MY_DIR + 'Unoptimized document.docx')
-                # Create an "XpsSaveOptions" object to pass to the document's "save" method
-                # to modify how that method converts the document to .XPS.
-                save_options = aw.saving.XpsSaveOptions()
-                # Set the "optimize_output" property to "True" to take measures such as removing nested or empty canvases
-                # and concatenating adjacent runs with identical formatting to optimize the output document's content.
-                # This may affect the appearance of the document.
-                # Set the "optimize_output" property to "False" to save the document normally.
-                save_options.optimize_output = optimize_output
-                doc.save(ARTIFACTS_DIR + 'XpsSaveOptions.optimize_output.xps', save_options)
-                #ExEnd
-                out_file_size = os.path.getsize(ARTIFACTS_DIR + 'XpsSaveOptions.optimize_output.xps')
-                if optimize_output:
-                    self.assertLess(out_file_size, 44000)
-                else:
-                    self.assertLess(out_file_size, 64000)

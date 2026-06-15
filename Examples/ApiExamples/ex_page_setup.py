@@ -1,3 +1,5 @@
+from document_helper import DocumentHelper
+import sys
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
@@ -5,14 +7,12 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from document_helper import DocumentHelper
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.notes
 import aspose.words.settings
 import document_helper
 import unittest
-import sys
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExPageSetup(ApiExampleBase):
@@ -714,6 +714,41 @@ class ExPageSetup(ApiExampleBase):
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'PageSetup.SetTextOrientation.docx')
         page_setup = doc.first_section.page_setup
         self.assertEqual(aw.TextOrientation.UPWARD, page_setup.text_orientation)
+    #ExStart
+    #ExFor:PageSetup.suppress_endnotes
+    #ExFor:Body.parent_section
+    #ExSummary:Shows how to store endnotes at the end of each section, and modify their positions (InsertSectionWithEndnote).
+
+    @staticmethod
+    def _insert_section_with_endnote(doc, section_body_text, endnote_text):
+        import aspose.words as aw
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        # Create a new document
+        doc = aw.Document()
+        # Create a section and append it to the document
+        section = aw.Section(doc)
+        doc.append_child(section)
+        # Create a body and append it to the section
+        body = aw.Body(doc)
+        section.append_child(body)
+        # Verify parent-child relationship
+        self.assertEqual(section, body.parent_node)
+        # Create a paragraph and append it to the body
+        para = aw.Paragraph(doc)
+        body.append_child(para)
+        # Verify parent-child relationship
+        self.assertEqual(body, para.parent_node)
+        # Use DocumentBuilder to populate the document
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.move_to(para)
+        builder.write(section_body_text)
+        builder.insert_footnote(footnote_type=aw.notes.FootnoteType.ENDNOTE, footnote_text=endnote_text)
+    #ExEnd
+
+    @staticmethod
+    def _test_suppress_endnotes(doc):
+        page_setup = doc.sections[1].page_setup
+        self.assertTrue(page_setup.suppress_endnotes)
 
     def test_chapter_page_separator(self):
         #ExStart

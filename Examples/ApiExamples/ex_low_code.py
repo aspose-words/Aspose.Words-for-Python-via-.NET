@@ -13,6 +13,7 @@ import aspose.words.lowcode
 import aspose.words.replacing
 import aspose.words.saving
 import datetime
+import io
 import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR
@@ -69,14 +70,14 @@ class ExLowCode(ApiExampleBase):
         first_load_options.ignore_ole_data = True
         second_load_options = aw.loading.LoadOptions()
         second_load_options.ignore_ole_data = False
-        context2 = aw.lowcode.MergerContext()
-        context2.merge_format_mode = aw.lowcode.MergeFormatMode.KEEP_SOURCE_FORMATTING
-        aw.lowcode.Merger.create(context2).from_file(input=input_doc1, load_options=first_load_options).from_file(input=input_doc2, load_options=second_load_options).to_file(output=ARTIFACTS_DIR + 'LowCode.MergeContextDocuments.2.docx', save_format=aw.SaveFormat.DOCX).execute()
+        context_load_options = aw.lowcode.MergerContext()
+        context_load_options.merge_format_mode = aw.lowcode.MergeFormatMode.KEEP_SOURCE_FORMATTING
+        aw.lowcode.Merger.create(context_load_options).from_file(input=input_doc1, load_options=first_load_options).from_file(input=input_doc2, load_options=second_load_options).to_file(output=ARTIFACTS_DIR + 'LowCode.MergeContextDocuments.2.docx', save_format=aw.SaveFormat.DOCX).execute()
         save_options = aw.saving.OoxmlSaveOptions()
         save_options.password = 'Aspose.Words'
-        context3 = aw.lowcode.MergerContext()
-        context3.merge_format_mode = aw.lowcode.MergeFormatMode.KEEP_SOURCE_FORMATTING
-        aw.lowcode.Merger.create(context3).from_file(input=input_doc1).from_file(input=input_doc2).to_file(output=ARTIFACTS_DIR + 'LowCode.MergeContextDocuments.3.docx', save_options=save_options).execute()
+        context_save_options = aw.lowcode.MergerContext()
+        context_save_options.merge_format_mode = aw.lowcode.MergeFormatMode.KEEP_SOURCE_FORMATTING
+        aw.lowcode.Merger.create(context_save_options).from_file(input=input_doc1).from_file(input=input_doc2).to_file(output=ARTIFACTS_DIR + 'LowCode.MergeContextDocuments.3.docx', save_options=save_options).execute()
         #ExEnd:MergeContextDocuments
 
     def test_merge_stream_document(self):
@@ -134,9 +135,9 @@ class ExLowCode(ApiExampleBase):
                 second_load_options = aw.loading.LoadOptions()
                 second_load_options.ignore_ole_data = False
                 with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.MergeStreamContextDocuments.2.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
-                    context2 = aw.lowcode.MergerContext()
-                    context2.merge_format_mode = aw.lowcode.MergeFormatMode.KEEP_SOURCE_FORMATTING
-                    aw.lowcode.Merger.create(context2).from_stream(input=first_stream_in, load_options=first_load_options).from_stream(input=second_stream_in, load_options=second_load_options).to_stream(output=stream_out, save_format=aw.SaveFormat.DOCX).execute()
+                    context = aw.lowcode.MergerContext()
+                    context.merge_format_mode = aw.lowcode.MergeFormatMode.KEEP_SOURCE_FORMATTING
+                    aw.lowcode.Merger.create(context).from_stream(input=first_stream_in, load_options=first_load_options).from_stream(input=second_stream_in, load_options=second_load_options).to_stream(output=stream_out, save_format=aw.SaveFormat.DOCX).execute()
         #ExEnd:MergeStreamContextDocuments
 
     def test_merge_document_instances(self):
@@ -210,6 +211,30 @@ class ExLowCode(ApiExampleBase):
                 aw.lowcode.Converter.convert(input_stream=stream_in, output_stream=stream_out, save_options=save_options)
         #ExEnd:ConvertStream
 
+    def test_convert_context_stream(self):
+        #ExStart:ConvertContextStream
+        #ExFor:Processor
+        #ExFor:Processor.from_stream(BytesIO,LoadOptions)
+        #ExFor:Processor.to_stream(BytesIO,SaveFormat)
+        #ExFor:Processor.to_stream(BytesIO,SaveOptions)
+        #ExFor:Processor.execute
+        #ExFor:Converter.create(ConverterContext)
+        #ExFor:ConverterContext
+        #ExSummary:Shows how to convert documents from a stream with a single line of code using context.
+        doc = MY_DIR + 'Document.docx'
+        with system_helper.io.FileStream(MY_DIR + 'Big document.docx', system_helper.io.FileMode.OPEN, system_helper.io.FileAccess.READ) as stream_in:
+            with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.ConvertContextStream.1.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
+                aw.lowcode.Converter.create(aw.lowcode.ConverterContext()).from_stream(input=stream_in).to_stream(output=stream_out, save_format=aw.SaveFormat.RTF).execute()
+            save_options = aw.saving.OoxmlSaveOptions()
+            save_options.password = 'Aspose.Words'
+            load_options = aw.loading.LoadOptions()
+            load_options.ignore_ole_data = True
+            with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.ConvertContextStream.2.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
+                aw.lowcode.Converter.create(aw.lowcode.ConverterContext()).from_stream(input=stream_in, load_options=load_options).to_stream(output=stream_out, save_options=save_options).execute()
+            pages = []
+            aw.lowcode.Converter.create(aw.lowcode.ConverterContext()).from_file(input=doc).to_streams(output=pages, save_options=aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)).execute()
+        #ExEnd:ConvertContextStream
+
     def test_convert_to_images(self):
         #ExStart:ConvertToImages
         #ExFor:Converter.convert_to_images(str,str)
@@ -259,6 +284,61 @@ class ExLowCode(ApiExampleBase):
             load_options.ignore_ole_data = False
             aw.lowcode.Converter.convert_to_images(input_stream=stream_in, load_options=load_options, save_options=image_save_options)
         #ExEnd:ConvertToImagesFromStream
+
+    def _save_to(self, doc_name, load_options, save_options, file_ext):
+        with system_helper.io.File.open_read(MY_DIR + doc_name) as pdf_doc:
+            stream = io.BytesIO()
+            images_stream = []
+            if file_ext == 'pdf':
+                aw.lowcode.Converter.convert(input_stream=pdf_doc, load_options=load_options, output_stream=stream, save_options=save_options)
+            elif file_ext == 'html':
+                aw.lowcode.Converter.convert(input_stream=pdf_doc, load_options=load_options, output_stream=stream, save_options=save_options)
+            elif file_ext == 'xps':
+                aw.lowcode.Converter.convert(input_stream=pdf_doc, load_options=load_options, output_stream=stream, save_options=save_options)
+            elif file_ext in {'jpeg', 'png', 'tiff', 'bmp'}:
+                images_stream = aw.lowcode.Converter.convert_to_images(input_stream=pdf_doc, load_options=load_options, save_options=save_options.as_image_save_options())
+            stream.seek(0)
+            if images_stream:
+                for i, img_stream in enumerate(images_stream):
+                    with open(ARTIFACTS_DIR + f'PdfRenderer_{i}.{file_ext}', 'wb') as result_doc:
+                        result_doc.write(img_stream.getvalue())
+            else:
+                with open(ARTIFACTS_DIR + f'PdfRenderer.{file_ext}', 'wb') as result_doc:
+                    result_doc.write(stream.getvalue())
+
+    def _assert_result(self, file_ext):
+        if file_ext == 'jpeg' or file_ext == 'png' or file_ext == 'tiff' or (file_ext == 'bmp'):
+            reg = 'PdfRenderer_*'
+            images = [str(p) for p in Path(ARTIFACTS_DIR).glob(f'*.{file_ext}') if reg.search(str(p))]
+            if file_ext == 'png':
+                self.assertEqual(2, len(images))
+            elif file_ext == 'tiff':
+                self.assertEqual(1, len(images))
+            else:
+                self.assertEqual(5, len(images))
+        elif file_ext == 'xps':
+            doc = aw.Document(Path(ARTIFACTS_DIR) / f'PdfRenderer.{file_ext}')
+            ExLowCode._assert_xps_text(doc)
+        elif file_ext == 'pdf':
+            doc = aw.Document(ARTIFACTS_DIR + f'PdfRenderer.{file_ext}')
+            content = doc.get_text()
+            print(content)
+            self.assertTrue('Heading 1.1.1.2' in content)
+        else:
+            content = system_helper.io.File.read_all_text(ARTIFACTS_DIR + f'PdfRenderer.{file_ext}')
+            print(content)
+            self.assertTrue('Heading 1.1.1.2' in content)
+
+    @staticmethod
+    def _assert_xps_text(doc):
+        AssertXpsText(doc.SelectActivePage(1))
+
+    @staticmethod
+    def _assert_xps_text(element):
+        for i in range(len(element)):
+            assert_xps_text(element[i])
+        if isinstance(element, XpsGlyphs):
+            assert any((c in element.unicode_string for c in ['Heading 1', 'Head', 'ing 1']))
 
     def test_compare_documents(self):
         #ExStart:CompareDocuments
@@ -542,9 +622,9 @@ class ExLowCode(ApiExampleBase):
         replacement = 'lavender'
         aw.lowcode.Replacer.replace_regex(input_file_name=doc, output_file_name=ARTIFACTS_DIR + 'LowCode.ReplaceRegex.1.docx', pattern=pattern, replacement=replacement)
         aw.lowcode.Replacer.replace_regex(input_file_name=doc, output_file_name=ARTIFACTS_DIR + 'LowCode.ReplaceRegex.2.docx', save_format=aw.SaveFormat.DOCX, pattern=pattern, replacement=replacement)
-        options = aw.replacing.FindReplaceOptions()
-        options.find_whole_words_only = False
-        aw.lowcode.Replacer.replace_regex(input_file_name=doc, output_file_name=ARTIFACTS_DIR + 'LowCode.ReplaceRegex.3.docx', save_format=aw.SaveFormat.DOCX, pattern=pattern, replacement=replacement, options=options)
+        find_replace_options = aw.replacing.FindReplaceOptions()
+        find_replace_options.find_whole_words_only = False
+        aw.lowcode.Replacer.replace_regex(input_file_name=doc, output_file_name=ARTIFACTS_DIR + 'LowCode.ReplaceRegex.3.docx', save_format=aw.SaveFormat.DOCX, pattern=pattern, replacement=replacement, options=find_replace_options)
         #ExEnd:ReplaceRegex
 
     def test_replace_context_regex(self):
@@ -573,9 +653,9 @@ class ExLowCode(ApiExampleBase):
         pattern = 'gr(a|e)y'
         replacement = 'lavender'
         images = aw.lowcode.Replacer.replace_to_images_regex(input_file_name=doc, save_options=aw.saving.ImageSaveOptions(aw.SaveFormat.PNG), pattern=pattern, replacement=replacement)
-        options = aw.replacing.FindReplaceOptions()
-        options.find_whole_words_only = False
-        images = aw.lowcode.Replacer.replace_to_images_regex(input_file_name=doc, save_options=aw.saving.ImageSaveOptions(aw.SaveFormat.PNG), pattern=pattern, replacement=replacement, options=options)
+        find_replace_options = aw.replacing.FindReplaceOptions()
+        find_replace_options.find_whole_words_only = False
+        images = aw.lowcode.Replacer.replace_to_images_regex(input_file_name=doc, save_options=aw.saving.ImageSaveOptions(aw.SaveFormat.PNG), pattern=pattern, replacement=replacement, options=find_replace_options)
         #ExEnd:ReplaceToImagesRegex
 
     def test_replace_stream_regex(self):
@@ -589,9 +669,9 @@ class ExLowCode(ApiExampleBase):
             with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.ReplaceStreamRegex.1.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
                 aw.lowcode.Replacer.replace_regex(input_stream=stream_in, output_stream=stream_out, save_format=aw.SaveFormat.DOCX, pattern=pattern, replacement=replacement)
             with system_helper.io.FileStream(ARTIFACTS_DIR + 'LowCode.ReplaceStreamRegex.2.docx', system_helper.io.FileMode.CREATE, system_helper.io.FileAccess.READ_WRITE) as stream_out:
-                options = aw.replacing.FindReplaceOptions()
-                options.find_whole_words_only = False
-                aw.lowcode.Replacer.replace_regex(input_stream=stream_in, output_stream=stream_out, save_format=aw.SaveFormat.DOCX, pattern=pattern, replacement=replacement, options=options)
+                find_replace_options = aw.replacing.FindReplaceOptions()
+                find_replace_options.find_whole_words_only = False
+                aw.lowcode.Replacer.replace_regex(input_stream=stream_in, output_stream=stream_out, save_format=aw.SaveFormat.DOCX, pattern=pattern, replacement=replacement, options=find_replace_options)
         #ExEnd:ReplaceStreamRegex
 
     def test_replace_context_stream_regex(self):
@@ -621,9 +701,9 @@ class ExLowCode(ApiExampleBase):
         replacement = 'lavender'
         with system_helper.io.FileStream(MY_DIR + 'Replace regex.docx', system_helper.io.FileMode.OPEN, system_helper.io.FileAccess.READ) as stream_in:
             images = aw.lowcode.Replacer.replace_to_images_regex(input_stream=stream_in, save_options=aw.saving.ImageSaveOptions(aw.SaveFormat.PNG), pattern=pattern, replacement=replacement)
-            options = aw.replacing.FindReplaceOptions()
-            options.find_whole_words_only = False
-            images = aw.lowcode.Replacer.replace_to_images_regex(input_stream=stream_in, save_options=aw.saving.ImageSaveOptions(aw.SaveFormat.PNG), pattern=pattern, replacement=replacement, options=options)
+            find_replace_options = aw.replacing.FindReplaceOptions()
+            find_replace_options.find_whole_words_only = False
+            images = aw.lowcode.Replacer.replace_to_images_regex(input_stream=stream_in, save_options=aw.saving.ImageSaveOptions(aw.SaveFormat.PNG), pattern=pattern, replacement=replacement, options=find_replace_options)
         #ExEnd:ReplaceToImagesStreamRegex
 
     def test_remove_blank_pages(self):
@@ -701,6 +781,19 @@ class ExLowCode(ApiExampleBase):
             options.split_criteria = aw.lowcode.SplitCriteria.PAGE
             stream = aw.lowcode.Splitter.split(input_stream=stream_in, save_format=aw.SaveFormat.DOCX, options=options)
         #ExEnd:SplitDocumentStream
+
+    def test_split_context_document_stream(self):
+        #ExStart:SplitContextDocumentStream
+        #ExFor:Splitter.create(SplitterContext)
+        #ExFor:SplitterContext
+        #ExFor:SplitterContext.split_options
+        #ExSummary:Shows how to split document from the stream by pages using context.
+        with system_helper.io.FileStream(MY_DIR + 'Big document.docx', system_helper.io.FileMode.OPEN, system_helper.io.FileAccess.READ) as stream_in:
+            splitter_context = aw.lowcode.SplitterContext()
+            splitter_context.split_options.split_criteria = aw.lowcode.SplitCriteria.PAGE
+            pages = []
+            aw.lowcode.Splitter.create(splitter_context).from_stream(input=stream_in).to_streams(output=pages, save_format=aw.SaveFormat.DOCX).execute()
+        #ExEnd:SplitContextDocumentStream
 
     def test_watermark_text(self):
         #ExStart:WatermarkText
@@ -854,7 +947,7 @@ class ExLowCode(ApiExampleBase):
         with system_helper.io.FileStream(MY_DIR + 'Document.docx', system_helper.io.FileMode.OPEN, system_helper.io.FileAccess.READ) as stream_in:
             with system_helper.io.FileStream(watermark_image, system_helper.io.FileMode.OPEN, system_helper.io.FileAccess.READ) as image_stream:
                 aw.lowcode.Watermarker.set_watermark_to_images(input_stream=stream_in, save_options=aw.saving.ImageSaveOptions(aw.SaveFormat.PNG), watermark_image_stream=image_stream)
-                options = aw.ImageWatermarkOptions()
-                options.scale = 50
-                aw.lowcode.Watermarker.set_watermark_to_images(input_stream=stream_in, save_options=aw.saving.ImageSaveOptions(aw.SaveFormat.PNG), watermark_image_stream=image_stream, options=options)
+                image_watermark_options = aw.ImageWatermarkOptions()
+                image_watermark_options.scale = 50
+                aw.lowcode.Watermarker.set_watermark_to_images(input_stream=stream_in, save_options=aw.saving.ImageSaveOptions(aw.SaveFormat.PNG), watermark_image_stream=image_stream, options=image_watermark_options)
         #ExEnd:WatermarkImageToImagesStream

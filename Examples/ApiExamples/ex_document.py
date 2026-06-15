@@ -1,3 +1,12 @@
+from urllib.request import urlopen, Request
+import glob
+import os
+import aspose.words.drawing
+import base64
+import aspose.words.webextensions
+from document_helper import DocumentHelper
+from datetime import timedelta, timezone
+import sys
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
@@ -5,14 +14,6 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-from urllib.request import urlopen, Request
-import glob
-import sys
-import os
-import aspose.words.drawing
-import base64
-from document_helper import DocumentHelper
-from datetime import timedelta, timezone
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.digitalsignatures
@@ -25,7 +26,6 @@ import aspose.words.rendering
 import aspose.words.replacing
 import aspose.words.saving
 import aspose.words.settings
-import aspose.words.webextensions
 import datetime
 import document_helper
 import io
@@ -64,6 +64,27 @@ class ExDocument(ApiExampleBase):
         with system_helper.io.File.open_read(MY_DIR + 'Document.docx') as stream:
             doc = aw.Document(stream=stream)
             self.assertEqual('Hello World!\r\rHello Word!\r\r\rHello World!', doc.get_text().strip())
+        #ExEnd
+
+    @unittest.skipIf(sys.platform.startswith('win'), 'HTTP Error')
+    def test_load_from_web(self):
+        #ExStart
+        #ExFor:Document.__init__(BytesIO)
+        #ExSummary:Shows how to load a document from a URL.
+        from io import BytesIO
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        from urllib.request import urlopen
+        # Create a URL that points to a Microsoft Word document.
+        url = 'https://filesamples.com/samples/document/docx/sample3.docx'
+        # Download the document into a byte array, then load that array into a document using a memory stream.
+        with urlopen(url) as response:
+            data_bytes = response.read()
+        with BytesIO(data_bytes) as byte_stream:
+            doc = aw.Document(byte_stream)
+        # At this stage, we can read and edit the document's contents and then save it to the local file system.
+        assert doc.first_section.body.paragraphs[3].get_text().strip() == 'There are eight section headings in this document. At the beginning, "Sample Document" is a level 1 heading. ' + 'The main section headings, such as "Headings" and "Lists" are level 2 headings. ' + 'The Tables section contains two sub-headings, "Simple Table" and "Complex Table," which are both level 3 headings.'
+        doc.save(ARTIFACTS_DIR + 'Document.LoadFromWeb.docx')
         #ExEnd
 
     def test_convert_to_pdf(self):
@@ -185,6 +206,11 @@ class ExDocument(ApiExampleBase):
             self.assertEqual('Hello World!\r\rHello Word!\r\r\rHello World!', aw.Document(stream=dst_stream).get_text().strip())
         #ExEnd
 
+    @staticmethod
+    def _test_font_change_via_callback(log):
+        Assert.AreEqual(10, Regex.Matches(log, 'insertion').Count)
+        Assert.AreEqual(5, Regex.Matches(log, 'removal').Count)
+
     def test_append_document(self):
         #ExStart
         #ExFor:Document.append_document(Document,ImportFormatMode)
@@ -221,6 +247,25 @@ class ExDocument(ApiExampleBase):
             if i > 1:
                 self.assertRaises(Exception, lambda: doc.sections[i].headers_footers.link_to_previous(is_link_to_previous=False))
             i += 1
+
+    def test_import_list(self):
+        for is_keep_source_numbering in [True, False]:
+            #ExStart
+            #ExFor:ImportFormatOptions.keep_source_numbering
+            #ExSummary:Shows how to import a document with numbered lists.
+            src_doc = aw.Document(file_name=MY_DIR + 'List source.docx')
+            dst_doc = aw.Document(file_name=MY_DIR + 'List destination.docx')
+            self.assertEqual(4, dst_doc.lists.count)
+            options = aw.ImportFormatOptions()
+            # If there is a clash of list styles, apply the list format of the source document.
+            # Set the "KeepSourceNumbering" property to "false" to not import any list numbers into the destination document.
+            # Set the "KeepSourceNumbering" property to "true" import all clashing
+            # list style numbering with the same appearance that it had in the source document.
+            options.keep_source_numbering = is_keep_source_numbering
+            dst_doc.append_document(src_doc=src_doc, import_format_mode=aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, import_format_options=options)
+            dst_doc.update_list_labels()
+            self.assertEqual(5 if is_keep_source_numbering else 4, dst_doc.lists.count)
+            #ExEnd
 
     def test_keep_source_numbering_same_list_ids(self):
         #ExStart
@@ -322,6 +367,20 @@ class ExDocument(ApiExampleBase):
         self.assertEqual(aw.digitalsignatures.DigitalSignatureType.XML_DSIG, digital_signature_collection[0].signature_type)
         self.assertEqual('CN=Morzal.Me', signed_doc.digital_signatures[0].issuer_name)
         self.assertEqual('CN=Morzal.Me', signed_doc.digital_signatures[0].subject_name)
+        #ExEnd
+
+    def test_signature_value(self):
+        from api_example_base import ApiExampleBase, MY_DIR
+        import base64
+        import aspose.words as aw
+        #ExStart
+        #ExFor:DigitalSignature.signature_value
+        #ExSummary:Shows how to get a digital signature value from a digitally signed document.
+        doc = aw.Document(MY_DIR + 'Digitally signed.docx')
+        for digital_signature in doc.digital_signatures:
+            signature_value = base64.b64encode(digital_signature.signature_value).decode('utf-8')
+            break
+        self.assertEqual('K1cVLLg2kbJRAzT5WK+m++G8eEO+l7S+5ENdjMxxTXkFzGUfvwxREuJdSFj9AbD' + 'MhnGvDURv9KEhC25DDF1al8NRVR71TF3CjHVZXpYu7edQS5/yLw/k5CiFZzCp1+MmhOdYPcVO+Fm' + '+9fKr2iNLeyYB+fgEeZHfTqTFM2WwAqo=', signature_value)
         #ExEnd
 
     def test_append_all_documents_in_folder(self):
@@ -427,6 +486,33 @@ class ExDocument(ApiExampleBase):
         doc.unprotect('NewPassword')
         self.assertEqual(aw.ProtectionType.NO_PROTECTION, doc.protection_type)
         #ExEnd
+
+    def test_document_ensure_minimum(self):
+        #ExStart
+        #ExFor:Document.ensure_minimum
+        #ExSummary:Shows how to ensure that a document contains the minimal set of nodes required for editing its contents.
+        # A newly created document contains one child Section, which includes one child Body and one child Paragraph.
+        # We can edit the document body's contents by adding nodes such as Runs or inline Shapes to that paragraph.
+        doc = aw.Document()
+        nodes = doc.get_child_nodes(aw.NodeType.ANY, True)
+        self.assertEqual(aw.NodeType.SECTION, nodes[0].node_type)
+        self.assertEqual(doc, nodes[0].parent_node)
+        self.assertEqual(aw.NodeType.BODY, nodes[1].node_type)
+        self.assertEqual(nodes[0], nodes[1].parent_node)
+        self.assertEqual(aw.NodeType.PARAGRAPH, nodes[2].node_type)
+        self.assertEqual(nodes[1], nodes[2].parent_node)
+        # This is the minimal set of nodes that we need to be able to edit the document.
+        # We will no longer be able to edit the document if we remove any of them.
+        doc.remove_all_children()
+        self.assertEqual(0, len(list(doc.get_child_nodes(aw.NodeType.ANY, True))))
+        # Call this method to make sure that the document has at least those three nodes so we can edit it again.
+        doc.ensure_minimum()
+        self.assertEqual(aw.NodeType.SECTION, nodes[0].node_type)
+        self.assertEqual(aw.NodeType.BODY, nodes[1].node_type)
+        self.assertEqual(aw.NodeType.PARAGRAPH, nodes[2].node_type)
+        nodes[2].as_paragraph().runs.add(aw.Run(doc=doc, text='Hello world!'))
+        #ExEnd
+        self.assertEqual('Hello world!', doc.get_text().strip())
 
     def test_remove_macros_from_document(self):
         #ExStart
@@ -812,6 +898,25 @@ class ExDocument(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'Document.UpdatePageLayout.2.pdf')
         #ExEnd
 
+    @staticmethod
+    def _test_doc_package_custom_parts(parts):
+        self.assertEqual(3, parts.count)
+        self.assertEqual('/payload/payload_on_package.test', parts[0].name)
+        self.assertEqual('mytest/somedata', parts[0].content_type)
+        self.assertEqual('http://mytest.payload.internal', parts[0].relationship_type)
+        self.assertEqual(False, parts[0].is_external)
+        self.assertEqual(18, len(parts[0].data))
+        self.assertEqual('http://www.aspose.com/Images/aspose-logo.jpg', parts[1].name)
+        self.assertEqual('', parts[1].content_type)
+        self.assertEqual('http://mytest.payload.external', parts[1].relationship_type)
+        self.assertEqual(True, parts[1].is_external)
+        self.assertEqual(0, len(parts[1].data))
+        self.assertEqual('http://www.aspose.com/Images/aspose-logo.jpg', parts[2].name)
+        self.assertEqual('', parts[2].content_type)
+        self.assertEqual('http://mytest.payload.external', parts[2].relationship_type)
+        self.assertEqual(True, parts[2].is_external)
+        self.assertEqual(0, len(parts[2].data))
+
     def test_shade_form_data(self):
         for use_grey_shading in [False, True]:
             #ExStart
@@ -968,6 +1073,50 @@ class ExDocument(ApiExampleBase):
         self.assertEqual(21, target.styles.count)
         #ExEnd
 
+    def test_read_macros_from_existing_document(self):
+        #ExStart
+        #ExFor:Document.vba_project
+        #ExFor:VbaModuleCollection
+        #ExFor:VbaModuleCollection.count
+        #ExFor:VbaModuleCollection.__getitem__(int)
+        #ExFor:VbaModuleCollection.__getitem__(str)
+        #ExFor:VbaModuleCollection.remove
+        #ExFor:VbaModule
+        #ExFor:VbaModule.name
+        #ExFor:VbaModule.source_code
+        #ExFor:VbaProject
+        #ExFor:VbaProject.name
+        #ExFor:VbaProject.modules
+        #ExFor:VbaProject.code_page
+        #ExFor:VbaProject.is_signed
+        #ExSummary:Shows how to access a document's VBA project information.
+        from api_example_base import ApiExampleBase, MY_DIR
+        import aspose.words as aw
+        doc = aw.Document(file_name=MY_DIR + 'VBA project.docm')
+        # A VBA project contains a collection of Vba modules.
+        vba_project = doc.vba_project
+        # Get the count of VBA modules using count property instead of len()
+        modules_count = vba_project.modules.count
+        print(f'Project name: {vba_project.name} signed; Project code page: {vba_project.code_page}; Modules count: {modules_count}\n' if vba_project.is_signed else f'Project name: {vba_project.name} not signed; Project code page: {vba_project.code_page}; Modules count: {modules_count}\n')
+        vba_modules = doc.vba_project.modules
+        self.assertEqual(vba_modules.count, 3)
+        for module in vba_modules:
+            print(f'Module name: {module.name};\nModule code:\n{module.source_code}\n')
+        # Set new source code for VBA module. You can access VBA modules in the collection either by index or by name.
+        vba_modules[0].source_code = 'Your VBA code...'
+        vba_modules.get_by_name('Module1').source_code = 'Your VBA code...'
+        # Remove a module from the collection.
+        vba_modules.remove(vba_modules[2])
+        #ExEnd
+        self.assertEqual('AsposeVBAtest', vba_project.name)
+        self.assertEqual(2, vba_project.modules.count)
+        self.assertEqual(1251, vba_project.code_page)
+        self.assertFalse(vba_project.is_signed)
+        self.assertEqual('ThisDocument', vba_modules[0].name)
+        self.assertEqual('Your VBA code...', vba_modules[0].source_code)
+        self.assertEqual('Module1', vba_modules[1].name)
+        self.assertEqual('Your VBA code...', vba_modules[1].source_code)
+
     def test_save_output_parameters(self):
         #ExStart
         #ExFor:SaveOutputParameters
@@ -995,6 +1144,27 @@ class ExDocument(ApiExampleBase):
         # This node serves as a reference to an external document, and its contents cannot be accessed.
         sub_document = sub_documents[0].as_sub_document()
         self.assertFalse(sub_document.is_composite)
+        #ExEnd
+
+    def test_get_web_extension_info(self):
+        #ExStart
+        #ExFor:BaseWebExtensionCollection
+        #ExFor:BaseWebExtensionCollection.__iter__
+        #ExFor:BaseWebExtensionCollection.remove
+        #ExFor:BaseWebExtensionCollection.count
+        #ExFor:BaseWebExtensionCollection.__getitem__
+        #ExSummary:Shows how to work with a document's collection of web extensions.
+        from api_example_base import ApiExampleBase, MY_DIR
+        import aspose.words as aw
+        doc = aw.Document(file_name=MY_DIR + 'Web extension.docx')
+        self.assertEqual(1, doc.web_extension_task_panes.count)
+        # Print all properties of the document's web extension.
+        web_extension_property_collection = doc.web_extension_task_panes[0].web_extension.properties
+        for web_extension_property in web_extension_property_collection:
+            print(f'Binding name: {web_extension_property.name}; Binding value: {web_extension_property.value}')
+        # Remove the web extension.
+        doc.web_extension_task_panes.remove(0)
+        self.assertEqual(0, doc.web_extension_task_panes.count)
         #ExEnd
 
     def test_epub_cover(self):
@@ -1045,6 +1215,18 @@ class ExDocument(ApiExampleBase):
         #ExEnd
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Document.TextWatermark.docx')
         self.assertEqual(aw.WatermarkType.TEXT, doc.watermark.type)
+
+    def test_image_watermark(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        doc = aw.Document()
+        image_watermark_options = aw.ImageWatermarkOptions()
+        image_watermark_options.scale = 5
+        image_watermark_options.is_washout = False
+        doc.watermark.set_image(IMAGE_DIR + 'Logo.jpg', image_watermark_options)
+        doc.save(ARTIFACTS_DIR + 'Document.ImageWatermark.docx')
+        doc = aw.Document(ARTIFACTS_DIR + 'Document.ImageWatermark.docx')
+        assert aw.WatermarkType.IMAGE == doc.watermark.type
 
     def test_image_watermark_stream(self):
         #ExStart:ImageWatermarkStream
@@ -1371,8 +1553,66 @@ class ExDocument(ApiExampleBase):
         # Set to true to render non-image shapes and include them in the output.
         # Set to false (default) to exclude non-image shapes from the output.
         save_options.render_non_image_shapes = True
-        doc.save(file_name=ARTIFACTS_DIR + 'DoclingSaveOptions.DoclingJson.json', save_options=save_options)
+        doc.save(file_name=ARTIFACTS_DIR + 'Document.DoclingJson.json', save_options=save_options)
         #ExEnd:DoclingJson
+
+    def test_remove_customizations(self):
+        #ExStart:RemoveCustomizations
+        #ExFor:Document.remove_customizations
+        #ExSummary:Shows how to remove toolbar and keyboard command customizations from the document.
+        doc = aw.Document(file_name=MY_DIR + 'Customized menu.docx')
+        # Remove all custom document UI customizations, including custom context menu entries.
+        doc.remove_customizations()
+        doc.save(file_name=ARTIFACTS_DIR + 'Document.RemoveCustomizations.docx')
+        #ExEnd:RemoveCustomizations
+    #ExStart
+    #ExFor:Range.fields
+    #ExFor:INodeChangingCallback
+    #ExFor:INodeChangingCallback.node_inserting
+    #ExFor:INodeChangingCallback.node_inserted
+    #ExFor:INodeChangingCallback.node_removing
+    #ExFor:INodeChangingCallback.node_removed
+    #ExFor:NodeChangingArgs
+    #ExFor:NodeChangingArgs.node
+    #ExFor:DocumentBase.node_changing_callback
+    #ExSummary:Shows how customize node changing with a callback (HandleNodeChangingFontChanger).
+
+    class HandleNodeChangingFontChanger(aw.INodeChangingCallback):
+
+        def __init__(self):
+            self.m_log = []
+
+        def node_inserted(self, args):
+            self.m_log.append(f'\tType:\t{args.node.node_type}' + '\n')
+            self.m_log.append(f'\tHash:\t{hash(args.node)}' + '\n')
+            if args.node.node_type == aw.NodeType.RUN:
+                font = args.node.as_run().font
+                self.m_log.append(f'\tFont:\tChanged from "{font.name}" {font.size}pt')
+                font.size = 24
+                font.name = 'Arial'
+                self.m_log.append(f' to "{font.name}" {font.size}pt' + '\n')
+                self.m_log.append(f'\tContents:\n\t\t"{args.node.get_text()}"' + '\n')
+
+        def node_inserting(self, args):
+            from datetime import datetime
+            # ...
+            mLog.append(f'\n{datetime.now():%d/%m/%Y %H:%M:%S:%f}\tNode insertion:')
+
+        def node_removed(self, args):
+            self.m_log.append(f'\tType:\t{args.node.node_type}' + '\n')
+            self.m_log.append(f'\tHash code:\t{hash(args.node)}' + '\n')
+
+        def node_removing(self, args):
+            from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+            import datetime
+            # Assuming mLog is a string builder or similar object
+            # For demonstration, we'll use a simple string concatenation
+            mLog = ''
+            mLog += '\n' + datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S:%f')[:-3] + '\tNode removal:'
+
+        def get_log(self):
+            return str.join('', self.m_log)
+    #ExEnd
 
     def test_create_simple_document(self):
         #ExStart:CreateSimpleDocument
@@ -1386,126 +1626,6 @@ class ExDocument(ApiExampleBase):
         para = body.append_child(aw.Paragraph(doc)).as_paragraph()
         para.append_child(aw.Run(doc=doc, text='Hello world!'))
         #ExEnd:CreateSimpleDocument
-
-    def test_load_from_web(self):
-        #ExStart
-        #ExFor:Document.__init__(BytesIO)
-        #ExSummary:Shows how to load a document from a URL.
-        # Create a URL that points to a Microsoft Word document.
-        url = 'https://filesamples.com/samples/document/docx/sample3.docx'
-        # Download the document into a byte array, then load that array into a document using a memory stream.
-        request_site = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        data_bytes = urlopen(request_site).read()
-        with io.BytesIO(data_bytes) as byte_stream:
-            doc = aw.Document(byte_stream)
-            # At this stage, we can read and edit the document's contents and then save it to the local file system.
-            self.assertEqual('There are eight section headings in this document. At the beginning, "Sample Document" is a level 1 heading. ' + 'The main section headings, such as "Headings" and "Lists" are level 2 headings. ' + 'The Tables section contains two sub-headings, "Simple Table" and "Complex Table," which are both level 3 headings.', doc.first_section.body.paragraphs[3].get_text().strip())
-            doc.save(ARTIFACTS_DIR + 'Document.load_from_web.docx')
-        #ExEnd
-
-    @unittest.skipIf(sys.platform.startswith('linux'), 'requires Windows')
-    def test_save_to_image_stream(self):
-        #ExStart
-        #ExFor:Document.save(BytesIO,SaveFormat)
-        #ExSummary:Shows how to save a document to an image via stream, and then read the image from that stream.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.font.name = 'Times New Roman'
-        builder.font.size = 24
-        builder.writeln('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')
-        builder.insert_image(IMAGE_DIR + 'Logo.jpg')
-        with io.BytesIO() as stream:
-            doc.save(stream, aw.SaveFormat.BMP)
-            stream.seek(0, os.SEEK_SET)
-            # Read the stream back into an image.
-            with aspose.pydrawing.Image.from_stream(stream) as image:
-                self.assertEqual(aspose.pydrawing.imaging.ImageFormat.bmp, image.raw_format)
-                self.assertEqual(816, image.width)
-                self.assertEqual(1056, image.height)
-        #ExEnd
-
-    def test_insert_html_from_web_page(self):
-        #ExStart
-        #ExFor:Document.__init__(BytesIO,LoadOptions)
-        #ExFor:LoadOptions.__init__(LoadFormat,str,str)
-        #ExFor:LoadFormat
-        #ExSummary:Shows how save a web page as a .docx file.
-        url = 'https://products.aspose.com/words/'
-        with io.BytesIO(urlopen(url).read()) as stream:
-            # The URL is used again as a "base_uri" to ensure that any relative image paths are retrieved correctly.
-            options = aw.loading.LoadOptions(aw.LoadFormat.HTML, '', url)
-            # Load the HTML document from stream and pass the LoadOptions object.
-            doc = aw.Document(stream, options)
-            # At this stage, we can read and edit the document's contents and then save it to the local file system.
-            self.assertTrue(doc.get_text().find('HYPERLINK "https://products.aspose.com/words/net/" \\o "Aspose.Words"') > 0)  #ExSkip
-            doc.save(ARTIFACTS_DIR + 'Document.insert_html_from_web_page.docx')
-        #ExEnd
-        self.verify_web_response_status_code(200, url)
-
-    def test_import_list(self):
-        for is_keep_source_numbering in (True, False):
-            with self.subTest(is_keep_source_numbering=is_keep_source_numbering):
-                #ExStart
-                #ExFor:ImportFormatOptions.keep_source_numbering
-                #ExSummary:Shows how to import a document with numbered lists.
-                src_doc = aw.Document(MY_DIR + 'List source.docx')
-                dst_doc = aw.Document(MY_DIR + 'List destination.docx')
-                self.assertEqual(4, dst_doc.lists.count)
-                options = aw.ImportFormatOptions()
-                # If there is a clash of list styles, apply the list format of the source document.
-                # Set the "keep_source_numbering" property to "False" to not import any list numbers into the destination document.
-                # Set the "keep_source_numbering" property to "True" import all clashing
-                # list style numbering with the same appearance that it had in the source document.
-                options.keep_source_numbering = is_keep_source_numbering
-                dst_doc.append_document(src_doc, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING, options)
-                dst_doc.update_list_labels()
-                if is_keep_source_numbering:
-                    self.assertEqual(5, dst_doc.lists.count)
-                else:
-                    self.assertEqual(4, dst_doc.lists.count)
-                #ExEnd
-
-    def test_validate_individual_document_signatures(self):
-        #ExStart
-        #ExFor:CertificateHolder.certificate
-        #ExFor:Document.digital_signatures
-        #ExFor:DigitalSignature
-        #ExFor:DigitalSignatureCollection
-        #ExFor:DigitalSignature.is_valid
-        #ExFor:DigitalSignature.comments
-        #ExFor:DigitalSignature.sign_time
-        #ExFor:DigitalSignature.signature_type
-        #ExSummary:Shows how to validate and display information about each signature in a document.
-        doc = aw.Document(MY_DIR + 'Digitally signed.docx')
-        for signature in doc.digital_signatures:
-            print(f"\n{('Valid' if signature.is_valid else 'Invalid')} signature: ")
-            print(f'\tReason:\t{signature.comments}')
-            print(f'\tType:\t{signature.signature_type}')
-            print(f'\tSign time:\t{signature.sign_time}')
-            # System.Security.Cryptography.X509Certificates.X509Certificate2 is not supported. That is why the following information is not accesible.
-            #print(f"\tSubject name:\t{signature.certificate_holder.certificate.subject_name}")
-            #print(f"\tIssuer name:\t{signature.certificate_holder.certificate.issuer_name.name}")
-            print()
-        #ExEnd
-        self.assertEqual(1, doc.digital_signatures.count)
-        digital_sig = doc.digital_signatures[0]
-        self.assertTrue(digital_sig.is_valid)
-        self.assertEqual('Test Sign', digital_sig.comments)
-        self.assertEqual(aw.digitalsignatures.DigitalSignatureType.XML_DSIG, digital_sig.signature_type)
-        # System.Security.Cryptography.X509Certificates.X509Certificate2 is not supported. That is why the following information is not accesible.
-        # self.assertTrue(digital_sig.certificate_holder.certificate.subject.contains("Aspose Pty Ltd"))
-        # self.assertIsNotNone(digital_sig.certificate_holder.certificate.issuer_name.name is not None)
-        # self.assertIn("VeriSign", digital_sig.certificate_holder.certificate.issuer_name.name)
-
-    def test_signature_value(self):
-        #ExStart
-        #ExFor:DigitalSignature.signature_value
-        #ExSummary:Shows how to get a digital signature value from a digitally signed document.
-        doc = aw.Document(MY_DIR + 'Digitally signed.docx')
-        for digital_signature_val in doc.digital_signatures:
-            signature_value = base64.b64encode(digital_signature_val.signature_value)
-            self.assertEqual(b'K1cVLLg2kbJRAzT5WK+m++G8eEO+l7S+5ENdjMxxTXkFzGUfvwxREuJdSFj9AbDMhnGvDURv9KEhC25DDF1al8NRVR71TF3CjHVZXpYu7edQS5/yLw/k5CiFZzCp1+MmhOdYPcVO+Fm+9fKr2iNLeyYB+fgEeZHfTqTFM2WwAqo=', signature_value)
-        #ExEnd
 
     def test_default_tab_stop(self):
         #ExStart
@@ -1522,215 +1642,6 @@ class ExDocument(ApiExampleBase):
         #ExEnd
         doc = document_helper.DocumentHelper.save_open(doc)
         self.assertEqual(72, doc.default_tab_stop)
-
-    def test_document_ensure_minimum(self):
-        #ExStart
-        #ExFor:Document.ensure_minimum
-        #ExSummary:Shows how to ensure that a document contains the minimal set of nodes required for editing its contents.
-        # A newly created document contains one child Section, which includes one child Body and one child Paragraph.
-        # We can edit the document body's contents by adding nodes such as Runs or inline Shapes to that paragraph.
-        doc = aw.Document()
-        nodes = doc.get_child_nodes(aw.NodeType.ANY, True)
-        self.assertEqual(aw.NodeType.SECTION, nodes[0].node_type)
-        self.assertEqual(doc, nodes[0].parent_node)
-        self.assertEqual(aw.NodeType.BODY, nodes[1].node_type)
-        self.assertEqual(nodes[0], nodes[1].parent_node)
-        self.assertEqual(aw.NodeType.PARAGRAPH, nodes[2].node_type)
-        self.assertEqual(nodes[1], nodes[2].parent_node)
-        # This is the minimal set of nodes that we need to be able to edit the document.
-        # We will no longer be able to edit the document if we remove any of them.
-        doc.remove_all_children()
-        self.assertEqual(0, doc.get_child_nodes(aw.NodeType.ANY, True).count)
-        # Call this method to make sure that the document has at least those three nodes so we can edit it again.
-        doc.ensure_minimum()
-        self.assertEqual(aw.NodeType.SECTION, nodes[0].node_type)
-        self.assertEqual(aw.NodeType.BODY, nodes[1].node_type)
-        self.assertEqual(aw.NodeType.PARAGRAPH, nodes[2].node_type)
-        nodes[2].as_paragraph().runs.add(aw.Run(doc=doc, text='Hello world!'))
-        #ExEnd
-        self.assertEqual('Hello world!', doc.get_text().strip())
-
-    def test_doc_package_custom_parts(self):
-        #ExStart
-        #ExFor:CustomPart
-        #ExFor:CustomPart.content_type
-        #ExFor:CustomPart.relationship_type
-        #ExFor:CustomPart.is_external
-        #ExFor:CustomPart.data
-        #ExFor:CustomPart.name
-        #ExFor:CustomPart.clone
-        #ExFor:CustomPartCollection
-        #ExFor:CustomPartCollection.add(CustomPart)
-        #ExFor:CustomPartCollection.clear
-        #ExFor:CustomPartCollection.clone
-        #ExFor:CustomPartCollection.count
-        #ExFor:CustomPartCollection.__iter__
-        #ExFor:CustomPartCollection.__getitem__(int)
-        #ExFor:CustomPartCollection.remove_at(int)
-        #ExFor:Document.package_custom_parts
-        #ExSummary:Shows how to access a document's arbitrary custom parts collection.
-        doc = aw.Document(MY_DIR + 'Custom parts OOXML package.docx')
-        self.assertEqual(2, doc.package_custom_parts.count)
-        # Clone the second part, then add the clone to the collection.
-        cloned_part = doc.package_custom_parts[1].clone()
-        doc.package_custom_parts.add(cloned_part)
-        self._test_doc_package_custom_parts(doc.package_custom_parts)  #ExSkip
-        self.assertEqual(3, doc.package_custom_parts.count)
-        # Enumerate over the collection and print every part.
-        for index, part in enumerate(doc.package_custom_parts):
-            print(f'Part index {index}:')
-            print(f'\tName:\t\t\t\t{part.name}')
-            print(f'\tContent type:\t\t{part.content_type}')
-            print(f'\tRelationship type:\t{part.relationship_type}')
-            if part.is_external:
-                print('\tSourced from outside the document')
-            else:
-                print(f'\tStored within the document, length: {len(part.data)} bytes')
-        # We can remove elements from this collection individually, or all at once.
-        doc.package_custom_parts.remove_at(2)
-        self.assertEqual(2, doc.package_custom_parts.count)
-        doc.package_custom_parts.clear()
-        self.assertEqual(0, doc.package_custom_parts.count)
-        #ExEnd
-
-    def test_read_macros_from_existing_document(self):
-        #ExStart
-        #ExFor:Document.vba_project
-        #ExFor:VbaModuleCollection
-        #ExFor:VbaModuleCollection.count
-        #ExFor:VbaModuleCollection.__getitem__(int)
-        #ExFor:VbaModuleCollection.__getitem__(string)
-        #ExFor:VbaModuleCollection.remove
-        #ExFor:VbaModule
-        #ExFor:VbaModule.name
-        #ExFor:VbaModule.source_code
-        #ExFor:VbaProject
-        #ExFor:VbaProject.name
-        #ExFor:VbaProject.modules
-        #ExFor:VbaProject.code_page
-        #ExFor:VbaProject.is_signed
-        #ExSummary:Shows how to access a document's VBA project information.
-        doc = aw.Document(MY_DIR + 'VBA project.docm')
-        # A VBA project contains a collection of VBA modules.
-        vba_project = doc.vba_project
-        self.assertTrue(vba_project.is_signed)  #ExSkip
-        if vba_project.is_signed:
-            print(f'Project name: {vba_project.name} signed; Project code page: {vba_project.code_page}; Modules count: {vba_project.modules.count}\n')
-        else:
-            print(f'Project name: {vba_project.name} not signed; Project code page: {vba_project.code_page}; Modules count: {vba_project.modules.count}\n')
-        vba_modules = doc.vba_project.modules
-        self.assertEqual(vba_modules.count, 3)
-        for module in vba_modules:
-            print(f'Module name: {module.name};\nModule code:\n{module.source_code}\n')
-        # Set new source code for VBA module. You can access VBA modules in the collection either by index or by name.
-        vba_modules[0].source_code = 'Your VBA code...'
-        vba_modules.get_by_name('Module1').source_code = 'Your VBA code...'
-        # Remove a module from the collection.
-        vba_modules.remove(vba_modules[2])
-        #ExEnd
-        self.assertEqual('AsposeVBAtest', vba_project.name)
-        self.assertEqual(2, vba_project.modules.count)
-        self.assertEqual(1251, vba_project.code_page)
-        self.assertFalse(vba_project.is_signed)
-        self.assertEqual('ThisDocument', vba_modules[0].name)
-        self.assertEqual('Your VBA code...', vba_modules[0].source_code)
-        self.assertEqual('Module1', vba_modules[1].name)
-        self.assertEqual('Your VBA code...', vba_modules[1].source_code)
-
-    def test_create_web_extension(self):
-        #ExStart
-        #ExFor:BaseWebExtensionCollection.add()
-        #ExFor:BaseWebExtensionCollection.clear
-        #ExFor:TaskPane
-        #ExFor:TaskPane.dock_state
-        #ExFor:TaskPane.is_visible
-        #ExFor:TaskPane.width
-        #ExFor:TaskPane.is_locked
-        #ExFor:TaskPane.web_extension
-        #ExFor:TaskPane.row
-        #ExFor:WebExtension
-        #ExFor:WebExtension.reference
-        #ExFor:WebExtension.properties
-        #ExFor:WebExtension.bindings
-        #ExFor:WebExtension.is_frozen
-        #ExFor:WebExtensionReference.id
-        #ExFor:WebExtensionReference.version
-        #ExFor:WebExtensionReference.store_type
-        #ExFor:WebExtensionReference.store
-        #ExFor:WebExtensionPropertyCollection
-        #ExFor:WebExtensionBindingCollection
-        #ExFor:WebExtensionProperty.__init__(str,str)
-        #ExFor:WebExtensionBinding.__init__(str,WebExtensionBindingType,str)
-        #ExFor:WebExtensionStoreType
-        #ExFor:WebExtensionBindingType
-        #ExFor:TaskPaneDockState
-        #ExFor:TaskPaneCollection
-        #ExSummary:Shows how to add a web extension to a document.
-        doc = aw.Document()
-        # Create task pane with "MyScript" add-in, which will be used by the document,
-        # then set its default location.
-        my_script_task_pane = aw.webextensions.TaskPane()
-        doc.web_extension_task_panes.add(my_script_task_pane)
-        my_script_task_pane.dock_state = aw.webextensions.TaskPaneDockState.RIGHT
-        my_script_task_pane.is_visible = True
-        my_script_task_pane.width = 300
-        my_script_task_pane.is_locked = True
-        # If there are multiple task panes in the same docking location, we can set this index to arrange them.
-        my_script_task_pane.row = 1
-        # Create an add-in called "MyScript Math Sample", which the task pane will display within.
-        web_extension = my_script_task_pane.web_extension
-        # Set application store reference parameters for our add-in, such as the ID.
-        web_extension.reference.id = 'WA104380646'
-        web_extension.reference.version = '1.0.0.0'
-        web_extension.reference.store_type = aw.webextensions.WebExtensionStoreType.OMEX
-        web_extension.reference.store = 'en-US'
-        web_extension.properties.add(aw.webextensions.WebExtensionProperty('MyScript', 'MyScript Math Sample'))
-        web_extension.bindings.add(aw.webextensions.WebExtensionBinding('MyScript', aw.webextensions.WebExtensionBindingType.TEXT, '104380646'))
-        # Allow the user to interact with the add-in.
-        web_extension.is_frozen = False
-        # We can access the web extension in Microsoft Word via Developer -> Add-ins.
-        doc.save(ARTIFACTS_DIR + 'Document.create_web_extension.docx')
-        # Remove all web extension task panes at once like this.
-        doc.web_extension_task_panes.clear()
-        self.assertEqual(0, doc.web_extension_task_panes.count)
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Document.create_web_extension.docx')
-        my_script_task_pane = doc.web_extension_task_panes[0]
-        self.assertEqual(aw.webextensions.TaskPaneDockState.RIGHT, my_script_task_pane.dock_state)
-        self.assertTrue(my_script_task_pane.is_visible)
-        self.assertEqual(300.0, my_script_task_pane.width)
-        self.assertTrue(my_script_task_pane.is_locked)
-        self.assertEqual(1, my_script_task_pane.row)
-        web_extension = my_script_task_pane.web_extension
-        self.assertEqual('WA104380646', web_extension.reference.id)
-        self.assertEqual('1.0.0.0', web_extension.reference.version)
-        self.assertEqual(aw.webextensions.WebExtensionStoreType.OMEX, web_extension.reference.store_type)
-        self.assertEqual('en-US', web_extension.reference.store)
-        self.assertEqual('MyScript', web_extension.properties[0].name)
-        self.assertEqual('MyScript Math Sample', web_extension.properties[0].value)
-        self.assertEqual('MyScript', web_extension.bindings[0].id)
-        self.assertEqual(aw.webextensions.WebExtensionBindingType.TEXT, web_extension.bindings[0].binding_type)
-        self.assertEqual('104380646', web_extension.bindings[0].app_ref)
-        self.assertFalse(web_extension.is_frozen)
-
-    def test_get_web_extension_info(self):
-        #ExStart
-        #ExFor:BaseWebExtensionCollection
-        #ExFor:BaseWebExtensionCollection.__iter__
-        #ExFor:BaseWebExtensionCollection.remove(int)
-        #ExFor:BaseWebExtensionCollection.count
-        #ExFor:BaseWebExtensionCollection.__getitem__(int)
-        #ExSummary:Shows how to work with a document's collection of web extensions.
-        doc = aw.Document(MY_DIR + 'Web extension.docx')
-        self.assertEqual(1, doc.web_extension_task_panes.count)
-        #print all properties of the document's web extension.
-        web_extension_property_collection = doc.web_extension_task_panes[0].web_extension.properties
-        for web_extension_property in web_extension_property_collection:
-            print(f'Binding name: {web_extension_property.name}; Binding value: {web_extension_property.value}')
-        # Remove the web extension.
-        doc.web_extension_task_panes.remove(0)
-        self.assertEqual(0, doc.web_extension_task_panes.count)
-        #ExEnd
 
     def _test_doc_package_custom_parts(self, parts: aw.markup.CustomPartCollection):
         self.assertEqual(3, parts.count)

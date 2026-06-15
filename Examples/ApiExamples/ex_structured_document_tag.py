@@ -187,6 +187,53 @@ class ExStructuredDocumentTag(ApiExampleBase):
             doc = aw.Document(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.IsTemporary.docx')
             self.assertEqual(2, len(list(filter(lambda sdt: sdt.as_structured_document_tag().is_temporary == is_temporary, doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True)))))
 
+    def test_placeholder_building_block(self):
+        for is_showing_placeholder_text in [False, True]:
+            #ExStart
+            #ExFor:StructuredDocumentTag.is_showing_placeholder_text
+            #ExFor:IStructuredDocumentTag.is_showing_placeholder_text
+            #ExFor:StructuredDocumentTag.placeholder
+            #ExFor:StructuredDocumentTag.placeholder_name
+            #ExFor:IStructuredDocumentTag.placeholder
+            #ExFor:IStructuredDocumentTag.placeholder_name
+            #ExSummary:Shows how to use a building block's contents as a custom placeholder text for a structured document tag.
+            doc = aw.Document()
+            # Insert a plain text structured document tag of the "PlainText" type, which will function as a text box.
+            # The contents that it will display by default are a "Click here to enter text." prompt.
+            tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.INLINE)
+            # We can get the tag to display the contents of a building block instead of the default text.
+            # First, add a building block with contents to the glossary document.
+            glossary_doc = doc.glossary_document
+            substitute_block = aw.buildingblocks.BuildingBlock(glossary_doc)
+            substitute_block.name = 'Custom Placeholder'
+            substitute_block.append_child(aw.Section(glossary_doc))
+            substitute_block.first_section.append_child(aw.Body(glossary_doc))
+            substitute_block.first_section.body.append_paragraph('Custom placeholder text.')
+            glossary_doc.append_child(substitute_block)
+            # Then, use the structured document tag's "PlaceholderName" property to reference that building block by name.
+            tag.placeholder_name = 'Custom Placeholder'
+            # If "PlaceholderName" refers to an existing block in the parent document's glossary document,
+            # we will be able to verify the building block via the "Placeholder" property.
+            self.assertEqual(substitute_block, tag.placeholder)
+            # Set the "IsShowingPlaceholderText" property to "true" to treat the
+            # structured document tag's current contents as placeholder text.
+            # This means that clicking on the text box in Microsoft Word will immediately highlight all the tag's contents.
+            # Set the "IsShowingPlaceholderText" property to "false" to get the
+            # structured document tag to treat its contents as text that a user has already entered.
+            # Clicking on this text in Microsoft Word will place the blinking cursor at the clicked location.
+            tag.is_showing_placeholder_text = is_showing_placeholder_text
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.insert_node(tag)
+            doc.save(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.PlaceholderBuildingBlock.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.PlaceholderBuildingBlock.docx')
+            tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
+            substitute_block = doc.glossary_document.get_child(aw.NodeType.BUILDING_BLOCK, 0, True).as_building_block()
+            self.assertEqual('Custom Placeholder', substitute_block.name)
+            self.assertEqual(is_showing_placeholder_text, tag.is_showing_placeholder_text)
+            self.assertEqual(substitute_block, tag.placeholder)
+            self.assertEqual(substitute_block.name, tag.placeholder_name)
+
     def test_lock(self):
         #ExStart
         #ExFor:StructuredDocumentTag.lock_content_control
@@ -219,6 +266,48 @@ class ExStructuredDocumentTag(ApiExampleBase):
         self.assertFalse(tag.lock_contents)
         self.assertTrue(tag.lock_content_control)
 
+    def test_list_item_collection(self):
+        import aspose.words as aw
+        from api_example_base import ApiExampleBase, ARTIFACTS_DIR
+        #ExStart
+        #ExFor:SdtListItem
+        #ExFor:SdtListItem.__init__(str)
+        #ExFor:SdtListItem.__init__(str,str)
+        #ExFor:SdtListItem.display_text
+        #ExFor:SdtListItem.value
+        #ExFor:SdtListItemCollection
+        #ExFor:SdtListItemCollection.add(SdtListItem)
+        #ExFor:SdtListItemCollection.clear
+        #ExFor:SdtListItemCollection.count
+        #ExFor:SdtListItemCollection.__iter__
+        #ExFor:SdtListItemCollection.__getitem__(int)
+        #ExFor:SdtListItemCollection.remove_at(int)
+        #ExFor:SdtListItemCollection.selected_value
+        #ExFor:StructuredDocumentTag.list_items
+        #ExSummary:Shows how to work with drop down-list structured document tags.
+        doc = aw.Document()
+        tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.DROP_DOWN_LIST, aw.markup.MarkupLevel.BLOCK)
+        doc.first_section.body.append_child(tag)
+        list_items = tag.list_items
+        list_items.add(aw.markup.SdtListItem(value='Value 1'))
+        assert list_items[0].display_text == list_items[0].value
+        list_items.add(aw.markup.SdtListItem(display_text='Item 2', value='Value 2'))
+        list_items.add(aw.markup.SdtListItem(display_text='Item 3', value='Value 3'))
+        list_items.add(aw.markup.SdtListItem(display_text='Item 4', value='Value 4'))
+        assert list_items.count == 4
+        list_items.selected_value = list_items[3]
+        assert list_items.selected_value.value == 'Value 4'
+        for item in list_items:
+            if item is not None:
+                print(f'List item: {item.display_text}, value: {item.value}')
+        list_items.remove_at(3)
+        assert list_items.count == 3
+        list_items.selected_value = list_items[1]
+        doc.save(ARTIFACTS_DIR + 'StructuredDocumentTag.ListItemCollection.docx')
+        list_items.clear()
+        assert list_items.count == 0
+        #ExEnd
+
     def test_data_checksum(self):
         #ExStart
         #ExFor:CustomXmlPart.data_checksum
@@ -236,6 +325,127 @@ class ExStructuredDocumentTag(ApiExampleBase):
         # We changed the XmlPart of the tag, and the checksum was updated at runtime.
         self.assertNotEqual(checksum, updated_checksum)
         #ExEnd
+
+    def test_xml_mapping(self):
+        import uuid
+        from api_example_base import ApiExampleBase, ARTIFACTS_DIR
+        import aspose.words as aw
+
+        class Example(ApiExampleBase):
+
+            def test_xml_mapping(self):
+                #ExStart
+                #ExFor:XmlMapping
+                #ExFor:XmlMapping.custom_xml_part
+                #ExFor:XmlMapping.delete
+                #ExFor:XmlMapping.is_mapped
+                #ExFor:XmlMapping.prefix_mappings
+                #ExFor:XmlMapping.xpath
+                #ExSummary:Shows how to set XML mappings for custom XML parts.
+                doc = aw.Document()
+                # Construct an XML part that contains text and add it to the document's CustomXmlPart collection.
+                xml_part_id = '{' + str(uuid.uuid4()) + '}'
+                xml_part_content = '<root><text>Text element #1</text><text>Text element #2</text></root>'
+                xml_part = doc.custom_xml_parts.add(id=xml_part_id, xml=xml_part_content)
+                self.assertEqual('<root><text>Text element #1</text><text>Text element #2</text></root>', system_helper.text.Encoding.get_string(xml_part.data, system_helper.text.Encoding.utf_8()))
+                # Create a structured document tag that will display the contents of our CustomXmlPart.
+                tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.BLOCK)
+                # Set a mapping for our structured document tag. This mapping will instruct
+                # our structured document tag to display a portion of the XML part's text contents that the XPath points to.
+                # In this case, it will be contents of the the second "<text>" element of the first "<root>" element: "Text element #2".
+                tag.xml_mapping.set_mapping(xml_part, '/root[1]/text[2]', "xmlns:ns='http://www.w3.org/2001/XMLSchema'")
+                self.assertTrue(tag.xml_mapping.is_mapped)
+                self.assertEqual(xml_part, tag.xml_mapping.custom_xml_part)
+                self.assertEqual('/root[1]/text[2]', tag.xml_mapping.xpath)
+                self.assertEqual("xmlns:ns='http://www.w3.org/2001/XMLSchema'", tag.xml_mapping.prefix_mappings)
+                # Add the structured document tag to the document to display the content from our custom part.
+                doc.first_section.body.append_child(tag)
+                doc.save(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.XmlMapping.docx')
+                #ExEnd
+                doc = aw.Document(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.XmlMapping.docx')
+                xml_part = doc.custom_xml_parts[0]
+                self.assertIsNotNone(xml_part.id)
+                self.assertEqual('<root><text>Text element #1</text><text>Text element #2</text></root>', system_helper.text.Encoding.get_string(xml_part.data, system_helper.text.Encoding.utf_8()))
+                tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
+                self.assertEqual('Text element #2', tag.get_text().strip())
+                self.assertEqual('/root[1]/text[2]', tag.xml_mapping.xpath)
+                self.assertEqual("xmlns:ns='http://www.w3.org/2001/XMLSchema'", tag.xml_mapping.prefix_mappings)
+
+    def test_structured_document_tag_range_start_xml_mapping(self):
+        import uuid
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
+        #ExStart
+        #ExFor:StructuredDocumentTagRangeStart.xml_mapping
+        #ExSummary:Shows how to set XML mappings for the range start of a structured document tag.
+        doc = aw.Document(file_name=MY_DIR + 'Multi-section structured document tags.docx')
+        # Construct an XML part that contains text and add it to the document's CustomXmlPart collection.
+        xml_part_id = '{' + str(uuid.uuid4()) + '}'
+        xml_part_content = '<root><text>Text element #1</text><text>Text element #2</text></root>'
+        xml_part = doc.custom_xml_parts.add(id=xml_part_id, xml=xml_part_content)
+        self.assertEqual('<root><text>Text element #1</text><text>Text element #2</text></root>', system_helper.text.Encoding.get_string(xml_part.data, system_helper.text.Encoding.utf_8()))
+        # Create a structured document tag that will display the contents of our CustomXmlPart in the document.
+        sdt_range_start = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, True).as_structured_document_tag_range_start()
+        # If we set a mapping for our structured document tag,
+        # it will only display a portion of the CustomXmlPart that the XPath points to.
+        # This XPath will point to the contents second "<text>" element of the first "<root>" element of our CustomXmlPart.
+        sdt_range_start.xml_mapping.set_mapping(xml_part, '/root[1]/text[2]', None)
+        doc.save(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.StructuredDocumentTagRangeStartXmlMapping.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.StructuredDocumentTagRangeStartXmlMapping.docx')
+        xml_part = doc.custom_xml_parts[0]
+        try:
+            uuid.UUID(xml_part.id)
+        except ValueError:
+            self.fail('xml_part.Id is not a valid GUID')
+        self.assertEqual('<root><text>Text element #1</text><text>Text element #2</text></root>', system_helper.text.Encoding.get_string(xml_part.data, system_helper.text.Encoding.utf_8()))
+        sdt_range_start = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, True).as_structured_document_tag_range_start()
+        self.assertEqual('/root[1]/text[2]', sdt_range_start.xml_mapping.xpath)
+
+    def test_custom_xml_schema_collection(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        import uuid
+
+        class ExCustomXmlSchema(ApiExampleBase):
+
+            def test_work_with_xml_schema_collection(self):
+                #ExStart
+                #ExFor:CustomXmlSchemaCollection
+                #ExFor:CustomXmlSchemaCollection.add(str)
+                #ExFor:CustomXmlSchemaCollection.clear
+                #ExFor:CustomXmlSchemaCollection.clone
+                #ExFor:CustomXmlSchemaCollection.count
+                #ExFor:CustomXmlSchemaCollection.__iter__
+                #ExFor:CustomXmlSchemaCollection.index_of(str)
+                #ExFor:CustomXmlSchemaCollection.__getitem__(int)
+                #ExFor:CustomXmlSchemaCollection.remove(str)
+                #ExFor:CustomXmlSchemaCollection.remove_at(int)
+                #ExSummary:Shows how to work with an XML schema collection.
+                doc = aw.Document()
+                xml_part_id = '{' + str(uuid.uuid4()) + '}'
+                xml_part_content = '<root><text>Hello, World!</text></root>'
+                xml_part = doc.custom_xml_parts.add(id=xml_part_id, xml=xml_part_content)
+                # Add an XML schema association.
+                xml_part.schemas.add('http://www.w3.org/2001/XMLSchema')
+                # Clone the custom XML part's XML schema association collection,
+                # and then add a couple of new schemas to the clone.
+                schemas = xml_part.schemas.clone()
+                schemas.add('http://www.w3.org/2001/XMLSchema-instance')
+                schemas.add('http://schemas.microsoft.com/office/2006/metadata/contentType')
+                self.assertEqual(3, schemas.count)
+                self.assertEqual(2, schemas.index_of('http://schemas.microsoft.com/office/2006/metadata/contentType'))
+                # Enumerate the schemas and print each element.
+                for schema in schemas:
+                    print(schema)
+                # Below are three ways of removing schemas from the collection.
+                # 1 - Remove a schema by index:
+                schemas.remove_at(2)
+                # 2 - Remove a schema by value:
+                schemas.remove('http://www.w3.org/2001/XMLSchema')
+                # 3 - Use the "Clear" method to empty the collection at once.
+                schemas.clear()
+                self.assertEqual(0, schemas.count)
+                 #ExEnd
 
     def test_custom_xml_part_store_item_id_read_only(self):
         #ExStart
@@ -447,6 +657,20 @@ class ExStructuredDocumentTag(ApiExampleBase):
         for node in tag.get_child_nodes(aw.NodeType.RUN, True):
             print(f'\t|Child node text: {node.get_text()}')
         #ExEnd
+    #ExStart
+    #ExFor:StructuredDocumentTagRangeStart.__init__(DocumentBase,SdtType)
+    #ExFor:StructuredDocumentTagRangeEnd.__init__(DocumentBase,int)
+    #ExFor:StructuredDocumentTagRangeStart.remove_self_only
+    #ExFor:StructuredDocumentTagRangeStart.remove_all_children
+    #ExSummary:Shows how to create/remove structured document tag and its content (InsertStructuredDocumentTagRanges).
+
+    def insert_structured_document_tag_ranges(self, doc):
+        range_start = aw.markup.StructuredDocumentTagRangeStart(doc, aw.markup.SdtType.PLAIN_TEXT)
+        range_end = aw.markup.StructuredDocumentTagRangeEnd(doc, range_start.id)
+        doc.first_section.body.insert_before(range_start, doc.first_section.body.first_paragraph)
+        doc.last_section.body.insert_after(range_end, doc.first_section.body.first_paragraph)
+        return range_start
+    #ExEnd
 
     def test_get_sdt(self):
         #ExStart
@@ -607,331 +831,6 @@ class ExStructuredDocumentTag(ApiExampleBase):
         sdt_plain = builder.insert_structured_document_tag(aw.markup.SdtType.PLAIN_TEXT)
         doc.save(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.InsertStructuredDocumentTag.docx')
         #ExEnd:InsertStructuredDocumentTag
-
-    def test_date(self):
-        #ExStart
-        #ExFor:StructuredDocumentTag.calendar_type
-        #ExFor:StructuredDocumentTag.date_display_format
-        #ExFor:StructuredDocumentTag.date_display_locale
-        #ExFor:StructuredDocumentTag.date_storage_format
-        #ExFor:StructuredDocumentTag.full_date
-        #ExSummary:Shows how to prompt the user to enter a date with a structured document tag.
-        doc = aw.Document()
-        # Insert a structured document tag that prompts the user to enter a date.
-        # In Microsoft Word, this element is known as a "Date picker content control".
-        # When we click on the arrow on the right end of this tag in Microsoft Word,
-        # we will see a pop up in the form of a clickable calendar.
-        # We can use that popup to select a date that the tag will display.
-        sdt_date = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.DATE, aw.markup.MarkupLevel.INLINE)
-        # Display the date, according to the Saudi Arabian Arabic locale.
-        sdt_date.date_display_locale = 1025  #CultureInfo.get_culture_info("ar-SA").LCID
-        # Set the format with which to display the date.
-        sdt_date.date_display_format = 'dd MMMM, yyyy'
-        sdt_date.date_storage_format = aw.markup.SdtDateStorageFormat.DATE_TIME
-        # Display the date according to the Hijri calendar.
-        sdt_date.calendar_type = aw.markup.SdtCalendarType.HIJRI
-        # Before the user chooses a date in Microsoft Word, the tag will display the text "Click here to enter a date.".
-        # According to the tag's calendar, set the "full_date" property to get the tag to display a default date.
-        sdt_date.full_date = datetime(1440, 10, 20)
-        builder = aw.DocumentBuilder(doc)
-        builder.insert_node(sdt_date)
-        doc.save(ARTIFACTS_DIR + 'StructuredDocumentTag.date.docx')
-        #ExEnd
-
-    def test_placeholder_building_block(self):
-        for is_showing_placeholder_text in [False, True]:
-            #ExStart
-            #ExFor:StructuredDocumentTag.is_showing_placeholder_text
-            #ExFor:IStructuredDocumentTag.is_showing_placeholder_text
-            #ExFor:StructuredDocumentTag.placeholder
-            #ExFor:StructuredDocumentTag.placeholder_name
-            #ExFor:IStructuredDocumentTag.placeholder
-            #ExFor:IStructuredDocumentTag.placeholder_name
-            #ExSummary:Shows how to use a building block's contents as a custom placeholder text for a structured document tag.
-            doc = aw.Document()
-            # Insert a plain text structured document tag of the "PlainText" type, which will function as a text box.
-            # The contents that it will display by default are a "Click here to enter text." prompt.
-            tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.INLINE)
-            # We can get the tag to display the contents of a building block instead of the default text.
-            # First, add a building block with contents to the glossary document.
-            glossary_doc = doc.glossary_document
-            substitute_block = aw.buildingblocks.BuildingBlock(glossary_doc)
-            substitute_block.name = 'Custom Placeholder'
-            substitute_block.append_child(aw.Section(glossary_doc))
-            substitute_block.first_section.append_child(aw.Body(glossary_doc))
-            substitute_block.first_section.body.append_paragraph('Custom placeholder text.')
-            glossary_doc.append_child(substitute_block)
-            # Then, use the structured document tag's "PlaceholderName" property to reference that building block by name.
-            tag.placeholder_name = 'Custom Placeholder'
-            # If "PlaceholderName" refers to an existing block in the parent document's glossary document,
-            # we will be able to verify the building block via the "Placeholder" property.
-            self.assertEqual(substitute_block, tag.placeholder)
-            # Set the "IsShowingPlaceholderText" property to "true" to treat the
-            # structured document tag's current contents as placeholder text.
-            # This means that clicking on the text box in Microsoft Word will immediately highlight all the tag's contents.
-            # Set the "IsShowingPlaceholderText" property to "false" to get the
-            # structured document tag to treat its contents as text that a user has already entered.
-            # Clicking on this text in Microsoft Word will place the blinking cursor at the clicked location.
-            tag.is_showing_placeholder_text = is_showing_placeholder_text
-            builder = aw.DocumentBuilder(doc=doc)
-            builder.insert_node(tag)
-            doc.save(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.PlaceholderBuildingBlock.docx')
-            #ExEnd
-            doc = aw.Document(file_name=ARTIFACTS_DIR + 'StructuredDocumentTag.PlaceholderBuildingBlock.docx')
-            tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
-            substitute_block = doc.glossary_document.get_child(aw.NodeType.BUILDING_BLOCK, 0, True).as_building_block()
-            self.assertEqual('Custom Placeholder', substitute_block.name)
-            self.assertEqual(is_showing_placeholder_text, tag.is_showing_placeholder_text)
-            self.assertEqual(substitute_block, tag.placeholder)
-            self.assertEqual(substitute_block.name, tag.placeholder_name)
-
-    def test_list_item_collection(self):
-        #ExStart
-        #ExFor:SdtListItem
-        #ExFor:SdtListItem.__init__(str)
-        #ExFor:SdtListItem.__init__(str,str)
-        #ExFor:SdtListItem.display_text
-        #ExFor:SdtListItem.value
-        #ExFor:SdtListItemCollection
-        #ExFor:SdtListItemCollection.add(SdtListItem)
-        #ExFor:SdtListItemCollection.clear
-        #ExFor:SdtListItemCollection.count
-        #ExFor:SdtListItemCollection.__iter__
-        #ExFor:SdtListItemCollection.__getitem__(int)
-        #ExFor:SdtListItemCollection.remove_at(int)
-        #ExFor:SdtListItemCollection.selected_value
-        #ExFor:StructuredDocumentTag.list_items
-        #ExSummary:Shows how to work with drop down-list structured document tags.
-        doc = aw.Document()
-        tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.DROP_DOWN_LIST, aw.markup.MarkupLevel.BLOCK)
-        doc.first_section.body.append_child(tag)
-        # A drop-down list structured document tag is a form that allows the user to
-        # select an option from a list by left-clicking and opening the form in Microsoft Word.
-        # The "list_items" property contains all list items, and each list item is an "SdtListItem".
-        list_items = tag.list_items
-        list_items.add(aw.markup.SdtListItem('Value 1'))
-        self.assertEqual(list_items[0].display_text, list_items[0].value)
-        # Add 3 more list items. Initialize these items using a different constructor to the first item
-        # to display strings that are different from their values.
-        list_items.add(aw.markup.SdtListItem('Item 2', 'Value 2'))
-        list_items.add(aw.markup.SdtListItem('Item 3', 'Value 3'))
-        list_items.add(aw.markup.SdtListItem('Item 4', 'Value 4'))
-        self.assertEqual(4, list_items.count)
-        # The drop-down list is displaying the first item. Assign a different list item to the "selected_value" to display it.
-        list_items.selected_value = list_items[3]
-        self.assertEqual('Value 4', list_items.selected_value.value)
-        # Enumerate over the collection and print each element.
-        for item in list_items:
-            if item is not None:
-                print(f'List item: {item.display_text}, value: {item.value}')
-        # Remove the last list item.
-        list_items.remove_at(3)
-        self.assertEqual(3, list_items.count)
-        # Since our drop-down control is set to display the removed item by default, give it an item to display which exists.
-        list_items.selected_value = list_items[1]
-        doc.save(ARTIFACTS_DIR + 'StructuredDocumentTag.list_item_collection.docx')
-        # Use the "clear" method to empty the entire drop-down item collection at once.
-        list_items.clear()
-        self.assertEqual(0, list_items.count)
-        #ExEnd
-
-    def test_creating_custom_xml(self):
-        #ExStart
-        #ExFor:CustomXmlPart
-        #ExFor:CustomXmlPart.clone
-        #ExFor:CustomXmlPart.data
-        #ExFor:CustomXmlPart.id
-        #ExFor:CustomXmlPart.schemas
-        #ExFor:CustomXmlPartCollection
-        #ExFor:CustomXmlPartCollection.add(CustomXmlPart)
-        #ExFor:CustomXmlPartCollection.add(str,str)
-        #ExFor:CustomXmlPartCollection.clear
-        #ExFor:CustomXmlPartCollection.clone
-        #ExFor:CustomXmlPartCollection.count
-        #ExFor:CustomXmlPartCollection.get_by_id(str)
-        #ExFor:CustomXmlPartCollection.__iter__
-        #ExFor:CustomXmlPartCollection.__getitem__(int)
-        #ExFor:CustomXmlPartCollection.remove_at(int)
-        #ExFor:Document.custom_xml_parts
-        #ExFor:StructuredDocumentTag.xml_mapping
-        #ExFor:XmlMapping.set_mapping(CustomXmlPart,str,str)
-        #ExSummary:Shows how to create a structured document tag with custom XML data.
-        doc = aw.Document()
-        # Construct an XML part that contains data and add it to the document's collection.
-        # If we enable the "Developer" tab in Microsoft Word,
-        # we can find elements from this collection in the "XML Mapping Pane", along with a few default elements.
-        xml_part_id = str(uuid.uuid4())
-        xml_part_content = '<root><text>Hello world!</text></root>'
-        xml_part = doc.custom_xml_parts.add(xml_part_id, xml_part_content)
-        self.assertEqual(xml_part_content.encode('ascii'), xml_part.data)
-        self.assertEqual(xml_part_id, xml_part.id)
-        # Below are two ways to refer to XML parts.
-        # 1 -  By an index in the custom XML part collection:
-        self.assertEqual(xml_part, doc.custom_xml_parts[0])
-        # 2 -  By GUID:
-        self.assertEqual(xml_part, doc.custom_xml_parts.get_by_id(xml_part_id))
-        # Add an XML schema association.
-        xml_part.schemas.add('http://www.w3.org/2001/XMLSchema')
-        # Clone a part, and then insert it into the collection.
-        xml_part_clone = xml_part.clone()
-        xml_part_clone.id = str(uuid.uuid4())
-        doc.custom_xml_parts.add(xml_part_clone)
-        self.assertEqual(2, doc.custom_xml_parts.count)
-        # Iterate through the collection and print the contents of each part.
-        for index, part in enumerate(doc.custom_xml_parts):
-            print(f'XML part index {index}, ID: {part.id}')
-            print(f"\tContent: {part.data.decode('utf-8')}")
-        # Use the "remove_at" method to remove the cloned part by index.
-        doc.custom_xml_parts.remove_at(1)
-        self.assertEqual(1, doc.custom_xml_parts.count)
-        # Clone the XML parts collection, and then use the "Clear" method to remove all its elements at once.
-        custom_xml_parts = doc.custom_xml_parts.clone()
-        custom_xml_parts.clear()
-        # Create a structured document tag that will display our part's contents and insert it into the document body.
-        tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.BLOCK)
-        tag.xml_mapping.set_mapping(xml_part, '/root[1]/text[1]', '')
-        doc.first_section.body.append_child(tag)
-        doc.save(ARTIFACTS_DIR + 'StructuredDocumentTag.creating_custom_xml.docx')
-        #ExEnd
-        self.assertTrue(DocumentHelper.compare_docs(ARTIFACTS_DIR + 'StructuredDocumentTag.creating_custom_xml.docx', GOLDS_DIR + 'StructuredDocumentTag.CustomXml Gold.docx'))
-        doc = aw.Document(ARTIFACTS_DIR + 'StructuredDocumentTag.creating_custom_xml.docx')
-        xml_part = doc.custom_xml_parts[0]
-        xml_part_id = uuid.UUID(xml_part.id)
-        self.assertEqual('<root><text>Hello world!</text></root>', xml_part.data.decode('utf-8'))
-        self.assertEqual('http://www.w3.org/2001/XMLSchema', xml_part.schemas[0])
-        tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
-        self.assertEqual('Hello world!', tag.get_text().strip())
-        self.assertEqual('/root[1]/text[1]', tag.xml_mapping.xpath)
-        self.assertEqual('', tag.xml_mapping.prefix_mappings)
-        self.assertEqual(xml_part.data_checksum, tag.xml_mapping.custom_xml_part.data_checksum)
-
-    def test_xml_mapping(self):
-        #ExStart
-        #ExFor:XmlMapping
-        #ExFor:XmlMapping.custom_xml_part
-        #ExFor:XmlMapping.delete
-        #ExFor:XmlMapping.is_mapped
-        #ExFor:XmlMapping.prefix_mappings
-        #ExFor:XmlMapping.xpath
-        #ExSummary:Shows how to set XML mappings for custom XML parts.
-        doc = aw.Document()
-        # Construct an XML part that contains text and add it to the document's CustomXmlPart collection.
-        xml_part_id = str(uuid.uuid4())
-        xml_part_content = '<root><text>Text element #1</text><text>Text element #2</text></root>'
-        xml_part = doc.custom_xml_parts.add(xml_part_id, xml_part_content)
-        self.assertEqual('<root><text>Text element #1</text><text>Text element #2</text></root>', xml_part.data.decode('utf-8'))
-        # Create a structured document tag that will display the contents of our CustomXmlPart.
-        tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.PLAIN_TEXT, aw.markup.MarkupLevel.BLOCK)
-        # Set a mapping for our structured document tag. This mapping will instruct
-        # our structured document tag to display a portion of the XML part's text contents that the XPath points to.
-        # In this case, it will be contents of the the second "<text>" element of the first "<root>" element: "Text element #2".
-        tag.xml_mapping.set_mapping(xml_part, '/root[1]/text[2]', "xmlns:ns='http://www.w3.org/2001/XMLSchema'")
-        self.assertTrue(tag.xml_mapping.is_mapped)
-        self.assertEqual(xml_part, tag.xml_mapping.custom_xml_part)
-        self.assertEqual('/root[1]/text[2]', tag.xml_mapping.xpath)
-        self.assertEqual("xmlns:ns='http://www.w3.org/2001/XMLSchema'", tag.xml_mapping.prefix_mappings)
-        # Add the structured document tag to the document to display the content from our custom part.
-        doc.first_section.body.append_child(tag)
-        doc.save(ARTIFACTS_DIR + 'StructuredDocumentTag.xml_mapping.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'StructuredDocumentTag.xml_mapping.docx')
-        xml_part = doc.custom_xml_parts[0]
-        xml_part_id = uuid.UUID(xml_part.id)
-        self.assertEqual('<root><text>Text element #1</text><text>Text element #2</text></root>', xml_part.data.decode('utf-8'))
-        tag = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
-        self.assertEqual('Text element #2', tag.get_text().strip())
-        self.assertEqual('/root[1]/text[2]', tag.xml_mapping.xpath)
-        self.assertEqual("xmlns:ns='http://www.w3.org/2001/XMLSchema'", tag.xml_mapping.prefix_mappings)
-
-    def test_structured_document_tag_range_start_xml_mapping(self):
-        #ExStart
-        #ExFor:StructuredDocumentTagRangeStart.xml_mapping
-        #ExSummary:Shows how to set XML mappings for the range start of a structured document tag.
-        doc = aw.Document(MY_DIR + 'Multi-section structured document tags.docx')
-        # Construct an XML part that contains text and add it to the document's CustomXmlPart collection.
-        xml_part_id = str(uuid.uuid4())
-        xml_part_content = '<root><text>Text element #1</text><text>Text element #2</text></root>'
-        xml_part = doc.custom_xml_parts.add(xml_part_id, xml_part_content)
-        self.assertEqual('<root><text>Text element #1</text><text>Text element #2</text></root>', xml_part.data.decode('utf-8'))
-        # Create a structured document tag that will display the contents of our CustomXmlPart in the document.
-        sdt_range_start = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, True).as_structured_document_tag_range_start()
-        # If we set a mapping for our structured document tag,
-        # it will only display a portion of the CustomXmlPart that the XPath points to.
-        # This XPath will point to the contents second "<text>" element of the first "<root>" element of our CustomXmlPart.
-        sdt_range_start.xml_mapping.set_mapping(xml_part, '/root[1]/text[2]', None)
-        doc.save(ARTIFACTS_DIR + 'StructuredDocumentTag.structured_document_tag_range_start_xml_mapping.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'StructuredDocumentTag.structured_document_tag_range_start_xml_mapping.docx')
-        xml_part = doc.custom_xml_parts[0]
-        xml_part_id = uuid.UUID(xml_part.id)
-        self.assertEqual('<root><text>Text element #1</text><text>Text element #2</text></root>', xml_part.data.decode('utf-8'))
-        sdt_range_start = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, True).as_structured_document_tag_range_start()
-        self.assertEqual('/root[1]/text[2]', sdt_range_start.xml_mapping.xpath)
-
-    def test_custom_xml_schema_collection(self):
-        #ExStart
-        #ExFor:CustomXmlSchemaCollection
-        #ExFor:CustomXmlSchemaCollection.add(str)
-        #ExFor:CustomXmlSchemaCollection.clear
-        #ExFor:CustomXmlSchemaCollection.clone
-        #ExFor:CustomXmlSchemaCollection.count
-        #ExFor:CustomXmlSchemaCollection.__iter__
-        #ExFor:CustomXmlSchemaCollection.index_of(str)
-        #ExFor:CustomXmlSchemaCollection.__getitem__(int)
-        #ExFor:CustomXmlSchemaCollection.remove(str)
-        #ExFor:CustomXmlSchemaCollection.remove_at(int)
-        #ExSummary:Shows how to work with an XML schema collection.
-        doc = aw.Document()
-        xml_part_id = str(uuid.uuid4())
-        xml_part_content = '<root><text>Hello, World!</text></root>'
-        xml_part = doc.custom_xml_parts.add(xml_part_id, xml_part_content)
-        # Add an XML schema association.
-        xml_part.schemas.add('http://www.w3.org/2001/XMLSchema')
-        # Clone the custom XML part's XML schema association collection,
-        # and then add a couple of new schemas to the clone.
-        schemas = xml_part.schemas.clone()
-        schemas.add('http://www.w3.org/2001/XMLSchema-instance')
-        schemas.add('http://schemas.microsoft.com/office/2006/metadata/contentType')
-        self.assertEqual(3, schemas.count)
-        self.assertEqual(2, schemas.index_of('http://schemas.microsoft.com/office/2006/metadata/contentType'))
-        # Enumerate the schemas and print each element.
-        for schema in schemas:
-            print(schema)
-        # Below are three ways of removing schemas from the collection.
-        # 1 -  Remove a schema by index:
-        schemas.remove_at(2)
-        # 2 -  Remove a schema by value:
-        schemas.remove('http://www.w3.org/2001/XMLSchema')
-        # 3 -  Use the "clear" method to empty the collection at once.
-        schemas.clear()
-        self.assertEqual(0, schemas.count)
-        #ExEnd
-
-    def test_access_to_building_block_properties_from_plain_text_sdt(self):
-        doc = aw.Document(MY_DIR + 'Structured document tags with building blocks.docx')
-        plain_text_sdt = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 1, True).as_structured_document_tag()
-        self.assertEqual(aw.markup.SdtType.PLAIN_TEXT, plain_text_sdt.sdt_type)
-        with self.assertRaises(Exception, msg='BuildingBlockType is only accessible for BuildingBlockGallery SDT type.'):
-            building_block_gallery = plain_text_sdt.building_block_gallery
-
-    def test_sdt_range_extended_methods(self):
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.writeln('StructuredDocumentTag element')
-        range_start = self.insert_structured_document_tag_ranges(doc)
-        # Removes ranged structured document tag, but keeps content inside.
-        range_start.remove_self_only()
-        range_start = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, False)
-        self.assertIsNone(range_start)
-        range_end = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_END, 0, False)
-        self.assertIsNone(range_end)
-        self.assertEqual('StructuredDocumentTag element', doc.get_text().strip())
-        range_start = self.insert_structured_document_tag_ranges(doc)
-        paragraph_node = range_start.last_child
-        self.assertEqual('StructuredDocumentTag element', paragraph_node.get_text().strip())
-        # Removes ranged structured document tag and content inside.
-        range_start.remove_all_children()
-        self.assertEqual(0, range_start.get_child_nodes(aw.NodeType.ANY, False).count)
 
     def insert_structured_document_tag_ranges(self, doc: aw.Document) -> aw.markup.StructuredDocumentTagRangeStart:
         range_start = aw.markup.StructuredDocumentTagRangeStart(doc, aw.markup.SdtType.PLAIN_TEXT)

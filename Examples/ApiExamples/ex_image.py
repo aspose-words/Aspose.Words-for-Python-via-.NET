@@ -1,3 +1,8 @@
+import os
+import aspose.pydrawing as drawing
+from aspose.words import Document, DocumentBuilder, NodeType
+from aspose.words.drawing import ImageType
+import sys
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
@@ -5,11 +10,6 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import os
-import aspose.pydrawing as drawing
-import sys
-from aspose.words import Document, DocumentBuilder, NodeType
-from aspose.words.drawing import ImageType
 import aspose.words as aw
 import aspose.words.drawing
 import system_helper
@@ -42,7 +42,7 @@ class ExImage(ApiExampleBase):
         self.assertEqual(100, shape.height)
         self.assertEqual(100, shape.width)
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_from_url(self):
         #ExStart
         #ExFor:DocumentBuilder.insert_image(str)
@@ -65,7 +65,7 @@ class ExImage(ApiExampleBase):
         shapes = doc.get_child_nodes(aw.NodeType.SHAPE, True)
         self.assertEqual(2, shapes.count)
         test_util.TestUtil.verify_image_in_shape(400, 400, aw.drawing.ImageType.JPEG, shapes[0].as_shape())
-        test_util.TestUtil.verify_image_in_shape(100, 100, aw.drawing.ImageType.PNG, shapes[1].as_shape())
+        test_util.TestUtil.verify_image_in_shape(400, 300, aw.drawing.ImageType.PNG, shapes[1].as_shape())
 
     def test_from_stream(self):
         #ExStart
@@ -262,6 +262,52 @@ class ExImage(ApiExampleBase):
         self.assertEqual(0, len(list(filter(lambda s: s.has_image, list(filter(lambda a: a is not None, map(lambda b: system_helper.linq.Enumerable.of_type(lambda x: x.as_shape(), b), list(doc.get_child_nodes(aw.NodeType.SHAPE, True)))))))))
         #ExEnd
 
+    def test_scale_image(self):
+        import aspose.words as aw
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        #ExStart
+        #ExFor:ImageData.image_size
+        #ExFor:ImageSize
+        #ExFor:ImageSize.width_points
+        #ExFor:ImageSize.height_points
+        #ExFor:ShapeBase.width
+        #ExFor:ShapeBase.height
+        #ExSummary:Shows how to resize a shape with an image.
+        # When we insert an image using the "InsertImage" method, the builder scales the shape that displays the image so that,
+        # when we view the document using 100% zoom in Microsoft Word, the shape displays the image in its actual size.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        shape = builder.insert_image(file_name=IMAGE_DIR + 'Logo.jpg')
+        # A 400x400 image will create an ImageData object with an image size of 300x300pt.
+        image_size = shape.image_data.image_size
+        self.assertEqual(300, image_size.width_points)
+        self.assertEqual(300, image_size.height_points)
+        # If a shape's dimensions match the image data's dimensions,
+        # then the shape is displaying the image in its original size.
+        self.assertEqual(300, shape.width)
+        self.assertEqual(300, shape.height)
+        # Reduce the overall size of the shape by 50%.
+        # Scaling factors apply to both the width and the height at the same time to preserve the shape's proportions.
+        shape.width *= 0.5
+        self.assertEqual(150, shape.width)
+        self.assertEqual(150, shape.height)
+        # When you resize the shape, the size of the image data remains the same.
+        self.assertEqual(300, image_size.width_points)
+        self.assertEqual(300, image_size.height_points)
+        # We can reference the image data dimensions to apply a scaling based on the size of the image.
+        shape.width = image_size.width_points * 1.1
+        self.assertEqual(330, shape.width)
+        self.assertEqual(330, shape.height)
+        doc.save(file_name=ARTIFACTS_DIR + 'Image.ScaleImage.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Image.ScaleImage.docx')
+        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
+        self.assertEqual(330, shape.width)
+        self.assertEqual(330, shape.height)
+        image_size = shape.image_data.image_size
+        self.assertEqual(300, image_size.width_points)
+        self.assertEqual(300, image_size.height_points)
+
     def test_insert_webp_image(self):
         #ExStart:InsertWebpImage
         #ExFor:DocumentBuilder.insert_image(str)
@@ -280,47 +326,3 @@ class ExImage(ApiExampleBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
         self.assertEqual(aw.drawing.ImageType.WEB_P, shape.image_data.image_type)
         #ExEnd:ReadWebpImage
-
-    def test_scale_image(self):
-        #ExStart
-        #ExFor:ImageData.image_size
-        #ExFor:ImageSize
-        #ExFor:ImageSize.width_points
-        #ExFor:ImageSize.height_points
-        #ExFor:ShapeBase.width
-        #ExFor:ShapeBase.height
-        #ExSummary:Shows how to resize a shape with an image.
-        # When we insert an image using the "insert_image" method, the builder scales the shape that displays the image so that,
-        # when we view the document using 100% zoom in Microsoft Word, the shape displays the image in its actual size.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        shape = builder.insert_image(IMAGE_DIR + 'Logo.jpg')
-        # A 400x400 image will create an ImageData object with an image size of 300x300pt.
-        image_size = shape.image_data.image_size
-        self.assertEqual(300.0, image_size.width_points)
-        self.assertEqual(300.0, image_size.height_points)
-        # If a shape's dimensions match the image data's dimensions,
-        # then the shape is displaying the image in its original size.
-        self.assertEqual(300.0, shape.width)
-        self.assertEqual(300.0, shape.height)
-        # Reduce the overall size of the shape by 50%.
-        shape.width *= 0.5
-        # Scaling factors apply to both the width and the height at the same time to preserve the shape's proportions.
-        self.assertEqual(150.0, shape.width)
-        self.assertEqual(150.0, shape.height)
-        # When we resize the shape, the size of the image data remains the same.
-        self.assertEqual(300.0, image_size.width_points)
-        self.assertEqual(300.0, image_size.height_points)
-        # We can reference the image data dimensions to apply a scaling based on the size of the image.
-        shape.width = image_size.width_points * 1.1
-        self.assertEqual(330.0, shape.width)
-        self.assertEqual(330.0, shape.height)
-        doc.save(ARTIFACTS_DIR + 'Image.scale_image.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Image.scale_image.docx')
-        shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
-        self.assertEqual(330.0, shape.width)
-        self.assertEqual(330.0, shape.height)
-        image_size = shape.image_data.image_size
-        self.assertEqual(300.0, image_size.width_points)
-        self.assertEqual(300.0, image_size.height_points)

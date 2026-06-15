@@ -5,15 +5,45 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import sys
 import aspose.words as aw
 import aspose.words.saving
 import document_helper
 import system_helper
+import test_util
+import sys
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, GOLDS_DIR, MY_DIR
 
 class ExTxtSaveOptions(ApiExampleBase):
+
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
+    def test_page_breaks(self):
+        for force_page_breaks in [False, True]:
+            #ExStart
+            #ExFor:TxtSaveOptionsBase.force_page_breaks
+            #ExSummary:Shows how to specify whether to preserve page breaks when exporting a document to plaintext.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            builder.writeln('Page 1')
+            builder.insert_break(aw.BreakType.PAGE_BREAK)
+            builder.writeln('Page 2')
+            builder.insert_break(aw.BreakType.PAGE_BREAK)
+            builder.writeln('Page 3')
+            # Create a "TxtSaveOptions" object, which we can pass to the document's "Save"
+            # method to modify how we save the document to plaintext.
+            save_options = aw.saving.TxtSaveOptions()
+            # The Aspose.Words "Document" objects have page breaks, just like Microsoft Word documents.
+            # Save formats such as ".txt" are one continuous body of text without page breaks.
+            # Set the "ForcePageBreaks" property to "true" to preserve all page breaks in the form of '\f' characters.
+            # Set the "ForcePageBreaks" property to "false" to discard all page breaks.
+            save_options.force_page_breaks = force_page_breaks
+            doc.save(file_name=ARTIFACTS_DIR + 'TxtSaveOptions.PageBreaks.txt', save_options=save_options)
+            # If we load a plaintext document with page breaks,
+            # the "Document" object will use them to split the body into pages.
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'TxtSaveOptions.PageBreaks.txt')
+            self.assertEqual(3 if force_page_breaks else 1, doc.page_count)
+            #ExEnd
+            test_util.TestUtil.file_contains_string('Page 1\r\n\x0cPage 2\r\n\x0cPage 3\r\n\r\n' if force_page_breaks else 'Page 1\r\nPage 2\r\nPage 3\r\n\r\n', ARTIFACTS_DIR + 'TxtSaveOptions.PageBreaks.txt')
 
     def test_export_headers_footers(self):
         for txt_export_headers_footers_mode in [aw.saving.TxtExportHeadersFootersMode.ALL_AT_END, aw.saving.TxtExportHeadersFootersMode.PRIMARY_ONLY, aw.saving.TxtExportHeadersFootersMode.NONE]:
@@ -172,7 +202,7 @@ class ExTxtSaveOptions(ApiExampleBase):
         self.assertEqual('? ? ? ? ?.\r\n', doc_text)
         #ExEnd
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_preserve_table_layout(self):
         for preserve_table_layout in [False, True]:
             #ExStart
@@ -231,34 +261,6 @@ class ExTxtSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'TxtSaveOptions.ExportOfficeMathAsLatexToText.txt', save_options=save_options)
         #ExEnd:ExportOfficeMathAsLatexToText
         self.assertTrue(document_helper.DocumentHelper.compare_docs(ARTIFACTS_DIR + 'TxtSaveOptions.ExportOfficeMathAsLatexToText.txt', GOLDS_DIR + 'TxtSaveOptions.ExportOfficeMathAsLatexToText.Gold.txt'))
-
-    def test_page_breaks(self):
-        for force_page_breaks in (False, True):
-            with self.subTest(force_page_breaks=force_page_breaks):
-                #ExStart
-                #ExFor:TxtSaveOptionsBase.force_page_breaks
-                #ExSummary:Shows how to specify whether to preserve page breaks when exporting a document to plaintext.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                builder.writeln('Page 1')
-                builder.insert_break(aw.BreakType.PAGE_BREAK)
-                builder.writeln('Page 2')
-                builder.insert_break(aw.BreakType.PAGE_BREAK)
-                builder.writeln('Page 3')
-                # Create a "TxtSaveOptions" object, which we can pass to the document's "save"
-                # method to modify how we save the document to plaintext.
-                save_options = aw.saving.TxtSaveOptions()
-                # The Aspose.Words "Document" objects have page breaks, just like Microsoft Word documents.
-                # Save formats such as ".txt" are one continuous body of text without page breaks.
-                # Set the "force_page_breaks" property to "True" to preserve all page breaks in the form of '\f' characters.
-                # Set the "force_page_breaks" property to "False" to discard all page breaks.
-                save_options.force_page_breaks = force_page_breaks
-                doc.save(ARTIFACTS_DIR + 'TxtSaveOptions.page_breaks.txt', save_options)
-                # If we load a plaintext document with page breaks,
-                # the "Document" object will use them to split the body into pages.
-                doc = aw.Document(ARTIFACTS_DIR + 'TxtSaveOptions.page_breaks.txt')
-                self.assertEqual(3 if force_page_breaks else 1, doc.page_count)
-                #ExEnd
 
     def test_add_bidi_marks(self):
         for add_bidi_marks in (False, True):

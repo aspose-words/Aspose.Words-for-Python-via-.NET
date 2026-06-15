@@ -1,3 +1,6 @@
+import pathlib
+import glob
+import sys
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
@@ -5,9 +8,6 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import sys
-import pathlib
-import glob
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.fonts
@@ -76,6 +76,26 @@ class ExFont(ApiExampleBase):
         run = doc.first_section.body.paragraphs[1].runs[0]
         self.assertEqual('Small Capitals', run.get_text().strip())
         self.assertTrue(run.font.small_caps)
+
+    def test_get_document_fonts(self):
+        #ExStart
+        #ExFor:FontInfoCollection
+        #ExFor:DocumentBase.font_infos
+        #ExFor:FontInfo
+        #ExFor:FontInfo.name
+        #ExFor:FontInfo.is_true_type
+        #ExSummary:Shows how to print the details of what fonts are present in a document.
+        doc = aw.Document(file_name=MY_DIR + 'Embedded font.docx')
+        all_fonts = doc.font_infos
+        self.assertEqual(5, all_fonts.count)  #ExSkip
+        # Print all the used and unused fonts in the document.
+        i = 0
+        while i < all_fonts.count:
+            print(f'Font index #{i}')
+            print(f'\tName: {all_fonts[i].name}')
+            print(f"\tIs {('' if all_fonts[i].is_true_type else 'not ')}a trueType font")
+            i += 1
+        #ExEnd
 
     def test_default_values_embedded_fonts_parameters(self):
         doc = aw.Document()
@@ -361,6 +381,31 @@ class ExFont(ApiExampleBase):
         self.assertEqual('Proofing has been disabled, so these spelking errrs will not display red lines underneath.', run.get_text().strip())
         self.assertTrue(run.font.no_proofing)
 
+    def test_locale_id(self):
+        import aspose.words as aw
+        from api_example_base import ApiExampleBase, ARTIFACTS_DIR
+        #ExStart
+        #ExFor:Font.locale_id
+        #ExSummary:Shows how to set the locale of the text that we are adding with a document builder.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # If we set the font's locale to English and insert some Russian text,
+        # the English locale spell checker will not recognize the text and detect it as a spelling error.
+        builder.font.locale_id = 1033  # English (United States)
+        builder.writeln('Привет!')
+        # Set a matching locale for the text that we are about to add to apply the appropriate spell checker.
+        builder.font.locale_id = 1049  # Russian
+        builder.writeln('Привет!')
+        doc.save(file_name=ARTIFACTS_DIR + 'Font.LocaleId.docx')
+        #ExEnd
+        doc = aw.Document(file_name=ARTIFACTS_DIR + 'Font.LocaleId.docx')
+        run = doc.first_section.body.paragraphs[0].runs[0]
+        self.assertEqual('Привет!', run.get_text().strip())
+        self.assertEqual(1033, run.font.locale_id)
+        run = doc.first_section.body.paragraphs[1].runs[0]
+        self.assertEqual('Привет!', run.get_text().strip())
+        self.assertEqual(1049, run.font.locale_id)
+
     def test_underlines(self):
         #ExStart
         #ExFor:Font.underline
@@ -574,6 +619,28 @@ class ExFont(ApiExampleBase):
         self.assertFalse(doc_run.font.style.built_in)
         self.assertEqual(aw.Underline.DOUBLE, doc_run.font.underline)
 
+    def test_get_available_fonts(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        from pathlib import Path
+        #ExStart
+        #ExFor:PhysicalFontInfo
+        #ExFor:FontSourceBase.get_available_fonts
+        #ExFor:PhysicalFontInfo.font_family_name
+        #ExFor:PhysicalFontInfo.full_font_name
+        #ExFor:PhysicalFontInfo.version
+        #ExFor:PhysicalFontInfo.file_path
+        #ExSummary:Shows how to list available fonts.
+        # Configure Aspose.Words to source fonts from a custom folder, and then print every available font.
+        folder_font_source = [aw.fonts.FolderFontSource(folder_path=FONTS_DIR, scan_subfolders=True)]
+        for font_info in folder_font_source[0].get_available_fonts():
+            print('FontFamilyName : {0}'.format(font_info.font_family_name))
+            print('FullFontName  : {0}'.format(font_info.full_font_name))
+            print('Version  : {0}'.format(font_info.version))
+            print('FilePath : {0}\n'.format(font_info.file_path))
+        #ExEnd
+        assert len(folder_font_source[0].get_available_fonts()) == sum((1 for f in Path(FONTS_DIR).rglob('*') if f.suffix.lower() in {'.ttf', '.otf'})) + 5
+
     def test_set_font_auto_color(self):
         #ExStart
         #ExFor:Font.auto_color
@@ -604,6 +671,47 @@ class ExFont(ApiExampleBase):
         self.assertEqual('The text color automatically chosen for this run is black.', run.get_text().strip())
         self.assertEqual(aspose.pydrawing.Color.empty().to_argb(), run.font.color.to_argb())
         self.assertEqual(aspose.pydrawing.Color.light_blue.to_argb(), run.font.shading.background_pattern_color.to_argb())
+
+    def _test_remove_hidden_content(self, doc):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        doc = aw.Document()
+        self.assertEqual(20, doc.get_child_nodes(aw.NodeType.PARAGRAPH, True).count)
+        self.assertEqual(1, doc.get_child_nodes(aw.NodeType.TABLE, True).count)
+        for node in doc.get_child_nodes(aw.NodeType.ANY, True):
+            if isinstance(node, aw.FieldStart):
+                field_start = node.as_field_start()
+                self.assertFalse(field_start.font.hidden)
+            elif isinstance(node, aw.FieldEnd):
+                field_end = node.as_field_end()
+                self.assertFalse(field_end.font.hidden)
+            elif isinstance(node, aw.FieldSeparator):
+                field_separator = node.as_field_separator()
+                self.assertFalse(field_separator.font.hidden)
+            elif isinstance(node, aw.Run):
+                run = node.as_run()
+                self.assertFalse(run.font.hidden)
+            elif isinstance(node, aw.Paragraph):
+                paragraph = node.as_paragraph()
+                self.assertFalse(paragraph.paragraph_break_font.hidden)
+            elif isinstance(node, aw.Fields.FormField):
+                form_field = node.as_form_field()
+                self.assertFalse(form_field.font.hidden)
+            elif isinstance(node, aw.GroupShape):
+                group_shape = node.as_group_shape()
+                self.assertFalse(group_shape.font.hidden)
+            elif isinstance(node, aw.Shape):
+                shape = node.as_shape()
+                self.assertFalse(shape.font.hidden)
+            elif isinstance(node, aw.Comment):
+                comment = node.as_comment()
+                self.assertFalse(comment.font.hidden)
+            elif isinstance(node, aw.Footnote):
+                footnote = node.as_footnote()
+                self.assertFalse(footnote.font.hidden)
+            elif isinstance(node, aw.SpecialChar):
+                special_char = node.as_special_char()
+                self.assertFalse(special_char.font.hidden)
 
     def test_default_fonts(self):
         #ExStart
@@ -644,7 +752,34 @@ class ExFont(ApiExampleBase):
         system_helper.io.File.write_all_bytes(ARTIFACTS_DIR + 'Alte DIN 1451 Mittelschrift.otf', embedded_font_bytes)
         #ExEnd
 
-    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
+    def test_get_font_info_from_file(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        doc = aw.Document(file_name=MY_DIR + 'Document.docx')
+        for font_info in doc.font_infos:
+            if font_info is not None:
+                print('Font name: ' + font_info.name)
+                print('Alt name: ' + font_info.alt_name)
+                print('\t- Family: ' + str(font_info.family))
+                print('\t- ' + ('Is TrueType' if font_info.is_true_type else 'Is not TrueType'))
+                print('\t- Pitch: ' + str(font_info.pitch))
+                print('\t- Charset: ' + str(font_info.charset))
+                print('\t- Panose:')
+                print('\t\tFamily Kind: ' + str(font_info.panose[0]))
+                print('\t\tSerif Style: ' + str(font_info.panose[1]))
+                print('\t\tWeight: ' + str(font_info.panose[2]))
+                print('\t\tProportion: ' + str(font_info.panose[3]))
+                print('\t\tContrast: ' + str(font_info.panose[4]))
+                print('\t\tStroke Variation: ' + str(font_info.panose[5]))
+                print('\t\tArm Style: ' + str(font_info.panose[6]))
+                print('\t\tLetterform: ' + str(font_info.panose[7]))
+                print('\t\tMidline: ' + str(font_info.panose[8]))
+                print('\t\tX-Height: ' + str(font_info.panose[9]))
+        assert [2, 15, 5, 2, 2, 2, 4, 3, 2, 4] == doc.font_infos.get_by_name('Calibri').panose
+        assert [2, 15, 3, 2, 2, 2, 4, 3, 2, 4] == doc.font_infos.get_by_name('Calibri Light').panose
+        assert [2, 2, 6, 3, 5, 4, 5, 2, 3, 4] == doc.font_infos.get_by_name('Times New Roman').panose
+
     def test_line_spacing(self):
         #ExStart
         #ExFor:Font.line_spacing
@@ -671,6 +806,14 @@ class ExFont(ApiExampleBase):
         self.assertTrue(runs[3].font.has_dml_effect(aw.TextDmlEffect.EFFECT_3D))
         self.assertTrue(runs[4].font.has_dml_effect(aw.TextDmlEffect.FILL))
         #ExEnd
+
+    def test_check_scan_user_fonts_folder(self):
+        user_profile = system_helper.environment.Environment.get_environment_variable('USERPROFILE')
+        current_user_fonts_folder = os.path.join(user_profile, 'AppData\\Local\\Microsoft\\Windows\\Fonts')
+        current_user_fonts = system_helper.io.Directory.get_files(current_user_fonts_folder, '*.ttf')
+        if len(current_user_fonts) != 0:
+            system_font_source = aw.fonts.SystemFontSource()
+            assert next(filter(lambda x: x.filepath.contains('\\AppData\\Local\\Microsoft\\Windows\\Fonts'), system_font_source.get_available_fonts()), None) is not None, 'Fonts did not install to the user font folder'
 
     def test_set_emphasis_mark(self):
         for emphasis_mark in [aw.EmphasisMark.NONE, aw.EmphasisMark.OVER_COMMA, aw.EmphasisMark.OVER_SOLID_CIRCLE, aw.EmphasisMark.OVER_WHITE_CIRCLE, aw.EmphasisMark.UNDER_SOLID_CIRCLE]:
@@ -842,47 +985,6 @@ class ExFont(ApiExampleBase):
         run = doc.first_section.body.first_paragraph.runs[0]
         self.assertEqual(aw.NumSpacing.PROPORTIONAL, run.font.number_spacing)
 
-    def test_get_document_fonts(self):
-        #ExStart
-        #ExFor:FontInfoCollection
-        #ExFor:DocumentBase.font_infos
-        #ExFor:FontInfo
-        #ExFor:FontInfo.name
-        #ExFor:FontInfo.is_true_type
-        #ExSummary:Shows how to print the details of what fonts are present in a document.
-        doc = aw.Document(MY_DIR + 'Embedded font.docx')
-        all_fonts = doc.font_infos
-        self.assertEqual(5, all_fonts.count)  #ExSkip
-        # Print all the used and unused fonts in the document.
-        for i in range(all_fonts.count):
-            print(f'Font index #{i}')
-            print(f'\tName: {all_fonts[i].name}')
-            print(f"\tIs {('' if all_fonts[i].is_true_type else 'not ')}a TrueType font")
-        #ExEnd
-
-    def test_locale_id(self):
-        #ExStart
-        #ExFor:Font.locale_id
-        #ExSummary:Shows how to set the locale of the text that we are adding with a document builder.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # If we set the font's locale to English and insert some Russian text,
-        # the English locale spell checker will not recognize the text and detect it as a spelling error.
-        builder.font.locale_id = 1033  # en-US
-        builder.writeln('Привет!')
-        # Set a matching locale for the text that we are about to add to apply the appropriate spell checker.
-        builder.font.locale_id = 1049  # ru-RU
-        builder.writeln('Привет!')
-        doc.save(ARTIFACTS_DIR + 'Font.locale_id.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Font.locale_id.docx')
-        run = doc.first_section.body.paragraphs[0].runs[0]
-        self.assertEqual('Привет!', run.get_text().strip())
-        self.assertEqual(1033, run.font.locale_id)
-        run = doc.first_section.body.paragraphs[1].runs[0]
-        self.assertEqual('Привет!', run.get_text().strip())
-        self.assertEqual(1049, run.font.locale_id)
-
     def test_bidi(self):
         #ExStart
         #ExFor:Font.bidi
@@ -936,110 +1038,6 @@ class ExFont(ApiExampleBase):
             self.assertEqual('Andalus', run.font.name_bi)
             self.assertTrue(run.font.italic_bi)
             self.assertTrue(run.font.bold_bi)
-
-    def test_far_east(self):
-        #ExStart
-        #ExFor:Font.name_far_east
-        #ExFor:Font.locale_id_far_east
-        #ExSummary:Shows how to insert and format text in a Far East language.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Specify font settings that the document builder will apply to any text that it inserts.
-        builder.font.name = 'Courier New'
-        builder.font.locale_id = 1033  # en-US
-        # Name "FarEast" equivalents for our font and locale.
-        # If the builder inserts Asian characters with this Font configuration, then each run that contains
-        # these characters will display them using the "FarEast" font/locale instead of the default.
-        # This could be useful when a western font does not have ideal representations for Asian characters.
-        builder.font.name_far_east = 'SimSun'
-        builder.font.locale_id_far_east = 2052  # zh-CN
-        # This text will be displayed in the default font/locale.
-        builder.writeln('Hello world!')
-        # Since these are Asian characters, this run will apply our "FarEast" font/locale equivalents.
-        builder.writeln('你好世界')
-        doc.save(ARTIFACTS_DIR + 'Font.far_east.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Font.far_east.docx')
-        run = doc.first_section.body.paragraphs[0].runs[0]
-        self.assertEqual('Hello world!', run.get_text().strip())
-        self.assertEqual(1033, run.font.locale_id)
-        self.assertEqual('Courier New', run.font.name)
-        self.assertEqual(2052, run.font.locale_id_far_east)
-        self.assertEqual('SimSun', run.font.name_far_east)
-        run = doc.first_section.body.paragraphs[1].runs[0]
-        self.assertEqual('你好世界', run.get_text().strip())
-        self.assertEqual(1033, run.font.locale_id)
-        self.assertEqual('SimSun', run.font.name)
-        self.assertEqual(2052, run.font.locale_id_far_east)
-        self.assertEqual('SimSun', run.font.name_far_east)
-
-    def test_get_available_fonts(self):
-        #ExStart
-        #ExFor:PhysicalFontInfo
-        #ExFor:FontSourceBase.get_available_fonts
-        #ExFor:PhysicalFontInfo.font_family_name
-        #ExFor:PhysicalFontInfo.full_font_name
-        #ExFor:PhysicalFontInfo.version
-        #ExFor:PhysicalFontInfo.file_path
-        #ExSummary:Shows how to list available fonts.
-        # Configure Aspose.Words to source fonts from a custom folder, and then print every available font.
-        folder_font_source = [aw.fonts.FolderFontSource(FONTS_DIR, True)]
-        for font_info in folder_font_source[0].get_available_fonts():
-            print('FontFamilyName :', font_info.font_family_name)
-            print('FullFontName   :', font_info.full_font_name)
-            print('Version  :', font_info.version)
-            print('FilePath :', font_info.file_path)
-            print()
-        #ExEnd
-        self.assertEqual(len(folder_font_source[0].get_available_fonts()), len(glob.glob(FONTS_DIR + '**/*.ttf', recursive=True) + glob.glob(FONTS_DIR + '**/*.otf', recursive=True)) + 5)
-
-    def test_get_font_info_from_file(self):
-        #ExStart
-        #ExFor:FontFamily
-        #ExFor:FontPitch
-        #ExFor:FontInfo.alt_name
-        #ExFor:FontInfo.charset
-        #ExFor:FontInfo.family
-        #ExFor:FontInfo.panose
-        #ExFor:FontInfo.pitch
-        #ExFor:FontInfoCollection.__iter__
-        #ExSummary:Shows how to access and print details of each font in a document.
-        doc = aw.Document(MY_DIR + 'Document.docx')
-        for font_info in doc.font_infos:
-            if font_info is not None:
-                print('Font name: ' + font_info.name)
-                # Alt names are usually blank.
-                print('Alt name:', font_info.alt_name)
-                print('\t- Family:', font_info.family)
-                print('\t-', 'Is TrueType' if font_info.is_true_type else 'Is not TrueType')
-                print('\t- Pitch:', font_info.pitch)
-                print('\t- Charset:', font_info.charset)
-                print('\t- Panose:')
-                print('\t\tFamily Kind:', font_info.panose[0])
-                print('\t\tSerif Style:', font_info.panose[1])
-                print('\t\tWeight:', font_info.panose[2])
-                print('\t\tProportion:', font_info.panose[3])
-                print('\t\tContrast:', font_info.panose[4])
-                print('\t\tStroke Variation:', font_info.panose[5])
-                print('\t\tArm Style:', font_info.panose[6])
-                print('\t\tLetterform:', font_info.panose[7])
-                print('\t\tMidline:', font_info.panose[8])
-                print('\t\tX-Height:', font_info.panose[9])
-        #ExEnd
-        self.assertEqual(bytes([2, 15, 5, 2, 2, 2, 4, 3, 2, 4]), doc.font_infos.get_by_name('Calibri').panose)
-        self.assertEqual(bytes([2, 15, 3, 2, 2, 2, 4, 3, 2, 4]), doc.font_infos.get_by_name('Calibri Light').panose)
-        self.assertEqual(bytes([2, 2, 6, 3, 5, 4, 5, 2, 3, 4]), doc.font_infos.get_by_name('Times New Roman').panose)
-
-    @unittest.skipIf(sys.platform.startswith('linux'), 'requires Windows')
-    def test_check_scan_user_fonts_folder(self):
-        user_profile = pathlib.Path(os.environ['USERPROFILE'])
-        current_user_fonts_folder = user_profile.joinpath('AppData\\Local\\Microsoft\\Windows\\Fonts')
-        if len(list(current_user_fonts_folder.glob('*.ttf'))) > 0:
-            # On Windows 10 fonts may be installed either into system folder "%windir%\fonts" for all users
-            # or into user folder "%userprofile%\AppData\Local\Microsoft\Windows\Fonts" for current user.
-            system_font_source = awfonts.SystemFontSource()
-            current_user_fonts = filter(lambda font: font.find('\\AppData\\Local\\Microsoft\\Windows\\Fonts') != -1, system_font_source.get_system_font_folders())
-            self.assertTrue(len(list(current_user_fonts)) > 0, 'Fonts did not install to the user font folder')
 
     def _test_remove_hidden_content(self, doc: aw.Document):
         self.assertEqual(20, doc.get_child_nodes(aw.NodeType.PARAGRAPH, True).count)

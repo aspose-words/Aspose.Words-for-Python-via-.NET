@@ -8,6 +8,7 @@
 import aspose.words as aw
 import aspose.words.saving
 import io
+import system_helper
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExSvgSaveOptions(ApiExampleBase):
@@ -26,6 +27,27 @@ class ExSvgSaveOptions(ApiExampleBase):
         options.show_page_border = False
         options.text_output_mode = aw.saving.SvgTextOutputMode.USE_PLACED_GLYPHS
         doc.save(file_name=ARTIFACTS_DIR + 'SvgSaveOptions.SaveLikeImage.svg', save_options=options)
+        #ExEnd
+
+    def test_svg_resource_folder(self):
+        #ExStart
+        #ExFor:SvgSaveOptions
+        #ExFor:SvgSaveOptions.export_embedded_images
+        #ExFor:SvgSaveOptions.resource_saving_callback
+        #ExFor:SvgSaveOptions.resources_folder
+        #ExFor:SvgSaveOptions.resources_folder_alias
+        #ExFor:SvgSaveOptions.save_format
+        #ExSummary:Shows how to manipulate and print the URIs of linked resources created while converting a document to .svg.
+        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+        options = aw.saving.SvgSaveOptions()
+        options.save_format = aw.SaveFormat.SVG
+        options.export_embedded_images = False
+        options.resources_folder = ARTIFACTS_DIR + 'SvgResourceFolder'
+        options.resources_folder_alias = ARTIFACTS_DIR + 'SvgResourceFolderAlias'
+        options.show_page_border = False
+        options.resource_saving_callback = self.ResourceUriPrinter()
+        system_helper.io.Directory.create_directory(options.resources_folder_alias)
+        doc.save(file_name=ARTIFACTS_DIR + 'SvgSaveOptions.SvgResourceFolder.svg', save_options=options)
         #ExEnd
 
     def test_save_office_math(self):
@@ -74,3 +96,23 @@ class ExSvgSaveOptions(ApiExampleBase):
         save_options.remove_java_script_from_links = True
         doc.save(file_name=ARTIFACTS_DIR + 'SvgSaveOptions.RemoveJavaScriptFromLinksSvg.html', save_options=save_options)
         #ExEnd:RemoveJavaScriptFromLinksSvg
+    #ExStart
+    #ExFor:SvgSaveOptions
+    #ExFor:SvgSaveOptions.export_embedded_images
+    #ExFor:SvgSaveOptions.resource_saving_callback
+    #ExFor:SvgSaveOptions.resources_folder
+    #ExFor:SvgSaveOptions.resources_folder_alias
+    #ExFor:SvgSaveOptions.save_format
+    #ExSummary:Shows how to manipulate and print the URIs of linked resources created while converting a document to .svg (ResourceUriPrinter).
+
+    class ResourceUriPrinter(aw.saving.IResourceSavingCallback):
+
+        def __init__(self):
+            self.m_saved_resource_count = None
+
+        def resource_saving(self, args):
+            mSavedResourceCount = 0
+            mSavedResourceCount += 1
+            print(f'Resource #{mSavedResourceCount} "{args.resource_file_name}"')
+            print('\t' + args.resource_file_uri)
+    #ExEnd

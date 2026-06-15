@@ -10,6 +10,7 @@ import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.fields
 import document_helper
+import test_util
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -104,6 +105,40 @@ class ExFormFields(ApiExampleBase):
         self.assertEqual(aspose.pydrawing.Color.red.to_argb(), form_field_run.font.color.to_argb())
         #ExEnd
 
+    def _test_form_field(self, doc):
+        doc = document_helper.DocumentHelper.save_open(doc)
+        fields = doc.range.fields
+        self.assertEqual(3, fields.count)
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_FORM_DROP_DOWN, expected_field_code=' FORMDROPDOWN \x01', expected_result='', field=doc.range.fields[0])
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_FORM_CHECK_BOX, expected_field_code=' FORMCHECKBOX \x01', expected_result='', field=doc.range.fields[1])
+        test_util.TestUtil.verify_field(expected_type=aw.fields.FieldType.FIELD_FORM_TEXT_INPUT, expected_field_code=' FORMTEXT \x01', expected_result='Regular', field=doc.range.fields[2])
+        form_fields = doc.range.form_fields
+        self.assertEqual(3, form_fields.count)
+        self.assertEqual(aw.fields.FieldType.FIELD_FORM_DROP_DOWN, form_fields[0].type)
+        self.assertEqual(['One', 'Two', 'Three'], form_fields[0].drop_down_items)
+        self.assertTrue(form_fields[0].calculate_on_exit)
+        self.assertEqual(0, form_fields[0].drop_down_selected_index)
+        self.assertTrue(form_fields[0].enabled)
+        self.assertEqual('One', form_fields[0].result)
+        self.assertEqual(aw.fields.FieldType.FIELD_FORM_CHECK_BOX, form_fields[1].type)
+        self.assertTrue(form_fields[1].is_check_box_exact_size)
+        self.assertEqual('Right click to check this box', form_fields[1].help_text)
+        self.assertTrue(form_fields[1].own_help)
+        self.assertEqual('Checkbox status text', form_fields[1].status_text)
+        self.assertTrue(form_fields[1].own_status)
+        self.assertEqual(50, form_fields[1].check_box_size)
+        self.assertFalse(form_fields[1].checked)
+        self.assertFalse(form_fields[1].default)
+        self.assertEqual('0', form_fields[1].result)
+        self.assertEqual(aw.fields.FieldType.FIELD_FORM_TEXT_INPUT, form_fields[2].type)
+        self.assertEqual('EntryMacro', form_fields[2].entry_macro)
+        self.assertEqual('ExitMacro', form_fields[2].exit_macro)
+        self.assertEqual('Regular', form_fields[2].text_input_default)
+        self.assertEqual('FIRST CAPITAL', form_fields[2].text_input_format)
+        self.assertEqual(aw.fields.TextFormFieldType.REGULAR, form_fields[2].text_input_type)
+        self.assertEqual(50, form_fields[2].max_length)
+        self.assertEqual('Regular', form_fields[2].result)
+
     def test_drop_down_item_collection(self):
         #ExStart
         #ExFor:DropDownItemCollection
@@ -118,48 +153,53 @@ class ExFormFields(ApiExampleBase):
         #ExFor:DropDownItemCollection.remove(str)
         #ExFor:DropDownItemCollection.remove_at(int)
         #ExSummary:Shows how to insert a combo box field, and edit the elements in its item collection.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # Insert a combo box, and then verify its collection of drop-down items.
-        # In Microsoft Word, the user will click the combo box,
-        # and then choose one of the items of text in the collection to display.
-        items = ['One', 'Two', 'Three']
-        combo_box_field = builder.insert_combo_box('DropDown', items, 0)
-        drop_down_items = combo_box_field.drop_down_items
-        self.assertEqual(3, drop_down_items.count)
-        self.assertEqual('One', drop_down_items[0])
-        self.assertEqual(1, drop_down_items.index_of('Two'))
-        self.assertTrue(drop_down_items.contains('Three'))
-        # There are two ways of adding a new item to an existing collection of drop-down box items.
-        # 1 -  Append an item to the end of the collection:
-        drop_down_items.add('Four')
-        # 2 -  Insert an item before another item at a specified index:
-        drop_down_items.insert(3, 'Three and a half')
-        self.assertEqual(5, drop_down_items.count)
-        # Iterate over the collection and print every element.
-        for drop_down in drop_down_items:
-            print(drop_down)
-        # There are two ways of removing elements from a collection of drop-down items.
-        # 1 -  Remove an item with contents equal to the passed string:
-        drop_down_items.remove('Four')
-        # 2 -  Remove an item at an index:
-        drop_down_items.remove_at(3)
-        self.assertEqual(3, drop_down_items.count)
-        self.assertFalse(drop_down_items.contains('Three and a half'))
-        self.assertFalse(drop_down_items.contains('Four'))
-        doc.save(ARTIFACTS_DIR + 'FormFields.drop_down_item_collection.html')
-        # Empty the whole collection of drop-down items.
-        drop_down_items.clear()
-        #ExEnd
-        doc = DocumentHelper.save_open(doc)
-        drop_down_items = doc.range.form_fields[0].drop_down_items
-        self.assertEqual(0, drop_down_items.count)
-        doc = aw.Document(ARTIFACTS_DIR + 'FormFields.drop_down_item_collection.html')
-        drop_down_items = doc.range.form_fields[0].drop_down_items
-        self.assertEqual(3, drop_down_items.count)
-        self.assertEqual('One', drop_down_items[0])
-        self.assertEqual('Two', drop_down_items[1])
-        self.assertEqual('Three', drop_down_items[2])
+        from api_example_base import ApiExampleBase, ARTIFACTS_DIR
+
+        class ExampleFormFields(ApiExampleBase):
+
+            def test_drop_down_item_collection(self):
+                doc = aw.Document()
+                builder = aw.DocumentBuilder(doc=doc)
+                # Insert a combo box, and then verify its collection of drop-down items.
+                # In Microsoft Word, the user will click the combo box,
+                # and then choose one of the items of text in the collection to display.
+                items = ['One', 'Two', 'Three']
+                combo_box_field = builder.insert_combo_box('DropDown', items, 0)
+                drop_down_items = combo_box_field.drop_down_items
+                self.assertEqual(3, drop_down_items.count)
+                self.assertEqual('One', drop_down_items[0])
+                self.assertEqual(1, drop_down_items.index_of('Two'))
+                self.assertTrue(drop_down_items.contains('Three'))
+                # There are two ways of adding a new item to an existing collection of drop-down box items.
+                # 1 - Append an item to the end of the collection:
+                drop_down_items.add('Four')
+                # 2 - Insert an item before another item at a specified index:
+                drop_down_items.insert(3, 'Three and a half')
+                self.assertEqual(5, drop_down_items.count)
+                # Iterate over the collection and print every element.
+                for item in drop_down_items:
+                    print(item)
+                # There are two ways of removing elements from a collection of drop-down items.
+                # 1 - Remove an item with contents equal to the passed string:
+                drop_down_items.remove('Four')
+                # 2 - Remove an item at an index:
+                drop_down_items.remove_at(3)
+                self.assertEqual(3, drop_down_items.count)
+                self.assertFalse(drop_down_items.contains('Three and a half'))
+                self.assertFalse(drop_down_items.contains('Four'))
+                doc.save(file_name=ARTIFACTS_DIR + 'FormFields.DropDownItemCollection.html')
+                # Empty the whole collection of drop-down items.
+                drop_down_items.clear()
+                #ExEnd
+                doc = document_helper.DocumentHelper.save_open(doc)
+                drop_down_items = doc.range.form_fields[0].drop_down_items
+                self.assertEqual(0, drop_down_items.count)
+                doc = aw.Document(file_name=ARTIFACTS_DIR + 'FormFields.DropDownItemCollection.html')
+                drop_down_items = doc.range.form_fields[0].drop_down_items
+                self.assertEqual(3, drop_down_items.count)
+                self.assertEqual('One', drop_down_items[0])
+                self.assertEqual('Two', drop_down_items[1])
+                self.assertEqual('Three', drop_down_items[2])
 
     def _test_form_field(self, doc: aw.Document):
         doc = DocumentHelper.save_open(doc)

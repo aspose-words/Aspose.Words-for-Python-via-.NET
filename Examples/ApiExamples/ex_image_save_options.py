@@ -1,3 +1,6 @@
+import glob
+import os
+import sys
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
@@ -5,9 +8,6 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import sys
-import glob
-import os
 import aspose.pydrawing
 import aspose.words as aw
 import aspose.words.saving
@@ -201,7 +201,7 @@ class ExImageSaveOptions(ApiExampleBase):
         image_file_names = list(filter(lambda item: 'ImageSaveOptions.FloydSteinbergDithering.' in item and item.endswith('.tiff'), list(system_helper.io.Directory.get_files(ARTIFACTS_DIR, '*.tiff'))))
         self.assertEqual(1, len(image_file_names))
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_edit_image(self):
         #ExStart
         #ExFor:ImageSaveOptions.horizontal_resolution

@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
@@ -12,6 +13,7 @@ import aspose.words.replacing
 import aspose.words.tables
 import document_helper
 import test_util
+import sys
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
@@ -120,6 +122,110 @@ class ExTable(ApiExampleBase):
         cell_format = table.last_row.first_cell.cell_format
         self.assertEqual(110.8, cell_format.width)
         self.assertEqual(aspose.pydrawing.Color.orange.to_argb(), cell_format.shading.background_pattern_color.to_argb())
+
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
+    def test_display_content_of_tables(self):
+        #ExStart
+        #ExFor:Cell
+        #ExFor:CellCollection
+        #ExFor:CellCollection.__getitem__(int)
+        #ExFor:CellCollection.to_array
+        #ExFor:Row
+        #ExFor:Row.cells
+        #ExFor:RowCollection
+        #ExFor:RowCollection.__getitem__(int)
+        #ExFor:RowCollection.to_array
+        #ExFor:Table
+        #ExFor:Table.rows
+        #ExFor:TableCollection.__getitem__(int)
+        #ExFor:TableCollection.to_array
+        #ExSummary:Shows how to iterate through all tables in the document and print the contents of each cell.
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        doc = aw.Document(file_name=MY_DIR + 'Tables.docx')
+        tables = doc.first_section.body.tables
+        self.assertEqual(2, len(list(tables)))
+        i = 0
+        while i < tables.count:
+            print(f'Start of Table {i}')
+            rows = tables[i].rows
+            # We can use the "ToArray" method on a row collection to clone it into an array.
+            assert rows == rows.to_array()
+            self.assertNotEqual(rows, list(rows))
+            j = 0
+            while j < rows.count:
+                print(f'\tStart of Row {j}')
+                cells = rows[j].cells
+                # We can use the "ToArray" method on a cell collection to clone it into an array.
+                assert cells == cells.to_array()
+                self.assertNotEqual(cells, list(cells))
+                k = 0
+                while k < cells.count:
+                    cell_text = cells[k].to_string(save_format=aw.SaveFormat.TEXT).strip()
+                    print(f'\t\tContents of Cell:{k} = "{cell_text}"')
+                    k += 1
+                print(f'\tEnd of Row {j}')
+                j += 1
+            print(f'End of Table {i}\n')
+            i += 1
+        #ExEnd
+
+    def test_calculate_depth_of_nested_tables(self):
+        #ExStart
+        #ExFor:Node.get_ancestor(NodeType)
+        #ExFor:Node.get_ancestor(Type)
+        #ExFor:Table.node_type
+        #ExFor:Cell.tables
+        #ExFor:TableCollection
+        #ExFor:NodeCollection.count
+        #ExSummary:Shows how to find out if a tables are nested.
+        doc = aw.Document(file_name=MY_DIR + 'Nested tables.docx')
+        tables = doc.get_child_nodes(aw.NodeType.TABLE, True)
+        self.assertEqual(5, tables.count)  #ExSkip
+        i = 0
+        while i < tables.count:
+            table = tables[i].as_table()
+            # Find out if any cells in the table have other tables as children.
+            count = ExTable._get_child_table_count(table)
+            print('Table #{0} has {1} tables directly within its cells'.format(i, count))
+            # Find out if the table is nested inside another table, and, if so, at what depth.
+            table_depth = ExTable._get_nested_depth_of_table(table)
+            if table_depth > 0:
+                print('Table #{0} is nested inside another table at depth of {1}'.format(i, table_depth))
+            else:
+                print('Table #{0} is a non nested table (is not a child of another table)'.format(i))
+            i += 1
+        #ExEnd
+    #ExStart
+    #ExFor:Node.get_ancestor(NodeType)
+    #ExFor:Node.get_ancestor(Type)
+    #ExFor:Table.node_type
+    #ExFor:Cell.tables
+    #ExFor:TableCollection
+    #ExFor:NodeCollection.count
+    #ExSummary:Shows how to find out if a tables are nested (GetNestedDepthOfTable).
+
+    @staticmethod
+    def _get_nested_depth_of_table(table):
+        depth = 0
+        parent = table.get_ancestor(aw.tables.Table)
+        while parent is not None:
+            depth += 1
+            parent = parent.get_ancestor(aw.tables.Table)
+        return depth
+
+    @staticmethod
+    def _get_child_table_count(table):
+        child_table_count = 0
+        for row in table.rows:
+            row = row.as_row()
+            for cell in row.cells:
+                cell = cell.as_cell()
+                child_tables = cell.tables
+                if child_tables.count > 0:
+                    child_table_count += 1
+        return child_table_count
+    #ExEnd
 
     def test_ensure_table_minimum(self):
         #ExStart
@@ -355,6 +461,33 @@ class ExTable(ApiExampleBase):
         self.assertEqual('Eggs\x0750\x07\x07' + 'Potatoes\x0720\x07\x07', table.get_text().strip())
         #ExEnd
 
+    def test_remove_paragraph_text_and_mark(self):
+        for is_smart_paragraph_break_replacement in [True, False]:
+            #ExStart
+            #ExFor:FindReplaceOptions.smart_paragraph_break_replacement
+            #ExSummary:Shows how to remove paragraph from a table cell with a nested table.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            # Create table with paragraph and inner table in first cell.
+            builder.start_table()
+            builder.insert_cell()
+            builder.write('TEXT1')
+            builder.start_table()
+            builder.insert_cell()
+            builder.end_table()
+            builder.end_table()
+            builder.writeln()
+            options = aw.replacing.FindReplaceOptions()
+            # When the following option is set to 'true', Aspose.Words will remove paragraph's text
+            # completely with its paragraph mark. Otherwise, Aspose.Words will mimic Word and remove
+            # only paragraph's text and leaves the paragraph mark intact (when a table follows the text).
+            options.smart_paragraph_break_replacement = is_smart_paragraph_break_replacement
+            doc.range.replace_regex(pattern='TEXT1&p', replacement='', options=options)
+            doc.save(file_name=ARTIFACTS_DIR + 'Table.RemoveParagraphTextAndMark.docx')
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'Table.RemoveParagraphTextAndMark.docx')
+            self.assertEqual(1 if is_smart_paragraph_break_replacement else 2, doc.first_section.body.tables[0].rows[0].cells[0].paragraphs.count)
+
     def test_print_table_range(self):
         doc = aw.Document(file_name=MY_DIR + 'Tables.docx')
         table = doc.first_section.body.tables[0]
@@ -496,6 +629,185 @@ class ExTable(ApiExampleBase):
         self.assertEqual(11.16, first_cell.cell_format.preferred_width.value)
         #ExEnd
 
+    def test_allow_cell_spacing(self):
+        for allow_cell_spacing in [False, True]:
+            #ExStart
+            #ExFor:Table.allow_cell_spacing
+            #ExFor:Table.cell_spacing
+            #ExSummary:Shows how to enable spacing between individual cells in a table.
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            table = builder.start_table()
+            builder.insert_cell()
+            builder.write('Animal')
+            builder.insert_cell()
+            builder.write('Class')
+            builder.end_row()
+            builder.insert_cell()
+            builder.write('Dog')
+            builder.insert_cell()
+            builder.write('Mammal')
+            builder.end_table()
+            table.cell_spacing = 3
+            # Set the "AllowCellSpacing" property to "true" to enable spacing between cells
+            # with a magnitude equal to the value of the "CellSpacing" property, in points.
+            # Set the "AllowCellSpacing" property to "false" to disable cell spacing
+            # and ignore the value of the "CellSpacing" property.
+            table.allow_cell_spacing = allow_cell_spacing
+            doc.save(file_name=ARTIFACTS_DIR + 'Table.AllowCellSpacing.html')
+            # Adjusting the "CellSpacing" property will automatically enable cell spacing.
+            table.cell_spacing = 5
+            self.assertTrue(table.allow_cell_spacing)
+            #ExEnd
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'Table.AllowCellSpacing.html')
+            table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
+            self.assertEqual(allow_cell_spacing, table.allow_cell_spacing)
+            if allow_cell_spacing:
+                self.assertEqual(3, table.cell_spacing)
+            else:
+                self.assertEqual(0, table.cell_spacing)
+            test_util.TestUtil.file_contains_string('<td style="border-style:solid; border-width:0.75pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top; -aw-border:0.5pt single #000000">' if allow_cell_spacing else '<td style="border-right-style:solid; border-right-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; ' + 'padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-bottom:0.5pt single #000000; -aw-border-right:0.5pt single #000000">', ARTIFACTS_DIR + 'Table.AllowCellSpacing.html')
+
+    def test_create_nested_table(self):
+        #ExStart
+        #ExFor:Table
+        #ExFor:Row
+        #ExFor:Cell
+        #ExFor:Table.__init__(DocumentBase)
+        #ExFor:Table.title
+        #ExFor:Table.description
+        #ExFor:Row.__init__(DocumentBase)
+        #ExFor:Cell.__init__(DocumentBase)
+        #ExFor:Cell.first_paragraph
+        #ExSummary:Shows how to build a nested table without using a document builder.
+        doc = aw.Document()
+        # Create the outer table with three rows and four columns, and then add it to the document.
+        outer_table = ExTable._create_table(doc, 3, 4, 'Outer Table')
+        doc.first_section.body.append_child(outer_table)
+        # Create another table with two rows and two columns and then insert it into the first table's first cell.
+        inner_table = ExTable._create_table(doc, 2, 2, 'Inner Table')
+        outer_table.first_row.first_cell.append_child(inner_table)
+        doc.save(file_name=ARTIFACTS_DIR + 'Table.CreateNestedTable.docx')
+        self._test_create_nested_table(aw.Document(file_name=ARTIFACTS_DIR + 'Table.CreateNestedTable.docx'))  #ExSkip
+        #ExEnd
+    #ExStart
+    #ExFor:Table
+    #ExFor:Row
+    #ExFor:Cell
+    #ExFor:Table.__init__(DocumentBase)
+    #ExFor:Table.title
+    #ExFor:Table.description
+    #ExFor:Row.__init__(DocumentBase)
+    #ExFor:Cell.__init__(DocumentBase)
+    #ExFor:Cell.first_paragraph
+    #ExSummary:Shows how to build a nested table without using a document builder (CreateTable).
+
+    @staticmethod
+    def _create_table(doc, row_count, cell_count, cell_text):
+        table = aw.tables.Table(doc)
+        row_id = 1
+        while row_id <= row_count:
+            row = aw.tables.Row(doc)
+            table.append_child(row)
+            cell_id = 1
+            while cell_id <= cell_count:
+                cell = aw.tables.Cell(doc)
+                cell.append_child(aw.Paragraph(doc))
+                cell.first_paragraph.append_child(aw.Run(doc=doc, text=cell_text))
+                row.append_child(cell)
+                cell_id += 1
+            row_id += 1
+        # You can use the "Title" and "Description" properties to add a title and description respectively to your table.
+        # The table must have at least one row before we can use these properties.
+        # These properties are meaningful for ISO / IEC 29500 compliant .docx documents (see the OoxmlCompliance class).
+        # If we save the document to pre-ISO/IEC 29500 formats, Microsoft Word ignores these properties.
+        table.title = 'Aspose table title'
+        table.description = 'Aspose table description'
+        return table
+    #ExEnd
+
+    def _test_create_nested_table(self, doc):
+        outer_table = doc.first_section.body.tables[0]
+        inner_table = doc.get_child(aw.NodeType.TABLE, 1, True).as_table()
+        self.assertEqual(2, doc.get_child_nodes(aw.NodeType.TABLE, True).count)
+        self.assertEqual(1, outer_table.first_row.first_cell.tables.count)
+        self.assertEqual(16, outer_table.get_child_nodes(aw.NodeType.CELL, True).count)
+        self.assertEqual(4, inner_table.get_child_nodes(aw.NodeType.CELL, True).count)
+        self.assertEqual('Aspose table title', inner_table.title)
+        self.assertEqual('Aspose table description', inner_table.description)
+
+    def test_check_cells_merged(self):
+        #ExStart
+        #ExFor:CellFormat.horizontal_merge
+        #ExFor:CellFormat.vertical_merge
+        #ExFor:CellMerge
+        #ExSummary:Prints the horizontal and vertical merge type of a cell.
+        doc = aw.Document(file_name=MY_DIR + 'Table with merged cells.docx')
+        table = doc.first_section.body.tables[0]
+        for row in table.rows:
+            row = row.as_row()
+            for cell in row.cells:
+                cell = cell.as_cell()
+                print(self.print_cell_merge_type(cell))
+        self.assertEqual('The cell at R1, C1 is vertically merged', self.print_cell_merge_type(table.first_row.first_cell))  #ExSkip
+        #ExEnd
+    #ExStart
+    #ExFor:CellFormat.horizontal_merge
+    #ExFor:CellFormat.vertical_merge
+    #ExFor:CellMerge
+    #ExSummary:Prints the horizontal and vertical merge type of a cell (PrintCellMergeType).
+
+    def print_cell_merge_type(self, cell):
+        is_horizontally_merged = cell.cell_format.horizontal_merge != aw.tables.CellMerge.NONE
+        is_vertically_merged = cell.cell_format.vertical_merge != aw.tables.CellMerge.NONE
+        cell_location = f'R{cell.parent_row.parent_table.index_of(cell.parent_row) + 1}, C{cell.parent_row.index_of(cell) + 1}'
+        if is_horizontally_merged and is_vertically_merged:
+            return f'The cell at {cell_location} is both horizontally and vertically merged'
+        if is_horizontally_merged:
+            return f'The cell at {cell_location} is horizontally merged.'
+        return f'The cell at {cell_location} is vertically merged' if is_vertically_merged else f'The cell at {cell_location} is not merged'
+    #ExEnd
+
+    def test_merge_cell_range(self):
+        doc = aw.Document(file_name=MY_DIR + 'Tables.docx')
+        table = doc.first_section.body.tables[0]
+        # We want to merge the range of cells found in between these two cells.
+        cell_start_range = table.rows[2].cells[2]
+        cell_end_range = table.rows[3].cells[3]
+        # Merge all the cells between the two specified cells into one.
+        ExTable.merge_cells(cell_start_range, cell_end_range)
+        doc.save(file_name=ARTIFACTS_DIR + 'Table.MergeCellRange.doc')
+        merged_cells_count = 0
+        for node in table.get_child_nodes(aw.NodeType.CELL, True):
+            cell = node.as_cell()
+            if cell.cell_format.horizontal_merge != aw.tables.CellMerge.NONE or cell.cell_format.vertical_merge != aw.tables.CellMerge.NONE:
+                merged_cells_count += 1
+        self.assertEqual(4, merged_cells_count)
+        self.assertTrue(table.rows[2].cells[2].cell_format.horizontal_merge == aw.tables.CellMerge.FIRST)
+        self.assertTrue(table.rows[2].cells[2].cell_format.vertical_merge == aw.tables.CellMerge.FIRST)
+        self.assertTrue(table.rows[3].cells[3].cell_format.horizontal_merge == aw.tables.CellMerge.PREVIOUS)
+        self.assertTrue(table.rows[3].cells[3].cell_format.vertical_merge == aw.tables.CellMerge.PREVIOUS)
+
+    @staticmethod
+    def merge_cells(start_cell, end_cell):
+        from aspose.pydrawing import Rectangle
+        parent_table = start_cell.parent_row.parent_table
+        # Find the row and cell indices for the start and end cells.
+        start_cell_pos = aspose.pydrawing.Point(start_cell.parent_row.index_of(start_cell), parent_table.index_of(start_cell.parent_row))
+        end_cell_pos = aspose.pydrawing.Point(end_cell.parent_row.index_of(end_cell), parent_table.index_of(end_cell.parent_row))
+        # Create a range of cells to be merged based on these indices.
+        # Inverse each index if the end cell is before the start cell.
+        merge_range = Rectangle(min(start_cell_pos.x, end_cell_pos.x), min(start_cell_pos.y, end_cell_pos.y), abs(end_cell_pos.x - start_cell_pos.x) + 1, abs(end_cell_pos.y - start_cell_pos.y) + 1)
+        for row in parent_table.rows:
+            row = row.as_row()
+            for cell in row.cells:
+                cell = cell.as_cell()
+                current_pos = aspose.pydrawing.Point(row.index_of(cell), parent_table.index_of(row))
+                # Check if the current cell is inside our merge range, then merge it.
+                if merge_range.contains(current_pos):
+                    cell.cell_format.horizontal_merge = aw.tables.CellMerge.FIRST if current_pos.x == merge_range.x else aw.tables.CellMerge.PREVIOUS
+                    cell.cell_format.vertical_merge = aw.tables.CellMerge.FIRST if current_pos.y == merge_range.y else aw.tables.CellMerge.PREVIOUS
+
     def test_combine_tables(self):
         #ExStart
         #ExFor:Cell.cell_format
@@ -522,6 +834,32 @@ class ExTable(ApiExampleBase):
         self.assertEqual(1, doc.get_child_nodes(aw.NodeType.TABLE, True).count)
         self.assertEqual(9, doc.first_section.body.tables[0].rows.count)
         self.assertEqual(42, doc.first_section.body.tables[0].get_child_nodes(aw.NodeType.CELL, True).count)
+
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
+    def test_split_table(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        doc = aw.Document(file_name=MY_DIR + 'Tables.docx')
+        first_table = doc.first_section.body.tables[0]
+        # We will split the table at the third row (inclusive).
+        row = first_table.rows[2]
+        # Create a new container for the split table.
+        table = first_table.clone(False).as_table()
+        # Insert the container after the original.
+        first_table.parent_node.insert_after(table, first_table)
+        # Add a buffer paragraph to ensure the tables stay apart.
+        first_table.parent_node.insert_after(aw.Paragraph(doc), first_table)
+        current_row = None
+        while True:
+            current_row = first_table.last_row
+            table.prepend_child(current_row)
+            if current_row != row:
+                break
+        doc = document_helper.DocumentHelper.save_open(doc)
+        self.assertEqual(row, table.first_row)
+        self.assertEqual(2, first_table.rows.count)
+        self.assertEqual(3, table.rows.count)
+        self.assertEqual(3, len(doc.get_child_nodes(aw.NodeType.TABLE, True)))
 
     def test_wrap_text(self):
         #ExStart
@@ -719,6 +1057,110 @@ class ExTable(ApiExampleBase):
         self.assertEqual(55, table_style.left_indent)
         self.assertEqual(table_style, doc.get_child(aw.NodeType.TABLE, 1, True).as_table().style)
 
+    def test_conditional_styles(self):
+        from api_example_base import ApiExampleBase, ARTIFACTS_DIR
+        import aspose.words as aw
+        import aspose.pydrawing as drawing
+
+        class ExampleConditionalStyles(ApiExampleBase):
+
+            def test_work_with_conditional_styles(self):
+                #ExStart
+                #ExFor:ConditionalStyle
+                #ExFor:ConditionalStyle.shading
+                #ExFor:ConditionalStyle.borders
+                #ExFor:ConditionalStyle.paragraph_format
+                #ExFor:ConditionalStyle.bottom_padding
+                #ExFor:ConditionalStyle.left_padding
+                #ExFor:ConditionalStyle.right_padding
+                #ExFor:ConditionalStyle.top_padding
+                #ExFor:ConditionalStyle.font
+                #ExFor:ConditionalStyle.type
+                #ExFor:ConditionalStyleCollection.__iter__
+                #ExFor:ConditionalStyleCollection.first_row
+                #ExFor:ConditionalStyleCollection.last_row
+                #ExFor:ConditionalStyleCollection.last_column
+                #ExFor:ConditionalStyleCollection.count
+                #ExFor:ConditionalStyleCollection
+                #ExFor:ConditionalStyleCollection.bottom_left_cell
+                #ExFor:ConditionalStyleCollection.bottom_right_cell
+                #ExFor:ConditionalStyleCollection.even_column_banding
+                #ExFor:ConditionalStyleCollection.even_row_banding
+                #ExFor:ConditionalStyleCollection.first_column
+                #ExFor:ConditionalStyleCollection.__getitem__(ConditionalStyleType)
+                #ExFor:ConditionalStyleCollection.__getitem__(int)
+                #ExFor:ConditionalStyleCollection.odd_column_banding
+                #ExFor:ConditionalStyleCollection.odd_row_banding
+                #ExFor:ConditionalStyleCollection.top_left_cell
+                #ExFor:ConditionalStyleCollection.top_right_cell
+                #ExFor:ConditionalStyleType
+                #ExFor:TableStyle.conditional_styles
+                #ExSummary:Shows how to work with certain area styles of a table.
+                doc = aw.Document()
+                builder = aw.DocumentBuilder(doc=doc)
+                table = builder.start_table()
+                builder.insert_cell()
+                builder.write('Cell 1')
+                builder.insert_cell()
+                builder.write('Cell 2')
+                builder.end_row()
+                builder.insert_cell()
+                builder.write('Cell 3')
+                builder.insert_cell()
+                builder.write('Cell 4')
+                builder.end_table()
+                # Create a custom table style.
+                table_style = doc.styles.add(aw.StyleType.TABLE, 'MyTableStyle1').as_table_style()
+                # Conditional styles are formatting changes that affect only some of the table's cells
+                # based on a predicate, such as the cells being in the last row.
+                # Below are three ways of accessing a table style's conditional styles from the "ConditionalStyles" collection.
+                # 1 -  By style type:
+                table_style.conditional_styles.get_by_conditional_style_type(aw.ConditionalStyleType.FIRST_ROW).shading.background_pattern_color = drawing.Color.alice_blue
+                # 2 -  By index:
+                table_style.conditional_styles[0].borders.color = drawing.Color.black
+                table_style.conditional_styles[0].borders.line_style = aw.LineStyle.DOT_DASH
+                self.assertEqual(aw.ConditionalStyleType.FIRST_ROW, table_style.conditional_styles[0].type)
+                # 3 -  As a property:
+                table_style.conditional_styles.first_row.paragraph_format.alignment = aw.ParagraphAlignment.CENTER
+                # Apply padding and text formatting to conditional styles.
+                table_style.conditional_styles.last_row.bottom_padding = 10
+                table_style.conditional_styles.last_row.left_padding = 10
+                table_style.conditional_styles.last_row.right_padding = 10
+                table_style.conditional_styles.last_row.top_padding = 10
+                table_style.conditional_styles.last_column.font.bold = True
+                # List all possible style conditions.
+                for style in table_style.conditional_styles:
+                    current_style = style
+                    if current_style is not None:
+                        print(current_style.type)
+                # Apply the custom style, which contains all conditional styles, to the table.
+                table.style = table_style
+                # Our style applies some conditional styles by default.
+                self.assertEqual(aw.tables.TableStyleOptions.FIRST_ROW | aw.tables.TableStyleOptions.FIRST_COLUMN | aw.tables.TableStyleOptions.ROW_BANDS, table.style_options)
+                # We will need to enable all other styles ourselves via the "StyleOptions" property.
+                table.style_options |= aw.tables.TableStyleOptions.LAST_ROW | aw.tables.TableStyleOptions.LAST_COLUMN
+                doc.save(file_name=ARTIFACTS_DIR + 'Table.ConditionalStyles.docx')
+                #ExEnd
+                doc = aw.Document(file_name=ARTIFACTS_DIR + 'Table.ConditionalStyles.docx')
+                table = doc.first_section.body.tables[0]
+                self.assertEqual(aw.tables.TableStyleOptions.DEFAULT | aw.tables.TableStyleOptions.LAST_ROW | aw.tables.TableStyleOptions.LAST_COLUMN, table.style_options)
+                conditional_styles = doc.styles.get_by_name('MyTableStyle1').as_table_style().conditional_styles
+                self.assertEqual(aw.ConditionalStyleType.FIRST_ROW, conditional_styles[0].type)
+                self.assertEqual(drawing.Color.alice_blue.to_argb(), conditional_styles[0].shading.background_pattern_color.to_argb())
+                self.assertEqual(drawing.Color.black.to_argb(), conditional_styles[0].borders.color.to_argb())
+                self.assertEqual(aw.LineStyle.DOT_DASH, conditional_styles[0].borders.line_style)
+                self.assertEqual(aw.ParagraphAlignment.CENTER, conditional_styles[0].paragraph_format.alignment)
+                self.assertEqual(aw.ConditionalStyleType.LAST_ROW, conditional_styles[2].type)
+                self.assertEqual(10, conditional_styles[2].bottom_padding)
+                self.assertEqual(10, conditional_styles[2].left_padding)
+                self.assertEqual(10, conditional_styles[2].right_padding)
+                self.assertEqual(10, conditional_styles[2].top_padding)
+                self.assertEqual(aw.ConditionalStyleType.LAST_COLUMN, conditional_styles[3].type)
+                self.assertTrue(conditional_styles[3].font.bold)
+        if __name__ == '__main__':
+            import unittest
+            unittest.main()
+
     def test_clear_table_style_formatting(self):
         #ExStart
         #ExFor:ConditionalStyle.clear_formatting
@@ -794,6 +1236,48 @@ class ExTable(ApiExampleBase):
             row = row.next_row
         #ExEnd
 
+    def _convert_table(self, table):
+        current_node = table
+        for row in table.rows:
+            row = row.as_row()
+            for cell in row.cells:
+                cell = cell.as_cell()
+                # Get all nested tables within the current cell.
+                nested_tables = cell.get_child_nodes(aw.NodeType.TABLE, True)
+                if nested_tables.count != 0:
+                    for nested_table in nested_tables:
+                        nested_table = nested_table.as_table()
+                        self._convert_table(nested_table)
+                # Get the text content of the cell and trim any whitespace.
+                cell_text = cell.get_text().strip()
+                if cell_text == '':
+                    break
+                for cell_para in cell.paragraphs:
+                    cell_para = cell_para.as_paragraph()
+                    current_node = table.parent_node.insert_after(cell_para.clone(True), current_node)
+
+    def _calculate_row_span(self, table, row_index, cell_index):
+        row_span = 1
+        i = row_index
+        while i < table.rows.count:
+            current_row = table.rows[i + 1]
+            if current_row == None:
+                break
+            current_cell = current_row.cells[cell_index]
+            if current_cell.cell_format.vertical_merge != aw.tables.CellMerge.PREVIOUS:
+                break
+            row_span += 1
+            i += 1
+        return row_span
+
+    def _calculate_col_span(self, cell, col_span):
+        col_span = 1
+        cell = cell.next_cell
+        while cell != None and cell.cell_format.horizontal_merge == aw.tables.CellMerge.PREVIOUS:
+            col_span += 1
+            cell = cell.next_cell
+        return cell
+
     def test_context_table_formatting(self):
         #ExStart:ContextTableFormatting
         #ExFor:DocumentBuilder.__init__(Document,DocumentBuilderOptions)
@@ -858,453 +1342,6 @@ class ExTable(ApiExampleBase):
                     run = run.as_run()
                     self.assertTrue(run.font.hidden)
         #ExEnd:HiddenRow
-
-    def test_display_content_of_tables(self):
-        #ExStart
-        #ExFor:Cell
-        #ExFor:CellCollection
-        #ExFor:CellCollection.__getitem__(int)
-        #ExFor:CellCollection.to_array
-        #ExFor:Row
-        #ExFor:Row.cells
-        #ExFor:RowCollection
-        #ExFor:RowCollection.__getitem__(int)
-        #ExFor:RowCollection.to_array
-        #ExFor:Table
-        #ExFor:Table.rows
-        #ExFor:TableCollection.__getitem__(int)
-        #ExFor:TableCollection.to_array
-        #ExSummary:Shows how to iterate through all tables in the document and print the contents of each cell.
-        doc = aw.Document(file_name=MY_DIR + 'Tables.docx')
-        tables = doc.first_section.body.tables
-        self.assertEqual(2, len(list(tables)))
-        i = 0
-        while i < tables.count:
-            print(f'Start of Table {i}')
-            rows = tables[i].rows
-            # We can use the "ToArray" method on a row collection to clone it into an array.
-            self.assertSequenceEqual(list(rows), list(rows))
-            self.assertNotEqual(rows, list(rows))
-            j = 0
-            while j < rows.count:
-                print(f'\tStart of Row {j}')
-                cells = rows[j].cells
-                # We can use the "ToArray" method on a cell collection to clone it into an array.
-                self.assertSequenceEqual(list(cells), list(cells))
-                self.assertNotEqual(cells, list(cells))
-                k = 0
-                while k < cells.count:
-                    cell_text = cells[k].to_string(save_format=aw.SaveFormat.TEXT).strip()
-                    print(f'\t\tContents of Cell:{k} = "{cell_text}"')
-                    k += 1
-                print(f'\tEnd of Row {j}')
-                j += 1
-            print(f'End of Table {i}\n')
-            i += 1
-        #ExEnd
-
-    def test_calculate_depth_of_nested_tables(self):
-        #ExStart
-        #ExFor:Node.get_ancestor(NodeType)
-        #ExFor:Node.get_ancestor(Type)
-        #ExFor:Table.node_type
-        #ExFor:Cell.tables
-        #ExFor:TableCollection
-        #ExFor:NodeCollection.count
-        #ExSummary:Shows how to find out if a tables are nested.
-
-        def calculate_depth_of_nested_tables():
-            doc = aw.Document(MY_DIR + 'Nested tables.docx')
-            tables = doc.get_child_nodes(aw.NodeType.TABLE, True)
-            self.assertEqual(5, tables.count)  #ExSkip
-            for i in range(tables.count):
-                table = tables[i].as_table()
-                # Find out if any cells in the table have other tables as children.
-                count = get_child_table_count(table)
-                print(f'Table #{i} has {count} tables directly within its cells')
-                # Find out if the table is nested inside another table, and, if so, at what depth.
-                table_depth = get_nested_depth_of_table(table)
-                if table_depth > 0:
-                    print(f'Table #{i} is nested inside another table at depth of {table_depth}')
-                else:
-                    print('Table #{i} is a non nested table (is not a child of another table)')
-
-        def get_nested_depth_of_table(table: aw.tables.Table) -> int:
-            """Calculates what level a table is nested inside other tables.
-
-            :return: An integer indicating the nesting depth of the table (number of parent table nodes).
-            """
-            depth = 0
-            parent = table.get_ancestor(table.node_type)
-            while parent is not None:
-                depth += 1
-                parent = parent.get_ancestor(table.node_type)
-            return depth
-
-        def get_child_table_count(table: aw.tables.Table) -> int:
-            """Determines if a table contains any immediate child table within its cells.
-
-            Do not recursively traverse through those tables to check for further tables.
-
-            :return: Returns True if at least one child cell contains a table.
-                     Returns False if no cells in the table contain a table.
-            """
-            child_table_count = 0
-            for row in table.rows:
-                row = row.as_row()
-                for cell in row.cells:
-                    cell = cell.as_cell()
-                    child_tables = cell.tables
-                    if child_tables.count > 0:
-                        child_table_count += 1
-            return child_table_count
-        #ExEnd
-        calculate_depth_of_nested_tables()
-
-    def test_remove_paragraph_text_and_mark(self):
-        for is_smart_paragraph_break_replacement in (True, False):
-            with self.subTest(is_smart_paragraph_break_replacement=is_smart_paragraph_break_replacement):
-                #ExStart
-                #ExFor:FindReplaceOptions.smart_paragraph_break_replacement
-                #ExSummary:Shows how to remove paragraph from a table cell with a nested table.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                # Create table with paragraph and inner table in first cell.
-                builder.start_table()
-                builder.insert_cell()
-                builder.write('TEXT1')
-                builder.start_table()
-                builder.insert_cell()
-                builder.end_table()
-                builder.end_table()
-                builder.writeln()
-                options = aw.replacing.FindReplaceOptions()
-                # When the following option is set to 'True', Aspose.Words will remove paragraph's text
-                # completely with its paragraph mark. Otherwise, Aspose.Words will mimic Word and remove
-                # only paragraph's text and leaves the paragraph mark intact (when a table follows the text).
-                options.smart_paragraph_break_replacement = is_smart_paragraph_break_replacement
-                doc.range.replace('TEXT1&p', '', options)
-                doc.save(ARTIFACTS_DIR + 'Table.remove_paragraph_text_and_mark.docx')
-                #ExEnd
-                doc = aw.Document(ARTIFACTS_DIR + 'Table.remove_paragraph_text_and_mark.docx')
-                self.assertEqual(1 if is_smart_paragraph_break_replacement else 2, doc.first_section.body.tables[0].rows[0].cells[0].paragraphs.count)
-
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
-    def test_allow_cell_spacing(self):
-        for allow_cell_spacing in (False, True):
-            with self.subTest(allow_cell_spacing=allow_cell_spacing):
-                #ExStart
-                #ExFor:Table.allow_cell_spacing
-                #ExFor:Table.cell_spacing
-                #ExSummary:Shows how to enable spacing between individual cells in a table.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                table = builder.start_table()
-                builder.insert_cell()
-                builder.write('Animal')
-                builder.insert_cell()
-                builder.write('Class')
-                builder.end_row()
-                builder.insert_cell()
-                builder.write('Dog')
-                builder.insert_cell()
-                builder.write('Mammal')
-                builder.end_table()
-                table.cell_spacing = 3
-                # Set the "allow_cell_spacing" property to "True" to enable spacing between cells
-                # with a magnitude equal to the value of the "cell_spacing" property, in points.
-                # Set the "allow_cell_spacing" property to "False" to disable cell spacing
-                # and ignore the value of the "cell_spacing" property.
-                table.allow_cell_spacing = allow_cell_spacing
-                doc.save(ARTIFACTS_DIR + 'Table.allow_cell_spacing.html')
-                # Adjusting the "cell_spacing" property will automatically enable cell spacing.
-                table.cell_spacing = 5
-                self.assertTrue(table.allow_cell_spacing)
-                #ExEnd
-                doc = aw.Document(ARTIFACTS_DIR + 'Table.allow_cell_spacing.html')
-                table = doc.get_child(aw.NodeType.TABLE, 0, True).as_table()
-                self.assertEqual(allow_cell_spacing, table.allow_cell_spacing)
-                if allow_cell_spacing:
-                    self.assertEqual(3.0, table.cell_spacing)
-                else:
-                    self.assertEqual(0.0, table.cell_spacing)
-                with open(ARTIFACTS_DIR + 'Table.allow_cell_spacing.html', 'rb') as file:
-                    text = file.read().decode('utf-8')
-                    if allow_cell_spacing:
-                        self.assertIn('<td style="border-style:solid; border-width:0.75pt; padding-right:5.4pt; padding-left:5.4pt; vertical-align:top; -aw-border:0.5pt single">', text)
-                    else:
-                        self.assertIn('<td style="border-right-style:solid; border-right-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; ' + 'padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-bottom:0.5pt single; -aw-border-right:0.5pt single">', text)
-
-    def test_create_nested_table(self):
-        #ExStart
-        #ExFor:Table
-        #ExFor:Row
-        #ExFor:Cell
-        #ExFor:Table.__init__(DocumentBase)
-        #ExFor:Table.title
-        #ExFor:Table.description
-        #ExFor:Row.__init__(DocumentBase)
-        #ExFor:Cell.__init__(DocumentBase)
-        #ExFor:Cell.first_paragraph
-        #ExSummary:Shows how to build a nested table without using a document builder.
-
-        def create_nested_table():
-            doc = aw.Document()
-            # Create the outer table with three rows and four columns, and then add it to the document.
-            outer_table = create_table(doc, 3, 4, 'Outer Table')
-            doc.first_section.body.append_child(outer_table)
-            # Create another table with two rows and two columns and then insert it into the first table's first cell.
-            inner_table = create_table(doc, 2, 2, 'Inner Table')
-            outer_table.first_row.first_cell.append_child(inner_table)
-            doc.save(ARTIFACTS_DIR + 'Table.create_nested_table.docx')
-            create_and_test_nested_table(aw.Document(ARTIFACTS_DIR + 'Table.create_nested_table.docx'))  #ExSkip
-
-        def create_table(doc: aw.Document, row_count: int, cell_count: int, cell_text: str) -> aw.tables.Table:
-            """Creates a new table in the document with the given dimensions and text in each cell."""
-            table = aw.tables.Table(doc)
-            for row_id in range(1, row_count + 1):
-                row = aw.tables.Row(doc)
-                table.append_child(row)
-                for cell_id in range(1, cell_count + 1):
-                    cell = aw.tables.Cell(doc)
-                    cell.append_child(aw.Paragraph(doc))
-                    cell.first_paragraph.append_child(aw.Run(doc, cell_text))
-                    row.append_child(cell)
-            # You can use the "title" and "description" properties to add a title and description respectively to your table.
-            # The table must have at least one row before we can use these properties.
-            # These properties are meaningful for ISO / IEC 29500 compliant .docx documents (see the OoxmlCompliance class).
-            # If we save the document to pre-ISO/IEC 29500 formats, Microsoft Word ignores these properties.
-            table.title = 'Aspose table title'
-            table.description = 'Aspose table description'
-            return table
-        #ExEnd
-
-        def create_and_test_nested_table(doc: aw.Document):
-            outer_table = doc.first_section.body.tables[0]
-            inner_table = doc.get_child(aw.NodeType.TABLE, 1, True).as_table()
-            self.assertEqual(2, doc.get_child_nodes(aw.NodeType.TABLE, True).count)
-            self.assertEqual(1, outer_table.first_row.first_cell.tables.count)
-            self.assertEqual(16, outer_table.get_child_nodes(aw.NodeType.CELL, True).count)
-            self.assertEqual(4, inner_table.get_child_nodes(aw.NodeType.CELL, True).count)
-            self.assertEqual('Aspose table title', inner_table.title)
-            self.assertEqual('Aspose table description', inner_table.description)
-        create_nested_table()
-
-    def test_check_cells_merged(self):
-        #ExStart
-        #ExFor:CellFormat.horizontal_merge
-        #ExFor:CellFormat.vertical_merge
-        #ExFor:CellMerge
-        #ExSummary:Prints the horizontal and vertical merge type of a cell.
-
-        def check_cells_merged():
-            doc = aw.Document(MY_DIR + 'Table with merged cells.docx')
-            table = doc.first_section.body.tables[0]
-            for row in table.rows:
-                row = row.as_row()
-                for cell in row.cells:
-                    cell = cell.as_cell()
-                    print(print_cell_merge_type(cell))
-            self.assertEqual('The cell at R1, C1 is vertically merged', print_cell_merge_type(table.first_row.first_cell))  #ExSkip
-
-        def print_cell_merge_type(cell: aw.tables.Cell) -> str:
-            is_horizontally_merged = cell.cell_format.horizontal_merge != aw.tables.CellMerge.NONE
-            is_vertically_merged = cell.cell_format.vertical_merge != aw.tables.CellMerge.NONE
-            cell_location = f'R{cell.parent_row.parent_table.index_of(cell.parent_row) + 1}, C{cell.parent_row.index_of(cell) + 1}'
-            if is_horizontally_merged and is_vertically_merged:
-                return f'The cell at {cell_location} is both horizontally and vertically merged'
-            if is_horizontally_merged:
-                return f'The cell at {cell_location} is horizontally merged.'
-            if is_vertically_merged:
-                return f'The cell at {cell_location} is vertically merged'
-            return f'The cell at {cell_location} is not merged'
-        #ExEnd
-        check_cells_merged()
-
-    def test_merge_cell_range(self):
-        doc = aw.Document(MY_DIR + 'Tables.docx')
-        table = doc.first_section.body.tables[0]
-        # We want to merge the range of cells found in between these two cells.
-        cell_start_range = table.rows[2].cells[2]
-        cell_end_range = table.rows[3].cells[3]
-        # Merge all the cells between the two specified cells into one.
-        self.merge_cells(cell_start_range, cell_end_range)
-        doc.save(ARTIFACTS_DIR + 'Table.merge_cell_range.doc')
-        merged_cells_count = 0
-        for node in table.get_child_nodes(aw.NodeType.CELL, True):
-            cell = node.as_cell()
-            if cell.cell_format.horizontal_merge != aw.tables.CellMerge.NONE or cell.cell_format.vertical_merge != aw.tables.CellMerge.NONE:
-                merged_cells_count += 1
-        self.assertEqual(4, merged_cells_count)
-        self.assertTrue(table.rows[2].cells[2].cell_format.horizontal_merge == aw.tables.CellMerge.FIRST)
-        self.assertTrue(table.rows[2].cells[2].cell_format.vertical_merge == aw.tables.CellMerge.FIRST)
-        self.assertTrue(table.rows[3].cells[3].cell_format.horizontal_merge == aw.tables.CellMerge.PREVIOUS)
-        self.assertTrue(table.rows[3].cells[3].cell_format.vertical_merge == aw.tables.CellMerge.PREVIOUS)
-
-    def test_split_table(self):
-        doc = aw.Document(file_name=MY_DIR + 'Tables.docx')
-        first_table = doc.first_section.body.tables[0]
-        # We will split the table at the third row (inclusive).
-        row = first_table.rows[2]
-        # Create a new container for the split table.
-        table = first_table.clone(False).as_table()
-        # Insert the container after the original.
-        first_table.parent_node.insert_after(table, first_table)
-        # Add a buffer paragraph to ensure the tables stay apart.
-        first_table.parent_node.insert_after(aw.Paragraph(doc), first_table)
-        current_row = None
-        while current_row != row:
-            current_row = first_table.last_row
-            table.prepend_child(current_row)
-        doc = document_helper.DocumentHelper.save_open(doc)
-        self.assertEqual(row, table.first_row)
-        self.assertEqual(2, first_table.rows.count)
-        self.assertEqual(3, table.rows.count)
-        self.assertEqual(3, doc.get_child_nodes(aw.NodeType.TABLE, True).count)
-
-    def test_conditional_styles(self):
-        #ExStart
-        #ExFor:ConditionalStyle
-        #ExFor:ConditionalStyle.shading
-        #ExFor:ConditionalStyle.borders
-        #ExFor:ConditionalStyle.paragraph_format
-        #ExFor:ConditionalStyle.bottom_padding
-        #ExFor:ConditionalStyle.left_padding
-        #ExFor:ConditionalStyle.right_padding
-        #ExFor:ConditionalStyle.top_padding
-        #ExFor:ConditionalStyle.font
-        #ExFor:ConditionalStyle.type
-        #ExFor:ConditionalStyleCollection.__iter__
-        #ExFor:ConditionalStyleCollection.first_row
-        #ExFor:ConditionalStyleCollection.last_row
-        #ExFor:ConditionalStyleCollection.last_column
-        #ExFor:ConditionalStyleCollection.count
-        #ExFor:ConditionalStyleCollection
-        #ExFor:ConditionalStyleCollection.bottom_left_cell
-        #ExFor:ConditionalStyleCollection.bottom_right_cell
-        #ExFor:ConditionalStyleCollection.even_column_banding
-        #ExFor:ConditionalStyleCollection.even_row_banding
-        #ExFor:ConditionalStyleCollection.first_column
-        #ExFor:ConditionalStyleCollection.__getitem__(ConditionalStyleType)
-        #ExFor:ConditionalStyleCollection.__getitem__(int)
-        #ExFor:ConditionalStyleCollection.odd_column_banding
-        #ExFor:ConditionalStyleCollection.odd_row_banding
-        #ExFor:ConditionalStyleCollection.top_left_cell
-        #ExFor:ConditionalStyleCollection.top_right_cell
-        #ExFor:ConditionalStyleType
-        #ExFor:TableStyle.conditional_styles
-        #ExSummary:Shows how to work with certain area styles of a table.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        table = builder.start_table()
-        builder.insert_cell()
-        builder.write('Cell 1')
-        builder.insert_cell()
-        builder.write('Cell 2')
-        builder.end_row()
-        builder.insert_cell()
-        builder.write('Cell 3')
-        builder.insert_cell()
-        builder.write('Cell 4')
-        builder.end_table()
-        # Create a custom table style.
-        table_style = doc.styles.add(aw.StyleType.TABLE, 'MyTableStyle1').as_table_style()
-        # Conditional styles are formatting changes that affect only some of the table's cells
-        # based on a predicate, such as the cells being in the last row.
-        # Below are three ways of accessing a table style's conditional styles from the "conditional_styles" collection.
-        # 1 -  By style type:
-        table_style.conditional_styles[aw.ConditionalStyleType.FIRST_ROW].shading.background_pattern_color = aspose.pydrawing.Color.alice_blue
-        # 2 -  By index:
-        table_style.conditional_styles[0].borders.color = aspose.pydrawing.Color.black
-        table_style.conditional_styles[0].borders.line_style = aw.LineStyle.DOT_DASH
-        self.assertEqual(aw.ConditionalStyleType.FIRST_ROW, table_style.conditional_styles[0].type)
-        # 3 -  As a property:
-        table_style.conditional_styles.first_row.paragraph_format.alignment = aw.ParagraphAlignment.CENTER
-        # Apply padding and text formatting to conditional styles.
-        table_style.conditional_styles.last_row.bottom_padding = 10
-        table_style.conditional_styles.last_row.left_padding = 10
-        table_style.conditional_styles.last_row.right_padding = 10
-        table_style.conditional_styles.last_row.top_padding = 10
-        table_style.conditional_styles.last_column.font.bold = True
-        # List all possible style conditions.
-        for conditional_style in table_style.conditional_styles:
-            if conditional_style is not None:
-                print(conditional_style.type)
-        # Apply the custom style, which contains all conditional styles, to the table.
-        table.style = table_style
-        # Our style applies some conditional styles by default.
-        self.assertEqual(aw.tables.TableStyleOptions.FIRST_ROW | aw.tables.TableStyleOptions.FIRST_COLUMN | aw.tables.TableStyleOptions.ROW_BANDS, table.style_options)
-        # We will need to enable all other styles ourselves via the "style_options" property.
-        table.style_options = table.style_options | aw.tables.TableStyleOptions.LAST_ROW | aw.tables.TableStyleOptions.LAST_COLUMN
-        doc.save(ARTIFACTS_DIR + 'Table.conditional_styles.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Table.conditional_styles.docx')
-        table = doc.first_section.body.tables[0]
-        self.assertEqual(aw.tables.TableStyleOptions.DEFAULT | aw.tables.TableStyleOptions.LAST_ROW | aw.tables.TableStyleOptions.LAST_COLUMN, table.style_options)
-        conditional_styles = doc.styles.get_by_name('MyTableStyle1').as_table_style().conditional_styles
-        self.assertEqual(aw.ConditionalStyleType.FIRST_ROW, conditional_styles[0].type)
-        self.assertEqual(aspose.pydrawing.Color.alice_blue.to_argb(), conditional_styles[0].shading.background_pattern_color.to_argb())
-        self.assertEqual(aspose.pydrawing.Color.black.to_argb(), conditional_styles[0].borders.color.to_argb())
-        self.assertEqual(aw.LineStyle.DOT_DASH, conditional_styles[0].borders.line_style)
-        self.assertEqual(aw.ParagraphAlignment.CENTER, conditional_styles[0].paragraph_format.alignment)
-        self.assertEqual(aw.ConditionalStyleType.LAST_ROW, conditional_styles[2].type)
-        self.assertEqual(10.0, conditional_styles[2].bottom_padding)
-        self.assertEqual(10.0, conditional_styles[2].left_padding)
-        self.assertEqual(10.0, conditional_styles[2].right_padding)
-        self.assertEqual(10.0, conditional_styles[2].top_padding)
-        self.assertEqual(aw.ConditionalStyleType.LAST_COLUMN, conditional_styles[3].type)
-        self.assertTrue(conditional_styles[3].font.bold)
-
-    def test_alternating_row_styles(self):
-        #ExStart
-        #ExFor:TableStyle.column_stripe
-        #ExFor:TableStyle.row_stripe
-        #ExSummary:Shows how to create conditional table styles that alternate between rows.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        # We can configure a conditional style of a table to apply a different color to the row/column,
-        # based on whether the row/column is even or odd, creating an alternating color pattern.
-        # We can also apply a number n to the row/column banding,
-        # meaning that the color alternates after every n rows/columns instead of one.
-        # Create a table where single columns and rows will band the columns will banded in threes.
-        table = builder.start_table()
-        for i in range(15):
-            for j in range(4):
-                builder.insert_cell()
-                builder.writeln(f"{('Even' if j % 2 == 0 else 'Odd')} column.")
-                builder.write(f"Row banding {('start' if i % 3 == 0 else 'continuation')}.")
-            builder.end_row()
-        builder.end_table()
-        # Apply a line style to all the borders of the table.
-        table_style = doc.styles.add(aw.StyleType.TABLE, 'MyTableStyle1').as_table_style()
-        table_style.borders.color = aspose.pydrawing.Color.black
-        table_style.borders.line_style = aw.LineStyle.DOUBLE
-        # Set the two colors, which will alternate over every 3 rows.
-        table_style.row_stripe = 3
-        table_style.conditional_styles[aw.ConditionalStyleType.ODD_ROW_BANDING].shading.background_pattern_color = aspose.pydrawing.Color.light_blue
-        table_style.conditional_styles[aw.ConditionalStyleType.EVEN_ROW_BANDING].shading.background_pattern_color = aspose.pydrawing.Color.light_cyan
-        # Set a color to apply to every even column, which will override any custom row coloring.
-        table_style.column_stripe = 1
-        table_style.conditional_styles[aw.ConditionalStyleType.EVEN_COLUMN_BANDING].shading.background_pattern_color = aspose.pydrawing.Color.light_salmon
-        table.style = table_style
-        # The "style_options" property enables row banding by default.
-        self.assertEqual(aw.tables.TableStyleOptions.FIRST_ROW | aw.tables.TableStyleOptions.FIRST_COLUMN | aw.tables.TableStyleOptions.ROW_BANDS, table.style_options)
-        # Use the "style_options" property also to enable column banding.
-        table.style_options = table.style_options | aw.tables.TableStyleOptions.COLUMN_BANDS
-        doc.save(ARTIFACTS_DIR + 'Table.alternating_row_styles.docx')
-        #ExEnd
-        doc = aw.Document(ARTIFACTS_DIR + 'Table.alternating_row_styles.docx')
-        table = doc.first_section.body.tables[0]
-        table_style = doc.styles.get_by_name('MyTableStyle1').as_table_style()
-        self.assertEqual(table_style, table.style)
-        self.assertEqual(table.style_options | aw.tables.TableStyleOptions.COLUMN_BANDS, table.style_options)
-        self.assertEqual(aspose.pydrawing.Color.black.to_argb(), table_style.borders.color.to_argb())
-        self.assertEqual(aw.LineStyle.DOUBLE, table_style.borders.line_style)
-        self.assertEqual(3, table_style.row_stripe)
-        self.assertEqual(aspose.pydrawing.Color.light_blue.to_argb(), table_style.conditional_styles[aw.ConditionalStyleType.ODD_ROW_BANDING].shading.background_pattern_color.to_argb())
-        self.assertEqual(aspose.pydrawing.Color.light_cyan.to_argb(), table_style.conditional_styles[aw.ConditionalStyleType.EVEN_ROW_BANDING].shading.background_pattern_color.to_argb())
-        self.assertEqual(1, table_style.column_stripe)
-        self.assertEqual(aspose.pydrawing.Color.light_salmon.to_argb(), table_style.conditional_styles[aw.ConditionalStyleType.EVEN_COLUMN_BANDING].shading.background_pattern_color.to_argb())
 
     @staticmethod
     def merge_cells(start_cell: aw.tables.Cell, end_cell: aw.tables.Cell):

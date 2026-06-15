@@ -5,11 +5,11 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import os
 import aspose.words as aw
 import aspose.words.ai
 import system_helper
 import unittest
+import os
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExAI(ApiExampleBase):
@@ -115,6 +115,9 @@ class ExAI(ApiExampleBase):
 
     @unittest.skip('This test should be run manually to manage API requests amount')
     def test_open_ai_model_constructor(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
+        import aspose.words as aw
+        import aspose.words.ai as ai
         #ExStart:OpenAiModelConstructor
         #ExFor:OpenAiModel.__init__(str,str)
         #ExSummary:Shows how to create an OpenAI model instance directly using an API key and model name.
@@ -128,3 +131,5 @@ class ExAI(ApiExampleBase):
         summary = model.summarize(source_document=doc, options=summarize_options)
         summary.save(file_name=ARTIFACTS_DIR + 'OpenAiModel.OpenAiModelConstructor.docx')
         #ExEnd:OpenAiModelConstructor
+        # Verify the summary was generated (non-empty content).
+        assert len(summary.get_text().strip()) > 0

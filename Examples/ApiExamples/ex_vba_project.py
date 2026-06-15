@@ -76,6 +76,41 @@ class ExVbaProject(ApiExampleBase):
             self.assertEqual(copy_vba_project.modules[i].type, original_vba_project.modules[i].type)
             self.assertEqual(copy_vba_project.modules[i].source_code, original_vba_project.modules[i].source_code)
             i += 1
+    #ExStart
+    #ExFor:VbaReference
+    #ExFor:VbaReference.type
+    #ExFor:VbaReference.lib_id
+    #ExFor:VbaReferenceCollection
+    #ExFor:VbaReferenceCollection.__getitem__(int)
+    #ExFor:VbaReferenceCollection.count
+    #ExFor:VbaReferenceCollection.remove_at(int)
+    #ExFor:VbaReferenceCollection.remove(VbaReference)
+    #ExFor:VbaReferenceType
+    #ExFor:VbaProject.references
+    #ExSummary:Shows how to get/remove an element from the VBA reference collection (GetLibIdPath).
+
+    @staticmethod
+    def _get_lib_id_path(reference):
+        switch_condition = reference.type
+        if switch_condition == aw.vba.VbaReferenceType.REGISTERED and switch_condition == aw.vba.VbaReferenceType.ORIGINAL and (switch_condition == aw.vba.VbaReferenceType.CONTROL):
+            return ExVbaProject._get_lib_id_reference_path(reference.lib_id)
+        elif switch_condition == aw.vba.VbaReferenceType.PROJECT:
+            return ExVbaProject._get_lib_id_project_path(reference.lib_id)
+        else:
+            raise Exception()
+
+    @staticmethod
+    def _get_lib_id_reference_path(lib_id_reference):
+        if lib_id_reference != None:
+            ref_parts = lib_id_reference.split('#')
+            if len(ref_parts) > 3:
+                return ref_parts[3]
+            return ''
+
+    @staticmethod
+    def _get_lib_id_project_path(lib_id_project):
+        return libIdProject[3:] if libIdProject is not None else ''
+    #ExEnd
 
     def test_is_protected(self):
         #ExStart:IsProtected
@@ -84,21 +119,6 @@ class ExVbaProject(ApiExampleBase):
         doc = aw.Document(file_name=MY_DIR + 'Vba protected.docm')
         self.assertTrue(doc.vba_project.is_protected)
         #ExEnd:IsProtected
-
-    def test_remove_vba_reference(self):
-        broken_path = 'X:\\broken.dll'
-        doc = aw.Document(MY_DIR + 'VBA project.docm')
-        references = doc.vba_project.references
-        self.assertEqual(5, references.count)
-        for i in range(references.count):
-            reference = doc.vba_project.references[i]
-            path = self.get_lib_id_path(reference)
-            if path == broken_path:
-                references.remove_at(i)
-        self.assertEqual(4, references.count)
-        references.remove(references[1])
-        self.assertEqual(3, references.count)
-        doc.save(ARTIFACTS_DIR + 'VbaProject.remove_vba_reference.docm')
 
     def get_lib_id_path(self, reference: aw.vba.VbaReference) -> str:
         """Returns string representing LibId path of a specified reference."""

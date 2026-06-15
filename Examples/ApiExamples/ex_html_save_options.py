@@ -1,3 +1,9 @@
+import glob
+import textwrap
+import shutil
+import aspose.pydrawing as drawing
+from document_helper import DocumentHelper
+import sys
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
@@ -5,20 +11,16 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import glob
-import textwrap
-import shutil
-import sys
-import aspose.pydrawing as drawing
-from document_helper import DocumentHelper
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.fields
 import aspose.words.fonts
+import aspose.words.layout
 import aspose.words.lists
 import aspose.words.loading
 import aspose.words.saving
 import aspose.words.tables
+import datetime
 import document_helper
 import io
 import os
@@ -43,6 +45,39 @@ class ExHtmlSaveOptions(ApiExampleBase):
             save_options = aw.saving.HtmlSaveOptions()
             save_options.office_math_output_mode = output_mode
             doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ExportOfficeMathEpub' + aw.FileFormatUtil.save_format_to_extension(save_format), save_options=save_options)
+
+    def test_export_text_box_as_svg_epub(self):
+        for save_format, is_text_box_as_svg in [(aw.SaveFormat.HTML, True), (aw.SaveFormat.EPUB, True), (aw.SaveFormat.MHTML, False), (aw.SaveFormat.AZW3, False), (aw.SaveFormat.MOBI, False)]:
+            dir_files = None
+            doc = aw.Document()
+            builder = aw.DocumentBuilder(doc=doc)
+            textbox = builder.insert_shape(shape_type=aw.drawing.ShapeType.TEXT_BOX, width=300, height=100)
+            builder.move_to(textbox.first_paragraph)
+            builder.write('Hello world!')
+            save_options = aw.saving.HtmlSaveOptions(save_format)
+            save_options.export_shapes_as_svg = is_text_box_as_svg
+            doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ExportTextBoxAsSvgEpub' + aw.FileFormatUtil.save_format_to_extension(save_format), save_options=save_options)
+            switch_condition = save_format
+            if switch_condition == aw.SaveFormat.HTML:
+                dir_files = system_helper.io.Directory.get_files(ARTIFACTS_DIR, 'HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png', system_helper.io.SearchOption.All_DIRECTORIES)
+                self.assertEqual(0, len(dir_files))
+                return
+            elif switch_condition == aw.SaveFormat.EPUB:
+                dir_files = system_helper.io.Directory.get_files(ARTIFACTS_DIR, 'HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png', system_helper.io.SearchOption.All_DIRECTORIES)
+                self.assertEqual(0, len(dir_files))
+                return
+            elif switch_condition == aw.SaveFormat.MHTML:
+                dir_files = system_helper.io.Directory.get_files(ARTIFACTS_DIR, 'HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png', system_helper.io.SearchOption.All_DIRECTORIES)
+                self.assertEqual(0, len(dir_files))
+                return
+            elif switch_condition == aw.SaveFormat.AZW3:
+                dir_files = system_helper.io.Directory.get_files(ARTIFACTS_DIR, 'HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png', system_helper.io.SearchOption.All_DIRECTORIES)
+                self.assertEqual(0, len(dir_files))
+                return
+            elif switch_condition == aw.SaveFormat.MOBI:
+                dir_files = system_helper.io.Directory.get_files(ARTIFACTS_DIR, 'HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png', system_helper.io.SearchOption.All_DIRECTORIES)
+                self.assertEqual(0, len(dir_files))
+                return
 
     def test_create_azw_3_toc(self):
         #ExStart
@@ -82,6 +117,15 @@ class ExHtmlSaveOptions(ApiExampleBase):
             save_options.export_list_labels = how_export_list_labels
             doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ControlListLabelsExport.html', save_options=save_options)
 
+    def test_export_url_for_linked_image(self):
+        for export in [True, False]:
+            doc = aw.Document(file_name=MY_DIR + 'Linked image.docx')
+            save_options = aw.saving.HtmlSaveOptions()
+            save_options.export_original_url_for_linked_images = export
+            doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ExportUrlForLinkedImage.html', save_options=save_options)
+            dir_files = system_helper.io.Directory.get_files(ARTIFACTS_DIR, 'HtmlSaveOptions.ExportUrlForLinkedImage.001.png', system_helper.io.SearchOption.All_DIRECTORIES)
+            document_helper.DocumentHelper.find_text_in_file(ARTIFACTS_DIR + 'HtmlSaveOptions.ExportUrlForLinkedImage.html', '<img src="http://www.aspose.com/images/aspose-logo.gif"' if len(dir_files) == 0 else '<img src="HtmlSaveOptions.ExportUrlForLinkedImage.001.png"')
+
     def test_export_roundtrip_information(self):
         doc = aw.Document(file_name=MY_DIR + 'TextBoxes.docx')
         save_options = aw.saving.HtmlSaveOptions()
@@ -96,7 +140,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
         save_options = aw.saving.HtmlSaveOptions(aw.SaveFormat.EPUB)
         self.assertEqual(False, save_options.export_roundtrip_information)
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_external_resource_saving_config(self):
         doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
         save_options = aw.saving.HtmlSaveOptions()
@@ -234,6 +278,36 @@ class ExHtmlSaveOptions(ApiExampleBase):
         save_options.export_cid_urls_for_mhtml_resources = True
         doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ContentIdScheme.mhtml', save_options=save_options)
 
+    def test_resolve_font_names(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
+        import aspose.words as aw
+        import re
+
+        class TestClass(ApiExampleBase):
+
+            def test_resolve_font_names(self):
+                for resolve_font_names in [False, True]:
+                    #ExStart
+                    #ExFor:HtmlSaveOptions.resolve_font_names
+                    #ExSummary:Shows how to resolve all font names before writing them to HTML.
+                    doc = aw.Document(file_name=MY_DIR + 'Missing font.docx')
+                    # This document contains text that names a font that we do not have.
+                    self.assertIsNotNone(doc.font_infos.get_by_name('28 Days Later'))
+                    # If we have no way of getting this font, and we want to be able to display all the text
+                    # in this document in an output HTML, we can substitute it with another font.
+                    font_settings = aw.fonts.FontSettings()
+                    font_settings.substitution_settings.default_font_substitution.default_font_name = 'Arial'
+                    font_settings.substitution_settings.default_font_substitution.enabled = True
+                    doc.font_settings = font_settings
+                    save_options = aw.saving.HtmlSaveOptions(aw.SaveFormat.HTML)
+                    # By default, this option is set to 'False' and Aspose.Words writes font names as specified in the source document
+                    save_options.resolve_font_names = resolve_font_names
+                    doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ResolveFontNames.html', save_options=save_options)
+                    out_doc_contents = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'HtmlSaveOptions.ResolveFontNames.html')
+                    expected = '<span style="font-family:Arial">' if resolve_font_names else '<span style="font-family:\'28 Days Later\'">'
+                    self.assertTrue(re.search(expected, out_doc_contents) is not None)
+                    #ExEnd
+
     def test_heading_levels(self):
         #ExStart
         #ExFor:HtmlSaveOptions.document_split_heading_level
@@ -346,6 +420,56 @@ class ExHtmlSaveOptions(ApiExampleBase):
         options.export_original_url_for_linked_images = True
         doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.FolderAlias.html', save_options=options)
         #ExEnd
+
+    def test_save_exported_fonts(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        from pathlib import Path
+        import aspose.words as aw
+
+        class HtmlSaveOptions_ExportFonts(ApiExampleBase):
+            #ExStart
+            #ExFor:HtmlSaveOptions.export_font_resources
+            #ExFor:HtmlSaveOptions.font_saving_callback
+            #ExFor:IFontSavingCallback
+            #ExFor:IFontSavingCallback.font_saving
+            #ExFor:FontSavingArgs
+            #ExFor:FontSavingArgs.bold
+            #ExFor:FontSavingArgs.document
+            #ExFor:FontSavingArgs.font_family_name
+            #ExFor:FontSavingArgs.font_file_name
+            #ExFor:FontSavingArgs.font_stream
+            #ExFor:FontSavingArgs.is_export_needed
+            #ExFor:FontSavingArgs.is_subsetting_needed
+            #ExFor:FontSavingArgs.italic
+            #ExFor:FontSavingArgs.keep_font_stream_open
+            #ExFor:FontSavingArgs.original_file_name
+            #ExFor:FontSavingArgs.original_file_size
+            #ExSummary:Shows how to define custom logic for exporting fonts when saving to HTML.
+
+            def handle_font_saving(self, args):
+                # Custom logic: export font to file in ARTIFACTS_DIR
+                # args is FontSavingArgs
+                if args.is_export_needed:
+                    font_file_name = args.font_file_name
+                    if not font_file_name:
+                        font_file_name = args.font_family_name + '.ttf'
+                    font_path = Path(ARTIFACTS_DIR) / font_file_name
+                    with open(font_path, 'wb') as f:
+                        # args.font_stream is a stream object (io.BytesIO-like)
+                        f.write(args.font_stream.read())
+                    # Optional: args.keep_font_stream_open = True if needed later
+                    args.keep_font_stream_open = False
+
+            def export_fonts_to_separate_files(self):
+                doc = aw.Document(MY_DIR + 'Rendering.docx')
+                options = aw.saving.HtmlSaveOptions()
+                options.export_font_resources = True
+                options.font_saving_callback = self.handle_font_saving
+                # The callback will export .ttf files and save them alongside the output document.
+                doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.SaveExportedFonts.html', save_options=options)
+                for font_filename in [str(f) for f in Path(ARTIFACTS_DIR).iterdir() if f.suffix == '.ttf']:
+                    print(font_filename)
+            #ExEnd
 
     def test_html_versions(self):
         for html_version in [aw.saving.HtmlVersion.HTML5, aw.saving.HtmlVersion.XHTML]:
@@ -461,7 +585,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.Doc2EpubSaveOptions.epub', save_options=save_options)
         #ExEnd
 
-    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_content_id_urls(self):
         for export_cid_urls_for_mhtml_resources in [False, True]:
             #ExStart
@@ -511,6 +634,21 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 self.assertTrue('<span>Two</span>' in out_doc_contents)
             else:
                 self.assertTrue('<select name="MyComboBox">' + '<option>One</option>' + '<option selected="selected">Two</option>' + '<option>Three</option>' + '</select>' in out_doc_contents)
+            #ExEnd
+
+    def test_export_images_as_base64(self):
+        for export_images_as_base64 in [False, True]:
+            #ExStart
+            #ExFor:HtmlSaveOptions.export_fonts_as_base64
+            #ExFor:HtmlSaveOptions.export_images_as_base64
+            #ExSummary:Shows how to save a .html document with images embedded inside it.
+            doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
+            options = aw.saving.HtmlSaveOptions()
+            options.export_images_as_base64 = export_images_as_base64
+            options.pretty_format = True
+            doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.ExportImagesAsBase64.html', save_options=options)
+            out_doc_contents = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'HtmlSaveOptions.ExportImagesAsBase64.html')
+            self.assertTrue('<img src="data:image/png;base64' in out_doc_contents if export_images_as_base64 else '<img src="HtmlSaveOptions.ExportImagesAsBase64.001.png"' in out_doc_contents)
             #ExEnd
 
     def test_export_fonts_as_base64(self):
@@ -897,104 +1035,93 @@ class ExHtmlSaveOptions(ApiExampleBase):
         save_options.remove_java_script_from_links = True
         doc.save(file_name=ARTIFACTS_DIR + 'HtmlSaveOptions.RemoveJavaScriptFromLinks.html', save_options=save_options)
         #ExEnd:HtmlRemoveJavaScriptFromLinks
+    #ExStart
+    #ExFor:HtmlSaveOptions.export_font_resources
+    #ExFor:HtmlSaveOptions.font_saving_callback
+    #ExFor:IFontSavingCallback
+    #ExFor:IFontSavingCallback.font_saving
+    #ExFor:FontSavingArgs
+    #ExFor:FontSavingArgs.bold
+    #ExFor:FontSavingArgs.document
+    #ExFor:FontSavingArgs.font_family_name
+    #ExFor:FontSavingArgs.font_file_name
+    #ExFor:FontSavingArgs.font_stream
+    #ExFor:FontSavingArgs.is_export_needed
+    #ExFor:FontSavingArgs.is_subsetting_needed
+    #ExFor:FontSavingArgs.italic
+    #ExFor:FontSavingArgs.keep_font_stream_open
+    #ExFor:FontSavingArgs.original_file_name
+    #ExFor:FontSavingArgs.original_file_size
+    #ExSummary:Shows how to define custom logic for exporting fonts when saving to HTML (HandleFontSaving).
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
-    def test_export_text_box_as_svg_epub(self):
-        parameters = [(aw.SaveFormat.HTML, True, 'TextBox as svg (html)'), (aw.SaveFormat.EPUB, True, 'TextBox as svg (epub)'), (aw.SaveFormat.MHTML, False, 'TextBox as img (mhtml)'), (aw.SaveFormat.AZW3, False, 'TextBox as img (azw3)'), (aw.SaveFormat.MOBI, False, 'TextBox as img (mobi)')]
-        for save_format, is_text_box_as_svg, description in parameters:
-            with self.subTest(description=description):
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                textbox = builder.insert_shape(aw.drawing.ShapeType.TEXT_BOX, 300, 100)
-                builder.move_to(textbox.first_paragraph)
-                builder.write('Hello world!')
-                save_options = aw.saving.HtmlSaveOptions(save_format)
-                save_options.export_shapes_as_svg = is_text_box_as_svg
-                doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.export_text_box_as_svg_epub' + aw.FileFormatUtil.save_format_to_extension(save_format), save_options)
-                if save_format == aw.SaveFormat.HTML:
-                    dir_files = glob.glob(ARTIFACTS_DIR + '**/HtmlSaveOptions.export_text_box_as_svg_epub.001.png', recursive=True)
-                    self.assertEqual(0, len(dir_files))
-                elif save_format == aw.SaveFormat.EPUB:
-                    dir_files = glob.glob(ARTIFACTS_DIR + '**/HtmlSaveOptions.export_text_box_as_svg_epub.001.png', recursive=True)
-                    self.assertEqual(0, len(dir_files))
-                elif save_format == aw.SaveFormat.MHTML:
-                    dir_files = glob.glob(ARTIFACTS_DIR + '**/HtmlSaveOptions.export_text_box_as_svg_epub.001.png', recursive=True)
-                    self.assertEqual(0, len(dir_files))
-                elif save_format == aw.SaveFormat.AZW3:
-                    dir_files = glob.glob(ARTIFACTS_DIR + '**/HtmlSaveOptions..export_text_box_as_svg_epub.001.png', recursive=True)
-                    self.assertEqual(0, len(dir_files))
-                elif save_format == aw.SaveFormat.MOBI:
-                    dir_files = glob.glob(ARTIFACTS_DIR + '**/HtmlSaveOptions.export_text_box_as_svg_epub.001.png', recursive=True)
-                    self.assertEqual(0, len(dir_files))
+    class HandleFontSaving(aw.saving.IFontSavingCallback):
 
-    def test_export_url_for_linked_image(self):
-        for export in (True, False):
-            with self.subTest(export=export):
-                doc = aw.Document(MY_DIR + 'Linked image.docx')
-                save_options = aw.saving.HtmlSaveOptions()
-                save_options.export_original_url_for_linked_images = export
-                doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.export_url_for_linked_image.html', save_options)
-                dir_files = glob.glob(ARTIFACTS_DIR + '**/HtmlSaveOptions.export_url_for_linked_image.001.png', recursive=True)
-                DocumentHelper.find_text_in_file(ARTIFACTS_DIR + 'HtmlSaveOptions.export_url_for_linked_image.html', '<img src="http://www.aspose.com/images/aspose-logo.gif"' if not dir_files else '<img src="HtmlSaveOptions.export_url_for_linked_image.001.png"')
+        def font_saving(self, args):
+            from pathlib import Path
+            from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+            print(f'Font:\t{args.font_family_name}')
+            if args.bold:
+                print(', bold')
+            if args.italic:
+                print(', italic')
+            print(f'\nSource:\t{args.original_file_name}, {args.original_file_size} bytes\n')
+            # We can also access the source document from here.
+            self.assertTrue(args.document.original_file_name.endswith('Rendering.docx'))
+            self.assertTrue(args.is_export_needed)
+            self.assertTrue(args.is_subsetting_needed)
+            # There are two ways of saving an exported font.
+            # 1 -  Save it to a local file system location:
+            args.font_file_name = Path(args.original_file_name).name
+            # 2 -  Save it to a stream:
+            args.font_stream = open(Path(ARTIFACTS_DIR) / Path(args.original_file_name).name, 'wb')
+            self.assertFalse(args.keep_font_stream_open)
+    #ExEnd
+    #ExStart
+    #ExFor:ImageSavingArgs.current_shape
+    #ExFor:ImageSavingArgs.document
+    #ExFor:ImageSavingArgs.image_stream
+    #ExFor:ImageSavingArgs.is_image_available
+    #ExFor:ImageSavingArgs.keep_image_stream_open
+    #ExSummary:Shows how to involve an image saving callback in an HTML conversion process (ImageShapePrinter).
 
-    def test_export_images_as_base64(self):
-        for export_images_as_base64 in (False, True):
-            with self.subTest(export_images_as_base64=export_images_as_base64):
-                #ExStart
-                #ExFor:HtmlSaveOptions.export_fonts_as_base64
-                #ExFor:HtmlSaveOptions.export_images_as_base64
-                #ExSummary:Shows how to save a .html document with images embedded inside it.
-                doc = aw.Document(MY_DIR + 'Rendering.docx')
-                options = aw.saving.HtmlSaveOptions()
-                options.export_images_as_base64 = export_images_as_base64
-                options.pretty_format = True
-                doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.export_images_as_base64.html', options)
-                with open(ARTIFACTS_DIR + 'HtmlSaveOptions.export_images_as_base64.html', 'rt', encoding='utf-8') as file:
-                    out_doc_contents = file.read()
-                if export_images_as_base64:
-                    self.assertIn('<img src="data:image/png;base64', out_doc_contents)
-                else:
-                    self.assertIn('<img src="HtmlSaveOptions.export_images_as_base64.001.png"', out_doc_contents)
-                #ExEnd
+    class ImageShapePrinter(aw.saving.IImageSavingCallback):
 
-    def test_export_language_information(self):
-        for export_language_information in (False, True):
-            with self.subTest(export_language_information=export_language_information):
-                #ExStart
-                #ExFor:HtmlSaveOptions.export_language_information
-                #ExSummary:Shows how to preserve language information when saving to .html.
-                doc = aw.Document()
-                builder = aw.DocumentBuilder(doc)
-                # Use the builder to write text while formatting it in different locales.
-                builder.font.locale_id = 1033  # en-US
-                builder.writeln('Hello world!')
-                builder.font.locale_id = 2057  # en-GB
-                builder.writeln('Hello again!')
-                builder.font.locale_id = 1049  # ru-RU
-                builder.write('Привет, мир!')
-                # When saving the document to HTML, we can pass a SaveOptions object
-                # to either preserve or discard each formatted text's locale.
-                # If we set the "export_language_information" flag to "True",
-                # the output HTML document will contain the locales in "lang" attributes of <span> tags.
-                # If we set the "export_language_information" flag to "False',
-                # the text in the output HTML document will not contain any locale information.
-                options = aw.saving.HtmlSaveOptions()
-                options.export_language_information = export_language_information
-                options.pretty_format = True
-                doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.export_language_information.html', options)
-                with open(ARTIFACTS_DIR + 'HtmlSaveOptions.export_language_information.html', 'rt', encoding='utf-8') as file:
-                    out_doc_contents = file.read()
-                if export_language_information:
-                    self.assertIn('<span>Hello world!</span>', out_doc_contents)
-                    self.assertIn('<span lang="en-GB">Hello again!</span>', out_doc_contents)
-                    self.assertIn('<span lang="ru-RU">Привет, мир!</span>', out_doc_contents)
-                else:
-                    self.assertIn('<span>Hello world!</span>', out_doc_contents)
-                    self.assertIn('<span>Hello again!</span>', out_doc_contents)
-                    self.assertIn('<span>Привет, мир!</span>', out_doc_contents)
-                #ExEnd
+        def __init__(self):
+            self.m_image_count = None
 
-    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
+        def image_saving(self, args):
+            args.keep_image_stream_open = False
+            self.assertTrue(args.is_image_available)
+            mImageCount += 1
+            print(f'{Path(args.document.original_file_name).name} Image #{mImageCount}')
+            layout_collector = aw.layout.LayoutCollector(args.document)
+            print(f'\tOn page:\t{layout_collector.get_start_page_index(args.current_shape)}')
+            print(f'\tDimensions:\t{args.current_shape.bounds}')
+            print(f'\tAlignment:\t{args.current_shape.vertical_alignment}')
+            print(f'\tWrap type:\t{args.current_shape.wrap_type}')
+            print(f'Output filename:\t{args.image_file_name}\n')
+    #ExEnd
+    #ExStart
+    #ExFor:SaveOptions.progress_callback
+    #ExFor:IDocumentSavingCallback
+    #ExFor:IDocumentSavingCallback.notify(DocumentSavingArgs)
+    #ExFor:DocumentSavingArgs.estimated_progress
+    #ExFor:DocumentSavingArgs
+    #ExSummary:Shows how to manage a document while saving to html (SavingProgressCallback).
+
+    class SavingProgressCallback(aw.saving.IDocumentSavingCallback):
+
+        def __init__(self):
+            self.max_duration = 0.1
+            self.m_saving_started_at = datetime.datetime.now()
+
+        def notify(self, args):
+            canceled_at = datetime.datetime.now()
+            elapsed_seconds = (canceled_at - m_saving_started_at).total_seconds()
+            if elapsed_seconds > self.max_duration:
+                raise Exception()
+    #ExEnd
+
     def test_font_subsetting(self):
         for font_resources_subsetting_size_threshold in (0, 1000000, 2 ** 31 - 1):
             with self.subTest(font_resources_subsetting_size_threshold=font_resources_subsetting_size_threshold):
@@ -1040,7 +1167,6 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     self.assertTrue(max(font_resources_subsetting_size_threshold, 30000) > font_file_size)
                 #ExEnd
 
-    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
     def test_office_math_output_mode(self):
         for html_office_math_output_mode in (aw.saving.HtmlOfficeMathOutputMode.IMAGE, aw.saving.HtmlOfficeMathOutputMode.MATH_ML, aw.saving.HtmlOfficeMathOutputMode.TEXT):
             with self.subTest(html_office_math_output_mode=html_office_math_output_mode):

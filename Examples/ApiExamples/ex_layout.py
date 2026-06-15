@@ -8,9 +8,82 @@
 import unittest
 import aspose.words as aw
 import aspose.words.layout
+import aspose.words.saving
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 
 class ExLayout(ApiExampleBase):
+    #ExStart
+    #ExFor:LayoutEntityType
+    #ExFor:LayoutEnumerator
+    #ExFor:LayoutEnumerator.__init__(Document)
+    #ExFor:LayoutEnumerator.document
+    #ExFor:LayoutEnumerator.kind
+    #ExFor:LayoutEnumerator.move_first_child
+    #ExFor:LayoutEnumerator.move_last_child
+    #ExFor:LayoutEnumerator.move_next
+    #ExFor:LayoutEnumerator.move_next_logical
+    #ExFor:LayoutEnumerator.move_parent
+    #ExFor:LayoutEnumerator.move_parent(LayoutEntityType)
+    #ExFor:LayoutEnumerator.move_previous
+    #ExFor:LayoutEnumerator.move_previous_logical
+    #ExFor:LayoutEnumerator.page_index
+    #ExFor:LayoutEnumerator.rectangle
+    #ExFor:LayoutEnumerator.reset
+    #ExFor:LayoutEnumerator.text
+    #ExFor:LayoutEnumerator.type
+    #ExSummary:Shows ways of traversing a document's layout entities (TraverseLayoutForward).
+
+    @staticmethod
+    def _traverse_layout_forward(layout_enumerator, depth):
+        while true:
+            ExLayout._print_current_entity(layout_enumerator, depth)
+            if layout_enumerator.move_first_child():
+                ExLayout._traverse_layout_forward(layout_enumerator, depth + 1)
+                layout_enumerator.move_parent()
+            if layout_enumerator.move_next():
+                break
+
+    @staticmethod
+    def _traverse_layout_backward(layout_enumerator, depth):
+        while true:
+            ExLayout._print_current_entity(layout_enumerator, depth)
+            if layout_enumerator.move_last_child():
+                ExLayout._traverse_layout_backward(layout_enumerator, depth + 1)
+                layout_enumerator.move_parent()
+            if layout_enumerator.move_previous():
+                break
+
+    @staticmethod
+    def _traverse_layout_forward_logical(layout_enumerator, depth):
+        while true:
+            ExLayout._print_current_entity(layout_enumerator, depth)
+            if layout_enumerator.move_first_child():
+                ExLayout._traverse_layout_forward_logical(layout_enumerator, depth + 1)
+                layout_enumerator.move_parent()
+            if layout_enumerator.move_next_logical():
+                break
+
+    @staticmethod
+    def _traverse_layout_backward_logical(layout_enumerator, depth):
+        while true:
+            ExLayout._print_current_entity(layout_enumerator, depth)
+            if layout_enumerator.move_last_child():
+                ExLayout._traverse_layout_backward_logical(layout_enumerator, depth + 1)
+                layout_enumerator.move_parent()
+            if layout_enumerator.move_previous_logical():
+                break
+
+    @staticmethod
+    def _print_current_entity(layout_enumerator, indent):
+        tabs = '\t' * indent
+        print(f'{tabs}-> Entity type: {layout_enumerator.type}' if layout_enumerator.kind == '' else f'{tabs}-> Entity type & kind: {layout_enumerator.type}, {layout_enumerator.kind}')
+        # Only spans can contain text.
+        if layout_enumerator.type == aw.LayoutEntityType.SPAN:
+            print(f'{tabs}   Span contents: "{layout_enumerator.text}"')
+            le_rect = layout_enumerator.rectangle
+            print(f'{tabs}   Rectangle dimensions {le_rect.width}x{le_rect.height}, X={le_rect.x} Y={le_rect.y}')
+            print(f'{tabs}   Page {layout_enumerator.page_index}')
+    #ExEnd
 
     def test_restart_page_numbering_in_continuous_section(self):
         #ExStart
@@ -26,6 +99,46 @@ class ExLayout(ApiExampleBase):
         doc.update_page_layout()
         doc.save(file_name=ARTIFACTS_DIR + 'Layout.RestartPageNumberingInContinuousSection.pdf')
         #ExEnd
+    #ExStart
+    #ExFor:IPageLayoutCallback
+    #ExFor:IPageLayoutCallback.notify(PageLayoutCallbackArgs)
+    #ExFor:PageLayoutCallbackArgs
+    #ExFor:PageLayoutCallbackArgs.event
+    #ExFor:PageLayoutCallbackArgs.document
+    #ExFor:PageLayoutCallbackArgs.page_index
+    #ExFor:PageLayoutEvent
+    #ExFor:LayoutOptions.callback
+    #ExSummary:Shows how to track layout changes with a layout callback (RenderPageLayoutCallback).
+    class RenderPageLayoutCallback(aw.layout.IPageLayoutCallback):
+
+        def __init__(self):
+            self.m_num = None
+
+        def notify(self, a):
+            switch_condition = a.event
+            if switch_condition == aw.layout.PageLayoutEvent.PART_REFLOW_FINISHED:
+                self._notify_part_finished(a)
+            elif switch_condition == aw.layout.PageLayoutEvent.CONVERSION_FINISHED:
+                self._notify_conversion_finished(a)
+
+        def _notify_part_finished(self, a):
+            print(f'Part at page {a.page_index + 1} reflow.')
+            self._render_page(a, a.page_index)
+
+        def _notify_conversion_finished(self, a):
+            print(f'Document "{a.document.built_in_document_properties.title}" converted to page format.')
+
+        def _render_page(self, a, page_index):
+            from pathlib import Path
+            import aspose.words as aw
+            from api_example_base import ApiExampleBase, ARTIFACTS_DIR
+            save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
+            save_options.page_set = aw.saving.PageSet(page=page_index)
+            mNum += 1
+            file_path = Path(ARTIFACTS_DIR) / f'PageLayoutCallback.page-{pageIndex + 1} {mNum}.png'
+            with open(file_path, 'wb') as stream:
+                a.document.save(stream, save_options)
+    #ExEnd
 
     def test_layout_collector(self):
         #ExStart

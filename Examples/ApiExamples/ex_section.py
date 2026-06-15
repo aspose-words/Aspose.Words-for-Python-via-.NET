@@ -203,6 +203,38 @@ class ExSection(ApiExampleBase):
         self.assertEqual('Hello world!', doc.get_text().strip())
         #ExEnd
 
+    def test_body_child_nodes(self):
+        from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        import aspose.words as aw
+        #ExStart
+        #ExFor:Body.node_type
+        #ExFor:HeaderFooter.node_type
+        #ExFor:Document.first_section
+        #ExSummary:Shows how to iterate through the children of a composite node.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.write('Section 1')
+        builder.move_to_header_footer(aw.HeaderFooterType.HEADER_PRIMARY)
+        builder.write('Primary header')
+        builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_PRIMARY)
+        builder.write('Primary footer')
+        section = doc.first_section
+        # A Section is a composite node and can contain child nodes,
+        # but only if those child nodes are of a "Body" or "HeaderFooter" node type.
+        for node in section:
+            switch_condition = node.node_type
+            if switch_condition == aw.NodeType.BODY:
+                body = node.as_body()
+                print('Body:')
+                print(f'\t"{body.get_text().strip()}"')
+            elif switch_condition == aw.NodeType.HEADER_FOOTER:
+                header_footer = node.as_header_footer()
+                print(f'HeaderFooter type: {header_footer.header_footer_type}:')
+                print(f'\t"{header_footer.get_text().strip()}"')
+            else:
+                raise Exception('Unexpected node type in a section.')
+    #ExEnd
+
     def test_clear(self):
         #ExStart
         #ExFor:NodeCollection.clear
@@ -361,31 +393,3 @@ class ExSection(ApiExampleBase):
         doc.first_section.clear_headers_footers(False)
         self.assertEqual(aw.WatermarkType.NONE, doc.watermark.type)
         #ExEnd:PreserveWatermarks
-
-    def test_body_child_nodes(self):
-        #ExStart
-        #ExFor:Body.node_type
-        #ExFor:HeaderFooter.node_type
-        #ExFor:Document.first_section
-        #ExSummary:Shows how to iterate through the children of a composite node.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-        builder.write('Section 1')
-        builder.move_to_header_footer(aw.HeaderFooterType.HEADER_PRIMARY)
-        builder.write('Primary header')
-        builder.move_to_header_footer(aw.HeaderFooterType.FOOTER_PRIMARY)
-        builder.write('Primary footer')
-        section = doc.first_section
-        # A Section is a composite node and can contain child nodes,
-        # but only if those child nodes are of a "BODY" or "HEADER_FOOTER" node type.
-        for node in section:
-            if node.node_type == aw.NodeType.BODY:
-                body = node.as_body()
-                print('Body:')
-                print(f'\t"{body.get_text().strip()}"')
-            elif node.node_type == aw.NodeType.HEADER_FOOTER:
-                header_footer = node.as_header_footer()
-                print(f'HeaderFooter type: {header_footer.header_footer_type}:')
-                print(f'\t"{header_footer.get_text().strip()}"')
-            else:
-                raise Exception('Unexpected node type in a section.')

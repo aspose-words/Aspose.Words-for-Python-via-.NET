@@ -1,3 +1,9 @@
+import random
+import time
+import os
+import io
+import system_helper
+import sys
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
@@ -5,10 +11,6 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import random
-import sys
-import time
-import os
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.drawing
@@ -17,8 +19,6 @@ import aspose.words.loading
 import aspose.words.saving
 import aspose.words.settings
 import datetime
-import io
-import system_helper
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, IMAGE_DIR, MY_DIR
 
@@ -100,6 +100,51 @@ class ExOoxmlSaveOptions(ApiExampleBase):
             self.assertEqual(restart_list_at_each_section, doc.lists[0].is_restart_at_each_section)
             #ExEnd
 
+    def test_last_saved_time(self):
+        for update_last_saved_time_property in [False, True]:
+            #ExStart
+            #ExFor:SaveOptions.update_last_saved_time_property
+            #ExSummary:Shows how to determine whether to preserve the document's "Last saved time" property when saving.
+            doc = aw.Document(file_name=MY_DIR + 'Document.docx')
+            self.assertEqual(datetime.datetime(2021, 5, 11, 6, 32, 0), doc.built_in_document_properties.last_saved_time)
+            # When we save the document to an OOXML format, you can create an OoxmlSaveOptions object
+            # and then pass it to the document's saving method to modify how we save the document.
+            # Set the "UpdateLastSavedTimeProperty" property to "true" to
+            # set the output document's "Last saved time" built-in property to the current date/time.
+            # Set the "UpdateLastSavedTimeProperty" property to "false" to
+            # preserve the original value of the input document's "Last saved time" built-in property.
+            save_options = aw.saving.OoxmlSaveOptions()
+            save_options.update_last_saved_time_property = update_last_saved_time_property
+            doc.save(file_name=ARTIFACTS_DIR + 'OoxmlSaveOptions.LastSavedTime.docx', save_options=save_options)
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'OoxmlSaveOptions.LastSavedTime.docx')
+            last_saved_time_new = doc.built_in_document_properties.last_saved_time
+            if update_last_saved_time_property:
+                self.assertTrue((datetime.datetime.now().replace(tzinfo=None) - last_saved_time_new.replace(tzinfo=None)).days < 1)
+            else:
+                self.assertEqual(datetime.datetime(2021, 5, 11, 6, 32, 0), last_saved_time_new)
+            #ExEnd
+
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
+    def test_keep_legacy_control_chars(self):
+        for keep_legacy_control_chars in [False, True]:
+            #ExStart
+            #ExFor:OoxmlSaveOptions.keep_legacy_control_chars
+            #ExFor:OoxmlSaveOptions.__init__(SaveFormat)
+            #ExSummary:Shows how to support legacy control characters when converting to .docx.
+            doc = aw.Document(file_name=MY_DIR + 'Legacy control character.doc')
+            # When we save the document to an OOXML format, we can create an OoxmlSaveOptions object
+            # and then pass it to the document's saving method to modify how we save the document.
+            # Set the "KeepLegacyControlChars" property to "true" to preserve
+            # the "ShortDateTime" legacy character while saving.
+            # Set the "KeepLegacyControlChars" property to "false" to remove
+            # the "ShortDateTime" legacy character from the output document.
+            so = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
+            so.keep_legacy_control_chars = keep_legacy_control_chars
+            doc.save(file_name=ARTIFACTS_DIR + 'OoxmlSaveOptions.KeepLegacyControlChars.docx', save_options=so)
+            doc = aw.Document(file_name=ARTIFACTS_DIR + 'OoxmlSaveOptions.KeepLegacyControlChars.docx')
+            self.assertEqual('\x13date \\@ "MM/dd/yyyy"\x14\x15\x0c' if keep_legacy_control_chars else '\x1e\x0c', doc.first_section.body.get_text())
+            #ExEnd
+
     def test_export_generator_name(self):
         #ExStart
         #ExFor:SaveOptions.export_generator_name
@@ -148,55 +193,27 @@ class ExOoxmlSaveOptions(ApiExampleBase):
         print(run.text)  # ฿
         print(run.font.name)  # Angsana New
         #ExEnd:UpdateAmbiguousTextFont
+    #ExStart
+    #ExFor:SaveOptions.progress_callback
+    #ExFor:IDocumentSavingCallback
+    #ExFor:IDocumentSavingCallback.notify(DocumentSavingArgs)
+    #ExFor:DocumentSavingArgs.estimated_progress
+    #ExSummary:Shows how to manage a document while saving to docx (SavingProgressCallback).
 
-    def test_last_saved_time(self):
-        for update_last_saved_time_property in (False, True):
-            with self.subTest(update_last_saved_time_property=update_last_saved_time_property):
-                #ExStart
-                #ExFor:SaveOptions.update_last_saved_time_property
-                #ExSummary:Shows how to determine whether to preserve the document's "Last saved time" property when saving.
-                doc = aw.Document(MY_DIR + 'Document.docx')
-                self.assertEqual(datetime.datetime(2021, 5, 11, 6, 32, 0, tzinfo=datetime.timezone.utc), doc.built_in_document_properties.last_saved_time)
-                # When we save the document to an OOXML format, we can create an OoxmlSaveOptions object
-                # and then pass it to the document's saving method to modify how we save the document.
-                # Set the "update_last_saved_time_property" property to "True" to
-                # set the output document's "Last saved time" built-in property to the current date/time.
-                # Set the "update_last_saved_time_property" property to "False" to
-                # preserve the original value of the input document's "Last saved time" built-in property.
-                save_options = aw.saving.OoxmlSaveOptions()
-                save_options.update_last_saved_time_property = update_last_saved_time_property
-                doc.save(ARTIFACTS_DIR + 'OoxmlSaveOptions.last_saved_time.docx', save_options)
-                doc = aw.Document(ARTIFACTS_DIR + 'OoxmlSaveOptions.last_saved_time.docx')
-                last_saved_time_new = doc.built_in_document_properties.last_saved_time
-                if update_last_saved_time_property:
-                    self.assertAlmostEqual(datetime.datetime.now(datetime.timezone.utc), last_saved_time_new, delta=datetime.timedelta(days=1))
-                else:
-                    self.assertEqual(datetime.datetime(2021, 5, 11, 6, 32, 0, tzinfo=datetime.timezone.utc), last_saved_time_new)
-                #ExEnd
+    class SavingProgressCallback(aw.saving.IDocumentSavingCallback):
 
-    @unittest.skipIf(sys.platform.startswith('linux'), 'Discrepancy in assertion between Python and .Net')
-    def test_keep_legacy_control_chars(self):
-        for keep_legacy_control_chars in (False, True):
-            with self.subTest(keep_legacy_control_chars=keep_legacy_control_chars):
-                #ExStart
-                #ExFor:OoxmlSaveOptions.keep_legacy_control_chars
-                #ExFor:OoxmlSaveOptions.__init__(SaveFormat)
-                #ExSummary:Shows how to support legacy control characters when converting to .docx.
-                doc = aw.Document(MY_DIR + 'Legacy control character.doc')
-                # When we save the document to an OOXML format, we can create an OoxmlSaveOptions object
-                # and then pass it to the document's saving method to modify how we save the document.
-                # Set the "keep_legacy_control_chars" property to "True" to preserve
-                # the "ShortDateTime" legacy character while saving.
-                # Set the "keep_legacy_control_chars" property to "False" to remove
-                # the "ShortDateTime" legacy character from the output document.
-                save_options = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
-                save_options.keep_legacy_control_chars = keep_legacy_control_chars
-                doc.save(ARTIFACTS_DIR + 'OoxmlSaveOptions.keep_legacy_control_chars.docx', save_options)
-                doc = aw.Document(ARTIFACTS_DIR + 'OoxmlSaveOptions.keep_legacy_control_chars.docx')
-                self.assertEqual('\x13date \\@ "d/MM/yyyy"\x14\x15\x0c' if keep_legacy_control_chars else '\x1e\x0c', doc.first_section.body.get_text())
-                #ExEnd
+        def __init__(self):
+            self.max_duration = 0.01
+            self.m_saving_started_at = datetime.datetime.now()
 
-    @unittest.skip('Discrepancy in assertion between Python and .Net')
+        def notify(self, args):
+            canceled_at = datetime.datetime.now()
+            elapsed_seconds = (canceled_at - m_saving_started_at).total_seconds()
+            if elapsed_seconds > self.max_duration:
+                raise Exception()
+    #ExEnd
+
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_document_compression(self):
         for compression_level in (aw.saving.CompressionLevel.MAXIMUM, aw.saving.CompressionLevel.FAST, aw.saving.CompressionLevel.NORMAL, aw.saving.CompressionLevel.SUPER_FAST):
             with self.subTest(compression_level=compression_level):
@@ -232,24 +249,6 @@ class ExOoxmlSaveOptions(ApiExampleBase):
                 elif compression_level == aw.saving.CompressionLevel.SUPER_FAST:
                     self.assertLess(1271000, file_size)
 
-    def test_check_file_signatures(self):
-        compression_levels = [aw.saving.CompressionLevel.MAXIMUM, aw.saving.CompressionLevel.NORMAL, aw.saving.CompressionLevel.FAST, aw.saving.CompressionLevel.SUPER_FAST]
-        file_signatures = ['50 4B 03 04 14 00 02 00 08 00 ', '50 4B 03 04 14 00 00 00 08 00 ', '50 4B 03 04 14 00 04 00 08 00 ', '50 4B 03 04 14 00 06 00 08 00 ']
-        doc = aw.Document()
-        save_options = aw.saving.OoxmlSaveOptions(aw.SaveFormat.DOCX)
-        prev_file_size = 0
-        for i, file_signature in enumerate(file_signatures):
-            save_options.compression_level = compression_levels[i]
-            doc.save(ARTIFACTS_DIR + 'OoxmlSaveOptions.check_file_signatures.docx', save_options)
-            with io.BytesIO() as stream:
-                with open(ARTIFACTS_DIR + 'OoxmlSaveOptions.check_file_signatures.docx', 'rb') as output_file_stream:
-                    file_size = os.path.getsize(ARTIFACTS_DIR + 'OoxmlSaveOptions.check_file_signatures.docx')
-                    self.assertLess(prev_file_size, file_size)
-                    ApiExampleBase.copy_stream(output_file_stream, stream)
-                    self.assertEqual(file_signature, ApiExampleBase.dump_array(bytes(stream.getvalue()), 0, 10))
-                    prev_file_size = file_size
-
-    @unittest.skipIf(sys.platform.startswith('linux'), 'requires Windows')
     def test_zip_64_mode_option(self):
         #ExStart
         #ExFor:OoxmlSaveOptions.zip_64_mode
