@@ -26,6 +26,7 @@ class ExDocumentBase(ApiExampleBase):
         glossary_doc = aw.buildingblocks.GlossaryDocument()
         doc.glossary_document = glossary_doc
         self.assertEqual(aw.DocumentBase, type(glossary_doc).__bases__[0])
+        #ExEnd
 
     def test_set_page_color(self):
         #ExStart
@@ -43,6 +44,9 @@ class ExDocumentBase(ApiExampleBase):
     def test_import_node(self):
         from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
         import aspose.words as aw
+        #ExStart
+        #ExFor:DocumentBase.import_node(Node,bool)
+        #ExSummary:Shows how to import a node from one document to another.
         # Every node has a parent document, which is the document that contains the node.
         # Inserting a node into a document that the node does not belong to will throw an exception.
         src_doc = aw.Document()

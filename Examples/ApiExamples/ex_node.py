@@ -76,7 +76,6 @@ class ExNode(ApiExampleBase):
         self.assertEqual(doc.first_section.body, para.parent_node)
         self.assertEqual('Hello world!', doc.get_text().strip())
         #ExEnd
-        #ExEnd
         self.assertEqual(doc, para.document)
         self.assertIsNotNone(para.parent_node)
 
@@ -311,6 +310,7 @@ class ExNode(ApiExampleBase):
         # Use SelectSingleNode to select the first result of the same expression as above.
         node = doc.select_single_node('//Body/Paragraph')
         self.assertEqual(aw.Paragraph, type(node.as_paragraph()))
+        #ExEnd
 
     def test_node_is_inside_field(self):
         #ExStart
@@ -325,6 +325,7 @@ class ExNode(ApiExampleBase):
         first_run = next((n for n in result_list if n.node_type == aw.NodeType.RUN), None)
         if first_run:
             print(f"Contents of the first Run node that's part of a field: {first_run.get_text().strip()}")
+        #ExEnd
 
     def test_create_and_add_paragraph_node(self):
         doc = aw.Document()

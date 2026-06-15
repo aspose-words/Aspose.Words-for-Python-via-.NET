@@ -122,6 +122,7 @@ class ExOoxmlSaveOptions(ApiExampleBase):
                 self.assertTrue((datetime.datetime.now().replace(tzinfo=None) - last_saved_time_new.replace(tzinfo=None)).days < 1)
             else:
                 self.assertEqual(datetime.datetime(2021, 5, 11, 6, 32, 0), last_saved_time_new)
+            #ExEnd
 
     @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_keep_legacy_control_chars(self):

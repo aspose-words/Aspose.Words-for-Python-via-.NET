@@ -269,6 +269,22 @@ class ExStructuredDocumentTag(ApiExampleBase):
     def test_list_item_collection(self):
         import aspose.words as aw
         from api_example_base import ApiExampleBase, ARTIFACTS_DIR
+        #ExStart
+        #ExFor:SdtListItem
+        #ExFor:SdtListItem.__init__(str)
+        #ExFor:SdtListItem.__init__(str,str)
+        #ExFor:SdtListItem.display_text
+        #ExFor:SdtListItem.value
+        #ExFor:SdtListItemCollection
+        #ExFor:SdtListItemCollection.add(SdtListItem)
+        #ExFor:SdtListItemCollection.clear
+        #ExFor:SdtListItemCollection.count
+        #ExFor:SdtListItemCollection.__iter__
+        #ExFor:SdtListItemCollection.__getitem__(int)
+        #ExFor:SdtListItemCollection.remove_at(int)
+        #ExFor:SdtListItemCollection.selected_value
+        #ExFor:StructuredDocumentTag.list_items
+        #ExSummary:Shows how to work with drop down-list structured document tags.
         doc = aw.Document()
         tag = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.DROP_DOWN_LIST, aw.markup.MarkupLevel.BLOCK)
         doc.first_section.body.append_child(tag)
@@ -393,6 +409,18 @@ class ExStructuredDocumentTag(ApiExampleBase):
         class ExCustomXmlSchema(ApiExampleBase):
 
             def test_work_with_xml_schema_collection(self):
+                #ExStart
+                #ExFor:CustomXmlSchemaCollection
+                #ExFor:CustomXmlSchemaCollection.add(str)
+                #ExFor:CustomXmlSchemaCollection.clear
+                #ExFor:CustomXmlSchemaCollection.clone
+                #ExFor:CustomXmlSchemaCollection.count
+                #ExFor:CustomXmlSchemaCollection.__iter__
+                #ExFor:CustomXmlSchemaCollection.index_of(str)
+                #ExFor:CustomXmlSchemaCollection.__getitem__(int)
+                #ExFor:CustomXmlSchemaCollection.remove(str)
+                #ExFor:CustomXmlSchemaCollection.remove_at(int)
+                #ExSummary:Shows how to work with an XML schema collection.
                 doc = aw.Document()
                 xml_part_id = '{' + str(uuid.uuid4()) + '}'
                 xml_part_content = '<root><text>Hello, World!</text></root>'
@@ -417,7 +445,7 @@ class ExStructuredDocumentTag(ApiExampleBase):
                 # 3 - Use the "Clear" method to empty the collection at once.
                 schemas.clear()
                 self.assertEqual(0, schemas.count)
-        #ExEnd
+                 #ExEnd
 
     def test_custom_xml_part_store_item_id_read_only(self):
         #ExStart

@@ -306,6 +306,7 @@ class ExHtmlSaveOptions(ApiExampleBase):
                     out_doc_contents = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'HtmlSaveOptions.ResolveFontNames.html')
                     expected = '<span style="font-family:Arial">' if resolve_font_names else '<span style="font-family:\'28 Days Later\'">'
                     self.assertTrue(re.search(expected, out_doc_contents) is not None)
+                    #ExEnd
 
     def test_heading_levels(self):
         #ExStart
@@ -426,24 +427,24 @@ class ExHtmlSaveOptions(ApiExampleBase):
         import aspose.words as aw
 
         class HtmlSaveOptions_ExportFonts(ApiExampleBase):
-            # ExStart
-            # ExFor:HtmlSaveOptions.export_font_resources
-            # ExFor:HtmlSaveOptions.font_saving_callback
-            # ExFor:IFontSavingCallback
-            # ExFor:IFontSavingCallback.font_saving
-            # ExFor:FontSavingArgs
-            # ExFor:FontSavingArgs.bold
-            # ExFor:FontSavingArgs.document
-            # ExFor:FontSavingArgs.font_family_name
-            # ExFor:FontSavingArgs.font_file_name
-            # ExFor:FontSavingArgs.font_stream
-            # ExFor:FontSavingArgs.is_export_needed
-            # ExFor:FontSavingArgs.is_subsetting_needed
-            # ExFor:FontSavingArgs.italic
-            # ExFor:FontSavingArgs.keep_font_stream_open
-            # ExFor:FontSavingArgs.original_file_name
-            # ExFor:FontSavingArgs.original_file_size
-            # ExSummary:Shows how to define custom logic for exporting fonts when saving to HTML.
+            #ExStart
+            #ExFor:HtmlSaveOptions.export_font_resources
+            #ExFor:HtmlSaveOptions.font_saving_callback
+            #ExFor:IFontSavingCallback
+            #ExFor:IFontSavingCallback.font_saving
+            #ExFor:FontSavingArgs
+            #ExFor:FontSavingArgs.bold
+            #ExFor:FontSavingArgs.document
+            #ExFor:FontSavingArgs.font_family_name
+            #ExFor:FontSavingArgs.font_file_name
+            #ExFor:FontSavingArgs.font_stream
+            #ExFor:FontSavingArgs.is_export_needed
+            #ExFor:FontSavingArgs.is_subsetting_needed
+            #ExFor:FontSavingArgs.italic
+            #ExFor:FontSavingArgs.keep_font_stream_open
+            #ExFor:FontSavingArgs.original_file_name
+            #ExFor:FontSavingArgs.original_file_size
+            #ExSummary:Shows how to define custom logic for exporting fonts when saving to HTML.
 
             def handle_font_saving(self, args):
                 # Custom logic: export font to file in ARTIFACTS_DIR
@@ -466,26 +467,9 @@ class ExHtmlSaveOptions(ApiExampleBase):
                 options.font_saving_callback = self.handle_font_saving
                 # The callback will export .ttf files and save them alongside the output document.
                 doc.save(ARTIFACTS_DIR + 'HtmlSaveOptions.SaveExportedFonts.html', save_options=options)
-                # ExStart
-                # ExFor:HtmlSaveOptions.export_font_resources
-                # ExFor:HtmlSaveOptions.font_saving_callback
-                # ExFor:IFontSavingCallback
-                # ExFor:IFontSavingCallback.font_saving
-                # ExFor:FontSavingArgs
-                # ExFor:FontSavingArgs.bold
-                # ExFor:FontSavingArgs.document
-                # ExFor:FontSavingArgs.font_family_name
-                # ExFor:FontSavingArgs.font_file_name
-                # ExFor:FontSavingArgs.font_stream
-                # ExFor:FontSavingArgs.is_export_needed
-                # ExFor:FontSavingArgs.is_subsetting_needed
-                # ExFor:FontSavingArgs.italic
-                # ExFor:FontSavingArgs.keep_font_stream_open
-                # ExFor:FontSavingArgs.original_file_name
-                # ExFor:FontSavingArgs.original_file_size
-                # ExSummary:Shows how to define custom logic for exporting fonts when saving to HTML.
                 for font_filename in [str(f) for f in Path(ARTIFACTS_DIR).iterdir() if f.suffix == '.ttf']:
                     print(font_filename)
+            #ExEnd
 
     def test_html_versions(self):
         for html_version in [aw.saving.HtmlVersion.HTML5, aw.saving.HtmlVersion.XHTML]:

@@ -951,15 +951,3 @@ class ExLowCode(ApiExampleBase):
                 image_watermark_options.scale = 50
                 aw.lowcode.Watermarker.set_watermark_to_images(input_stream=stream_in, save_options=aw.saving.ImageSaveOptions(aw.SaveFormat.PNG), watermark_image_stream=image_stream, options=image_watermark_options)
         #ExEnd:WatermarkImageToImagesStream
-
-    class AsposeData:
-
-        @property
-        def list(self):
-            pass
-
-        @list.setter
-        def list(self, value):
-            pass
-        pass
-    #ExEnd:BuildReportData

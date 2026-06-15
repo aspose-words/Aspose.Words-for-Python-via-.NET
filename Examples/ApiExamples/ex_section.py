@@ -206,6 +206,11 @@ class ExSection(ApiExampleBase):
     def test_body_child_nodes(self):
         from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
         import aspose.words as aw
+        #ExStart
+        #ExFor:Body.node_type
+        #ExFor:HeaderFooter.node_type
+        #ExFor:Document.first_section
+        #ExSummary:Shows how to iterate through the children of a composite node.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)
         builder.write('Section 1')

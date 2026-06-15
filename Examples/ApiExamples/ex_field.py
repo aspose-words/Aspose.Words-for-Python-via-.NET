@@ -257,6 +257,22 @@ class ExField(ApiExampleBase):
         class ExFieldFormat(ApiExampleBase):
 
             def test_field_format(self):
+                #ExStart
+                #ExFor:Field.format
+                #ExFor:Field.update()
+                #ExFor:FieldFormat
+                #ExFor:FieldFormat.date_time_format
+                #ExFor:FieldFormat.numeric_format
+                #ExFor:FieldFormat.general_formats
+                #ExFor:GeneralFormat
+                #ExFor:GeneralFormatCollection
+                #ExFor:GeneralFormatCollection.add(GeneralFormat)
+                #ExFor:GeneralFormatCollection.count
+                #ExFor:GeneralFormatCollection.__getitem__(int)
+                #ExFor:GeneralFormatCollection.remove(GeneralFormat)
+                #ExFor:GeneralFormatCollection.remove_at(int)
+                #ExFor:GeneralFormatCollection.__iter__
+                #ExSummary:Shows how to format field results.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc=doc)
                 # Use a document builder to insert a field that displays a result with no format applied.
@@ -300,7 +316,7 @@ class ExField(ApiExampleBase):
                 self.assertEqual('= 25 + 33  ', field.get_field_code())
                 self.assertEqual('58', field.result)
                 self.assertEqual(0, len(format_obj.general_formats))
-        #ExEnd
+                #ExEnd
 
     def test_unlink(self):
         #ExStart
@@ -2408,12 +2424,12 @@ class ExField(ApiExampleBase):
                 assert field.type == field_type
                 assert field.get_field_code() == expected_field_code
                 assert field.result == expected_result
-            # ExStart
-            # ExFor:FieldCreateDate
-            # ExFor:FieldCreateDate.use_lunar_calendar
-            # ExFor:FieldCreateDate.use_saka_era_calendar
-            # ExFor:FieldCreateDate.use_um_al_qura_calendar
-            # ExSummary:Shows how to use the CREATEDATE field to display the creation date/time of the document.
+            #ExStart
+            #ExFor:FieldCreateDate
+            #ExFor:FieldCreateDate.use_lunar_calendar
+            #ExFor:FieldCreateDate.use_saka_era_calendar
+            #ExFor:FieldCreateDate.use_um_al_qura_calendar
+            #ExSummary:Shows how to use the CREATEDATE field to display the creation date/time of the document.
             doc = aw.Document(file_name=MY_DIR + 'Document.docx')
             builder = aw.DocumentBuilder(doc=doc)
             builder.move_to_document_end()
@@ -2437,7 +2453,7 @@ class ExField(ApiExampleBase):
             assert ' CREATEDATE  \\s' == field.get_field_code()
             doc.update_fields()
             doc.save(file_name=ARTIFACTS_DIR + 'Field.CREATEDATE.docx')
-            # ExEnd
+            #ExEnd
             doc = aw.Document(file_name=ARTIFACTS_DIR + 'Field.CREATEDATE.docx')
             assert datetime.datetime(2017, 12, 5, 9, 56, 0) == doc.built_in_document_properties.created_time
             # Get UTC offset in hours
@@ -3449,11 +3465,11 @@ class ExField(ApiExampleBase):
         self.assertTrue(field.insert_paragraph_number_in_relative_context)
 
     def test_field_rd(self):
-        # ExStart
-        # ExFor:FieldRD
-        # ExFor:FieldRD.file_name
-        # ExFor:FieldRD.is_path_relative
-        # ExSummary:Shows to use the RD field to create a table of contents entries from headings in other documents.
+        #ExStart
+        #ExFor:FieldRD
+        #ExFor:FieldRD.file_name
+        #ExFor:FieldRD.is_path_relative
+        #ExSummary:Shows to use the RD field to create a table of contents entries from headings in other documents.
         import aspose.words as aw
         import test_util
         from api_example_base import ApiExampleBase, ARTIFACTS_DIR
@@ -3479,7 +3495,7 @@ class ExField(ApiExampleBase):
         referenced_doc.save(file_name=ARTIFACTS_DIR + 'ReferencedDocument.docx')
         doc.update_fields()
         doc.save(file_name=ARTIFACTS_DIR + 'Field.RD.docx')
-        # ExEnd
+        #ExEnd
         doc = aw.Document(file_name=ARTIFACTS_DIR + 'Field.RD.docx')
         field_toc = doc.range.fields[0].as_field_toc()
         self.assertEqual('TOC entry from within this document\t\x13 PAGEREF _Toc256000000 \\h \x142\x15\r' + 'TOC entry from referenced document\t1\r', field_toc.result)
@@ -3654,6 +3670,26 @@ class ExField(ApiExampleBase):
                 return field_ta
 
             def test_field_toa_ta(self):
+                #ExStart
+                #ExFor:FieldToa
+                #ExFor:FieldToa.bookmark_name
+                #ExFor:FieldToa.entry_category
+                #ExFor:FieldToa.entry_separator
+                #ExFor:FieldToa.page_number_list_separator
+                #ExFor:FieldToa.page_range_separator
+                #ExFor:FieldToa.remove_entry_formatting
+                #ExFor:FieldToa.sequence_name
+                #ExFor:FieldToa.sequence_separator
+                #ExFor:FieldToa.use_heading
+                #ExFor:FieldToa.use_passim
+                #ExFor:FieldTA
+                #ExFor:FieldTA.entry_category
+                #ExFor:FieldTA.is_bold
+                #ExFor:FieldTA.is_italic
+                #ExFor:FieldTA.long_citation
+                #ExFor:FieldTA.page_range_bookmark_name
+                #ExFor:FieldTA.short_citation
+                #ExSummary:Shows how to build and customize a table of authorities using TOA and TA fields.
                 doc = aw.Document()
                 builder = aw.DocumentBuilder(doc=doc)
                 # Insert a TOA field, which will create an entry for each TA field in the document,
@@ -3729,7 +3765,7 @@ class ExField(ApiExampleBase):
                 doc.update_fields()
                 doc.save(file_name=ARTIFACTS_DIR + 'Field.TOA.TA.docx')
                 self._test_field_toa(aw.Document(file_name=ARTIFACTS_DIR + 'Field.TOA.TA.docx'))  #ExSkip
-        #ExEnd
+                #ExEnd
     #ExStart
     #ExFor:FieldToa
     #ExFor:FieldToa.bookmark_name

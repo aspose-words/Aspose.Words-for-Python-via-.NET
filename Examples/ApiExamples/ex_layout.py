@@ -109,7 +109,6 @@ class ExLayout(ApiExampleBase):
     #ExFor:PageLayoutEvent
     #ExFor:LayoutOptions.callback
     #ExSummary:Shows how to track layout changes with a layout callback (RenderPageLayoutCallback).
-
     class RenderPageLayoutCallback(aw.layout.IPageLayoutCallback):
 
         def __init__(self):
@@ -139,6 +138,7 @@ class ExLayout(ApiExampleBase):
             file_path = Path(ARTIFACTS_DIR) / f'PageLayoutCallback.page-{pageIndex + 1} {mNum}.png'
             with open(file_path, 'wb') as stream:
                 a.document.save(stream, save_options)
+    #ExEnd
 
     def test_layout_collector(self):
         #ExStart
@@ -302,4 +302,3 @@ class ExLayout(ApiExampleBase):
             print(f'{tabs}   Page {layout_enumerator.page_index}')
         #ExEnd
         layout_enumerator_example()
-#ExEnd

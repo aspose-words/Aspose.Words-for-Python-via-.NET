@@ -102,6 +102,13 @@ class ExRevision(ApiExampleBase):
     def test_revision_collection(self):
         from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
         import aspose.words as aw
+        #ExStart
+        #ExFor:Revision.parent_style
+        #ExFor:RevisionCollection.__iter__
+        #ExFor:RevisionCollection.groups
+        #ExFor:RevisionCollection.reject_all
+        #ExFor:RevisionGroupCollection.__iter__
+        #ExSummary:Shows how to work with a document's collection of revisions.
         doc = aw.Document(file_name=MY_DIR + 'Revisions.docx')
         revisions = doc.revisions
         # This collection itself has a collection of revision groups.
@@ -549,6 +556,12 @@ class ExRevision(ApiExampleBase):
         doc.save(file_name=ARTIFACTS_DIR + 'Revision.RevisionCellColor.pdf')
         #ExEnd:RevisionCellColor
 
+    #ExStart:RevisionSpecifiedCriteria
+    #ExFor:RevisionCollection.accept(IRevisionCriteria)
+    #ExFor:RevisionCollection.reject(IRevisionCriteria)
+    #ExFor:IRevisionCriteria
+    #ExFor:IRevisionCriteria.is_match(Revision)
+    #ExSummary:Shows how to accept or reject revision based on criteria.
     class RevisionCriteria(aw.IRevisionCriteria):
 
         def __init__(self, author_name, revision_type):

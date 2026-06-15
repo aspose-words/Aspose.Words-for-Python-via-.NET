@@ -298,9 +298,3 @@ class ExMarkdownSaveOptions(ApiExampleBase):
             assert args.is_image_available
             assert not args.keep_image_stream_open
     #ExEnd
-
-    class ChangeUriPath(aw.saving.IResourceSavingCallback):
-
-        def resource_saving(self, args):
-            args.resource_file_uri = '/uri/for/{}'.format(args.resource_file_name)
-#ExEnd:MarkdownResourceSavingCallback

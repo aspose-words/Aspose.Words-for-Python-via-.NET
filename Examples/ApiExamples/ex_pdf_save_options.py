@@ -319,6 +319,10 @@ class ExPdfSaveOptions(ApiExampleBase):
         # Handle ARTIFACTS_DIR if it's bytes
         if isinstance(ARTIFACTS_DIR, bytes):
             ARTIFACTS_DIR = ARTIFACTS_DIR.decode('utf-8')
+        #ExStart
+        #ExFor:PdfImageColorSpaceExportMode
+        #ExFor:PdfSaveOptions.image_color_space_export_mode
+        #ExSummary:Shows how to set a different color space for images in a document as we export it to PDF.
         for pdf_image_color_space_export_mode in [aw.saving.PdfImageColorSpaceExportMode.AUTO, aw.saving.PdfImageColorSpaceExportMode.SIMPLE_CMYK]:
             doc = aw.Document()
             builder = aw.DocumentBuilder(doc=doc)

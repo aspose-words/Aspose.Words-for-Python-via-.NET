@@ -112,6 +112,7 @@ class ExFontSettings(ApiExampleBase):
         self.assertEqual(1, callback.font_substitution_warnings.count)
         self.assertTrue(callback.font_substitution_warnings[0].warning_type == aw.WarningType.FONT_SUBSTITUTION)
         self.assertTrue(callback.font_substitution_warnings[0].description == "Font 'Times New Roman' has not been found. Using 'Fanwood' font instead. Reason: first available font.")
+        #ExEnd
 
     def test_font_source_warning(self):
         #ExStart
@@ -535,10 +536,10 @@ class ExFontSettings(ApiExampleBase):
         #ExEnd
 
     def test_load_font_fallback_settings_from_stream(self):
-        # ExStart
-        # ExFor:FontFallbackSettings.load(BytesIO)
-        # ExFor:FontFallbackSettings.save(BytesIO)
-        # ExSummary:Shows how to load and save font fallback settings to/from a stream.
+        #ExStart
+        #ExFor:FontFallbackSettings.load(BytesIO)
+        #ExFor:FontFallbackSettings.save(BytesIO)
+        #ExSummary:Shows how to load and save font fallback settings to/from a stream.
         doc = aw.Document(MY_DIR + 'Rendering.docx')
         # Load an XML document that defines a set of font fallback settings.
         with open(MY_DIR + 'Font fallback rules.xml', 'rb') as font_fallback_stream:
@@ -549,7 +550,7 @@ class ExFontSettings(ApiExampleBase):
         # Use a stream to save our document's current font fallback settings as an XML document.
         with open(ARTIFACTS_DIR + 'FallbackSettings.xml', 'wb') as font_fallback_stream:
             doc.font_settings.fallback_settings.save(font_fallback_stream)
-        # ExEnd
+        #ExEnd
         fallback_settings_doc = ET.parse(ARTIFACTS_DIR + 'FallbackSettings.xml')
         rules = fallback_settings_doc.getroot().find('{Aspose.Words}FallbackTable').findall('{Aspose.Words}Rule')
         self.assertEqual('0B80-0BFF', rules[0].attrib['Ranges'])
@@ -568,6 +569,9 @@ class ExFontSettings(ApiExampleBase):
     def test_load_noto_fonts_fallback_settings(self):
         from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
         import aspose.words as aw
+        #ExStart
+        #ExFor:FontFallbackSettings.load_noto_fallback_settings
+        #ExSummary:Shows how to add predefined font fallback settings for Google Noto fonts.
         font_settings = aw.fonts.FontSettings()
         font_settings.set_fonts_folder(FONTS_DIR + 'Noto', False)
         font_settings.fallback_settings.load_noto_fallback_settings()
@@ -636,6 +640,10 @@ class ExFontSettings(ApiExampleBase):
         from api_example_base import ApiExampleBase, ARTIFACTS_DIR
         import xml.etree.ElementTree as ET
         import aspose.words as aw
+        #ExStart
+        #ExFor:FontFallbackSettings.load_ms_office_fallback_settings
+        #ExFor:FontFallbackSettings.load_noto_fallback_settings
+        #ExSummary:Shows how to load pre-defined fallback font settings.
         doc = aw.Document()
         font_settings = aw.fonts.FontSettings()
         doc.font_settings = font_settings
@@ -645,6 +653,7 @@ class ExFontSettings(ApiExampleBase):
         font_fallback_settings.save(file_name=ARTIFACTS_DIR + 'FontSettings.FallbackSettings.LoadMsOfficeFallbackSettings.xml')
         font_fallback_settings.load_noto_fallback_settings()
         font_fallback_settings.save(file_name=ARTIFACTS_DIR + 'FontSettings.FallbackSettings.LoadNotoFallbackSettings.xml')
+        #ExEnd
         xml_path = ARTIFACTS_DIR + 'FontSettings.FallbackSettings.Default.xml'
         tree = ET.parse(xml_path)
         root = tree.getroot()
@@ -663,6 +672,13 @@ class ExFontSettings(ApiExampleBase):
         class Example(ApiExampleBase):
 
             def test_table_substitution_rule(self):
+                #ExStart
+                #ExFor:TableSubstitutionRule
+                #ExFor:TableSubstitutionRule.load_linux_settings
+                #ExFor:TableSubstitutionRule.load_windows_settings
+                #ExFor:TableSubstitutionRule.save(BytesIO)
+                #ExFor:TableSubstitutionRule.save(str)
+                #ExSummary:Shows how to access font substitution tables for Windows and Linux.
                 doc = aw.Document()
                 font_settings = aw.fonts.FontSettings()
                 doc.font_settings = font_settings
@@ -686,6 +702,7 @@ class ExFontSettings(ApiExampleBase):
                 rules = fallback_settings_doc.findall('.//{Aspose.Words}Item')
                 self.assertEqual('Times New Roman CE', rules[31].get('OriginalFont'))
                 self.assertEqual('FreeSerif, Liberation Serif, DejaVu Serif', rules[31].get('SubstituteFonts'))
+                #ExEnd
 
     @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_table_substitution_rule_custom(self):

@@ -676,7 +676,6 @@ class ExFont(ApiExampleBase):
         from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
         import aspose.words as aw
         doc = aw.Document()
-        #ExSkip
         self.assertEqual(20, doc.get_child_nodes(aw.NodeType.PARAGRAPH, True).count)
         self.assertEqual(1, doc.get_child_nodes(aw.NodeType.TABLE, True).count)
         for node in doc.get_child_nodes(aw.NodeType.ANY, True):

@@ -17,8 +17,21 @@ from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
 class ExStyles(ApiExampleBase):
 
     def test_styles(self):
+
         import aspose.words as aw
         from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+        #ExStart
+        #ExFor:DocumentBase.styles
+        #ExFor:Style.document
+        #ExFor:Style.name
+        #ExFor:Style.is_heading
+        #ExFor:Style.is_quick_style
+        #ExFor:Style.next_paragraph_style_name
+        #ExFor:Style.styles
+        #ExFor:Style.type
+        #ExFor:StyleCollection.document
+        #ExFor:StyleCollection.__iter__
+        #ExSummary:Shows how to access a document's style collection.
         doc = aw.Document()
         self.assertEqual(4, doc.styles.count)
         # Enumerate and list all the styles that a document created using Aspose.Words contains by default.
@@ -28,7 +41,7 @@ class ExStyles(ApiExampleBase):
             print(f'\tIs heading:\t\t\t{cur_style.is_heading}')
             print(f'\tIs QuickStyle:\t\t{cur_style.is_quick_style}')
             self.assertEqual(doc, cur_style.document)
-    #ExEnd
+        #ExEnd
 
     def test_create_style(self):
         #ExStart
@@ -212,6 +225,12 @@ class ExStyles(ApiExampleBase):
     def test_style_aliases(self):
         from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
         import aspose.words as aw
+        #ExStart
+        #ExFor:Style.aliases
+        #ExFor:Style.base_style_name
+        #ExFor:Style.__eq__(Style)
+        #ExFor:Style.linked_style_name
+        #ExSummary:Shows how to use style aliases.
         doc = aw.Document(file_name=MY_DIR + 'Style with alias.docx')
         # This document contains a style named "MyStyle,MyStyle Alias 1,MyStyle Alias 2".
         # If a style's name has multiple values separated by commas, each clause is a separate alias.

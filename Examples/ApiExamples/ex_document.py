@@ -85,6 +85,7 @@ class ExDocument(ApiExampleBase):
         # At this stage, we can read and edit the document's contents and then save it to the local file system.
         assert doc.first_section.body.paragraphs[3].get_text().strip() == 'There are eight section headings in this document. At the beginning, "Sample Document" is a level 1 heading. ' + 'The main section headings, such as "Headings" and "Lists" are level 2 headings. ' + 'The Tables section contains two sub-headings, "Simple Table" and "Complex Table," which are both level 3 headings.'
         doc.save(ARTIFACTS_DIR + 'Document.LoadFromWeb.docx')
+        #ExEnd
 
     def test_convert_to_pdf(self):
         #ExStart

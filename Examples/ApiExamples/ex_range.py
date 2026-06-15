@@ -323,6 +323,15 @@ class ExRange(ApiExampleBase):
             #ExEnd
 
     @staticmethod
+    #ExStart
+    #ExFor:Range.replace_regex(Regex,str,FindReplaceOptions)
+    #ExFor:IReplacingCallback
+    #ExFor:ReplaceAction
+    #ExFor:IReplacingCallback.replacing
+    #ExFor:ReplacingArgs
+    #ExFor:ReplacingArgs.match_node
+    #ExSummary:Shows how to insert an entire document's contents as a replacement of a match in a find-and-replace operation (InsertDocumentAtReplaceHandler).
+
     def _insert_document(insertion_destination, doc_to_insert):
         if insertion_destination.node_type == aw.NodeType.PARAGRAPH or insertion_destination.node_type == aw.NodeType.TABLE:
             dst_story = insertion_destination.parent_node
@@ -344,12 +353,13 @@ class ExRange(ApiExampleBase):
     @staticmethod
     def _test_insert_document_at_replace(doc):
         self.assertEqual('1) At text that can be identified by regex:\rHello World!\r' + '2) At a MERGEFIELD:\r\x13 MERGEFIELD  Document_1  \\* MERGEFORMAT \x14«Document_1»\x15\r' + '3) At a bookmark:', doc.first_section.body.get_text().strip())
-    #ExStart:MatchEndNode
-    #ExFor:ReplacingArgs.match_end_node
-    #ExSummary:Shows how to get match end node.
+
 
     @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_match_end_node(self):
+        #ExStart:MatchEndNode
+        #ExFor:ReplacingArgs.match_end_node
+        #ExSummary:Shows how to get match end node.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)
         builder.writeln('1')
@@ -361,6 +371,7 @@ class ExRange(ApiExampleBase):
         doc.range.replace_regex(pattern='1[\\s\\S]*3', replacement='X', options=options)
         self.assertEqual('1', replacing_callback.start_node_text)
         self.assertEqual('3', replacing_callback.end_node_text)
+        #ExEnd
 
     def test_ignore_office_math(self):
         for is_ignore_office_math in [True, False]:
@@ -461,6 +472,8 @@ class ExRange(ApiExampleBase):
             # Remove the paragraph with the matched text.
             para.remove()
             return aw.replacing.ReplaceAction.SKIP
+
+    #ExEnd
     #ExStart
     #ExFor:FindReplaceOptions.direction
     #ExFor:FindReplaceDirection
@@ -476,7 +489,9 @@ class ExRange(ApiExampleBase):
             matches.append(e.match.value)
             return aw.replacing.ReplaceAction.REPLACE
     #ExEnd
-
+    #ExStart:MatchEndNode
+    #ExFor:ReplacingArgs.match_end_node
+    #ExSummary:Shows how to get match end node.
     class ReplacingCallback(aw.replacing.IReplacingCallback):
 
         @property

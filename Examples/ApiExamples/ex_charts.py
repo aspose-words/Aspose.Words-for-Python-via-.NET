@@ -188,6 +188,7 @@ class ExCharts(ApiExampleBase):
                 self.assertEqual(Color.red.to_argb(), chart.axis_y.tick_labels.font.color.to_argb())
                 self.assertEqual(1, chart.axis_y.tick_labels.spacing)
                 self.assertTrue(chart.axis_y.format.is_defined)
+        #ExEnd
 
     def test_axis_collection(self):
         #ExStart
@@ -680,6 +681,14 @@ class ExCharts(ApiExampleBase):
         from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
         import aspose.words as aw
         from aspose.words.drawing.charts import ChartType
+        #ExStart
+        #ExFor:ChartSeriesCollection
+        #ExFor:ChartSeriesCollection.clear
+        #ExFor:ChartSeriesCollection.count
+        #ExFor:ChartSeriesCollection.__iter__
+        #ExFor:ChartSeriesCollection.__getitem__(int)
+        #ExFor:ChartSeriesCollection.remove_at(int)
+        #ExSummary:Shows how to add and remove series data in a chart.
         # Insert a column chart that will contain three series of demo data by default.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)

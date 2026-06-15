@@ -53,9 +53,9 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
         import system_helper
         import re
         for export_embedded_css in [True, False]:
-            # ExStart
-            # ExFor:HtmlFixedSaveOptions.export_embedded_css
-            # ExSummary:Shows how to determine where to store CSS stylesheets when exporting a document to Html.
+            #ExStart
+            #ExFor:HtmlFixedSaveOptions.export_embedded_css
+            #ExSummary:Shows how to determine where to store CSS stylesheets when exporting a document to Html.
             doc = aw.Document(MY_DIR + 'Rendering.docx')
             # When you export a document to html, Aspose.Words will also create a CSS stylesheet to format the document with.
             # Setting the "ExportEmbeddedCss" flag to "true" save the CSS stylesheet to a .css file,
@@ -129,9 +129,9 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
 
             def test_export_embedded_svgs(self):
                 for export_svgs in [True, False]:
-                    # ExStart
-                    # ExFor:HtmlFixedSaveOptions.export_embedded_svg
-                    # ExSummary:Shows how to determine where to store SVG objects when exporting a document to Html.
+                    #ExStart
+                    #ExFor:HtmlFixedSaveOptions.export_embedded_svg
+                    #ExSummary:Shows how to determine where to store SVG objects when exporting a document to Html.
                     doc = aw.Document(file_name=MY_DIR + 'Images.docx')
                     # When we export a document with SVG objects to .html,
                     # Aspose.Words can place these objects in two possible locations.
@@ -149,7 +149,7 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
                     else:
                         self.assertTrue(system_helper.io.File.exist(ARTIFACTS_DIR + 'HtmlFixedSaveOptions.ExportEmbeddedSvgs/svg001.svg'))
                         self.assertTrue(re.compile('<object type=\\"image/svg\\+xml\\" data=\\"HtmlFixedSaveOptions\\.ExportEmbeddedSvgs/svg001\\.svg\\"></object>').search(out_doc_contents) is not None)
-    #ExEnd
+                    #ExEnd
 
     def test_add_css_class_names_prefix(self):
         #ExStart
@@ -171,16 +171,16 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
         Assert.assertTrue(re.search('<div class="myprefixdiv myprefixpage" style="width:595[.]3pt; height:841[.]9pt;">' + '<div class="myprefixdiv" style="left:85[.]05pt; top:36pt; clip:rect[(]0pt,510[.]25pt,74[.]95pt,-85.05pt[)];">' + '<span class="myprefixspan myprefixtext001" style="font-size:11pt; left:294[.]73pt; top:0[.]36pt; line-height:12[.]29pt;">', out_doc_contents) is not None)
         out_doc_contents = system_helper.io.File.read_all_text(ARTIFACTS_DIR + 'HtmlFixedSaveOptions.AddCssClassNamesPrefix/styles.css')
         Assert.assertTrue(re.search('\\.myprefixdiv \\{ position:absolute; \\} ' + '\\.myprefixspan \\{ position:absolute; white-space:pre; color:#000000; font-size:12pt; \\}', out_doc_contents) is not None)
-
+        #ExEnd
     def test_horizontal_alignment(self):
         import re
         from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
         import aspose.words as aw
         for page_horizontal_alignment in [aw.saving.HtmlFixedPageHorizontalAlignment.CENTER, aw.saving.HtmlFixedPageHorizontalAlignment.LEFT, aw.saving.HtmlFixedPageHorizontalAlignment.RIGHT]:
-            # ExStart
-            # ExFor:HtmlFixedSaveOptions.page_horizontal_alignment
-            # ExFor:HtmlFixedPageHorizontalAlignment
-            # ExSummary:Shows how to set the horizontal alignment of pages when saving a document to HTML.
+            #ExStart
+            #ExFor:HtmlFixedSaveOptions.page_horizontal_alignment
+            #ExFor:HtmlFixedPageHorizontalAlignment
+            #ExSummary:Shows how to set the horizontal alignment of pages when saving a document to HTML.
             doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
             html_fixed_save_options = aw.saving.HtmlFixedSaveOptions()
             html_fixed_save_options.page_horizontal_alignment = page_horizontal_alignment
@@ -193,7 +193,7 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
                 assert re.search('\\.awpage \\{ position:relative; border:solid 1pt black; margin:10pt auto 10pt 10pt; overflow:hidden; \\}', out_doc_contents)
             elif switch_condition == aw.saving.HtmlFixedPageHorizontalAlignment.RIGHT:
                 assert re.search('\\.awpage \\{ position:relative; border:solid 1pt black; margin:10pt 10pt 10pt auto; overflow:hidden; \\}', out_doc_contents)
-    #ExEnd
+            #ExEnd
 
     @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_page_margins(self):
@@ -226,6 +226,7 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
             doc.save(file_name=ARTIFACTS_DIR + 'HtmlFixedSaveOptions.OptimizeGraphicsOutput.html', save_options=save_options)
             # The size of the optimized version of the document is almost a third of the size of the unoptimized document.
             self.assertAlmostEqual(60385 if optimize_output else 191000, Path(ARTIFACTS_DIR + 'HtmlFixedSaveOptions.OptimizeGraphicsOutput.html').stat().st_size, delta=200)
+            #ExEnd
 
     def _test_resource_saving_callback(self, callback):
         self.assertTrue('font001.woff' in callback.get_text())
@@ -268,7 +269,6 @@ class ExHtmlFixedSaveOptions(ApiExampleBase):
     #ExFor:ResourceSavingArgs.resource_file_name
     #ExFor:ResourceSavingArgs.resource_file_uri
     #ExSummary:Shows how to use a callback to track external resources created while converting a document to HTML (FontSavingCallback).
-
     class FontSavingCallback(aw.saving.IResourceSavingCallback):
 
         def __init__(self):
