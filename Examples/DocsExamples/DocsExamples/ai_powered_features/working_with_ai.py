@@ -1,4 +1,4 @@
-import os
+﻿import os
 import unittest
 
 import aspose.words as aw
@@ -11,7 +11,7 @@ class WorkingWithAi(DocsExamplesBase):
     @unittest.skip("This test should be run manually to manage API requests amount")
     def test_ai_summarize(self):
         #ExStart:AiSummarize
-        #GistId:1e379bedb2b759c1be24c64aad54d13d
+        #GistId:c28e02ae4b77f1a92bc21aa9d79b5adc
         first_doc = aw.Document(MY_DIR + "Big document.docx")
         second_doc = aw.Document(MY_DIR + "Document.docx")
 
@@ -33,7 +33,7 @@ class WorkingWithAi(DocsExamplesBase):
     @unittest.skip("This test should be run manually to manage API requests amount")
     def test_ai_translate(self):
         #ExStart:AiTranslate
-        #GistId:ea14b3e44c0233eecd663f783a21c4f6
+        #GistId:5e7ff3bb4165ea4255778ca6c65f3c51
         doc = aw.Document(MY_DIR + "Document.docx")
 
         api_key = os.getenv("API_KEY")
@@ -47,7 +47,7 @@ class WorkingWithAi(DocsExamplesBase):
     @unittest.skip("This test should be run manually to manage API requests amount")
     def test_ai_grammar(self):
         #ExStart:AiGrammar
-        #GistId:98a646d19cd7708ed0cd3d97b993a053
+        #GistId:e3ad1d3366734b5a6de2bb334702095d
         doc = aw.Document(MY_DIR + "Big document.docx")
 
         api_key = os.getenv("API_KEY")
