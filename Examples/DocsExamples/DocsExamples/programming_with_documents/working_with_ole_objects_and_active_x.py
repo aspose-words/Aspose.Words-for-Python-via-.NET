@@ -19,6 +19,7 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
     def test_insert_ole_object_with_ole_package(self):
 
         #ExStart:InsertOleObjectwithOlePackage
+        #GistId:4996b573cf231d9f66ab0d1f3f981222
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -32,25 +33,28 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_ole_object_with_ole_package.docx")
         #ExEnd:InsertOleObjectwithOlePackage
 
-        #ExStart:GetAccessToOLEObjectRawData
+        #ExStart:GetAccessToOleObjectRawData
+        #GistId:4996b573cf231d9f66ab0d1f3f981222
         ole_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
         ole_raw_data = ole_shape.ole_format.get_raw_data()
-        #ExEnd:GetAccessToOLEObjectRawData
+        #ExEnd:GetAccessToOleObjectRawData
 
     def test_insert_ole_object_as_icon(self):
 
-        #ExStart:InsertOLEObjectAsIcon
+        #ExStart:InsertOleObjectAsIcon
+        #GistId:4996b573cf231d9f66ab0d1f3f981222
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         builder.insert_ole_object_as_icon(MY_DIR + "Presentation.pptx", False, IMAGES_DIR + "Logo icon.ico", "My embedded file")
 
         doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_ole_object_as_icon.docx")
-        #ExEnd:InsertOLEObjectAsIcon
+        #ExEnd:InsertOleObjectAsIcon
 
     def test_insert_ole_object_as_icon_using_stream(self):
 
-        #ExStart:InsertOLEObjectAsIconUsingStream
+        #ExStart:InsertOleObjectAsIconUsingStream
+        #GistId:4996b573cf231d9f66ab0d1f3f981222
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -58,7 +62,7 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
             builder.insert_ole_object_as_icon(stream, "Package", IMAGES_DIR + "Logo icon.ico", "My embedded file")
 
         doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_ole_object_as_icon_using_stream.docx")
-        #ExEnd:InsertOLEObjectAsIconUsingStream
+        #ExEnd:InsertOleObjectAsIconUsingStream
 
     def test_read_active_x_control_properties(self):
 
@@ -89,6 +93,7 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
     def test_insert_online_video(self):
 
         #ExStart:InsertOnlineVideo
+        #GistId:4996b573cf231d9f66ab0d1f3f981222
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -106,6 +111,7 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
     def test_insert_online_video_with_embed_html(self):
 
         #ExStart:InsertOnlineVideoWithEmbedHtml
+        #GistId:4996b573cf231d9f66ab0d1f3f981222
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 

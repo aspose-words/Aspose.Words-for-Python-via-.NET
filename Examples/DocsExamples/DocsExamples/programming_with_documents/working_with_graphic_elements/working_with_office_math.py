@@ -6,6 +6,7 @@ class WorkingWithOfficeMath(DocsExamplesBase):
     def test_math_equations(self):
 
         #ExStart:MathEquations
+        #GistId:e19d5874b376b07466fd7a397d554648
         doc = aw.Document(MY_DIR + "Office math.docx")
         office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
 

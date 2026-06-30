@@ -222,6 +222,7 @@ class ExtractContent(DocsExamplesBase):
     def test_extract_content_based_on_styles(self):
 
         #ExStart:ExtractContentBasedOnStyles
+        #GistId:a73b495f610523670f0847331ef4d6fc
         doc = aw.Document(MY_DIR + "Styles.docx")
 
         para_style = "Heading 1"
@@ -241,6 +242,7 @@ class ExtractContent(DocsExamplesBase):
         #ExEnd:ExtractContentBasedOnStyles
 
     #ExStart:RunsByStyleName
+    #GistId:a73b495f610523670f0847331ef4d6fc
     @staticmethod
     def runs_by_style_name(doc: aw.Document, style_name: str):
 

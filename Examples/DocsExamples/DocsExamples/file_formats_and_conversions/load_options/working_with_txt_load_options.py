@@ -8,6 +8,7 @@ class WorkingWithTxtLoadOptions(DocsExamplesBase):
     def test_detect_numbering_with_whitespaces(self):
 
         #ExStart:DetectNumberingWithWhitespaces
+        #GistId:ddafc3430967fb4f4f70085fa577d01a
         # Create a plaintext document in the form of a string with parts that may be interpreted as lists.
         # Upon loading, the first three lists will always be detected by Aspose.words,
         # and List objects will be created for them after loading.
@@ -47,6 +48,7 @@ class WorkingWithTxtLoadOptions(DocsExamplesBase):
     def test_handle_spaces_options(self):
 
         #ExStart:HandleSpacesOptions
+        #GistId:ddafc3430967fb4f4f70085fa577d01a
         text_doc = "      Line 1 \n    Line 2   \n Line 3       "
 
         load_options = aw.loading.TxtLoadOptions()
@@ -61,6 +63,7 @@ class WorkingWithTxtLoadOptions(DocsExamplesBase):
     def test_document_text_direction(self):
 
         #ExStart:DocumentTextDirection
+        #GistId:ddafc3430967fb4f4f70085fa577d01a
         load_options = aw.loading.TxtLoadOptions()
         load_options.document_direction = aw.loading.DocumentDirection.AUTO
 

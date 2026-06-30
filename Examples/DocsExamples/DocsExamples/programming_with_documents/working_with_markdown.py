@@ -75,6 +75,7 @@ class WorkingWithMarkdown(DocsExamplesBase):
     def test_read_markdown_document(self):
 
         #ExStart:ReadMarkdownDocument
+        #GistId:19de942ef8827201c1dca99f76c59133
         doc = aw.Document(MY_DIR + "Quotes.md")
 
         # Let's remove Heading formatting from a Quote in the very last paragraph.
@@ -87,6 +88,7 @@ class WorkingWithMarkdown(DocsExamplesBase):
     def test_emphases(self):
 
         #ExStart:Emphases
+        #GistId:19de942ef8827201c1dca99f76c59133
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -120,7 +122,8 @@ class WorkingWithMarkdown(DocsExamplesBase):
 
     def test_headings(self):
 
-        #ExStart:Headings
+        #ExStart:Heading
+        #GistId:0697355b7f872839932388d269ed6a63
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -149,7 +152,7 @@ class WorkingWithMarkdown(DocsExamplesBase):
         builder.writeln("Bold Heading1")
 
         doc.save(ARTIFACTS_DIR + "WorkingWithMarkdown.headings.md")
-        #ExEnd:Headings
+        #ExEnd:Heading
 
     def test_block_quotes(self):
 
@@ -188,6 +191,7 @@ class WorkingWithMarkdown(DocsExamplesBase):
     def test_horizontal_rule(self):
 
         #ExStart:HorizontalRule
+        #GistId:0697355b7f872839932388d269ed6a63
         builder = aw.DocumentBuilder()
 
         builder.writeln("We support Horizontal rules (Thematic breaks) in Markdown:")
@@ -199,6 +203,7 @@ class WorkingWithMarkdown(DocsExamplesBase):
     def test_bold_text(self):
 
         #ExStart:BoldText
+        #GistId:0697355b7f872839932388d269ed6a63
         # Use a document builder to add content to the document.
         builder = aw.DocumentBuilder()
 
@@ -212,6 +217,7 @@ class WorkingWithMarkdown(DocsExamplesBase):
     def test_italic_text(self):
 
         #ExStart:ItalicText
+        #GistId:0697355b7f872839932388d269ed6a63
         # Use a document builder to add content to the document.
         builder = aw.DocumentBuilder()
 
@@ -225,6 +231,7 @@ class WorkingWithMarkdown(DocsExamplesBase):
     def test_strikethrough_text(self):
 
         #ExStart:Strikethrough
+        #GistId:0697355b7f872839932388d269ed6a63
         # Use a document builder to add content to the document.
         builder = aw.DocumentBuilder()
 
@@ -238,6 +245,7 @@ class WorkingWithMarkdown(DocsExamplesBase):
     def test_inline_code(self):
 
         #ExStart:InlineCode
+        #GistId:51b4cb9c451832f23527892e19c7bca6
         # Use a document builder to add content to the document.
         builder = aw.DocumentBuilder()
 
@@ -257,6 +265,7 @@ class WorkingWithMarkdown(DocsExamplesBase):
     def test_autolink(self):
 
         #ExStart:Autolink
+        #GistId:0697355b7f872839932388d269ed6a63
         # Use a document builder to add content to the document.
         builder = aw.DocumentBuilder()
 
@@ -270,6 +279,7 @@ class WorkingWithMarkdown(DocsExamplesBase):
     def test_link(self):
 
         #ExStart:Link
+        #GistId:0697355b7f872839932388d269ed6a63
         # Use a document builder to add content to the document.
         builder = aw.DocumentBuilder()
 
@@ -282,6 +292,7 @@ class WorkingWithMarkdown(DocsExamplesBase):
     def test_image(self):
 
         #ExStart:Image
+        #GistId:0697355b7f872839932388d269ed6a63
         # Use a document builder to add content to the document.
         builder = aw.DocumentBuilder()
 
@@ -298,6 +309,7 @@ class WorkingWithMarkdown(DocsExamplesBase):
     def test_setext_heading(self):
 
         #ExStart:SetextHeading
+        #GistId:0697355b7f872839932388d269ed6a63
         # Use a document builder to add content to the document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -334,6 +346,7 @@ class WorkingWithMarkdown(DocsExamplesBase):
     def test_indented_code(self):
 
         #ExStart:IndentedCode
+        #GistId:0697355b7f872839932388d269ed6a63
         # Use a document builder to add content to the document.
         builder = aw.DocumentBuilder()
 
@@ -347,6 +360,7 @@ class WorkingWithMarkdown(DocsExamplesBase):
     def test_fenced_code(self):
 
         #ExStart:FencedCode
+        #GistId:0697355b7f872839932388d269ed6a63
         # Use a document builder to add content to the document.
         builder = aw.DocumentBuilder()
 
@@ -364,6 +378,7 @@ class WorkingWithMarkdown(DocsExamplesBase):
     def test_quote(self):
 
         #ExStart:Quote
+        #GistId:0697355b7f872839932388d269ed6a63
         # Use a document builder to add content to the document.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -384,6 +399,7 @@ class WorkingWithMarkdown(DocsExamplesBase):
     def test_bulleted_list(self):
 
         #ExStart:BulletedList
+        #GistId:0697355b7f872839932388d269ed6a63
         # Use a document builder to add content to the document.
         builder = aw.DocumentBuilder()
 
@@ -404,6 +420,7 @@ class WorkingWithMarkdown(DocsExamplesBase):
     def test_ordered_list(self):
 
         #ExStart:OrderedList
+        #GistId:0697355b7f872839932388d269ed6a63
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -423,6 +440,7 @@ class WorkingWithMarkdown(DocsExamplesBase):
     def test_table(self):
 
         #ExStart:Table
+        #GistId:0697355b7f872839932388d269ed6a63
         # Use a document builder to add content to the document.
         builder = aw.DocumentBuilder()
 

@@ -6,6 +6,7 @@ class WorkingWithVba(DocsExamplesBase):
     def test_create_vba_project(self):
 
         #ExStart:CreateVbaProject
+        #GistId:d9bac4ed890f81ea3de392ecfeedbc55
         doc = aw.Document()
 
         project = aw.vba.VbaProject()
@@ -27,6 +28,7 @@ class WorkingWithVba(DocsExamplesBase):
     def test_read_vba_macros(self):
 
         #ExStart:ReadVbaMacros
+        #GistId:d9bac4ed890f81ea3de392ecfeedbc55
         doc = aw.Document(MY_DIR + "VBA project.docm")
 
         if doc.vba_project is not None:
@@ -37,6 +39,7 @@ class WorkingWithVba(DocsExamplesBase):
     def test_modify_vba_macros(self):
 
         #ExStart:ModifyVbaMacros
+        #GistId:d9bac4ed890f81ea3de392ecfeedbc55
         doc = aw.Document(MY_DIR + "VBA project.docm")
 
         project = doc.vba_project
@@ -50,6 +53,7 @@ class WorkingWithVba(DocsExamplesBase):
     def test_clone_vba_project(self):
 
         #ExStart:CloneVbaProject
+        #GistId:d9bac4ed890f81ea3de392ecfeedbc55
         doc = aw.Document(MY_DIR + "VBA project.docm")
         dest_doc = aw.Document()
         dest_doc.vba_project = doc.vba_project.clone()
@@ -60,6 +64,7 @@ class WorkingWithVba(DocsExamplesBase):
     def test_clone_vba_module(self):
 
         #ExStart:CloneVbaModule
+        #GistId:d9bac4ed890f81ea3de392ecfeedbc55
         doc = aw.Document(MY_DIR + "VBA project.docm")
         dest_doc = aw.Document()
         dest_doc.vba_project = aw.vba.VbaProject()
@@ -88,6 +93,7 @@ class WorkingWithVba(DocsExamplesBase):
         #ExEnd:RemoveReferenceFromCollectionOfReferences
 
     #ExStart:GetLibIdAndReferencePath
+    #GistId:d9bac4ed890f81ea3de392ecfeedbc55
     def get_lib_id_path(self, reference):
         """Returns string representing LibId path of a specified reference."""
 

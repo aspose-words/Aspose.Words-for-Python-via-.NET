@@ -7,6 +7,7 @@ class WorkingWithStylesAndThemes(DocsExamplesBase):
     def test_access_styles(self):
 
         #ExStart:AccessStyles
+        #GistId:a73b495f610523670f0847331ef4d6fc
         doc = aw.Document()
 
         style_name = ""
@@ -26,6 +27,7 @@ class WorkingWithStylesAndThemes(DocsExamplesBase):
     def test_copy_styles(self):
 
         #ExStart:CopyStyles
+        #GistId:a73b495f610523670f0847331ef4d6fc
         doc = aw.Document()
         target = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -37,6 +39,7 @@ class WorkingWithStylesAndThemes(DocsExamplesBase):
     def test_get_theme_properties(self):
 
         #ExStart:GetThemeProperties
+        #GistId:a73b495f610523670f0847331ef4d6fc
         doc = aw.Document()
 
         theme = doc.theme
@@ -49,6 +52,7 @@ class WorkingWithStylesAndThemes(DocsExamplesBase):
     def test_set_theme_properties(self):
 
         #ExStart:SetThemeProperties
+        #GistId:a73b495f610523670f0847331ef4d6fc
         doc = aw.Document()
 
         theme = doc.theme
@@ -59,6 +63,7 @@ class WorkingWithStylesAndThemes(DocsExamplesBase):
     def test_insert_style_separator(self):
 
         #ExStart:InsertStyleSeparator
+        #GistId:4b5526c3c0d9cad73e05fb4b18d2c3d2
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 

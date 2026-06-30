@@ -64,6 +64,7 @@ class WorkingWithImages(DocsExamplesBase):
     def test_insert_barcode_image(self):
 
         #ExStart:InsertBarcodeImage
+        #GistId:6f849e51240635a6322ab0460938c922
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -87,6 +88,7 @@ class WorkingWithImages(DocsExamplesBase):
         #ExEnd:InsertBarcodeImage
 
     #ExStart:InsertBarcodeIntoFooter
+    #GistId:6f849e51240635a6322ab0460938c922
     @staticmethod
     def insert_barcode_into_footer(builder: aw.DocumentBuilder, section: aw.Section, footer_type: aw.HeaderFooterType):
 
@@ -156,6 +158,7 @@ class WorkingWithImages(DocsExamplesBase):
     def test_get_actual_shape_bounds_points(self):
 
         #ExStart:GetActualShapeBoundsPoints
+        #GistId:ad463bf5f128fe6e6c1485df3c046a4c
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -177,7 +180,8 @@ class WorkingWithImages(DocsExamplesBase):
         self.crop_image(input_path,output_path, 100, 90, 200, 200)
         #ExEnd:CropImageCall
 
-    #ExStart:CropImage
+    #ExStart:CropImages
+    #GistId:6f849e51240635a6322ab0460938c922
     @staticmethod
     def crop_image(in_path: str, out_path: str, left: int, top: int, width: int, height: int):
 
@@ -211,4 +215,4 @@ class WorkingWithImages(DocsExamplesBase):
         cropped_image.image_data.crop_bottom = cropped_image.image_data.crop_bottom - top_to_height
 
         cropped_image.get_shape_renderer().save(out_path, aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG))
-    #ExEnd:CropImage
+    #ExEnd:CropImages

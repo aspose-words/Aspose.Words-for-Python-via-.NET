@@ -8,6 +8,7 @@ class CompareDocument(DocsExamplesBase):
     def test_compare_for_equal(self):
 
         #ExStart:CompareForEqual
+        #GistId:66cba61d079d8ef1e676820633ba4586
         doc_a = aw.Document(MY_DIR + "Document.docx")
         doc_b = doc_a.clone().as_document()
 
@@ -20,6 +21,7 @@ class CompareDocument(DocsExamplesBase):
     def test_compare_options(self):
 
         #ExStart:CompareOptions
+        #GistId:66cba61d079d8ef1e676820633ba4586
         doc_a = aw.Document(MY_DIR + "Document.docx")
         doc_b = doc_a.clone()
 

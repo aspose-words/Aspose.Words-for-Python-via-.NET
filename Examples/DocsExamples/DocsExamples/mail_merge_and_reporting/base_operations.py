@@ -5,7 +5,8 @@ class BaseOperations(DocsExamplesBase):
 
     def test_simple_mail_merge(self):
 
-        #ExStart:SimpleMailMerge
+        #ExStart:ExecuteSimpleMailMerge
+        #GistId:341b834e9b6a84ac6885e907e0ea4229
         # Include the code for our template.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -22,18 +23,19 @@ class BaseOperations(DocsExamplesBase):
             ["John Doe", "Hawaiian", "2"])
 
         doc.save(ARTIFACTS_DIR + "BaseOperations.simple_mail_merge.docx")
-        #ExEnd:SimpleMailMerge
+        #ExEnd:ExecuteSimpleMailMerge
 
     def test_use_if_else_mustache(self):
 
-        #ExStart:UseOfifelseMustacheSyntax
+        #ExStart:UseIfElseMustache
+        #GistId:544788f602e697802e313a641cedb9b8
         doc = aw.Document(MY_DIR + "Mail merge destinations - Mustache syntax.docx")
 
         doc.mail_merge.use_non_merge_fields = True
         doc.mail_merge.execute(["GENDER"], ["MALE"])
 
         doc.save(ARTIFACTS_DIR + "BaseOperations.if_else_mustache.docx")
-        #ExEnd:UseOfifelseMustacheSyntax
+        #ExEnd:UseIfElseMustache
 
     def test_create_mail_merge_template(self):
 
@@ -41,6 +43,7 @@ class BaseOperations(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "BaseOperations.create_mail_merge_template.docx")
 
     #ExStart:CreateMailMergeTemplate
+    #GistId:0a1baaa127443b485cc692c8d98ee353
     @staticmethod
     def create_mail_merge_template():
 

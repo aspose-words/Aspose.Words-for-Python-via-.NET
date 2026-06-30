@@ -27,7 +27,8 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
 
     def test_cleanup_unused_styles_and_lists(self):
 
-        #ExStart:CleanupUnusedStylesandLists
+        #ExStart:CleanupUnusedStylesAndLists
+        #GistId:669f3d08f45b14f75f9d2cb17fa1056a
         doc = aw.Document(MY_DIR + "Unused styles.docx")
 
         # Combined with the built-in styles, the document now has eight styles.
@@ -46,11 +47,12 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
         print("Count of lists after Cleanup is the same:", doc.lists.count)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.cleanup_unused_styles_and_lists.docx")
-        #ExEnd:CleanupUnusedStylesandLists
+        #ExEnd:CleanupUnusedStylesAndLists
 
     def test_cleanup_duplicate_style(self):
 
         #ExStart:CleanupDuplicateStyle
+        #GistId:669f3d08f45b14f75f9d2cb17fa1056a
         doc = aw.Document(MY_DIR + "Document.docx")
 
         # Count of styles before Cleanup.
@@ -70,6 +72,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
     def test_view_options(self):
 
         #ExStart:SetViewOption
+        #GistId:5d2997d42c1f1fad79b18873f170855f
         doc = aw.Document(MY_DIR + "Document.docx")
 
         doc.view_options.view_type = aw.settings.ViewType.PAGE_LAYOUT
@@ -81,6 +84,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
     def test_document_page_setup(self):
 
         #ExStart:DocumentPageSetup
+        #GistId:5d2997d42c1f1fad79b18873f170855f
         doc = aw.Document(MY_DIR + "Document.docx")
 
         # Set the layout mode for a section allowing to define the document grid behavior.
@@ -113,6 +117,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
     def test_set_russian_as_default_editing_language(self):
 
         #ExStart:SetRussianAsDefaultEditingLanguage
+        #GistId:5d2997d42c1f1fad79b18873f170855f
         load_options = aw.loading.LoadOptions()
         load_options.language_preferences.default_editing_language = aw.loading.EditingLanguage.RUSSIAN
 

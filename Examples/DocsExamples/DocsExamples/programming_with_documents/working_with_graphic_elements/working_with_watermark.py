@@ -65,7 +65,8 @@ class WorkWithWatermark(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkWithWatermark.remove_watermark_from_document.docx")
         #ExEnd:RemoveWatermarkFromDocument
 
-    #ExStart:AddWatermark
+    #ExStart:AddTextWatermark
+    #GistId:1f690a31c188a851d80d7aed4ff7e44c
     def test_add_and_remove_watermark(self):
 
         doc = aw.Document(MY_DIR + "Document.docx")
@@ -130,7 +131,7 @@ class WorkWithWatermark(DocsExamplesBase):
         # Insert a clone of the watermark into the header.
         header.append_child(watermark_para.clone(True))
 
-    #ExEnd:AddWatermark
+    #ExEnd:AddTextWatermark
 
     #ExStart:RemoveWatermark
     def remove_watermark_text(self, doc: aw.Document):

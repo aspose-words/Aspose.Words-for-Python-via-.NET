@@ -20,7 +20,8 @@ class WorkingWithSdt(DocsExamplesBase):
 
     def test_current_state_of_check_box(self):
 
-        #ExStart:SetCurrentStateOfCheckBox
+        #ExStart:CurrentStateOfCheckBox
+        #GistId:089defec1b191de967e6099effeabda7
         doc = aw.Document(MY_DIR + "Structured document tags.docx")
 
         # Get the first content control from the document.
@@ -30,7 +31,7 @@ class WorkingWithSdt(DocsExamplesBase):
             sdt_check_box.checked = True
 
         doc.save(ARTIFACTS_DIR + "WorkingWithSdt.current_state_of_check_box.docx")
-        #ExEnd:SetCurrentStateOfCheckBox
+        #ExEnd:CurrentStateOfCheckBox
 
     def test_modify_content_controls(self):
 
@@ -114,7 +115,8 @@ class WorkingWithSdt(DocsExamplesBase):
 
     def test_bind_sd_tto_custom_xml_part(self):
 
-        #ExStart:BindSDTtoCustomXmlPart
+        #ExStart:BindSdtToCustomXmlPart
+        #GistId:089defec1b191de967e6099effeabda7
         doc = aw.Document()
         xml_part = doc.custom_xml_parts.add(str(uuid.uuid4()), "<root><text>Hello, World!</text></root>")
 
@@ -124,7 +126,7 @@ class WorkingWithSdt(DocsExamplesBase):
         sdt.xml_mapping.set_mapping(xml_part, "/root[1]/text[1]", "")
 
         doc.save(ARTIFACTS_DIR + "WorkingWithSdt.bind_sd_tto_custom_xml_part.doc")
-        #ExEnd:BindSDTtoCustomXmlPart
+        #ExEnd:BindSdtToCustomXmlPart
 
     def test_set_content_control_style(self):
 
@@ -140,7 +142,8 @@ class WorkingWithSdt(DocsExamplesBase):
 
     def test_creating_table_repeating_section_mapped_to_custom_xml_part(self):
 
-        #ExStart:CreatingTableRepeatingSectionMappedToCustomXmlPart
+        #ExStart:RepeatingSectionMappedToCustomXmlPart
+        #GistId:089defec1b191de967e6099effeabda7
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -190,18 +193,18 @@ class WorkingWithSdt(DocsExamplesBase):
         row.append_child(author_sdt)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithSdt.creating_table_repeating_section_mapped_to_custom_xml_part.docx")
-        #ExEnd:CreatingTableRepeatingSectionMappedToCustomXmlPart
+        #ExEnd:RepeatingSectionMappedToCustomXmlPart
 
     def test_multi_section(self):
 
-        #ExStart:MultiSectionSDT
+        #ExStart:MultiSection
         doc = aw.Document(MY_DIR + "Multi-section structured document tags.docx")
 
         tags = doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, True)
 
         for tag in tags:
             print(tag.as_structured_document_tag_range_start().title)
-        #ExEnd:MultiSectionSDT
+        #ExEnd:MultiSection
 
     def test_structured_document_tag_range_start_xml_mapping(self):
 

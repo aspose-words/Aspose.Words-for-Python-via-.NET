@@ -20,6 +20,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
     def test_digitally_signed_pdf_using_certificate_holder(self):
 
         #ExStart:DigitallySignedPdfUsingCertificateHolder
+        #GistId:bdc15a6de6b25d9d4e66f2ce918fc01b
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -36,7 +37,8 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
 
     def test_embedded_all_fonts(self):
 
-        #ExStart:EmbeddAllFonts
+        #ExStart:EmbeddedAllFonts
+        #GistId:6debb84fc15c7e5b8e35384d9c116215
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         # The output PDF will be embedded with all fonts found in the document.
@@ -44,11 +46,12 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         save_options.embed_full_fonts = True
 
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.embedded_fonts_in_pdf.pdf", save_options)
-        #ExEnd:EmbeddAllFonts
+        #ExEnd:EmbeddedAllFonts
 
     def test_embedded_subset_fonts(self):
 
-        #ExStart:EmbeddSubsetFonts
+        #ExStart:EmbeddedSubsetFonts
+        #GistId:6debb84fc15c7e5b8e35384d9c116215
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         # The output PDF will contain subsets of the fonts in the document.
@@ -57,11 +60,12 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         save_options.embed_full_fonts = False
 
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.embedd_subset_fonts.pdf", save_options)
-        #ExEnd:EmbeddSubsetFonts
+        #ExEnd:EmbeddedSubsetFonts
 
     def test_disable_embed_windows_fonts(self):
 
         #ExStart:DisableEmbedWindowsFonts
+        #GistId:6debb84fc15c7e5b8e35384d9c116215
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         # The output PDF will be saved without embedding standard windows fonts.
@@ -85,6 +89,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
     def test_avoid_embedding_core_fonts(self):
 
         #ExStart:AvoidEmbeddingCoreFonts
+        #GistId:6debb84fc15c7e5b8e35384d9c116215
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         # The output PDF will not be embedded with core fonts such as Arial, Times New Roman etc.
@@ -112,6 +117,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
     def test_export_header_footer_bookmarks(self):
 
         #ExStart:ExportHeaderFooterBookmarks
+        #GistId:6debb84fc15c7e5b8e35384d9c116215
         doc = aw.Document(MY_DIR + "Bookmarks in headers and footers.docx")
 
         save_options = aw.saving.PdfSaveOptions()
@@ -122,7 +128,6 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         #ExEnd:ExportHeaderFooterBookmarks
 
     def test_emulate_rendering_to_size_on_page(self):
-
 
         #ExStart:EmulateRenderingToSizeOnPage
         doc = aw.Document(MY_DIR + "WMF with text.docx")
@@ -164,6 +169,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
     def test_downsampling_images(self):
 
         #ExStart:DownsamplingImages
+        #GistId:6debb84fc15c7e5b8e35384d9c116215
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         # We can set a minimum threshold for downsampling.
@@ -175,9 +181,10 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.downsampling_images.pdf", save_options)
         #ExEnd:DownsamplingImages
 
-    def test_set_outline_options(self):
+    def test_outline_options(self):
 
-        #ExStart:SetOutlineOptions
+        #ExStart:OutlineOptions
+        #GistId:6debb84fc15c7e5b8e35384d9c116215
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.PdfSaveOptions()
@@ -185,11 +192,12 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         save_options.outline_options.expanded_outline_levels = 1
 
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.set_outline_options.pdf", save_options)
-        #ExEnd:SetOutlineOptions
+        #ExEnd:OutlineOptions
 
     def test_custom_properties_export(self):
 
         #ExStart:CustomPropertiesExport
+        #GistId:6debb84fc15c7e5b8e35384d9c116215
         doc = aw.Document()
         doc.custom_document_properties.add("Company", "Aspose")
 
@@ -202,6 +210,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
     def test_export_document_structure(self):
 
         #ExStart:ExportDocumentStructure
+        #GistId:6debb84fc15c7e5b8e35384d9c116215
         doc = aw.Document(MY_DIR + "Paragraphs.docx")
 
         # The file size will be increased and the structure will be visible in the "Content" navigation pane
@@ -214,7 +223,8 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
 
     def test_image_compression(self):
 
-        #ExStart:PdfImageComppression
+        #ExStart:ImageCompression
+        #GistId:6debb84fc15c7e5b8e35384d9c116215
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.PdfSaveOptions()
@@ -229,18 +239,19 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         save_options_a2u.jpeg_quality = 100 # Use JPEG compression at 50% quality to reduce file size.
 
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.pdf_image_compression_a2u.pdf", save_options_a2u)
-        #ExEnd:PdfImageComppression
+        #ExEnd:ImageCompression
 
     def test_update_last_printed_property(self):
 
-        #ExStart:UpdateIfLastPrinted
+        #ExStart:UpdateLastPrinted
+        #GistId:83e5c469d0e72b5114fb8a05a1d01977
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.PdfSaveOptions()
         save_options.update_last_printed_property = True
 
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.update_if_last_printed.pdf", save_options)
-        #ExEnd:UpdateIfLastPrinted
+        #ExEnd:UpdateLastPrinted
 
     def test_dml3d_effects_rendering(self):
 
@@ -264,22 +275,6 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.interpolate_images.pdf", save_options)
         #ExEnd:SetImageInterpolation
 
-    def test_render_metafile_to_bitmap(self):
-
-        #ExStart:RenderMetafileToBitmap
-        # Load the document from disk.
-        doc = aw.Document(MY_DIR + "Rendering.docx")
-
-        metafile_rendering_options = aw.saving.MetafileRenderingOptions()
-        metafile_rendering_options.emulate_raster_operations = False
-        metafile_rendering_options.rendering_mode = aw.saving.MetafileRenderingMode.VECTOR_WITH_FALLBACK
-
-        save_options = aw.saving.PdfSaveOptions()
-        save_options.metafile_rendering_options = metafile_rendering_options
-
-        doc.save(ARTIFACTS_DIR + "PdfSaveOptions.HandleRasterWarnings.pdf", save_options)
-        #ExEnd:RenderMetafileToBitmap
-
     def test_optimize_output(self):
 
         #ExStart:OptimizeOutput
@@ -291,3 +286,28 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "PdfSaveOptions.OptimizeOutput.pdf", save_options)
         #ExEnd:OptimizeOutput
+
+    def test_update_screen_tip(self):
+
+        #ExStart:UpdateScreenTip
+        #GistId:8b0ab362f95040ada1255a0473acefe2
+        doc = aw.Document(MY_DIR + "Table of contents.docx")
+
+        toc_hyperlinks = [
+            field.as_field_hyperlink() for field in doc.range.fields
+            if field.type == aw.fields.FieldType.FIELD_HYPERLINK
+            and field.as_field_hyperlink().sub_address.startswith("#_Toc")
+        ]
+
+        for link in toc_hyperlinks:
+            link.screen_tip = link.display_result
+
+        save_options = aw.saving.PdfSaveOptions()
+        save_options.compliance = aw.saving.PdfCompliance.PDF_UA_1
+        save_options.display_doc_title = True
+        save_options.export_document_structure = True
+        save_options.outline_options.headings_outline_levels = 3
+        save_options.outline_options.create_missing_outline_levels = True
+
+        doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.update_screen_tip.pdf", save_options)
+        #ExEnd:UpdateScreenTip

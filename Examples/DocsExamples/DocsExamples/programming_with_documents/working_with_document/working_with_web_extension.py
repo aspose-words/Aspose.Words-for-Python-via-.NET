@@ -5,7 +5,8 @@ class WorkingWithWebExtension(DocsExamplesBase):
 
     def test_using_web_extension_task_panes(self):
 
-        #ExStart:UsingWebExtensionTaskPanes
+        #ExStart:WebExtensionTaskPanes
+        #GistId:8c31c018ea71c92828223776b1a113f7
         doc = aw.Document()
 
         task_pane = aw.webextensions.TaskPane()
@@ -26,9 +27,10 @@ class WorkingWithWebExtension(DocsExamplesBase):
             aw.webextensions.WebExtensionBindingType.TEXT, "194740422"))
 
         doc.save(ARTIFACTS_DIR + "WorkingWithWebExtension.using_web_extension_task_panes.docx")
-        #ExEnd:UsingWebExtensionTaskPanes
+        #ExEnd:WebExtensionTaskPanes
 
         #ExStart:GetListOfAddins
+        #GistId:8c31c018ea71c92828223776b1a113f7
         doc = aw.Document(ARTIFACTS_DIR + "WorkingWithWebExtension.using_web_extension_task_panes.docx")
 
         print("Task panes sources:\n")

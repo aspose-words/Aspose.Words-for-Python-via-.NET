@@ -10,6 +10,7 @@ class WorkingWithShapes(DocsExamplesBase):
     def test_add_group_shape(self):
 
         #ExStart:AddGroupShape
+        #GistId:072edc4bbb0dd0eebf1f61f610bd8d36
         doc = aw.Document()
         doc.ensure_minimum()
 
@@ -39,6 +40,7 @@ class WorkingWithShapes(DocsExamplesBase):
     def test_insert_shape(self):
 
         #ExStart:InsertShape
+        #GistId:ad463bf5f128fe6e6c1485df3c046a4c
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -67,6 +69,7 @@ class WorkingWithShapes(DocsExamplesBase):
     def test_aspect_ratio_locked(self):
 
         #ExStart:AspectRatioLocked
+        #GistId:ad463bf5f128fe6e6c1485df3c046a4c
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -79,6 +82,7 @@ class WorkingWithShapes(DocsExamplesBase):
     def test_layout_in_cell(self):
 
         #ExStart:LayoutInCell
+        #GistId:ad463bf5f128fe6e6c1485df3c046a4c
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -126,6 +130,7 @@ class WorkingWithShapes(DocsExamplesBase):
     def test_add_corners_snipped(self):
 
         #ExStart:AddCornersSnipped
+        #GistId:ad463bf5f128fe6e6c1485df3c046a4c
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -140,6 +145,7 @@ class WorkingWithShapes(DocsExamplesBase):
     def test_get_actual_shape_bounds_points(self):
 
         #ExStart:GetActualShapeBoundsPoints
+        #GistId:ad463bf5f128fe6e6c1485df3c046a4c
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -153,6 +159,7 @@ class WorkingWithShapes(DocsExamplesBase):
     def test_vertical_anchor(self):
 
         #ExStart:VerticalAnchor
+        #GistId:ad463bf5f128fe6e6c1485df3c046a4c
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -168,6 +175,7 @@ class WorkingWithShapes(DocsExamplesBase):
     def test_detect_smart_art_shape(self):
 
         #ExStart:DetectSmartArtShape
+        #GistId:ad463bf5f128fe6e6c1485df3c046a4c
         doc = aw.Document(MY_DIR + "SmartArt.docx")
 
         count = 0
@@ -184,6 +192,7 @@ class WorkingWithShapes(DocsExamplesBase):
         doc = aw.Document(MY_DIR + "SmartArt.docx")
 
         #ExStart:UpdateSmartArtDrawing
+        #GistId:683cdbe52b97598d9d4ee4695b4f83c9
         for shape in doc.get_child_nodes(aw.NodeType.SHAPE, True):
             shape = shape.as_shape()
             if shape.has_smart_art:
@@ -241,6 +250,7 @@ class WorkingWithShapes(DocsExamplesBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         #ExStart:RenderShapeImage
+        #GistId:7fc867ac8ef1b729b6f70580fbc5b3f9
         # Save the rendered image to disk.
         shape.get_shape_renderer().save(ARTIFACTS_DIR + "TestFile.RenderShapeImage.jpeg", None)
         #ExEnd:RenderShapeImage

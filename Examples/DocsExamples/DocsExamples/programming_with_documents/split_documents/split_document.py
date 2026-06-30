@@ -7,7 +7,8 @@ class SplitDocument(DocsExamplesBase):
 
     def test_by_headings_html(self):
 
-        #ExStart:SplitDocumentByHeadingsHtml
+        #ExStart:SplitDocumentByHeadings
+        #GistId:c0df00d37081f41a7683339fd7ef66c1
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         options = aw.saving.HtmlSaveOptions()
@@ -16,13 +17,14 @@ class SplitDocument(DocsExamplesBase):
         options.document_split_criteria = aw.saving.DocumentSplitCriteria.HEADING_PARAGRAPH
 
         doc.save(ARTIFACTS_DIR + "SplitDocument.by_headings_html.html", options)
-        #ExEnd:SplitDocumentByHeadingsHtml
+        #ExEnd:SplitDocumentByHeadings
 
     def test_by_sections_html(self):
 
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         #ExStart:SplitDocumentBySectionsHtml
+        #GistId:6759a1a6b7f448798751d54922a8efcb
         options = aw.saving.HtmlSaveOptions()
         options.document_split_criteria = aw.saving.DocumentSplitCriteria.SECTION_BREAK
         #ExEnd:SplitDocumentBySectionsHtml
@@ -32,6 +34,7 @@ class SplitDocument(DocsExamplesBase):
     def test_by_sections(self):
 
         #ExStart:SplitDocumentBySections
+        #GistId:6759a1a6b7f448798751d54922a8efcb
         doc = aw.Document(MY_DIR + "Big document.docx")
 
         for i in range(doc.sections.count):
@@ -52,6 +55,7 @@ class SplitDocument(DocsExamplesBase):
     def test_page_by_page(self):
 
         #ExStart:SplitDocumentPageByPage
+        #GistId:6759a1a6b7f448798751d54922a8efcb
         doc = aw.Document(MY_DIR + "Big document.docx")
 
         page_count = doc.page_count
@@ -66,6 +70,7 @@ class SplitDocument(DocsExamplesBase):
         self.merge_documents()
 
     #ExStart:MergeSplitDocuments
+    #GistId:6759a1a6b7f448798751d54922a8efcb
     @staticmethod
     def merge_documents():
 
@@ -99,6 +104,7 @@ class SplitDocument(DocsExamplesBase):
     def test_by_page_range(self):
 
         #ExStart:SplitDocumentByPageRange
+        #GistId:6759a1a6b7f448798751d54922a8efcb
         doc = aw.Document(MY_DIR + "Big document.docx")
 
         # Get part of the document.

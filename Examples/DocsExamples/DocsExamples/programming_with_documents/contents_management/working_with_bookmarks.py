@@ -6,6 +6,7 @@ class WorkingWithBookmarks(DocsExamplesBase):
     def test_access_bookmarks(self):
 
         #ExStart:AccessBookmarks
+        #GistId:c4555b1a088856e21394104faeb86e51
         doc = aw.Document(MY_DIR + "Bookmarks.docx")
 
         # By index:
@@ -17,6 +18,7 @@ class WorkingWithBookmarks(DocsExamplesBase):
     def test_update_bookmark_data(self):
 
         #ExStart:UpdateBookmarkData
+        #GistId:c4555b1a088856e21394104faeb86e51
         doc = aw.Document(MY_DIR + "Bookmarks.docx")
 
         bookmark = doc.range.bookmarks.get_by_name("MyBookmark1")
@@ -31,6 +33,7 @@ class WorkingWithBookmarks(DocsExamplesBase):
     def test_bookmark_table_columns(self):
 
         #ExStart:BookmarkTable
+        #GistId:c4555b1a088856e21394104faeb86e51
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -60,6 +63,7 @@ class WorkingWithBookmarks(DocsExamplesBase):
         #ExEnd:BookmarkTable
 
         #ExStart:BookmarkTableColumns
+        #GistId:c4555b1a088856e21394104faeb86e51
         for bookmark in doc.range.bookmarks:
             print("Bookmark: " + bookmark.name + " (Column)" if bookmark.is_column else "")
 
@@ -127,6 +131,7 @@ class WorkingWithBookmarks(DocsExamplesBase):
     def test_create_bookmark(self):
 
         #ExStart:CreateBookmark
+        #GistId:c4555b1a088856e21394104faeb86e51
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -150,6 +155,7 @@ class WorkingWithBookmarks(DocsExamplesBase):
     def test_show_hide_bookmarks(self):
 
         #ExStart:ShowHideBookmarks
+        #GistId:c4555b1a088856e21394104faeb86e51
         doc = aw.Document(MY_DIR + "Bookmarks.docx")
 
         self.show_hide_bookmarked_content(doc, "MyBookmark1", False)
@@ -158,6 +164,7 @@ class WorkingWithBookmarks(DocsExamplesBase):
         #ExEnd:ShowHideBookmarks
 
     #ExStart:ShowHideBookmarkedContent
+    #GistId:c4555b1a088856e21394104faeb86e51
     @staticmethod
     def show_hide_bookmarked_content(doc: aw.Document, bookmark_name: str, show_hide: bool):
 

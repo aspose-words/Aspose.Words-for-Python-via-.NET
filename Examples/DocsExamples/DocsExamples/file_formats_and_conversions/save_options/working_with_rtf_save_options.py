@@ -6,6 +6,7 @@ class WorkingWithRtfSaveOptions(DocsExamplesBase):
     def test_saving_images_as_wmf(self):
 
         #ExStart:SavingImagesAsWmf
+        #GistId:6f849e51240635a6322ab0460938c922
         doc = aw.Document(MY_DIR + "Document.docx")
 
         save_options = aw.saving.RtfSaveOptions()

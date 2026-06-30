@@ -9,6 +9,7 @@ class WorkingWithFileFormat(DocsExamplesBase):
     def test_detect_file_format(self):
 
         #ExStart:CheckFormatCompatibility
+        #GistId:7fe3fc4004f081628a63608db70332b3
         supported_dir = ARTIFACTS_DIR + "Supported"
         unknown_dir = ARTIFACTS_DIR + "Unknown"
         encrypted_dir = ARTIFACTS_DIR + "Encrypted"
@@ -79,6 +80,7 @@ class WorkingWithFileFormat(DocsExamplesBase):
     def test_detect_document_signatures(self):
 
         #ExStart:DetectDocumentSignatures
+        #GistId:bdc15a6de6b25d9d4e66f2ce918fc01b
         info = aw.FileFormatUtil.detect_file_format(MY_DIR + "Digitally signed.docx")
 
         if info.has_digital_signature:
@@ -89,6 +91,7 @@ class WorkingWithFileFormat(DocsExamplesBase):
     def test_verify_encrypted_document(self):
 
         #ExStart:VerifyEncryptedDocument
+        #GistId:af95c7a408187bb25cf9137465fe5ce6
         info = aw.FileFormatUtil.detect_file_format(MY_DIR + "Encrypted.docx")
         print(info.is_encrypted)
         #ExEnd:VerifyEncryptedDocument

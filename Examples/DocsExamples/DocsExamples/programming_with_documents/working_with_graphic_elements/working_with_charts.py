@@ -9,6 +9,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_format_number_of_data_label(self):
 
         #ExStart:FormatNumberOfDataLabel
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -38,6 +39,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_create_chart_using_shape(self):
 
         #ExStart:CreateChartUsingShape
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -59,6 +61,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_insert_simple_column_chart(self):
 
         #ExStart:InsertSimpleColumnChart
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -67,6 +70,7 @@ class WorkingWithCharts(DocsExamplesBase):
 
         chart = shape.chart
         #ExStart:ChartSeriesCollection
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         series_coll = chart.series
 
         print(series_coll.count)
@@ -91,6 +95,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_insert_column_chart(self):
 
         #ExStart:InsertColumnChart
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -105,6 +110,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_insert_area_chart(self):
 
         #ExStart:InsertAreaChart
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -121,6 +127,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_insert_bubble_chart(self):
 
         #ExStart:InsertBubbleChart
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -135,6 +142,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_insert_scatter_chart(self):
 
         #ExStart:InsertScatterChart
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -148,7 +156,8 @@ class WorkingWithCharts(DocsExamplesBase):
 
     def test_define_xy_axis_properties(self):
 
-        #ExStart:DefineXYAxisProperties
+        #ExStart:DefineAxisProperties
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -183,11 +192,12 @@ class WorkingWithCharts(DocsExamplesBase):
         y_axis.scaling.maximum = aw.drawing.charts.AxisBound(700)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.define_xy_axis_properties.docx")
-        #ExEnd:DefineXYAxisProperties
+        #ExEnd:DefineAxisProperties
 
     def test_date_time_values_to_axis(self):
 
-        #ExStart:SetDateTimeValuesToAxis
+        #ExStart:DateTimeValuesToAxis
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -211,11 +221,12 @@ class WorkingWithCharts(DocsExamplesBase):
         x_axis.minor_tick_mark = aw.drawing.charts.AxisTickMark.OUTSIDE
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.date_time_values_to_axis.docx")
-        #ExEnd:SetDateTimeValuesToAxis
+        #ExEnd:DateTimeValuesToAxis
 
     def test_number_format_for_axis(self):
 
-        #ExStart:SetNumberFormatForAxis
+        #ExStart:NumberFormatForAxis
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -232,11 +243,12 @@ class WorkingWithCharts(DocsExamplesBase):
         chart.axis_y.number_format.format_code = "#,##0"
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.number_format_for_axis.docx")
-        #ExEnd:SetNumberFormatForAxis
+        #ExEnd:NumberFormatForAxis
 
     def test_bounds_of_axis(self):
 
-        #ExStart:SetboundsOfAxis
+        #ExStart:BoundsOfAxis
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -254,11 +266,12 @@ class WorkingWithCharts(DocsExamplesBase):
         chart.axis_y.scaling.maximum = aw.drawing.charts.AxisBound(6)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.bounds_of_axis.docx")
-        #ExEnd:SetboundsOfAxis
+        #ExEnd:BoundsOfAxis
 
     def test_interval_unit_between_labels_on_axis(self):
 
-        #ExStart:SetIntervalUnitBetweenLabelsOnAxis
+        #ExStart:IntervalUnitBetweenLabelsOnAxis
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -275,11 +288,12 @@ class WorkingWithCharts(DocsExamplesBase):
         chart.axis_x.tick_labels.spacing = 2
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.interval_unit_between_labels_on_axis.docx")
-        #ExEnd:SetIntervalUnitBetweenLabelsOnAxis
+        #ExEnd:IntervalUnitBetweenLabelsOnAxis
 
     def test_hide_chart_axis(self):
 
         #ExStart:HideChartAxis
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -301,6 +315,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_tick_multi_line_label_alignment(self):
 
         #ExStart:TickMultiLineLabelAlignment
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -316,6 +331,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_chart_data_label(self):
 
         #ExStart:WorkWithChartDataLabel
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -343,6 +359,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_default_options_for_data_labels(self):
 
         #ExStart:DefaultOptionsForDataLabels
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -368,6 +385,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_single_chart_data_point(self):
 
         #ExStart:WorkWithSingleChartDataPoint
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -406,6 +424,7 @@ class WorkingWithCharts(DocsExamplesBase):
         chart = shape.chart
 
         #ExStart:WorkWithSingleChartSeries
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         series0 = chart.series[0]
         series1 = chart.series[1]
 
@@ -418,6 +437,7 @@ class WorkingWithCharts(DocsExamplesBase):
         #ExEnd:WorkWithSingleChartSeries
 
         #ExStart:ChartDataPoint
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         # Specifies whether by default the parent element shall inverts its colors if the value is negative.
         series0.invert_if_negative = True
 

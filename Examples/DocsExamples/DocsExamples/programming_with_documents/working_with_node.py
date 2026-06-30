@@ -15,6 +15,7 @@ class WorkingWithNode(DocsExamplesBase):
     def test_get_parent_node(self):
 
         #ExStart:GetParentNode
+        #GistId:3e9d92093b2f5995f984791bfc10c944
         doc = aw.Document()
 
         # The section is the first child node of the document.
@@ -27,6 +28,7 @@ class WorkingWithNode(DocsExamplesBase):
     def test_owner_document(self):
 
         #ExStart:OwnerDocument
+        #GistId:3e9d92093b2f5995f984791bfc10c944
         doc = aw.Document()
 
         # Creating a new node of any type requires a document passed into the constructor.
@@ -52,6 +54,7 @@ class WorkingWithNode(DocsExamplesBase):
     def test_enumerate_child_nodes(self):
 
         #ExStart:EnumerateChildNodes
+        #GistId:3e9d92093b2f5995f984791bfc10c944
         doc = aw.Document()
         paragraph = doc.get_child(aw.NodeType.PARAGRAPH, 0, True).as_paragraph()
 
@@ -64,6 +67,7 @@ class WorkingWithNode(DocsExamplesBase):
         #ExEnd:EnumerateChildNodes
 
     #ExStart:RecurseAllNodes
+    #GistId:3e9d92093b2f5995f984791bfc10c944
     def test_recurse_all_nodes(self):
 
         doc = aw.Document(MY_DIR + "Paragraphs.docx")
@@ -88,6 +92,7 @@ class WorkingWithNode(DocsExamplesBase):
     def test_typed_access(self):
 
         #ExStart:TypedAccess
+        #GistId:3e9d92093b2f5995f984791bfc10c944
         doc = aw.Document()
 
         section = doc.first_section

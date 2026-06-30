@@ -6,6 +6,7 @@ class WorkingWithPclSaveOptions(DocsExamplesBase):
     def test_rasterize_transformed_elements(self):
 
         #ExStart:RasterizeTransformedElements
+        #GistId:7ee438947078cf070c5bc36a4e45a18c
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.PclSaveOptions()

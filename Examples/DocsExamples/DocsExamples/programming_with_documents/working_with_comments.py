@@ -8,6 +8,7 @@ class WorkingWithComments(DocsExamplesBase):
     def test_add_comments(self):
 
         #ExStart:AddComments
+        #GistId:70902b20df8b1f6b0459f676e21623bb
         #ExStart:CreateSimpleDocumentUsingDocumentBuilder
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -28,6 +29,7 @@ class WorkingWithComments(DocsExamplesBase):
     def test_anchor_comment(self):
 
         #ExStart:AnchorComment
+        #GistId:70902b20df8b1f6b0459f676e21623bb
         doc = aw.Document()
 
         para1 = aw.Paragraph(doc)
@@ -61,6 +63,7 @@ class WorkingWithComments(DocsExamplesBase):
     def test_add_remove_comment_reply(self):
 
         #ExStart:AddRemoveCommentReply
+        #GistId:70902b20df8b1f6b0459f676e21623bb
         doc = aw.Document(MY_DIR + "Comments.docx")
 
         comment = doc.get_child(aw.NodeType.COMMENT, 0, True).as_comment()
@@ -74,6 +77,7 @@ class WorkingWithComments(DocsExamplesBase):
     def test_process_comments(self):
 
         #ExStart:ProcessComments
+        #GistId:70902b20df8b1f6b0459f676e21623bb
         doc = aw.Document(MY_DIR + "Comments.docx")
 
         # Extract the information about the comments of all the authors.
@@ -99,6 +103,7 @@ class WorkingWithComments(DocsExamplesBase):
         #ExEnd:ProcessComments
 
     #ExStart:ExtractComments
+    #GistId:70902b20df8b1f6b0459f676e21623bb
     @staticmethod
     def extract_comments(doc: aw.Document):
 
@@ -114,6 +119,7 @@ class WorkingWithComments(DocsExamplesBase):
     #ExEnd:ExtractComments
 
     #ExStart:ExtractCommentsByAuthor
+    #GistId:70902b20df8b1f6b0459f676e21623bb
     @staticmethod
     def extract_comments_by_author(doc: aw.Document, author_name: str):
 
@@ -130,6 +136,7 @@ class WorkingWithComments(DocsExamplesBase):
     #ExEnd:ExtractCommentsByAuthor
 
     #ExStart:RemoveComments
+    #GistId:70902b20df8b1f6b0459f676e21623bb
     @staticmethod
     def remove_comments(doc: aw.Document):
 
@@ -139,6 +146,7 @@ class WorkingWithComments(DocsExamplesBase):
     #ExEnd:RemoveComments
 
     #ExStart:RemoveCommentsByAuthor
+    #GistId:70902b20df8b1f6b0459f676e21623bb
     @staticmethod
     def remove_comments_by_author(doc: aw.Document, author_name: str):
 
@@ -153,7 +161,8 @@ class WorkingWithComments(DocsExamplesBase):
 
     #ExEnd:RemoveCommentsByAuthor
 
-    #ExStart:CommentResolvedandReplies
+    #ExStart:CommentResolvedAndReplies
+    #GistId:70902b20df8b1f6b0459f676e21623bb
     @staticmethod
     def comment_resolved_and_replies(doc):
 
@@ -169,7 +178,7 @@ class WorkingWithComments(DocsExamplesBase):
             # And update comment Done mark.
             child_comment.done = True
 
-    #ExEnd:CommentResolvedandReplies
+    #ExEnd:CommentResolvedAndReplies
 
     def test_remove_region_text(self):
 

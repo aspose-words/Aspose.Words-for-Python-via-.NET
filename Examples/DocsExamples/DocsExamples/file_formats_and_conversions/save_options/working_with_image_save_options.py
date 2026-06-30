@@ -1,13 +1,15 @@
 import io
 
 import aspose.words as aw
+import aspose.pydrawing as drawing
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithImageSaveOptions(DocsExamplesBase):
 
-    def test_expose_threshold_control_for_tiff_binarization(self):
+    def test_expose_threshold_control(self):
 
-        #ExStart:ExposeThresholdControlForTiffBinarization
+        #ExStart:ExposeThresholdControl
+        #GistId:b20a0ec0e1ff0556aa20d12f486e1963
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.TIFF)
@@ -17,16 +19,18 @@ class WorkingWithImageSaveOptions(DocsExamplesBase):
         save_options.tiff_binarization_method = aw.saving.ImageBinarizationMethod.FLOYD_STEINBERG_DITHERING
         save_options.threshold_for_floyd_steinberg_dithering = 254
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithImageSaveOptions.expose_threshold_control_for_tiff_binarization.tiff", save_options)
-        #ExEnd:ExposeThresholdControlForTiffBinarization
+        doc.save(ARTIFACTS_DIR + "WorkingWithImageSaveOptions.expose_threshold_control.tiff", save_options)
+        #ExEnd:ExposeThresholdControl
 
     def test_get_tiff_page_range(self):
 
         #ExStart:GetTiffPageRange
+        #GistId:b20a0ec0e1ff0556aa20d12f486e1963
         doc = aw.Document(MY_DIR + "Rendering.docx")
-        #ExStart:SaveAsTIFF
+        #ExStart:SaveAsTiff
+        #GistId:b20a0ec0e1ff0556aa20d12f486e1963
         doc.save(ARTIFACTS_DIR + "WorkingWithImageSaveOptions.multipage_tiff.tiff")
-        #ExEnd:SaveAsTIFF
+        #ExEnd:SaveAsTiff
 
         #ExStart:SaveAsTIFFUsingImageSaveOptions
         save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.TIFF)
@@ -42,6 +46,7 @@ class WorkingWithImageSaveOptions(DocsExamplesBase):
     def test_format_1_bpp_indexed(self):
 
         #ExStart:Format1BppIndexed
+        #GistId:83e5c469d0e72b5114fb8a05a1d01977
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
@@ -56,6 +61,7 @@ class WorkingWithImageSaveOptions(DocsExamplesBase):
     def test_get_jpeg_page_range(self):
 
         #ExStart:GetJpegPageRange
+        #GistId:ebbb90d74ef57db456685052a18f8e86
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
@@ -75,26 +81,34 @@ class WorkingWithImageSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithImageSaveOptions.get_jpeg_page_range.jpeg", options)
         #ExEnd:GetJpegPageRange
 
-    def test_save_document_to_jpeg(self):
+    def test_horizontal_layout(self):
 
-        #ExStart:SaveDocumentToJPEG
-        # Open the document
+        #ExStart:HorizontalLayout
+        #GistId:8eeaafcfcc55d78505f0f378ad8c6907
         doc = aw.Document(MY_DIR + "Rendering.docx")
-        # Save as a JPEG image file with default options
-        doc.save(ARTIFACTS_DIR + "Rendering.JpegDefaultOptions.jpg")
 
-        # Save document to stream as a JPEG with default options
-        doc_stream = io.BytesIO()
-        doc.save(doc_stream, aw.SaveFormat.JPEG)
-        # Rewind the stream position back to the beginning, ready for use
-        doc_stream.seek(0)
+        options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
+        options.page_layout = aw.saving.MultiPageLayout.horizontal(10)
 
-        # Save document to a JPEG image with specified options.
-        # Render the third page only and set the JPEG quality to 80%
-        # In this case we need to pass the desired SaveFormat to the ImageSaveOptions constructor
-        # to signal what type of image to save as.
-        image_options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
-        image_options.page_set = aw.saving.PageSet(2)
-        image_options.jpeg_quality = 80
-        doc.save(ARTIFACTS_DIR + "Rendering.JpegCustomOptions.jpg", image_options)
-        #ExEnd:SaveDocumentToJPEG
+        doc.save(ARTIFACTS_DIR + "WorkingWithImageSaveOptions.horizontal_layout.jpg", options)
+        #ExEnd:HorizontalLayout
+
+    def test_grid_layout(self):
+
+        #ExStart:GridLayout
+        #GistId:8eeaafcfcc55d78505f0f378ad8c6907
+        doc = aw.Document(MY_DIR + "Rendering.docx")
+
+        options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
+        # Set up a grid layout with:
+        # - 3 columns per row.
+        # - 10pts spacing between pages (horizontal and vertical).
+        options.page_layout = aw.saving.MultiPageLayout.grid(3, 10, 10)
+
+        # Customize the background and border.
+        options.page_layout.back_color = drawing.Color.light_gray
+        options.page_layout.border_color = drawing.Color.blue
+        options.page_layout.border_width = 2
+
+        doc.save(ARTIFACTS_DIR + "WorkingWithImageSaveOptions.grid_layout.jpg", options)
+        #ExEnd:GridLayout

@@ -6,6 +6,7 @@ class WorkingWithDocSaveOptions(DocsExamplesBase):
     def test_encrypt_document_with_password(self):
 
         #ExStart:EncryptDocumentWithPassword
+        #GistId:af95c7a408187bb25cf9137465fe5ce6
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 

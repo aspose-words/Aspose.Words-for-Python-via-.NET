@@ -41,7 +41,7 @@ class WorkingWithAi(DocsExamplesBase):
         model = aw_ai.AiModel.create(aw_ai.AiModelType.GEMINI_15_FLASH).with_api_key(api_key).as_google_ai_model()
 
         translated_doc = model.translate(doc, aw_ai.Language.ARABIC)
-        translated_doc.save(ARTIFACTS_DIR + "AI.AiTranslate.docx")
+        translated_doc.save(ARTIFACTS_DIR + "AI.ai_translate.docx")
         #ExEnd:AiTranslate
 
     @unittest.skip("This test should be run manually to manage API requests amount")
@@ -58,5 +58,5 @@ class WorkingWithAi(DocsExamplesBase):
         grammar_options.improve_stylistics = True
 
         proofed_doc = model.check_grammar(doc, grammar_options)
-        proofed_doc.save(ARTIFACTS_DIR + "AI.AiGrammar.docx")
+        proofed_doc.save(ARTIFACTS_DIR + "AI.ai_grammar.docx")
         #ExEnd:AiGrammar

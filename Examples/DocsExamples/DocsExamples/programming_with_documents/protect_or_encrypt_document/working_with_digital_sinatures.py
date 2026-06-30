@@ -9,11 +9,11 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
 
     def test_sign_document(self):
 
-        #ExStart:SingDocument
+        #ExStart:SignDocument
         cert_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + "morzal.pfx", "aw")
 
         aw.digitalsignatures.DigitalSignatureUtil.sign(MY_DIR + "Digitally signed.docx", ARTIFACTS_DIR + "Document.signed.docx", cert_holder)
-        #ExEnd:SingDocument
+        #ExEnd:SignDocument
 
     def test_signing_encrypted_document(self):
 
@@ -70,7 +70,7 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
 
     def test_set_signature_provider_id(self):
 
-        #ExStart:SetSignatureProviderID
+        #ExStart:SignatureProviderId
         doc = aw.Document(MY_DIR + "Signature line.docx")
 
         signature_line = doc.first_section.body.get_child(aw.NodeType.SHAPE, 0, True).as_shape().signature_line
@@ -83,11 +83,12 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
 
         aw.digitalsignatures.DigitalSignatureUtil.sign(MY_DIR + "Digitally signed.docx",
             ARTIFACTS_DIR + "SignDocuments.set_signature_provider_id.docx", cert_holder, sign_options)
-        #ExEnd:SetSignatureProviderID
+        #ExEnd:SignatureProviderId
 
     def test_create_new_signature_line_and_set_provider_id(self):
 
-        #ExStart:CreateNewSignatureLineAndSetProviderID
+        #ExStart:CreateNewSignatureLineAndSetProviderId
+        #GistId:bdc15a6de6b25d9d4e66f2ce918fc01b
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -115,7 +116,7 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
 
         aw.digitalsignatures.DigitalSignatureUtil.sign(ARTIFACTS_DIR + "SignDocuments.signature_line_provider_id.docx",
             ARTIFACTS_DIR + "SignDocuments.create_new_signature_line_and_set_provider_id.docx", cert_holder, sign_options)
-        #ExEnd:CreateNewSignatureLineAndSetProviderID
+        #ExEnd:CreateNewSignatureLineAndSetProviderId
 
 
     def test_access_and_verify_signature(self):
@@ -137,7 +138,8 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
             #print("Issuer name: " + signature.certificate_holder.certificate.issuer_name.name)
 
     def test_signature_value(self):
-        #ExStart:signature_value
+        #ExStart:SignatureValue
+        #GistId:bdc15a6de6b25d9d4e66f2ce918fc01b
         doc = aw.Document(MY_DIR + "Digitally signed.docx")
 
         for digital_signature in doc.digital_signatures:
@@ -147,4 +149,4 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
                               b"/k5CiFZzCp1+MmhOdYPcVO+Fm+9fKr2iNLeyYB+fgEeZHfTqTFM2WwAqo="
             self.assertEqual(expected_value, signature_value)
             
-        #ExEnd:signature_value
+        #ExEnd:SignatureValue

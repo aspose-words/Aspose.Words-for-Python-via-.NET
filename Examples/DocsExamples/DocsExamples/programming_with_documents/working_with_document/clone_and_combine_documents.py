@@ -5,12 +5,13 @@ class CloneAndCombineDocuments(DocsExamplesBase):
 
     def test_cloning_document(self):
 
-        #ExStart:CloningDocument
+        #ExStart:CloneDocument
+        #GistId:b2f62f736a2090163de7b0f221cf46d4
         doc = aw.Document(MY_DIR + "Document.docx")
 
         clone = doc.clone().as_document()
         clone.save(ARTIFACTS_DIR + "CloneAndCombineDocuments.cloning_document.docx")
-        #ExEnd:CloningDocument
+        #ExEnd:CloneDocument
 
     def test_insert_document_at_bookmark(self):
 

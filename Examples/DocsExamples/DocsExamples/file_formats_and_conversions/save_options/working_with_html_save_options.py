@@ -9,6 +9,7 @@ class WorkingWithHtmlSaveOptions(DocsExamplesBase):
     def test_export_roundtrip_information(self):
 
         #ExStart:ExportRoundtripInformation
+        #GistId:c0df00d37081f41a7683339fd7ef66c1
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.HtmlSaveOptions()
@@ -20,6 +21,7 @@ class WorkingWithHtmlSaveOptions(DocsExamplesBase):
     def test_export_fonts_as_base_64(self):
 
         #ExStart:ExportFontsAsBase64
+        #GistId:c0df00d37081f41a7683339fd7ef66c1
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.HtmlSaveOptions()
@@ -31,6 +33,7 @@ class WorkingWithHtmlSaveOptions(DocsExamplesBase):
     def test_export_resources(self):
 
         #ExStart:ExportResources
+        #GistId:c0df00d37081f41a7683339fd7ef66c1
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.HtmlSaveOptions()
@@ -122,6 +125,7 @@ class WorkingWithHtmlSaveOptions(DocsExamplesBase):
     def test_export_text_input_form_field_as_text(self):
 
         #ExStart:ExportTextInputFormFieldAsText
+        #GistId:83e5c469d0e72b5114fb8a05a1d01977
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         images_dir = os.path.join(ARTIFACTS_DIR, "Images")

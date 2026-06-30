@@ -5,7 +5,8 @@ class WorkingWithTextboxes(DocsExamplesBase):
 
     def test_create_a_link(self):
 
-        #ExStart:CreateALink
+        #ExStart:CreateLink
+        #GistId:68b6041746b3d6bf5137cff8e6385b5f
         doc = aw.Document()
 
         shape1 = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
@@ -16,11 +17,12 @@ class WorkingWithTextboxes(DocsExamplesBase):
 
         if text_box1.is_valid_link_target(text_box2):
             text_box1.next = text_box2
-        #ExEnd:CreateALink
+        #ExEnd:CreateLink
 
     def test_check_sequence(self):
 
         #ExStart:CheckSequence
+        #GistId:68b6041746b3d6bf5137cff8e6385b5f
         doc = aw.Document()
 
         shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
@@ -38,7 +40,8 @@ class WorkingWithTextboxes(DocsExamplesBase):
 
     def test_break_a_link(self):
 
-        #ExStart:BreakALink
+        #ExStart:BreakLink
+        #GistId:68b6041746b3d6bf5137cff8e6385b5f
         doc = aw.Document()
 
         shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
@@ -53,4 +56,4 @@ class WorkingWithTextboxes(DocsExamplesBase):
         # Break a link, which leads to this textbox.
         if text_box.previous is not None:
             text_box.previous.break_forward_link()
-        #ExEnd:BreakALink
+        #ExEnd:BreakLink

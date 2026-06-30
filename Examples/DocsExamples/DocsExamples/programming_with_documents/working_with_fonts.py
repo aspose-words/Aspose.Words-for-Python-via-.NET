@@ -25,6 +25,7 @@ class WorkingWithFonts(DocsExamplesBase):
     def test_get_font_line_spacing(self):
 
         #ExStart:GetFontLineSpacing
+        #GistId:7cb86f131b74afcbebc153f0039e3947
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -37,7 +38,7 @@ class WorkingWithFonts(DocsExamplesBase):
 
     def test_check_dml_text_effect(self):
 
-        #ExStart:CheckDMLTextEffect
+        #ExStart:CheckDmlTextEffect
         doc = aw.Document(MY_DIR + "DrawingML text effects.docx")
 
         runs = doc.first_section.body.first_paragraph.runs
@@ -49,7 +50,7 @@ class WorkingWithFonts(DocsExamplesBase):
         print(run_font.has_dml_effect(aw.TextDmlEffect.REFLECTION))
         print(run_font.has_dml_effect(aw.TextDmlEffect.OUTLINE))
         print(run_font.has_dml_effect(aw.TextDmlEffect.FILL))
-        #ExEnd:CheckDMLTextEffect
+        #ExEnd:CheckDmlTextEffect
 
     def test_set_font_formatting(self):
 
@@ -74,6 +75,7 @@ class WorkingWithFonts(DocsExamplesBase):
     def test_set_font_emphasis_mark(self):
 
         #ExStart:SetFontEmphasisMark
+        #GistId:7cb86f131b74afcbebc153f0039e3947
         document = aw.Document()
         builder = aw.DocumentBuilder(document)
 
@@ -114,7 +116,8 @@ class WorkingWithFonts(DocsExamplesBase):
 
     def test_set_font_fallback_settings(self):
 
-        #ExStart:SetFontFallbackSettings
+        #ExStart:FontFallbackSettings
+        #GistId:a08698f540d47082b4e2dbb1cb67fc1b
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         font_settings = aw.fonts.FontSettings()
@@ -123,7 +126,7 @@ class WorkingWithFonts(DocsExamplesBase):
         doc.font_settings = font_settings
 
         doc.save(ARTIFACTS_DIR + "WorkingWithFonts.set_font_fallback_settings.pdf")
-        #ExEnd:SetFontFallbackSettings
+        #ExEnd:FontFallbackSettings
 
     def test_noto_fallback_settings(self):
 
@@ -190,18 +193,20 @@ class WorkingWithFonts(DocsExamplesBase):
 
     def test_set_fonts_folders_with_priority(self):
 
-        #ExStart:SetFontsFoldersWithPriority
+        #ExStart:FontsFoldersWithPriority
+        #GistId:7e64f6d40825be58a8c12f1307c12964
         aw.fonts.FontSettings.default_instance.set_fonts_sources([
             aw.fonts.SystemFontSource(),
             aw.fonts.FolderFontSource("C:\\MyFonts\\", True, 1)])
-        #ExEnd:SetFontsFoldersWithPriority
+        #ExEnd:FontsFoldersWithPriority
 
         doc = aw.Document(MY_DIR + "Rendering.docx")
         doc.save(ARTIFACTS_DIR + "WorkingWithFonts.set_fonts_folders_with_priority.pdf")
 
     def test_set_true_type_fonts_folder(self):
 
-        #ExStart:SetTrueTypeFontsFolder
+        #ExStart:TrueTypeFontsFolder
+        #GistId:7e64f6d40825be58a8c12f1307c12964
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         font_settings = aw.fonts.FontSettings()
@@ -213,7 +218,7 @@ class WorkingWithFonts(DocsExamplesBase):
         doc.font_settings = font_settings
 
         doc.save(ARTIFACTS_DIR + "WorkingWithFonts.set_true_type_fonts_folder.pdf")
-        #ExEnd:SetTrueTypeFontsFolder
+        #ExEnd:TrueTypeFontsFolder
 
     def test_specify_default_font_when_rendering(self):
 
@@ -269,7 +274,9 @@ class WorkingWithFonts(DocsExamplesBase):
     def test_font_settings_default_instance(self):
 
         #ExStart:FontSettingsFontSource
+        #GistId:a08698f540d47082b4e2dbb1cb67fc1b
         #ExStart:FontSettingsDefaultInstance
+        #GistId:a08698f540d47082b4e2dbb1cb67fc1b
         font_settings = aw.fonts.FontSettings.default_instance
         #ExEnd:FontSettingsDefaultInstance
         font_settings.set_fonts_sources([
@@ -383,6 +390,7 @@ class WorkingWithFonts(DocsExamplesBase):
 #    #ExEnd:ResourceSteamFontSourceExample
 #
 #    #ExStart:GetSubstitutionWithoutSuffixes
+#GistId:a08698f540d47082b4e2dbb1cb67fc1b
 #    def test_get_substitution_without_suffixes(self):
 #
 #        doc = aw.Document(MY_DIR + "Get substitution without suffixes.docx")

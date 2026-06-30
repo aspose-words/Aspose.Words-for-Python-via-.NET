@@ -8,6 +8,7 @@ class WorkingWithLoadOptions(DocsExamplesBase):
     def test_update_dirty_fields(self):
 
         #ExStart:UpdateDirtyFields
+        #GistId:08db64c4d86842c4afd1ecb925ed07c4
         load_options = aw.loading.LoadOptions()
         load_options.update_dirty_fields = True
 
@@ -18,17 +19,20 @@ class WorkingWithLoadOptions(DocsExamplesBase):
 
     def test_load_encrypted_document(self):
 
-        #ExStart:LoadSaveEncryptedDoc
+        #ExStart:LoadSaveEncryptedDocument
+        #GistId:af95c7a408187bb25cf9137465fe5ce6
         #ExStart:OpenEncryptedDocument
+        #GistId:40be8275fc43f78f5e5877212e4e1bf3
         doc = aw.Document(MY_DIR + "Encrypted.docx", aw.loading.LoadOptions("docPassword"))
         #ExEnd:OpenEncryptedDocument
 
         doc.save(ARTIFACTS_DIR + "WorkingWithLoadOptions.load_and_save_encrypted_odt.odt", aw.saving.OdtSaveOptions("newPassword"))
-        #ExEnd:LoadSaveEncryptedDoc
+        #ExEnd:LoadSaveEncryptedDocument
 
     def test_convert_shape_to_office_math(self):
 
         #ExStart:ConvertShapeToOfficeMath
+        #GistId:ad463bf5f128fe6e6c1485df3c046a4c
         load_options = aw.loading.LoadOptions()
         load_options.convert_shape_to_office_math = True
 
@@ -39,7 +43,8 @@ class WorkingWithLoadOptions(DocsExamplesBase):
 
     def test_set_ms_word_version(self):
 
-        #ExStart:SetMSWordVersion
+        #ExStart:SetMsWordVersion
+        #GistId:40be8275fc43f78f5e5877212e4e1bf3
         # Create a new LoadOptions object, which will load documents according to MS Word 2019 specification by default
         # and change the loading version to Microsoft Word 2010.
         load_options = aw.loading.LoadOptions()
@@ -48,21 +53,23 @@ class WorkingWithLoadOptions(DocsExamplesBase):
         doc = aw.Document(MY_DIR + "Document.docx", load_options)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithLoadOptions.set_ms_word_version.docx")
-        #ExEnd:SetMSWordVersion
+        #ExEnd:SetMsWordVersion
 
-    def test_use_temp_folder(self):
+    def test_temp_folder(self):
 
-        #ExStart:UseTempFolder
+        #ExStart:TempFolder
+        #GistId:40be8275fc43f78f5e5877212e4e1bf3
         load_options = aw.loading.LoadOptions()
         load_options.temp_folder = ARTIFACTS_DIR
 
         doc = aw.Document(MY_DIR + "Document.docx", load_options)
-        #ExEnd:UseTempFolder
+        #ExEnd:TempFolder
 
     @unittest.skipUnless(sys.platform.startswith('win'), 'requires windows')
     def test_load_with_encoding(self):
 
         #ExStart:LoadWithEncoding
+        #GistId:40be8275fc43f78f5e5877212e4e1bf3
         load_options = aw.loading.LoadOptions()
         load_options.encoding = "utf-7"
 
@@ -89,9 +96,9 @@ class WorkingWithLoadOptions(DocsExamplesBase):
 
     def test_load_chm(self):
 
-        #ExStart:LoadCHM
+        #ExStart:LoadChm
         load_options = aw.loading.LoadOptions()
         load_options.encoding = "windows-1251"
 
         doc = aw.Document(MY_DIR + "HTML help.chm", load_options)
-        #ExEnd:LoadCHM
+        #ExEnd:LoadChm

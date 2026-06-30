@@ -7,6 +7,7 @@ class DocumentFormatting(DocsExamplesBase):
     def test_space_between_asian_and_latin_text(self):
 
         #ExStart:SpaceBetweenAsianAndLatinText
+        #GistId:4f54ffd5c7580f0d146b53e52d986f38
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -23,6 +24,7 @@ class DocumentFormatting(DocsExamplesBase):
     def test_asian_typography_line_break_group(self):
 
         #ExStart:AsianTypographyLineBreakGroup
+        #GistId:4f54ffd5c7580f0d146b53e52d986f38
         doc = aw.Document(MY_DIR + "Asian typography.docx")
 
         paragraph_format = doc.first_section.body.paragraphs[0].paragraph_format
@@ -36,6 +38,7 @@ class DocumentFormatting(DocsExamplesBase):
     def test_paragraph_formatting(self):
 
         #ExStart:ParagraphFormatting
+        #GistId:4b5526c3c0d9cad73e05fb4b18d2c3d2
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -56,6 +59,7 @@ class DocumentFormatting(DocsExamplesBase):
     def test_multilevel_list_formatting(self):
 
         #ExStart:MultilevelListFormatting
+        #GistId:a1dfeba1e0480d5b277a61742c8921af
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -85,6 +89,7 @@ class DocumentFormatting(DocsExamplesBase):
     def test_apply_paragraph_style(self):
 
         #ExStart:ApplyParagraphStyle
+        #GistId:4b5526c3c0d9cad73e05fb4b18d2c3d2
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -97,6 +102,7 @@ class DocumentFormatting(DocsExamplesBase):
     def test_apply_borders_and_shading_to_paragraph(self):
 
         #ExStart:ApplyBordersAndShadingToParagraph
+        #GistId:4b5526c3c0d9cad73e05fb4b18d2c3d2
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -153,6 +159,7 @@ class DocumentFormatting(DocsExamplesBase):
     def test_get_paragraph_style_separator(self):
 
         #ExStart:GetParagraphStyleSeparator
+        #GistId:4b5526c3c0d9cad73e05fb4b18d2c3d2
         doc = aw.Document(MY_DIR + "Document.docx")
 
         for paragraph in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True):

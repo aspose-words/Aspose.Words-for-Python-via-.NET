@@ -7,6 +7,7 @@ class WorkingWithList(DocsExamplesBase):
     def test_restart_list_at_each_section(self):
 
         #ExStart:RestartListAtEachSection
+        #GistId:a1dfeba1e0480d5b277a61742c8921af
         doc = aw.Document()
 
         doc.lists.add(aw.lists.ListTemplate.NUMBER_DEFAULT)

@@ -8,6 +8,7 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
     def test_get_variables(self):
 
         #ExStart:GetVariables
+        #GistId:0593a8803015363f3026f648332e7026
         doc = aw.Document(MY_DIR + "Document.docx")
 
         doc.variables.add("my_var", "test")
@@ -19,6 +20,7 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
     def test_enumerate_properties(self):
 
         #ExStart:EnumerateProperties
+        #GistId:0593a8803015363f3026f648332e7026
         doc = aw.Document(MY_DIR + "Properties.docx")
 
         print("1. Document name:", doc.original_file_name)
@@ -60,6 +62,7 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
     def test_remove_personal_information(self):
 
         #ExStart:RemovePersonalInformation
+        #GistId:0593a8803015363f3026f648332e7026
         doc = aw.Document(MY_DIR + "Properties.docx")
         doc.remove_personal_information = True
 
@@ -69,6 +72,7 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
     def test_configuring_link_to_content(self):
 
         #ExStart:ConfiguringLinkToContent
+        #GistId:0593a8803015363f3026f648332e7026
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -92,6 +96,7 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
     def test_convert_between_measurement_units(self):
 
         #ExStart:ConvertBetweenMeasurementUnits
+        #GistId:f266e937d2c656f9441071e9a7b053c1
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -107,6 +112,7 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
     def test_use_control_characters(self):
 
         #ExStart:UseControlCharacters
+        #GistId:6269ddb6427f9ad20623d975774a615e
         text = "test\r"
         # Replace "\r" control character with "\r\n".
         replace = text.replace(aw.ControlChar.CR, aw.ControlChar.CR_LF)
