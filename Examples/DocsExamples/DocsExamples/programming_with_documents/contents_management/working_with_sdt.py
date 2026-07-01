@@ -1,4 +1,4 @@
-import uuid
+﻿import uuid
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
@@ -9,7 +9,7 @@ class WorkingWithSdt(DocsExamplesBase):
     def test_sdt_check_box(self):
 
         #ExStart:SdtCheckBox
-        #GistId:089defec1b191de967e6099effeabda7
+        #GistId:2da81a821a2e21b8e35dee1396ed59ba
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -22,7 +22,7 @@ class WorkingWithSdt(DocsExamplesBase):
     def test_current_state_of_check_box(self):
 
         #ExStart:CurrentStateOfCheckBox
-        #GistId:089defec1b191de967e6099effeabda7
+        #GistId:2da81a821a2e21b8e35dee1396ed59ba
         doc = aw.Document(MY_DIR + "Structured document tags.docx")
 
         # Get the first content control from the document.
@@ -37,7 +37,7 @@ class WorkingWithSdt(DocsExamplesBase):
     def test_modify_sdt(self):
 
         #ExStart:ModifySdt
-        #GistId:089defec1b191de967e6099effeabda7
+        #GistId:2da81a821a2e21b8e35dee1396ed59ba
         doc = aw.Document(MY_DIR + "Structured document tags.docx")
 
         for sdt in doc.get_child_nodes(aw.NodeType.STRUCTURED_DOCUMENT_TAG, True):
@@ -64,7 +64,7 @@ class WorkingWithSdt(DocsExamplesBase):
     def test_sdt_combo_box(self):
 
         #ExStart:SdtComboBox
-        #GistId:089defec1b191de967e6099effeabda7
+        #GistId:2da81a821a2e21b8e35dee1396ed59ba
         doc = aw.Document()
 
         sdt = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.COMBO_BOX, aw.markup.MarkupLevel.BLOCK)
@@ -79,7 +79,7 @@ class WorkingWithSdt(DocsExamplesBase):
     def test_sdt_rich_text_box(self):
 
         #ExStart:SdtRichTextBox
-        #GistId:089defec1b191de967e6099effeabda7
+        #GistId:2da81a821a2e21b8e35dee1396ed59ba
         doc = aw.Document()
 
         sdt_rich_text = aw.markup.StructuredDocumentTag(doc, aw.markup.SdtType.RICH_TEXT, aw.markup.MarkupLevel.BLOCK)
@@ -98,7 +98,7 @@ class WorkingWithSdt(DocsExamplesBase):
     def test_sdt_color(self):
 
         #ExStart:SdtColor
-        #GistId:089defec1b191de967e6099effeabda7
+        #GistId:2da81a821a2e21b8e35dee1396ed59ba
         doc = aw.Document(MY_DIR + "Structured document tags.docx")
 
         sdt = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
@@ -110,7 +110,7 @@ class WorkingWithSdt(DocsExamplesBase):
     def test_clear_sdt(self):
 
         #ExStart:ClearSdt
-        #GistId:089defec1b191de967e6099effeabda7
+        #GistId:2da81a821a2e21b8e35dee1396ed59ba
         doc = aw.Document(MY_DIR + "Structured document tags.docx")
 
         sdt = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
@@ -122,7 +122,7 @@ class WorkingWithSdt(DocsExamplesBase):
     def test_bind_sdt_to_custom_xml_part(self):
 
         #ExStart:BindSdtToCustomXmlPart
-        #GistId:089defec1b191de967e6099effeabda7
+        #GistId:2da81a821a2e21b8e35dee1396ed59ba
         doc = aw.Document()
         xml_part = doc.custom_xml_parts.add(str(uuid.uuid4()), "<root><text>Hello, World!</text></root>")
 
@@ -137,7 +137,7 @@ class WorkingWithSdt(DocsExamplesBase):
     def test_sdt_style(self):
 
         #ExStart:SdtStyle
-        #GistId:089defec1b191de967e6099effeabda7
+        #GistId:2da81a821a2e21b8e35dee1396ed59ba
         doc = aw.Document(MY_DIR + "Structured document tags.docx")
 
         sdt = doc.get_child(aw.NodeType.STRUCTURED_DOCUMENT_TAG, 0, True).as_structured_document_tag()
@@ -150,7 +150,7 @@ class WorkingWithSdt(DocsExamplesBase):
     def test_repeating_section_mapped_to_custom_xml_part(self):
 
         #ExStart:RepeatingSectionMappedToCustomXmlPart
-        #GistId:089defec1b191de967e6099effeabda7
+        #GistId:2da81a821a2e21b8e35dee1396ed59ba
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -216,7 +216,7 @@ class WorkingWithSdt(DocsExamplesBase):
     def test_sdt_range_start_xml_mapping(self):
 
         #ExStart:SdtRangeStartXmlMapping
-        #GistId:089defec1b191de967e6099effeabda7
+        #GistId:2da81a821a2e21b8e35dee1396ed59ba
         doc = aw.Document(MY_DIR + "Multi-section structured document tags.docx")
 
         # Construct an XML part that contains data and add it to the document's CustomXmlPart collection.

@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class RemoveContent(DocsExamplesBase):
@@ -6,7 +6,7 @@ class RemoveContent(DocsExamplesBase):
     def test_remove_page_breaks(self):
 
         #ExStart:OpenDocument
-        #GistId:1d626c7186a318d22d022dc96dd91d55
+        #GistId:59e45f5041ff6b356c5165164c019a76
         doc = aw.Document(MY_DIR + "Document.docx")
         #ExEnd:OpenDocument
 
@@ -80,7 +80,7 @@ class RemoveContent(DocsExamplesBase):
         #ExEnd:RemoveFooters
 
     #ExStart:RemoveToc
-    #GistId:db118a3e1559b9c88355356df9d7ea10
+    #GistId:1f496848f44b7c1c94094c8f2307a083
     def test_remove_toc(self):
 
         doc = aw.Document(MY_DIR + "Table of contents.docx")

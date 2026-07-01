@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithTableOfContent(DocsExamplesBase):
@@ -6,7 +6,7 @@ class WorkingWithTableOfContent(DocsExamplesBase):
     def test_change_style_of_toc_level(self):
 
         #ExStart:ChangeStyleOfTocLevel
-        #GistId:db118a3e1559b9c88355356df9d7ea10
+        #GistId:1f496848f44b7c1c94094c8f2307a083
         doc = aw.Document()
         # Retrieve the style used for the first level of the TOC and change the formatting of the style.
         doc.styles.get_by_style_identifier(aw.StyleIdentifier.TOC1).font.bold = True
@@ -15,7 +15,7 @@ class WorkingWithTableOfContent(DocsExamplesBase):
     def test_change_toc_tab_stops(self):
 
         #ExStart:ChangeTocTabStops
-        #GistId:db118a3e1559b9c88355356df9d7ea10
+        #GistId:1f496848f44b7c1c94094c8f2307a083
         doc = aw.Document(MY_DIR + "Table of contents.docx")
 
         for para in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True):
@@ -41,7 +41,7 @@ class WorkingWithTableOfContent(DocsExamplesBase):
     def test_extract_toc(self):
 
         #ExStart:ExtractToc
-        #GistId:db118a3e1559b9c88355356df9d7ea10
+        #GistId:1f496848f44b7c1c94094c8f2307a083
         doc = aw.Document(MY_DIR + "Table of contents.docx")
 
         for field in doc.range.fields:

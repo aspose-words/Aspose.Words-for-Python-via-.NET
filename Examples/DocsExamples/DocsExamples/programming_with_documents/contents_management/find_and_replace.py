@@ -1,4 +1,4 @@
-from datetime import datetime
+﻿from datetime import datetime
 import unittest
 
 import aspose.words as aw
@@ -84,7 +84,7 @@ class FindAndReplace(DocsExamplesBase):
     def test_replace_text_containing_meta_characters(self):
 
         #ExStart:ReplaceTextContainingMetaCharacters
-        #GistId:27c3408b2c7fbee8d6dc6a1c8b61c105
+        #GistId:a19d2ab731b551c090b5b7f3ce572ad9
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -111,7 +111,7 @@ class FindAndReplace(DocsExamplesBase):
     def test_highlight_color(self):
 
         #ExStart:HighlightColor
-        #GistId:27c3408b2c7fbee8d6dc6a1c8b61c105
+        #GistId:a19d2ab731b551c090b5b7f3ce572ad9
         doc = aw.Document(MY_DIR + "Footer.docx")
 
         options = aw.replacing.FindReplaceOptions()
@@ -146,7 +146,7 @@ class FindAndReplace(DocsExamplesBase):
     def test_ignore_text_inside_delete_revisions(self):
 
         #ExStart:IgnoreTextInsideDeleteRevisions
-        #GistId:27c3408b2c7fbee8d6dc6a1c8b61c105
+        #GistId:a19d2ab731b551c090b5b7f3ce572ad9
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -202,7 +202,7 @@ class FindAndReplace(DocsExamplesBase):
     def test_replace_text_in_footer(self):
 
         #ExStart:ReplaceTextInFooter
-        #GistId:27c3408b2c7fbee8d6dc6a1c8b61c105
+        #GistId:a19d2ab731b551c090b5b7f3ce572ad9
         doc = aw.Document(MY_DIR + "Footer.docx")
 
         headers_footers = doc.first_section.headers_footers
@@ -221,7 +221,7 @@ class FindAndReplace(DocsExamplesBase):
     def test_replace_with_regex(self):
 
         #ExStart:ReplaceWithRegex
-        #GistId:27c3408b2c7fbee8d6dc6a1c8b61c105
+        #GistId:a19d2ab731b551c090b5b7f3ce572ad9
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -251,7 +251,7 @@ class FindAndReplace(DocsExamplesBase):
     def test_replace_with_string(self):
 
         #ExStart:ReplaceWithString
-        #GistId:27c3408b2c7fbee8d6dc6a1c8b61c105
+        #GistId:a19d2ab731b551c090b5b7f3ce572ad9
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
