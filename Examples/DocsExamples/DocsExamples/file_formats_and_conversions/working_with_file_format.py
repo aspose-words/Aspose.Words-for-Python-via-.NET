@@ -1,4 +1,4 @@
-import os
+﻿import os
 import shutil
 
 import aspose.words as aw
@@ -9,7 +9,7 @@ class WorkingWithFileFormat(DocsExamplesBase):
     def test_detect_file_format(self):
 
         #ExStart:CheckFormatCompatibility
-        #GistId:7fe3fc4004f081628a63608db70332b3
+        #GistId:85de5d316960e79e2ab11a50c4dde445
         supported_dir = ARTIFACTS_DIR + "Supported"
         unknown_dir = ARTIFACTS_DIR + "Unknown"
         encrypted_dir = ARTIFACTS_DIR + "Encrypted"
@@ -19,16 +19,16 @@ class WorkingWithFileFormat(DocsExamplesBase):
         for dirname in (supported_dir, unknown_dir, encrypted_dir, pre97_dir):
             os.makedirs(dirname, exist_ok=True)
 
-        #ExStart:GetListOfFilesInFolder
+        #ExStart:GetFiles
+        #GistId:85de5d316960e79e2ab11a50c4dde445
         file_list = [file for file in os.listdir(MY_DIR)
                      if os.path.isfile(os.path.join(MY_DIR, file) and not file.endswith("Corrupted document.docx"))]
-        #ExEnd:GetListOfFilesInFolder
+        #ExEnd:GetFiles
 
         for name_only in file_list:
             file_name = os.path.join(MY_DIR, name_only)
             print(name_only)
 
-            #ExStart:DetectFileFormat
             info = aw.FileFormatUtil.detect_file_format(file_name)
 
             load_format = info.load_format
@@ -63,7 +63,6 @@ class WorkingWithFileFormat(DocsExamplesBase):
                 print("\tMS Word 6 or Word 95 format.")
             elif load_format == aw.LoadFormat.UNKNOWN:
                 print("\tUnknown format.")
-            #ExEnd:DetectFileFormat
 
             if info.is_encrypted:
                 print("\tAn encrypted document.")
@@ -80,7 +79,7 @@ class WorkingWithFileFormat(DocsExamplesBase):
     def test_detect_document_signatures(self):
 
         #ExStart:DetectDocumentSignatures
-        #GistId:bdc15a6de6b25d9d4e66f2ce918fc01b
+        #GistId:d7587e4a19192801745282dc141f97a0
         info = aw.FileFormatUtil.detect_file_format(MY_DIR + "Digitally signed.docx")
 
         if info.has_digital_signature:
@@ -91,7 +90,7 @@ class WorkingWithFileFormat(DocsExamplesBase):
     def test_verify_encrypted_document(self):
 
         #ExStart:VerifyEncryptedDocument
-        #GistId:af95c7a408187bb25cf9137465fe5ce6
+        #GistId:6548546f98bd830e363bbb567b114850
         info = aw.FileFormatUtil.detect_file_format(MY_DIR + "Encrypted.docx")
         print(info.is_encrypted)
         #ExEnd:VerifyEncryptedDocument

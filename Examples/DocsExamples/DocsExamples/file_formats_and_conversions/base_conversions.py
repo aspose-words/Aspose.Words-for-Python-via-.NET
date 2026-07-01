@@ -1,4 +1,4 @@
-import io
+﻿import io
 import unittest
 import sys
 import aspose.words as aw
@@ -13,7 +13,7 @@ class BaseConversions(DocsExamplesBase):
     def test_doc_to_docx(self):
 
         #ExStart:LoadAndSave
-        #GistId:7ee438947078cf070c5bc36a4e45a18c
+        #GistId:1ea924a385a086092413b7fc5ea0f5e9
         #ExStart:OpenDocument
         doc = aw.Document(MY_DIR + "Document.doc")
         #ExEnd:OpenDocument
@@ -24,9 +24,9 @@ class BaseConversions(DocsExamplesBase):
     def test_docx_to_rtf(self):
 
         #ExStart:LoadAndSaveToStream
-        #GistId:7ee438947078cf070c5bc36a4e45a18c
+        #GistId:1ea924a385a086092413b7fc5ea0f5e9
         #ExStart:OpenFromStream
-        #GistId:1d626c7186a318d22d022dc96dd91d55
+        #GistId:59e45f5041ff6b356c5165164c019a76
         # Read only access is enough for Aspose.Words to load a document.
         stream = io.FileIO(MY_DIR + "Document.docx")
 
@@ -57,7 +57,7 @@ class BaseConversions(DocsExamplesBase):
     def test_docx_to_byte(self):
 
         #ExStart:DocxToByte
-        #GistId:f8a622f8bc1cf3c2fa8a7a9be359faa2
+        #GistId:9278593292345acbef67679a2afb4286
         doc = aw.Document(MY_DIR + "Document.docx")
 
         out_stream = io.BytesIO()
@@ -76,6 +76,15 @@ class BaseConversions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "BaseConversions.docx_to_epub.epub")
         #ExEnd:DocxToEpub
+
+    def test_docx_to_html(self):
+
+        #ExStart:DocxToHtml
+        #GistId:c5d01a71f65e540e5e77650b846b24cc
+        doc = aw.Document(MY_DIR + "Document.docx")
+
+        doc.save(ARTIFACTS_DIR + "BaseConversions.docx_to_html.html")
+        #ExEnd:DocxToHtml
 
     @unittest.skip("Aspose.Email is required. Will do later.")
     def test_docx_to_mhtml_and_sending_email(self):
@@ -104,7 +113,7 @@ class BaseConversions(DocsExamplesBase):
     def test_docx_to_markdown(self):
 
         #ExStart:DocxToMarkdown
-        #GistId:51b4cb9c451832f23527892e19c7bca6
+        #GistId:461290170d82b0922d265fa7bc854942
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -124,7 +133,7 @@ class BaseConversions(DocsExamplesBase):
     def test_docx_to_xlsx(self):
 
         #ExStart:DocxToXlsx
-        #GistId:f5a08835e924510d3809e41c3b8b81a2
+        #GistId:1f614ac0f43c0f1392c52366850cf211
         doc = aw.Document(MY_DIR + "Document.docx")
         doc.save(ARTIFACTS_DIR + "BaseConversions.docx_to_xlsx.xlsx")
         #ExEnd:DocxToXlsx
@@ -141,7 +150,7 @@ class BaseConversions(DocsExamplesBase):
     def test_pdf_to_jpeg(self):
 
         #ExStart:PdfToJpeg
-        #GistId:ebbb90d74ef57db456685052a18f8e86
+        #GistId:f9e5cde75221f622f636297c5fcc7297
         doc = aw.Document(MY_DIR + "Pdf Document.pdf")
 
         doc.save(ARTIFACTS_DIR + "BaseConversions.pdf_to_jpeg.jpeg")
@@ -150,7 +159,7 @@ class BaseConversions(DocsExamplesBase):
     def test_pdf_to_docx(self):
 
         #ExStart:PdfToDocx
-        #GistId:a0d52b62c1643faa76a465a41537edfc
+        #GistId:1cd02caea10d62b6238a3177a70dd81d
         doc = aw.Document(MY_DIR + "Pdf Document.pdf")
 
         doc.save(ARTIFACTS_DIR + "BaseConversions.pdf_to_docx.docx")
@@ -158,7 +167,7 @@ class BaseConversions(DocsExamplesBase):
 
     def test_pdf_to_xlsx(self):
         #ExStart:PdfToXlsx
-        #GistId:a50652f28531278511605e0fd778bbdf
+        #GistId:b2e1027992a4ccbf53b6a983a808ba20
         doc = aw.Document(MY_DIR + "Pdf Document.pdf")
 
         doc.save(ARTIFACTS_DIR + "BaseConversions.pdf_to_xlsx.xlsx")
@@ -167,7 +176,7 @@ class BaseConversions(DocsExamplesBase):
     def test_find_replace_xlsx(self):
 
         #ExStart:FindReplaceXlsx
-        #GistId:a50652f28531278511605e0fd778bbdf
+        #GistId:b2e1027992a4ccbf53b6a983a808ba20
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 

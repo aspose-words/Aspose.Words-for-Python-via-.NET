@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithRtfSaveOptions(DocsExamplesBase):
@@ -6,7 +6,7 @@ class WorkingWithRtfSaveOptions(DocsExamplesBase):
     def test_saving_images_as_wmf(self):
 
         #ExStart:SavingImagesAsWmf
-        #GistId:6f849e51240635a6322ab0460938c922
+        #GistId:5336f9cc9b531d2102da9f79c959a5ee
         doc = aw.Document(MY_DIR + "Document.docx")
 
         save_options = aw.saving.RtfSaveOptions()

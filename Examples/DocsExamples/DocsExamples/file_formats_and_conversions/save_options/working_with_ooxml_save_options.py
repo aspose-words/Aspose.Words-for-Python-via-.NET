@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithOoxmlSaveOptions(DocsExamplesBase):
@@ -30,7 +30,7 @@ class WorkingWithOoxmlSaveOptions(DocsExamplesBase):
     def test_update_last_saved_time(self):
 
         #ExStart:UpdateLastSavedTime
-        #GistId:83e5c469d0e72b5114fb8a05a1d01977
+        #GistId:b05f6fe5e272263ce37254e9e36a5ae0
         doc = aw.Document(MY_DIR + "Document.docx")
 
         save_options = aw.saving.OoxmlSaveOptions()

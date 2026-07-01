@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithDocSaveOptions(DocsExamplesBase):
@@ -6,7 +6,7 @@ class WorkingWithDocSaveOptions(DocsExamplesBase):
     def test_encrypt_document_with_password(self):
 
         #ExStart:EncryptDocumentWithPassword
-        #GistId:af95c7a408187bb25cf9137465fe5ce6
+        #GistId:6548546f98bd830e363bbb567b114850
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 

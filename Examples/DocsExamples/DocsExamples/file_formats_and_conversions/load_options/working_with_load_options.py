@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 import unittest
 import sys
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
@@ -8,7 +8,7 @@ class WorkingWithLoadOptions(DocsExamplesBase):
     def test_update_dirty_fields(self):
 
         #ExStart:UpdateDirtyFields
-        #GistId:08db64c4d86842c4afd1ecb925ed07c4
+        #GistId:365214c8b2e8c065166447871a1499aa
         load_options = aw.loading.LoadOptions()
         load_options.update_dirty_fields = True
 
@@ -20,9 +20,9 @@ class WorkingWithLoadOptions(DocsExamplesBase):
     def test_load_encrypted_document(self):
 
         #ExStart:LoadSaveEncryptedDocument
-        #GistId:af95c7a408187bb25cf9137465fe5ce6
+        #GistId:6548546f98bd830e363bbb567b114850
         #ExStart:OpenEncryptedDocument
-        #GistId:40be8275fc43f78f5e5877212e4e1bf3
+        #GistId:41c71acaf4924abe47f4bc2ff2c87d6a
         doc = aw.Document(MY_DIR + "Encrypted.docx", aw.loading.LoadOptions("docPassword"))
         #ExEnd:OpenEncryptedDocument
 
@@ -32,7 +32,7 @@ class WorkingWithLoadOptions(DocsExamplesBase):
     def test_convert_shape_to_office_math(self):
 
         #ExStart:ConvertShapeToOfficeMath
-        #GistId:ad463bf5f128fe6e6c1485df3c046a4c
+        #GistId:664d989412b46c6a03619182c5a4b9cd
         load_options = aw.loading.LoadOptions()
         load_options.convert_shape_to_office_math = True
 
@@ -44,7 +44,7 @@ class WorkingWithLoadOptions(DocsExamplesBase):
     def test_set_ms_word_version(self):
 
         #ExStart:SetMsWordVersion
-        #GistId:40be8275fc43f78f5e5877212e4e1bf3
+        #GistId:41c71acaf4924abe47f4bc2ff2c87d6a
         # Create a new LoadOptions object, which will load documents according to MS Word 2019 specification by default
         # and change the loading version to Microsoft Word 2010.
         load_options = aw.loading.LoadOptions()
@@ -58,7 +58,7 @@ class WorkingWithLoadOptions(DocsExamplesBase):
     def test_temp_folder(self):
 
         #ExStart:TempFolder
-        #GistId:40be8275fc43f78f5e5877212e4e1bf3
+        #GistId:41c71acaf4924abe47f4bc2ff2c87d6a
         load_options = aw.loading.LoadOptions()
         load_options.temp_folder = ARTIFACTS_DIR
 
@@ -69,7 +69,7 @@ class WorkingWithLoadOptions(DocsExamplesBase):
     def test_load_with_encoding(self):
 
         #ExStart:LoadWithEncoding
-        #GistId:40be8275fc43f78f5e5877212e4e1bf3
+        #GistId:41c71acaf4924abe47f4bc2ff2c87d6a
         load_options = aw.loading.LoadOptions()
         load_options.encoding = "utf-7"
 

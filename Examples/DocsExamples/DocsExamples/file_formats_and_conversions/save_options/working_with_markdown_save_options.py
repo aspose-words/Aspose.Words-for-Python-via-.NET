@@ -1,4 +1,4 @@
-import io
+﻿import io
 
 import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
@@ -8,7 +8,7 @@ class WorkingWithMarkdownSaveOptions(DocsExamplesBase):
     def test_markdown_table_content_alignment(self):
 
         #ExStart:MarkdownTableContentAlignment
-        #GistId:19de942ef8827201c1dca99f76c59133
+        #GistId:59b74012ce4fe6ada2c9c5f036df3911
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -39,7 +39,7 @@ class WorkingWithMarkdownSaveOptions(DocsExamplesBase):
     def test_images_folder(self):
 
         #ExStart:ImagesFolder
-        #GistId:51b4cb9c451832f23527892e19c7bca6
+        #GistId:461290170d82b0922d265fa7bc854942
         doc = aw.Document(MY_DIR + "Image bullet points.docx")
 
         save_options = aw.saving.MarkdownSaveOptions()

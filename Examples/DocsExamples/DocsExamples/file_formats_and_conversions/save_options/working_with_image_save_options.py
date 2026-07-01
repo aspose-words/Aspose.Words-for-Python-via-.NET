@@ -1,4 +1,4 @@
-import io
+﻿import io
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
@@ -9,7 +9,7 @@ class WorkingWithImageSaveOptions(DocsExamplesBase):
     def test_expose_threshold_control(self):
 
         #ExStart:ExposeThresholdControl
-        #GistId:b20a0ec0e1ff0556aa20d12f486e1963
+        #GistId:bd5cd6839da6238300d3e0af47d1a262
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.TIFF)
@@ -25,10 +25,10 @@ class WorkingWithImageSaveOptions(DocsExamplesBase):
     def test_get_tiff_page_range(self):
 
         #ExStart:GetTiffPageRange
-        #GistId:b20a0ec0e1ff0556aa20d12f486e1963
+        #GistId:bd5cd6839da6238300d3e0af47d1a262
         doc = aw.Document(MY_DIR + "Rendering.docx")
         #ExStart:SaveAsTiff
-        #GistId:b20a0ec0e1ff0556aa20d12f486e1963
+        #GistId:bd5cd6839da6238300d3e0af47d1a262
         doc.save(ARTIFACTS_DIR + "WorkingWithImageSaveOptions.multipage_tiff.tiff")
         #ExEnd:SaveAsTiff
 
@@ -46,7 +46,7 @@ class WorkingWithImageSaveOptions(DocsExamplesBase):
     def test_format_1_bpp_indexed(self):
 
         #ExStart:Format1BppIndexed
-        #GistId:83e5c469d0e72b5114fb8a05a1d01977
+        #GistId:b05f6fe5e272263ce37254e9e36a5ae0
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.ImageSaveOptions(aw.SaveFormat.PNG)
@@ -61,7 +61,7 @@ class WorkingWithImageSaveOptions(DocsExamplesBase):
     def test_get_jpeg_page_range(self):
 
         #ExStart:GetJpegPageRange
-        #GistId:ebbb90d74ef57db456685052a18f8e86
+        #GistId:f9e5cde75221f622f636297c5fcc7297
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
@@ -84,7 +84,7 @@ class WorkingWithImageSaveOptions(DocsExamplesBase):
     def test_horizontal_layout(self):
 
         #ExStart:HorizontalLayout
-        #GistId:8eeaafcfcc55d78505f0f378ad8c6907
+        #GistId:8f2e59fbb276c13266e61f6384b6cbba
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
@@ -96,7 +96,7 @@ class WorkingWithImageSaveOptions(DocsExamplesBase):
     def test_grid_layout(self):
 
         #ExStart:GridLayout
-        #GistId:8eeaafcfcc55d78505f0f378ad8c6907
+        #GistId:8f2e59fbb276c13266e61f6384b6cbba
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)

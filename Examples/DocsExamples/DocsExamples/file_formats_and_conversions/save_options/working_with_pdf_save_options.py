@@ -1,4 +1,4 @@
-from datetime import datetime
+﻿from datetime import datetime
 import re
 
 import aspose.words as aw
@@ -20,7 +20,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
     def test_digitally_signed_pdf_using_certificate_holder(self):
 
         #ExStart:DigitallySignedPdfUsingCertificateHolder
-        #GistId:bdc15a6de6b25d9d4e66f2ce918fc01b
+        #GistId:d7587e4a19192801745282dc141f97a0
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -38,7 +38,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
     def test_embedded_all_fonts(self):
 
         #ExStart:EmbeddedAllFonts
-        #GistId:6debb84fc15c7e5b8e35384d9c116215
+        #GistId:bf0b00cb8d3bf9c8e3bd1087a73bcb00
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         # The output PDF will be embedded with all fonts found in the document.
@@ -51,7 +51,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
     def test_embedded_subset_fonts(self):
 
         #ExStart:EmbeddedSubsetFonts
-        #GistId:6debb84fc15c7e5b8e35384d9c116215
+        #GistId:bf0b00cb8d3bf9c8e3bd1087a73bcb00
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         # The output PDF will contain subsets of the fonts in the document.
@@ -65,7 +65,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
     def test_disable_embed_windows_fonts(self):
 
         #ExStart:DisableEmbedWindowsFonts
-        #GistId:6debb84fc15c7e5b8e35384d9c116215
+        #GistId:bf0b00cb8d3bf9c8e3bd1087a73bcb00
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         # The output PDF will be saved without embedding standard windows fonts.
@@ -89,7 +89,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
     def test_avoid_embedding_core_fonts(self):
 
         #ExStart:AvoidEmbeddingCoreFonts
-        #GistId:6debb84fc15c7e5b8e35384d9c116215
+        #GistId:bf0b00cb8d3bf9c8e3bd1087a73bcb00
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         # The output PDF will not be embedded with core fonts such as Arial, Times New Roman etc.
@@ -117,7 +117,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
     def test_export_header_footer_bookmarks(self):
 
         #ExStart:ExportHeaderFooterBookmarks
-        #GistId:6debb84fc15c7e5b8e35384d9c116215
+        #GistId:bf0b00cb8d3bf9c8e3bd1087a73bcb00
         doc = aw.Document(MY_DIR + "Bookmarks in headers and footers.docx")
 
         save_options = aw.saving.PdfSaveOptions()
@@ -169,7 +169,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
     def test_downsampling_images(self):
 
         #ExStart:DownsamplingImages
-        #GistId:6debb84fc15c7e5b8e35384d9c116215
+        #GistId:bf0b00cb8d3bf9c8e3bd1087a73bcb00
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         # We can set a minimum threshold for downsampling.
@@ -184,7 +184,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
     def test_outline_options(self):
 
         #ExStart:OutlineOptions
-        #GistId:6debb84fc15c7e5b8e35384d9c116215
+        #GistId:bf0b00cb8d3bf9c8e3bd1087a73bcb00
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.PdfSaveOptions()
@@ -197,7 +197,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
     def test_custom_properties_export(self):
 
         #ExStart:CustomPropertiesExport
-        #GistId:6debb84fc15c7e5b8e35384d9c116215
+        #GistId:bf0b00cb8d3bf9c8e3bd1087a73bcb00
         doc = aw.Document()
         doc.custom_document_properties.add("Company", "Aspose")
 
@@ -210,7 +210,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
     def test_export_document_structure(self):
 
         #ExStart:ExportDocumentStructure
-        #GistId:6debb84fc15c7e5b8e35384d9c116215
+        #GistId:bf0b00cb8d3bf9c8e3bd1087a73bcb00
         doc = aw.Document(MY_DIR + "Paragraphs.docx")
 
         # The file size will be increased and the structure will be visible in the "Content" navigation pane
@@ -224,7 +224,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
     def test_image_compression(self):
 
         #ExStart:ImageCompression
-        #GistId:6debb84fc15c7e5b8e35384d9c116215
+        #GistId:bf0b00cb8d3bf9c8e3bd1087a73bcb00
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.PdfSaveOptions()
@@ -244,7 +244,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
     def test_update_last_printed_property(self):
 
         #ExStart:UpdateLastPrinted
-        #GistId:83e5c469d0e72b5114fb8a05a1d01977
+        #GistId:b05f6fe5e272263ce37254e9e36a5ae0
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.PdfSaveOptions()
@@ -290,7 +290,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
     def test_update_screen_tip(self):
 
         #ExStart:UpdateScreenTip
-        #GistId:8b0ab362f95040ada1255a0473acefe2
+        #GistId:9ce54931bf26b94a3b63e3accb0f4722
         doc = aw.Document(MY_DIR + "Table of contents.docx")
 
         toc_hyperlinks = [

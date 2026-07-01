@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithPclSaveOptions(DocsExamplesBase):
@@ -6,7 +6,7 @@ class WorkingWithPclSaveOptions(DocsExamplesBase):
     def test_rasterize_transformed_elements(self):
 
         #ExStart:RasterizeTransformedElements
-        #GistId:7ee438947078cf070c5bc36a4e45a18c
+        #GistId:1ea924a385a086092413b7fc5ea0f5e9
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.PclSaveOptions()

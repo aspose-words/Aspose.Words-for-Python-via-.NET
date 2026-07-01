@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithTxtSaveOptions(DocsExamplesBase):
@@ -6,7 +6,7 @@ class WorkingWithTxtSaveOptions(DocsExamplesBase):
     def test_add_bidi_marks(self):
 
         #ExStart:AddBidiMarks
-        #GistId:ddafc3430967fb4f4f70085fa577d01a
+        #GistId:5e05b790a4d2258054abbf842ce6e427
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -24,7 +24,7 @@ class WorkingWithTxtSaveOptions(DocsExamplesBase):
     def test_use_tab_for_list_indentation(self):
 
         #ExStart:UseTabForListIndentation
-        #GistId:ddafc3430967fb4f4f70085fa577d01a
+        #GistId:5e05b790a4d2258054abbf842ce6e427
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -46,7 +46,7 @@ class WorkingWithTxtSaveOptions(DocsExamplesBase):
     def test_use_space_for_list_indentation(self):
 
         #ExStart:UseSpaceForListIndentation
-        #GistId:ddafc3430967fb4f4f70085fa577d01a
+        #GistId:5e05b790a4d2258054abbf842ce6e427
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -68,7 +68,7 @@ class WorkingWithTxtSaveOptions(DocsExamplesBase):
     def test_export_headers_footers_mode(self):
 
         #ExStart:ExportHeadersFootersMode
-        #GistId:ddafc3430967fb4f4f70085fa577d01a
+        #GistId:5e05b790a4d2258054abbf842ce6e427
         doc = aw.Document()
 
         # Insert even and primary headers/footers into the document.
