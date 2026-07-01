@@ -342,7 +342,7 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
 
     def test_set_table_cell_formatting(self):
 
-        #ExStart:DocumentBuilderSetTableCellFormatting
+        #ExStart:SetTableCellFormatting
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -361,12 +361,12 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
         builder.end_row()
         builder.end_table()
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.document_builder_set_table_cell_formatting.docx")
-        #ExEnd:DocumentBuilderSetTableCellFormatting
+        doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.set_table_cell_formatting.docx")
+        #ExEnd:SetTableCellFormatting
 
     def test_set_table_row_formatting(self):
 
-        #ExStart:DocumentBuilderSetTableRowFormatting
+        #ExStart:SetTableRowFormatting
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -388,5 +388,5 @@ class WorkingWithTableStylesAndFormatting(DocsExamplesBase):
         builder.end_row()
         builder.end_table()
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.document_builder_set_table_row_formatting.docx")
-        #ExEnd:DocumentBuilderSetTableRowFormatting
+        doc.save(ARTIFACTS_DIR + "WorkingWithTableStylesAndFormatting.set_table_row_formatting.docx")
+        #ExEnd:SetTableRowFormatting

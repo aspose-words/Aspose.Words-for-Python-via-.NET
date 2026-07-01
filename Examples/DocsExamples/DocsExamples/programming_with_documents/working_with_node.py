@@ -4,13 +4,13 @@ from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithNode(DocsExamplesBase):
 
-    def test_use_node_type(self):
+    def test_get_node_type(self):
 
-        #ExStart:UseNodeType
+        #ExStart:GetNodeType
+        #GistId:3e9d92093b2f5995f984791bfc10c944
         doc = aw.Document()
-
         node_type = doc.node_type
-        #ExEnd:UseNodeType
+        #ExEnd:GetNodeType
 
     def test_get_parent_node(self):
 
@@ -122,16 +122,3 @@ class WorkingWithNode(DocsExamplesBase):
         section = doc.last_section
         section.body.append_child(para)
         #ExEnd:CreateAndAddParagraphNode
-
-    def test_change_run_color(self):
-
-        doc = aw.Document(MY_DIR + "Document.docx")
-
-        # Get the first Run node and cast it to Run object.
-        run = doc.get_child(aw.NodeType.RUN, 0, True).as_run()
-
-        # Make changes to the run
-        run.font.color = drawing.Color.red
-
-        # Save the result
-        doc.save(ARTIFACTS_DIR + "WorkingWithNode.change_run_color.docx")

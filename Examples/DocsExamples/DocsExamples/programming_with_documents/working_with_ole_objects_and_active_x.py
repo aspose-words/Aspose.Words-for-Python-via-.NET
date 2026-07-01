@@ -7,14 +7,15 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
 
     def test_insert_ole_object(self):
 
-        #ExStart:DocumentBuilderInsertOleObject
+        #ExStart:InsertOleObject
+        #GistId:4996b573cf231d9f66ab0d1f3f981222
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         builder.insert_ole_object("http://www.aspose.com", "htmlfile", True, True, None)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_ole_object.docx")
-        #ExEnd:DocumentBuilderInsertOleObject
+        #ExEnd:InsertOleObject
 
     def test_insert_ole_object_with_ole_package(self):
 
@@ -97,13 +98,11 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # Pass direct url from youtu.be.
         url = "https://youtu.be/t_1LYZ102RA"
-
         width = 360
         height = 270
 
-        shape = builder.insert_online_video(url, width, height)
+        builder.insert_online_video(url, width, height)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_online_video.docx")
         #ExEnd:InsertOnlineVideo
@@ -115,19 +114,15 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # Shape width/height.
         width = 360
         height = 270
 
-        # Poster frame image.
-        image_bytes = open(IMAGES_DIR + "Logo.jpg", "rb").read()
-
-        # Visible url
         vimeo_video_url = "https://vimeo.com/52477838"
+        vimeo_embed_code = "<iframe src=\"https://player.vimeo.com/video/52477838\" width=\"640\" height=\"360\" frameborder=\"0\" " \
+        "title=\"Aspose\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>"
 
-        # Embed Html code.
-        vimeo_embed_code = ""
-
+        image_bytes = open(IMAGES_DIR + "Logo.jpg", "rb").read()
+        
         builder.insert_online_video(vimeo_video_url, vimeo_embed_code, image_bytes, width, height)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_online_video_with_embed_html.docx")

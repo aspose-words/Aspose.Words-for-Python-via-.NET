@@ -10,6 +10,7 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
     def test_sign_document(self):
 
         #ExStart:SignDocument
+        #GistId:bdc15a6de6b25d9d4e66f2ce918fc01b
         cert_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + "morzal.pfx", "aw")
 
         aw.digitalsignatures.DigitalSignatureUtil.sign(MY_DIR + "Digitally signed.docx", ARTIFACTS_DIR + "Document.signed.docx", cert_holder)
@@ -137,6 +138,26 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
             #print("Subject name: " + signature.certificate_holder.certificate.subject_name.name)
             #print("Issuer name: " + signature.certificate_holder.certificate.issuer_name.name)
 
+    def test_remove_signatures(self):
+
+        #ExStart:RemoveSignatures
+        #GistId:bdc15a6de6b25d9d4e66f2ce918fc01b
+        # There are two ways of using the DigitalSignatureUtil class to remove digital signatures
+        # from a signed document by saving an unsigned copy of it somewhere else in the local file system.
+        # 1 - Determine the locations of both the signed document and the unsigned copy by filename strings:
+        aw.digitalsignatures.DigitalSignatureUtil.remove_all_signatures(MY_DIR + "Digitally signed.docx",
+            ARTIFACTS_DIR + "DigitalSignatureUtil.load_and_remove.from_string.docx")
+
+        # 2 - Determine the locations of both the signed document and the unsigned copy by file streams:
+        with open(MY_DIR + "Digitally signed.docx", "rb") as stream_in:
+            with open(ARTIFACTS_DIR + "DigitalSignatureUtil.load_and_remove.from_stream.docx", "wb") as stream_out:
+                aw.digitalsignatures.DigitalSignatureUtil.remove_all_signatures(stream_in, stream_out)
+
+        # Verify that both our output documents have no digital signatures.
+        self.assertEqual(0, aw.digitalsignatures.DigitalSignatureUtil.load_signatures(ARTIFACTS_DIR + "DigitalSignatureUtil.load_and_remove.from_string.docx").count)
+        self.assertEqual(0, aw.digitalsignatures.DigitalSignatureUtil.load_signatures(ARTIFACTS_DIR + "DigitalSignatureUtil.load_and_remove.from_stream.docx").count)
+        #ExEnd:RemoveSignatures
+    
     def test_signature_value(self):
         #ExStart:SignatureValue
         #GistId:bdc15a6de6b25d9d4e66f2ce918fc01b
@@ -148,5 +169,7 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
                               b"+5ENdjMxxTXkFzGUfvwxREuJdSFj9AbDMhnGvDURv9KEhC25DDF1al8NRVR71TF3CjHVZXpYu7edQS5/yLw" \
                               b"/k5CiFZzCp1+MmhOdYPcVO+Fm+9fKr2iNLeyYB+fgEeZHfTqTFM2WwAqo="
             self.assertEqual(expected_value, signature_value)
-            
+
         #ExEnd:SignatureValue
+
+    

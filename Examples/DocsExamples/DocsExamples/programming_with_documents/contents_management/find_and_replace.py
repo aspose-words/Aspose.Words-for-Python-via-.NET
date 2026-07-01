@@ -108,6 +108,18 @@ class FindAndReplace(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "FindAndReplace.replace_text_containing_meta_characters.docx")
         #ExEnd:ReplaceTextContainingMetaCharacters
 
+    def test_highlight_color(self):
+
+        #ExStart:HighlightColor
+        #GistId:27c3408b2c7fbee8d6dc6a1c8b61c105
+        doc = aw.Document(MY_DIR + "Footer.docx")
+
+        options = aw.replacing.FindReplaceOptions()
+        options.apply_font.highlight_color = drawing.Color.dark_orange
+
+        doc.range.replace_regex("(header|footer)", "", options)
+        #ExEnd:HighlightColor
+
     def test_ignore_text_inside_fields(self):
 
         #ExStart:IgnoreTextInsideFields

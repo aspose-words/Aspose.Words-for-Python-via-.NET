@@ -4,15 +4,16 @@ from aspose.pydrawing import Color
 
 class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
 
-    def test_optimize_for_ms_word(self):
+    def test_optimize_for(self):
 
-        #ExStart:OptimizeForMsWord
+        #ExStart:OptimizeFor
+        #GistId:5d2997d42c1f1fad79b18873f170855f
         doc = aw.Document(MY_DIR + "Document.docx")
 
         doc.compatibility_options.optimize_for(aw.settings.MsWordVersion.WORD2016)
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.optimize_for_ms_word.docx")
-        #ExEnd:OptimizeForMsWord
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.optimize_for.docx")
+        #ExEnd:OptimizeFor
 
     def test_show_grammatical_and_spelling_errors(self):
 
@@ -97,16 +98,17 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.document_page_setup.docx")
         #ExEnd:DocumentPageSetup
 
-    def test_add_japanese_as_editing_languages(self):
+    def test_add_editing_languages(self):
 
-        #ExStart:AddJapaneseAsEditinglanguages
+        #ExStart:AddEditingLanguage
+        #GistId:40be8275fc43f78f5e5877212e4e1bf3
         load_options = aw.loading.LoadOptions()
 
         # Set language preferences that will be used when document is loading.
         load_options.language_preferences.add_editing_language(aw.loading.EditingLanguage.JAPANESE)
-        #ExEnd:AddJapaneseAsEditinglanguages
 
         doc = aw.Document(MY_DIR + "No default editing language.docx", load_options)
+        #ExEnd:AddEditingLanguage
 
         locale_id_far_east = doc.styles.default_font.locale_id_far_east
         if locale_id_far_east == aw.loading.EditingLanguage.JAPANESE:

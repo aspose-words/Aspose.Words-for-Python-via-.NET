@@ -37,3 +37,22 @@ class WorkingWithTableOfContent(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithTableOfContent.change_toc_tab_stops.docx")
         #ExEnd:ChangeTocTabStops
+
+    def test_extract_toc(self):
+
+        #ExStart:ExtractToc
+        #GistId:db118a3e1559b9c88355356df9d7ea10
+        doc = aw.Document(MY_DIR + "Table of contents.docx")
+
+        for field in doc.range.fields:
+            if field.type == aw.fields.FieldType.FIELD_HYPERLINK:
+                hyperlink = field.as_field_hyperlink()
+                if hyperlink.sub_address != None and hyperlink.sub_address.startswith("_Toc"):
+                    toc_item = field.start.get_ancestor(aw.NodeType.PARAGRAPH).as_paragraph()
+                    print(toc_item.to_string(aw.SaveFormat.TEXT).strip())
+                    print("------------------")
+                    if toc_item != None:
+                        bm = doc.range.bookmarks.get_by_name(hyperlink.sub_address)
+                        pointer = bm.bookmark_start.get_ancestor(aw.NodeType.PARAGRAPH).as_paragraph()
+                        print(pointer.to_string(aw.SaveFormat.TEXT))
+        #ExEnd:ExtractToc

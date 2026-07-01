@@ -154,7 +154,7 @@ class WorkingWithCharts(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.insert_scatter_chart.docx")
         #ExEnd:InsertScatterChart
 
-    def test_define_xy_axis_properties(self):
+    def test_define_axis_properties(self):
 
         #ExStart:DefineAxisProperties
         #GistId:23d39c0b874655d7e7354f1ecc122e39
@@ -191,7 +191,7 @@ class WorkingWithCharts(DocsExamplesBase):
         y_axis.scaling.minimum = aw.drawing.charts.AxisBound(100)
         y_axis.scaling.maximum = aw.drawing.charts.AxisBound(700)
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.define_xy_axis_properties.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.define_axis_properties.docx")
         #ExEnd:DefineAxisProperties
 
     def test_date_time_values_to_axis(self):
@@ -450,9 +450,10 @@ class WorkingWithCharts(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCharts.single_chart_series.docx")
 
-    def test_set_series_color(self):
+    def test_fill_formatting(self):
 
-        #ExStart:SetSeriesColor
+        #ExStart:FillFormatting
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -477,12 +478,13 @@ class WorkingWithCharts(DocsExamplesBase):
         series2.format.fill.fore_color = drawing.Color.yellow
         series3.format.fill.fore_color = drawing.Color.blue
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.set_series_color.docx")
-        #ExEnd:SetSeriesColor
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.fill_formatting.docx")
+        #ExEnd:FillFormatting
 
-    def test_line_color_and_weight(self):
+    def test_stroke_formatting(self):
 
-        #ExStart:LineColorAndWeight
+        #ExStart:StrokeFormatting
+        #GistId:23d39c0b874655d7e7354f1ecc122e39
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -504,5 +506,5 @@ class WorkingWithCharts(DocsExamplesBase):
         series2.format.stroke.fore_color = drawing.Color.light_green
         series2.format.stroke.weight = 5
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.line_color_and_weight.docx")
-        #ExEnd:LineColorAndWeight
+        doc.save(ARTIFACTS_DIR + "WorkingWithCharts.stroke_formatting.docx")
+        #ExEnd:StrokeFormatting

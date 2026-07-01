@@ -10,17 +10,19 @@ class WorkingWithFields(DocsExamplesBase):
 
     def test_field_code(self):
 
+        #ExStart:FieldCode
+        #GistId:7c2b7b650a88375b1d438746f78f0d64
         doc = aw.Document(MY_DIR + "Hyperlinks.docx")
 
         for field in doc.range.fields:
             field_code = field.get_field_code()
             field_result = field.result
+        #ExEnd:FieldCode
 
     def test_change_field_update_culture_source(self):
 
         #ExStart:ChangeFieldUpdateCultureSource
         #GistId:9e90defe4a7bcafb004f73a2ef236986
-        #ExStart:DocumentBuilderInsertField
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -29,7 +31,6 @@ class WorkingWithFields(DocsExamplesBase):
         builder.insert_field('MERGEFIELD Date1 \\@ "dddd, d MMMM yyyy"')
         builder.write(" - ")
         builder.insert_field('MERGEFIELD Date2 \\@ "dddd, d MMMM yyyy"')
-        #ExEnd:DocumentBuilderInsertField
 
         # Shows how to specify where the culture used for date formatting during field update and mail merge is chosen from
         # set the culture used during field update to the culture used by the field.
@@ -199,7 +200,7 @@ class WorkingWithFields(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_merge_field_using_dom.docx")
         #ExEnd:InsertMergeFieldUsingDom
 
-    def test_insert_mail_merge_address_block_field_using_dom(self):
+    def test_insert_address_block_field_using_dom(self):
 
         #ExStart:InsertAddressBlockFieldUsingDom
         #GistId:1cf07762df56f15067d6aef90b14b3db
@@ -232,7 +233,7 @@ class WorkingWithFields(DocsExamplesBase):
 
         field.update()
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_mail_merge_address_block_field_using_dom.docx")
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.insert_address_block_field_using_dom.docx")
         #ExEnd:InsertAddressBlockFieldUsingDom
 
     def test_insert_field_include_text_without_document_builder(self):
@@ -283,6 +284,8 @@ class WorkingWithFields(DocsExamplesBase):
 
     def test_insert_field_using_field_builder(self):
 
+        #ExStart:InsertFieldUsingFieldBuilder
+        #GistId:1cf07762df56f15067d6aef90b14b3db
         doc = aw.Document()
 
         # Prepare IF field with two nested MERGEFIELD fields: { IF "left expression" = "right expression" "Firstname: { MERGEFIELD firstname }" "Lastname: { MERGEFIELD lastname }"}
@@ -304,6 +307,7 @@ class WorkingWithFields(DocsExamplesBase):
         field.update()
 
         doc.save(ARTIFACTS_DIR + "Field.insert_field_using_field_builder.docx")
+        #ExEnd:InsertFieldUsingFieldBuilder
 
     def test_insert_author_field(self):
 
@@ -445,9 +449,10 @@ class WorkingWithFields(DocsExamplesBase):
         print(actual_result)
         #ExEnd:EvaluateIfCondition
 
-    def test_convert_fields_in_paragraph(self):
+    def test_unlink_fields_in_paragraph(self):
 
-        #ExStart:ConvertFieldsInParagraph
+        #ExStart:UnlinkFieldsInParagraph
+        #GistId:f3592014d179ecb43905e37b2a68bc92
         doc = aw.Document(MY_DIR + "Linked fields.docx")
 
         # Pass the appropriate parameters to convert all IF fields to text that are encountered only in the last
@@ -456,12 +461,13 @@ class WorkingWithFields(DocsExamplesBase):
             if field.type == aw.fields.FieldType.FIELD_IF:
                 field.unlink()
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithFields.test_file.docx")
-        #ExEnd:ConvertFieldsInParagraph
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.unlink_fields_in_paragraph.docx")
+        #ExEnd:UnlinkFieldsInParagraph
 
-    def test_convert_fields_in_document(self):
+    def test_unlink_fields_in_document(self):
 
-        #ExStart:ConvertFieldsInDocument
+        #ExStart:UnlinkFieldsInDocument
+        #GistId:f3592014d179ecb43905e37b2a68bc92
         doc = aw.Document(MY_DIR + "Linked fields.docx")
 
         # Pass the appropriate parameters to convert all IF fields encountered in the document (including headers and footers) to text.
@@ -470,12 +476,13 @@ class WorkingWithFields(DocsExamplesBase):
                 field.unlink()
 
         # Save the document with fields transformed to disk
-        doc.save(ARTIFACTS_DIR + "WorkingWithFields.convert_fields_in_document.docx")
-        #ExEnd:ConvertFieldsInDocument
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.unlink_fields_in_document.docx")
+        #ExEnd:UnlinkFieldsInDocument
 
-    def test_convert_fields_in_body(self):
+    def test_unlink_fields_in_body(self):
 
-        #ExStart:ConvertFieldsInBody
+        #ExStart:UnlinkFieldsInBody
+        #GistId:f3592014d179ecb43905e37b2a68bc92
         doc = aw.Document(MY_DIR + "Linked fields.docx")
 
         # Pass the appropriate parameters to convert PAGE fields encountered to text only in the body of the first section.
@@ -483,8 +490,8 @@ class WorkingWithFields(DocsExamplesBase):
             if field.type == aw.fields.FieldType.FIELD_PAGE:
                 field.unlink()
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithFields.convert_fields_in_body.docx")
-        #ExEnd:ConvertFieldsInBody
+        doc.save(ARTIFACTS_DIR + "WorkingWithFields.unlink_fields_in_body.docx")
+        #ExEnd:UnlinkFieldsInBody
 
     @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_change_locale(self):
@@ -507,3 +514,16 @@ class WorkingWithFields(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithFields.change_locale.docx")
         #ExEnd:ChangeLocale
+    
+    #ExStart:ConvertFieldsToStaticText
+    #GistId:f3592014d179ecb43905e37b2a68bc92
+    @staticmethod
+    def convert_fields_to_static_text(composite_node, target_field_type):
+        """Converts any fields of the specified type found in the descendants of the node into static text.
+
+        :param composite_node: The node in which all descendants of the specified FieldType will be converted to static text.
+        :param target_field_type: The FieldType of the field to convert to static text.
+        """
+        for field in [f for f in composite_node.range.fields if f.type == target_field_type]:
+            field.unlink()
+    #ExEnd:ConvertFieldsToStaticText

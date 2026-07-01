@@ -75,9 +75,10 @@ class WorkingWithVba(DocsExamplesBase):
         dest_doc.save(ARTIFACTS_DIR + "WorkingWithVba.clone_vba_module.docm")
         #ExEnd:CloneVbaModule
 
-    def test_remove_broken_ref(self):
+    def test_remove_vba_references(self):
 
-        #ExStart:RemoveReferenceFromCollectionOfReferences
+        #ExStart:RemoveVbaReferences
+        #GistId:d9bac4ed890f81ea3de392ecfeedbc55
         doc = aw.Document(MY_DIR + "VBA project.docm")
 
         # Find and remove the reference with some LibId path.
@@ -89,8 +90,8 @@ class WorkingWithVba(DocsExamplesBase):
             if path == broken_path:
                 references.remove_at(i)
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithVba.remove_broken_ref.docm")
-        #ExEnd:RemoveReferenceFromCollectionOfReferences
+        doc.save(ARTIFACTS_DIR + "WorkingWithVba.remove_vba_references.docm")
+        #ExEnd:RemoveVbaReferences
 
     #ExStart:GetLibIdAndReferencePath
     #GistId:d9bac4ed890f81ea3de392ecfeedbc55

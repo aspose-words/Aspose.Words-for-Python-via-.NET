@@ -17,9 +17,9 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.create_new_document.docx")
         #ExEnd:CreateNewDocument
 
-    def test_document_builder_insert_bookmark(self):
+    def test_insert_bookmark(self):
 
-        #ExStart:DocumentBuilderInsertBookmark
+        #ExStart:InsertBookmark
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -27,8 +27,8 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         builder.writeln("This is just a fine bookmark.")
         builder.end_bookmark("FineBookmark")
 
-        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.document_builder_insert_bookmark.docx")
-        #ExEnd:DocumentBuilderInsertBookmark
+        doc.save(ARTIFACTS_DIR + "AddContentUsingDocumentBuilder.insert_bookmark.docx")
+        #ExEnd:InsertBookmark
 
     def test_build_table(self):
 
@@ -307,7 +307,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     #def test_insert_tc_fields_at_text(self):
 
     #    #ExStart:InsertTcFieldsAtText
-    #GistId:db118a3e1559b9c88355356df9d7ea10
+    #    #GistId:db118a3e1559b9c88355356df9d7ea10
     #    doc = aw.Document()
 
     #    options = aw.replacing.FindReplaceOptions()

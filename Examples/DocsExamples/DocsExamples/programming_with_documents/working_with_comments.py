@@ -9,12 +9,10 @@ class WorkingWithComments(DocsExamplesBase):
 
         #ExStart:AddComments
         #GistId:70902b20df8b1f6b0459f676e21623bb
-        #ExStart:CreateSimpleDocumentUsingDocumentBuilder
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         builder.write("Some text is added.")
-        #ExEnd:CreateSimpleDocumentUsingDocumentBuilder
 
         comment = aw.Comment(doc, "Awais Hafeez", "AH", datetime.today())
 
@@ -180,9 +178,10 @@ class WorkingWithComments(DocsExamplesBase):
 
     #ExEnd:CommentResolvedAndReplies
 
-    def test_remove_region_text(self):
+    def test_remove_range_text(self):
 
-        #ExStart:RemoveRegionText
+        #ExStart:RemoveRangeText
+        #GistId:70902b20df8b1f6b0459f676e21623bb
         # Open the document.
         doc = aw.Document(MY_DIR + "Comments.docx")
 
@@ -200,5 +199,5 @@ class WorkingWithComments(DocsExamplesBase):
             current_node = next_node
 
         # Save the document.
-        doc.save(ARTIFACTS_DIR + "WorkingWithComments.remove_region_text.docx")
-        #ExEnd:RemoveRegionText
+        doc.save(ARTIFACTS_DIR + "WorkingWithComments.remove_range_text.docx")
+        #ExEnd:RemoveRangeText

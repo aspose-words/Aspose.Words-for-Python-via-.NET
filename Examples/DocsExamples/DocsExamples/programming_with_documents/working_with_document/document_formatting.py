@@ -140,7 +140,7 @@ class DocumentFormatting(DocsExamplesBase):
 
     def test_snap_to_grid(self):
 
-        #ExStart:SetSnapToGrid
+        #ExStart:SnapToGrid
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -154,7 +154,7 @@ class DocumentFormatting(DocsExamplesBase):
         par.runs[0].font.snap_to_grid = True
 
         doc.save(ARTIFACTS_DIR + "Paragraph.snap_to_grid.docx")
-        #ExEnd:SetSnapToGrid
+        #ExEnd:SnapToGrid
 
     def test_get_paragraph_style_separator(self):
 

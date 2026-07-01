@@ -35,9 +35,10 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
             print(prop.name + '"', prop.value)
         #ExEnd:EnumerateProperties
 
-    def test_add_custom_document_properties(self):
+    def test_add_custom_properties(self):
 
-        #ExStart:AddCustomDocumentProperties
+        #ExStart:AddCustomProperties
+        #GistId:0593a8803015363f3026f648332e7026
         doc = aw.Document(MY_DIR + "Properties.docx")
 
         custom_document_properties = doc.custom_document_properties
@@ -50,14 +51,15 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
         custom_document_properties.add("Authorized Date", datetime.now())
         custom_document_properties.add("Authorized Revision", doc.built_in_document_properties.revision_number)
         custom_document_properties.add("Authorized Amount", 123.45)
-        #ExEnd:AddCustomDocumentProperties
+        #ExEnd:AddCustomProperties
 
-    def test_remove_custom_document_properties(self):
+    def test_remove_custom_properties(self):
 
-        #ExStart:CustomRemove
+        #ExStart:RemoveCustomProperties
+        #GistId:0593a8803015363f3026f648332e7026
         doc = aw.Document(MY_DIR + "Properties.docx")
         doc.custom_document_properties.remove("Authorized Date")
-        #ExEnd:CustomRemove
+        #ExEnd:RemoveCustomProperties
 
     def test_remove_personal_information(self):
 
@@ -87,9 +89,7 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
         custom_property = custom_properties.get_by_name("Bookmark")
 
         is_linked_to_content = custom_property.is_link_to_content
-
         link_source = custom_property.link_source
-
         custom_property_value = custom_property.value
         #ExEnd:ConfiguringLinkToContent
 

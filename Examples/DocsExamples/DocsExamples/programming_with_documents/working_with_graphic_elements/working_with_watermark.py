@@ -4,9 +4,10 @@ from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_D
 
 class WorkWithWatermark(DocsExamplesBase):
 
-    def test_add_text_watermark_with_specific_options(self):
+    def test_add_text_watermark(self):
 
-        #ExStart:AddTextWatermarkWithSpecificOptions
+        #ExStart:AddTextWatermark
+        #GistId:1f690a31c188a851d80d7aed4ff7e44c
         doc = aw.Document(MY_DIR + "Document.docx")
 
         options = aw.TextWatermarkOptions()
@@ -19,12 +20,13 @@ class WorkWithWatermark(DocsExamplesBase):
 
         doc.watermark.set_text("Test", options)
 
-        doc.save(ARTIFACTS_DIR + "WorkWithWatermark.add_text_watermark_with_specific_options.docx")
-        #ExEnd:AddTextWatermarkWithSpecificOptions
+        doc.save(ARTIFACTS_DIR + "WorkWithWatermark.add_text_watermark.docx")
+        #ExEnd:AddTextWatermark
 
-    def test_add_image_watermark_with_specific_options(self):
+    def test_add_image_watermark(self):
 
-        #ExStart:AddImageWatermarkWithSpecificOptions
+        #ExStart:AddImageWatermark
+        #GistId:1f690a31c188a851d80d7aed4ff7e44c
         doc = aw.Document(MY_DIR + "Document.docx")
 
         options = aw.ImageWatermarkOptions()
@@ -35,11 +37,12 @@ class WorkWithWatermark(DocsExamplesBase):
         doc.watermark.set_image(IMAGES_DIR + "Transparent background logo.png", options)
 
         doc.save(ARTIFACTS_DIR + "WorkWithWatermark.add_image_watermark.docx")
-        #ExEnd:AddImageWatermarkWithSpecificOptions
+        #ExEnd:AddImageWatermark
 
-    def test_remove_watermark_from_document(self):
+    def test_remove_document_watermark(self):
 
-        #ExStart:RemoveWatermarkFromDocument
+        #ExStart:RemoveDocumentWatermark
+        #GistId:1f690a31c188a851d80d7aed4ff7e44c
         doc = aw.Document()
 
         # Add a plain text watermark.
@@ -63,9 +66,9 @@ class WorkWithWatermark(DocsExamplesBase):
             doc.watermark.remove()
 
         doc.save(ARTIFACTS_DIR + "WorkWithWatermark.remove_watermark_from_document.docx")
-        #ExEnd:RemoveWatermarkFromDocument
+        #ExEnd:RemoveDocumentWatermark
 
-    #ExStart:AddTextWatermark
+    #ExStart:AddDocumentWatermark
     #GistId:1f690a31c188a851d80d7aed4ff7e44c
     def test_add_and_remove_watermark(self):
 
@@ -131,9 +134,10 @@ class WorkWithWatermark(DocsExamplesBase):
         # Insert a clone of the watermark into the header.
         header.append_child(watermark_para.clone(True))
 
-    #ExEnd:AddTextWatermark
+    #ExEnd:AddDocumentWatermark
 
-    #ExStart:RemoveWatermark
+    #ExStart:RemoveWatermarkShape
+    #GistId:1f690a31c188a851d80d7aed4ff7e44c
     def remove_watermark_text(self, doc: aw.Document):
 
         for header_footer in doc.get_child_nodes(aw.NodeType.HEADER_FOOTER, True):
@@ -143,4 +147,4 @@ class WorkWithWatermark(DocsExamplesBase):
                 shape = shape.as_shape()
                 if "WaterMark" in shape.name:
                     shape.remove()
-    #ExEnd:RemoveWatermark
+    #ExEnd:RemoveWatermarkShape

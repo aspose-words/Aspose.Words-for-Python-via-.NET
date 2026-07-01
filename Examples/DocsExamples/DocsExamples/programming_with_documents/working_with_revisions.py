@@ -78,14 +78,14 @@ class WorkingWithRevisions(DocsExamplesBase):
 
     def test_remove_comments_in_pdf(self):
 
-        #ExStart:RemoveCommentsInPDF
+        #ExStart:RemoveCommentsInPdf
         doc = aw.Document(MY_DIR + "Revisions.docx")
 
         # Do not render the comments in PDF.
         doc.layout_options.comment_display_mode = aw.layout.CommentDisplayMode.HIDE
 
         doc.save(ARTIFACTS_DIR + "WorkingWithRevisions.remove_comments_in_pdf.pdf")
-        #ExEnd:RemoveCommentsInPDF
+        #ExEnd:RemoveCommentsInPdf
 
     def test_show_revisions_in_balloons(self):
 
