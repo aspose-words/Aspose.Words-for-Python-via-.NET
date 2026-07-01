@@ -1,4 +1,4 @@
-from datetime import date
+﻿from datetime import date
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
@@ -9,7 +9,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_format_number_of_data_label(self):
 
         #ExStart:FormatNumberOfDataLabel
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -39,7 +39,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_create_chart_using_shape(self):
 
         #ExStart:CreateChartUsingShape
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -61,7 +61,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_insert_simple_column_chart(self):
 
         #ExStart:InsertSimpleColumnChart
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -70,7 +70,7 @@ class WorkingWithCharts(DocsExamplesBase):
 
         chart = shape.chart
         #ExStart:ChartSeriesCollection
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         series_coll = chart.series
 
         print(series_coll.count)
@@ -95,7 +95,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_insert_column_chart(self):
 
         #ExStart:InsertColumnChart
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -110,7 +110,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_insert_area_chart(self):
 
         #ExStart:InsertAreaChart
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -127,7 +127,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_insert_bubble_chart(self):
 
         #ExStart:InsertBubbleChart
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -142,7 +142,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_insert_scatter_chart(self):
 
         #ExStart:InsertScatterChart
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -157,7 +157,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_define_axis_properties(self):
 
         #ExStart:DefineAxisProperties
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -197,7 +197,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_date_time_values_to_axis(self):
 
         #ExStart:DateTimeValuesToAxis
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -226,7 +226,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_number_format_for_axis(self):
 
         #ExStart:NumberFormatForAxis
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -248,7 +248,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_bounds_of_axis(self):
 
         #ExStart:BoundsOfAxis
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -271,7 +271,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_interval_unit_between_labels_on_axis(self):
 
         #ExStart:IntervalUnitBetweenLabelsOnAxis
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -293,7 +293,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_hide_chart_axis(self):
 
         #ExStart:HideChartAxis
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -315,7 +315,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_tick_multi_line_label_alignment(self):
 
         #ExStart:TickMultiLineLabelAlignment
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -331,7 +331,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_chart_data_label(self):
 
         #ExStart:WorkWithChartDataLabel
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -359,7 +359,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_default_options_for_data_labels(self):
 
         #ExStart:DefaultOptionsForDataLabels
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -385,7 +385,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_single_chart_data_point(self):
 
         #ExStart:WorkWithSingleChartDataPoint
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -424,7 +424,7 @@ class WorkingWithCharts(DocsExamplesBase):
         chart = shape.chart
 
         #ExStart:WorkWithSingleChartSeries
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         series0 = chart.series[0]
         series1 = chart.series[1]
 
@@ -437,7 +437,7 @@ class WorkingWithCharts(DocsExamplesBase):
         #ExEnd:WorkWithSingleChartSeries
 
         #ExStart:ChartDataPoint
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         # Specifies whether by default the parent element shall inverts its colors if the value is negative.
         series0.invert_if_negative = True
 
@@ -453,7 +453,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_fill_formatting(self):
 
         #ExStart:FillFormatting
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -484,7 +484,7 @@ class WorkingWithCharts(DocsExamplesBase):
     def test_stroke_formatting(self):
 
         #ExStart:StrokeFormatting
-        #GistId:23d39c0b874655d7e7354f1ecc122e39
+        #GistId:cac7ca6859ace98c8f23cb5c2a4348ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 

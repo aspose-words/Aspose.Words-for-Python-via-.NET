@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 import aspose.pydrawing as drawing
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
 
@@ -7,7 +7,7 @@ class WorkWithWatermark(DocsExamplesBase):
     def test_add_text_watermark(self):
 
         #ExStart:AddTextWatermark
-        #GistId:1f690a31c188a851d80d7aed4ff7e44c
+        #GistId:1773c0992ab338091979cdd43e22557c
         doc = aw.Document(MY_DIR + "Document.docx")
 
         options = aw.TextWatermarkOptions()
@@ -26,7 +26,7 @@ class WorkWithWatermark(DocsExamplesBase):
     def test_add_image_watermark(self):
 
         #ExStart:AddImageWatermark
-        #GistId:1f690a31c188a851d80d7aed4ff7e44c
+        #GistId:1773c0992ab338091979cdd43e22557c
         doc = aw.Document(MY_DIR + "Document.docx")
 
         options = aw.ImageWatermarkOptions()
@@ -42,7 +42,7 @@ class WorkWithWatermark(DocsExamplesBase):
     def test_remove_document_watermark(self):
 
         #ExStart:RemoveDocumentWatermark
-        #GistId:1f690a31c188a851d80d7aed4ff7e44c
+        #GistId:1773c0992ab338091979cdd43e22557c
         doc = aw.Document()
 
         # Add a plain text watermark.
@@ -69,7 +69,7 @@ class WorkWithWatermark(DocsExamplesBase):
         #ExEnd:RemoveDocumentWatermark
 
     #ExStart:AddDocumentWatermark
-    #GistId:1f690a31c188a851d80d7aed4ff7e44c
+    #GistId:1773c0992ab338091979cdd43e22557c
     def test_add_and_remove_watermark(self):
 
         doc = aw.Document(MY_DIR + "Document.docx")
@@ -137,7 +137,7 @@ class WorkWithWatermark(DocsExamplesBase):
     #ExEnd:AddDocumentWatermark
 
     #ExStart:RemoveWatermarkShape
-    #GistId:1f690a31c188a851d80d7aed4ff7e44c
+    #GistId:1773c0992ab338091979cdd43e22557c
     def remove_watermark_text(self, doc: aw.Document):
 
         for header_footer in doc.get_child_nodes(aw.NodeType.HEADER_FOOTER, True):

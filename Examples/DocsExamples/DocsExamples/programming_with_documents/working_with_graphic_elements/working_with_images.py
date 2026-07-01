@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
 
 class WorkingWithImages(DocsExamplesBase):
@@ -64,7 +64,7 @@ class WorkingWithImages(DocsExamplesBase):
     def test_insert_barcode_image(self):
 
         #ExStart:InsertBarcodeImage
-        #GistId:6f849e51240635a6322ab0460938c922
+        #GistId:5336f9cc9b531d2102da9f79c959a5ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -88,7 +88,7 @@ class WorkingWithImages(DocsExamplesBase):
         #ExEnd:InsertBarcodeImage
 
     #ExStart:InsertBarcodeIntoFooter
-    #GistId:6f849e51240635a6322ab0460938c922
+    #GistId:5336f9cc9b531d2102da9f79c959a5ee
     @staticmethod
     def insert_barcode_into_footer(builder: aw.DocumentBuilder, section: aw.Section, footer_type: aw.HeaderFooterType):
 
@@ -155,21 +155,6 @@ class WorkingWithImages(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR+"WorkingWithImages.set_aspect_ratio_locked.doc")
         #ExEnd:SetAspectRatioLocked
 
-    def test_get_actual_shape_bounds_points(self):
-
-        #ExStart:GetActualShapeBoundsPoints
-        #GistId:ad463bf5f128fe6e6c1485df3c046a4c
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-
-        shape = builder.insert_image(IMAGES_DIR + "Logo.jpg")
-        shape.aspect_ratio_locked = False
-
-        print("\nGets the actual bounds of the shape in points.")
-        rect = shape.get_shape_renderer().bounds_in_points
-        print("{}, {}, {}, {}".format(rect.x, rect.y, rect.width, rect.height))
-        #ExEnd:GetActualShapeBoundsPoints
-
     def test_crop_image_call(self):
 
         #ExStart:CropImageCall
@@ -181,7 +166,7 @@ class WorkingWithImages(DocsExamplesBase):
         #ExEnd:CropImageCall
 
     #ExStart:CropImages
-    #GistId:6f849e51240635a6322ab0460938c922
+    #GistId:5336f9cc9b531d2102da9f79c959a5ee
     @staticmethod
     def crop_image(in_path: str, out_path: str, left: int, top: int, width: int, height: int):
 
