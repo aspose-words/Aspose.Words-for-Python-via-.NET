@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 import aspose.pydrawing as drawing
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
 
@@ -7,7 +7,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_create_new_document(self):
 
         #ExStart:CreateNewDocument
-        #GistId:1d626c7186a318d22d022dc96dd91d55
+        #GistId:59e45f5041ff6b356c5165164c019a76
         doc = aw.Document()
 
         # Use a document builder to add content to the document.
@@ -68,7 +68,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_insert_horizontal_rule(self):
 
         #ExStart:InsertHorizontalRule
-        #GistId:ad463bf5f128fe6e6c1485df3c046a4c
+        #GistId:664d989412b46c6a03619182c5a4b9cd
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -81,7 +81,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_horizontal_rule_format(self):
 
         #ExStart:HorizontalRuleFormat
-        #GistId:ad463bf5f128fe6e6c1485df3c046a4c
+        #GistId:664d989412b46c6a03619182c5a4b9cd
         builder = aw.DocumentBuilder()
 
         shape = builder.insert_horizontal_rule()
@@ -116,7 +116,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_insert_text_input_form_field(self):
 
         #ExStart:InsertTextInputFormField
-        #GistId:b09907fef4643433271e4e0e912921b0
+        #GistId:8711210cb6f2a5d46bbbb10dd9982c58
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -128,7 +128,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_insert_check_box_form_field(self):
 
         #ExStart:InsertCheckBoxFormField
-        #GistId:b09907fef4643433271e4e0e912921b0
+        #GistId:8711210cb6f2a5d46bbbb10dd9982c58
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -140,7 +140,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_insert_combo_box_form_field(self):
 
         #ExStart:InsertComboBoxFormField
-        #GistId:b09907fef4643433271e4e0e912921b0
+        #GistId:8711210cb6f2a5d46bbbb10dd9982c58
         items = ["One", "Two", "Three"]
 
         doc = aw.Document()
@@ -169,7 +169,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_insert_hyperlink(self):
 
         #ExStart:InsertHyperlink
-        #GistId:0213851d47551e83af42233f4d075cf6
+        #GistId:0a77287e9106956f00f83347b104d40b
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -188,7 +188,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_insert_table_of_contents(self):
 
         #ExStart:InsertTableOfContents
-        #GistId:db118a3e1559b9c88355356df9d7ea10
+        #GistId:1f496848f44b7c1c94094c8f2307a083
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -227,7 +227,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         builder.writeln("Heading 3.3")
 
         #ExStart:UpdateFields
-        #GistId:db118a3e1559b9c88355356df9d7ea10
+        #GistId:1f496848f44b7c1c94094c8f2307a083
         # The newly inserted table of contents will be initially empty.
         # It needs to be populated by updating the fields in the document.
         doc.update_fields()
@@ -239,7 +239,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_insert_inline_image(self):
 
         #ExStart:InsertInlineImage
-        #GistId:6f849e51240635a6322ab0460938c922
+        #GistId:5336f9cc9b531d2102da9f79c959a5ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -251,7 +251,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_insert_floating_image(self):
 
         #ExStart:InsertFloatingImage
-        #GistId:6f849e51240635a6322ab0460938c922
+        #GistId:5336f9cc9b531d2102da9f79c959a5ee
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -270,7 +270,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_insert_paragraph(self):
 
         #ExStart:InsertParagraph
-        #GistId:ecf2c438314e6c8318ca9833c7f62326
+        #GistId:e934a01a96022d1546d17c47a5ab3904
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -294,7 +294,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_insert_tc_field(self):
 
         #ExStart:InsertTcField
-        #GistId:db118a3e1559b9c88355356df9d7ea10
+        #GistId:1f496848f44b7c1c94094c8f2307a083
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -307,7 +307,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     #def test_insert_tc_fields_at_text(self):
 
     #    #ExStart:InsertTcFieldsAtText
-    #    #GistId:db118a3e1559b9c88355356df9d7ea10
+    #GistId:1f496848f44b7c1c94094c8f2307a083
     #    doc = aw.Document()
 
     #    options = aw.replacing.FindReplaceOptions()
@@ -365,9 +365,9 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_move_to_node(self):
 
         #ExStart:MoveToNode
-        #GistId:1a2c340d1a9dde6fe70c2733084d9aab
+        #GistId:28dae30609edfc01f5106ff23c7a81f1
         #ExStart:MoveToBookmark
-        #GistId:1a2c340d1a9dde6fe70c2733084d9aab
+        #GistId:28dae30609edfc01f5106ff23c7a81f1
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -404,7 +404,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_move_to_document_start_end(self):
 
         #ExStart:MoveToDocumentStartEnd
-        #GistId:1a2c340d1a9dde6fe70c2733084d9aab
+        #GistId:28dae30609edfc01f5106ff23c7a81f1
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -420,7 +420,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_move_to_section(self):
 
         #ExStart:MoveToSection
-        #GistId:1a2c340d1a9dde6fe70c2733084d9aab
+        #GistId:28dae30609edfc01f5106ff23c7a81f1
         doc = aw.Document()
         doc.append_child(aw.Section(doc))
 
@@ -450,7 +450,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_move_to_headers_footers(self):
 
         #ExStart:MoveToHeadersFooters
-        #GistId:1a2c340d1a9dde6fe70c2733084d9aab
+        #GistId:28dae30609edfc01f5106ff23c7a81f1
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -488,7 +488,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_move_to_table_cell(self):
 
         #ExStart:MoveToTableCell
-        #GistId:1a2c340d1a9dde6fe70c2733084d9aab
+        #GistId:28dae30609edfc01f5106ff23c7a81f1
         doc = aw.Document(MY_DIR + "Tables.docx")
         builder = aw.DocumentBuilder(doc)
 
@@ -504,7 +504,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_move_to_bookmark_end(self):
 
         #ExStart:MoveToBookmarkEnd
-        #GistId:ecf2c438314e6c8318ca9833c7f62326
+        #GistId:e934a01a96022d1546d17c47a5ab3904
         doc = aw.Document(MY_DIR + "Bookmarks.docx")
         builder = aw.DocumentBuilder(doc)
 
@@ -515,7 +515,7 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
     def test_move_to_merge_field(self):
 
         #ExStart:MoveToMergeField
-        #GistId:1a2c340d1a9dde6fe70c2733084d9aab
+        #GistId:28dae30609edfc01f5106ff23c7a81f1
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 

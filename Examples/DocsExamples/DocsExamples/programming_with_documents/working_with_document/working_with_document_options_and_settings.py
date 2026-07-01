@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 from aspose.pydrawing import Color
 
@@ -7,7 +7,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
     def test_optimize_for(self):
 
         #ExStart:OptimizeFor
-        #GistId:5d2997d42c1f1fad79b18873f170855f
+        #GistId:43e7d4d62794abe1e98938ae1658dc79
         doc = aw.Document(MY_DIR + "Document.docx")
 
         doc.compatibility_options.optimize_for(aw.settings.MsWordVersion.WORD2016)
@@ -29,7 +29,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
     def test_cleanup_unused_styles_and_lists(self):
 
         #ExStart:CleanupUnusedStylesAndLists
-        #GistId:669f3d08f45b14f75f9d2cb17fa1056a
+        #GistId:2c3fc897d0a048c26c8f76a58eb00b8b
         doc = aw.Document(MY_DIR + "Unused styles.docx")
 
         # Combined with the built-in styles, the document now has eight styles.
@@ -53,7 +53,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
     def test_cleanup_duplicate_style(self):
 
         #ExStart:CleanupDuplicateStyle
-        #GistId:669f3d08f45b14f75f9d2cb17fa1056a
+        #GistId:2c3fc897d0a048c26c8f76a58eb00b8b
         doc = aw.Document(MY_DIR + "Document.docx")
 
         # Count of styles before Cleanup.
@@ -73,7 +73,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
     def test_view_options(self):
 
         #ExStart:SetViewOption
-        #GistId:5d2997d42c1f1fad79b18873f170855f
+        #GistId:43e7d4d62794abe1e98938ae1658dc79
         doc = aw.Document(MY_DIR + "Document.docx")
 
         doc.view_options.view_type = aw.settings.ViewType.PAGE_LAYOUT
@@ -85,7 +85,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
     def test_document_page_setup(self):
 
         #ExStart:DocumentPageSetup
-        #GistId:5d2997d42c1f1fad79b18873f170855f
+        #GistId:43e7d4d62794abe1e98938ae1658dc79
         doc = aw.Document(MY_DIR + "Document.docx")
 
         # Set the layout mode for a section allowing to define the document grid behavior.
@@ -101,7 +101,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
     def test_add_editing_languages(self):
 
         #ExStart:AddEditingLanguage
-        #GistId:40be8275fc43f78f5e5877212e4e1bf3
+        #GistId:41c71acaf4924abe47f4bc2ff2c87d6a
         load_options = aw.loading.LoadOptions()
 
         # Set language preferences that will be used when document is loading.
@@ -119,7 +119,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
     def test_set_russian_as_default_editing_language(self):
 
         #ExStart:SetRussianAsDefaultEditingLanguage
-        #GistId:5d2997d42c1f1fad79b18873f170855f
+        #GistId:43e7d4d62794abe1e98938ae1658dc79
         load_options = aw.loading.LoadOptions()
         load_options.language_preferences.default_editing_language = aw.loading.EditingLanguage.RUSSIAN
 

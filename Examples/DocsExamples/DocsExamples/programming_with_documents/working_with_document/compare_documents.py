@@ -1,4 +1,4 @@
-from datetime import datetime
+﻿from datetime import datetime
 
 import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
@@ -8,7 +8,7 @@ class CompareDocument(DocsExamplesBase):
     def test_compare_for_equal(self):
 
         #ExStart:CompareForEqual
-        #GistId:66cba61d079d8ef1e676820633ba4586
+        #GistId:72754f3b0a3a7f784898a23b59c83d96
         doc_a = aw.Document(MY_DIR + "Document.docx")
         doc_b = doc_a.clone().as_document()
 
@@ -21,7 +21,7 @@ class CompareDocument(DocsExamplesBase):
     def test_compare_options(self):
 
         #ExStart:CompareOptions
-        #GistId:66cba61d079d8ef1e676820633ba4586
+        #GistId:72754f3b0a3a7f784898a23b59c83d96
         doc_a = aw.Document(MY_DIR + "Document.docx")
         doc_b = doc_a.clone()
 

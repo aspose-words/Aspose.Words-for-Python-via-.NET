@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, ARTIFACTS_DIR
 
 class WorkingWithWebExtension(DocsExamplesBase):
@@ -6,7 +6,7 @@ class WorkingWithWebExtension(DocsExamplesBase):
     def test_using_web_extension_task_panes(self):
 
         #ExStart:WebExtensionTaskPanes
-        #GistId:8c31c018ea71c92828223776b1a113f7
+        #GistId:0d4493eaacf1b7e556c97519f4f22763
         doc = aw.Document()
 
         task_pane = aw.webextensions.TaskPane()
@@ -30,7 +30,7 @@ class WorkingWithWebExtension(DocsExamplesBase):
         #ExEnd:WebExtensionTaskPanes
 
         #ExStart:GetListOfAddins
-        #GistId:8c31c018ea71c92828223776b1a113f7
+        #GistId:0d4493eaacf1b7e556c97519f4f22763
         doc = aw.Document(ARTIFACTS_DIR + "WorkingWithWebExtension.using_web_extension_task_panes.docx")
 
         print("Task panes sources:\n")
