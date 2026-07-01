@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithCleanupOptions(DocsExamplesBase):
@@ -31,7 +31,7 @@ class WorkingWithCleanupOptions(DocsExamplesBase):
     def test_remove_empty_paragraphs(self):
 
         #ExStart:RemoveEmptyParagraphs
-        #GistId:f39874821cb317d245a769c9ce346fea
+        #GistId:d7e717546d32e7dd25f0198a15f8ebf2
         doc = aw.Document(MY_DIR + "Table with fields.docx")
 
         doc.mail_merge.cleanup_options = aw.mailmerging.MailMergeCleanupOptions.REMOVE_EMPTY_PARAGRAPHS
@@ -46,7 +46,7 @@ class WorkingWithCleanupOptions(DocsExamplesBase):
     def test_remove_unused_fields(self):
 
         #ExStart:RemoveUnusedFields
-        #GistId:f39874821cb317d245a769c9ce346fea
+        #GistId:d7e717546d32e7dd25f0198a15f8ebf2
         doc = aw.Document(MY_DIR + "Table with fields.docx")
 
         doc.mail_merge.cleanup_options = aw.mailmerging.MailMergeCleanupOptions.REMOVE_UNUSED_FIELDS
@@ -61,7 +61,7 @@ class WorkingWithCleanupOptions(DocsExamplesBase):
     def test_remove_containing_fields(self):
 
         #ExStart:RemoveContainingFields
-        #GistId:f39874821cb317d245a769c9ce346fea
+        #GistId:d7e717546d32e7dd25f0198a15f8ebf2
         doc = aw.Document(MY_DIR + "Table with fields.docx")
 
         doc.mail_merge.cleanup_options = aw.mailmerging.MailMergeCleanupOptions.REMOVE_CONTAINING_FIELDS
@@ -76,7 +76,7 @@ class WorkingWithCleanupOptions(DocsExamplesBase):
     def test_remove_empty_table_rows(self):
 
         #ExStart:RemoveEmptyTableRows
-        #GistId:f39874821cb317d245a769c9ce346fea
+        #GistId:d7e717546d32e7dd25f0198a15f8ebf2
         doc = aw.Document(MY_DIR + "Table with fields.docx")
 
         doc.mail_merge.cleanup_options = aw.mailmerging.MailMergeCleanupOptions.REMOVE_EMPTY_TABLE_ROWS
