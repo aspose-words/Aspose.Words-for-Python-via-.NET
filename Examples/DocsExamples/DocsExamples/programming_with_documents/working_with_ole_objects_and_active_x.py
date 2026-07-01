@@ -1,4 +1,4 @@
-import io
+﻿import io
 
 import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
@@ -8,7 +8,7 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
     def test_insert_ole_object(self):
 
         #ExStart:InsertOleObject
-        #GistId:4996b573cf231d9f66ab0d1f3f981222
+        #GistId:2c7d2bb472db1a698568d980c01b0735
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -20,7 +20,7 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
     def test_insert_ole_object_with_ole_package(self):
 
         #ExStart:InsertOleObjectwithOlePackage
-        #GistId:4996b573cf231d9f66ab0d1f3f981222
+        #GistId:2c7d2bb472db1a698568d980c01b0735
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -35,7 +35,7 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
         #ExEnd:InsertOleObjectwithOlePackage
 
         #ExStart:GetAccessToOleObjectRawData
-        #GistId:4996b573cf231d9f66ab0d1f3f981222
+        #GistId:2c7d2bb472db1a698568d980c01b0735
         ole_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
         ole_raw_data = ole_shape.ole_format.get_raw_data()
         #ExEnd:GetAccessToOleObjectRawData
@@ -43,7 +43,7 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
     def test_insert_ole_object_as_icon(self):
 
         #ExStart:InsertOleObjectAsIcon
-        #GistId:4996b573cf231d9f66ab0d1f3f981222
+        #GistId:2c7d2bb472db1a698568d980c01b0735
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -55,7 +55,7 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
     def test_insert_ole_object_as_icon_using_stream(self):
 
         #ExStart:InsertOleObjectAsIconUsingStream
-        #GistId:4996b573cf231d9f66ab0d1f3f981222
+        #GistId:2c7d2bb472db1a698568d980c01b0735
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -94,7 +94,7 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
     def test_insert_online_video(self):
 
         #ExStart:InsertOnlineVideo
-        #GistId:4996b573cf231d9f66ab0d1f3f981222
+        #GistId:2c7d2bb472db1a698568d980c01b0735
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -110,7 +110,7 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
     def test_insert_online_video_with_embed_html(self):
 
         #ExStart:InsertOnlineVideoWithEmbedHtml
-        #GistId:4996b573cf231d9f66ab0d1f3f981222
+        #GistId:2c7d2bb472db1a698568d980c01b0735
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 

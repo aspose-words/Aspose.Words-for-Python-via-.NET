@@ -1,4 +1,4 @@
-from datetime import datetime
+﻿from datetime import datetime
 
 import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
@@ -8,7 +8,7 @@ class WorkingWithRevisions(DocsExamplesBase):
     def test_accept_revisions(self):
 
         #ExStart:AcceptAllRevisions
-        #GistId:e8d71fde166d275d0fc9471c56c3ad39
+        #GistId:d7865443bc71ae2185cc06d34dd30fd6
         doc = aw.Document()
         body = doc.first_section.body
         para = body.first_paragraph
@@ -90,7 +90,7 @@ class WorkingWithRevisions(DocsExamplesBase):
     def test_show_revisions_in_balloons(self):
 
         #ExStart:ShowRevisionsInBalloons
-        #GistId:ce015d9bade4e0294485ffb47462ded4
+        #GistId:eb9bb984280031c2644713d0030a7ec5
         #ExStart:SetMeasurementUnit
         #ExStart:SetRevisionBarsPosition
         doc = aw.Document(MY_DIR + "Revisions.docx")
@@ -142,7 +142,7 @@ class WorkingWithRevisions(DocsExamplesBase):
     def test_move_node_in_tracked_document(self):
 
         #ExStart:MoveNodeInTrackedDocument
-        #GistId:e8d71fde166d275d0fc9471c56c3ad39
+        #GistId:d7865443bc71ae2185cc06d34dd30fd6
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
         builder.writeln("Paragraph 1")
@@ -177,7 +177,7 @@ class WorkingWithRevisions(DocsExamplesBase):
     def test_shape_revision(self):
 
         #ExStart:ShapeRevision
-        #GistId:e8d71fde166d275d0fc9471c56c3ad39
+        #GistId:d7865443bc71ae2185cc06d34dd30fd6
         doc = aw.Document()
 
         # Insert an inline shape without tracking revisions.

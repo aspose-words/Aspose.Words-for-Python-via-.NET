@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase
 
 class WorkingWithTextboxes(DocsExamplesBase):
@@ -6,7 +6,7 @@ class WorkingWithTextboxes(DocsExamplesBase):
     def test_create_a_link(self):
 
         #ExStart:CreateLink
-        #GistId:68b6041746b3d6bf5137cff8e6385b5f
+        #GistId:eadb3e26bd09add56cb529cd7a0b1c25
         doc = aw.Document()
 
         shape1 = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
@@ -22,7 +22,7 @@ class WorkingWithTextboxes(DocsExamplesBase):
     def test_check_sequence(self):
 
         #ExStart:CheckSequence
-        #GistId:68b6041746b3d6bf5137cff8e6385b5f
+        #GistId:eadb3e26bd09add56cb529cd7a0b1c25
         doc = aw.Document()
 
         shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
@@ -41,7 +41,7 @@ class WorkingWithTextboxes(DocsExamplesBase):
     def test_break_a_link(self):
 
         #ExStart:BreakLink
-        #GistId:68b6041746b3d6bf5137cff8e6385b5f
+        #GistId:eadb3e26bd09add56cb529cd7a0b1c25
         doc = aw.Document()
 
         shape = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_BOX)
