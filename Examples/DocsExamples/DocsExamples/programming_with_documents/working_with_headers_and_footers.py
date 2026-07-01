@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, ARTIFACTS_DIR, IMAGES_DIR
 
 class WorkingWithHeadersAndFooters(DocsExamplesBase):
@@ -158,7 +158,7 @@ class WorkingWithHeadersAndFooters(DocsExamplesBase):
 
     def test_sections_with_different_headers(self):
         #ExStart:SectionsWithDifferentHeaders
-        #GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        #GistId:000cda3bfe9679c09bfd03617bd1f9e8
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 

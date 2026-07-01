@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithFootnotes(DocsExamplesBase):
@@ -6,7 +6,7 @@ class WorkingWithFootnotes(DocsExamplesBase):
     def test_set_foot_note_columns(self):
 
         #ExStart:SetFootnoteColumns
-        #GistId:3b39c2019380ee905e7d9596494916a4
+        #GistId:9755a1e00eb469cb6e4195b451466eb1
         doc = aw.Document(MY_DIR + "Document.docx")
 
         # Specify the number of columns with which the footnotes area is formatted.
@@ -18,7 +18,7 @@ class WorkingWithFootnotes(DocsExamplesBase):
     def test_set_footnote_and_end_note_position(self):
 
         #ExStart:SetFootnoteAndEndnotePosition
-        #GistId:3b39c2019380ee905e7d9596494916a4
+        #GistId:9755a1e00eb469cb6e4195b451466eb1
         doc = aw.Document(MY_DIR + "Document.docx")
 
         doc.footnote_options.position = aw.notes.FootnotePosition.BENEATH_TEXT
@@ -30,7 +30,7 @@ class WorkingWithFootnotes(DocsExamplesBase):
     def test_set_endnote_options(self):
 
         #ExStart:SetEndnoteOptions
-        #GistId:3b39c2019380ee905e7d9596494916a4
+        #GistId:9755a1e00eb469cb6e4195b451466eb1
         doc = aw.Document(MY_DIR + "Document.docx")
         builder = aw.DocumentBuilder(doc)
 

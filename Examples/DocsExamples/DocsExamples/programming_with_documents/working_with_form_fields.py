@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 import aspose.pydrawing as drawing
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
@@ -7,7 +7,7 @@ class WorkingWithFormFields(DocsExamplesBase):
     def test_insert_form_fields(self):
 
         #ExStart:InsertFormFields
-        #GistId:b09907fef4643433271e4e0e912921b0
+        #GistId:8711210cb6f2a5d46bbbb10dd9982c58
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -18,7 +18,7 @@ class WorkingWithFormFields(DocsExamplesBase):
     def test_form_fields_work_with_properties(self):
 
         #ExStart:FormFieldsWorkWithProperties
-        #GistId:b09907fef4643433271e4e0e912921b0
+        #GistId:8711210cb6f2a5d46bbbb10dd9982c58
         doc = aw.Document(MY_DIR + "Form fields.docx")
         form_field = doc.range.form_fields[3]
 
@@ -29,7 +29,7 @@ class WorkingWithFormFields(DocsExamplesBase):
     def test_form_fields_get_form_fields_collection(self):
 
         #ExStart:FormFieldsGetFormFieldsCollection
-        #GistId:b09907fef4643433271e4e0e912921b0
+        #GistId:8711210cb6f2a5d46bbbb10dd9982c58
         doc = aw.Document(MY_DIR + "Form fields.docx")
 
         form_fields = doc.range.form_fields
@@ -38,9 +38,9 @@ class WorkingWithFormFields(DocsExamplesBase):
     def test_form_fields_get_by_name(self):
 
         #ExStart:FormFieldsFontFormatting
-        #GistId:b09907fef4643433271e4e0e912921b0
+        #GistId:8711210cb6f2a5d46bbbb10dd9982c58
         #ExStart:FormFieldsGetByName
-        #GistId:b09907fef4643433271e4e0e912921b0
+        #GistId:8711210cb6f2a5d46bbbb10dd9982c58
         doc = aw.Document(MY_DIR + "Form fields.docx")
 
         document_form_fields = doc.range.form_fields
