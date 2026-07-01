@@ -1,4 +1,4 @@
-from datetime import datetime
+﻿from datetime import datetime
 import uuid
 import base64
 
@@ -10,7 +10,7 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
     def test_sign_document(self):
 
         #ExStart:SignDocument
-        #GistId:bdc15a6de6b25d9d4e66f2ce918fc01b
+        #GistId:d7587e4a19192801745282dc141f97a0
         cert_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + "morzal.pfx", "aw")
 
         aw.digitalsignatures.DigitalSignatureUtil.sign(MY_DIR + "Digitally signed.docx", ARTIFACTS_DIR + "Document.signed.docx", cert_holder)
@@ -89,7 +89,7 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
     def test_create_new_signature_line_and_set_provider_id(self):
 
         #ExStart:CreateNewSignatureLineAndSetProviderId
-        #GistId:bdc15a6de6b25d9d4e66f2ce918fc01b
+        #GistId:d7587e4a19192801745282dc141f97a0
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -141,7 +141,7 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
     def test_remove_signatures(self):
 
         #ExStart:RemoveSignatures
-        #GistId:bdc15a6de6b25d9d4e66f2ce918fc01b
+        #GistId:d7587e4a19192801745282dc141f97a0
         # There are two ways of using the DigitalSignatureUtil class to remove digital signatures
         # from a signed document by saving an unsigned copy of it somewhere else in the local file system.
         # 1 - Determine the locations of both the signed document and the unsigned copy by filename strings:
@@ -160,7 +160,7 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
     
     def test_signature_value(self):
         #ExStart:SignatureValue
-        #GistId:bdc15a6de6b25d9d4e66f2ce918fc01b
+        #GistId:d7587e4a19192801745282dc141f97a0
         doc = aw.Document(MY_DIR + "Digitally signed.docx")
 
         for digital_signature in doc.digital_signatures:

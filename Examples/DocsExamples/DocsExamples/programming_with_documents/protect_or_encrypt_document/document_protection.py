@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class DocumentProtection(DocsExamplesBase):
@@ -6,7 +6,7 @@ class DocumentProtection(DocsExamplesBase):
     def test_password_protection(self):
 
         #ExStart:PasswordProtection
-        #GistId:856ba85fa704fa728b0ec20aafddd16b
+        #GistId:7bc1619f98f7517ddcbf0b38a3b68989
         doc = aw.Document()
 
         # Apply document protection.
@@ -18,7 +18,7 @@ class DocumentProtection(DocsExamplesBase):
     def test_allow_only_form_fields_protect(self):
 
         #ExStart:AllowOnlyFormFieldsProtect
-        #GistId:856ba85fa704fa728b0ec20aafddd16b
+        #GistId:7bc1619f98f7517ddcbf0b38a3b68989
         # Insert two sections with some text.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -34,7 +34,7 @@ class DocumentProtection(DocsExamplesBase):
     def test_remove_document_protection(self):
 
         #ExStart:RemoveDocumentProtection
-        #GistId:856ba85fa704fa728b0ec20aafddd16b
+        #GistId:7bc1619f98f7517ddcbf0b38a3b68989
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -51,7 +51,7 @@ class DocumentProtection(DocsExamplesBase):
     def test_unrestricted_editable_regions(self):
 
         #ExStart:UnrestrictedEditableRegions
-        #GistId:856ba85fa704fa728b0ec20aafddd16b
+        #GistId:7bc1619f98f7517ddcbf0b38a3b68989
         # Upload a document and make it as read-only.
         doc = aw.Document(MY_DIR + "Document.docx")
         builder = aw.DocumentBuilder(doc)
@@ -79,7 +79,7 @@ class DocumentProtection(DocsExamplesBase):
     def test_unrestricted_section(self):
 
         #ExStart:UnrestrictedSection
-        #GistId:856ba85fa704fa728b0ec20aafddd16b
+        #GistId:7bc1619f98f7517ddcbf0b38a3b68989
         # Insert two sections with some text.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
@@ -110,7 +110,7 @@ class DocumentProtection(DocsExamplesBase):
     def test_read_only_protection(self):
 
         #ExStart:ReadOnlyProtection
-        #GistId:7cf6735e83804ba8942663695b22ee42
+        #GistId:4240df05013243baa2dbfb7728108b89
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -130,7 +130,7 @@ class DocumentProtection(DocsExamplesBase):
     def test_remove_read_only_restriction(self):
 
         #ExStart:RemoveReadOnlyRestriction
-        #GistId:7cf6735e83804ba8942663695b22ee42
+        #GistId:4240df05013243baa2dbfb7728108b89
         doc = aw.Document()
 
         # Enter a password that's up to 15 characters long.
