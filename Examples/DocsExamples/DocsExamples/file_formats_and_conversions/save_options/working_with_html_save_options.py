@@ -1,4 +1,4 @@
-import os
+﻿import os
 import shutil
 
 import aspose.words as aw
@@ -9,6 +9,7 @@ class WorkingWithHtmlSaveOptions(DocsExamplesBase):
     def test_export_roundtrip_information(self):
 
         #ExStart:ExportRoundtripInformation
+        #GistId:c5d01a71f65e540e5e77650b846b24cc
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.HtmlSaveOptions()
@@ -20,6 +21,7 @@ class WorkingWithHtmlSaveOptions(DocsExamplesBase):
     def test_export_fonts_as_base_64(self):
 
         #ExStart:ExportFontsAsBase64
+        #GistId:c5d01a71f65e540e5e77650b846b24cc
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.HtmlSaveOptions()
@@ -31,6 +33,7 @@ class WorkingWithHtmlSaveOptions(DocsExamplesBase):
     def test_export_resources(self):
 
         #ExStart:ExportResources
+        #GistId:c5d01a71f65e540e5e77650b846b24cc
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         save_options = aw.saving.HtmlSaveOptions()
@@ -122,6 +125,7 @@ class WorkingWithHtmlSaveOptions(DocsExamplesBase):
     def test_export_text_input_form_field_as_text(self):
 
         #ExStart:ExportTextInputFormFieldAsText
+        #GistId:b05f6fe5e272263ce37254e9e36a5ae0
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         images_dir = os.path.join(ARTIFACTS_DIR, "Images")

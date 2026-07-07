@@ -1,4 +1,4 @@
-from datetime import datetime
+﻿from datetime import datetime
 
 import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
@@ -8,6 +8,7 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
     def test_get_variables(self):
 
         #ExStart:GetVariables
+        #GistId:f594b976dcd6cfbe363ad317ca32a3a0
         doc = aw.Document(MY_DIR + "Document.docx")
 
         doc.variables.add("my_var", "test")
@@ -19,6 +20,7 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
     def test_enumerate_properties(self):
 
         #ExStart:EnumerateProperties
+        #GistId:f594b976dcd6cfbe363ad317ca32a3a0
         doc = aw.Document(MY_DIR + "Properties.docx")
 
         print("1. Document name:", doc.original_file_name)
@@ -33,9 +35,10 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
             print(prop.name + '"', prop.value)
         #ExEnd:EnumerateProperties
 
-    def test_add_custom_document_properties(self):
+    def test_add_custom_properties(self):
 
-        #ExStart:AddCustomDocumentProperties
+        #ExStart:AddCustomProperties
+        #GistId:f594b976dcd6cfbe363ad317ca32a3a0
         doc = aw.Document(MY_DIR + "Properties.docx")
 
         custom_document_properties = doc.custom_document_properties
@@ -48,18 +51,20 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
         custom_document_properties.add("Authorized Date", datetime.now())
         custom_document_properties.add("Authorized Revision", doc.built_in_document_properties.revision_number)
         custom_document_properties.add("Authorized Amount", 123.45)
-        #ExEnd:AddCustomDocumentProperties
+        #ExEnd:AddCustomProperties
 
-    def test_remove_custom_document_properties(self):
+    def test_remove_custom_properties(self):
 
-        #ExStart:CustomRemove
+        #ExStart:RemoveCustomProperties
+        #GistId:f594b976dcd6cfbe363ad317ca32a3a0
         doc = aw.Document(MY_DIR + "Properties.docx")
         doc.custom_document_properties.remove("Authorized Date")
-        #ExEnd:CustomRemove
+        #ExEnd:RemoveCustomProperties
 
     def test_remove_personal_information(self):
 
         #ExStart:RemovePersonalInformation
+        #GistId:f594b976dcd6cfbe363ad317ca32a3a0
         doc = aw.Document(MY_DIR + "Properties.docx")
         doc.remove_personal_information = True
 
@@ -69,6 +74,7 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
     def test_configuring_link_to_content(self):
 
         #ExStart:ConfiguringLinkToContent
+        #GistId:f594b976dcd6cfbe363ad317ca32a3a0
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -83,15 +89,14 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
         custom_property = custom_properties.get_by_name("Bookmark")
 
         is_linked_to_content = custom_property.is_link_to_content
-
         link_source = custom_property.link_source
-
         custom_property_value = custom_property.value
         #ExEnd:ConfiguringLinkToContent
 
     def test_convert_between_measurement_units(self):
 
         #ExStart:ConvertBetweenMeasurementUnits
+        #GistId:1c0fc25570ac4cf773afe35e217e35aa
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -107,6 +112,7 @@ class DocumentPropertiesAndVariables(DocsExamplesBase):
     def test_use_control_characters(self):
 
         #ExStart:UseControlCharacters
+        #GistId:4468c998e233b322e3a711efc5a8b27f
         text = "test\r"
         # Replace "\r" control character with "\r\n".
         replace = text.replace(aw.ControlChar.CR, aw.ControlChar.CR_LF)

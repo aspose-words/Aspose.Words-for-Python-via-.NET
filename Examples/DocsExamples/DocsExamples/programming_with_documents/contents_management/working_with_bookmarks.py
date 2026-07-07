@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithBookmarks(DocsExamplesBase):
@@ -6,6 +6,7 @@ class WorkingWithBookmarks(DocsExamplesBase):
     def test_access_bookmarks(self):
 
         #ExStart:AccessBookmarks
+        #GistId:80b995172a159ce9559ebaf82c1b4f2d
         doc = aw.Document(MY_DIR + "Bookmarks.docx")
 
         # By index:
@@ -17,6 +18,7 @@ class WorkingWithBookmarks(DocsExamplesBase):
     def test_update_bookmark_data(self):
 
         #ExStart:UpdateBookmarkData
+        #GistId:80b995172a159ce9559ebaf82c1b4f2d
         doc = aw.Document(MY_DIR + "Bookmarks.docx")
 
         bookmark = doc.range.bookmarks.get_by_name("MyBookmark1")
@@ -31,6 +33,7 @@ class WorkingWithBookmarks(DocsExamplesBase):
     def test_bookmark_table_columns(self):
 
         #ExStart:BookmarkTable
+        #GistId:80b995172a159ce9559ebaf82c1b4f2d
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -60,6 +63,7 @@ class WorkingWithBookmarks(DocsExamplesBase):
         #ExEnd:BookmarkTable
 
         #ExStart:BookmarkTableColumns
+        #GistId:80b995172a159ce9559ebaf82c1b4f2d
         for bookmark in doc.range.bookmarks:
             print("Bookmark: " + bookmark.name + " (Column)" if bookmark.is_column else "")
 
@@ -127,6 +131,7 @@ class WorkingWithBookmarks(DocsExamplesBase):
     def test_create_bookmark(self):
 
         #ExStart:CreateBookmark
+        #GistId:80b995172a159ce9559ebaf82c1b4f2d
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -150,6 +155,7 @@ class WorkingWithBookmarks(DocsExamplesBase):
     def test_show_hide_bookmarks(self):
 
         #ExStart:ShowHideBookmarks
+        #GistId:80b995172a159ce9559ebaf82c1b4f2d
         doc = aw.Document(MY_DIR + "Bookmarks.docx")
 
         self.show_hide_bookmarked_content(doc, "MyBookmark1", False)
@@ -158,6 +164,7 @@ class WorkingWithBookmarks(DocsExamplesBase):
         #ExEnd:ShowHideBookmarks
 
     #ExStart:ShowHideBookmarkedContent
+    #GistId:80b995172a159ce9559ebaf82c1b4f2d
     @staticmethod
     def show_hide_bookmarked_content(doc: aw.Document, bookmark_name: str, show_hide: bool):
 

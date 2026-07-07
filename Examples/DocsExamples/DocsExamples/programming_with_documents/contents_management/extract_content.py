@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 from . import extract_content_helper as helper
 
@@ -222,6 +222,7 @@ class ExtractContent(DocsExamplesBase):
     def test_extract_content_based_on_styles(self):
 
         #ExStart:ExtractContentBasedOnStyles
+        #GistId:40c79033c4dec6fc8bd51ae6e841caaa
         doc = aw.Document(MY_DIR + "Styles.docx")
 
         para_style = "Heading 1"
@@ -241,6 +242,7 @@ class ExtractContent(DocsExamplesBase):
         #ExEnd:ExtractContentBasedOnStyles
 
     #ExStart:RunsByStyleName
+    #GistId:40c79033c4dec6fc8bd51ae6e841caaa
     @staticmethod
     def runs_by_style_name(doc: aw.Document, style_name: str):
 

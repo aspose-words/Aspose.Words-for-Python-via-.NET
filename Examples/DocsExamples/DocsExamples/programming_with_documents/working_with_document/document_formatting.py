@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 import aspose.pydrawing as drawing
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
@@ -7,6 +7,7 @@ class DocumentFormatting(DocsExamplesBase):
     def test_space_between_asian_and_latin_text(self):
 
         #ExStart:SpaceBetweenAsianAndLatinText
+        #GistId:0eb0780ab42a1b0032793a6eb510da35
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -23,6 +24,7 @@ class DocumentFormatting(DocsExamplesBase):
     def test_asian_typography_line_break_group(self):
 
         #ExStart:AsianTypographyLineBreakGroup
+        #GistId:0eb0780ab42a1b0032793a6eb510da35
         doc = aw.Document(MY_DIR + "Asian typography.docx")
 
         paragraph_format = doc.first_section.body.paragraphs[0].paragraph_format
@@ -36,6 +38,7 @@ class DocumentFormatting(DocsExamplesBase):
     def test_paragraph_formatting(self):
 
         #ExStart:ParagraphFormatting
+        #GistId:3782e77b237fd3303b01a130ae46f958
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -56,6 +59,7 @@ class DocumentFormatting(DocsExamplesBase):
     def test_multilevel_list_formatting(self):
 
         #ExStart:MultilevelListFormatting
+        #GistId:7aba3b36b61737610167905e1bd5f350
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -85,6 +89,7 @@ class DocumentFormatting(DocsExamplesBase):
     def test_apply_paragraph_style(self):
 
         #ExStart:ApplyParagraphStyle
+        #GistId:3782e77b237fd3303b01a130ae46f958
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -97,6 +102,7 @@ class DocumentFormatting(DocsExamplesBase):
     def test_apply_borders_and_shading_to_paragraph(self):
 
         #ExStart:ApplyBordersAndShadingToParagraph
+        #GistId:3782e77b237fd3303b01a130ae46f958
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -134,7 +140,7 @@ class DocumentFormatting(DocsExamplesBase):
 
     def test_snap_to_grid(self):
 
-        #ExStart:SetSnapToGrid
+        #ExStart:SnapToGrid
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -148,11 +154,12 @@ class DocumentFormatting(DocsExamplesBase):
         par.runs[0].font.snap_to_grid = True
 
         doc.save(ARTIFACTS_DIR + "Paragraph.snap_to_grid.docx")
-        #ExEnd:SetSnapToGrid
+        #ExEnd:SnapToGrid
 
     def test_get_paragraph_style_separator(self):
 
         #ExStart:GetParagraphStyleSeparator
+        #GistId:3782e77b237fd3303b01a130ae46f958
         doc = aw.Document(MY_DIR + "Document.docx")
 
         for paragraph in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True):

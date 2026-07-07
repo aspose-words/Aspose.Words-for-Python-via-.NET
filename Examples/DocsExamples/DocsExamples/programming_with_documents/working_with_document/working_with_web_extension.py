@@ -1,11 +1,12 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, ARTIFACTS_DIR
 
 class WorkingWithWebExtension(DocsExamplesBase):
 
     def test_using_web_extension_task_panes(self):
 
-        #ExStart:UsingWebExtensionTaskPanes
+        #ExStart:WebExtensionTaskPanes
+        #GistId:0d4493eaacf1b7e556c97519f4f22763
         doc = aw.Document()
 
         task_pane = aw.webextensions.TaskPane()
@@ -26,9 +27,10 @@ class WorkingWithWebExtension(DocsExamplesBase):
             aw.webextensions.WebExtensionBindingType.TEXT, "194740422"))
 
         doc.save(ARTIFACTS_DIR + "WorkingWithWebExtension.using_web_extension_task_panes.docx")
-        #ExEnd:UsingWebExtensionTaskPanes
+        #ExEnd:WebExtensionTaskPanes
 
         #ExStart:GetListOfAddins
+        #GistId:0d4493eaacf1b7e556c97519f4f22763
         doc = aw.Document(ARTIFACTS_DIR + "WorkingWithWebExtension.using_web_extension_task_panes.docx")
 
         print("Task panes sources:\n")

@@ -1,13 +1,14 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class RemoveContent(DocsExamplesBase):
 
     def test_remove_page_breaks(self):
 
-        #ExStart:OpenFromFile
+        #ExStart:OpenDocument
+        #GistId:59e45f5041ff6b356c5165164c019a76
         doc = aw.Document(MY_DIR + "Document.docx")
-        #ExEnd:OpenFromFile
+        #ExEnd:OpenDocument
 
         # In Aspose.words section breaks are represented as separate Section nodes in the document.
         # To remove these separate sections, the sections are combined.
@@ -78,7 +79,8 @@ class RemoveContent(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "RemoveContent.remove_footers.docx")
         #ExEnd:RemoveFooters
 
-    #ExStart:RemoveTOCFromDocument
+    #ExStart:RemoveToc
+    #GistId:1f496848f44b7c1c94094c8f2307a083
     def test_remove_toc(self):
 
         doc = aw.Document(MY_DIR + "Table of contents.docx")
@@ -128,4 +130,4 @@ class RemoveContent(DocsExamplesBase):
         for node in node_list:
             node.remove()
 
-    #ExEnd:RemoveTOCFromDocument
+    #ExEnd:RemoveToc

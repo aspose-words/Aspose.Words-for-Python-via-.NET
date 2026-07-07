@@ -1,4 +1,4 @@
-from datetime import datetime
+﻿from datetime import datetime
 import uuid
 import base64
 
@@ -9,11 +9,12 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
 
     def test_sign_document(self):
 
-        #ExStart:SingDocument
+        #ExStart:SignDocument
+        #GistId:d7587e4a19192801745282dc141f97a0
         cert_holder = aw.digitalsignatures.CertificateHolder.create(MY_DIR + "morzal.pfx", "aw")
 
         aw.digitalsignatures.DigitalSignatureUtil.sign(MY_DIR + "Digitally signed.docx", ARTIFACTS_DIR + "Document.signed.docx", cert_holder)
-        #ExEnd:SingDocument
+        #ExEnd:SignDocument
 
     def test_signing_encrypted_document(self):
 
@@ -70,7 +71,7 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
 
     def test_set_signature_provider_id(self):
 
-        #ExStart:SetSignatureProviderID
+        #ExStart:SignatureProviderId
         doc = aw.Document(MY_DIR + "Signature line.docx")
 
         signature_line = doc.first_section.body.get_child(aw.NodeType.SHAPE, 0, True).as_shape().signature_line
@@ -83,11 +84,12 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
 
         aw.digitalsignatures.DigitalSignatureUtil.sign(MY_DIR + "Digitally signed.docx",
             ARTIFACTS_DIR + "SignDocuments.set_signature_provider_id.docx", cert_holder, sign_options)
-        #ExEnd:SetSignatureProviderID
+        #ExEnd:SignatureProviderId
 
     def test_create_new_signature_line_and_set_provider_id(self):
 
-        #ExStart:CreateNewSignatureLineAndSetProviderID
+        #ExStart:CreateNewSignatureLineAndSetProviderId
+        #GistId:d7587e4a19192801745282dc141f97a0
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -115,7 +117,7 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
 
         aw.digitalsignatures.DigitalSignatureUtil.sign(ARTIFACTS_DIR + "SignDocuments.signature_line_provider_id.docx",
             ARTIFACTS_DIR + "SignDocuments.create_new_signature_line_and_set_provider_id.docx", cert_holder, sign_options)
-        #ExEnd:CreateNewSignatureLineAndSetProviderID
+        #ExEnd:CreateNewSignatureLineAndSetProviderId
 
 
     def test_access_and_verify_signature(self):
@@ -136,8 +138,29 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
             #print("Subject name: " + signature.certificate_holder.certificate.subject_name.name)
             #print("Issuer name: " + signature.certificate_holder.certificate.issuer_name.name)
 
+    def test_remove_signatures(self):
+
+        #ExStart:RemoveSignatures
+        #GistId:d7587e4a19192801745282dc141f97a0
+        # There are two ways of using the DigitalSignatureUtil class to remove digital signatures
+        # from a signed document by saving an unsigned copy of it somewhere else in the local file system.
+        # 1 - Determine the locations of both the signed document and the unsigned copy by filename strings:
+        aw.digitalsignatures.DigitalSignatureUtil.remove_all_signatures(MY_DIR + "Digitally signed.docx",
+            ARTIFACTS_DIR + "DigitalSignatureUtil.load_and_remove.from_string.docx")
+
+        # 2 - Determine the locations of both the signed document and the unsigned copy by file streams:
+        with open(MY_DIR + "Digitally signed.docx", "rb") as stream_in:
+            with open(ARTIFACTS_DIR + "DigitalSignatureUtil.load_and_remove.from_stream.docx", "wb") as stream_out:
+                aw.digitalsignatures.DigitalSignatureUtil.remove_all_signatures(stream_in, stream_out)
+
+        # Verify that both our output documents have no digital signatures.
+        self.assertEqual(0, aw.digitalsignatures.DigitalSignatureUtil.load_signatures(ARTIFACTS_DIR + "DigitalSignatureUtil.load_and_remove.from_string.docx").count)
+        self.assertEqual(0, aw.digitalsignatures.DigitalSignatureUtil.load_signatures(ARTIFACTS_DIR + "DigitalSignatureUtil.load_and_remove.from_stream.docx").count)
+        #ExEnd:RemoveSignatures
+    
     def test_signature_value(self):
-        #ExStart:signature_value
+        #ExStart:SignatureValue
+        #GistId:d7587e4a19192801745282dc141f97a0
         doc = aw.Document(MY_DIR + "Digitally signed.docx")
 
         for digital_signature in doc.digital_signatures:
@@ -146,5 +169,7 @@ class WorkingWithDigitalSignatures(DocsExamplesBase):
                               b"+5ENdjMxxTXkFzGUfvwxREuJdSFj9AbDMhnGvDURv9KEhC25DDF1al8NRVR71TF3CjHVZXpYu7edQS5/yLw" \
                               b"/k5CiFZzCp1+MmhOdYPcVO+Fm+9fKr2iNLeyYB+fgEeZHfTqTFM2WwAqo="
             self.assertEqual(expected_value, signature_value)
-            
-        #ExEnd:signature_value
+
+        #ExEnd:SignatureValue
+
+    

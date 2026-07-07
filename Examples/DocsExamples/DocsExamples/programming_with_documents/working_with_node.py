@@ -1,20 +1,21 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 import aspose.pydrawing as drawing
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithNode(DocsExamplesBase):
 
-    def test_use_node_type(self):
+    def test_get_node_type(self):
 
-        #ExStart:UseNodeType
+        #ExStart:GetNodeType
+        #GistId:3b762e366e876659d4f1b617120f13d1
         doc = aw.Document()
-
         node_type = doc.node_type
-        #ExEnd:UseNodeType
+        #ExEnd:GetNodeType
 
     def test_get_parent_node(self):
 
         #ExStart:GetParentNode
+        #GistId:3b762e366e876659d4f1b617120f13d1
         doc = aw.Document()
 
         # The section is the first child node of the document.
@@ -27,6 +28,7 @@ class WorkingWithNode(DocsExamplesBase):
     def test_owner_document(self):
 
         #ExStart:OwnerDocument
+        #GistId:3b762e366e876659d4f1b617120f13d1
         doc = aw.Document()
 
         # Creating a new node of any type requires a document passed into the constructor.
@@ -52,6 +54,7 @@ class WorkingWithNode(DocsExamplesBase):
     def test_enumerate_child_nodes(self):
 
         #ExStart:EnumerateChildNodes
+        #GistId:3b762e366e876659d4f1b617120f13d1
         doc = aw.Document()
         paragraph = doc.get_child(aw.NodeType.PARAGRAPH, 0, True).as_paragraph()
 
@@ -64,6 +67,7 @@ class WorkingWithNode(DocsExamplesBase):
         #ExEnd:EnumerateChildNodes
 
     #ExStart:RecurseAllNodes
+    #GistId:3b762e366e876659d4f1b617120f13d1
     def test_recurse_all_nodes(self):
 
         doc = aw.Document(MY_DIR + "Paragraphs.docx")
@@ -88,6 +92,7 @@ class WorkingWithNode(DocsExamplesBase):
     def test_typed_access(self):
 
         #ExStart:TypedAccess
+        #GistId:3b762e366e876659d4f1b617120f13d1
         doc = aw.Document()
 
         section = doc.first_section
@@ -117,16 +122,3 @@ class WorkingWithNode(DocsExamplesBase):
         section = doc.last_section
         section.body.append_child(para)
         #ExEnd:CreateAndAddParagraphNode
-
-    def test_change_run_color(self):
-
-        doc = aw.Document(MY_DIR + "Document.docx")
-
-        # Get the first Run node and cast it to Run object.
-        run = doc.get_child(aw.NodeType.RUN, 0, True).as_run()
-
-        # Make changes to the run
-        run.font.color = drawing.Color.red
-
-        # Save the result
-        doc.save(ARTIFACTS_DIR + "WorkingWithNode.change_run_color.docx")

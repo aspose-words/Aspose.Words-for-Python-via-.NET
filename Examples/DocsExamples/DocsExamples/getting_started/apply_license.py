@@ -3,7 +3,7 @@ import io
 import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, LICENSE_PATH
 
-class WorkingWithLicense(DocsExamplesBase):
+class ApplyLicense(DocsExamplesBase):
 
     def test_apply_license_from_file(self):
 

@@ -1,18 +1,19 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 from aspose.pydrawing import Color
 
 class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
 
-    def test_optimize_for_ms_word(self):
+    def test_optimize_for(self):
 
-        #ExStart:OptimizeForMsWord
+        #ExStart:OptimizeFor
+        #GistId:43e7d4d62794abe1e98938ae1658dc79
         doc = aw.Document(MY_DIR + "Document.docx")
 
         doc.compatibility_options.optimize_for(aw.settings.MsWordVersion.WORD2016)
 
-        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.optimize_for_ms_word.docx")
-        #ExEnd:OptimizeForMsWord
+        doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.optimize_for.docx")
+        #ExEnd:OptimizeFor
 
     def test_show_grammatical_and_spelling_errors(self):
 
@@ -27,7 +28,8 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
 
     def test_cleanup_unused_styles_and_lists(self):
 
-        #ExStart:CleanupUnusedStylesandLists
+        #ExStart:CleanupUnusedStylesAndLists
+        #GistId:2c3fc897d0a048c26c8f76a58eb00b8b
         doc = aw.Document(MY_DIR + "Unused styles.docx")
 
         # Combined with the built-in styles, the document now has eight styles.
@@ -46,11 +48,12 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
         print("Count of lists after Cleanup is the same:", doc.lists.count)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.cleanup_unused_styles_and_lists.docx")
-        #ExEnd:CleanupUnusedStylesandLists
+        #ExEnd:CleanupUnusedStylesAndLists
 
     def test_cleanup_duplicate_style(self):
 
         #ExStart:CleanupDuplicateStyle
+        #GistId:2c3fc897d0a048c26c8f76a58eb00b8b
         doc = aw.Document(MY_DIR + "Document.docx")
 
         # Count of styles before Cleanup.
@@ -70,6 +73,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
     def test_view_options(self):
 
         #ExStart:SetViewOption
+        #GistId:43e7d4d62794abe1e98938ae1658dc79
         doc = aw.Document(MY_DIR + "Document.docx")
 
         doc.view_options.view_type = aw.settings.ViewType.PAGE_LAYOUT
@@ -81,6 +85,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
     def test_document_page_setup(self):
 
         #ExStart:DocumentPageSetup
+        #GistId:43e7d4d62794abe1e98938ae1658dc79
         doc = aw.Document(MY_DIR + "Document.docx")
 
         # Set the layout mode for a section allowing to define the document grid behavior.
@@ -93,16 +98,17 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithDocumentOptionsAndSettings.document_page_setup.docx")
         #ExEnd:DocumentPageSetup
 
-    def test_add_japanese_as_editing_languages(self):
+    def test_add_editing_languages(self):
 
-        #ExStart:AddJapaneseAsEditinglanguages
+        #ExStart:AddEditingLanguage
+        #GistId:41c71acaf4924abe47f4bc2ff2c87d6a
         load_options = aw.loading.LoadOptions()
 
         # Set language preferences that will be used when document is loading.
         load_options.language_preferences.add_editing_language(aw.loading.EditingLanguage.JAPANESE)
-        #ExEnd:AddJapaneseAsEditinglanguages
 
         doc = aw.Document(MY_DIR + "No default editing language.docx", load_options)
+        #ExEnd:AddEditingLanguage
 
         locale_id_far_east = doc.styles.default_font.locale_id_far_east
         if locale_id_far_east == aw.loading.EditingLanguage.JAPANESE:
@@ -113,6 +119,7 @@ class WorkingWithDocumentOptionsAndSettings(DocsExamplesBase):
     def test_set_russian_as_default_editing_language(self):
 
         #ExStart:SetRussianAsDefaultEditingLanguage
+        #GistId:43e7d4d62794abe1e98938ae1658dc79
         load_options = aw.loading.LoadOptions()
         load_options.language_preferences.default_editing_language = aw.loading.EditingLanguage.RUSSIAN
 

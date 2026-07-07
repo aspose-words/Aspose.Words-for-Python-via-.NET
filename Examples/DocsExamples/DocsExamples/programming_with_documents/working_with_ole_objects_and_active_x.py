@@ -1,4 +1,4 @@
-import io
+﻿import io
 
 import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
@@ -7,18 +7,20 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
 
     def test_insert_ole_object(self):
 
-        #ExStart:DocumentBuilderInsertOleObject
+        #ExStart:InsertOleObject
+        #GistId:2c7d2bb472db1a698568d980c01b0735
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         builder.insert_ole_object("http://www.aspose.com", "htmlfile", True, True, None)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_ole_object.docx")
-        #ExEnd:DocumentBuilderInsertOleObject
+        #ExEnd:InsertOleObject
 
     def test_insert_ole_object_with_ole_package(self):
 
         #ExStart:InsertOleObjectwithOlePackage
+        #GistId:2c7d2bb472db1a698568d980c01b0735
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -32,25 +34,28 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_ole_object_with_ole_package.docx")
         #ExEnd:InsertOleObjectwithOlePackage
 
-        #ExStart:GetAccessToOLEObjectRawData
+        #ExStart:GetAccessToOleObjectRawData
+        #GistId:2c7d2bb472db1a698568d980c01b0735
         ole_shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
         ole_raw_data = ole_shape.ole_format.get_raw_data()
-        #ExEnd:GetAccessToOLEObjectRawData
+        #ExEnd:GetAccessToOleObjectRawData
 
     def test_insert_ole_object_as_icon(self):
 
-        #ExStart:InsertOLEObjectAsIcon
+        #ExStart:InsertOleObjectAsIcon
+        #GistId:2c7d2bb472db1a698568d980c01b0735
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         builder.insert_ole_object_as_icon(MY_DIR + "Presentation.pptx", False, IMAGES_DIR + "Logo icon.ico", "My embedded file")
 
         doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_ole_object_as_icon.docx")
-        #ExEnd:InsertOLEObjectAsIcon
+        #ExEnd:InsertOleObjectAsIcon
 
     def test_insert_ole_object_as_icon_using_stream(self):
 
-        #ExStart:InsertOLEObjectAsIconUsingStream
+        #ExStart:InsertOleObjectAsIconUsingStream
+        #GistId:2c7d2bb472db1a698568d980c01b0735
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -58,7 +63,7 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
             builder.insert_ole_object_as_icon(stream, "Package", IMAGES_DIR + "Logo icon.ico", "My embedded file")
 
         doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_ole_object_as_icon_using_stream.docx")
-        #ExEnd:InsertOLEObjectAsIconUsingStream
+        #ExEnd:InsertOleObjectAsIconUsingStream
 
     def test_read_active_x_control_properties(self):
 
@@ -89,16 +94,15 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
     def test_insert_online_video(self):
 
         #ExStart:InsertOnlineVideo
+        #GistId:2c7d2bb472db1a698568d980c01b0735
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # Pass direct url from youtu.be.
         url = "https://youtu.be/t_1LYZ102RA"
-
         width = 360
         height = 270
 
-        shape = builder.insert_online_video(url, width, height)
+        builder.insert_online_video(url, width, height)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_online_video.docx")
         #ExEnd:InsertOnlineVideo
@@ -106,22 +110,19 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
     def test_insert_online_video_with_embed_html(self):
 
         #ExStart:InsertOnlineVideoWithEmbedHtml
+        #GistId:2c7d2bb472db1a698568d980c01b0735
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
-        # Shape width/height.
         width = 360
         height = 270
 
-        # Poster frame image.
-        image_bytes = open(IMAGES_DIR + "Logo.jpg", "rb").read()
-
-        # Visible url
         vimeo_video_url = "https://vimeo.com/52477838"
+        vimeo_embed_code = "<iframe src=\"https://player.vimeo.com/video/52477838\" width=\"640\" height=\"360\" frameborder=\"0\" " \
+        "title=\"Aspose\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>"
 
-        # Embed Html code.
-        vimeo_embed_code = ""
-
+        image_bytes = open(IMAGES_DIR + "Logo.jpg", "rb").read()
+        
         builder.insert_online_video(vimeo_video_url, vimeo_embed_code, image_bytes, width, height)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithOleObjectsAndActiveX.insert_online_video_with_embed_html.docx")

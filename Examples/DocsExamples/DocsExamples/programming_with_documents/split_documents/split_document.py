@@ -1,4 +1,4 @@
-import os
+﻿import os
 
 import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
@@ -7,7 +7,8 @@ class SplitDocument(DocsExamplesBase):
 
     def test_by_headings_html(self):
 
-        #ExStart:SplitDocumentByHeadingsHtml
+        #ExStart:SplitDocumentByHeadings
+        #GistId:c5d01a71f65e540e5e77650b846b24cc
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         options = aw.saving.HtmlSaveOptions()
@@ -16,13 +17,14 @@ class SplitDocument(DocsExamplesBase):
         options.document_split_criteria = aw.saving.DocumentSplitCriteria.HEADING_PARAGRAPH
 
         doc.save(ARTIFACTS_DIR + "SplitDocument.by_headings_html.html", options)
-        #ExEnd:SplitDocumentByHeadingsHtml
+        #ExEnd:SplitDocumentByHeadings
 
     def test_by_sections_html(self):
 
         doc = aw.Document(MY_DIR + "Rendering.docx")
 
         #ExStart:SplitDocumentBySectionsHtml
+        #GistId:fec4c47291463c8d8d8a6684ffb23d64
         options = aw.saving.HtmlSaveOptions()
         options.document_split_criteria = aw.saving.DocumentSplitCriteria.SECTION_BREAK
         #ExEnd:SplitDocumentBySectionsHtml
@@ -32,6 +34,7 @@ class SplitDocument(DocsExamplesBase):
     def test_by_sections(self):
 
         #ExStart:SplitDocumentBySections
+        #GistId:fec4c47291463c8d8d8a6684ffb23d64
         doc = aw.Document(MY_DIR + "Big document.docx")
 
         for i in range(doc.sections.count):
@@ -52,6 +55,7 @@ class SplitDocument(DocsExamplesBase):
     def test_page_by_page(self):
 
         #ExStart:SplitDocumentPageByPage
+        #GistId:fec4c47291463c8d8d8a6684ffb23d64
         doc = aw.Document(MY_DIR + "Big document.docx")
 
         page_count = doc.page_count
@@ -66,6 +70,7 @@ class SplitDocument(DocsExamplesBase):
         self.merge_documents()
 
     #ExStart:MergeSplitDocuments
+    #GistId:fec4c47291463c8d8d8a6684ffb23d64
     @staticmethod
     def merge_documents():
 
@@ -99,6 +104,7 @@ class SplitDocument(DocsExamplesBase):
     def test_by_page_range(self):
 
         #ExStart:SplitDocumentByPageRange
+        #GistId:fec4c47291463c8d8d8a6684ffb23d64
         doc = aw.Document(MY_DIR + "Big document.docx")
 
         # Get part of the document.

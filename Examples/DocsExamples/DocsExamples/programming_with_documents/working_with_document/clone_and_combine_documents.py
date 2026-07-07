@@ -1,16 +1,17 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class CloneAndCombineDocuments(DocsExamplesBase):
 
     def test_cloning_document(self):
 
-        #ExStart:CloningDocument
+        #ExStart:CloneDocument
+        #GistId:e510e7e7b1fd08239ef592aa440675c1
         doc = aw.Document(MY_DIR + "Document.docx")
 
         clone = doc.clone().as_document()
         clone.save(ARTIFACTS_DIR + "CloneAndCombineDocuments.cloning_document.docx")
-        #ExEnd:CloningDocument
+        #ExEnd:CloneDocument
 
     def test_insert_document_at_bookmark(self):
 

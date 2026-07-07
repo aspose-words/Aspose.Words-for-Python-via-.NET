@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 import aspose.pydrawing as drawing
 from docs_examples_base import DocsExamplesBase, ARTIFACTS_DIR
 
@@ -7,6 +7,7 @@ class WorkingWithList(DocsExamplesBase):
     def test_restart_list_at_each_section(self):
 
         #ExStart:RestartListAtEachSection
+        #GistId:7aba3b36b61737610167905e1bd5f350
         doc = aw.Document()
 
         doc.lists.add(aw.lists.ListTemplate.NUMBER_DEFAULT)

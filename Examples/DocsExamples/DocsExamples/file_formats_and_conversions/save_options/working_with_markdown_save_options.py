@@ -1,13 +1,14 @@
-import io
+﻿import io
 
 import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithMarkdownSaveOptions(DocsExamplesBase):
 
-    def test_export_into_markdown_with_table_content_alignment(self):
+    def test_markdown_table_content_alignment(self):
 
-        #ExStart:ExportIntoMarkdownWithTableContentAlignment
+        #ExStart:MarkdownTableContentAlignment
+        #GistId:59b74012ce4fe6ada2c9c5f036df3911
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -33,11 +34,12 @@ class WorkingWithMarkdownSaveOptions(DocsExamplesBase):
         # The alignment in this case will be taken from the first paragraph in corresponding table column.
         save_options.table_content_alignment = aw.saving.TableContentAlignment.AUTO
         doc.save(ARTIFACTS_DIR + "WorkingWithMarkdownSaveOptions.auto_table_content_alignment.md", save_options)
-        #ExEnd:ExportIntoMarkdownWithTableContentAlignment
+        #ExEnd:MarkdownTableContentAlignment
 
-    def test_set_images_folder(self):
+    def test_images_folder(self):
 
-        #ExStart:SetImagesFolder
+        #ExStart:ImagesFolder
+        #GistId:461290170d82b0922d265fa7bc854942
         doc = aw.Document(MY_DIR + "Image bullet points.docx")
 
         save_options = aw.saving.MarkdownSaveOptions()
@@ -45,4 +47,4 @@ class WorkingWithMarkdownSaveOptions(DocsExamplesBase):
 
         with io.BytesIO() as stream:
             doc.save(stream, save_options)
-        #ExEnd:SetImagesFolder
+        #ExEnd:ImagesFolder

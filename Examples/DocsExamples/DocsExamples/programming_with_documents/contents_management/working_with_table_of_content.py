@@ -1,19 +1,21 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithTableOfContent(DocsExamplesBase):
 
     def test_change_style_of_toc_level(self):
 
-        #ExStart:ChangeStyleOfTOCLevel
+        #ExStart:ChangeStyleOfTocLevel
+        #GistId:1f496848f44b7c1c94094c8f2307a083
         doc = aw.Document()
         # Retrieve the style used for the first level of the TOC and change the formatting of the style.
         doc.styles.get_by_style_identifier(aw.StyleIdentifier.TOC1).font.bold = True
-        #ExEnd:ChangeStyleOfTOCLevel
+        #ExEnd:ChangeStyleOfTocLevel
 
     def test_change_toc_tab_stops(self):
 
-        #ExStart:ChangeTOCTabStops
+        #ExStart:ChangeTocTabStops
+        #GistId:1f496848f44b7c1c94094c8f2307a083
         doc = aw.Document(MY_DIR + "Table of contents.docx")
 
         for para in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True):
@@ -34,4 +36,23 @@ class WorkingWithTableOfContent(DocsExamplesBase):
                 para.paragraph_format.tab_stops.add(tab.position - 50, tab.alignment, tab.leader)
 
         doc.save(ARTIFACTS_DIR + "WorkingWithTableOfContent.change_toc_tab_stops.docx")
-        #ExEnd:ChangeTOCTabStops
+        #ExEnd:ChangeTocTabStops
+
+    def test_extract_toc(self):
+
+        #ExStart:ExtractToc
+        #GistId:1f496848f44b7c1c94094c8f2307a083
+        doc = aw.Document(MY_DIR + "Table of contents.docx")
+
+        for field in doc.range.fields:
+            if field.type == aw.fields.FieldType.FIELD_HYPERLINK:
+                hyperlink = field.as_field_hyperlink()
+                if hyperlink.sub_address != None and hyperlink.sub_address.startswith("_Toc"):
+                    toc_item = field.start.get_ancestor(aw.NodeType.PARAGRAPH).as_paragraph()
+                    print(toc_item.to_string(aw.SaveFormat.TEXT).strip())
+                    print("------------------")
+                    if toc_item != None:
+                        bm = doc.range.bookmarks.get_by_name(hyperlink.sub_address)
+                        pointer = bm.bookmark_start.get_ancestor(aw.NodeType.PARAGRAPH).as_paragraph()
+                        print(pointer.to_string(aw.SaveFormat.TEXT))
+        #ExEnd:ExtractToc

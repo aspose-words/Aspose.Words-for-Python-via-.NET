@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithOoxmlSaveOptions(DocsExamplesBase):
@@ -27,16 +27,17 @@ class WorkingWithOoxmlSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithOoxmlSaveOptions.ooxml_compliance_iso_29500_2008_strict.docx", save_options)
         #ExEnd:OoxmlComplianceIso29500_2008_Strict
 
-    def test_update_last_saved_time_property(self):
+    def test_update_last_saved_time(self):
 
-        #ExStart:UpdateLastSavedTimeProperty
+        #ExStart:UpdateLastSavedTime
+        #GistId:b05f6fe5e272263ce37254e9e36a5ae0
         doc = aw.Document(MY_DIR + "Document.docx")
 
         save_options = aw.saving.OoxmlSaveOptions()
         save_options.update_last_saved_time_property = True
 
         doc.save(ARTIFACTS_DIR + "WorkingWithOoxmlSaveOptions.update_last_saved_time_property.docx", save_options)
-        #ExEnd:UpdateLastSavedTimeProperty
+        #ExEnd:UpdateLastSavedTime
 
     def test_keep_legacy_control_chars(self):
 

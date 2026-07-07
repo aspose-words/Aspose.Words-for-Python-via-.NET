@@ -1,4 +1,4 @@
-from datetime import datetime
+﻿from datetime import datetime
 
 import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
@@ -8,12 +8,11 @@ class WorkingWithComments(DocsExamplesBase):
     def test_add_comments(self):
 
         #ExStart:AddComments
-        #ExStart:CreateSimpleDocumentUsingDocumentBuilder
+        #GistId:1b6e88920a5377e910e70fb211bcf1b3
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         builder.write("Some text is added.")
-        #ExEnd:CreateSimpleDocumentUsingDocumentBuilder
 
         comment = aw.Comment(doc, "Awais Hafeez", "AH", datetime.today())
 
@@ -28,6 +27,7 @@ class WorkingWithComments(DocsExamplesBase):
     def test_anchor_comment(self):
 
         #ExStart:AnchorComment
+        #GistId:1b6e88920a5377e910e70fb211bcf1b3
         doc = aw.Document()
 
         para1 = aw.Paragraph(doc)
@@ -61,6 +61,7 @@ class WorkingWithComments(DocsExamplesBase):
     def test_add_remove_comment_reply(self):
 
         #ExStart:AddRemoveCommentReply
+        #GistId:1b6e88920a5377e910e70fb211bcf1b3
         doc = aw.Document(MY_DIR + "Comments.docx")
 
         comment = doc.get_child(aw.NodeType.COMMENT, 0, True).as_comment()
@@ -74,6 +75,7 @@ class WorkingWithComments(DocsExamplesBase):
     def test_process_comments(self):
 
         #ExStart:ProcessComments
+        #GistId:1b6e88920a5377e910e70fb211bcf1b3
         doc = aw.Document(MY_DIR + "Comments.docx")
 
         # Extract the information about the comments of all the authors.
@@ -99,6 +101,7 @@ class WorkingWithComments(DocsExamplesBase):
         #ExEnd:ProcessComments
 
     #ExStart:ExtractComments
+    #GistId:1b6e88920a5377e910e70fb211bcf1b3
     @staticmethod
     def extract_comments(doc: aw.Document):
 
@@ -114,6 +117,7 @@ class WorkingWithComments(DocsExamplesBase):
     #ExEnd:ExtractComments
 
     #ExStart:ExtractCommentsByAuthor
+    #GistId:1b6e88920a5377e910e70fb211bcf1b3
     @staticmethod
     def extract_comments_by_author(doc: aw.Document, author_name: str):
 
@@ -130,6 +134,7 @@ class WorkingWithComments(DocsExamplesBase):
     #ExEnd:ExtractCommentsByAuthor
 
     #ExStart:RemoveComments
+    #GistId:1b6e88920a5377e910e70fb211bcf1b3
     @staticmethod
     def remove_comments(doc: aw.Document):
 
@@ -139,6 +144,7 @@ class WorkingWithComments(DocsExamplesBase):
     #ExEnd:RemoveComments
 
     #ExStart:RemoveCommentsByAuthor
+    #GistId:1b6e88920a5377e910e70fb211bcf1b3
     @staticmethod
     def remove_comments_by_author(doc: aw.Document, author_name: str):
 
@@ -153,7 +159,8 @@ class WorkingWithComments(DocsExamplesBase):
 
     #ExEnd:RemoveCommentsByAuthor
 
-    #ExStart:CommentResolvedandReplies
+    #ExStart:CommentResolvedAndReplies
+    #GistId:1b6e88920a5377e910e70fb211bcf1b3
     @staticmethod
     def comment_resolved_and_replies(doc):
 
@@ -169,11 +176,12 @@ class WorkingWithComments(DocsExamplesBase):
             # And update comment Done mark.
             child_comment.done = True
 
-    #ExEnd:CommentResolvedandReplies
+    #ExEnd:CommentResolvedAndReplies
 
-    def test_remove_region_text(self):
+    def test_remove_range_text(self):
 
-        #ExStart:RemoveRegionText
+        #ExStart:RemoveRangeText
+        #GistId:1b6e88920a5377e910e70fb211bcf1b3
         # Open the document.
         doc = aw.Document(MY_DIR + "Comments.docx")
 
@@ -191,5 +199,5 @@ class WorkingWithComments(DocsExamplesBase):
             current_node = next_node
 
         # Save the document.
-        doc.save(ARTIFACTS_DIR + "WorkingWithComments.remove_region_text.docx")
-        #ExEnd:RemoveRegionText
+        doc.save(ARTIFACTS_DIR + "WorkingWithComments.remove_range_text.docx")
+        #ExEnd:RemoveRangeText

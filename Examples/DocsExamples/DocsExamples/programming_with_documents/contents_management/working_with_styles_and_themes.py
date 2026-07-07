@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 import aspose.pydrawing as drawing
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
@@ -7,6 +7,7 @@ class WorkingWithStylesAndThemes(DocsExamplesBase):
     def test_access_styles(self):
 
         #ExStart:AccessStyles
+        #GistId:40c79033c4dec6fc8bd51ae6e841caaa
         doc = aw.Document()
 
         style_name = ""
@@ -26,6 +27,7 @@ class WorkingWithStylesAndThemes(DocsExamplesBase):
     def test_copy_styles(self):
 
         #ExStart:CopyStyles
+        #GistId:40c79033c4dec6fc8bd51ae6e841caaa
         doc = aw.Document()
         target = aw.Document(MY_DIR + "Rendering.docx")
 
@@ -37,6 +39,7 @@ class WorkingWithStylesAndThemes(DocsExamplesBase):
     def test_get_theme_properties(self):
 
         #ExStart:GetThemeProperties
+        #GistId:40c79033c4dec6fc8bd51ae6e841caaa
         doc = aw.Document()
 
         theme = doc.theme
@@ -49,6 +52,7 @@ class WorkingWithStylesAndThemes(DocsExamplesBase):
     def test_set_theme_properties(self):
 
         #ExStart:SetThemeProperties
+        #GistId:40c79033c4dec6fc8bd51ae6e841caaa
         doc = aw.Document()
 
         theme = doc.theme
@@ -59,6 +63,7 @@ class WorkingWithStylesAndThemes(DocsExamplesBase):
     def test_insert_style_separator(self):
 
         #ExStart:InsertStyleSeparator
+        #GistId:3782e77b237fd3303b01a130ae46f958
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 

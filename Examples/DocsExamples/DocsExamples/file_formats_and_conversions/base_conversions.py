@@ -1,4 +1,4 @@
-import io
+﻿import io
 import unittest
 import sys
 import aspose.words as aw
@@ -13,6 +13,7 @@ class BaseConversions(DocsExamplesBase):
     def test_doc_to_docx(self):
 
         #ExStart:LoadAndSave
+        #GistId:1ea924a385a086092413b7fc5ea0f5e9
         #ExStart:OpenDocument
         doc = aw.Document(MY_DIR + "Document.doc")
         #ExEnd:OpenDocument
@@ -23,14 +24,16 @@ class BaseConversions(DocsExamplesBase):
     def test_docx_to_rtf(self):
 
         #ExStart:LoadAndSaveToStream
-        #ExStart:OpeningFromStream
+        #GistId:1ea924a385a086092413b7fc5ea0f5e9
+        #ExStart:OpenFromStream
+        #GistId:59e45f5041ff6b356c5165164c019a76
         # Read only access is enough for Aspose.Words to load a document.
         stream = io.FileIO(MY_DIR + "Document.docx")
 
         doc = aw.Document(stream)
         # You can close the stream now, it is no longer needed because the document is in memory.
         stream.close()
-        #ExEnd:OpeningFromStream
+        #ExEnd:OpenFromStream
 
         # ... do something with the document.
 
@@ -54,6 +57,7 @@ class BaseConversions(DocsExamplesBase):
     def test_docx_to_byte(self):
 
         #ExStart:DocxToByte
+        #GistId:9278593292345acbef67679a2afb4286
         doc = aw.Document(MY_DIR + "Document.docx")
 
         out_stream = io.BytesIO()
@@ -72,6 +76,15 @@ class BaseConversions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "BaseConversions.docx_to_epub.epub")
         #ExEnd:DocxToEpub
+
+    def test_docx_to_html(self):
+
+        #ExStart:DocxToHtml
+        #GistId:c5d01a71f65e540e5e77650b846b24cc
+        doc = aw.Document(MY_DIR + "Document.docx")
+
+        doc.save(ARTIFACTS_DIR + "BaseConversions.docx_to_html.html")
+        #ExEnd:DocxToHtml
 
     @unittest.skip("Aspose.Email is required. Will do later.")
     def test_docx_to_mhtml_and_sending_email(self):
@@ -99,14 +112,15 @@ class BaseConversions(DocsExamplesBase):
 
     def test_docx_to_markdown(self):
 
-        #ExStart:SaveToMarkdownDocument
+        #ExStart:DocxToMarkdown
+        #GistId:461290170d82b0922d265fa7bc854942
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
         builder.writeln("Some text!")
 
         doc.save(ARTIFACTS_DIR + "BaseConversions.docx_to_markdown.md")
-        #ExEnd:SaveToMarkdownDocument
+        #ExEnd:DocxToMarkdown
 
     def test_docx_to_txt(self):
 
@@ -115,6 +129,14 @@ class BaseConversions(DocsExamplesBase):
         doc = aw.Document(MY_DIR + "Document.docx")
         doc.save(ARTIFACTS_DIR + "BaseConversions.docx_to_txt.txt")
         #ExEnd:DocxToTxt
+
+    def test_docx_to_xlsx(self):
+
+        #ExStart:DocxToXlsx
+        #GistId:1f614ac0f43c0f1392c52366850cf211
+        doc = aw.Document(MY_DIR + "Document.docx")
+        doc.save(ARTIFACTS_DIR + "BaseConversions.docx_to_xlsx.xlsx")
+        #ExEnd:DocxToXlsx
 
     def test_txt_to_docx(self):
 
@@ -128,6 +150,7 @@ class BaseConversions(DocsExamplesBase):
     def test_pdf_to_jpeg(self):
 
         #ExStart:PdfToJpeg
+        #GistId:f9e5cde75221f622f636297c5fcc7297
         doc = aw.Document(MY_DIR + "Pdf Document.pdf")
 
         doc.save(ARTIFACTS_DIR + "BaseConversions.pdf_to_jpeg.jpeg")
@@ -136,11 +159,53 @@ class BaseConversions(DocsExamplesBase):
     def test_pdf_to_docx(self):
 
         #ExStart:PdfToDocx
+        #GistId:1cd02caea10d62b6238a3177a70dd81d
         doc = aw.Document(MY_DIR + "Pdf Document.pdf")
 
         doc.save(ARTIFACTS_DIR + "BaseConversions.pdf_to_docx.docx")
         #ExEnd:PdfToDocx
 
+    def test_pdf_to_xlsx(self):
+        #ExStart:PdfToXlsx
+        #GistId:b2e1027992a4ccbf53b6a983a808ba20
+        doc = aw.Document(MY_DIR + "Pdf Document.pdf")
+
+        doc.save(ARTIFACTS_DIR + "BaseConversions.pdf_to_xlsx.xlsx")
+        #ExEnd:PdfToXlsx
+
+    def test_find_replace_xlsx(self):
+
+        #ExStart:FindReplaceXlsx
+        #GistId:b2e1027992a4ccbf53b6a983a808ba20
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        builder.writeln("Ruby bought a ruby necklace.")
+
+        # We can use a "FindReplaceOptions" object to modify the find - and -replace process.
+
+        options = FindReplaceOptions()
+
+        # Set the "MatchCase" flag to "true" to apply case sensitivity while finding strings to replace.
+        # Set the "MatchCase" flag to "false" to ignore character case while searching for text to replace.
+        options.match_case = True
+
+        doc.range.replace("Ruby", "Jade", options)
+
+        doc.save(ARTIFACTS_DIR + "BaseConversions.find_replace_xlsx.xlsx")
+        #ExEnd:FindReplaceXlsx
+
+    def test_compress_xlsx(self):
+
+        #ExStart:CompressXlsx
+        #GistId:a50652f28531278511605e0fd778bbdf
+        doc = aw.Document(MY_DIR + "Document.docx")
+        saveOptions = XlsxSaveOptions()
+        saveOptions.compression_level = CompressionLevel.MAXIMUM
+
+        doc.save(ARTIFACTS_DIR + "BaseConversions.compress_xlsx.xlsx", saveOptions)
+        #ExEnd:CompressXlsx
+    
     @unittest.skipUnless(sys.platform.startswith("win"), "requires Windows")
     def test_images_to_pdf(self):
 
@@ -157,40 +222,6 @@ class BaseConversions(DocsExamplesBase):
         self.convert_image_to_pdf(IMAGES_DIR + "Graphics Interchange Format.gif",
                                   ARTIFACTS_DIR + "BaseConversions.GifToPdf.pdf")
         #ExEnd:ImageToPdf
-
-    def test_pdf_to_xlsx(self):
-        #ExStart: PdfToXlsx
-        doc = aw.Document(MY_DIR + "Pdf Document.pdf")
-
-        doc.save(ARTIFACTS_DIR + "BaseConversions.PdfToXlsx.xlsx")
-        #ExEnd: PdfToXlsx
-
-    def test_find_replace_xlsx(self):
-
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc)
-
-        builder.writeln("Ruby bought a ruby necklace.")
-
-        # We can use a "FindReplaceOptions" object to modify the find - and -replace process.
-
-        options = FindReplaceOptions()
-
-        # Set the "MatchCase" flag to "true" to apply case sensitivity while finding strings to replace.
-        # Set the "MatchCase" flag to "false" to ignore character case while searching for text to replace.
-        options.match_case = True
-
-        doc.range.replace("Ruby", "Jade", options)
-
-        doc.save(ARTIFACTS_DIR + "BaseConversions.FindReplaceXlsx.xlsx")
-
-    def test_compress_xlsx(self):
-
-        doc = aw.Document(MY_DIR + "Document.docx")
-        saveOptions = XlsxSaveOptions()
-        saveOptions.compression_level = CompressionLevel.MAXIMUM
-
-        doc.save(ARTIFACTS_DIR + "BaseConversions.CompressXlsx.xlsx", saveOptions)
 
     #ExStart:ConvertImageToPdf
     #GistId:36a49a29062268dc5e6d3134163f8d99

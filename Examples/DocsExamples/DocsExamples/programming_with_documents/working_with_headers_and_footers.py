@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, ARTIFACTS_DIR, IMAGES_DIR
 
 class WorkingWithHeadersAndFooters(DocsExamplesBase):
@@ -155,6 +155,39 @@ class WorkingWithHeadersAndFooters(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithHeadersAndFooters.link_to_previous_header_footer.docx")
         #ExEnd:LinkToPreviousHeaderFooter
+
+    def test_sections_with_different_headers(self):
+        #ExStart:SectionsWithDifferentHeaders
+        #GistId:000cda3bfe9679c09bfd03617bd1f9e8
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        page_setup = builder.current_section.page_setup
+        page_setup.different_first_page_header_footer = True
+        page_setup.header_distance = 20
+
+        builder.move_to_header_footer(aw.HeaderFooterType.HEADER_FIRST)
+        builder.paragraph_format.alignment = aw.ParagraphAlignment.CENTER
+        builder.font.name = "Arial"
+        builder.font.bold = True
+        builder.font.size = 14
+        builder.write("Header for the first page.")
+
+        builder.move_to_document_end()
+        builder.insert_break(aw.BreakType.SECTION_BREAK_NEW_PAGE)
+
+        builder.move_to_header_footer(aw.HeaderFooterType.HEADER_PRIMARY)
+        # Insert a positioned image into the top/left corner of the header.
+        # Distance from the top/left edges of the page is set to 10 points.
+        builder.insert_image(IMAGES_DIR + "Logo.jpg",
+                             aw.drawing.RelativeHorizontalPosition.PAGE, 10,
+                             aw.drawing.RelativeVerticalPosition.PAGE, 10, 50, 50,
+                             aw.drawing.WrapType.THROUGH)
+        builder.paragraph_format.alignment = aw.ParagraphAlignment.RIGHT
+        builder.write("Header for odd page.")
+
+        doc.save(ARTIFACTS_DIR + "WorkingWithHeadersAndFooters.sections_with_different_headers.docx")
+        #ExEnd:SectionsWithDifferentHeaders
 
     #ExStart:CopyHeadersFootersFromPreviousSection
     #GistId:2e1b2b28253780881d116e3a873ee668

@@ -1,4 +1,4 @@
-import aspose.words as aw
+﻿import aspose.words as aw
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithOfficeMath(DocsExamplesBase):
@@ -6,6 +6,7 @@ class WorkingWithOfficeMath(DocsExamplesBase):
     def test_math_equations(self):
 
         #ExStart:MathEquations
+        #GistId:5a8ece68405d1cacf71c2cdca1a0207a
         doc = aw.Document(MY_DIR + "Office math.docx")
         office_math = doc.get_child(aw.NodeType.OFFICE_MATH, 0, True).as_office_math()
 
