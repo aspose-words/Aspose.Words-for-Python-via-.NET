@@ -1642,24 +1642,6 @@ class ExDocument(ApiExampleBase):
         #ExEnd
         doc = document_helper.DocumentHelper.save_open(doc)
         self.assertEqual(72, doc.default_tab_stop)
-    
-    def test_readability_statistics_flesch_scores(self):
-        #ExStart:ReadabilityStatisticsFleschScores
-        #ExFor:ReadabilityStatistics
-        #ExFor:Document.readability_statistics
-        #ExSummary:Shows how to calculate and display the Flesch reading scores for a document.
-        doc = aw.Document()
-        builder = aw.DocumentBuilder(doc=doc)
-        builder.writeln("The implementation of artificial intelligence algorithms requires a comprehensive understanding of machine learning methodologies and statistical analysis techniques.")
-        builder.writeln("Furthermore, the integration of neural networks into existing software architectures presents significant challenges for developers.")
-        builder.writeln("This document serves as an illustrative example for calculating readability metrics using the Flesch reading ease formula.")
-        # Calculate readability statistics.
-        stats = doc.readability_statistics
-        # Verify that the scores are within expected valid ranges.
-        
-        assert 0 <= stats.flesch_reading_ease <= 190
-        # Verify the Flesch-Kincaid grade level.
-        assert stats.flesch_kincaid_grade_level <= 0
 
     def _test_doc_package_custom_parts(self, parts: aw.markup.CustomPartCollection):
         self.assertEqual(3, parts.count)

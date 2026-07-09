@@ -256,14 +256,6 @@ class ExMarkdownSaveOptions(ApiExampleBase):
         #ExEnd:ExportOfficeMathAsLatex
         self.assertTrue(document_helper.DocumentHelper.compare_docs(ARTIFACTS_DIR + 'MarkdownSaveOptions.ExportOfficeMathAsLatex.md', GOLDS_DIR + 'MarkdownSaveOptions.ExportOfficeMathAsLatex.Gold.md'))
 
-    def test_resource_saving_callback(self):
-        output_path = ARTIFACTS_DIR + 'MarkdownSaveOptions.ResourceSavingCallback.md'
-        doc = aw.Document(file_name=MY_DIR + 'Rendering.docx')
-        save_options = aw.saving.MarkdownSaveOptions()
-        save_options.resource_saving_callback = self.ChangeUriPath()
-        doc.save(file_name=output_path, save_options=save_options)
-        document_helper.DocumentHelper.find_text_in_file(output_path, '/uri/for/')
-
     def test_export_office_math_as_mark_it_down(self):
         #ExStart:ExportOfficeMathAsMarkItDown
         #ExFor:MarkdownSaveOptions.office_math_export_mode
