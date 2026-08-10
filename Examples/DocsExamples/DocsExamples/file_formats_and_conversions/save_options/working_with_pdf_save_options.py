@@ -303,7 +303,7 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
             link.screen_tip = link.display_result
 
         save_options = aw.saving.PdfSaveOptions()
-        save_options.compliance = aw.saving.PdfCompliance.PDF_UA_1
+        save_options.compliance = aw.saving.PdfCompliance.PDF_UA1
         save_options.display_doc_title = True
         save_options.export_document_structure = True
         save_options.outline_options.headings_outline_levels = 3

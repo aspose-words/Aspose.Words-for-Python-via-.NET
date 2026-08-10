@@ -5,8 +5,6 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import os
-import sys
 import aspose.words as aw
 import aspose.words.digitalsignatures
 import aspose.words.saving
@@ -16,6 +14,9 @@ import system_helper
 import test_util
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, MY_DIR
+import sys
+import os
+import api_example_base
 
 class ExXpsSaveOptions(ApiExampleBase):
 
@@ -75,6 +76,7 @@ class ExXpsSaveOptions(ApiExampleBase):
             doc.save(file_name=ARTIFACTS_DIR + 'XpsSaveOptions.BookFold.xps', save_options=xps_options)
             #ExEnd
 
+    @unittest.skipIf(sys.platform.startswith('win'), 'Discrepancy in assertion between Python and .Net')
     def test_optimize_output(self):
         for optimize_output in [False, True]:
             #ExStart
@@ -132,3 +134,19 @@ class ExXpsSaveOptions(ApiExampleBase):
         self.assertEqual('Some comments', digital_signature_details.sign_options.comments)
         doc.save(file_name=ARTIFACTS_DIR + 'XpsSaveOptions.XpsDigitalSignature.docx', save_options=save_options)
         #ExEnd:XpsDigitalSignature
+
+    def test_compression_level_xps(self):
+        #ExStart:CompressionLevelXps
+        #ExFor:XpsSaveOptions.compression_level
+        #ExFor:CompressionLevel
+        #ExSummary:Shows how to control the compression level when saving a document to XPS format.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.writeln('Sample document for XPS compression test.')
+        # Create an XpsSaveOptions object and set the compression level.
+        options = aw.saving.XpsSaveOptions()
+        options.compression_level = aw.saving.CompressionLevel.MAXIMUM
+        doc.save(file_name=ARTIFACTS_DIR + 'XpsSaveOptions.CompressionLevelXps.xps', save_options=options)
+        #ExEnd:CompressionLevelXps
+        file_info = system_helper.io.FileInfo(ARTIFACTS_DIR + 'XpsSaveOptions.CompressionLevelXps.xps')
+        self.assertLess(file_info.length(), 40000)

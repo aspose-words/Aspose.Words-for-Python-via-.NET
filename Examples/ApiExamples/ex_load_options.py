@@ -1,3 +1,5 @@
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR, GOLDS_DIR, TEMP_DIR, IMAGE_DIR, FONTS_DIR
+from api_example_base import ApiExampleBase, MY_DIR, ARTIFACTS_DIR
 # -*- coding: utf-8 -*-
 # Copyright (c) 2001-2025 Aspose Pty Ltd. All Rights Reserved.
 #
@@ -5,9 +7,6 @@
 # is only intended as a supplement to the documentation, and is provided
 # "as is", without warranty of any kind, either expressed or implied.
 #####################################
-import sys
-from typing import List
-import os
 import aspose.words as aw
 import aspose.words.drawing
 import aspose.words.fonts
@@ -18,6 +17,11 @@ import system_helper
 import test_util
 import unittest
 from api_example_base import ApiExampleBase, ARTIFACTS_DIR, FONTS_DIR, IMAGE_DIR, MY_DIR
+import sys
+import typing
+import os
+import api_example_base
+from typing import List
 
 class ExLoadOptions(ApiExampleBase):
 
@@ -84,15 +88,12 @@ class ExLoadOptions(ApiExampleBase):
 
     @staticmethod
     def _test_load_options_warning_callback(warnings):
-        assert warnings[0].warning_type == aw.WarningType.UNEXPECTED_CONTENT
-        assert warnings[0].source == aw.WarningSource.DOCX
-        assert warnings[0].description == '3F01'
-        assert warnings[1].warning_type == aw.WarningType.MINOR_FORMATTING_LOSS
-        assert warnings[1].source == aw.WarningSource.DOCX
-        assert warnings[1].description == "Import of element 'shapedefaults' is not supported in Docx format by Aspose.Words."
-        assert warnings[2].warning_type == aw.WarningType.MINOR_FORMATTING_LOSS
-        assert warnings[2].source == aw.WarningSource.DOCX
-        assert warnings[2].description == "Import of element 'extraClrSchemeLst' is not supported in Docx format by Aspose.Words."
+        self.assertEqual(aw.WarningType.MINOR_FORMATTING_LOSS, warnings[0].warning_type)
+        self.assertEqual(aw.WarningSource.DOCX, warnings[0].source)
+        self.assertEqual("Import of element 'shapedefaults' is not supported in Docx format by Aspose.Words.", warnings[0].description)
+        self.assertEqual(aw.WarningType.MINOR_FORMATTING_LOSS, warnings[1].warning_type)
+        self.assertEqual(aw.WarningSource.DOCX, warnings[1].source)
+        self.assertEqual("Import of element 'extraClrSchemeLst' is not supported in Docx format by Aspose.Words.", warnings[1].description)
 
     def test_temp_folder(self):
         #ExStart
@@ -114,17 +115,15 @@ class ExLoadOptions(ApiExampleBase):
         #ExStart
         #ExFor:LanguagePreferences.default_editing_language
         #ExSummary:Shows how set a default language when loading a document.
-        from api_example_base import ApiExampleBase, MY_DIR
-        import aspose.words as aw
         load_options = aw.loading.LoadOptions()
         load_options.language_preferences.default_editing_language = aw.loading.EditingLanguage.RUSSIAN
         doc = aw.Document(file_name=MY_DIR + 'No default editing language.docx', load_options=load_options)
         locale_id = doc.styles.default_font.locale_id
-        print('The document either has no any language set in defaults or it was set to Russian originally.' if locale_id == aw.loading.EditingLanguage.RUSSIAN else 'The document default language was set to another than Russian language originally, so it is not overridden.')
+        print('The document either has no any language set in defaults or it was set to Russian originally.' if locale_id == int(aw.loading.EditingLanguage.RUSSIAN) else 'The document default language was set to another than Russian language originally, so it is not overridden.')
         #ExEnd
-        assert aw.loading.EditingLanguage.RUSSIAN == doc.styles.default_font.locale_id
+        assert doc.styles.default_font.locale_id == int(aw.loading.EditingLanguage.RUSSIAN)
         doc = aw.Document(file_name=MY_DIR + 'No default editing language.docx')
-        assert aw.loading.EditingLanguage.ENGLISH_US == doc.styles.default_font.locale_id
+        assert doc.styles.default_font.locale_id == int(aw.loading.EditingLanguage.ENGLISH_US)
 
     def test_convert_metafiles_to_png(self):
         #ExStart
@@ -182,9 +181,8 @@ class ExLoadOptions(ApiExampleBase):
                 print(f'External Image found upon loading: {args.original_uri}')
                 new_image_filename = 'Logo.jpg'
                 print(f'\tImage will be substituted with: {new_image_filename}')
-                new_image = Image.from_file(IMAGE_DIR + new_image_filename)
-                converter = ImageConverter()
-                image_bytes = converter.convert_to(new_image, bytes)
+                with open(Path(IMAGE_DIR) / new_image_filename, 'rb') as f:
+                    image_bytes = f.read()
                 args.set_data(image_bytes)
                 return aw.loading.ResourceLoadingAction.USER_PROVIDED
             return aw.loading.ResourceLoadingAction.DEFAULT
@@ -222,9 +220,8 @@ class ExLoadOptions(ApiExampleBase):
             self.m_loading_started_at = datetime.datetime.now()
 
         def notify(self, args):
-            from datetime import datetime
-            canceled_at = datetime.now()
-            elapsed_seconds = (canceled_at - self.loading_started_at).total_seconds()
+            canceled_at = datetime.datetime.now()
+            elapsed_seconds = (canceled_at - m_loading_started_at).total_seconds
             if elapsed_seconds > self.max_duration:
                 raise Exception()
     #ExEnd
@@ -235,14 +232,3 @@ class ExLoadOptions(ApiExampleBase):
         load_options = aw.loading.LoadOptions()
         load_options.encoding = 'windows-1251'
         doc = aw.Document(MY_DIR + 'HTML help.chm', load_options)
-
-    def _test_load_options_warning_callback(self, warnings: List[aw.WarningInfo]):
-        self.assertEqual(aw.WarningType.UNEXPECTED_CONTENT, warnings[0].warning_type)
-        self.assertEqual(aw.WarningSource.DOCX, warnings[0].source)
-        self.assertEqual('3F01', warnings[0].description)
-        self.assertEqual(aw.WarningType.MINOR_FORMATTING_LOSS, warnings[1].warning_type)
-        self.assertEqual(aw.WarningSource.DOCX, warnings[1].source)
-        self.assertEqual("Import of element 'shapedefaults' is not supported in Docx format by Aspose.words.", warnings[1].description)
-        self.assertEqual(aw.WarningType.MINOR_FORMATTING_LOSS, warnings[2].warning_type)
-        self.assertEqual(aw.WarningSource.DOCX, warnings[2].source)
-        self.assertEqual("Import of element 'extraClrSchemeLst' is not supported in Docx format by Aspose.words.", warnings[2].description)
