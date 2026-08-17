@@ -1,6 +1,6 @@
 ﻿import aspose.words as aw
 import aspose.pydrawing as drawing
-from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, FONTS_DIR
 
 class WorkingWithFonts(DocsExamplesBase):
 
@@ -317,125 +317,100 @@ class WorkingWithFonts(DocsExamplesBase):
 
         #ExEnd:AvailableFonts
 
-#    @unittest.skip("Interface implementation is not supported yet.")
-#    def test_receive_notifications_of_fonts(self):
-#
-#        #ExStart:ReceiveNotificationsOfFonts
-#        doc = aw.Document(MY_DIR + "Rendering.docx")
-#
-#        fontSettings = aw.fonts.FontSettings()
-#
-#        # We can choose the default font to use in the case of any missing fonts.
-#        fontSettings.substitution_settings.default_font_substitution.default_font_name = "Arial"
-#        # For testing we will set Aspose.words to look for fonts only in a folder which doesn't exist. Since Aspose.words won't
-#        # find any fonts in the specified directory, then during rendering the fonts in the document will be subsuited with the default
-#        # font specified under FontSettings.default_font_name. We can pick up on this subsuition using our callback.
-#        fontSettings.set_fonts_folder(string.empty, false)
-#
-#        # Create a new class implementing IWarningCallback which collect any warnings produced during document save.
-#        HandleDocumentWarnings callback = new HandleDocumentWarnings()
-#
-#        doc.warning_callback = callback
-#        doc.font_settings = fontSettings
-#
-#        doc.save(ARTIFACTS_DIR + "WorkingWithFonts.receive_notifications_of_fonts.pdf")
-#        #ExEnd:ReceiveNotificationsOfFonts
-#
-#    @unittest.skip("Interface implementation is not supported yet.")
-#    def test_receive_warning_notification(self):
-#
-#        #ExStart:ReceiveWarningNotification
-#        doc = aw.Document(MY_DIR + "Rendering.docx")
-#
-#        # When you call UpdatePageLayout the document is rendered in memory. Any warnings that occured during rendering
-#        # are stored until the document save and then sent to the appropriate WarningCallback.
-#        doc.update_page_layout()
-#
-#        HandleDocumentWarnings callback = new HandleDocumentWarnings()
-#        doc.warning_callback = callback
-#
-#        # Even though the document was rendered previously, any save warnings are notified to the user during document save.
-#        doc.save(ARTIFACTS_DIR + "WorkingWithFonts.receive_warning_notification.pdf")
-#        #ExEnd:ReceiveWarningNotification
-#
-#
-#    #ExStart:HandleDocumentWarnings
-#    public class HandleDocumentWarnings: IWarningCallback
-#
-#        # <summary>
-#        # Our callback only needs to implement the "Warning" method. This method is called whenever there is a
-#        # Potential issue during document procssing. The callback can be set to listen for warnings generated
-#        # during document load and/or document save.
-#        # </summary>
-#        public void Warning(WarningInfo info)
-#
-#            # We are only interested in fonts being substituted.
-#            if (info.warning_type == WarningType.font_substitution)
-#
-#                print("Font substitution: " + info.description)
-#
-#
-#
-#    #ExEnd:HandleDocumentWarnings
-#
-#    #ExStart:ResourceSteamFontSourceExample
-#    def test_resource_steam_font_source_example(self):
-#
-#        doc = aw.Document(MY_DIR + "Rendering.docx")
-#
-#        FontSettings.default_instance.set_fonts_sources(new FontSourceBase[]
-#                new SystemFontSource(), new ResourceSteamFontSource() )
-#
-#        doc.save(ARTIFACTS_DIR + "WorkingWithFonts.set_fonts_folders.pdf")
-#
-#
-#    internal class ResourceSteamFontSource: StreamFontSource
-#
-#        public override Stream OpenFontDataStream()
-#
-#            return Assembly.get_executing_assembly().get_manifest_resource_stream("resourceName")
-#
-#
-#    #ExEnd:ResourceSteamFontSourceExample
-#
-#    #ExStart:GetSubstitutionWithoutSuffixes
-#GistId:7e584de6b8683fd2e44372e565d6b5d7
-#    def test_get_substitution_without_suffixes(self):
-#
-#        doc = aw.Document(MY_DIR + "Get substitution without suffixes.docx")
-#
-#        DocumentSubstitutionWarnings substitutionWarningHandler = new DocumentSubstitutionWarnings()
-#        doc.warning_callback = substitutionWarningHandler
-#
-#        List<FontSourceBase> fontSources = new List<FontSourceBase>(FontSettings.default_instance.get_fonts_sources())
-#
-#        FolderFontSource folderFontSource = new FolderFontSource(docs_base.fonts_dir, true)
-#        fontSources.add(folderFontSource)
-#
-#        FontSourceBase[] updatedFontSources = fontSources.to_array()
-#        FontSettings.default_instance.set_fonts_sources(updatedFontSources)
-#
-#        doc.save(ARTIFACTS_DIR + "WorkingWithFonts.get_substitution_without_suffixes.pdf")
-#
-#        self.assertEqual(
-#            "Font 'DINOT-Regular' has not been found. Using 'DINOT' font instead. Reason: font name substitution.",
-#            substitutionWarningHandler.font_warnings[0].description)
-#
-#
-#    public class DocumentSubstitutionWarnings: IWarningCallback
-#
-#        # <summary>
-#        # Our callback only needs to implement the "Warning" method.
-#        # This method is called whenever there is a potential issue during document processing.
-#        # The callback can be set to listen for warnings generated during document load and/or document save.
-#        # </summary>
-#        public void Warning(WarningInfo info)
-#
-#            # We are only interested in fonts being substituted.
-#            if (info.warning_type == WarningType.font_substitution)
-#                FontWarnings.warning(info)
-#
-#
-#        public WarningInfoCollection FontWarnings = new WarningInfoCollection()
-#
-#    #ExEnd:GetSubstitutionWithoutSuffixes
+    def test_receive_notifications_of_fonts(self):
+
+        #ExStart:ReceiveNotificationsOfFonts
+        doc = aw.Document(MY_DIR + "Rendering.docx")
+
+        font_settings = aw.fonts.FontSettings()
+
+        # We can choose the default font to use in the case of any missing fonts.
+        font_settings.substitution_settings.default_font_substitution.default_font_name = "Arial"
+        # For testing we will set Aspose.Words to look for fonts only in a folder which doesn't exist. Since Aspose.Words won't
+        # find any fonts in the specified directory, then during rendering the fonts in the document will be substituted with the default
+        # font specified under FontSettings.default_font_name. We can pick up on this substitution using our callback.
+        font_settings.set_fonts_folder("", False)
+
+        # Create a new class implementing IWarningCallback which collects any warnings produced during document save.
+        callback = HandleDocumentWarnings()
+
+        doc.warning_callback = callback
+        doc.font_settings = font_settings
+
+        doc.save(ARTIFACTS_DIR + "WorkingWithFonts.receive_notifications_of_fonts.pdf")
+        #ExEnd:ReceiveNotificationsOfFonts
+
+    def test_receive_warning_notification(self):
+
+        #ExStart:ReceiveWarningNotification
+        doc = aw.Document(MY_DIR + "Rendering.docx")
+
+        # When you call update_page_layout the document is rendered in memory. Any warnings that occurred during rendering
+        # are stored until the document save and then sent to the appropriate warning callback.
+        doc.update_page_layout()
+
+        callback = HandleDocumentWarnings()
+        doc.warning_callback = callback
+
+        # Even though the document was rendered previously, any save warnings are notified to the user during document save.
+        doc.save(ARTIFACTS_DIR + "WorkingWithFonts.receive_warning_notification.pdf")
+        #ExEnd:ReceiveWarningNotification
+
+    #ExStart:GetSubstitutionWithoutSuffixes
+    #GistId:7e584de6b8683fd2e44372e565d6b5d7
+    def test_get_substitution_without_suffixes(self):
+
+        doc = aw.Document(MY_DIR + "Get substitution without suffixes.docx")
+
+        substitution_warning_handler = DocumentSubstitutionWarnings()
+        doc.warning_callback = substitution_warning_handler
+
+        font_sources = list(aw.fonts.FontSettings.default_instance.get_fonts_sources())
+
+        folder_font_source = aw.fonts.FolderFontSource(FONTS_DIR, True)
+        font_sources.append(folder_font_source)
+
+        aw.fonts.FontSettings.default_instance.set_fonts_sources(font_sources)
+
+        doc.save(ARTIFACTS_DIR + "WorkingWithFonts.get_substitution_without_suffixes.pdf")
+
+        self.assertEqual(
+            "Font 'DINOT-Regular' has not been found. Using 'DINOT' font instead. Reason: font name substitution.",
+            substitution_warning_handler.font_warnings[0].description)
+
+        aw.fonts.FontSettings.default_instance.reset_font_sources()
+    #ExEnd:GetSubstitutionWithoutSuffixes
+
+    # ResourceSteamFontSourceExample is not portable to Python: aspose.words.fonts.StreamFontSource
+    # cannot be used as a base class ("not an acceptable base type"), unlike the callback interfaces
+    # above. Use aw.fonts.MemoryFontSource(data) to load a font from bytes instead.
+
+
+#ExStart:HandleDocumentWarnings
+class HandleDocumentWarnings(aw.IWarningCallback):
+    """Our callback only needs to implement the "warning" method. This method is called whenever there is a
+    potential issue during document processing. The callback can be set to listen for warnings generated
+    during document load and/or document save."""
+
+    def warning(self, info):
+
+        # We are only interested in fonts being substituted.
+        if info.warning_type == aw.WarningType.FONT_SUBSTITUTION:
+            print("Font substitution: " + info.description)
+#ExEnd:HandleDocumentWarnings
+
+
+#ExStart:DocumentSubstitutionWarnings
+class DocumentSubstitutionWarnings(aw.IWarningCallback):
+    """Collects the font substitution warnings issued while a document is processed."""
+
+    def __init__(self):
+        super().__init__()
+        self.font_warnings = aw.WarningInfoCollection()
+
+    def warning(self, info):
+
+        # We are only interested in fonts being substituted.
+        if info.warning_type == aw.WarningType.FONT_SUBSTITUTION:
+            self.font_warnings.warning(info)
+#ExEnd:DocumentSubstitutionWarnings

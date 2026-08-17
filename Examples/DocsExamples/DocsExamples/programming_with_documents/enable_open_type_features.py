@@ -6,7 +6,7 @@ class EnableOpenTypeFeatures(DocsExamplesBase):
     def test_open_type_features(self):
         #ExStart:OpenTypeFeatures
         #GistId:b5ab3801a7643f50529361fb177f61f5
-        doc = aw.Document(file_name=MY_DIR + "OpenType text shaping.docx")
+        doc = aw.Document(MY_DIR + "OpenType text shaping.docx")
         doc.layout_options.enable_text_shaping = True
-        doc.save(file_name=ARTIFACTS_DIR + 'EnableOpenTypeFeatures.EnableOpenTypeFeatures.pdf')
+        doc.save(ARTIFACTS_DIR + 'EnableOpenTypeFeatures.OpenTypeFeatures.pdf')
         #ExEnd:OpenTypeFeatures
