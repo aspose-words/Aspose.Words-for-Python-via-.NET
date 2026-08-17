@@ -17,6 +17,47 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.display_doc_title_in_window_titlebar.pdf", save_options)
         #ExEnd:DisplayDocTitleInWindowTitlebar
 
+    #ExStart:PdfRenderWarnings
+    #GistId:a3cbb38ab85b4f5d30bd5490f92f8c21
+    def test_pdf_render_warnings(self):
+
+        doc = aw.Document(MY_DIR + "WMF with image.docx")
+
+        metafile_rendering_options = aw.saving.MetafileRenderingOptions()
+        metafile_rendering_options.emulate_raster_operations = False
+        metafile_rendering_options.rendering_mode = aw.saving.MetafileRenderingMode.VECTOR_WITH_FALLBACK
+
+        save_options = aw.saving.PdfSaveOptions()
+        save_options.metafile_rendering_options = metafile_rendering_options
+
+        # If Aspose.Words cannot correctly render some of the metafile records
+        # to vector graphics then Aspose.Words renders this metafile to a bitmap.
+        callback = self.HandleDocumentWarnings()
+        doc.warning_callback = callback
+
+        doc.save(ARTIFACTS_DIR + "WorkingWithPdfSaveOptions.PdfRenderWarnings.pdf", save_options)
+
+        # While the file saves successfully, rendering warnings that occurred during saving are collected here.
+        for warning_info in callback.warnings:
+            print(warning_info.description)
+
+    class HandleDocumentWarnings(aw.IWarningCallback):
+        """Our callback only needs to implement the "warning" method. This method is called whenever there is a
+        potential issue during document processing. The callback can be set to listen for warnings generated
+        during document load and/or document save."""
+
+        def __init__(self):
+            super().__init__()
+            self.warnings = aw.WarningInfoCollection()
+
+        def warning(self, info):
+            # For now type of warnings about unsupported metafile records changed
+            # from DataLoss/UnexpectedContent to MinorFormattingLoss.
+            if info.warning_type == aw.WarningType.MINOR_FORMATTING_LOSS:
+                print("Unsupported operation: " + info.description)
+                self.warnings.warning(info)
+    #ExEnd:PdfRenderWarnings
+
     def test_digitally_signed_pdf_using_certificate_holder(self):
 
         #ExStart:DigitallySignedPdfUsingCertificateHolder

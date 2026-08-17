@@ -1,4 +1,4 @@
-import io
+﻿import io
 
 import aspose.words as aw
 import aspose.pydrawing as drawing
@@ -14,7 +14,7 @@ class RenderingShapes(DocsExamplesBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         #ExStart:RenderShapeAsEmf
-        #GistId:7fc867ac8ef1b729b6f70580fbc5b3f9
+        #GistId:d95a7c191b62bdce78605ee22d39b9ab
         render = shape.get_shape_renderer()
         image_options = aw.saving.ImageSaveOptions(aw.SaveFormat.EMF)
         image_options.scale = 1.5
@@ -29,7 +29,7 @@ class RenderingShapes(DocsExamplesBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         #ExStart:RenderShapeAsJpeg
-        #GistId:7fc867ac8ef1b729b6f70580fbc5b3f9
+        #GistId:d95a7c191b62bdce78605ee22d39b9ab
         render = aw.rendering.ShapeRenderer(shape)
         image_options = aw.saving.ImageSaveOptions(aw.SaveFormat.JPEG)
         # Output the image in gray scale
@@ -51,7 +51,7 @@ class RenderingShapes(DocsExamplesBase):
         shape = doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()
 
         #ExStart:FindShapeSizes
-        #GistId:7fc867ac8ef1b729b6f70580fbc5b3f9
+        #GistId:d95a7c191b62bdce78605ee22d39b9ab
         shape_rendered_size = shape.get_shape_renderer().get_size_in_pixels(1.0, 96.0)
 
         print(f"Shape rendered size: {shape_rendered_size.width} x {shape_rendered_size.height} px")
