@@ -142,7 +142,6 @@ class FindAndReplace(DocsExamplesBase):
         print(doc.get_text())
         #ExEnd:IgnoreTextInsideFields
 
-    @unittest.skip("Regular expressions is not supported yet.")
     def test_ignore_text_inside_delete_revisions(self):
 
         #ExStart:IgnoreTextInsideDeleteRevisions
@@ -167,7 +166,7 @@ class FindAndReplace(DocsExamplesBase):
         print(doc.get_text())
 
         options.ignore_deleted = False
-        doc.range.replace(regex, "*", options)
+        doc.range.replace_regex("e", "*", options)
 
         print(doc.get_text())
         #ExEnd:IgnoreTextInsideDeleteRevisions
@@ -217,7 +216,6 @@ class FindAndReplace(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "FindAndReplace.replace_text_in_footer.docx")
         #ExEnd:ReplaceTextInFooter
 
-    @unittest.skip("Regular expressions is not supported yet.")
     def test_replace_with_regex(self):
 
         #ExStart:ReplaceWithRegex
