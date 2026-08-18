@@ -29,6 +29,15 @@ class WorkingWithLoadOptions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "WorkingWithLoadOptions.load_and_save_encrypted_odt.odt", aw.saving.OdtSaveOptions("newPassword"))
         #ExEnd:LoadSaveEncryptedDocument
 
+    def test_load_encrypted_document_without_password(self):
+        #ExStart:LoadEncryptedDocumentWithoutPassword
+        #GistId:6548546f98bd830e363bbb567b114850
+        # We will not be able to open this document with Microsoft Word or
+        # Aspose.Words without providing the correct password.
+        with self.assertRaises(Exception):
+            aw.Document(MY_DIR + "Encrypted.docx")
+        #ExEnd:LoadEncryptedDocumentWithoutPassword
+
     def test_convert_shape_to_office_math(self):
 
         #ExStart:ConvertShapeToOfficeMath
