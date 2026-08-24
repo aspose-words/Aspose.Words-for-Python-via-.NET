@@ -337,14 +337,14 @@ class WorkingWithPdfSaveOptions(DocsExamplesBase):
         toc_hyperlinks = [
             field.as_field_hyperlink() for field in doc.range.fields
             if field.type == aw.fields.FieldType.FIELD_HYPERLINK
-            and field.as_field_hyperlink().sub_address.startswith("#_Toc")
+            and (field.as_field_hyperlink().sub_address or "").startswith("_Toc")
         ]
 
         for link in toc_hyperlinks:
             link.screen_tip = link.display_result
 
         save_options = aw.saving.PdfSaveOptions()
-        save_options.compliance = aw.saving.PdfCompliance.PDF_UA_1
+        save_options.compliance = aw.saving.PdfCompliance.PDF_UA1
         save_options.display_doc_title = True
         save_options.export_document_structure = True
         save_options.outline_options.headings_outline_levels = 3
