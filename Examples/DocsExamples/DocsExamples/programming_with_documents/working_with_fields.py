@@ -1,4 +1,5 @@
 ﻿from datetime import date, datetime
+from enum import Enum
 import locale
 import re
 import sys
@@ -527,3 +528,114 @@ class WorkingWithFields(DocsExamplesBase):
         for field in [f for f in composite_node.range.fields if f.type == target_field_type]:
             field.unlink()
     #ExEnd:ConvertFieldsToStaticText
+
+    def test_field_result_formatting(self):
+
+        #ExStart:FieldResultFormatting
+        #GistId:564a36aefb90914eb4e31faa93f7bed2
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+        formatter = FieldResultFormatter("${0}", "Date: {0}", "Item # {0}:")
+        doc.field_options.result_formatter = formatter
+
+        # Our field result formatter applies a custom format to newly created fields of three types of formats.
+        # Field result formatters apply new formatting to fields as they are updated,
+        # which happens as soon as we create them using this insert_field method overload.
+        # 1 -  Numeric:
+        builder.insert_field(" = 2 + 3 \# $###")
+
+        self.assertEqual("$5", doc.range.fields[0].result)
+        self.assertEqual(1, formatter.count_format_invocations(FormatInvocationType.NUMERIC))
+
+        # 2 -  Date/time:
+        builder.insert_field("DATE \@ \"d MMMM yyyy\"")
+
+        self.assertTrue(doc.range.fields[1].result.startswith("Date: "))
+        self.assertEqual(1, formatter.count_format_invocations(FormatInvocationType.DATE_TIME))
+
+        # 3 -  General:
+        builder.insert_field("QUOTE \"2\" \* Ordinal")
+
+        self.assertEqual("Item # 2:", doc.range.fields[2].result)
+        self.assertEqual(1, formatter.count_format_invocations(FormatInvocationType.GENERAL))
+
+        formatter.print_format_invocations()
+        #ExEnd:FieldResultFormatting
+
+#ExStart:FieldResultFormatter
+#GistId:564a36aefb90914eb4e31faa93f7bed2
+class FormatInvocationType(Enum):
+    NUMERIC = 1
+    DATE_TIME = 2
+    GENERAL = 3
+    ALL = 4
+
+class FormatInvocation:
+
+    def __init__(self, format_invocation_type: FormatInvocationType, value, original_format: str, new_value: str):
+        self.format_invocation_type = format_invocation_type
+        self.value = value
+        self.original_format = original_format
+        self.new_value = new_value
+
+class FieldResultFormatter(aw.fields.IFieldResultFormatter):
+    """When fields with formatting are updated, this formatter will override their formatting
+    with a custom format, while tracking every invocation."""
+
+    def __init__(self, number_format: str, date_format: str, general_format: str):
+        super().__init__()
+        self.number_format = number_format
+        self.date_format = date_format
+        self.general_format = general_format
+        self.format_invocations = []
+
+    @staticmethod
+    def to_display_value(value):
+        """Aspose.Words passes numeric field values as float, print whole numbers without a fractional part."""
+        if isinstance(value, float) and value.is_integer():
+            return int(value)
+        return value
+
+    def format_numeric(self, value: float, format: str) -> str:
+        if not self.number_format:
+            return None
+
+        new_value = self.number_format.format(self.to_display_value(value))
+        self.format_invocations.append(
+            FormatInvocation(FormatInvocationType.NUMERIC, value, format, new_value))
+
+        return new_value
+
+    def format_date_time(self, value: datetime, format: str, calendar_type: aw.CalendarType) -> str:
+        if not self.date_format:
+            return None
+
+        new_value = self.date_format.format(value.strftime("%d %B %Y"))
+        self.format_invocations.append(
+            FormatInvocation(FormatInvocationType.DATE_TIME, f"{value} ({calendar_type})", format, new_value))
+
+        return new_value
+
+    def format(self, value, format: aw.fields.GeneralFormat) -> str:
+        if not self.general_format:
+            return None
+
+        new_value = self.general_format.format(self.to_display_value(value))
+        self.format_invocations.append(
+            FormatInvocation(FormatInvocationType.GENERAL, value, str(format), new_value))
+
+        return new_value
+
+    def count_format_invocations(self, format_invocation_type: FormatInvocationType) -> int:
+        if format_invocation_type == FormatInvocationType.ALL:
+            return len(self.format_invocations)
+
+        return len([f for f in self.format_invocations if f.format_invocation_type == format_invocation_type])
+
+    def print_format_invocations(self):
+        for f in self.format_invocations:
+            print(f"Invocation type:\t{f.format_invocation_type}\n"
+                  f"\tOriginal value:\t\t{f.value}\n"
+                  f"\tOriginal format:\t{f.original_format}\n"
+                  f"\tNew value:\t\t\t{f.new_value}\n")
+#ExEnd:FieldResultFormatter
