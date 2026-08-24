@@ -167,3 +167,82 @@ class DocumentFormatting(DocsExamplesBase):
             if paragraph.break_is_style_separator:
                 print("Separator Found!")
         #ExEnd:GetParagraphStyleSeparator
+
+    #ExStart:GetParagraphLines
+    #GistId:3782e77b237fd3303b01a130ae46f958
+    def test_get_paragraph_lines(self):
+
+        doc = aw.Document(MY_DIR + "Properties.docx")
+
+        collector = aw.layout.LayoutCollector(doc)
+        enumerator = aw.layout.LayoutEnumerator(doc)
+        for paragraph in doc.get_child_nodes(aw.NodeType.PARAGRAPH, True):
+            self.process_paragraph(paragraph.as_paragraph(), collector, enumerator)
+
+    @staticmethod
+    def get_position(enumerator):
+        """Returns the identity of the current layout entity.
+
+        LayoutEnumerator has no readable "current" property in Python, so a position
+        is identified by the page it is on and the bounds it occupies."""
+        rectangle = enumerator.rectangle
+
+        return (enumerator.page_index, rectangle.x, rectangle.y, rectangle.width, rectangle.height)
+
+    @staticmethod
+    def get_stop_position(paragraph, collector, enumerator):
+        previous_node = paragraph.previous_sibling
+        if previous_node is None:
+            return None
+
+        if previous_node.node_type == aw.NodeType.PARAGRAPH:
+            enumerator.set_current(collector, previous_node.as_paragraph())  # Para break.
+            enumerator.move_parent()  # Last line.
+
+            return DocumentFormatting.get_position(enumerator)
+
+        if previous_node.node_type == aw.NodeType.TABLE:
+            table = previous_node.as_table()
+            enumerator.set_current(collector, table.last_row.last_cell.last_paragraph)  # Cell break.
+            enumerator.move_parent()  # Cell.
+            enumerator.move_parent()  # Row.
+
+            return DocumentFormatting.get_position(enumerator)
+
+        raise RuntimeError("Unsupported node type encountered.")
+
+    @staticmethod
+    def count_lines(enumerator, stop_position):
+        """We move from line to line in a paragraph.
+        When paragraph spans multiple pages the we will follow across them."""
+        count = 1
+        while DocumentFormatting.get_position(enumerator) != stop_position:
+            if not enumerator.move_previous_logical():
+                break
+            count += 1
+
+        return count
+
+    @staticmethod
+    def get_truncated_text(text):
+        MAX_CHARS = 16
+
+        return f"{text[:MAX_CHARS]}..." if len(text) > MAX_CHARS else text
+
+    @staticmethod
+    def process_paragraph(paragraph, collector, enumerator):
+        try:
+            enumerator.set_current(collector, paragraph)  # Para break.
+        except RuntimeError:
+            return  # There is no layout entity for this paragraph.
+
+        stop_position = DocumentFormatting.get_stop_position(paragraph, collector, enumerator)
+
+        enumerator.set_current(collector, paragraph)
+        enumerator.move_parent()
+
+        line_count = DocumentFormatting.count_lines(enumerator, stop_position)
+
+        paragraph_text = DocumentFormatting.get_truncated_text(paragraph.get_text())
+        print(f"Paragraph '{paragraph_text}' has {line_count} line(-s).")
+    #ExEnd:GetParagraphLines
