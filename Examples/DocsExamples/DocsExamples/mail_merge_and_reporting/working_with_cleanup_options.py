@@ -3,6 +3,30 @@ from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithCleanupOptions(DocsExamplesBase):
 
+    def test_remove_unmerged_regions(self):
+
+        #ExStart:RemoveUnmergedRegions
+        #GistId:d7e717546d32e7dd25f0198a15f8ebf2
+        doc = aw.Document(MY_DIR + "Mail merge destination - Northwind suppliers.docx")
+
+        # There is no data to merge, so every region in the document stays unmerged.
+        data = EmptyDataSourceRoot()
+
+        #ExStart:MailMergeCleanupOptions
+        doc.mail_merge.cleanup_options = aw.mailmerging.MailMergeCleanupOptions.REMOVE_UNUSED_REGIONS
+        # doc.mail_merge.cleanup_options = aw.mailmerging.MailMergeCleanupOptions.REMOVE_CONTAINING_FIELDS
+        # doc.mail_merge.cleanup_options |= aw.mailmerging.MailMergeCleanupOptions.REMOVE_STATIC_FIELDS
+        # doc.mail_merge.cleanup_options |= aw.mailmerging.MailMergeCleanupOptions.REMOVE_EMPTY_PARAGRAPHS
+        # doc.mail_merge.cleanup_options |= aw.mailmerging.MailMergeCleanupOptions.REMOVE_UNUSED_FIELDS
+        #ExEnd:MailMergeCleanupOptions
+
+        # Merge the data with the document by executing mail merge which will have no effect as there is no data.
+        # However the regions found in the document will be removed automatically as they are unused.
+        doc.mail_merge.execute_with_regions(data)
+
+        doc.save(ARTIFACTS_DIR + "WorkingWithCleanupOptions.remove_unmerged_regions.docx")
+        #ExEnd:RemoveUnmergedRegions
+
     def test_cleanup_paragraphs_with_punctuation_marks(self):
 
         #ExStart:CleanupParagraphsWithPunctuationMarks
@@ -87,3 +111,11 @@ class WorkingWithCleanupOptions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithCleanupOptions.remove_empty_table_rows.docx")
         #ExEnd:RemoveEmptyTableRows
+
+class EmptyDataSourceRoot(aw.mailmerging.IMailMergeDataSourceRoot):
+    """A data source root that provides no data at all, the equivalent of an empty
+    DataSet. Every region in the document is left unmerged, so the cleanup options
+    can remove them."""
+
+    def get_data_source(self, table_name: str):
+        return None

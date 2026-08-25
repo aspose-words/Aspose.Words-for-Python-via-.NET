@@ -37,6 +37,33 @@ class BaseOperations(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "BaseOperations.if_else_mustache.docx")
         #ExEnd:UseIfElseMustache
 
+    def test_get_regions_by_name(self):
+
+        #ExStart:GetRegionsByName
+        #GistId:81ec38c287f6a1e18368813763a6c7d1
+        doc = aw.Document(MY_DIR + "Mail merge regions.docx")
+
+        #ExStart:GetRegionsHierarchy
+        #GistId:81ec38c287f6a1e18368813763a6c7d1
+        region_info = doc.mail_merge.get_regions_hierarchy()
+        #ExEnd:GetRegionsHierarchy
+
+        regions = doc.mail_merge.get_regions_by_name("Region1")
+        self.assertEqual(1, len(regions))
+        for region in regions:
+            self.assertEqual("Region1", region.name)
+
+        regions = doc.mail_merge.get_regions_by_name("Region2")
+        self.assertEqual(1, len(regions))
+        for region in regions:
+            self.assertEqual("Region2", region.name)
+
+        regions = doc.mail_merge.get_regions_by_name("NestedRegion1")
+        self.assertEqual(2, len(regions))
+        for region in regions:
+            self.assertEqual("NestedRegion1", region.name)
+        #ExEnd:GetRegionsByName
+
     def test_create_mail_merge_template(self):
 
         doc = self.create_mail_merge_template()
