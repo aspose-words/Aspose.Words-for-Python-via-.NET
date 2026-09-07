@@ -145,7 +145,7 @@ class WorkingWithShapes(DocsExamplesBase):
     def test_get_actual_shape_bounds_points(self):
 
         #ExStart:GetActualShapeBoundsPoints
-        #GistId:ad463bf5f128fe6e6c1485df3c046a4c
+        #GistId:664d989412b46c6a03619182c5a4b9cd
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 

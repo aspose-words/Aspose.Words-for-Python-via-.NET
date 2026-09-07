@@ -1,5 +1,7 @@
 import aspose.words as aw
 import aspose.pydrawing as drawing
+import xml.etree.ElementTree as ET
+from datetime import datetime
 from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class WorkingWithTables(DocsExamplesBase):
@@ -138,103 +140,120 @@ class WorkingWithTables(DocsExamplesBase):
         #ExEnd:AutoFitTableToPageWidth
 
 
-    #def test_build_table_from_data_table(self):
+    def test_build_table_from_data_table(self):
 
-    #    #ExStart:BuildTableFromDataTable
+        #ExStart:BuildTableFromDataTable
+        #GistId:06721a97657981cdb27970a352300119
+        doc = aw.Document()
+        # We can position where we want the table to be inserted and specify any extra formatting to the table.
+        builder = aw.DocumentBuilder(doc)
+
+        # We want to rotate the page landscape as we expect a wide table.
+        doc.first_section.page_setup.orientation = aw.Orientation.LANDSCAPE
+
+        # Retrieve the data from our data source. Python has no DataTable, so we read
+        # the XML with the standard library and shape it as a header row plus data rows.
+        columns, rows = self.read_xml_table(MY_DIR + "List of people.xml")
+
+        # Build a table in the document from the data we have read.
+        table = self.import_table_from_data(builder, columns, rows, True)
+
+        # We can apply a table style as a very quick way to apply formatting to the entire table.
+        table.style_identifier = aw.StyleIdentifier.MEDIUM_LIST2_ACCENT1
+        table.style_options = aw.tables.TableStyleOptions.FIRST_ROW | aw.tables.TableStyleOptions.ROW_BANDS | aw.tables.TableStyleOptions.LAST_COLUMN
+
+        # For our table, we want to remove the heading for the image column.
+        table.first_row.last_cell.remove_all_children()
+
+        doc.save(ARTIFACTS_DIR + "WorkingWithTables.build_table_from_data_table.docx")
+        #ExEnd:BuildTableFromDataTable
+
+    #ExStart:ImportTableFromDataTable
     #GistId:06721a97657981cdb27970a352300119
+    @staticmethod
+    def read_xml_table(file_name):
+        """Reads an XML file into a list of column names and a list of row values.
 
-    #    doc = aw.Document()
-    #    # We can position where we want the table to be inserted and specify any extra formatting to the table.
-    #    builder = aw.DocumentBuilder(doc)
+        This stands in for the .NET DataSet/DataTable pair, which has no Python equivalent."""
+        root = ET.parse(file_name).getroot()
 
-    #    # We want to rotate the page landscape as we expect a wide table.
-    #    doc.first_section.page_setup.orientation = Orientation.landscape
+        # Collect the column names in the order they first appear across all records.
+        columns = []
+        for record in root:
+            for field in record:
+                if field.tag not in columns:
+                    columns.append(field.tag)
 
-    #    DataSet ds = new DataSet()
-    #    ds.read_xml(MY_DIR + "List of people.xml")
-    #    # Retrieve the data from our data source, which is stored as a DataTable.
-    #    DataTable dataTable = ds.tables[0]
+        # Build one row per record, leaving missing fields empty. A field that repeats
+        # within a record (such as "Child") is joined into a single cell value.
+        rows = []
+        for record in root:
+            values = {}
+            for field in record:
+                text = field.text or ""
+                values[field.tag] = values[field.tag] + ", " + text if field.tag in values else text
+            rows.append([values.get(name, "") for name in columns])
 
-    #    # Build a table in the document from the data contained in the DataTable.
-    #    Table table = ImportTableFromDataTable(builder, dataTable, True)
+        return columns, rows
 
-    #    # We can apply a table style as a very quick way to apply formatting to the entire table.
-    #    table.style_identifier = StyleIdentifier.medium_list_2_accent_1
-    #    table.style_options = TableStyleOptions.first_row | TableStyleOptions.row_bands | TableStyleOptions.last_column
+    @staticmethod
+    def import_table_from_data(builder, columns, rows, import_column_headings):
+        """Imports the given data into a new Aspose.Words Table object.
 
-    #    # For our table, we want to remove the heading for the image column.
-    #    table.first_row.last_cell.remove_all_children()
+        The table is inserted at the document builder's current position and using
+        the current builder's formatting if any is defined."""
+        table = builder.start_table()
 
-    #    doc.save(ARTIFACTS_DIR + "WorkingWithTables.build_table_from_data_table.docx")
-    #    #ExEnd:BuildTableFromDataTable
+        # Check if the columns' names from the data source are to be included in a header row.
+        if import_column_headings:
+            # Store the original values of these properties before changing them.
+            bold_value = builder.font.bold
+            paragraph_alignment_value = builder.paragraph_format.alignment
 
+            # Format the heading row with the appropriate properties.
+            builder.font.bold = True
+            builder.paragraph_format.alignment = aw.ParagraphAlignment.CENTER
 
-    ##ExStart:ImportTableFromDataTable
-    #GistId:06721a97657981cdb27970a352300119
-    ## <summary>
-    ## Imports the content from the specified DataTable into a new Aspose.words Table object.
-    ## The table is inserted at the document builder's current position and using the current builder's formatting if any is defined.
-    ## </summary>
-    #public Table ImportTableFromDataTable(DocumentBuilder builder, DataTable dataTable,
-    #    bool importColumnHeadings)
+            # Create a new row and insert the name of each column into the first row of the table.
+            for column_name in columns:
+                builder.insert_cell()
+                builder.writeln(column_name)
 
-    #    Table table = builder.start_table()
+            builder.end_row()
 
-    #    # Check if the columns' names from the data source are to be included in a header row.
-    #    if (importColumnHeadings)
+            # Restore the original formatting.
+            builder.font.bold = bold_value
+            builder.paragraph_format.alignment = paragraph_alignment_value
 
-    #        # Store the original values of these properties before changing them.
-    #        bool boldValue = builder.font.bold
-    #        ParagraphAlignment paragraphAlignmentValue = builder.paragraph_format.alignment
+        for row in rows:
+            for item in row:
+                # Insert a new cell for each object.
+                builder.insert_cell()
 
-    #        # Format the heading row with the appropriate properties.
-    #        builder.font.bold = True
-    #        builder.paragraph_format.alignment = ParagraphAlignment.center
+                date_time = WorkingWithTables.try_parse_date(item)
+                if date_time is not None:
+                    # Define a custom format for dates and times.
+                    builder.write(date_time.strftime("%B %d, %Y"))
+                else:
+                    # By default any other item will be inserted as text.
+                    builder.write(str(item))
 
-    #        # Create a new row and insert the name of each column into the first row of the table.
-    #        foreach (DataColumn column in dataTable.columns)
+            # After we insert all the data from the current record, we can end the table row.
+            builder.end_row()
 
-    #            builder.insert_cell()
-    #            builder.writeln(column.column_name)
+        # We have finished inserting all the data, we can end the table.
+        builder.end_table()
 
+        return table
 
-    #        builder.end_row()
-
-    #        # Restore the original formatting.
-    #        builder.font.bold = boldValue
-    #        builder.paragraph_format.alignment = paragraphAlignmentValue
-
-
-    #    foreach (DataRow dataRow in dataTable.rows)
-
-    #        foreach (object item in dataRow.item_array)
-
-    #            # Insert a new cell for each object.
-    #            builder.insert_cell()
-
-    #            switch (item.get_type().name)
-
-    #                case "DateTime":
-    #                    # Define a custom format for dates and times.
-    #                    DateTime dateTime = (DateTime) item
-    #                    builder.write(dateTime.to_string("MMMM d, yyyy"))
-    #                    break
-    #                default:
-    #                    # By default any other item will be inserted as text.
-    #                    builder.write(item.to_string())
-    #                    break
-
-
-    #        # After we insert all the data from the current record, we can end the table row.
-    #        builder.end_row()
-
-
-    #    # We have finished inserting all the data from the DataTable, we can end the table.
-    #    builder.end_table()
-
-    #    return table
-
-    ##ExEnd:ImportTableFromDataTable
+    @staticmethod
+    def try_parse_date(value):
+        """Returns the value parsed as a date, or None when it is not a date."""
+        try:
+            return datetime.strptime(str(value).strip(), "%Y-%m-%d %I:%M:%S %p")
+        except ValueError:
+            return None
+    #ExEnd:ImportTableFromDataTable
 
     def test_clone_complete_table(self):
 

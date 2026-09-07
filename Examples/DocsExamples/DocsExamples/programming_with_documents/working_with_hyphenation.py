@@ -28,3 +28,35 @@ class WorkingWithHyphenation(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithHyphenation.load_hyphenation_dictionary.pdf")
         #ExEnd:LoadHyphenationDictionary
+
+    #ExStart:CustomHyphenation
+    #GistId:6cfc4dd3ee1b881f904b3ce31a3110f7
+    def test_hyphenation_callback(self):
+
+        try:
+            # Register hyphenation callback.
+            aw.Hyphenation.set_callback(self.CustomHyphenationCallback())
+
+            document = aw.Document(MY_DIR + "German text.docx")
+            document.save(ARTIFACTS_DIR + "WorkingWithHyphenation.hyphenation_callback.pdf")
+        except RuntimeError as e:
+            if str(e).startswith("Missing hyphenation dictionary"):
+                print(str(e))
+            else:
+                raise
+        finally:
+            aw.Hyphenation.set_callback(None)
+
+    class CustomHyphenationCallback(aw.IHyphenationCallback):
+
+        def request_dictionary(self, language: str):
+            if language == "en-US":
+                dictionary_full_file_name = MY_DIR + "hyph_en_US.dic"
+            elif language == "de-CH":
+                dictionary_full_file_name = MY_DIR + "hyph_de_CH.dic"
+            else:
+                raise RuntimeError(f"Missing hyphenation dictionary for {language}.")
+
+            # Register dictionary for requested language.
+            aw.Hyphenation.register_dictionary(language, dictionary_full_file_name)
+    #ExEnd:CustomHyphenation

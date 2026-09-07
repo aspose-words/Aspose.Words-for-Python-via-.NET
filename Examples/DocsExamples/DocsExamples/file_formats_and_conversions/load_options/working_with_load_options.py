@@ -1,7 +1,7 @@
 ﻿import aspose.words as aw
 import unittest
 import sys
-from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
+from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, IMAGES_DIR
 
 class WorkingWithLoadOptions(DocsExamplesBase):
 
@@ -28,6 +28,15 @@ class WorkingWithLoadOptions(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "WorkingWithLoadOptions.load_and_save_encrypted_odt.odt", aw.saving.OdtSaveOptions("newPassword"))
         #ExEnd:LoadSaveEncryptedDocument
+
+    def test_load_encrypted_document_without_password(self):
+        #ExStart:LoadEncryptedDocumentWithoutPassword
+        #GistId:6548546f98bd830e363bbb567b114850
+        # We will not be able to open this document with Microsoft Word or
+        # Aspose.Words without providing the correct password.
+        with self.assertRaises(Exception):
+            aw.Document(MY_DIR + "Encrypted.docx")
+        #ExEnd:LoadEncryptedDocumentWithoutPassword
 
     def test_convert_shape_to_office_math(self):
 
@@ -102,3 +111,69 @@ class WorkingWithLoadOptions(DocsExamplesBase):
 
         doc = aw.Document(MY_DIR + "HTML help.chm", load_options)
         #ExEnd:LoadChm
+
+    def test_warning_callback(self):
+
+        #ExStart:WarningCallback
+        #GistId:41c71acaf4924abe47f4bc2ff2c87d6a
+        load_options = aw.loading.LoadOptions()
+        load_options.warning_callback = DocumentLoadingWarningCallback()
+
+        doc = aw.Document(MY_DIR + "Document.docx", load_options)
+        #ExEnd:WarningCallback
+
+    def test_resource_loading_callback(self):
+
+        #ExStart:ResourceLoadingCallback
+        #GistId:41c71acaf4924abe47f4bc2ff2c87d6a
+        load_options = aw.loading.LoadOptions()
+        load_options.resource_loading_callback = HtmlLinkedResourceLoadingCallback()
+
+        # When we open an Html document, external resources such as references to CSS stylesheet files
+        # and external images will be handled customarily by the loading callback as the document is loaded.
+        doc = aw.Document(MY_DIR + "Images.html", load_options)
+
+        doc.save(ARTIFACTS_DIR + "WorkingWithLoadOptions.resource_loading_callback.pdf")
+        #ExEnd:ResourceLoadingCallback
+
+
+#ExStart:IWarningCallback
+#GistId:41c71acaf4924abe47f4bc2ff2c87d6a
+class DocumentLoadingWarningCallback(aw.IWarningCallback):
+
+    def warning(self, info: aw.WarningInfo):
+
+        # Prints warnings and their details as they arise during document loading.
+        print(f"WARNING: {info.warning_type}, source: {info.source}")
+        print(f"	Description: {info.description}")
+#ExEnd:IWarningCallback
+
+
+#ExStart:IResourceLoadingCallback
+#GistId:41c71acaf4924abe47f4bc2ff2c87d6a
+class HtmlLinkedResourceLoadingCallback(aw.loading.IResourceLoadingCallback):
+
+    def resource_loading(self, args: aw.loading.ResourceLoadingArgs):
+
+        if args.resource_type == aw.loading.ResourceType.CSS_STYLE_SHEET:
+            print(f"External CSS Stylesheet found upon loading: {args.original_uri}")
+
+            # CSS file will don't used in the document.
+            return aw.loading.ResourceLoadingAction.SKIP
+
+        if args.resource_type == aw.loading.ResourceType.IMAGE:
+            # Replaces all images with a substitute.
+            with open(IMAGES_DIR + "Logo.jpg", "rb") as file:
+                args.set_data(file.read())
+
+            # New images will be used instead of presented in the document.
+            return aw.loading.ResourceLoadingAction.USER_PROVIDED
+
+        if args.resource_type == aw.loading.ResourceType.DOCUMENT:
+            print(f"External document found upon loading: {args.original_uri}")
+
+            # Will be used as usual.
+            return aw.loading.ResourceLoadingAction.DEFAULT
+
+        raise RuntimeError("Unexpected ResourceType value.")
+#ExEnd:IResourceLoadingCallback

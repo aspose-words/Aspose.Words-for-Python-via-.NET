@@ -87,9 +87,12 @@ class WorkWithWatermark(DocsExamplesBase):
        :param watermark_text: Text of the watermark.
         """
 
+        #ExStart:SetShapeName
+        #GistId:1773c0992ab338091979cdd43e22557c
         # Create a watermark shape, this will be a WordArt shape.
         watermark = aw.drawing.Shape(doc, aw.drawing.ShapeType.TEXT_PLAIN_TEXT)
         watermark.name = "Watermark"
+        #ExEnd:SetShapeName
 
         watermark.text_path.text = watermark_text
         watermark.text_path.font_family = "Arial"

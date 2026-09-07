@@ -142,7 +142,6 @@ class FindAndReplace(DocsExamplesBase):
         print(doc.get_text())
         #ExEnd:IgnoreTextInsideFields
 
-    @unittest.skip("Regular expressions is not supported yet.")
     def test_ignore_text_inside_delete_revisions(self):
 
         #ExStart:IgnoreTextInsideDeleteRevisions
@@ -167,7 +166,7 @@ class FindAndReplace(DocsExamplesBase):
         print(doc.get_text())
 
         options.ignore_deleted = False
-        doc.range.replace(regex, "*", options)
+        doc.range.replace_regex("e", "*", options)
 
         print(doc.get_text())
         #ExEnd:IgnoreTextInsideDeleteRevisions
@@ -217,7 +216,37 @@ class FindAndReplace(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "FindAndReplace.replace_text_in_footer.docx")
         #ExEnd:ReplaceTextInFooter
 
-    @unittest.skip("Regular expressions is not supported yet.")
+    #ExStart:ReplaceWithHtml
+    #GistId:a19d2ab731b551c090b5b7f3ce572ad9
+    def test_replace_with_html(self):
+
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        builder.writeln("Hello <CustomerName>,")
+
+        options = aw.replacing.FindReplaceOptions()
+        options.replacing_callback = self.ReplaceWithHtmlEvaluator()
+
+        doc.range.replace_regex(" <CustomerName>,", "", options)
+
+        doc.save(ARTIFACTS_DIR + "FindAndReplace.replace_with_html.docx")
+
+    class ReplaceWithHtmlEvaluator(aw.replacing.IReplacingCallback):
+
+        def replacing(self, args: aw.replacing.ReplacingArgs) -> aw.replacing.ReplaceAction:
+            """NOTE: This is a simplistic method that will only work well when the match
+            starts at the beginning of a run."""
+            builder = aw.DocumentBuilder(args.match_node.document.as_document())
+            builder.move_to(args.match_node)
+
+            # Replace '<CustomerName>' text with a red bold name.
+            builder.insert_html("<b><font color='red'>James Bond, </font></b>")
+            args.replacement = ""
+
+            return aw.replacing.ReplaceAction.REPLACE
+    #ExEnd:ReplaceWithHtml
+
     def test_replace_with_regex(self):
 
         #ExStart:ReplaceWithRegex
@@ -275,3 +304,37 @@ class FindAndReplace(DocsExamplesBase):
 
         doc.save(ARTIFACTS_DIR + "FindAndReplace.replace_text_in_table.docx")
         #ExEnd:ReplaceText
+
+    #ExStart:LineCounter
+    #GistId:a19d2ab731b551c090b5b7f3ce572ad9
+    def test_line_counter(self):
+
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc)
+
+        builder.writeln("This is first line")
+        builder.writeln("Second line")
+        builder.writeln("And last line")
+
+        # Prepend each line with line number.
+        opt = aw.replacing.FindReplaceOptions()
+        opt.use_substitutions = True
+        opt.replacing_callback = self.LineCounterCallback()
+
+        doc.range.replace_regex("[^&p]*&p", "", opt)
+
+        doc.save(ARTIFACTS_DIR + "FindAndReplace.line_counter.docx")
+
+    class LineCounterCallback(aw.replacing.IReplacingCallback):
+
+        def __init__(self):
+            super().__init__()
+            self.counter = 1
+
+        def replacing(self, args: aw.replacing.ReplacingArgs) -> aw.replacing.ReplaceAction:
+            # '$0' puts the whole match back, it requires 'use_substitutions' to be enabled.
+            args.replacement = f"{self.counter} $0"
+            self.counter += 1
+
+            return aw.replacing.ReplaceAction.REPLACE
+    #ExEnd:LineCounter

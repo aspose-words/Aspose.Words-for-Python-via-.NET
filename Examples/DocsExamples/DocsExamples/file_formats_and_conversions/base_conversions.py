@@ -3,6 +3,8 @@ import unittest
 import sys
 import aspose.words as aw
 import aspose.pydrawing as drawing
+import aspose.email as ae
+from aspose.email.clients.smtp import SmtpClient
 from aspose.words.replacing import FindReplaceOptions
 from aspose.words.saving import XlsxSaveOptions, CompressionLevel
 
@@ -86,29 +88,30 @@ class BaseConversions(DocsExamplesBase):
         doc.save(ARTIFACTS_DIR + "BaseConversions.docx_to_html.html")
         #ExEnd:DocxToHtml
 
-    @unittest.skip("Aspose.Email is required. Will do later.")
+    @unittest.skip("This test should be run manually with a real SMTP server")
     def test_docx_to_mhtml_and_sending_email(self):
-        print("not supported yet")
-#        #ExStart:DocxToMhtmlAndSendingEmail
-#        doc = aw.Document(MY_DIR + "Document.docx")
-#
-#        Stream stream = new MemoryStream()
-#        doc.save(stream, SaveFormat.mhtml)
-#
-#        # Rewind the stream to the beginning so Aspose.Email can read it.
-#        stream.position = 0
-#
-#        # Create an Aspose.Email MIME email message from the stream.
-#        MailMessage message = MailMessage.load(stream, new MhtmlLoadOptions())
-#        message.from = "your_from@email.com"
-#        message.to = "your_to@email.com"
-#        message.subject = "Aspose.Words + Aspose.Email MHTML Test Message"
-#
-#        # Send the message using Aspose.Email.
-#        SmtpClient client = new SmtpClient()
-#        client.host = "your_smtp.com"
-#        client.send(message)
-#        #ExEnd:DocxToMhtmlAndSendingEmail
+
+        #ExStart:DocxToMhtml
+        #GistId:16caeb7d9781fa093a70df33f232dbaa
+        doc = aw.Document(MY_DIR + "Document.docx")
+
+        stream = io.BytesIO()
+        doc.save(stream, aw.SaveFormat.MHTML)
+
+        # Rewind the stream to the beginning so Aspose.Email can read it.
+        stream.seek(0)
+
+        # Create an Aspose.Email MIME email message from the stream.
+        message = ae.MailMessage.load(stream, ae.MhtmlLoadOptions())
+        message.from_address = ae.MailAddress("your_from@email.com")
+        message.to.append(ae.MailAddress("your_to@email.com"))
+        message.subject = "Aspose.Words + Aspose.Email MHTML Test Message"
+
+        # Send the message using Aspose.Email.
+        client = SmtpClient()
+        client.host = "your_smtp.com"
+        client.send(message)
+        #ExEnd:DocxToMhtml
 
     def test_docx_to_markdown(self):
 
@@ -198,7 +201,7 @@ class BaseConversions(DocsExamplesBase):
     def test_compress_xlsx(self):
 
         #ExStart:CompressXlsx
-        #GistId:a50652f28531278511605e0fd778bbdf
+        #GistId:b2e1027992a4ccbf53b6a983a808ba20
         doc = aw.Document(MY_DIR + "Document.docx")
         saveOptions = XlsxSaveOptions()
         saveOptions.compression_level = CompressionLevel.MAXIMUM
