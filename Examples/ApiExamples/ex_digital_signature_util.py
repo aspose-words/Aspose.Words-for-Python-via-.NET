@@ -195,3 +195,37 @@ class ExDigitalSignatureUtil(ApiExampleBase):
         self.assertEqual(768, signature.vertical_resolution)
         self.assertEqual(24, signature.color_depth)
         #ExEnd:SignDocumentWithOptions
+        
+    def test_sign_document_with_timestamping(self):
+        #ExStart:SignDocumentWithTimestamping
+        #ExFor:DigitalSignatureUtil.sign(str,str,CertificateHolder,SignOptions)
+        #ExFor:SignOptions.timestamp_settings
+        #ExFor:DigitalSignatureTimestampSettings
+        #ExFor:DigitalSignatureTimestampSettings.__init__(str,str,str)
+        #ExFor:DigitalSignatureTimestampSettings.__init__(str,str,str,TimeSpan)
+        #ExFor:DigitalSignatureTimestampSettings.password
+        #ExFor:DigitalSignatureTimestampSettings.server_url
+        #ExFor:DigitalSignatureTimestampSettings.timeout
+        #ExFor:DigitalSignatureTimestampSettings.user_name
+        #ExFor:XmlDsigLevel
+        #ExSummary:Shows how to sign a document with timestamping using DigitalSignatureUtil.
+        sign_options = aw.digitalsignatures.SignOptions()
+        sign_options.xml_dsig_level = aw.digitalsignatures.XmlDsigLevel.X_AD_ES_T
+        sign_options.timestamp_settings = aw.digitalsignatures.DigitalSignatureTimestampSettings(server_url="https://freetsa.org/tsr", user_name="JohnDoe", password="MyPassword")
+        cert = aw.digitalsignatures.CertificateHolder.create(file_name=MY_DIR + "morzal.pfx", password="aw")
+        aw.digitalsignatures.DigitalSignatureUtil.sign(src_file_name=MY_DIR + "Digitally signed.docx", dst_file_name=ARTIFACTS_DIR + "DigitalSignatureUtil.Timestamped.docx", cert_holder=cert, sign_options=sign_options)
+        signed_doc = aw.Document(file_name=ARTIFACTS_DIR + "DigitalSignatureUtil.Timestamped.docx")
+        
+        assert signed_doc.digital_signatures.count == 1 
+        assert signed_doc.digital_signatures[0].is_valid
+
+        # Verify timestamp settings are applied.
+        assert sign_options.timestamp_settings.server_url == "https://freetsa.org/tsr" 
+        assert sign_options.timestamp_settings.user_name == "JohnDoe" 
+        assert sign_options.timestamp_settings.password == "MyPassword" 
+        assert sign_options.timestamp_settings.timeout.total_seconds() == 100.0
+
+        # Test with custom timeout.
+        sign_options.timestamp_settings = aw.digitalsignatures.DigitalSignatureTimestampSettings(server_url="https://freetsa.org/tsr", user_name="JohnDoe", password="MyPassword", timeout=datetime.timedelta(minutes=30))
+        assert sign_options.timestamp_settings.timeout.total_seconds() == 1800.0
+
