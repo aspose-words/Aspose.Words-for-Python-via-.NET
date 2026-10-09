@@ -133,3 +133,37 @@ class ExAI(ApiExampleBase):
         #ExEnd:OpenAiModelConstructor
         # Verify the summary was generated (non-empty content).
         assert len(summary.get_text().strip()) > 0
+
+    @unittest.skip('This test should be run manually to manage API requests amount')
+    def test_aspose_llm_summarize(self):
+        #ExStart:AsposeLlmSummarize
+        #ExFor:AsposeLlmModel.__init__(str)
+        #ExFor:AsposeLlmModel.summarize(Document,SummarizeOptions)
+        #ExFor:AsposeLlmModel.summarize(List[Document],SummarizeOptions)
+        #ExFor:AsposeLlmModel.dispose
+        #ExSummary:Shows how to summarize documents with a local model, so the content never leaves the machine.
+        # Aspose.LLM is a separate package with its own license, for example:
+        # new Aspose.LLM.License().SetLicense("Aspose.Total.lic");
+        first_doc = aw.Document(file_name=MY_DIR + "Big document.docx")
+        second_doc = aw.Document(file_name=MY_DIR + "Document.docx")
+        # Disposing the model releases the local model and its native resources.
+        with aw.ai.AsposeLlmModel("Qwen25_3BPresetCpu") as model:
+            summarize_options = aw.ai.SummarizeOptions()
+            summarize_options.summary_length = aw.ai.SummaryLength.SHORT
+            summary = model.summarize(source_document=first_doc, options=summarize_options)
+            summary.save(file_name=ARTIFACTS_DIR + "AI.AsposeLlmSummarize.One.docx")
+            summarize_options.summary_length = aw.ai.SummaryLength.MEDIUM
+            combined_summary = model.summarize(source_documents=[first_doc, second_doc], options=summarize_options)
+            combined_summary.save(file_name=ARTIFACTS_DIR + "AI.AsposeLlmSummarize.Multiple.docx")
+        #ExEnd:AsposeLlmSummarize
+
+    @unittest.skip('This test should be run manually to manage API requests amount')
+    def test_aspose_llm_translate(self):
+        #ExStart:AsposeLlmTranslate
+        #ExFor:AsposeLlmModel.translate(Document,AI.Language)
+        #ExSummary:Shows how to translate a document with a local model.
+        doc = aw.Document(file_name=MY_DIR + "Document.docx")
+        with aw.ai.AsposeLlmModel("Qwen25_3BPresetCpu") as model:
+            translated_doc = model.translate(doc, aw.ai.Language.GERMAN)
+            translated_doc.save(file_name=ARTIFACTS_DIR + "AI.AsposeLlmTranslate.docx")
+        #ExEnd:AsposeLlmTranslate
