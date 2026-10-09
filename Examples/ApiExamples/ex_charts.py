@@ -1871,3 +1871,70 @@ class ExCharts(ApiExampleBase):
         series.data_labels.number_format.format_code = f'0{decimal_separator}0%'
         doc.save(file_name=ARTIFACTS_DIR + 'Charts.Funnel.docx')
         #ExEnd:FunnelChart
+
+    def test_chart_series_and_data_point_is_total(self):
+        #ExStart:ChartSeriesAndDataPointIsTotal
+        #ExFor:ChartSeries.is_total(int)
+        #ExFor:ChartDataPoint.is_total
+        #ExSummary:Shows how to determine whether a data point is a total in a waterfall chart.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        # Insert a Waterfall chart.
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.WATERFALL, width=450, height=450)
+        chart = shape.chart
+        chart.title.text = "New Zealand GDP"
+        # Delete default generated series.
+        chart.series.clear()
+        # Add a series where the start value, the subtotal and the final value are totals.
+        series = chart.series.add(series_name="New Zealand GDP", categories=["2018", "2019 growth", "2020 growth", "2020", "2021 growth", "2022 growth", "2022"], values=[100, 0.57, -0.25, 100.32, 20.22, -2.92, 117.62], is_subtotal=[True, False, False, True, False, False, True])
+        # Print the type of each data point.
+        i = 0
+        while i < series.y_values.count:
+            if series.is_total(i):
+                print(f"Data point {i} is Subtotal")
+            elif series.y_values[i].double_value > 0:
+                print(f"Data point {i} is Increase")
+            else:
+                print(f"Data point {i} is Decrease")
+            i += 1
+        # The same flag is available on the data point itself.
+        print(f"Data point 3 is total: {series.data_points[3].is_total}")
+        doc.save(file_name=ARTIFACTS_DIR + "Charts.ChartSeriesAndDataPointIsTotal.docx")
+        #ExEnd:ChartSeriesAndDataPointIsTotal
+        doc = aw.Document(file_name=ARTIFACTS_DIR + "Charts.ChartSeriesAndDataPointIsTotal.docx")
+        series = (doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()).chart.series[0]
+        expected_totals = [True, False, False, True, False, False, True]
+        i = 0
+        while i < len(expected_totals):
+            self.assertEqual(expected_totals[i], series.is_total(i))
+            self.assertEqual(expected_totals[i], series.data_points[i].is_total)
+            i += 1
+
+    def test_plot_area_format(self):
+        #ExStart:PlotAreaFormat
+        #ExFor:ChartPlotArea
+        #ExFor:Chart.plot_area
+        #ExFor:ChartPlotArea.format
+        #ExSummary:Shows how to set fill and line formatting for the plot area of a chart.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        shape = builder.insert_chart(chart_type=aw.drawing.charts.ChartType.COLUMN, width=432, height=252)
+        chart = shape.chart
+        # Delete default generated series and add our own.
+        series_coll = chart.series
+        series_coll.clear()
+        categories = ["Category 1", "Category 2"]
+        series_coll.add(series_name="Series 1", categories=categories, values=[1, 2])
+        series_coll.add(series_name="Series 2", categories=categories, values=[3, 4])
+        # Fill the plot area with a gradient and outline it with a thin blue line.
+        plot_area = chart.plot_area
+        plot_area.format.fill.one_color_gradient(color=aspose.pydrawing.Color.light_blue, style=aw.drawing.GradientStyle.DIAGONAL_UP, variant=aw.drawing.GradientVariant.VARIANT2, degree=1)
+        plot_area.format.stroke.fore_color = aspose.pydrawing.Color.blue
+        plot_area.format.stroke.weight = 0.25
+        doc.save(file_name=ARTIFACTS_DIR + "Charts.PlotAreaFormat.docx")
+        #ExEnd:PlotAreaFormat
+        doc = aw.Document(file_name=ARTIFACTS_DIR + "Charts.PlotAreaFormat.docx")
+        plot_area = (doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()).chart.plot_area
+        self.assertEqual(aw.drawing.GradientStyle.DIAGONAL_UP, plot_area.format.fill.gradient_style)
+        self.assertEqual(aspose.pydrawing.Color.blue.to_argb(), plot_area.format.stroke.fore_color.to_argb())
+        self.assertEqual(0.25, plot_area.format.stroke.weight)
