@@ -304,51 +304,39 @@ class AddContentUsingDocumentBuilder(DocsExamplesBase):
         #ExEnd:InsertTcField
 
 
-    #def test_insert_tc_fields_at_text(self):
+    def test_insert_tc_fields_at_text(self):
 
-    #    #ExStart:InsertTcFieldsAtText
-    #GistId:1f496848f44b7c1c94094c8f2307a083
-    #    doc = aw.Document()
+        #ExStart:InsertTcFieldsAtText
+        #GistId:1f496848f44b7c1c94094c8f2307a083
+        doc = aw.Document()
 
-    #    options = aw.replacing.FindReplaceOptions()
-    #    options.apply_font.highlight_color = drawing.Color.dark_orange
-    #    options.replacing_callback = new InsertTCFieldHandler("Chapter 1", "\\l 1")
+        options = aw.replacing.FindReplaceOptions()
+        options.apply_font.highlight_color = drawing.Color.dark_orange
+        options.replacing_callback = self.InsertTCFieldHandler("Chapter 1", "\\l 1")
 
-    #    doc.range.replace(new Regex("The Beginning"), "", options)
-    #    #ExEnd:InsertTcFieldsAtText
+        doc.range.replace_regex("The Beginning", "", options)
+        #ExEnd:InsertTcFieldsAtText
 
+    #ExStart:InsertTCFieldHandler
+    class InsertTCFieldHandler(aw.replacing.IReplacingCallback):
 
-    ##ExStart:InsertTCFieldHandler
-    #public sealed class InsertTCFieldHandler: IReplacingCallback
+        def __init__(self, text: str, switches: str):
+            """The display text and switches to use for each TC field."""
+            aw.replacing.IReplacingCallback.__init__(self)
+            # Store the text and switches to be used for the TC fields.
+            self.field_text = text
+            self.field_switches = switches
 
-    #    # Store the text and switches to be used for the TC fields.
-    #    private readonly string mFieldText
-    #    private readonly string mFieldSwitches
+        def replacing(self, args: aw.replacing.ReplacingArgs) -> aw.replacing.ReplaceAction:
+            builder = aw.DocumentBuilder(args.match_node.document.as_document())
+            builder.move_to(args.match_node)
 
-    #    # <summary>
-    #    # The display text and switches to use for each TC field. Display name can be an empty string or None.
-    #    # </summary>
-    #    public InsertTCFieldHandler(string text, string switches)
+            # ReplacingArgs does not expose the matched text in Python,
+            # so the display text passed to the handler is always used.
+            builder.insert_field(f'TC "{self.field_text}" {self.field_switches}')
 
-    #        mFieldText = text
-    #        mFieldSwitches = switches
-
-
-    #    ReplaceAction IReplacingCallback.replacing(ReplacingArgs args)
-
-    #        DocumentBuilder builder = new DocumentBuilder((Document) args.match_node.document)
-    #        builder.move_to(args.match_node)
-
-    #        # If the user-specified text to be used in the field as display text, then use that,
-    #        # otherwise use the match string as the display text.
-    #        string insertText = !string.is_None_or_empty(mFieldText) ? mFieldText: args.match.value
-
-    #        builder.insert_field($"TC \"insertText\" mFieldSwitches")
-
-    #        return ReplaceAction.skip
-
-
-    ##ExEnd:InsertTCFieldHandler
+            return aw.replacing.ReplaceAction.SKIP
+    #ExEnd:InsertTCFieldHandler
 
     def test_cursor_position(self):
 
