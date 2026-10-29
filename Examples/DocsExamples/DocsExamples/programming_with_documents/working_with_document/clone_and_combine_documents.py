@@ -5,7 +5,7 @@ from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR
 
 class CloneAndCombineDocuments(DocsExamplesBase):
 
-    def test_cloning_document(self):
+    def test_clone_document(self):
 
         #ExStart:CloneDocument
         #GistId:e510e7e7b1fd08239ef592aa440675c1

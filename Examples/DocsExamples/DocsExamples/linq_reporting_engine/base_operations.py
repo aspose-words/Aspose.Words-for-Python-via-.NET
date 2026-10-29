@@ -5,9 +5,9 @@ from docs_examples_base import DocsExamplesBase, MY_DIR, ARTIFACTS_DIR, JSON_DIR
 
 class BaseOperations(DocsExamplesBase):
 
-    def test_hello_world(self):
+    def test_linq_hello_world(self):
 
-        #ExStart:HelloWorld
+        #ExStart:LinqHelloWorld
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc)
 
@@ -20,7 +20,7 @@ class BaseOperations(DocsExamplesBase):
         engine.build_report(doc, json_data_source, "sender")
 
         doc.save(ARTIFACTS_DIR + "ReportingEngine.hello_world.docx")
-        #ExEnd:HelloWorld
+        #ExEnd:LinqHelloWorld
 
     def test_single_row(self):
 
