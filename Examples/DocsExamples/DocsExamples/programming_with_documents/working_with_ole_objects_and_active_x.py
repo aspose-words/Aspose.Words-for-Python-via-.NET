@@ -67,6 +67,8 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
 
     def test_read_active_x_control_properties(self):
 
+        #ExStart:ReadActiveXControlProperties
+        #GistId:23c3961db2b25ac17ded1ba60412c71b
         doc = aw.Document(MY_DIR + "ActiveX controls.docx")
 
         properties = ""
@@ -90,6 +92,7 @@ class WorkingWithOleObjectsAndActiveX(DocsExamplesBase):
 
         properties = properties + "\nTotal ActiveX Controls found: " + str(doc.get_child_nodes(aw.NodeType.SHAPE, True).count)
         print("\n" + properties)
+        #ExEnd:ReadActiveXControlProperties
 
     def test_insert_online_video(self):
 

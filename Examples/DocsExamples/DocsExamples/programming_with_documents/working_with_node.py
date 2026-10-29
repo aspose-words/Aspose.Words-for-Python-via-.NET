@@ -122,3 +122,28 @@ class WorkingWithNode(DocsExamplesBase):
         section = doc.last_section
         section.body.append_child(para)
         #ExEnd:CreateAndAddParagraphNode
+
+    def test_change_run_color(self):
+        #ExStart:ChangeRunColor
+        #GistId:23c3961db2b25ac17ded1ba60412c71b
+        doc = aw.Document(MY_DIR + "Document.docx")
+
+        # Get the first Run node and cast it to Run object.
+        run = doc.get_child(aw.NodeType.RUN, 0, True).as_run()
+
+        # Make changes to the run
+        run.font.color = drawing.Color.red
+
+        # Save the result
+        doc.save(ARTIFACTS_DIR + "WorkingWithNode.change_run_color.docx")
+        #ExEnd:ChangeRunColor
+
+    def test_clone_node(self):
+        #ExStart:CloneNode
+        #GistId:23c3961db2b25ac17ded1ba60412c71b
+        doc = aw.Document(MY_DIR + "Document.docx")
+
+        clone = doc.clone().as_document()
+        clone.save(ARTIFACTS_DIR + "WorkingWithNode.clone_node.docx")
+        #ExEnd:CloneNode
+
