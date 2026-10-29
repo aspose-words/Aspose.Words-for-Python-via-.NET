@@ -555,6 +555,36 @@ class ExRevision(ApiExampleBase):
         doc.layout_options.revision_options.delete_cell_color = aw.layout.RevisionColor.DARK_RED
         doc.save(file_name=ARTIFACTS_DIR + 'Revision.RevisionCellColor.pdf')
         #ExEnd:RevisionCellColor
+        
+    def test_compare_list_definitions(self):
+        for is_compare_list_definitions in [True, False]:
+            #ExStart:CompareListDefinitions
+            #ExFor:AdvancedCompareOptions.compare_list_definitions
+            #ExSummary:Shows how to control whether list definition content will be compared during document comparison.
+            doc_a = aw.Document()
+            builder_a = aw.DocumentBuilder(doc=doc_a)
+            builder_a.list_format.apply_number_default()
+            builder_a.writeln("Item 1")
+            builder_a.writeln("Item 2")
+            builder_a.list_format.remove_numbers()
+            doc_b = aw.Document()
+            builder_b = aw.DocumentBuilder(doc=doc_b)
+            builder_b.list_format.apply_bullet_default()
+            builder_b.writeln("Item 1")
+            builder_b.writeln("Item 2")
+            builder_b.list_format.remove_numbers()
+            # Compare documents with CompareListDefinitions enabled.
+            
+            options = aw.comparing.CompareOptions() 
+            options.advanced_options.compare_list_definitions = is_compare_list_definitions
+
+            doc_a.compare(document=doc_b, author="test", date_time=datetime.datetime.now(), options=options)
+            #ExEnd:CompareListDefinitions
+            # Verify that comparison completed without exceptions.
+            # Since the lists are identical, no revisions should be produced.
+            if is_compare_list_definitions: 
+                assert doc_a.revisions.count == 2 
+            else: assert doc_a.revisions.count == 0
 
     #ExStart:RevisionSpecifiedCriteria
     #ExFor:RevisionCollection.accept(IRevisionCriteria)
