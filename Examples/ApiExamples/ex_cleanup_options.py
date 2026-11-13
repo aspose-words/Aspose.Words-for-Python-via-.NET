@@ -8,7 +8,7 @@
 import aspose.pydrawing
 import aspose.words as aw
 import unittest
-from api_example_base import ApiExampleBase
+from api_example_base import ApiExampleBase, ARTIFACTS_DIR, DATABASE_DIR, GOLDS_DIR, IMAGE_DIR, MY_DIR
 
 class ExCleanupOptions(ApiExampleBase):
 
@@ -86,3 +86,53 @@ class ExCleanupOptions(ApiExampleBase):
         self.assertEqual(my_style, paragraphs[0].paragraph_format.style)
         self.assertEqual(my_style, paragraphs[1].paragraph_format.style)
         #ExEnd
+
+    def test_symbolic_fonts(self):
+        # ExStart:SymbolicFonts
+        # ExFor:CleanupOptions.symbolic_fonts
+        # ExSummary:Shows how to replace text formatted with symbolic fonts (Symbol, Wingdings, etc.) with Unicode text.
+        doc = aw.Document(file_name=MY_DIR + "Rendering.docx")
+
+        # Symbolic fonts display characters with glyphs of their own. For example, the "Symbol" font
+        # displays the U+F057 character as "Ω", so the text loses its meaning without the font.
+        symbolic_fonts = ["Symbol", "Wingdings"]
+
+        def describe(run):
+            return f'"{run.text}" ({" ".join(f"U+{ord(c):04X}" for c in run.text)}), font "{run.font.name}"'
+
+        paragraphs = []
+
+        for node in doc.get_child_nodes(aw.NodeType.RUN, True):
+            run = node.as_run()
+
+            if run.font.name not in symbolic_fonts:
+                continue
+
+            print(f"Before: {describe(run)}")
+
+            if run.parent_paragraph not in paragraphs:
+                paragraphs.append(run.parent_paragraph)
+
+        # Replace the symbolic text with the equivalent Unicode text formatted with appropriate Unicode fonts.
+        cleanup_options = aw.CleanupOptions()
+        cleanup_options.symbolic_fonts = True
+        doc.cleanup(cleanup_options)
+
+        # The same paragraphs now show the symbols as regular Unicode characters, for example, "Ω" is U+03A9.
+        for paragraph in paragraphs:
+            for run in paragraph.runs:
+                run = run.as_run()
+                if any(ord(c) > 127 for c in run.text):
+                    print(f"After: {describe(run)}")
+
+        doc.save(file_name=ARTIFACTS_DIR + "CleanupOptions.SymbolicFonts.docx")
+        #ExEnd:SymbolicFonts
+
+        self.assertTrue(paragraphs)
+
+        self.assertFalse(
+            any(
+                node.as_run().font.name in symbolic_fonts
+                for node in doc.get_child_nodes(aw.NodeType.RUN, True)
+            )
+        )

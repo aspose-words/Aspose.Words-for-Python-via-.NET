@@ -586,6 +586,29 @@ class ExRevision(ApiExampleBase):
                 assert doc_a.revisions.count == 2 
             else: assert doc_a.revisions.count == 0
 
+    def test_comment_color_by_author(self):
+        #ExStart:CommentColorByAuthor
+        #ExFor:RevisionOptions.comment_color
+        #ExSummary:Shows how to render comments of each author in a different color.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        builder.write("Hello world!")
+        comment = aw.Comment(doc=doc, author="John Doe", initial="J.D.", date_time=datetime.datetime.now())
+        comment.set_text("Comment from John.")
+        builder.current_paragraph.append_child(comment)
+        builder.writeln()
+        builder.write("Hello again!")
+        comment = aw.Comment(doc=doc, author="Jane Doe", initial="J.D.", date_time=datetime.datetime.now())
+        comment.set_text("Comment from Jane.")
+        builder.current_paragraph.append_child(comment)
+        # Similar to Microsoft Word, the "ByAuthor" color affects regular comments as well as revision comments.
+        # Comment balloons of different authors are rendered in different colors.
+        doc.layout_options.revision_options.comment_color = aw.layout.RevisionColor.BY_AUTHOR
+        # This option is only applicable to formats such as .pdf or .jpg.
+        doc.save(file_name=ARTIFACTS_DIR + "Revision.CommentColorByAuthor.pdf")
+        #ExEnd:CommentColorByAuthor
+        self.assertEqual(aw.layout.RevisionColor.BY_AUTHOR, doc.layout_options.revision_options.comment_color)
+
     #ExStart:RevisionSpecifiedCriteria
     #ExFor:RevisionCollection.accept(IRevisionCriteria)
     #ExFor:RevisionCollection.reject(IRevisionCriteria)
