@@ -1114,9 +1114,9 @@ class ExPdfSaveOptions(ApiExampleBase):
             #ExEnd:GenerateFormFieldScriptsDatetime
 
     def test_pdf_digital_signature_auto_hash_algorithm(self):
-        # ExStart:PdfDigitalSignatureAutoHashAlgorithm
-        # ExFor:PdfDigitalSignatureHashAlgorithm
-        # ExSummary:Shows how to sign a PDF document with a hash algorithm selected automatically based on the private key.
+        #ExStart:PdfDigitalSignatureAutoHashAlgorithm
+        #ExFor:PdfDigitalSignatureHashAlgorithm
+        #ExSummary:Shows how to sign a PDF document with a hash algorithm selected automatically based on the private key.
         doc = aw.Document()
         builder = aw.DocumentBuilder(doc=doc)
         builder.writeln("Contents of signed PDF.")
@@ -1131,7 +1131,7 @@ class ExPdfSaveOptions(ApiExampleBase):
                          options.digital_signature_details.hash_algorithm)
         doc.save(file_name=ARTIFACTS_DIR + "PdfSaveOptions.PdfDigitalSignatureAutoHashAlgorithm.pdf",
                  save_options=options)
-        # ExEnd:PdfDigitalSignatureAutoHashAlgorithm
+        #ExEnd:PdfDigitalSignatureAutoHashAlgorithm
 
     #ExStart
     #ExFor:MetafileRenderingMode

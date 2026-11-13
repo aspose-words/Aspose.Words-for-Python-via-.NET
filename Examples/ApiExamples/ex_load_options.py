@@ -168,29 +168,29 @@ class ExLoadOptions(ApiExampleBase):
         #ExEnd:RecoveryMode
 
     def test_load_hwp(self):
-        # ExStart:LoadHwp
-        # ExFor:LoadFormat
-        # ExSummary:Shows how to load a Hancom Hangul document.
+        #ExStart:LoadHwp
+        #ExFor:LoadFormat
+        #ExSummary:Shows how to load a Hancom Hangul document.
         info = aw.FileFormatUtil.detect_file_format(file_name=MY_DIR + "HWP document.hwp")
         self.assertEqual(aw.LoadFormat.HWP, info.load_format)
         load_options = aw.loading.LoadOptions()
         load_options.load_format = aw.LoadFormat.HWP
         doc = aw.Document(file_name=MY_DIR + "HWP document.hwp", load_options=load_options)
         doc.save(file_name=ARTIFACTS_DIR + "LoadOptions.LoadHwp.docx")
-        # ExEnd:LoadHwp
+        #ExEnd:LoadHwp
         self.assertTrue(doc.get_text().strip())
 
     def test_load_word_perfect(self):
-        # ExStart:LoadWordPerfect
-        # ExFor:LoadFormat
-        # ExSummary:Shows how to load a WordPerfect document.
+        #ExStart:LoadWordPerfect
+        #ExFor:LoadFormat
+        #ExSummary:Shows how to load a WordPerfect document.
         info = aw.FileFormatUtil.detect_file_format(file_name=MY_DIR + "WordPerfect document.wpd")
         self.assertEqual(aw.LoadFormat.WORD_PERFECT, info.load_format)
         load_options = aw.loading.LoadOptions()
         load_options.load_format = aw.LoadFormat.WORD_PERFECT
         doc = aw.Document(file_name=MY_DIR + "WordPerfect document.wpd", load_options=load_options)
         doc.save(file_name=ARTIFACTS_DIR + "LoadOptions.LoadWordPerfect.docx")
-        # ExEnd:LoadWordPerfect
+        #ExEnd:LoadWordPerfect
         self.assertTrue(doc.get_text().strip())
 
 

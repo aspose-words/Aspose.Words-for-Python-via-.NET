@@ -88,9 +88,9 @@ class ExCleanupOptions(ApiExampleBase):
         #ExEnd
 
     def test_symbolic_fonts(self):
-        # ExStart:SymbolicFonts
-        # ExFor:CleanupOptions.symbolic_fonts
-        # ExSummary:Shows how to replace text formatted with symbolic fonts (Symbol, Wingdings, etc.) with Unicode text.
+        #ExStart:SymbolicFonts
+        #ExFor:CleanupOptions.symbolic_fonts
+        #ExSummary:Shows how to replace text formatted with symbolic fonts (Symbol, Wingdings, etc.) with Unicode text.
         doc = aw.Document(file_name=MY_DIR + "Rendering.docx")
 
         # Symbolic fonts display characters with glyphs of their own. For example, the "Symbol" font
