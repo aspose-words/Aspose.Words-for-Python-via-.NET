@@ -166,6 +166,34 @@ class ExLoadOptions(ApiExampleBase):
         load_options.recovery_mode = aw.loading.DocumentRecoveryMode.TRY_RECOVER
         doc = aw.Document(file_name=MY_DIR + 'Corrupted footnotes.docx', load_options=load_options)
         #ExEnd:RecoveryMode
+
+    def test_load_hwp(self):
+        #ExStart:LoadHwp
+        #ExFor:LoadFormat
+        #ExSummary:Shows how to load a Hancom Hangul document.
+        info = aw.FileFormatUtil.detect_file_format(file_name=MY_DIR + "HWP document.hwp")
+        self.assertEqual(aw.LoadFormat.HWP, info.load_format)
+        load_options = aw.loading.LoadOptions()
+        load_options.load_format = aw.LoadFormat.HWP
+        doc = aw.Document(file_name=MY_DIR + "HWP document.hwp", load_options=load_options)
+        doc.save(file_name=ARTIFACTS_DIR + "LoadOptions.LoadHwp.docx")
+        #ExEnd:LoadHwp
+        self.assertTrue(doc.get_text().strip())
+
+    def test_load_word_perfect(self):
+        #ExStart:LoadWordPerfect
+        #ExFor:LoadFormat
+        #ExSummary:Shows how to load a WordPerfect document.
+        info = aw.FileFormatUtil.detect_file_format(file_name=MY_DIR + "WordPerfect document.wpd")
+        self.assertEqual(aw.LoadFormat.WORD_PERFECT, info.load_format)
+        load_options = aw.loading.LoadOptions()
+        load_options.load_format = aw.LoadFormat.WORD_PERFECT
+        doc = aw.Document(file_name=MY_DIR + "WordPerfect document.wpd", load_options=load_options)
+        doc.save(file_name=ARTIFACTS_DIR + "LoadOptions.LoadWordPerfect.docx")
+        #ExEnd:LoadWordPerfect
+        self.assertTrue(doc.get_text().strip())
+
+
     #ExStart
     #ExFor:LoadOptions.resource_loading_callback
     #ExSummary:Shows how to handle external resources when loading Html documents (HtmlLinkedResourceLoadingCallback).

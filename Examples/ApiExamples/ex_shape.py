@@ -1157,7 +1157,7 @@ class ExShape(ApiExampleBase):
         #ExEnd
 
     def test_markup_language_for_different_ms_word_versions(self):
-        for ms_word_version, shape_markup_language in [(aw.settings.MsWordVersion.WORD2000, aw.drawing.ShapeMarkupLanguage.VML), (aw.settings.MsWordVersion.WORD2002, aw.drawing.ShapeMarkupLanguage.VML), (aw.settings.MsWordVersion.WORD2003, aw.drawing.ShapeMarkupLanguage.VML), (aw.settings.MsWordVersion.WORD2007, aw.drawing.ShapeMarkupLanguage.VML), (aw.settings.MsWordVersion.WORD2010, aw.drawing.ShapeMarkupLanguage.DML), (aw.settings.MsWordVersion.WORD2013, aw.drawing.ShapeMarkupLanguage.DML), (aw.settings.MsWordVersion.WORD2016, aw.drawing.ShapeMarkupLanguage.DML)]:
+        for ms_word_version, shape_markup_language in [(aw.settings.MsWordVersion.WORD2000, aw.drawing.ShapeMarkupLanguage.VML), (aw.settings.MsWordVersion.WORD2002, aw.drawing.ShapeMarkupLanguage.VML), (aw.settings.MsWordVersion.WORD2003, aw.drawing.ShapeMarkupLanguage.VML), (aw.settings.MsWordVersion.WORD2007, aw.drawing.ShapeMarkupLanguage.DML), (aw.settings.MsWordVersion.WORD2010, aw.drawing.ShapeMarkupLanguage.DML), (aw.settings.MsWordVersion.WORD2013, aw.drawing.ShapeMarkupLanguage.DML), (aw.settings.MsWordVersion.WORD2016, aw.drawing.ShapeMarkupLanguage.DML)]:
             doc = aw.Document()
             doc.compatibility_options.optimize_for(ms_word_version)
             builder = aw.DocumentBuilder(doc=doc)
@@ -2461,6 +2461,34 @@ class ExShape(ApiExampleBase):
                 expected_layout_flow = aw.drawing.LayoutFlow.HORIZONTAL
             test_util.TestUtil.verify_text_box(expected_layout_flow, False, aw.drawing.TextBoxWrapMode.SQUARE, 3.6, 3.6, 7.2, 7.2, text_box_shape.text_box)
             self.assertEqual('Hello world!\rHello again!', text_box_shape.get_text().strip())
+
+    def test_texture_tile(self):
+        #ExStart:TextureTile
+        #ExFor:Fill.texture_tile
+        #ExFor:Fill.texture_horizontal_scale
+        #ExFor:Fill.texture_vertical_scale
+        #ExSummary:Shows how to scale a tiled texture fill of a shape.
+        doc = aw.Document()
+        builder = aw.DocumentBuilder(doc=doc)
+        shape = builder.insert_shape(shape_type=aw.drawing.ShapeType.RECTANGLE, width=200, height=200)
+        shape.fill.preset_textured(aw.drawing.PresetTexture.CANVAS)
+        fill = shape.fill
+        # Check whether the shape's fill is a tiled texture before scaling it.
+        if fill.texture_tile:
+        # A scale of 1 is equivalent to 100%. Values can exceed 100%.
+            fill.texture_horizontal_scale = 0.5
+            fill.texture_vertical_scale = 2.15
+        # Use the compliance option to define the shape using DML
+        # to keep the texture scale properties after the document saves.
+        save_options = aw.saving.OoxmlSaveOptions()
+        save_options.compliance = aw.saving.OoxmlCompliance.ISO29500_2008_STRICT
+        doc.save(file_name=ARTIFACTS_DIR + "Shape.TextureTile.docx", save_options=save_options)
+        #ExEnd:TextureTile
+        doc = aw.Document(file_name=ARTIFACTS_DIR + "Shape.TextureTile.docx")
+        fill = (doc.get_child(aw.NodeType.SHAPE, 0, True).as_shape()).fill
+        self.assertTrue(fill.texture_tile)
+        self.assertAlmostEqual(0.5, fill.texture_horizontal_scale, delta=0.01)
+        self.assertAlmostEqual(2.15, fill.texture_vertical_scale, delta=0.01)
 
     def def_work_with_math_object_type(self):
         parameters = [(0, aw.math.MathObjectType.O_MATH_PARA), (1, aw.math.MathObjectType.O_MATH), (2, aw.math.MathObjectType.SUPERSCRIPT), (3, aw.math.MathObjectType.ARGUMENT), (4, aw.math.MathObjectType.SUPERSCRIPT_PART)]
